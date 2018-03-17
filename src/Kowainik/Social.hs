@@ -20,8 +20,8 @@ allSocials = traverse makeItem
     [ Social "twitter"  "https://twitter.com/kowainik"
     , Social "github"   "https://github.com/kowainik"
     , Social "reddit"   "https://www.reddit.com/user/kowainik"
-    , Social "linkedin" "#"
-    , Social "telegram" "#"
+    , Social "linkedin" "https://www.linkedin.com/company/kowainik"
+    , Social "telegram" "https://t.me/kowainik"
     ]
 
 makeSocialContext :: Context a
