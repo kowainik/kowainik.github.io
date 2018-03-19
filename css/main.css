@@ -288,7 +288,7 @@ a:focus, a:hover, a:active {
 }
 /* yellow circles pattern */
 .bg-primary {
-    background-color: #26e4bb !important;
+    background-color: white !important;
     background-image: url("/images/circles.png");
     background-repeat: repeat;
 }
