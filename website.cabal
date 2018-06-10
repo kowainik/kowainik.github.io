@@ -23,8 +23,9 @@ library
 executable site
   main-is:          site.hs
 
-  build-depends:       base == 4.*, website
-                     , hakyll == 4.11.*
+  build-depends:       base == 4.*
+                     , website
+                     , hakyll
 
   ghc-options:        -Wall -threaded
 

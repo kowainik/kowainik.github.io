@@ -1,0 +1,35 @@
+    <!-- Header -->
+      <nav class="navbar navbar-inverse navbar-fixed-left leftmenu bg-primary text-secondary">
+            <div class="navbar-header">
+                <div class="postslogo"> <a class="navbar-brand" href="../"><img class="img-fluid mb-5 d-block mx-auto" src="/images/logo-tr.png" alt="Kowainik"></a></div>
+
+            </div>
+            <div class="coolFont">
+                <div>Date: $date$</div>
+
+                <div class="author">Author: $author$</div>
+                <div class="row tag-block">
+                $for(tagsList)$
+                <span class="tag-block"> <a class="btn btn-outline-dark btn-tag" href="../tags/$tag$.html">$tag$</a></span>
+                $endfor$
+                </div>
+
+                <div class="allposts">
+                    <h3><a href="../posts.html"> All posts =<< </a></h3>
+                </div>
+            </div>
+      </nav>
+      <div class="container info">
+          <h2 class="text-center text-uppercase text-secondary">$title$</h2>
+          <div class="content">
+          <div class="row post">
+              <div class="col-12">
+              <p class="lead">
+                  $body$
+              </p>
+              </div>
+          </div>
+          </div>
+
+
+      </div>
