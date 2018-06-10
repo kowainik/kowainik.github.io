@@ -13,3 +13,22 @@ If you want to change content of Kowainik web page you need to perform the follo
 ```
 ./scripts/deploy.sh "Some meaningful message"
 ```
+## How to add blog post
+
+If you want to add a new post you should create markdown file in the `posts/` folder. The name of this file should contain the date of the post and some name. For example: `2018-11-05-kowainik-new-project.md`.
+
+In the `.md` file you should add next info in the following format:
+
+```
+---
+title: Some really meaningful title that will appear at the page
+author: Your Name
+tags: haskell, stack, cabal, build-tools, tutorial
+---
+
+Here comes the body of the post itself
+...
+
+```
+
+Note, that tags should be one-worders for the moment.
