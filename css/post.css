@@ -121,3 +121,18 @@ pre.comment {
         margin-top: 20%;
     }
 }
+.post a{
+    color: #4286f4;
+    text-decoration: none;
+}
+
+.post a:focus, .post a:hover, .post a:active{
+    text-decoration: none;
+    color: #26e4bb;
+
+}
+
+.post blockquote {
+  padding-left: 2%;
+  border-left: 4px solid #26e4bb;
+}
