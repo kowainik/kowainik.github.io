@@ -277,6 +277,9 @@ ghci> dice
 2
 ghci> dice
 1
+ghci> :q
+Leavning GHCi.
+$
 ```
 
 You probably won't see the same exact numbers as output for the `dice` function.
