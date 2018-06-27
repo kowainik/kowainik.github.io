@@ -44,6 +44,13 @@ a:focus, a:hover, a:active {
 .text-secondary {
     color: #2C3E50 !important;
 }
+
+.main-font {
+    font-family: 'Montserrat';
+    font-weight: 700;
+    font-size: 0.5em;
+}
+
 /*******************************
  ******** HR
  *******************************/

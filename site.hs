@@ -1,17 +1,28 @@
-import Data.List (nub)
+{-# LANGUAGE TupleSections    #-}
+{-# LANGUAGE TypeApplications #-}
+
+import Control.Monad (liftM)
+import Data.List (nub, sortBy)
 import Data.Monoid ((<>))
-import Hakyll (Context, Identifier, Item (..), Pattern, Rules, applyAsTemplate, buildTags, compile,
-               compressCssCompiler, constField, copyFileCompiler, create, dateField, defaultContext,
-               field, fromCapture, getTags, hakyll, idRoute, listField, loadAll,
-               loadAndApplyTemplate, makeItem, match, pandocCompiler, recentFirst, relativizeUrls,
-               route, setExtension, tagsRules, templateBodyCompiler, (.||.))
+import Data.Ord (comparing)
+import Hakyll (Context, Identifier, Item (..), MonadMetadata, Pattern, Rules, applyAsTemplate,
+               buildTags, compile, compressCssCompiler, constField, copyFileCompiler, create,
+               dateField, defaultContext, field, fromCapture, getMetadata, getTags, hakyll, idRoute,
+               listField, loadAll, loadAndApplyTemplate, lookupString, makeItem, match,
+               pandocCompiler, recentFirst, relativizeUrls, route, setExtension, tagsRules,
+               templateBodyCompiler, (.||.))
+import Text.Read (readMaybe)
 
 import Kowainik.Project (makeProjectContext)
+import Kowainik.Readme (createProjectMds)
 import Kowainik.Social (makeSocialContext)
 import Kowainik.Team (makeTeamContext)
 
 main :: IO ()
-main = hakyll $ do
+main = createProjectMds >> mainHakyll
+
+mainHakyll :: IO ()
+mainHakyll = hakyll $ do
     match ("images/**" .||. "fonts/**" .||. "js/*"  .||. "favicon.ico") $ do
         route   idRoute
         compile copyFileCompiler
@@ -53,6 +64,22 @@ main = hakyll $ do
         let title = "Posts tagged \"" ++ tag ++ "\""
         compilePosts title "templates/tag.html" pattern
 
+
+    ----------------------------------------------------------------------------
+    -- Project pages
+    ----------------------------------------------------------------------------
+    match "projects/*" $ do
+        route $ setExtension "html"
+        compile $ do
+            pandocCompiler
+                >>= loadAndApplyTemplate "templates/readme.html" defaultContext
+                >>= loadAndApplyTemplate "templates/posts-default.html" defaultContext
+                >>= relativizeUrls
+
+    -- All projects page
+    create ["projects.html"] $ compileProjects "Projects" "templates/readmes.html" "projects/*"
+
+
     -- Render the 404 page, we don't relativize URL's here.
     create ["404.html"] $ do
         route idRoute
@@ -82,6 +109,37 @@ compilePosts title page pat = do
             >>= loadAndApplyTemplate "templates/posts-default.html" ctx
             >>= relativizeUrls
 
+compileProjects :: String -> Identifier -> Pattern -> Rules ()
+compileProjects title page pat = do
+    route idRoute
+    compile $ do
+        projects <- moreStarsFirst =<< loadAll pat
+        let ctx = constField "title" title
+               <> listField "readmes" defaultContext (pure projects)
+               <> defaultContext
+
+        makeItem ""
+            >>= loadAndApplyTemplate page ctx
+            >>= loadAndApplyTemplate "templates/posts-default.html" ctx
+            >>= relativizeUrls
+  where
+    moreStarsFirst :: MonadMetadata m => [Item a] -> m [Item a]
+    moreStarsFirst = sortByM $ getItemStars . itemIdentifier
+      where
+        sortByM :: (Monad m, Ord k) => (a -> m k) -> [a] -> m [a]
+        sortByM f xs = liftM (map fst . sortBy (flip $ comparing snd)) $
+                       mapM (\x -> liftM (x,) (f x)) xs
+
+    getItemStars :: MonadMetadata m
+                 => Identifier    -- ^ Input page
+                 -> m Int         -- ^ Parsed GitHub Stars
+    getItemStars id' = do
+        metadata <- getMetadata id'
+        let mbStar = lookupString "stars" metadata >>= readMaybe @Int
+
+        maybe starError pure mbStar
+      where
+        starError = fail "Couldn't parse stars"
 
 -- Context to used for posts
 postCtx :: Context String
