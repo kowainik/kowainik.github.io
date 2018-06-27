@@ -80,21 +80,19 @@ $ sudo apt install ghc-8.4.3 cabal-install-head
 
 You can check the versions of the installed binaries like so:
 
-[TODO]: test change paths to `/opt/ghc/bin`
-
 ```shell
-$ /opt/ghc/8.4.3/bin/ghc --version
+$ /opt/ghc/bin/ghc --version
 The Glorious Glasgow Haskell Compilation System, version 8.4.3
-$ /opt/cabal/head/bin/cabal --version
+$ /opt/ghc/bin/cabal --version
 cabal-install version 2.3.0.0
 compiled using version 2.3.0.0 of the Cabal library
 ```
 
-To make development easier, you can also add those binaries to your `$PATH` environment variable.
+To make development easier, you can also add those binaries to your `$PATH`
+environment variable.
 
 ```shell
-$ echo 'export PATH="$PATH:/opt/cabal/head/bin"' >> ~/.profile
-$ echo 'export PATH="$PATH:/opt/ghc/8.4.3/bin"' >> ~/.profile
+$ echo 'export PATH="$PATH:/opt/ghc/bin"' >> ~/.profile
 $ . ~/.profile
 ```
 
@@ -500,17 +498,17 @@ $ stack exec name-of-my-executable
 
 ## Conclusion
 
-In conclusion I want to say that workflows for `cabal` and `stack` might look
+In conclusion, I want to say that workflows for `cabal` and `stack` might look
 very similar, but the ideas behind them are different. I recommend you to try
 both before sticking to one tool. And I hope the instructions above will help
 you to get started with creating Haskell projects!
 
 ## Other
 
-An alternative to `cabal` and `stack` is `nix`. [Nix](https://nixos.org/nix/) is
-also a very popular choice but it's not yet beginner friendly. If you are
-interested in knowing more about how to apply `nix` to Haskell, I suggest you
-read this tutorial:
+Useful addition to `cabal` and `stack` in terms of building tools is `nix`.
+[Nix](https://nixos.org/nix/) is also a very popular choice but it's not yet
+beginner friendly. If you are interested in knowing more about how to apply
+`nix` to Haskell, I suggest you read this tutorial:
 
 * [Gabriel439/haskell-nix](https://github.com/Gabriel439/haskell-nix)
 
