@@ -68,7 +68,7 @@
           <h2 class="text-center text-uppercase text-secondary">Haskell: Build Tools</h2>
           <div class="content">
           <div class="row post">
-              <div class="col-12">
+              <div class="col-12 post-body">
               <p class="lead">
                   <h1 id="haskell-build-tools">Haskell: Build Tools</h1>
 <p>This blog post describes the two main ways of managing and building Haskell projects: using the <code>cabal</code> and <code>stack</code> build tools. The blog post doesn’t try to replace documentation for any of the building tools, nor does it try to cover all possible ways to build a Haskell project. Rather, it tries to give beginners step by step instructions on how to create and build a simple project. The goal is to reduce the confusion, especially for those who have just started working with Haskell. While documentation is good to gain a deep understanding, sometimes you just need things to be done straight away.</p>
@@ -95,7 +95,7 @@
 </ul></li>
 <li>Format of files with extension <code>.cabal</code>
 <ul>
-<li>The project configuration (modules, dependencies, metadata) of a package <code>foo</code> must be written in a file called <code>foo.cabal</code> with a special syntax that can be read by <code>cabal-install</code>.</li>
+<li>The configuration (modules, dependencies, metadata) of a package <code>foo</code> must be written in a file called <code>foo.cabal</code> with a special syntax that can be read by <code>cabal-install</code>.</li>
 </ul></li>
 <li>Haskell library <a href="http://hackage.haskell.org/package/Cabal"><code>Cabal</code></a>
 <ul>
@@ -118,22 +118,29 @@ $ sudo apt install ghc-8.4.3 cabal-install-head</code></pre>
 <p><strong>NOTE:</strong> It’s best to install <code>cabal</code> HEAD since it has better support for the commands we will use to build projects with <code>cabal</code>.</p>
 </blockquote>
 <p>You can check the versions of the installed binaries like so:</p>
-<pre class="shell"><code>$ /opt/ghc/8.4.3/bin/ghc --version
+<pre class="shell"><code>$ /opt/ghc/bin/ghc --version
 The Glorious Glasgow Haskell Compilation System, version 8.4.3
-$ /opt/cabal/head/bin/cabal --version
+$ /opt/ghc/bin/cabal --version
 cabal-install version 2.3.0.0
 compiled using version 2.3.0.0 of the Cabal library</code></pre>
 <p>To make development easier, you can also add those binaries to your <code>$PATH</code> environment variable.</p>
-<pre class="shell"><code>$ echo 'export PATH=&quot;$PATH:/opt/cabal/head/bin&quot;' &gt;&gt; ~/.profile
-$ echo 'export PATH=&quot;$PATH:/opt/ghc/8.4.3/bin&quot;' &gt;&gt; ~/.profile
+<pre class="shell"><code>$ echo 'export PATH=&quot;$PATH:/opt/ghc/bin&quot;' &gt;&gt; ~/.profile
 $ . ~/.profile</code></pre>
 <h4 id="mac-os">Mac OS</h4>
 <p>To get <code>cabal</code> for Mac Os you can just use <a href="https://brew.sh/"><code>brew</code></a>:</p>
 <pre><code>$ brew install ghc cabal-install</code></pre>
+<p>If you want to work with multiple GHC versions on macOS, you may find neat <code>haskell-on-macos.py</code> script useful:</p>
+<ul>
+<li><a href="https://haskell.futurice.com/" class="uri">https://haskell.futurice.com/</a></li>
+</ul>
 <h4 id="windows">Windows</h4>
 <p>The easiest way to install <code>cabal</code> and <code>ghc</code> for Windows is to install the Haskell Platform, which you can do following the instructions at:</p>
 <ul>
 <li><a href="https://www.haskell.org/platform/" class="uri">https://www.haskell.org/platform/</a></li>
+</ul>
+<p>As an alternative you can <code>chocolatey</code>, a package manager for Windows:</p>
+<ul>
+<li><a href="https://chocolatey.org/packages/ghc" class="uri">https://chocolatey.org/packages/ghc</a></li>
 </ul>
 <h3 id="project-initialization">Project initialization</h3>
 <p>To create a new project you can run the <code>cabal init</code> command. Cabal will then guide you through the interactive process, and ask you several questions regarding the structure of your project.</p>
@@ -179,7 +186,7 @@ cabal-example/
 <p>Finally, to actually build the package, run the command:</p>
 <pre class="shell"><code>$ cabal new-build</code></pre>
 <blockquote>
-<p><strong>IMPORTANT NOTE:</strong> <code>cabal</code> also has a <code>build</code> and <code>update</code> command <strong>without</strong> the <code>new-</code> prefix. Don’t use them! Use the commands with the <code>new-</code> prefix instead: they just work better. Implementing proper build tool is a really difficult task and it’s not immediately obvious how things should be done. But this doesn’t mean that once you figure out a better way of doing things you should implement it under the old interface. Package authors care about their users: they keep the old way to build packages so people can continue using it, even though the new proper way is available (through the <code>new-</code> prefixed commands). Maybe several years from now the old commands will be replaced by the new ones and this prefix will be removed.</p>
+<p><strong>IMPORTANT NOTE:</strong> <code>cabal</code> also has a <code>build</code> and <code>update</code> command <strong>without</strong> the <code>new-</code> prefix. Don’t use them! Use the commands with the <code>new-</code> prefix instead: they just work better. Implementing proper build tool is a really difficult task and it’s not immediately obvious how things should be done. But this doesn’t mean that once you figure out a better way of doing things you should implement it under the old interface. Package authors care about their users: they keep the old way to build packages so people can continue using it, even though the new proper way is available (through the <code>new-</code> prefixed commands). Old commands will be replaced by new ones in <code>cabal-3.0</code> and this prefix will be removed.</p>
 </blockquote>
 <h3 id="adding-dependency">Adding dependency</h3>
 <p>All dependencies should be specified under <code>build-depends</code> field in the <code>.cabal</code> file. By default, every new package has the <code>base</code> library as a dependency. But there are many more packages on Hackage! For example, to operate with random values we can use the <a href="https://hackage.haskell.org/package/random"><code>random</code></a> package. In order to do that you will need to modify the <code>build-depends</code> field in the <code>.cabal</code> file in the following way:</p>
@@ -207,7 +214,10 @@ cabal-example/
 <a class="sourceLine" id="cb15-3" data-line-number="3">ghci<span class="fu">&gt;</span> dice</a>
 <a class="sourceLine" id="cb15-4" data-line-number="4"><span class="dv">2</span></a>
 <a class="sourceLine" id="cb15-5" data-line-number="5">ghci<span class="fu">&gt;</span> dice</a>
-<a class="sourceLine" id="cb15-6" data-line-number="6"><span class="dv">1</span></a></code></pre></div>
+<a class="sourceLine" id="cb15-6" data-line-number="6"><span class="dv">1</span></a>
+<a class="sourceLine" id="cb15-7" data-line-number="7">ghci<span class="fu">&gt;</span> <span class="fu">:</span>q</a>
+<a class="sourceLine" id="cb15-8" data-line-number="8"><span class="dt">Leavning</span> <span class="dt">GHCi</span><span class="fu">.</span></a>
+<a class="sourceLine" id="cb15-9" data-line-number="9"><span class="fu">$</span></a></code></pre></div>
 <p>You probably won’t see the same exact numbers as output for the <code>dice</code> function. But there’s a <code>1/36</code> chance you will.</p>
 <h3 id="adding-executable">Adding executable</h3>
 <p>Evaluating functions in REPL is really fun! But usually programs are implemented to be used as executables later. As I mentioned earlier Haskell is a compiled language so you can have native binary. To do this you need to add <code>executable</code> to the <code>.cabal</code> file.</p>
@@ -313,9 +323,9 @@ stack-example/
 <p>Use the following command to run a specific executable stanza:</p>
 <pre class="shell"><code>$ stack exec name-of-my-executable</code></pre>
 <h2 id="conclusion">Conclusion</h2>
-<p>In conclusion I want to say that workflows for <code>cabal</code> and <code>stack</code> might look very similar, but the ideas behind them are different. I recommend you to try both before sticking to one tool. And I hope the instructions above will help you to get started with creating Haskell projects!</p>
+<p>In conclusion, I want to say that workflows for <code>cabal</code> and <code>stack</code> might look very similar, but the ideas behind them are different. I recommend you to try both before sticking to one tool. And I hope the instructions above will help you to get started with creating Haskell projects!</p>
 <h2 id="other">Other</h2>
-<p>An alternative to <code>cabal</code> and <code>stack</code> is <code>nix</code>. <a href="https://nixos.org/nix/">Nix</a> is also a very popular choice but it’s not yet beginner friendly. If you are interested in knowing more about how to apply <code>nix</code> to Haskell, I suggest you read this tutorial:</p>
+<p>Useful addition to <code>cabal</code> and <code>stack</code> in terms of building tools is <code>nix</code>. <a href="https://nixos.org/nix/">Nix</a> is also a very popular choice but it’s not yet beginner friendly. If you are interested in knowing more about how to apply <code>nix</code> to Haskell, I suggest you read this tutorial:</p>
 <ul>
 <li><a href="https://github.com/Gabriel439/haskell-nix">Gabriel439/haskell-nix</a></li>
 </ul>
