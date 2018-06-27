@@ -47,7 +47,7 @@ The word `cabal` in Haskell is semantically overloaded. In Haskell,  `cabal` can
 1. `cabal-install`
    * The build tool for Haskell projects.
 2. Format of files with extension `.cabal`
-   * The project configuration (modules, dependencies, metadata) of a package
+   * The configuration (modules, dependencies, metadata) of a package
      `foo` must be written in a file called `foo.cabal` with a special syntax
      that can be read by `cabal-install`.
 3. Haskell library [`Cabal`](http://hackage.haskell.org/package/Cabal)
@@ -81,18 +81,18 @@ $ sudo apt install ghc-8.4.3 cabal-install-head
 You can check the versions of the installed binaries like so:
 
 ```shell
-$ /opt/ghc/8.4.3/bin/ghc --version
+$ /opt/ghc/bin/ghc --version
 The Glorious Glasgow Haskell Compilation System, version 8.4.3
-$ /opt/cabal/head/bin/cabal --version
+$ /opt/ghc/bin/cabal --version
 cabal-install version 2.3.0.0
 compiled using version 2.3.0.0 of the Cabal library
 ```
 
-To make development easier, you can also add those binaries to your `$PATH` environment variable.
+To make development easier, you can also add those binaries to your `$PATH`
+environment variable.
 
 ```shell
-$ echo 'export PATH="$PATH:/opt/cabal/head/bin"' >> ~/.profile
-$ echo 'export PATH="$PATH:/opt/ghc/8.4.3/bin"' >> ~/.profile
+$ echo 'export PATH="$PATH:/opt/ghc/bin"' >> ~/.profile
 $ . ~/.profile
 ```
 
@@ -104,12 +104,21 @@ To get `cabal` for Mac Os you can just use [`brew`](https://brew.sh/):
 $ brew install ghc cabal-install
 ```
 
+If you want to work with multiple GHC versions on macOS, you may find neat
+`haskell-on-macos.py` script useful:
+
+* [https://haskell.futurice.com/](https://haskell.futurice.com/)
+
 #### Windows
 
 The easiest way to install `cabal` and `ghc` for Windows is to install the
 Haskell Platform, which you can do following the instructions at:
 
 * [https://www.haskell.org/platform/](https://www.haskell.org/platform/)
+
+As an alternative you can `chocolatey`, a package manager for Windows:
+
+* [https://chocolatey.org/packages/ghc](https://chocolatey.org/packages/ghc)
 
 ### Project initialization
 
@@ -193,7 +202,8 @@ You should run this command only in one of the following situations:
 3. You want to use a newer version of a library that has become available after
    you last executed `cabal new-update`.
 
-> **NOTE:** If something goes weirdly wrong when building dependencies (like scary linker errors) then deleting the `~/.cabal` directory might help.
+> **NOTE:** If something goes weirdly wrong when building dependencies (like
+> scary linker errors) then deleting the `~/.cabal` directory might help.
 
 Finally, to actually build the package, run the command:
 
@@ -209,8 +219,8 @@ $ cabal new-build
 > things you should implement it under the old interface. Package authors care
 > about their users: they keep the old way to build packages so people can
 > continue using it, even though the new proper way is available (through the
-> `new-` prefixed commands). Maybe several years from now the old commands will
-> be replaced by the new ones and this prefix will be removed.
+> `new-` prefixed commands). Old commands will be replaced by new ones in
+> `cabal-3.0` and this prefix will be removed.
 
 ### Adding dependency
 
@@ -265,6 +275,9 @@ ghci> dice
 2
 ghci> dice
 1
+ghci> :q
+Leavning GHCi.
+$
 ```
 
 You probably won't see the same exact numbers as output for the `dice` function.
@@ -485,17 +498,17 @@ $ stack exec name-of-my-executable
 
 ## Conclusion
 
-In conclusion I want to say that workflows for `cabal` and `stack` might look
+In conclusion, I want to say that workflows for `cabal` and `stack` might look
 very similar, but the ideas behind them are different. I recommend you to try
 both before sticking to one tool. And I hope the instructions above will help
 you to get started with creating Haskell projects!
 
 ## Other
 
-An alternative to `cabal` and `stack` is `nix`. [Nix](https://nixos.org/nix/) is
-also a very popular choice but it's not yet beginner friendly. If you are
-interested in knowing more about how to apply `nix` to Haskell, I suggest you
-read this tutorial:
+Useful addition to `cabal` and `stack` in terms of building tools is `nix`.
+[Nix](https://nixos.org/nix/) is also a very popular choice but it's not yet
+beginner friendly. If you are interested in knowing more about how to apply
+`nix` to Haskell, I suggest you read this tutorial:
 
 * [Gabriel439/haskell-nix](https://github.com/Gabriel439/haskell-nix)
 
