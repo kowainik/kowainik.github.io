@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>life sync</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Kowainik page">
+    <meta name="keywords" content="Haskell, Functional progarmming, FP">
+    <meta name="author" content="Kowainik" />
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/tomorrow-night.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/katex@0.10.0-alpha/dist/katex.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.11.0/styles/dracula.min.css" />
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
+    <!-- Custom fonts for this template -->
+    <link href="../css/font-awesome.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css">
+
+    <!-- Plugin CSS -->
+    <link href="../css/magnific-popup.css" rel="stylesheet" type="text/css">
+    <!-- Custom styles for this template -->
+    <link href="../css/default.css" rel="stylesheet">
+    <link href="../css/post.css" rel="stylesheet">
+  </head>
+
+  <body>
+
+      <!-- Header -->
+      <nav class="navbar navbar-inverse navbar-fixed-left leftmenu bg-primary text-secondary">
+            <div class="navbar-header">
+                <div class="postslogo"> <a class="navbar-brand" href="../"><img class="img-fluid mb-5 d-block mx-auto" src="../images/logo-tr.png" alt="Kowainik"></a></div>
+
+            </div>
+            <div class="coolFont">
+                <a class="btn btn-outline-dark btn-tag" href="https://github.com/kowainik/life-sync" data-icon="octicon-star" data-size="large" aria-label="Star Kowainik/life-sync on GitHub">Star Project</a>
+                <a class="fa-stack fa-2x" href="https://github.com/kowainik/life-sync/stargazers">
+                    <i class="fa fa-star fa-stack-2x"></i>
+                    <i id="stars" class="fa fa-stack-1x fa-inverse main-font">0</i>
+                </a>
+                <div class="author">Language: Haskell</div>
+
+                <div class="allposts">
+                    <h3><a href="../projects.html"> Projects =<< </a></h3>
+                </div>
+            </div>
+      </nav>
+      <div class="container info">
+          <h2 class="text-center text-uppercase text-secondary">life sync</h2>
+          <div class="content">
+          <div class="row post">
+              <div class="col-12 post-body">
+              <p class="lead">
+                  <p><a href="https://hackage.haskell.org/package/life-sync"><img src="https://img.shields.io/hackage/v/life-sync.svg" alt="Hackage" /></a> <a href="https://travis-ci.org/kowainik/life-sync"><img src="https://secure.travis-ci.org/kowainik/life-sync.svg" alt="Build status" /></a> <a href="https://github.com/kowainik/life-sync/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="MIT license" /></a> <a href="http://stackage.org/lts/package/life-sync"><img src="http://stackage.org/package/life-sync/badge/lts" alt="Stackage LTS" /></a> <a href="http://stackage.org/nightly/package/life-sync"><img src="http://stackage.org/package/life-sync/badge/nightly" alt="Stackage Nightly" /></a></p>
+<p><code>life-sync</code> is a CLI tool that makes it easier to synchronize <code>dotfiles</code> repository with personal configs across multiple machines.</p>
+<h2 id="motivation">Motivation</h2>
+<p>You might have some configuration files with different settings for your system. For example:</p>
+<ol type="1">
+<li>Preferred settings for your editors (Spacemacs, Vim, etc.).</li>
+<li>Useful bash aliases and other miscellaneous shell settings.</li>
+<li>Git configuration.</li>
+</ol>
+<p>And much more! But sometimes you start working from a new fresh machine without having your settings within touch, like in these situations:</p>
+<ol type="1">
+<li>You bought a new PC or laptop.</li>
+<li>You might reinstall your system on your working machine.</li>
+<li>You were given a new laptop at work.</li>
+</ol>
+<p>Every time this happens, you need to walk through the tedious process of copying your data again. It’s a well-known practice to <a href="https://dotfiles.github.io/">store configs in <code>dotfiles</code> GitHub repository</a>. And <code>life-sync</code> makes it much easier to maintain this repository! With a single command, your can copy every file and directory from <code>dotfiles</code> repository to your machine. Or update your remote <code>dotfiles</code> repository after multiple local changes to different files.</p>
+<h2 id="prerequisites">Prerequisites</h2>
+<ul>
+<li><a href="https://git-scm.com"><code>git</code></a></li>
+<li><a href="https://github.com/github/hub"><code>hub</code></a></li>
+<li>Configured SSH for Github</li>
+</ul>
+<h2 id="installation">Installation</h2>
+<p>Installation process can be done with one simple command:</p>
+<pre class="shell"><code>$ cabal install life-sync</code></pre>
+<p>or</p>
+<pre class="shell"><code>$ stack install life-sync-1.0</code></pre>
+<p>You can turn on the bash auto-completion by running the following command:</p>
+<pre><code>$ source &lt;(life --bash-completion-script `which life`)</code></pre>
+<h2 id="usage">Usage</h2>
+<p>After installing <code>life-sync</code> you need to call command <code>life</code> with specified options:</p>
+<pre><code>$ life --help
+Usage: life COMMAND
+  life-sync synchronize your personal configs
+
+Available options:
+  -h,--help                Show this help text
+
+Available commands:
+  init                     Initialize GitHub repository named 'dotfiles' if you
+                           don't have one.
+  add                      Add file or directory to the life configuration.
+  remove                   Remove file or directory from the life configuration.
+  push                     Updates GitHub repository from local state and push
+                           the latest version.
+  pull                     Updates local state of '.life' and 'dotfiles' from
+                           GitHub repository.
+
+`life init` usage: life init OWNER
+  OWNER                    Your github user name
+
+`life add` usage: life add ((-f|--file FILE_PATH) | (-d|--dir DIRECTORY_PATH))
+  -f,--file FILE_PATH      File to add
+  -d,--dir FILE_PATH       Directory to add
+
+`life remove` usage: life remove ((-f|--file FILE_PATH) | (-d|--dir DIRECTORY_PATH))
+  -f,--file FILE_PATH      File to remove
+  -d,--dir FILE_PATH       Directory to remote
+
+`life push` usage: life push
+
+`life pull` usage: life pull OWNER [-f|--no-file FILE_PATH] [-d|--no-dir FILE_PATH]
+  OWNER                    Your github user name
+  -f,--no-file FILE_PATH   Excluding these specific files from copying
+  -d,--no-dir FILE_PATH    Excluding these specific directories from copying
+</code></pre>
+<blockquote>
+<p><strong>NOTE:</strong> If some command takes a path to a file or a directory as an argument, the path should be specifed relative to the home directory.</p>
+</blockquote>
+<p><code>life-sync</code> keeps the structure of your <code>dotfiles</code> repository in its own file called <code>.life</code> which is stored in <code>dotfiles</code> repository as well.</p>
+<p>You can see an example of <code>dotfiles</code> repository maintained by <code>life-sync</code> here:</p>
+<ul>
+<li><a href="https://github.com/ChShersh/dotfiles">ChShersh/dotfiles</a></li>
+</ul>
+<h2 id="examples">Examples</h2>
+<h3 id="create-dotfiles-repository-for-the-first-time">Create <code>dotfiles</code> repository for the first time</h3>
+<pre><code>$ life init MyGithubName</code></pre>
+<h3 id="track-new-file-or-directory">Track new file or directory</h3>
+<p>To track a file:</p>
+<pre><code>$ life add -f path/to/file/relative/from/home</code></pre>
+<p>To track a directory:</p>
+<pre><code>$ life add -d path/to/dir/relative/from/home</code></pre>
+<p>To stop tracking some file, use <code>life remove</code> command instead.</p>
+<h3 id="push-all-changes-to-remote-repository">Push all changes to remote repository</h3>
+<pre><code>$ life push</code></pre>
+<h3 id="pull-all-changes-from-remote-repository">Pull all changes from remote repository</h3>
+<p>To pull every file and directory:</p>
+<pre><code>$ life pull ChShersh</code></pre>
+<p>To pull everything except some files or some directories:</p>
+<pre><code>$ life pull ChShersh --no-file some/file --no-dir some/dir</code></pre>
+              </p>
+              </div>
+          </div>
+          </div>
+
+
+      </div>
+
+      <script src="../js/stars.js"></script>
+      <script>
+       shootingStars("kowainik/life-sync", function (stars) {
+           document.getElementById("stars").innerHTML = stars;
+       });
+      </script>
+
+
+      <!-- Bootstrap core JavaScript -->
+      <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"> </script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/haskell.min.js"></script>
+      <script src="https://cdn.rawgit.com/icons8/bower-webicon/v0.10.7/jquery-webicon.min.js"></script>
+      <script>hljs.initHighlightingOnLoad()</script>
+      <script src="https://cdn.jsdelivr.net/npm/katex@0.10.0-alpha/dist/katex.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/contrib/auto-render.min.js"></script>
+      <script async defer src="https://buttons.github.io/buttons.js"></script>
+  </body>
+</html>

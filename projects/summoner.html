@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>summoner</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Kowainik page">
+    <meta name="keywords" content="Haskell, Functional progarmming, FP">
+    <meta name="author" content="Kowainik" />
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/tomorrow-night.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/katex@0.10.0-alpha/dist/katex.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.11.0/styles/dracula.min.css" />
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
+    <!-- Custom fonts for this template -->
+    <link href="../css/font-awesome.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css">
+
+    <!-- Plugin CSS -->
+    <link href="../css/magnific-popup.css" rel="stylesheet" type="text/css">
+    <!-- Custom styles for this template -->
+    <link href="../css/default.css" rel="stylesheet">
+    <link href="../css/post.css" rel="stylesheet">
+  </head>
+
+  <body>
+
+      <!-- Header -->
+      <nav class="navbar navbar-inverse navbar-fixed-left leftmenu bg-primary text-secondary">
+            <div class="navbar-header">
+                <div class="postslogo"> <a class="navbar-brand" href="../"><img class="img-fluid mb-5 d-block mx-auto" src="../images/logo-tr.png" alt="Kowainik"></a></div>
+
+            </div>
+            <div class="coolFont">
+                <a class="btn btn-outline-dark btn-tag" href="https://github.com/kowainik/summoner" data-icon="octicon-star" data-size="large" aria-label="Star Kowainik/summoner on GitHub">Star Project</a>
+                <a class="fa-stack fa-2x" href="https://github.com/kowainik/summoner/stargazers">
+                    <i class="fa fa-star fa-stack-2x"></i>
+                    <i id="stars" class="fa fa-stack-1x fa-inverse main-font">90</i>
+                </a>
+                <div class="author">Language: Haskell</div>
+
+                <div class="allposts">
+                    <h3><a href="../projects.html"> Projects =<< </a></h3>
+                </div>
+            </div>
+      </nav>
+      <div class="container info">
+          <h2 class="text-center text-uppercase text-secondary">summoner</h2>
+          <div class="content">
+          <div class="row post">
+              <div class="col-12 post-body">
+              <p class="lead">
+                  <p><a href="http://travis-ci.org/kowainik/summoner"><img src="https://secure.travis-ci.org/kowainik/summoner.svg" alt="Build status" /></a> <a href="https://ci.appveyor.com/project/kowainik/summoner"><img src="https://ci.appveyor.com/api/projects/status/github/kowainik/summoner?branch=master&amp;svg=true" alt="Windows build status" /></a> <a href="https://github.com/kowainik/summoner/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-MPL--2.0-blue.svg" alt="MPL-2.0 license" /></a> <a href="https://hackage.haskell.org/package/summoner"><img src="https://img.shields.io/hackage/v/summoner.svg" alt="Hackage" /></a> <a href="http://stackage.org/lts/package/summoner"><img src="http://stackage.org/package/summoner/badge/lts" alt="Stackage LTS" /></a> <a href="http://stackage.org/nightly/package/summoner"><img src="http://stackage.org/package/summoner/badge/nightly" alt="Stackage Nightly" /></a></p>
+<p>This is tool for creating completely configured production Haskell projects.</p>
+<h2 id="demo">Demo</h2>
+<p><a href="https://asciinema.org/a/PCt492vIY7ccuNw3qBJFM9q9G"><img src="https://asciinema.org/a/PCt492vIY7ccuNw3qBJFM9q9G.png" alt="asciicast" /></a></p>
+<h2 id="getting-started">Getting started</h2>
+<h3 id="prerequisites">Prerequisites</h3>
+<p>To start using it make sure you have next tools installed on your machine:</p>
+<ul>
+<li><a href="http://haskellstack.org"><code>Stack</code></a> or <a href="https://www.haskell.org/cabal/"><code>cabal</code></a></li>
+<li><a href="https://git-scm.com"><code>git</code></a></li>
+<li><a href="https://github.com/github/hub"><code>hub</code></a></li>
+</ul>
+<h3 id="installation">Installation</h3>
+<p>Installation process can be done with one simple command:</p>
+<pre><code>$ cabal install summoner</code></pre>
+<p>or</p>
+<pre><code>$ stack install summoner --resolver nightly-2018-06-14</code></pre>
+<p>You can turn on the bash auto-completion by running the following command:</p>
+<pre><code>$ source &lt;(summon --bash-completion-script `which summon`)</code></pre>
+<p>After that you can call <code>summon</code> with required command line options, follow the instructions that will appear, and a new project would be created in a subfolder as well as a repository under your github account (if requested).</p>
+<h3 id="usage">Usage</h3>
+<p>There are several options how to set particular configurations:</p>
+<ol type="1">
+<li>Default configuration file (<code>~/.summoner.toml</code>).</li>
+<li>Explicitly specified configuration file by <code>--file FILENAME</code> option (used instead of default one if specified).</li>
+<li>Options that are stated by CLI arguments.</li>
+<li>Interactively inputed answers during work of the <code>summon</code> command (for the options that were not specified on previous steps).</li>
+</ol>
+<p>So the configuration uses <a href="https://medium.com/@jonathangfischoff/the-partial-options-monoid-pattern-31914a71fc67"><code>Partial Options Monoid Pattern</code></a>.</p>
+<p>If none of the mentioned above cases used then the configuration will be built interactively.</p>
+<h4 id="configurations">Configurations</h4>
+<h5 id="toml-files"><code>.toml</code> files:</h5>
+<p>Here is the list of the options that could be configured for your needs:</p>
+<h6 id="global-keys">Global keys</h6>
+<ul>
+<li><code>owner</code> – <code>GitHub</code> login.</li>
+<li><code>fullName</code> – full name.</li>
+<li><code>email</code> – e-mail address.</li>
+<li><code>license</code> – license (possible options: <code>MIT</code>, <code>BSD2</code>, <code>BSD3</code>, <code>GPL-2</code>, <code>GPL-3</code>, <code>LGPL-2.1</code>, <code>LGPL-3</code>, <code>AGPL-3</code>, <code>Apache-2.0</code>, <code>MPL-2.0</code>).</li>
+<li><code>ghcVersions</code> – <code>summoner</code> uses default <code>GHC-8.2.2</code>. But additionally you can specify other versions. For each version <code>x.y.z</code> the <code>stack-x.y.z.yaml</code> will be created.</li>
+<li><code>github</code> – <code>true</code> if you want to turn on <code>GitHub</code> integration by default, <code>false</code> if you don’t. If not specified it would be asked during each run of the <code>summoner</code>.</li>
+<li><code>travis</code> – <code>true</code> if you want to turn on <code>Travis</code> integration by default, <code>false</code> if you don’t. Ignored if <code>github = false</code>. If not specified it would be asked during each run of the <code>summoner</code>.</li>
+<li><code>appveyor</code> – <code>true</code> if you want to turn on <code>AppVeyor</code> integration by default, <code>false</code> if you don’t. Ignored if <code>github = false</code>. If not specified it would be asked during each run of the <code>summoner</code>.</li>
+<li><code>private</code> – <code>true</code> if you want to create private repositories by default, <code>false</code> if you don’t. Ignored if <code>github = false</code>. If not specified it would be asked during each run of the <code>summoner</code>.</li>
+<li><code>bscript</code> – <code>true</code> if you want to include <a href="#build-script">build script</a> by default, <code>false</code> if you don’t. If not specified it would be asked during each run of the <code>summoner</code>.</li>
+<li><code>lib</code> – <code>true</code> if you want to create <code>src</code> folder with dummy <code>Lib.hs</code> file and library target by default, <code>false</code> if you don’t. If not specified it would be asked during each run of the <code>summoner</code>.</li>
+<li><code>exe</code> – <code>true</code> if you want to create <code>app</code> folder with dummy <code>Main.hs</code> file and executable target by default, <code>false</code> if you don’t. If not specified it would be asked during each run of the <code>summoner</code>.</li>
+<li><code>test</code> – <code>true</code> if you want to create <code>test</code> folder with dummy <code>Spec.hs</code> file and test target by default, <code>false</code> if you don’t. If not specified it would be asked during each run of the <code>summoner</code>.</li>
+<li><code>bench</code> – <code>true</code> if you want to create <code>benchmark</code> folder with <code>Main.hs</code> file with <a href="https://hackage.haskell.org/package/gauge"><code>gauge</code></a> library usage example by default, <code>false</code> if you don’t. If not specified it would be asked during each run of the <code>summoner</code>.</li>
+<li><code>extensions</code> – List of the default extensions to add into <code>default-extensions</code> section in the <code>.cabal</code>.</li>
+</ul>
+<h6 id="custom-prelude-options">Custom prelude options</h6>
+<p>Should be specified inside <code>[prelude]</code> table.</p>
+<ul>
+<li><code>package</code> – Name of the package of the custom prelude you’d like to use in the project (doesn’t work without <code>module</code> field).</li>
+<li><code>module</code> – Name of the module of the custom prelude you’d like to use in the project (doesn’t work without <code>package</code> field).</li>
+</ul>
+<h6 id="examples">Examples</h6>
+<p>See example of <a href="https://github.com/kowainik/org/blob/master/.summoner.toml">configuration for projects of <code>Kowainik</code> organization</a>.</p>
+<p>By default the <code>summoner</code> will look for the configuration file (<code>.summoner.toml</code>) in home directory.</p>
+<p>The other way to specify some particular <code>.toml</code> file is <code>summon PROJECTNAME --file FILEPATH</code> command.</p>
+<h5 id="cli">CLI</h5>
+<p>See the basic usage syntax below (you can check it out with <code>summon --help</code> command):</p>
+<pre><code>summon PROJECT_NAME [with [OPTIONS]] [without [OPTIONS]]
+       [-f|--file FILENAME]  [--prelude-package PACKAGE_NAME]
+       [--prelude-module MODULE_NAME]
+
+Available global options:
+  -h, --help               Show this help text
+  -v, --version            Show summoner's version
+  -f, --file FILENAME      Path to the toml file with configurations. If not
+                           specified '~/.summoner.toml' will be used if present
+  --prelude-package PACKAGE_NAME
+                           Name for the package of the custom prelude to use in
+                           the project
+  --prelude-module MODULE_NAME
+                           Name for the module of the custom prelude to use in
+                           the project
+
+Available commands:
+  with                     Specify options to enable
+  without                  Specify options to disable
+
+Available command options:
+  -h,--help                Show this help text
+  -g, --github             Github integration
+  -p, --private            Create private GitHub repository
+  -c, --travis             Travis CI integration
+  -w, --app-veyor          AppVeyor CI integration
+  -s, --script             Build script
+  -l, --library            Library target
+  -e, --exec               Executable target
+  -t, --test               Tests
+  -b, --benchmark          Benchmarks
+</code></pre>
+<p>The options to be enabled/disabled can be specified while running the command. If any of applicable command options wasn’t tagged as enabled/disabled then the question will be asked during the work of the script.</p>
+<p>For example,</p>
+<pre><code>  summon newProject with -letgcspw without -b --prelude-package universum --prelude-module Universum</code></pre>
+<p>will create fully functional project which uses custom prelude <code>universum</code>, contains library, executable file, tests, <a href="#build-script">build script</a> and create private repository on <a href="https://github.com">github</a> integrated with <code>Travis-CI</code>, <code>AppVeyor-CI</code>, but benchmarks won’t be attached to this one.</p>
+<p>But when calling this command</p>
+<pre><code>  summon newProject</code></pre>
+<p>the tool will ask about every particular option, rather you’d like to have it or not in your project.</p>
+<h3 id="note">Note</h3>
+<p>This tool was tested with next settings:</p>
+<pre><code>stack version 1.6.1
+git   version 2.11.0
+hub   version 2.2.9</code></pre>
+<h2 id="features">Features</h2>
+<p>If you’re running the <code>summoner</code> with all options enabled a project with the following hierarchy will be created:</p>
+<pre><code>project-name
+├── app
+│   └── Main.hs
+├── benchmark
+│   └── Main.hs
+├── src
+│   ├── ProjectName.hs
+│   └── Prelude.hs
+├── test
+│   └── Spec.hs
+├── CHANGELOG.md
+├── LICENSE
+├── project-name.cabal
+├── README.md
+├── Setup.hs
+├── stack.yaml
+├── appveyor.yml
+├── .git
+├── .gitignore
+└── .travis.yml</code></pre>
+<p>and also repository with one commit at master will be added with enabled <code>Travis-CI</code> for that.</p>
+<h3 id="build-script">Build script</h3>
+<p>The <code>b</code> script builds the project in a way that is convenient for developers. It passes the right flags into right places, builds the project with –fast, tidies up and highlights error messages in GHC output.</p>
+<h4 id="usage-1">Usage</h4>
+<pre><code>  ./b                 build whole project with all targets
+  ./b -c              do stack clean
+  ./b -t              build and run tests
+  ./b -b              build and run benchmarks
+  ./b --nix           use nix to build package</code></pre>
+<h2 id="change-log">Change log</h2>
+<p><a href="https://github.com/kowainik/summoner/blob/master/CHANGELOG.md">List of changes</a>.</p>
+<h2 id="acknowledgments">Acknowledgments</h2>
+<p>This project was inspired by <a href="https://github.com/aelve/new-hs#readme">Aelve/new-hs</a>, which is the tool with the same goal but it’s using <a href="https://www.haskell.org/cabal/"><code>cabal</code></a> for creating projects.</p>
+              </p>
+              </div>
+          </div>
+          </div>
+
+
+      </div>
+
+      <script src="../js/stars.js"></script>
+      <script>
+       shootingStars("kowainik/summoner", function (stars) {
+           document.getElementById("stars").innerHTML = stars;
+       });
+      </script>
+
+
+      <!-- Bootstrap core JavaScript -->
+      <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"> </script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/haskell.min.js"></script>
+      <script src="https://cdn.rawgit.com/icons8/bower-webicon/v0.10.7/jquery-webicon.min.js"></script>
+      <script>hljs.initHighlightingOnLoad()</script>
+      <script src="https://cdn.jsdelivr.net/npm/katex@0.10.0-alpha/dist/katex.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/contrib/auto-render.min.js"></script>
+      <script async defer src="https://buttons.github.io/buttons.js"></script>
+  </body>
+</html>
