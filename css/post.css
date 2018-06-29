@@ -101,6 +101,7 @@ pre, code {
 pre.comment {
     font-family: 'Montserrat';
     font-weight: 10;
+    overflow: visible;
 }
 
 .tag-block {
