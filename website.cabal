@@ -7,11 +7,18 @@ library
   hs-source-dirs:      src
 
   exposed-modules:     Kowainik.Project
+                       Kowainik.Readme
                        Kowainik.Social
                        Kowainik.Team
 
   build-depends:       base
+                     , aeson >= 1.2
+                     , bytestring >= 0.10
                      , hakyll
+                     , http-client >= 0.5
+                     , http-client-tls >= 0.3
+                     , http-types >= 0.12
+                     , text >= 1.2
 
   ghc-options:         -Wall
 
@@ -19,6 +26,8 @@ library
   default-extensions:  LambdaCase
                        OverloadedStrings
                        RecordWildCards
+                       ScopedTypeVariables
+                       TypeApplications
 
 executable site
   main-is:          site.hs

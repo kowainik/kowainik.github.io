@@ -101,6 +101,7 @@ pre, code {
 pre.comment {
     font-family: 'Montserrat';
     font-weight: 10;
+    overflow: visible;
 }
 
 .tag-block {
@@ -130,6 +131,10 @@ pre.comment {
     text-decoration: none;
     color: #26e4bb;
 
+}
+
+.post-body a img {
+    max-width: 80%;
 }
 
 .post blockquote {
