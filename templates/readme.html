@@ -8,7 +8,7 @@
                 <a class="btn btn-outline-dark btn-tag" href="https://github.com/kowainik/$link$" data-icon="octicon-star" data-size="large" aria-label="Star Kowainik/$link$ on GitHub">Star Project</a>
                 <a class="fa-stack fa-2x" href="https://github.com/kowainik/$link$/stargazers" >
                     <i class="fa fa-star fa-stack-2x"></i>
-                    <i class="fa fa-stack-1x fa-inverse main-font">$stars$</i>
+                    <i id="stars" class="fa fa-stack-1x fa-inverse main-font">$stars$</i>
                 </a>
                 <div class="author">Language: $language$</div>
 
@@ -31,3 +31,10 @@
 
 
       </div>
+
+      <script src="/js/stars.js"></script>
+      <script>
+       shootingStars("kowainik/$link$", function (stars) {
+           document.getElementById("stars").innerHTML = stars;
+       });
+      </script>
