@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>idris patricia</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Kowainik page">
+    <meta name="keywords" content="Haskell, Functional progarmming, FP">
+    <meta name="author" content="Kowainik" />
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/tomorrow-night.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/katex@0.10.0-alpha/dist/katex.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.11.0/styles/dracula.min.css" />
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
+    <!-- Custom fonts for this template -->
+    <link href="../css/font-awesome.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css">
+
+    <!-- Plugin CSS -->
+    <link href="../css/magnific-popup.css" rel="stylesheet" type="text/css">
+    <!-- Custom styles for this template -->
+    <link href="../css/default.css" rel="stylesheet">
+    <link href="../css/post.css" rel="stylesheet">
+  </head>
+
+  <body>
+
+      <!-- Header -->
+      <nav class="navbar navbar-inverse navbar-fixed-left leftmenu bg-primary text-secondary">
+            <div class="navbar-header">
+                <div class="postslogo"> <a class="navbar-brand" href="../"><img class="img-fluid mb-5 d-block mx-auto" src="../images/logo-tr.png" alt="Kowainik"></a></div>
+
+            </div>
+            <div class="coolFont">
+                <a class="btn btn-outline-dark btn-tag" href="https://github.com/kowainik/idris-patricia" data-icon="octicon-star" data-size="large" aria-label="Star Kowainik/idris-patricia on GitHub">Star Project</a>
+                <a class="fa-stack fa-2x" href="https://github.com/kowainik/idris-patricia/stargazers">
+                    <i class="fa fa-star fa-stack-2x"></i>
+                    <i id="stars" class="fa fa-stack-1x fa-inverse main-font">11</i>
+                </a>
+                <div class="author">Language: Idris</div>
+
+                <div class="allposts">
+                    <h3><a href="../projects.html"> Projects =<< </a></h3>
+                </div>
+            </div>
+      </nav>
+      <div class="container info">
+          <h2 class="text-center text-uppercase text-secondary">idris patricia</h2>
+          <div class="content">
+          <div class="row post">
+              <div class="col-12 post-body">
+              <p class="lead">
+                  <p><a href="http://travis-ci.org/kowainik/idris-patricia"><img src="https://secure.travis-ci.org/kowainik/idris-patricia.svg" alt="Build status" /></a> <a href="https://github.com/kowainik/idris-patricia/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="MIT license" /></a></p>
+<p>This package implements map from integer key to values. Data structure can be used as persistent array. Implementation is based on article about patricia trees and on <a href="https://hackage.haskell.org/package/containers-0.5.10.2/docs/Data-IntMap-Lazy.html">existing Haskell implementation</a> from <a href="http://hackage.haskell.org/package/containers"><code>containers</code></a> package. Dependent types can help to ensure some invariants for data structure.</p>
+<h2 id="repl-examples">REPL examples</h2>
+<div class="sourceCode" id="cb1"><pre class="sourceCode idris"><code class="sourceCode idris"><a class="sourceLine" id="cb1-1" data-line-number="1">λΠ<span class="fu">&gt;</span> the (<span class="dt">Int32Map</span> <span class="dt">String</span>) <span class="fu">$</span> insert <span class="dv">3</span> <span class="st">&quot;a&quot;</span> <span class="dt">Empty</span></a>
+<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="dt">Leaf</span> (<span class="dt">MkBits</span> <span class="dv">3</span>) <span class="st">&quot;a&quot;</span> <span class="ot">:</span> <span class="dt">IntBitMap</span> <span class="dv">32</span> <span class="dt">String</span></a>
+<a class="sourceLine" id="cb1-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb1-4" data-line-number="4">λΠ<span class="fu">&gt;</span> the (<span class="dt">Int32Map</span> <span class="dt">String</span>) <span class="fu">$</span> delete <span class="dv">3</span> <span class="fu">$</span> insert <span class="dv">3</span> <span class="st">&quot;a&quot;</span> <span class="dt">Empty</span></a>
+<a class="sourceLine" id="cb1-5" data-line-number="5"><span class="dt">Empty</span> <span class="ot">:</span> <span class="dt">IntBitMap</span> <span class="dv">32</span> <span class="dt">String</span></a>
+<a class="sourceLine" id="cb1-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb1-7" data-line-number="7">λΠ<span class="fu">&gt;</span> the (<span class="dt">Int32Map</span> <span class="dt">String</span>) <span class="fu">$</span> insert <span class="dv">2</span> <span class="st">&quot;c&quot;</span> <span class="fu">$</span> insert <span class="dv">4</span> <span class="st">&quot;b&quot;</span> <span class="fu">$</span> insert <span class="dv">3</span> <span class="st">&quot;a&quot;</span> <span class="dt">Empty</span></a>
+<a class="sourceLine" id="cb1-8" data-line-number="8"><span class="dt">Bin</span> (<span class="dt">MkBits</span> <span class="dv">3</span>)</a>
+<a class="sourceLine" id="cb1-9" data-line-number="9">    (<span class="dt">FS</span> (<span class="dt">FS</span> <span class="dt">FZ</span>))</a>
+<a class="sourceLine" id="cb1-10" data-line-number="10">    (<span class="dt">Bin</span> (<span class="dt">MkBits</span> <span class="dv">2</span>) <span class="dt">FZ</span> (<span class="dt">Leaf</span> (<span class="dt">MkBits</span> <span class="dv">2</span>) <span class="st">&quot;c&quot;</span>) (<span class="dt">Leaf</span> (<span class="dt">MkBits</span> <span class="dv">3</span>) <span class="st">&quot;a&quot;</span>))</a>
+<a class="sourceLine" id="cb1-11" data-line-number="11">    (<span class="dt">Leaf</span> (<span class="dt">MkBits</span> <span class="dv">4</span>) <span class="st">&quot;b&quot;</span>) <span class="ot">:</span> <span class="dt">IntBitMap</span> <span class="dv">32</span> <span class="dt">String</span></a>
+<a class="sourceLine" id="cb1-12" data-line-number="12"></a>
+<a class="sourceLine" id="cb1-13" data-line-number="13">λΠ<span class="fu">&gt;</span> toList <span class="fu">$</span> the (<span class="dt">IntBitMap</span> <span class="dv">32</span> <span class="dt">String</span>) <span class="fu">$</span> insert <span class="dv">2</span> <span class="st">&quot;c&quot;</span> <span class="fu">$</span> insert <span class="dv">4</span> <span class="st">&quot;b&quot;</span> <span class="fu">$</span> insert <span class="dv">3</span> <span class="st">&quot;a&quot;</span> <span class="dt">Empty</span></a>
+<a class="sourceLine" id="cb1-14" data-line-number="14">[<span class="st">&quot;c&quot;</span>, <span class="st">&quot;a&quot;</span>, <span class="st">&quot;b&quot;</span>] <span class="ot">:</span> <span class="dt">List</span> <span class="dt">String</span></a></code></pre></div>
+<h2 id="how-to-build">How to build</h2>
+<h3 id="nix">Nix</h3>
+<p>Just run this command to build project and run tests.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="ex">nix-shell</span> -A idris-patricia --command <span class="st">&quot;bash install-dependencies.sh &amp;&amp; idris --testpkg patricia-nix.ipkg --idrispath dependencies/specdris/src&quot;</span></a></code></pre></div>
+<h3 id="no-nix">No-Nix</h3>
+<ol type="1">
+<li>Install <a href="https://github.com/pheymann/specdris"><code>specdris</code></a> following instructions from repository.</li>
+<li>Run <code>idris --testpkg patricia.ipkg</code>.</li>
+</ol>
+              </p>
+              </div>
+          </div>
+          </div>
+
+
+      </div>
+
+      <script src="../js/stars.js"></script>
+      <script>
+       shootingStars("kowainik/idris-patricia", function (stars) {
+           document.getElementById("stars").innerHTML = stars;
+       });
+      </script>
+
+
+      <!-- Bootstrap core JavaScript -->
+      <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"> </script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/haskell.min.js"></script>
+      <script src="https://cdn.rawgit.com/icons8/bower-webicon/v0.10.7/jquery-webicon.min.js"></script>
+      <script>hljs.initHighlightingOnLoad()</script>
+      <script src="https://cdn.jsdelivr.net/npm/katex@0.10.0-alpha/dist/katex.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/contrib/auto-render.min.js"></script>
+      <script async defer src="https://buttons.github.io/buttons.js"></script>
+  </body>
+</html>
