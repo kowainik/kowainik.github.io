@@ -291,15 +291,15 @@ indirection. If we take just `Vector` we will observe this picture (`Ty` stands
 for `TypeRep` and `El` stands for an element):
 
 ```haskell
-  [   Pair1,      Pair2,      Pair3,      Pair4   ]
+  [   Pair₁,      Pair₂,      Pair₃,      Pair₄   ]
       /   \       /   \       /   \       /   \
-    Ty1   El1   Ty2   El2   Ty3   El3   Ty4   El4
+    Ty₁   El₁   Ty₂   El₂   Ty₃   El₃   Ty₄   El₄
 ```
 
 Instead of this what we would like to see is:
 
 ```haskell
-    [ Ty1, El1, Ty2, El2, Ty3, El3, Ty4, El4 ]
+    [ Ty₁, El₁, Ty₂, El₂, Ty₃, El₃, Ty₄, El₄ ]
 ```
 
 In this way, as the result, the access to the `Ty` or `El` is shorter for
@@ -309,9 +309,9 @@ However, turned out that it's more efficient to store keys and values in
 separate vectors under corresponding indices:
 
 ```haskell
-    [ Ty1,   Ty2,    Ty3,    Ty4 ]
+    [ Ty₁,   Ty₂,    Ty₃,    Ty₄ ]
        |      |       |       |
-    [ El1,   El2,    El3,    El4 ]
+    [ El₁,   El₂,    El₃,    El₄ ]
 ```
 
 Unfortunately, `TypeRep` doesn't have the
@@ -404,7 +404,7 @@ data TypeRepMap (f :: k -> *) = TypeRepMap
     }
 ```
 
-And the `lookup` function was implemented as such:
+And the `lookup` function was implemented like this:
 
 ```haskell
 lookup :: forall a f . Typeable a => TypeRepVector f -> Maybe (f a)
