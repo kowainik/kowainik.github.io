@@ -62,6 +62,18 @@
               <p class="lead">
                   <p><a href="https://hackage.haskell.org/package/smuggler"><img src="https://img.shields.io/hackage/v/smuggler.svg" alt="Hackage" /></a> <a href="https://travis-ci.org/kowainik/smuggler"><img src="https://secure.travis-ci.org/kowainik/smuggler.svg" alt="Build status" /></a> <a href="https://ci.appveyor.com/project/kowainik/smuggler"><img src="https://ci.appveyor.com/api/projects/status/github/kowainik/smuggler?branch=master&amp;svg=true" alt="Windows build status" /></a> <a href="https://github.com/kowainik/smuggler/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-MPL--2.0-blue.svg" alt="MPL-2.0 license" /></a></p>
 <p>Smuggling</p>
+<h2 id="build-instructions">Build instructions</h2>
+<h3 id="first-time">First time</h3>
+<pre class="shell"><code>$ mkdir deps
+$ cd deps
+$ git clone git@github.com:alanz/ghc-exactprint.git
+$ cd ghc-exactprint
+$ git checkout ghc-8.6
+$ # comment line with `hashable` package in `packages` field in `cabal.project` file
+$ cd ../..
+$ cabal new-build --allow-newer</code></pre>
+<h3 id="second-time">Second time</h3>
+<pre class="shell"><code>$ cabal new-build --allow-newer</code></pre>
               </p>
               </div>
           </div>

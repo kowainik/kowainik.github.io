@@ -45,7 +45,7 @@
                 <a class="btn btn-outline-dark btn-tag" href="https://github.com/kowainik/typerep-map" data-icon="octicon-star" data-size="large" aria-label="Star Kowainik/typerep-map on GitHub">Star Project</a>
                 <a class="fa-stack fa-2x" href="https://github.com/kowainik/typerep-map/stargazers">
                     <i class="fa fa-star fa-stack-2x"></i>
-                    <i id="stars" class="fa fa-stack-1x fa-inverse main-font">3</i>
+                    <i id="stars" class="fa fa-stack-1x fa-inverse main-font">7</i>
                 </a>
                 <div class="author">Language: Haskell</div>
 
@@ -60,7 +60,78 @@
           <div class="row post">
               <div class="col-12 post-body">
               <p class="lead">
-                  <p><a href="https://hackage.haskell.org/package/typerep-map"><img src="https://img.shields.io/hackage/v/typerep-map.svg" alt="Hackage" /></a> <a href="https://travis-ci.org/vrom911/typerep-map"><img src="https://secure.travis-ci.org/vrom911/typerep-map.svg" alt="Build status" /></a> <a href="https://github.com/vrom911/typerep-map/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="MIT license" /></a></p>
+                  <p><a href="https://hackage.haskell.org/package/typerep-map"><img src="https://img.shields.io/hackage/v/typerep-map.svg" alt="Hackage" /></a> <a href="https://travis-ci.org/kowainik/typerep-map"><img src="https://secure.travis-ci.org/kowainik/typerep-map.svg" alt="Build status" /></a> <a href="https://github.com/vrom911/typerep-map/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="MIT license" /></a></p>
+<p><code>typerep-map</code> introduces <code>TMap</code> and <code>TypeRepMap</code> — data structures like <a href="http://hackage.haskell.org/package/containers-0.6.0.1/docs/Data-Map-Lazy.html#t:Map"><code>Map</code></a>, but where types serve as keys, and values have the types specified in the corresponding key spots.</p>
+<h2 id="usage-example">Usage example</h2>
+<div class="sourceCode" id="cb1"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb1-1" data-line-number="1">ghci<span class="fu">&gt;</span> <span class="kw">import</span> <span class="dt">Data.TMap</span></a>
+<a class="sourceLine" id="cb1-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb1-3" data-line-number="3">ghci<span class="fu">&gt;</span> tm <span class="fu">=</span> insert <span class="dt">True</span> <span class="fu">$</span> one (<span class="dv">42</span><span class="ot"> ::</span> <span class="dt">Int</span>)</a>
+<a class="sourceLine" id="cb1-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb1-5" data-line-number="5">ghci<span class="fu">&gt;</span> size tm</a>
+<a class="sourceLine" id="cb1-6" data-line-number="6"><span class="dv">2</span></a>
+<a class="sourceLine" id="cb1-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb1-8" data-line-number="8">ghci<span class="fu">&gt;</span> res <span class="fu">=</span> lookup tm</a>
+<a class="sourceLine" id="cb1-9" data-line-number="9"></a>
+<a class="sourceLine" id="cb1-10" data-line-number="10">ghci<span class="fu">&gt;</span><span class="ot"> res ::</span> <span class="dt">Maybe</span> <span class="dt">Int</span></a>
+<a class="sourceLine" id="cb1-11" data-line-number="11"><span class="dt">Just</span> <span class="dv">42</span></a>
+<a class="sourceLine" id="cb1-12" data-line-number="12"></a>
+<a class="sourceLine" id="cb1-13" data-line-number="13">ghci<span class="fu">&gt;</span><span class="ot"> res ::</span> <span class="dt">Maybe</span> <span class="dt">Bool</span></a>
+<a class="sourceLine" id="cb1-14" data-line-number="14"><span class="dt">Just</span> <span class="dt">True</span></a>
+<a class="sourceLine" id="cb1-15" data-line-number="15"></a>
+<a class="sourceLine" id="cb1-16" data-line-number="16">ghci<span class="fu">&gt;</span><span class="ot"> res ::</span> <span class="dt">Maybe</span> <span class="dt">String</span></a>
+<a class="sourceLine" id="cb1-17" data-line-number="17"><span class="dt">Nothing</span></a>
+<a class="sourceLine" id="cb1-18" data-line-number="18"></a>
+<a class="sourceLine" id="cb1-19" data-line-number="19">ghci<span class="fu">&gt;</span> lookup (insert <span class="st">&quot;hello&quot;</span> tm)<span class="ot"> ::</span> <span class="dt">Maybe</span> <span class="dt">String</span></a>
+<a class="sourceLine" id="cb1-20" data-line-number="20"><span class="dt">Just</span> <span class="st">&quot;hello&quot;</span></a>
+<a class="sourceLine" id="cb1-21" data-line-number="21"></a>
+<a class="sourceLine" id="cb1-22" data-line-number="22">ghci<span class="fu">&gt;</span> member <span class="fu">@</span><span class="dt">Int</span> tm</a>
+<a class="sourceLine" id="cb1-23" data-line-number="23"><span class="dt">True</span></a>
+<a class="sourceLine" id="cb1-24" data-line-number="24"></a>
+<a class="sourceLine" id="cb1-25" data-line-number="25">ghci<span class="fu">&gt;</span> tm' <span class="fu">=</span> delete <span class="fu">@</span><span class="dt">Int</span> tm</a>
+<a class="sourceLine" id="cb1-26" data-line-number="26"></a>
+<a class="sourceLine" id="cb1-27" data-line-number="27">ghci<span class="fu">&gt;</span> member <span class="fu">@</span><span class="dt">Int</span> tm'</a>
+<a class="sourceLine" id="cb1-28" data-line-number="28"><span class="dt">False</span></a></code></pre></div>
+<h2 id="benchmarks">Benchmarks</h2>
+<p>Tables below contain comparision with <code>DMap TypeRep</code> of ten <code>lookup</code> operations on structure with size <code>10^4</code>:</p>
+<table>
+<thead>
+<tr class="header">
+<th></th>
+<th>ghc-8.2.2</th>
+<th>ghc-8.4.3</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>DMap TypeRep</code></td>
+<td>517.5 ns</td>
+<td>779.9 ns</td>
+</tr>
+<tr class="even">
+<td><code>typerep-map</code></td>
+<td>205.3 ns</td>
+<td>187.2 ns</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: center;">ghc-8.2.2</th>
+<th style="text-align: center;">ghc-8.4.3</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;"><img src="https://user-images.githubusercontent.com/4276606/42495129-c700f21e-8454-11e8-98b4-ba080259c712.png" alt="DMap 8.2.2" /></td>
+<td style="text-align: center;"><img src="https://user-images.githubusercontent.com/4276606/42495168-ebb1d13c-8454-11e8-9d17-f6da29d2169a.png" alt="DMap 8.4.3" /></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><img src="https://user-images.githubusercontent.com/4276606/42494935-3a352d96-8454-11e8-985e-ebc77cc51ca0.png" alt="TMap 8.2.2" /></td>
+<td style="text-align: center;"><img src="https://user-images.githubusercontent.com/4276606/42495147-d884bdf4-8454-11e8-887f-9815fd2b8d68.png" alt="TMap 8.4.3" /></td>
+</tr>
+</tbody>
+</table>
               </p>
               </div>
           </div>
