@@ -137,6 +137,10 @@ pre.comment {
     max-width: 80%;
 }
 
+.post-body img {
+    max-width: 80%;
+}
+
 .post blockquote {
     padding-left: 2%;
     border-left: 4px solid #26e4bb;
