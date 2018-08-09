@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>relude</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Kowainik page">
+    <meta name="keywords" content="Haskell, Functional progarmming, FP">
+    <meta name="author" content="Kowainik" />
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/tomorrow-night.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/katex@0.10.0-alpha/dist/katex.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.11.0/styles/dracula.min.css" />
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
+    <!-- Custom fonts for this template -->
+    <link href="../css/font-awesome.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css">
+
+    <!-- Plugin CSS -->
+    <link href="../css/magnific-popup.css" rel="stylesheet" type="text/css">
+    <!-- Custom styles for this template -->
+    <link href="../css/default.css" rel="stylesheet">
+    <link href="../css/post.css" rel="stylesheet">
+  </head>
+
+  <body>
+
+      <!-- Header -->
+      <nav class="navbar navbar-inverse navbar-fixed-left leftmenu bg-primary text-secondary">
+            <div class="navbar-header">
+                <div class="postslogo"> <a class="navbar-brand" href="../"><img class="img-fluid mb-5 d-block mx-auto" src="../images/logo-tr.png" alt="Kowainik"></a></div>
+
+            </div>
+            <div class="coolFont">
+                <a class="btn btn-outline-dark btn-tag" href="https://github.com/kowainik/relude" data-icon="octicon-star" data-size="large" aria-label="Star Kowainik/relude on GitHub">Star Project</a>
+                <a class="fa-stack fa-2x" href="https://github.com/kowainik/relude/stargazers">
+                    <i class="fa fa-star fa-stack-2x"></i>
+                    <i id="stars" class="fa fa-stack-1x fa-inverse main-font">2</i>
+                </a>
+                <div class="author">Language: Haskell</div>
+
+                <div class="allposts">
+                    <h3><a href="../projects.html"> Projects =<< </a></h3>
+                </div>
+            </div>
+      </nav>
+      <div class="container info">
+          <h2 class="text-center text-uppercase text-secondary">relude</h2>
+          <div class="content">
+          <div class="row post">
+              <div class="col-12 post-body">
+              <p class="lead">
+                  <p>=========</p>
+<p><a href="https://travis-ci.org/kowainik/relude"><img src="https://travis-ci.org/kowainik/relude.svg?branch=master" alt="Build Status" /></a> <a href="https://hackage.haskell.org/package/relude"><img src="https://img.shields.io/hackage/v/relude.svg" alt="Hackage" /></a> <a href="http://stackage.org/lts/package/relude"><img src="http://stackage.org/package/relude/badge/lts" alt="Stackage LTS" /></a> <a href="http://stackage.org/nightly/package/relude"><img src="http://stackage.org/package/relude/badge/nightly" alt="Stackage Nightly" /></a> <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT" /></a></p>
+<p><code>relude</code> is a custom prelude based on <code>universum</code>. <code>relude</code> tries to achieve the following goals:</p>
+<ol type="1">
+<li><strong>Avoid all</strong> <a href="https://www.reddit.com/r/haskell/comments/5n51u3/why_are_partial_functions_as_in_head_tail_bad/"><strong>partial functions</strong></a> (like <code>head :: [a] -&gt; a</code>). The types of partial functions lie about their behavior and usage of such functions can lead to the unexpected bugs. Though you can still use some unsafe functions from <code>Relude.Unsafe</code> module, but they are not exported by default.</li>
+<li><p><strong>Type-safety</strong>. We like to make invalid states unrepresantable. And if it’s possible to express this concept through the types then we will do it.</p>
+<em>Example:</em> <code>haskell  whenNotNull :: Applicative f =&gt; [a] -&gt; (NonEmpty a -&gt; f ()) -&gt; f ()</code> instead of <code>haskell  whenNotNull :: Applicative f =&gt; [a] -&gt; ([a] -&gt; f ()) -&gt; f ()</code></li>
+<li><strong>Performance.</strong> Prefer <code>Text</code> over <a href="https://www.reddit.com/r/haskell/comments/29jw0s/whats_wrong_with_string/"><code>String</code></a>, use spaceleak-free functions (like our custom <code>sum</code> and <code>product</code>), introduce <code>{-# INLINE #-}</code> and <code>{-# SPECIALIZE #-}</code> pragmas where appropriate.</li>
+<li><strong>Minimalism</strong> (low number of dependencies). We don’t force users of <code>relude</code> to stick to some specific lens or text formatting or logging library.</li>
+<li><strong>Convenience</strong> (like lifted to <code>MonadIO</code> functions, more reexports). But we want to bring common types and functions (like <code>containers</code> and <code>bytestrng</code>) into scope because they are used in almost every application anyways.</li>
+<li><strong>Provide excellent documentation.</strong>
+<ul>
+<li>Tutorial</li>
+<li>Migration guide from <code>Prelude</code></li>
+<li>Haddock with examples for (almost) every function (all examples are tested with <a href="http://hackage.haskell.org/package/doctest"><code>doctest</code></a>)</li>
+<li>Documentation regarding <a href="(http://hackage.haskell.org/package/relude/docs/Relude.html)">internal module structure</a></li>
+<li><code>relude</code>-specific <a href="http://hackage.haskell.org/package/hlint">HLint</a> rules: <a href=".hlint.yaml"><code>.hlint.yaml</code></a></li>
+</ul></li>
+<li><strong>User-friendliness.</strong> Ability to quickly migrate to <code>relude</code> if you’re familiar with the common libraries like <code>text</code> and <code>containers</code>.</li>
+<li><p><strong>Exploration.</strong> Experiment with new ideas and proposals without introducing breaking changes.</p></li>
+</ol>
+<p>This README contains introduction to <code>Relude</code> and a tutorial on how to use it.</p>
+<h2 id="structure-of-this-tutorial">Structure of this tutorial</h2>
+<p>This tutorial has several parts:</p>
+<ol type="1">
+<li><a href="#motivation-">Motivation.</a></li>
+<li><a href="#get-started-">Get started.</a></li>
+<li><a href="#difference-from-prelude-">Difference from <code>Prelude</code>.</a></li>
+<li><a href="#reexports-">Reexports.</a></li>
+<li><a href="#whats-new-">What’s new?</a></li>
+<li><a href="#migration-guide-">Migration guide.</a></li>
+</ol>
+<p>This is neither a tutorial on <em>Haskell</em> nor tutorial on each function contained in <code>Relude</code>. For detailed documentation of every function together with examples and usage, see <a href="http://hackage.haskell.org/package/relude"><em>Haddock documentation</em></a>.</p>
+<h2 id="motivation">Motivation <a href="#structure-of-this-tutorial">↑</a></h2>
+<p>We decided to base <code>relude</code> on <code>universum</code> due to the following reasons:</p>
+<ol type="1">
+<li><code>universum</code> helps to achieve our goals more than any other custom prelude.</li>
+<li>We worked on <code>universum</code> a lot (just check contributors statistics) and we know its internal structure.</li>
+</ol>
+<p>The motivation to create another alternative prelude instead of modifying existing one is that it’s hard to change preludes in any way. <code>relude</code> uses approach with <code>Extra.*</code> modules which are not exported by default so it’s quite easy to bring something new (that satisfies <code>relude</code> goals) and let users decide to use it or not.</p>
+<p>Unlike <code>universum</code>, we are:</p>
+<ol type="1">
+<li>Not trying to replace <code>Foldable</code> with custom <code>Container</code> type class. We only forbid <code>elem</code> and <code>notElem</code> functions for sets due to performance reasons.</li>
+<li>Have less dependencies: no <code>vector</code>, no <code>microlens</code>, no <code>safe-exceptions</code>, no <code>type-operators</code>.</li>
+<li>Have a lot of other different improvements.</li>
+</ol>
+<h2 id="get-started">Get started <a href="#structure-of-this-tutorial">↑</a></h2>
+<p>If you want to start using <code>relude</code> in your project and explore it with the help of compiler, set everything up according to the instructions below.</p>
+<h3 id="base-noprelude"><code>base-noprelude</code></h3>
+<p>This is the recommended way to use custom prelude. It requires you to perform the following steps:</p>
+<ol type="1">
+<li>Replace <code>base</code> dependency with corresponding version of <code>base-noprelude</code> in your <code>.cabal</code> file.</li>
+<li><p>Add the following <code>Prelude</code> module to your project (both to filesystem and to <code>exposed-modules</code>):</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">module</span> <span class="dt">Prelude</span></a>
+<a class="sourceLine" id="cb1-2" data-line-number="2">       ( <span class="kw">module</span> <span class="dt">Relude</span></a>
+<a class="sourceLine" id="cb1-3" data-line-number="3">       ) <span class="kw">where</span></a>
+<a class="sourceLine" id="cb1-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb1-5" data-line-number="5"><span class="kw">import</span> <span class="dt">Relude</span></a></code></pre></div></li>
+<li><p>Optionally modify your <code>Prelude</code> to include more or less functions. Probably you want to hide something from <code>Relude</code> module. Or maybe you want to add something from <code>Relude.Extra.*</code> modules!</p></li>
+</ol>
+<p>This is a very convenient way to add a custom prelude to your project because you don’t need to import module manually inside each file and enable the <code>NoImplicitPrelude</code> extension.</p>
+<h3 id="per-file-configuration">Per-file configuration</h3>
+<p>Disable the built-in prelude at the top of your file:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="ot">{-# LANGUAGE NoImplicitPrelude #-}</span></a></code></pre></div>
+<p>Or directly in your project <code>.cabal</code> file, if you want to use in every module by default:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb3-1" data-line-number="1">default<span class="fu">-</span>extensions<span class="fu">:</span> <span class="dt">NoImplicitPrelude</span></a></code></pre></div>
+<p>Then add the following import to your modules:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="kw">import</span> <span class="dt">Relude</span></a></code></pre></div>
+<h2 id="difference-from-prelude">Difference from Prelude <a href="#structure-of-this-tutorial">↑</a></h2>
+<ul>
+<li><code>head</code>, <code>tail</code>, <code>last</code>, <code>init</code> work with <code>NonEmpty a</code> instead of <code>[a]</code>.</li>
+<li><code>undefined</code> triggers a compiler warning, because you probably don’t want to leave <code>undefined</code> in your code. Either use <code>throwIO</code>, <code>Except</code>, <code>error</code> or <code>bug</code>.</li>
+<li>Multiple sorting functions are available without imports:
+<ul>
+<li><code>sortBy :: (a -&gt; a -&gt; Ordering) -&gt; [a] -&gt; [a]</code>: sorts list using given custom comparator.</li>
+<li><code>sortWith :: Ord b =&gt; (a -&gt; b) -&gt; [a] -&gt; [a]</code>: sorts a list based on some property of its elements.</li>
+<li><code>sortOn :: Ord b =&gt; (a -&gt; b) -&gt; [a] -&gt; [a]</code>: just like <code>sortWith</code>, but more time-efficient if function is calculated slowly (though less space-efficient). So you should write <code>sortOn length</code> (would sort elements by length) but <code>sortWith fst</code> (would sort list of pairs by first element).</li>
+</ul></li>
+<li>Functions <code>sum</code> and <code>product</code> are strict now, which makes them more efficient.</li>
+<li>If you try to do something like <code>putStrLn &quot;hi&quot;</code>, you’ll get an error message if <code>OverloadedStrings</code> is enabled – it happens because the compiler doesn’t know what type to infer for the string. Use <code>putTextLn</code> in this case.</li>
+<li>Since <code>show</code> doesn’t come from <code>Show</code> anymore, you need to export <code>Show</code> from <code>Text.Show</code> module if you want to implement <code>Show</code> instance manually.</li>
+<li>You can’t call <code>elem</code> and <code>notElem</code> functions over <code>Set</code> and <code>HashSet</code>. These functions are forbidden for these two types because of the performance reasons.</li>
+<li><code>error</code> takes <code>Text</code>.</li>
+<li><code>lookup</code> doesn’t work on list of pairs.</li>
+</ul>
+<h2 id="reexports">Reexports <a href="#structure-of-this-tutorial">↑</a></h2>
+<h3 id="commonly-used-libraries">Commonly used libraries</h3>
+<p>First of all, we reexport some generally useful modules: <code>Control.Applicative</code>, <code>Data.Traversable</code>, <code>Data.Monoid</code>, <code>Control.DeepSeq</code>, <code>Data.List</code>, and lots of others. Just remove unneeded imports after importing <code>Relude</code> (you can use <code>.hlint.yaml</code> file for this).</p>
+<p>Then, some commonly used types: <code>Map/HashMap/IntMap</code>, <code>Set/HashSet/IntSet</code>, <code>Seq</code>, <code>Text</code> and <code>ByteString</code> (as well as synonyms <code>LText</code> and <code>LByteString</code> for lazy versions).</p>
+<p><code>liftIO</code> and <code>MonadIO</code> are exported by default. A lot of <code>IO</code> functions are generalized to <code>MonadIO</code>.</p>
+<p><code>deepseq</code> is exported. For instance, if you want to force deep evaluation of some value (in IO), you can write <code>evaluateNF a</code>. WHNF evaluation is possible with <code>evaluateWHNF a</code>.</p>
+<p>We also reexport big chunks of these libraries: <code>mtl</code>, <code>stm</code>.</p>
+<p><a href="http://hackage.haskell.org/package/base-4.9.1.0/docs/Data-Bifunctor.html"><code>Bifunctor</code></a> type class with useful instances is exported.</p>
+<ul>
+<li><code>first</code> and <code>second</code> functions apply a function to first/second part of a tuple (for tuples).</li>
+<li><code>bimap</code> takes two functions and applies them to first and second parts respectively.</li>
+</ul>
+<h3 id="text">Text</h3>
+<p>We export <code>Text</code> and <code>LText</code>, and some functions work with <code>Text</code> instead of <code>String</code> – specifically, IO functions (<code>readFile</code>, <code>putStrLn</code>, etc) and <code>show</code>. In fact, <code>show</code> is polymorphic and can produce strict or lazy <code>Text</code>, <code>String</code>, or <code>ByteString</code>. Also, <code>toText/toLText/toString</code> can convert <code>Text|LText|String</code> types to <code>Text/LText/String</code>. If you want to convert to and from <code>ByteString</code> use <code>encodeUtf8/decodeUtf8</code> functions.</p>
+<h3 id="debugging-and-undefineds">Debugging and <code>undefined</code>s</h3>
+<p><code>trace</code>, <code>traceM</code>, <code>traceShow</code>, etc. are available by default. GHC will warn you if you accidentally leave them in code, however (same for <code>undefined</code>).</p>
+<p>We also have <code>data Undefined = Undefined</code> (which, too, comes with warnings).</p>
+<h3 id="exceptions">Exceptions</h3>
+<p>TODO: write about reexports, <code>Bug</code> and <code>Exc</code> pattern.</p>
+<h2 id="whats-new">What’s new? <a href="#structure-of-this-tutorial">↑</a></h2>
+<p>Finally, we can move to part describing the new cool features we bring with <code>relude</code>.</p>
+<ul>
+<li>Safe analogue for <code>head</code> function: <code>safeHead :: [a] -&gt; Maybe a</code> or you can use our <code>viaNonEmpty</code> function to get <code>Maybe a</code>: <code>viaNonEmpty head :: [a] -&gt; Maybe a</code>.</li>
+<li><code>uncons</code> splits a list at the first element.</li>
+<li><code>ordNub</code> and <code>sortNub</code> are <em>O(n log n)</em> versions of <code>nub</code> (which is quadratic) and <code>hashNub</code> and <code>unstableNub</code> are almost <em>O(n)</em> versions of <code>nub</code>.</li>
+<li><code>(&amp;)</code> – reverse application. <code>x &amp; f &amp; g</code> instead of <code>g $ f $ x</code> is useful sometimes.</li>
+<li><code>whenM</code>, <code>unlessM</code>, <code>ifM</code>, <code>guardM</code> are available and do what you expect them to do (e.g. <code>whenM (doesFileExist &quot;foo&quot;)</code>).</li>
+<li><p>General fold functions:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="ot">foldMapA ::</span> (<span class="dt">Monoid</span> b, <span class="dt">Applicative</span> m, <span class="dt">Foldable</span> f) <span class="ot">=&gt;</span> (a <span class="ot">-&gt;</span> m b) <span class="ot">-&gt;</span> f a <span class="ot">-&gt;</span> m b</a>
+<a class="sourceLine" id="cb5-2" data-line-number="2"><span class="ot">foldMapM ::</span> (<span class="dt">Monoid</span> b, <span class="dt">Monad</span> m, <span class="dt">Foldable</span> f) <span class="ot">=&gt;</span> (a <span class="ot">-&gt;</span> m b) <span class="ot">-&gt;</span> f a <span class="ot">-&gt;</span> m b</a></code></pre></div></li>
+<li><code>readMaybe</code> and <code>readEither</code> are like <code>read</code> but total and give either <code>Maybe</code> or <code>Either</code> with parse error.</li>
+<li><p><code>when(Just|Nothing|Left|Right|NotEmpty)[M][_]</code> let you conditionally execute something. Before:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="kw">case</span> mbX <span class="kw">of</span></a>
+<a class="sourceLine" id="cb6-2" data-line-number="2">    <span class="dt">Nothing</span> <span class="ot">-&gt;</span> return ()</a>
+<a class="sourceLine" id="cb6-3" data-line-number="3">    <span class="dt">Just</span> x  <span class="ot">-&gt;</span> f x</a></code></pre></div>
+<p>After:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb7-1" data-line-number="1">whenJust mbX <span class="fu">$</span> \x <span class="ot">-&gt;</span></a>
+<a class="sourceLine" id="cb7-2" data-line-number="2">    f x</a></code></pre></div></li>
+<li><p><code>for_</code> for loops. There’s also <code>forM_</code> but <code>for_</code> looks a bit nicer.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb8-1" data-line-number="1">for_ [<span class="dv">1</span><span class="fu">..</span><span class="dv">10</span>] <span class="fu">$</span> \i <span class="ot">-&gt;</span> <span class="kw">do</span></a>
+<a class="sourceLine" id="cb8-2" data-line-number="2">    <span class="fu">...</span></a></code></pre></div></li>
+<li><p><code>andM</code>, <code>allM</code>, <code>anyM</code>, <code>orM</code> are monadic version of corresponding functions from <code>base</code>.</p></li>
+<li>Conversions between <code>Either</code> and <code>Maybe</code> like <code>rightToMaybe</code> and <code>maybeToLeft</code> with clear semantic.</li>
+<li><code>using(Reader|State)[T]</code> functions as aliases for <code>flip run(Reader|State)[T]</code>.</li>
+<li><a href="src/Relude/Container/One.hs"><code>One</code> type class</a> for creating singleton containers. Even monomorhpic ones like <code>Text</code>.</li>
+<li><a href="src/Relude/Extra/Map.hs"><code>StaticMap</code> and <code>DynamicMap</code>type classes</a> as a general interface for <code>Map</code>-like data structures.</li>
+<li><code>evaluateWHNF</code> and <code>evaluateNF</code> functions as clearer and lifted aliases for <code>evaluate</code> and <code>evaluate . force</code>.</li>
+<li><p><code>MonadFail</code> instance for <code>Either</code>.</p></li>
+</ul>
+<h2 id="migration-guide">Migration guide <a href="#structure-of-this-tutorial">↑</a></h2>
+<p>In order to replace default <code>Prelude</code> with <code>relude</code> you should start with instructions given in <a href="#get-started-"><em>get started</em></a> section.</p>
+<p>This section describes what you need to change to make your code compile with <code>relude</code>.</p>
+<ol type="1">
+<li>Enable <code>-XOverloadedStrings</code> extension by default for your project.</li>
+<li>Since <code>head</code>, <code>tail</code>, <code>last</code> and <code>init</code> work for <code>NonEmpty</code> you should refactor your code in one of the multiple ways described below:
+<ol type="1">
+<li>Change <code>[a]</code> to <code>NonEmpty a</code> where it makes sense.</li>
+<li>Use functions which return <code>Maybe</code>. There is the <code>viaNonEmpty</code> function for this. And you can use it like <code>viaNonEmpty last l</code>.
+<ul>
+<li><code>viaNonEmpty head l</code> is <code>safeHead l</code></li>
+<li><code>tail</code> is <code>drop 1</code>. It’s almost never a good idea to use <code>tail</code> from <code>Prelude</code>.</li>
+</ul></li>
+<li>Add <code>import qualified Relude.Unsafe as Unsafe</code> and replace function with qualified usage.</li>
+</ol></li>
+<li>If you use <code>fromJust</code> or <code>!!</code> you should use them from <code>import qualified Relude.Unsafe as Unsafe</code>.</li>
+<li>If you use <code>foldr</code> or <code>forM_</code> or similar for something like <code>Maybe a</code> or <code>Either a b</code> it’s recommended to replace usages of such function with monomorhpic alternatives:
+<ul>
+<li><code>Maybe</code>
+<ul>
+<li><code>(?:)          :: Maybe a -&gt; a -&gt; a</code></li>
+<li><code>fromMaybe     :: a -&gt; Maybe a -&gt; a</code></li>
+<li><code>maybeToList   :: Maybe a -&gt; [a]</code></li>
+<li><code>maybeToMonoid :: Monoid m =&gt; Maybe m -&gt; m</code></li>
+<li><code>maybe         :: b -&gt; (a -&gt; b) -&gt; Maybe a -&gt; b</code></li>
+<li><code>whenJust      :: Applicative f =&gt; Maybe a -&gt; (a -&gt; f ()) -&gt; f ()</code></li>
+<li><code>whenJustM     :: Monad m =&gt; m (Maybe a) -&gt; (a -&gt; m ()) -&gt; m ()</code></li>
+</ul></li>
+<li><code>Either</code>
+<ul>
+<li><code>fromLeft   :: a -&gt; Either a b -&gt; a</code></li>
+<li><code>fromRight  :: b -&gt; Either a b -&gt; b</code></li>
+<li><code>either     :: (a -&gt; c) -&gt; (b -&gt; c) -&gt; Either a b -&gt; c</code></li>
+<li><code>whenRight_  :: Applicative f =&gt; Either l r -&gt; (r -&gt; f ()) -&gt; f ()</code></li>
+<li><code>whenRightM_ :: Monad m =&gt; m (Either l r) -&gt; (r -&gt; m ()) -&gt; m ()</code></li>
+</ul></li>
+</ul></li>
+<li>Forget about <code>String</code> type.
+<ul>
+<li>Replace <code>putStr</code> and <code>putStrLn</code> with <code>putText</code> and <code>putTextLn</code>.</li>
+<li>Replace <code>(++)</code> with <code>(&lt;&gt;)</code> for <code>String</code>-like types.</li>
+<li>Try to use <a href="http://hackage.haskell.org/package/fmt"><code>fmt</code></a> library if you need to construct messages.</li>
+<li>Use <code>toText/toLText/toString</code> functions to convert to <code>Text/LazyText/String</code> types.</li>
+<li>Use <code>encodeUtf8/decodeUtf8</code> to convert to/from <code>ByteString</code>.</li>
+</ul></li>
+<li>Run <code>hlint</code> using <code>.hlint.yaml</code> file from <code>relude</code> package to cleanup code and imports.</li>
+</ol>
+              </p>
+              </div>
+          </div>
+          </div>
+
+
+      </div>
+
+      <script src="../js/stars.js"></script>
+      <script>
+       shootingStars("kowainik/relude", function (stars) {
+           document.getElementById("stars").innerHTML = stars;
+       });
+      </script>
+
+
+      <!-- Bootstrap core JavaScript -->
+      <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"> </script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/haskell.min.js"></script>
+      <script src="https://cdn.rawgit.com/icons8/bower-webicon/v0.10.7/jquery-webicon.min.js"></script>
+      <script>hljs.initHighlightingOnLoad()</script>
+      <script src="https://cdn.jsdelivr.net/npm/katex@0.10.0-alpha/dist/katex.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/contrib/auto-render.min.js"></script>
+      <script async defer src="https://buttons.github.io/buttons.js"></script>
+  </body>
+</html>

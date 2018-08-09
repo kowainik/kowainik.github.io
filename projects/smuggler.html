@@ -45,7 +45,7 @@
                 <a class="btn btn-outline-dark btn-tag" href="https://github.com/kowainik/smuggler" data-icon="octicon-star" data-size="large" aria-label="Star Kowainik/smuggler on GitHub">Star Project</a>
                 <a class="fa-stack fa-2x" href="https://github.com/kowainik/smuggler/stargazers">
                     <i class="fa fa-star fa-stack-2x"></i>
-                    <i id="stars" class="fa fa-stack-1x fa-inverse main-font">0</i>
+                    <i id="stars" class="fa fa-stack-1x fa-inverse main-font">29</i>
                 </a>
                 <div class="author">Language: Haskell</div>
 
@@ -60,20 +60,18 @@
           <div class="row post">
               <div class="col-12 post-body">
               <p class="lead">
-                  <p><a href="https://hackage.haskell.org/package/smuggler"><img src="https://img.shields.io/hackage/v/smuggler.svg" alt="Hackage" /></a> <a href="https://travis-ci.org/kowainik/smuggler"><img src="https://secure.travis-ci.org/kowainik/smuggler.svg" alt="Build status" /></a> <a href="https://ci.appveyor.com/project/kowainik/smuggler"><img src="https://ci.appveyor.com/api/projects/status/github/kowainik/smuggler?branch=master&amp;svg=true" alt="Windows build status" /></a> <a href="https://github.com/kowainik/smuggler/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-MPL--2.0-blue.svg" alt="MPL-2.0 license" /></a></p>
-<p>Smuggling</p>
+                  <p><a href="https://hackage.haskell.org/package/smuggler"><img src="https://img.shields.io/hackage/v/smuggler.svg" alt="Hackage" /></a> <a href="https://travis-ci.org/kowainik/smuggler"><img src="https://secure.travis-ci.org/kowainik/smuggler.svg" alt="Build status" /></a> <a href="https://github.com/kowainik/smuggler/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-MPL--2.0-blue.svg" alt="MPL-2.0 license" /></a></p>
+<p>Haskell Compiler Plugin which removes unused imports automatically.</p>
 <h2 id="build-instructions">Build instructions</h2>
-<h3 id="first-time">First time</h3>
-<pre class="shell"><code>$ mkdir deps
-$ cd deps
-$ git clone git@github.com:alanz/ghc-exactprint.git
-$ cd ghc-exactprint
-$ git checkout ghc-8.6
-$ # comment line with `hashable` package in `packages` field in `cabal.project` file
-$ cd ../..
+<p>Requirements:</p>
+<ul>
+<li><code>ghc &gt;= ghc-8.6.1-alpha2</code></li>
+</ul>
+<h3 id="build-project">Build project</h3>
+<pre class="shell"><code>$ cabal new-update
 $ cabal new-build --allow-newer</code></pre>
-<h3 id="second-time">Second time</h3>
-<pre class="shell"><code>$ cabal new-build --allow-newer</code></pre>
+<h3 id="run-tests">Run tests</h3>
+<pre class="shell"><code>$ cabal new-test --allow-newer</code></pre>
               </p>
               </div>
           </div>
