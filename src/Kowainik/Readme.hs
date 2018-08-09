@@ -2,10 +2,9 @@ module Kowainik.Readme
        ( createProjectMds
        ) where
 
-import Data.Aeson (FromJSON (..), decode, withObject, (.!=), (.:), (.:?))
+import Data.Aeson (FromJSON (..), eitherDecode', withObject, (.!=), (.:), (.:?))
 import Data.ByteString.Lazy (ByteString)
 import Data.Foldable (for_)
-import Data.Maybe (fromMaybe)
 import Data.Semigroup ((<>))
 import Data.Text (Text)
 import Network.HTTP.Client (Manager, Response, httpLbs, parseRequest, requestHeaders, responseBody,
@@ -40,8 +39,8 @@ createProjectMds = do
     -- | Projects without this one.
     ghProjectsWithoutThis :: Response ByteString -> [GitHubProject]
     ghProjectsWithoutThis response = filter validProject
-        $ fromMaybe (error "Can not get the projects list")
-            $ decode @[GitHubProject] $ responseBody response
+        $ either error id
+        $ eitherDecode' @[GitHubProject] $ responseBody response
       where
         -- not forks and not this project
         validProject :: GitHubProject -> Bool
