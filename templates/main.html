@@ -26,6 +26,9 @@
     <!-- Custom styles for this template -->
     <link href="/css/default.css" rel="stylesheet">
     <link href="/css/main.css" rel="stylesheet">
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/tomorrow-night.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.11.0/styles/dracula.min.css" />
   </head>
 
   <body id="page-top">
@@ -34,7 +37,7 @@
         <!-- Navigation -->
         $partial("templates/nav.html")$
         <div class="container">
-            <img class="img-fluid mb-5 d-block mx-auto" src="/images/logo-tr.png" alt="">
+            <img class="img-fluid mb-4 d-block mx-auto" src="/images/logo-tr.png" alt="Kowainik">
             <h1 class="text-uppercase mb-0">Haskell ≫= Types ≫= Future</h1>
             <hr class="star-dark-pr">
         </div>
@@ -104,12 +107,66 @@
         </div>
     </section>
 
-    <!-- News Section -->
-    <section class="bg-primary" id="news">
+    <!-- Blog Section -->
+    <section class="bg-primary" id="blog">
       <div class="container">
-        <h2 class="text-center text-uppercase text-secondary mb-0">News</h2>
+        <h2 class="text-center text-uppercase text-secondary mb-0">Blog</h2>
         <hr class="star-dark-pr mb-5">
-        <h4 class="text-center text-secondary">Coming soon! </h4>
+        <div class="row">
+            <div class="col-lg-4 ml-auto">
+                <img class="img-fluid mb-5 d-block mx-auto" src="/images/blog.svg" alt="Blog icon">
+            </div>
+            <div class="col-lg-5 mr-auto">
+                <p class="lead">
+                    Here we have the collection of posts where we are making the
+                    attempts to explain what we find fascinating or exciting.
+                    Our blog is trying to fill gaps in Haskell tutorials and
+                    covers various topics from build tools introduction for
+                    beginners to advanced type-level tricks.
+                </p>
+
+                <p class="lead">
+                    We make our best efforts to keep it up to date with the
+                    current state of the Haskell ecosystem.
+                </p>
+            </div>
+        </div>
+        <h4 class="text-center text-secondary">Check out our posts!</h4>
+        <div class="text-center mt-4">
+            <a class="btn btn-xl btn-outline-dark btn-github" href="/posts"> <i class="fa fa-pencil mr-2"></i> Kowainik's Blog </a>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Join us Section -->
+    <section class="" id="joinus">
+      <div class="container">
+        <h2 class="text-center text-uppercase text-secondary mb-0">Join us!</h2>
+        <hr class="star-dark mb-5">
+        <div class="row">
+            <div class="col-lg-5 ml-auto">
+                <pre> <code class="haskell">
+  data Team a
+  instance Monad Team
+
+  currentTeam :: Team Dream
+  addMember   :: a -> a -> Team (Team a)
+
+  newTeam :: Team Dream
+  newTeam = join (currentTeam >>= addMember you)
+                    </code> </pre>
+
+            </div>
+            <div class="col-lg-4 mr-auto">
+                <img class="img-fluid mb-5 d-block mx-auto" src="/images/joinus.svg" alt="Join us icon">
+            </div>
+        </div>
+                <h4 class="text-center text-secondary">
+                    If you're ready to <code class="haskell">join</code> us just drop us a line at &#120;&#114;&#111;&#109;&#046;&#120;&#107;&#111;&#118;&#064;&#103;&#109;&#097;&#105;&#108;&#046;&#099;&#111;&#109;
+                </h4>
+
+        </div>
       </div>
     </section>
 
@@ -132,6 +189,13 @@
     <!-- Bootstrap core JavaScript -->
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"> </script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+    <!-- Highlighting -->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/haskell.min.js"></script>
+      <script src="https://cdn.rawgit.com/icons8/bower-webicon/v0.10.7/jquery-webicon.min.js"></script>
+      <script>hljs.initHighlightingOnLoad()</script>
+
     <!-- Plugin JavaScript -->
     <script src="/js/jquery.easing.min.js"></script>
     <script src="/js/jquery.magnific-popup.min.js"></script>
