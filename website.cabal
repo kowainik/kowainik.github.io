@@ -1,7 +1,7 @@
+cabal-version:         2.0
 name:                  website
 version:               0.1.0.0
 build-type:            Simple
-cabal-version:         >= 1.10
 
 library
   hs-source-dirs:      src
@@ -10,14 +10,16 @@ library
                        Kowainik.Readme
                        Kowainik.Social
                        Kowainik.Team
+                       Prelude
 
-  build-depends:       base
+  build-depends:       base-noprelude >= 4.11.1.0
                      , aeson >= 1.2
                      , bytestring >= 0.10
                      , hakyll
                      , http-client >= 0.5
                      , http-client-tls >= 0.3
                      , http-types >= 0.12
+                     , relude >= 0.1.0
                      , text >= 1.2
 
   ghc-options:         -Wall
@@ -32,9 +34,10 @@ library
 executable site
   main-is:          site.hs
 
-  build-depends:       base == 4.*
-                     , website
+  build-depends:       base-noprelude
                      , hakyll
+                     , relude >= 0.1
+                     , website
 
   ghc-options:        -Wall -threaded
 

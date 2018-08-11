@@ -3,7 +3,6 @@ module Kowainik.Social
        , makeSocialContext
        ) where
 
-import Data.Monoid ((<>))
 import Hakyll (Compiler, Context, Item, field, itemBody, listField, makeItem)
 
 data Social = Social

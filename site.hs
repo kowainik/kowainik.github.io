@@ -2,16 +2,13 @@
 {-# LANGUAGE TypeApplications #-}
 
 import Control.Monad (liftM)
-import Data.List (nub, sortBy)
-import Data.Monoid ((<>))
-import Data.Ord (comparing)
+import Data.List (nub)
 import Hakyll (Context, Identifier, Item (..), MonadMetadata, Pattern, Rules, applyAsTemplate,
                buildTags, compile, compressCssCompiler, constField, copyFileCompiler, create,
                dateField, defaultContext, field, fromCapture, getMetadata, getTags, hakyll, idRoute,
                listField, loadAll, loadAndApplyTemplate, lookupString, makeItem, match,
                pandocCompiler, recentFirst, relativizeUrls, route, setExtension, tagsRules,
                templateBodyCompiler, (.||.))
-import Text.Read (readMaybe)
 
 import Kowainik.Project (makeProjectContext)
 import Kowainik.Readme (createProjectMds)
@@ -139,7 +136,7 @@ compileProjects title page pat = do
 
         maybe starError pure mbStar
       where
-        starError = fail "Couldn't parse stars"
+        starError = error "Couldn't parse stars"
 
 -- Context to used for posts
 postCtx :: Context String

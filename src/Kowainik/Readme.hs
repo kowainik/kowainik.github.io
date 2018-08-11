@@ -3,10 +3,6 @@ module Kowainik.Readme
        ) where
 
 import Data.Aeson (FromJSON (..), eitherDecode', withObject, (.!=), (.:), (.:?))
-import Data.ByteString.Lazy (ByteString)
-import Data.Foldable (for_)
-import Data.Semigroup ((<>))
-import Data.Text (Text)
 import Network.HTTP.Client (Manager, Response, httpLbs, parseRequest, requestHeaders, responseBody,
                             responseStatus)
 import Network.HTTP.Client.TLS (newTlsManager)
@@ -29,7 +25,7 @@ createProjectMds = do
            }
     response <- httpLbs requestAccept manager
 
-    if (responseStatus response == ok200) then do
+    if responseStatus response == ok200 then do
         let ghProjects = ghProjectsWithoutThis response
 
         for_ ghProjects $ makeReadmeMD manager
@@ -37,9 +33,9 @@ createProjectMds = do
     else error "Status code is not ok"
   where
     -- | Projects without this one.
-    ghProjectsWithoutThis :: Response ByteString -> [GitHubProject]
+    ghProjectsWithoutThis :: Response LByteString -> [GitHubProject]
     ghProjectsWithoutThis response = filter validProject
-        $ either error id
+        $ either (error . toText) id
         $ eitherDecode' @[GitHubProject] $ responseBody response
       where
         -- not forks and not this project
@@ -50,28 +46,28 @@ createProjectMds = do
     makeReadmeMD :: Manager -> GitHubProject -> IO ()
     makeReadmeMD manager gp@GitHubProject{..} = do
         request <- parseRequest $ "https://raw.githubusercontent.com/kowainik/"
-                               ++ T.unpack ghpName
+                               ++ toString ghpName
                                ++ "/master/README.md"
         response <- httpLbs request manager
-        let responseText = LT.unlines $ tail $ LT.lines $ T.decodeUtf8 $ responseBody response
+        let responseText = LT.unlines $ drop 1 $ LT.lines $ T.decodeUtf8 $ responseBody response
 
-        let filepath :: FilePath = "projects/" ++ T.unpack ghpName ++ ".md"
+        let filepath :: FilePath = "projects/" ++ toString ghpName ++ ".md"
         T.writeFile filepath $ createMdHeader gp <> responseText
 
-    createMdHeader :: GitHubProject -> LT.Text
-    createMdHeader GitHubProject{..} = LT.fromStrict $ T.unlines
+    createMdHeader :: GitHubProject -> LText
+    createMdHeader GitHubProject{..} = toLText $ unlines
         [ "---"
-        , "title: " <> (toTitleName ghpName)
+        , "title: " <> toTitleName ghpName
         , "link: " <> ghpName
         , "language: " <> ghpLanguage
-        , "stars: " <> T.pack (show ghpStars)
+        , "stars: " <> show ghpStars
         , "description: \"" <> ghpDesc <> "\""
         , "---"
         , ""
         ]
 
     toTitleName :: Text -> Text
-    toTitleName name = "\"" <> T.unwords (T.splitOn "-" name) <> "\""
+    toTitleName name = "\"" <> unwords (T.splitOn "-" name) <> "\""
 
 
 data GitHubProject = GitHubProject
