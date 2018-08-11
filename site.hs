@@ -1,8 +1,6 @@
 {-# LANGUAGE TupleSections    #-}
 {-# LANGUAGE TypeApplications #-}
 
-import Control.Monad (liftM)
-import Data.List (nub)
 import Hakyll (Context, Identifier, Item (..), MonadMetadata, Pattern, Rules, applyAsTemplate,
                buildTags, compile, compressCssCompiler, constField, copyFileCompiler, create,
                dateField, defaultContext, field, fromCapture, getMetadata, getTags, hakyll, idRoute,
@@ -95,7 +93,7 @@ compilePosts title page pat = do
     compile $ do
         posts <- recentFirst =<< loadAll pat
         let ids = map itemIdentifier posts
-        tagsList <- nub . concat <$> traverse getTags ids
+        tagsList <- ordNub . concat <$> traverse getTags ids
         let ctx = postCtxWithTags tagsList
                <> constField "title" title
                <> listField "posts" postCtx (return posts)
@@ -124,8 +122,8 @@ compileProjects title page pat = do
     moreStarsFirst = sortByM $ getItemStars . itemIdentifier
       where
         sortByM :: (Monad m, Ord k) => (a -> m k) -> [a] -> m [a]
-        sortByM f xs = liftM (map fst . sortBy (flip $ comparing snd)) $
-                       mapM (\x -> liftM (x,) (f x)) xs
+        sortByM f xs = fmap (map fst . sortBy (flip $ comparing snd)) $
+                       mapM (\x -> (x,) <$> (f x)) xs
 
     getItemStars :: MonadMetadata m
                  => Identifier    -- ^ Input page

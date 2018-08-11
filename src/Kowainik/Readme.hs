@@ -55,7 +55,7 @@ createProjectMds = do
         T.writeFile filepath $ createMdHeader gp <> responseText
 
     createMdHeader :: GitHubProject -> LText
-    createMdHeader GitHubProject{..} = toLText $ unlines
+    createMdHeader GitHubProject{..} = toLazy $ unlines
         [ "---"
         , "title: " <> toTitleName ghpName
         , "link: " <> ghpName
