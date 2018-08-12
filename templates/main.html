@@ -96,15 +96,15 @@
             <hr class="star-dark mb-5">
             <div class="row">
                 $for(team)$
-                <div class="col-md-6 col-lg-6">
+                <div class="col-md-6 col-lg-4">
                     <a class="popup-item portfolio-item d-block mx-auto" href="#team-$memberId$">
                         <div class="portfolio-item-caption d-flex position-absolute h-100 w-100">
                             <div class="portfolio-item-caption-content my-auto w-100 text-uppercase text-center text-white">
                                 <h2>$memberName$</h2>
-                                <p class="lead">$memberWho$</p>
+                                <p class="lead text-secondary">$memberWho$</p>
                             </div>
                         </div>
-                        <img class="img-fluid" src="/images/team/$memberImage$" alt="$memberName$">
+                        <img class="img-fluid" src="/images/team/$memberImage$.png" alt="$memberName$">
                     </a>
                 </div>
                 $endfor$
