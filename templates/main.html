@@ -44,23 +44,28 @@
     </header>
 
     <!-- Portfolio Grid Section -->
-    <section class="portfolio" id="portfolio">
+    <section class="projects" id="projects">
         <div class="container">
             <h2 class="text-center text-uppercase text-secondary mb-0">Projects</h2>
             <hr class="star-dark mb-5">
             <div class="row">
                 $for(projects)$
                 <div class="col-md-6 col-lg-4">
-                    <a class="portfolio-item d-block mx-auto" href="#project-$projectId$">
-                        <div class="portfolio-item-caption d-flex position-absolute h-100 w-100">
-                            <div class="portfolio-item-caption-content my-auto w-100 text-uppercase text-center text-white">
-                              $projectName$
+                    <a class="projects-item d-block mx-auto" href="/projects/$projectImage$" target="_blank">
+                        <div class="projects-item-caption d-flex position-absolute h-100 w-100">
+                            <div class="projects-item-caption-content my-auto w-100 text-center text-white">
+                                <h2 class="text-uppercase">$projectName$</h2>
+                                <p class="lead text-secondary">$projectDesc$</p>
                             </div>
                         </div>
                       <img class="img-fluid" src="/images/projects/$projectImage$.png" alt="$projectName$">
                     </a>
                 </div>
                 $endfor$
+                <!-- <div>Icons made by <a href="http://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div> -->
+            </div>
+            <div class="text-center mt-4">
+                <a class="btn btn-xl btn-outline-dark btn-github" href="/projects" target="_blank"> <i class="fa fa-child mr-2"></i> View more projects </a>
             </div>
         </div>
     </section>
@@ -92,11 +97,11 @@
             <div class="row">
                 $for(team)$
                 <div class="col-md-6 col-lg-6">
-                    <a class="portfolio-item d-block mx-auto" href="#team-$memberId$">
+                    <a class="popup-item portfolio-item d-block mx-auto" href="#team-$memberId$">
                         <div class="portfolio-item-caption d-flex position-absolute h-100 w-100">
                             <div class="portfolio-item-caption-content my-auto w-100 text-uppercase text-center text-white">
                                 <h2>$memberName$</h2>
-                                <p>$memberWho$</p>
+                                <p class="lead">$memberWho$</p>
                             </div>
                         </div>
                         <img class="img-fluid" src="/images/team/$memberImage$" alt="$memberName$">
@@ -181,8 +186,6 @@
       </a>
     </div>
 
-    <!-- Portfolio Modals -->
-    $partial("templates/project.html")$
     <!-- Team Modals -->
     $partial("templates/team.html")$
 

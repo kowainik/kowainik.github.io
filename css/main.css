@@ -144,15 +144,18 @@ header.masthead h2 {
  ******** Portfolio
  *******************************/
 
+.projects ,
 .portfolio {
     margin-bottom: -15px;
 }
+.projects .projects-item ,
 .portfolio .portfolio-item {
     position: relative;
     display: block;
     max-width: 25rem;
     margin-bottom: 15px;
 }
+.projects .projects-item .projects-item-caption ,
 .portfolio .portfolio-item .portfolio-item-caption {
     -webkit-transition: all ease 0.5s;
     -moz-transition: all ease 0.5s;
@@ -160,16 +163,20 @@ header.masthead h2 {
     opacity: 0;
     background-color: rgba(38,228,187, 0.9);
 }
+.projects .projects-item .projects-item-caption:hover ,
 .portfolio .portfolio-item .portfolio-item-caption:hover {
     opacity: 1;
 }
+.projects .projects-item .projects-item-caption .projects-item-caption-content ,
 .portfolio .portfolio-item .portfolio-item-caption .portfolio-item-caption-content {
     font-size: 1.5rem;
 }
 @media (min-width: 576px) {
+    .projects ,
     .portfolio {
         margin-bottom: -30px;
     }
+    .projects .projects-item ,
     .portfolio .portfolio-item {
         margin-bottom: 30px;
     }

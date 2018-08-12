@@ -33,7 +33,6 @@ mainHakyll = hakyll $ do
             let ctx = makeProjectContext <> makeSocialContext <> makeTeamContext <> defaultContext
             makeItem ""
                 >>= applyAsTemplate ctx
-                >>= loadAndApplyTemplate "templates/project.html" ctx
                 >>= loadAndApplyTemplate "templates/team.html" ctx
                 >>= loadAndApplyTemplate "templates/main.html" ctx
                 >>= relativizeUrls
