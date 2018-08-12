@@ -20,12 +20,12 @@ projectId    = field "projectId"    $ pure . pId    . itemBody
 
 allProjects :: Compiler [Item Project]
 allProjects = traverse makeItem
-    [ Project "Project" "cabin"     "Project is currently in progress" "1"
-    , Project "Project" "cake"      "Project is currently in progress" "2"
-    , Project "Project" "circus"    "Project is currently in progress" "3"
-    , Project "Project" "game"      "Project is currently in progress" "4"
-    , Project "Project" "safe"      "Project is currently in progress" "5"
-    , Project "Project" "submarine" "Project is currently in progress" "6"
+    [ Project "Summoner" "summoner" "Tool for creating completely configured production Haskell projects" "1"
+    , Project "Smuggler" "smuggler" "Smuggle all imports" "2"
+    , Project "Relude" "relude" "Reload your Prelude" "3"
+    , Project "Containers Backpack" "containers-backpack" "Backpack interface for containers" "4"
+    , Project "Idris Patricia" "idris-patricia" "Idris implementation of patricia tree" "5"
+    , Project "Typerep-map" "typerep-map" "Efficient implementation of Map with types as keys" "6"
     ]
 
 makeProjectContext :: Context a
