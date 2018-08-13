@@ -40,7 +40,7 @@ allTeam = traverse makeItem
             "willbasky"
             "Haskell Developer"
             "vladislav.sabanov"
-            "I am happy to program in Haskell, devoting much time to it. I do not leave issues until they are solved. I continuously learn and dig into the heart of things. Even my enthusiasm for generative art is associated with the coding."
+            "I am happy to program in Haskell, devoting much time to it. I do not leave issues until they are solved. I continuously learn and dig into the heart of things. Some of my hobbies are live coding and generative art."
             "3"
     ]
 
