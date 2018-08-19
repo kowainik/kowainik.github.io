@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Picnic: put containers into a backpack</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Kowainik page">
+    <meta name="keywords" content="Haskell, Functional progarmming, FP">
+    <meta name="author" content="Kowainik" />
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon">
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/tomorrow-night.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/katex@0.10.0-alpha/dist/katex.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.11.0/styles/dracula.min.css" />
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
+    <!-- Custom fonts for this template -->
+    <link href="../css/font-awesome.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css">
+
+    <!-- Plugin CSS -->
+    <link href="../css/magnific-popup.css" rel="stylesheet" type="text/css">
+    <!-- Custom styles for this template -->
+    <link href="../css/default.css" rel="stylesheet">
+    <link href="../css/post.css" rel="stylesheet">
+  </head>
+
+  <body>
+
+          <!-- Header -->
+      <nav class="navbar navbar-inverse navbar-fixed-left leftmenu bg-primary text-secondary">
+            <div class="navbar-header">
+                <div class="postslogo"> <a class="navbar-brand" href="../"><img class="img-fluid mb-5 d-block mx-auto" src="../images/logo-tr.png" alt="Kowainik"></a></div>
+
+            </div>
+            <div class="coolFont">
+                <div>Date: August 19, 2018</div>
+
+                <div class="author">Author: Dmitrii Kovanikov</div>
+                <div class="row tag-block">
+                
+                <span class="tag-block"> <a class="btn btn-outline-dark btn-tag" href="../tags/haskell.html">haskell</a></span>
+                
+                <span class="tag-block"> <a class="btn btn-outline-dark btn-tag" href="../tags/backpack.html">backpack</a></span>
+                
+                <span class="tag-block"> <a class="btn btn-outline-dark btn-tag" href="../tags/containers.html">containers</a></span>
+                
+                <span class="tag-block"> <a class="btn btn-outline-dark btn-tag" href="../tags/cabal.html">cabal</a></span>
+                
+                <span class="tag-block"> <a class="btn btn-outline-dark btn-tag" href="../tags/tutorial.html">tutorial</a></span>
+                
+                </div>
+
+                <div class="allposts">
+                    <h3><a href="../posts.html"> Posts =<< </a></h3>
+                </div>
+            </div>
+      </nav>
+      <div class="container info">
+          <h2 class="text-center text-uppercase text-secondary">Picnic: put containers into a backpack</h2>
+          <div class="content">
+          <div class="row post">
+              <div class="col-12 post-body">
+              <p class="lead">
+                  <p>This blog post walks the reader through the Backpack implementation of the uniform interface for containers (<code>Map</code>s and <code>Set</code>s). We will go through the reasons for choosing Backpack, a comparison with a typeclass-based approach, and a basic tutorial for Backpack. You can find the proposed solution in the following repository:</p>
+<ul>
+<li><a href="https://github.com/kowainik/containers-backpack">kowainik/containers-backpack</a></li>
+</ul>
+<h2 id="motivation">Motivation</h2>
+<p>The Haskell ecosystem contains multiple libraries that implement <code>Map</code>-like data structures. Among them there are structures like balanced binary-search trees, Patricia trees, <a href="https://vaibhavsagar.com/blog/2018/07/29/hamts-from-scratch/">hash array-mapped trees</a>, including lazy and strict versions, and many others. Even though existing implementations contain functions with the same name and structurally the same type, they don’t share a common interface because such an interface doesn’t exist. Which means that each time you want to use a type with a <code>Map</code>-like or <code>Set</code>-like interface, you have to choose a concrete data type explicitly. This straightforward approach has the advantage of having predictable and explicitly specified performance and memory characteristics for each data type. However, it reduces code reusability and composability, in particular:</p>
+<ol type="1">
+<li>It’s not easy to switch from one data type to another: we need to change package dependencies, imports, data type name and function names.</li>
+<li>We often want to write functions that can work for any <code>Map</code> or <code>Set</code> (consider benchmarks). Or like in the following example:</li>
+</ol>
+<div class="sourceCode" id="cb1"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="ot">{-# LANGUAGE ScopedTypeVariables #-}</span></a>
+<a class="sourceLine" id="cb1-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb1-3" data-line-number="3"><span class="kw">import</span> <span class="dt">Data.Foldable</span> (foldl')</a>
+<a class="sourceLine" id="cb1-4" data-line-number="4"><span class="kw">import</span> <span class="dt">Data.List.NonEmpty</span> (<span class="dt">NonEmpty</span> (..), (&lt;|))</a>
+<a class="sourceLine" id="cb1-5" data-line-number="5"><span class="kw">import</span> <span class="dt">Data.Map</span> (<span class="dt">Map</span>)</a>
+<a class="sourceLine" id="cb1-6" data-line-number="6"><span class="kw">import</span> <span class="kw">qualified</span> <span class="dt">Data.Map</span> <span class="kw">as</span> <span class="dt">M</span></a>
+<a class="sourceLine" id="cb1-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb1-8" data-line-number="8"><span class="ot">groupBy ::</span> forall k f a <span class="fu">.</span> (<span class="dt">Foldable</span> f, <span class="dt">Ord</span> k)</a>
+<a class="sourceLine" id="cb1-9" data-line-number="9">        <span class="ot">=&gt;</span> (a <span class="ot">-&gt;</span> k) <span class="ot">-&gt;</span> f a <span class="ot">-&gt;</span> <span class="dt">Map</span> k (<span class="dt">NonEmpty</span> a)</a>
+<a class="sourceLine" id="cb1-10" data-line-number="10">groupBy f <span class="fu">=</span> foldl' mapGroup M.empty</a>
+<a class="sourceLine" id="cb1-11" data-line-number="11">  <span class="kw">where</span></a>
+<a class="sourceLine" id="cb1-12" data-line-number="12"><span class="ot">    mapGroup ::</span> <span class="dt">Map</span> k (<span class="dt">NonEmpty</span> a) <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> <span class="dt">Map</span> k (<span class="dt">NonEmpty</span> a)</a>
+<a class="sourceLine" id="cb1-13" data-line-number="13">    mapGroup m a <span class="fu">=</span></a>
+<a class="sourceLine" id="cb1-14" data-line-number="14">        <span class="kw">let</span><span class="ot"> val ::</span> <span class="dt">Maybe</span> (<span class="dt">NonEmpty</span> a) <span class="ot">-&gt;</span> <span class="dt">NonEmpty</span> a</a>
+<a class="sourceLine" id="cb1-15" data-line-number="15">            val <span class="dt">Nothing</span>   <span class="fu">=</span> a <span class="fu">:|</span> []</a>
+<a class="sourceLine" id="cb1-16" data-line-number="16">            val (<span class="dt">Just</span> xs) <span class="fu">=</span> a <span class="fu">&lt;|</span> xs</a>
+<a class="sourceLine" id="cb1-17" data-line-number="17">        <span class="kw">in</span> M.alter (<span class="dt">Just</span> <span class="fu">.</span> val) (f a) m</a></code></pre></div>
+<p>And here is an example of using this function:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb2-1" data-line-number="1">ghci<span class="fu">&gt;</span> groupBy even [<span class="dv">1</span><span class="fu">..</span><span class="dv">10</span>]</a>
+<a class="sourceLine" id="cb2-2" data-line-number="2">fromList [ (<span class="dt">False</span>,  <span class="dv">9</span> <span class="fu">:|</span> [<span class="dv">7</span>,<span class="dv">5</span>,<span class="dv">3</span>,<span class="dv">1</span>])</a>
+<a class="sourceLine" id="cb2-3" data-line-number="3">         , (<span class="dt">True</span>,  <span class="dv">10</span> <span class="fu">:|</span> [<span class="dv">8</span>,<span class="dv">6</span>,<span class="dv">4</span>,<span class="dv">2</span>])</a>
+<a class="sourceLine" id="cb2-4" data-line-number="4">         ]</a>
+<a class="sourceLine" id="cb2-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb2-6" data-line-number="6">ghci<span class="fu">&gt;</span> groupBy (<span class="ot">`mod`</span> <span class="dv">3</span>) [<span class="dv">1</span><span class="fu">..</span><span class="dv">10</span>]</a>
+<a class="sourceLine" id="cb2-7" data-line-number="7">fromList [ (<span class="dv">0</span>,  <span class="dv">9</span> <span class="fu">:|</span> [<span class="dv">6</span>,<span class="dv">3</span>])</a>
+<a class="sourceLine" id="cb2-8" data-line-number="8">         , (<span class="dv">1</span>, <span class="dv">10</span> <span class="fu">:|</span> [<span class="dv">7</span>,<span class="dv">4</span>,<span class="dv">1</span>])</a>
+<a class="sourceLine" id="cb2-9" data-line-number="9">         , (<span class="dv">2</span>,  <span class="dv">8</span> <span class="fu">:|</span> [<span class="dv">5</span>,<span class="dv">2</span>])</a>
+<a class="sourceLine" id="cb2-10" data-line-number="10">         ]</a></code></pre></div>
+<p>It would be great if we could reuse this <code>groupBy</code> function with any <code>Map</code>-like data structure. Moreover, for most popular data types like <code>Map</code>, <code>HashMap</code>, or <code>IntMap</code>, we can’t really write a more efficient version. It would be more convenient to have all functions like <code>groupBy</code> implemented once and have the ability to choose a specialized implementation based on the needs of the program.</p>
+<p>To explore what people would think of such an interface <a href="https://twitter.com/vronnie911/status/1020701995164884992">we made a poll</a> recently. And it looks like people are apprehensive but interested about having a unified interface. From the feedback we received in the comments, Backpack looks like the most suitable solution for this problem at the moment. So we accepted the challenge and decided to try using Backpack. This blog post contains the detailed description of our results.</p>
+<h2 id="solution-with-typeclasses">Solution with typeclasses</h2>
+<p>Backpack is a relatively new technology. However, people have been making attempts to implement a common interface for <code>Map</code>s long before that. One of the most famous examples is the <a href="http://hackage.haskell.org/package/mono-traversable-1.0.9.0/docs/Data-Containers.html"><code>mono-traversable</code></a> package. We tried to create an alternative solution in <a href="https://github.com/kowainik/relude"><code>relude</code></a>. To get an idea of how a typeclass-based solution might look like, you can take a look at this extract from <code>relude</code>:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw">class</span> <span class="dt">StaticMap</span> t <span class="kw">where</span></a>
+<a class="sourceLine" id="cb3-2" data-line-number="2">    <span class="kw">type</span> <span class="dt">Key</span><span class="ot"> t ::</span> <span class="dt">Type</span></a>
+<a class="sourceLine" id="cb3-3" data-line-number="3">    <span class="kw">type</span> <span class="dt">Val</span><span class="ot"> t ::</span> <span class="dt">Type</span></a>
+<a class="sourceLine" id="cb3-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb3-5" data-line-number="5"><span class="ot">    size   ::</span> t <span class="ot">-&gt;</span> <span class="dt">Int</span></a>
+<a class="sourceLine" id="cb3-6" data-line-number="6"><span class="ot">    lookup ::</span> <span class="dt">Key</span> t <span class="ot">-&gt;</span> t <span class="ot">-&gt;</span> <span class="dt">Maybe</span> (<span class="dt">Val</span> t)</a>
+<a class="sourceLine" id="cb3-7" data-line-number="7"><span class="ot">    member ::</span> <span class="dt">Key</span> t <span class="ot">-&gt;</span> t <span class="ot">-&gt;</span> <span class="dt">Bool</span></a>
+<a class="sourceLine" id="cb3-8" data-line-number="8"></a>
+<a class="sourceLine" id="cb3-9" data-line-number="9"><span class="kw">class</span> <span class="dt">StaticMap</span> t <span class="ot">=&gt;</span> <span class="dt">DynamicMap</span> t <span class="kw">where</span></a>
+<a class="sourceLine" id="cb3-10" data-line-number="10"><span class="ot">    insert     ::</span> <span class="dt">Key</span> t <span class="ot">-&gt;</span> <span class="dt">Val</span> t <span class="ot">-&gt;</span> t <span class="ot">-&gt;</span> t</a>
+<a class="sourceLine" id="cb3-11" data-line-number="11"><span class="ot">    insertWith ::</span> (<span class="dt">Val</span> t <span class="ot">-&gt;</span> <span class="dt">Val</span> t <span class="ot">-&gt;</span> <span class="dt">Val</span> t) <span class="ot">-&gt;</span> <span class="dt">Key</span> t <span class="ot">-&gt;</span> <span class="dt">Val</span> t <span class="ot">-&gt;</span> t <span class="ot">-&gt;</span> t</a>
+<a class="sourceLine" id="cb3-12" data-line-number="12"><span class="ot">    delete     ::</span> <span class="dt">Key</span> t <span class="ot">-&gt;</span> t <span class="ot">-&gt;</span> t</a>
+<a class="sourceLine" id="cb3-13" data-line-number="13"><span class="ot">    alter      ::</span> (<span class="dt">Maybe</span> (<span class="dt">Val</span> t) <span class="ot">-&gt;</span> <span class="dt">Maybe</span> (<span class="dt">Val</span> t)) <span class="ot">-&gt;</span> <span class="dt">Key</span> t <span class="ot">-&gt;</span> t <span class="ot">-&gt;</span> t</a></code></pre></div>
+<p>The nice thing about the <code>StaticMap</code> typeclass is that it allows to generalize <code>Map</code> and <code>Set</code> with a single typeclass. <code>Set a</code> can be considered as a special case of <code>Map a ()</code> or <code>Map a a</code> where each value is equal to the corresponding key.</p>
+<blockquote>
+<p><strong>NOTE:</strong> The difficulties in unifying <code>Set</code> and <code>Map</code> arise with functions like <code>insert</code>, where the number of arguments is different. You can read this <a href="https://stackoverflow.com/questions/51462005/unified-interface-between-functions-of-different-number-of-arguments">StackOverflow question regarding possible solutions</a> to this problem. Still, it looks like there’s no completely satisfactory approach.</p>
+</blockquote>
+<p>Aside from the difficulties mentioned above, there are still several issues with the typeclass-based solutions:</p>
+<ol type="1">
+<li>The types of the generalized functions are less approachable, in particular due to the use of type families.</li>
+<li>Performance is not predictable and often worse because type class specialization is not guaranteed.</li>
+</ol>
+<p>Having a typeclass can potentially decrease performance because of the way typeclasses are implemented in Haskell. For something like <em>access to the database</em> the overhead of a type class is not noticeable, but for operations with pure maps it’s a huge disadvantage to have non-optimized functions. In addition to not having a performance overhead, Backpack also contains a lot of other features (read <a href="https://github.com/ezyang/ghc-proposals/blob/backpack/proposals/0000-backpack.rst#motivation">motivation behind Backpack</a> to see the whole list).</p>
+<p>Below we look at how Backpack can be used to implement an interface for <code>Map</code>-like data structures without the disadvantages of type classes.</p>
+<h2 id="backpack">Backpack</h2>
+<p>The general idea behind using Backpack to solve this problem is simple. First, you write the types of the desired methods — <strong>signatures</strong>. And then you implement these signatures for the different data types. But there are different challenges in using this approach for <code>Map</code>-like data types:</p>
+<ol type="1">
+<li>Data types are different across libraries (like <code>Map</code> and <code>HashMap</code>).</li>
+<li>Every library has its own constraints for the keys (<code>Map</code> requires <code>Ord</code> constraint and <code>HashMap</code> requires <code>Eq</code> and <code>Hashable</code> constraints).</li>
+<li>Types might have different kinds (consider <code>Map</code> and <code>IntMap</code>).</li>
+<li>Some maps don’t have efficient modification operations since they are based on arrays (<code>Map</code> from <a href="http://hackage.haskell.org/package/primitive-containers"><code>primitive-containers</code></a> package).</li>
+<li>Different libraries implement the same functions with different constraints.</li>
+</ol>
+<p>But don’t worry, we are going to describe how we overcame these issues.</p>
+<h3 id="map-from-containers">Map from containers</h3>
+<p>First, let’s put all signatures into a separate package that contains only the signature file. The Cabal file for this package looks like this:</p>
+<pre class="cabal"><code>cabal-version:       2.0
+name:                containers-sig
+version:             0.0.0
+build-type:          Simple
+
+library
+  hs-source-dirs:      src
+  signatures:          Map
+  build-depends:       base
+  default-language:    Haskell2010</code></pre>
+<p>Note that there’s no <code>exposed-modules</code> field in the <code>containers-sig.cabal</code> file. Instead, there’s a <code>signatures</code> field. Signatures are files with extension <code>.hsig</code>. Such files contain only an abstract description of an interface expressed through the type signatures (name <strong>signatures</strong> comes from the idea that modules can have signatures just like functions can have type signatures). Here’s is how the signature for <code>Map</code>s might look like:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb5-1" data-line-number="1">signature <span class="dt">Map</span></a>
+<a class="sourceLine" id="cb5-2" data-line-number="2">          ( <span class="dt">Map</span></a>
+<a class="sourceLine" id="cb5-3" data-line-number="3">          , <span class="dt">Key</span></a>
+<a class="sourceLine" id="cb5-4" data-line-number="4">          , empty</a>
+<a class="sourceLine" id="cb5-5" data-line-number="5">          , alter</a>
+<a class="sourceLine" id="cb5-6" data-line-number="6">          ) <span class="kw">where</span></a>
+<a class="sourceLine" id="cb5-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb5-8" data-line-number="8"><span class="kw">data</span> <span class="dt">Map</span> k v</a>
+<a class="sourceLine" id="cb5-9" data-line-number="9"><span class="kw">class</span> <span class="dt">Key</span> k</a>
+<a class="sourceLine" id="cb5-10" data-line-number="10"></a>
+<a class="sourceLine" id="cb5-11" data-line-number="11"><span class="kw">instance</span> (<span class="dt">Show</span> k, <span class="dt">Show</span> v) <span class="ot">=&gt;</span> <span class="dt">Show</span> (<span class="dt">Map</span> k v)</a>
+<a class="sourceLine" id="cb5-12" data-line-number="12"></a>
+<a class="sourceLine" id="cb5-13" data-line-number="13"><span class="ot">empty ::</span> <span class="dt">Map</span> k v</a>
+<a class="sourceLine" id="cb5-14" data-line-number="14"><span class="ot">alter ::</span> <span class="dt">Key</span> k <span class="ot">=&gt;</span> (<span class="dt">Maybe</span> v <span class="ot">-&gt;</span> <span class="dt">Maybe</span> v) <span class="ot">-&gt;</span> k <span class="ot">-&gt;</span> <span class="dt">Map</span> k v <span class="ot">-&gt;</span> <span class="dt">Map</span> k v</a></code></pre></div>
+<p>Unlike ordinary Haskell modules, a signature starts with the <code>signature</code> keyword instead of <code>module</code>. We declare the <code>Map</code> data type without a definition. The type is parametrized by two type variables: <code>k</code> for keys and <code>v</code> for values. Implementations of operations such as <code>lookup</code> or <code>insert</code> might need to perform various operations on keys (compare them, take their hashes, etc), so we also define a constraint on keys — <code>Key</code>. Signatures can also contain required instances for data types. And then we can put the names of functions with their types.</p>
+<blockquote>
+<p><strong>NOTE:</strong> The example above contains only one possible version of the signature for <code>Map</code>. In our case, we went with minimal required set of functions for our examples.</p>
+</blockquote>
+<p>Now we can implement a <code>groupBy</code> function in terms of a <code>Map</code> interface rather than a particular implementation. This function can be in the same package with the signature or in another package.</p>
+<p>For a Haskell module there is no difference between signature files and other Haskell modules, you can import signatures just like you would import an ordinary Haskell module. Let us now put all functions that are implemented for the general interface into the <code>containers-contrib</code> package. The Cabal file for this package has the following content:</p>
+<pre class="cabal"><code>cabal-version:       2.0
+name:                containers-contrib
+version:             0.0.0
+build-type:          Simple
+
+library
+  hs-source-dirs:      src
+  exposed-modules:     Map.Contrib.Group
+  build-depends:       base
+                     , containers-sig
+  default-language:    Haskell2010</code></pre>
+<p>And here is the implementation of <code>groupBy</code> that uses only the <code>containers-sig</code> package:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="ot">{-# LANGUAGE ScopedTypeVariables #-}</span></a>
+<a class="sourceLine" id="cb7-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb7-3" data-line-number="3"><span class="kw">module</span> <span class="dt">Map.Contrib.Group</span></a>
+<a class="sourceLine" id="cb7-4" data-line-number="4">       ( groupBy</a>
+<a class="sourceLine" id="cb7-5" data-line-number="5">       ) <span class="kw">where</span></a>
+<a class="sourceLine" id="cb7-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb7-7" data-line-number="7"><span class="kw">import</span> <span class="dt">Data.Foldable</span> (foldl')</a>
+<a class="sourceLine" id="cb7-8" data-line-number="8"><span class="kw">import</span> <span class="dt">Data.List.NonEmpty</span> (<span class="dt">NonEmpty</span> (..), (&lt;|))</a>
+<a class="sourceLine" id="cb7-9" data-line-number="9"></a>
+<a class="sourceLine" id="cb7-10" data-line-number="10"><span class="kw">import</span> <span class="dt">Map</span> (<span class="dt">Key</span>, <span class="dt">Map</span>)</a>
+<a class="sourceLine" id="cb7-11" data-line-number="11"><span class="kw">import</span> <span class="kw">qualified</span> <span class="dt">Map</span> <span class="kw">as</span> <span class="dt">M</span></a>
+<a class="sourceLine" id="cb7-12" data-line-number="12"></a>
+<a class="sourceLine" id="cb7-13" data-line-number="13"><span class="ot">groupBy ::</span> forall k f a <span class="fu">.</span> (<span class="dt">Foldable</span> f, <span class="dt">Key</span> k)</a>
+<a class="sourceLine" id="cb7-14" data-line-number="14">        <span class="ot">=&gt;</span> (a <span class="ot">-&gt;</span> k) <span class="ot">-&gt;</span> f a <span class="ot">-&gt;</span> <span class="dt">Map</span> k (<span class="dt">NonEmpty</span> a)</a>
+<a class="sourceLine" id="cb7-15" data-line-number="15">groupBy f <span class="fu">=</span> foldl' mapGroup M.empty</a>
+<a class="sourceLine" id="cb7-16" data-line-number="16">  <span class="kw">where</span></a>
+<a class="sourceLine" id="cb7-17" data-line-number="17"><span class="ot">    mapGroup ::</span> <span class="dt">Map</span> k (<span class="dt">NonEmpty</span> a) <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> <span class="dt">Map</span> k (<span class="dt">NonEmpty</span> a)</a>
+<a class="sourceLine" id="cb7-18" data-line-number="18">    mapGroup m a <span class="fu">=</span></a>
+<a class="sourceLine" id="cb7-19" data-line-number="19">        <span class="kw">let</span><span class="ot"> val ::</span> <span class="dt">Maybe</span> (<span class="dt">NonEmpty</span> a) <span class="ot">-&gt;</span> <span class="dt">NonEmpty</span> a</a>
+<a class="sourceLine" id="cb7-20" data-line-number="20">            val <span class="dt">Nothing</span>   <span class="fu">=</span> a <span class="fu">:|</span> []</a>
+<a class="sourceLine" id="cb7-21" data-line-number="21">            val (<span class="dt">Just</span> xs) <span class="fu">=</span> a <span class="fu">&lt;|</span> xs</a>
+<a class="sourceLine" id="cb7-22" data-line-number="22">        <span class="kw">in</span> M.alter (<span class="dt">Just</span> <span class="fu">.</span> val) (f a) m</a></code></pre></div>
+<blockquote>
+<p><strong>NOTE:</strong> You can see that the implementation is almost the same!</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode diff"><code class="sourceCode diff"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="kw">diff --git a/Map.hs b/containers-contrib/src/Map/Contrib/Group.hs</span></a>
+<a class="sourceLine" id="cb8-2" data-line-number="2">index 7b5e4e4..a47dea6 100644</a>
+<a class="sourceLine" id="cb8-3" data-line-number="3"><span class="dt">--- a/Map.hs</span></a>
+<a class="sourceLine" id="cb8-4" data-line-number="4"><span class="dt">+++ b/containers-contrib/src/Map/Contrib/Group.hs</span></a>
+<a class="sourceLine" id="cb8-5" data-line-number="5"><span class="dt">@@ -1,4 +1,4 @@</span></a>
+<a class="sourceLine" id="cb8-6" data-line-number="6"><span class="st">-groupBy :: forall k f a . (Foldable f, Ord k)</span></a>
+<a class="sourceLine" id="cb8-7" data-line-number="7"><span class="va">+groupBy :: forall k f a . (Foldable f, Key k)</span></a>
+<a class="sourceLine" id="cb8-8" data-line-number="8">         =&gt; (a -&gt; k) -&gt; f a -&gt; Map k (NonEmpty a)</a>
+<a class="sourceLine" id="cb8-9" data-line-number="9"> groupBy f = foldl' mapGroup M.empty</a>
+<a class="sourceLine" id="cb8-10" data-line-number="10">   where</a></code></pre></div>
+<p>It is still very simple Haskell: the type signatures are readable, no complicated features are used, no scary error messages, no performance overhead. For comparison, look at how <code>groupBy</code> is implemented for <code>DynamicMap</code> in <code>relude</code>:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="ot">groupBy ::</span> forall f t a <span class="fu">.</span> (<span class="dt">Foldable</span> f, <span class="dt">DynamicMap</span> t, <span class="dt">Val</span> t <span class="fu">~</span> <span class="dt">NonEmpty</span> a, <span class="dt">Monoid</span> t)</a>
+<a class="sourceLine" id="cb9-2" data-line-number="2">        <span class="ot">=&gt;</span> (a <span class="ot">-&gt;</span> <span class="dt">Key</span> t) <span class="ot">-&gt;</span> f a <span class="ot">-&gt;</span> t</a>
+<a class="sourceLine" id="cb9-3" data-line-number="3">groupBy f <span class="fu">=</span> foldl’ mapGroup mempty</a>
+<a class="sourceLine" id="cb9-4" data-line-number="4">  <span class="kw">where</span></a>
+<a class="sourceLine" id="cb9-5" data-line-number="5"><span class="ot">    mapGroup ::</span> t <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> t</a>
+<a class="sourceLine" id="cb9-6" data-line-number="6">    mapGroup m a <span class="fu">=</span></a>
+<a class="sourceLine" id="cb9-7" data-line-number="7">        <span class="kw">let</span><span class="ot"> val ::</span> <span class="dt">Maybe</span> (<span class="dt">NonEmpty</span> a) <span class="ot">-&gt;</span> <span class="dt">NonEmpty</span> a</a>
+<a class="sourceLine" id="cb9-8" data-line-number="8">            val <span class="dt">Nothing</span>   <span class="fu">=</span> x <span class="fu">:|</span> []</a>
+<a class="sourceLine" id="cb9-9" data-line-number="9">            val (<span class="dt">Just</span> xs) <span class="fu">=</span> a <span class="fu">&lt;|</span> xs</a>
+<a class="sourceLine" id="cb9-10" data-line-number="10">        <span class="kw">in</span> alter (<span class="dt">Just</span> <span class="fu">.</span> val) (f x) m</a></code></pre></div>
+<p>The implementation is the same, but types are not as straightforward.</p>
+</blockquote>
+<p>However, from package management side there’s a huge difference between an ordinary package and a package that depends on some signature. You can’t use the <code>groupBy</code> function and see the result of its evaluation without a real implementation for signatures (though you can implement another function that works for any signature based on <code>groupBy</code>). So you might think of the <code>containers-contrib</code> package as a kind of <em>function</em> on the package level. Backpack basically allows to convert usual packages into functions.</p>
+<p>So <code>containers-contrib</code> is a function that takes a component like a library or an executable with an implementation of <code>containers-sig</code> and returns an ordinary package.</p>
+<p>Now, let’s proceed to writing down the real definitions behind our signatures. We are going to put the implementation of signatures into a separate package called <code>containers-ordered-strict</code>. We don’t need to depend on <code>containers-sig</code> package to do so. But we are aware of our signatures, so we are going to produce a <code>containers-sig</code>-compatible module. To implement this signature, we need to export all types and classes with the same names and kinds, and all functions with the same names and types from the module with the implementation. Our signature is very similar to <code>Map</code> from the <code>containers</code> package, so let’s implement it first:</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="ot">{-# LANGUAGE ConstraintKinds #-}</span></a>
+<a class="sourceLine" id="cb10-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb10-3" data-line-number="3"><span class="kw">module</span> <span class="dt">Map.Ord</span></a>
+<a class="sourceLine" id="cb10-4" data-line-number="4">       ( <span class="dt">Map</span></a>
+<a class="sourceLine" id="cb10-5" data-line-number="5">       , <span class="dt">Key</span></a>
+<a class="sourceLine" id="cb10-6" data-line-number="6">       , empty</a>
+<a class="sourceLine" id="cb10-7" data-line-number="7">       , alter</a>
+<a class="sourceLine" id="cb10-8" data-line-number="8">       ) <span class="kw">where</span></a>
+<a class="sourceLine" id="cb10-9" data-line-number="9"></a>
+<a class="sourceLine" id="cb10-10" data-line-number="10"><span class="kw">import</span> <span class="kw">qualified</span> <span class="dt">Data.Map.Strict</span> <span class="kw">as</span> <span class="dt">M</span></a>
+<a class="sourceLine" id="cb10-11" data-line-number="11"></a>
+<a class="sourceLine" id="cb10-12" data-line-number="12"><span class="kw">type</span> <span class="dt">Map</span> <span class="fu">=</span> <span class="dt">M.Map</span></a>
+<a class="sourceLine" id="cb10-13" data-line-number="13"><span class="kw">type</span> <span class="dt">Key</span> <span class="fu">=</span> <span class="dt">Ord</span></a>
+<a class="sourceLine" id="cb10-14" data-line-number="14"></a>
+<a class="sourceLine" id="cb10-15" data-line-number="15"><span class="ot">empty ::</span> <span class="dt">Map</span> k v</a>
+<a class="sourceLine" id="cb10-16" data-line-number="16">empty <span class="fu">=</span> M.empty</a>
+<a class="sourceLine" id="cb10-17" data-line-number="17"></a>
+<a class="sourceLine" id="cb10-18" data-line-number="18"><span class="ot">alter ::</span> <span class="dt">Key</span> k <span class="ot">=&gt;</span> (<span class="dt">Maybe</span> v <span class="ot">-&gt;</span> <span class="dt">Maybe</span> v) <span class="ot">-&gt;</span> k <span class="ot">-&gt;</span> <span class="dt">Map</span> k v <span class="ot">-&gt;</span> <span class="dt">Map</span> k v</a>
+<a class="sourceLine" id="cb10-19" data-line-number="19">alter <span class="fu">=</span> M.alter</a></code></pre></div>
+<p>It’s necessary to eta-reduce type-aliases because of the way Backpack works. There are some difficulties due to this limitation, but this will be covered later.</p>
+<p>There’s also one important thing in the cabal file for our <code>containers-ordered-strict</code> package. Let’s have a closer look at it:</p>
+<pre class="cabal"><code>cabal-version:       2.0
+name:                containers-ordered-strict
+version:             0.0.0
+build-type:          Simple
+
+library
+  hs-source-dirs:      src
+
+  exposed-modules:     Map.Ord
+  reexported-modules:  Map.Ord as Map
+
+  build-depends:       base, containers
+  default-language:    Haskell2010</code></pre>
+<p>Having <code>reexported-modules</code> field is a vital part of our interface. Backpack matches the name of the signature module with the name of the module with the implementation. There’s an alternative way to achieve the same result, but it requires creating even more packages.</p>
+<p>Now we can finally use our example from the <code>containers-contrib</code> package. Let’s implement the example in the <code>containers-example</code> package. First, we need to specify in the <code>container-example.cabal</code> file that we want to use the <code>containers-contrib</code> package with our <code>containers-ordered-strict</code> package as an implementation of the <code>Map</code> signature. This can be done in the following way:</p>
+<pre class="cabal"><code>cabal-version:       2.0
+name:                containers-example
+version:             0.0.0
+build-type:          Simple
+
+executable map-exe
+  hs-source-dirs:      app
+  main-is:             Main.hs
+  build-depends:       base
+                     , containers-ordered-strict
+                     , containers-contrib
+
+  default-language:    Haskell2010</code></pre>
+<p>That’s all! Backpack will substitute the implementation of the <code>Map</code> signature from the <code>containers-ordered-strict</code> package. This is because we used <code>reexported-modules</code> field to give the <code>Map.Ord</code> module the same name as the signature, and there are no other modules named <code>Map</code> in the dependencies.</p>
+<p>Our final example looks like this:</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="kw">module</span> <span class="dt">Main</span> <span class="kw">where</span></a>
+<a class="sourceLine" id="cb13-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb13-3" data-line-number="3"><span class="kw">import</span> <span class="dt">Map.Contrib.Group</span> (groupBy)</a>
+<a class="sourceLine" id="cb13-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb13-5" data-line-number="5"><span class="ot">main ::</span> <span class="dt">IO</span> ()</a>
+<a class="sourceLine" id="cb13-6" data-line-number="6">main <span class="fu">=</span> <span class="kw">do</span></a>
+<a class="sourceLine" id="cb13-7" data-line-number="7">    putStrLn <span class="st">&quot;### Map ###&quot;</span></a>
+<a class="sourceLine" id="cb13-8" data-line-number="8">    print <span class="fu">$</span> groupBy (<span class="ot">`mod`</span> <span class="dv">2</span>) ([<span class="dv">1</span><span class="fu">..</span><span class="dv">10</span>]<span class="ot"> ::</span> [<span class="dt">Int</span>])</a></code></pre></div>
+<p>After compiling and running, it works like a charm!</p>
+<pre class="shell"><code>$ cabal new-exec map-exe
+### Map ###
+fromList [(0,10 :| [8,6,4,2]),(1,9 :| [7,5,3,1])]</code></pre>
+<h3 id="hashmap-from-unordered-containers">HashMap from unordered-containers</h3>
+<p>We now have one implementation of the <code>containers-sig</code> package. But that’s not enough. The key point is to have a generalized interface for different implementations. It doesn’t make much sense to have an interface with only one implementation, so let’s create our interface for <code>HashMap</code> from the <code>unordered-containers</code> package. Similarly to the <code>containers-ordered-strict</code> package, we are creating the <code>containers-unordered-strict</code> package.</p>
+<blockquote>
+<p><strong>NOTE:</strong> At this point, you might notice that Backpack requires to create many packages. And that’s true. We could put the implementation inside <code>containers-ordered-strict</code> under a different module name, but in our case we don’t want to have extra dependencies if the user is only interested in a single implementation. Also, it wouldn’t work well with <code>reexported-modules</code> approach since we can’t reexport two different modules under same name.</p>
+</blockquote>
+<p>The Cabal file for <code>containers-ordered-strict</code> is almost the same. And the implementation of the signature could look like this:</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb15-1" data-line-number="1"><span class="ot">{-# LANGUAGE ConstraintKinds #-}</span></a>
+<a class="sourceLine" id="cb15-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb15-3" data-line-number="3"><span class="kw">module</span> <span class="dt">Map.Hash</span></a>
+<a class="sourceLine" id="cb15-4" data-line-number="4">       ( <span class="dt">Map</span></a>
+<a class="sourceLine" id="cb15-5" data-line-number="5">       , <span class="dt">Key</span></a>
+<a class="sourceLine" id="cb15-6" data-line-number="6">       , empty</a>
+<a class="sourceLine" id="cb15-7" data-line-number="7">       , alter</a>
+<a class="sourceLine" id="cb15-8" data-line-number="8">       ) <span class="kw">where</span></a>
+<a class="sourceLine" id="cb15-9" data-line-number="9"></a>
+<a class="sourceLine" id="cb15-10" data-line-number="10"><span class="kw">import</span> <span class="dt">Data.Hashable</span> (<span class="dt">Hashable</span>)</a>
+<a class="sourceLine" id="cb15-11" data-line-number="11"><span class="kw">import</span> <span class="kw">qualified</span> <span class="dt">Data.HashMap.Strict</span> <span class="kw">as</span> <span class="dt">M</span></a>
+<a class="sourceLine" id="cb15-12" data-line-number="12"></a>
+<a class="sourceLine" id="cb15-13" data-line-number="13"><span class="kw">type</span> <span class="dt">Map</span> <span class="fu">=</span> <span class="dt">M.HashMap</span></a>
+<a class="sourceLine" id="cb15-14" data-line-number="14"><span class="kw">type</span> <span class="dt">Key</span> a <span class="fu">=</span> (<span class="dt">Eq</span> a, <span class="dt">Hashable</span> a)</a>
+<a class="sourceLine" id="cb15-15" data-line-number="15"></a>
+<a class="sourceLine" id="cb15-16" data-line-number="16"><span class="ot">empty ::</span> <span class="dt">Map</span> k v</a>
+<a class="sourceLine" id="cb15-17" data-line-number="17">empty <span class="fu">=</span> M.empty</a>
+<a class="sourceLine" id="cb15-18" data-line-number="18"></a>
+<a class="sourceLine" id="cb15-19" data-line-number="19"><span class="ot">alter ::</span> <span class="dt">Key</span> k <span class="ot">=&gt;</span> (<span class="dt">Maybe</span> v <span class="ot">-&gt;</span> <span class="dt">Maybe</span> v) <span class="ot">-&gt;</span> k <span class="ot">-&gt;</span> <span class="dt">Map</span> k v <span class="ot">-&gt;</span> <span class="dt">Map</span> k v</a>
+<a class="sourceLine" id="cb15-20" data-line-number="20">alter <span class="fu">=</span> M.alter</a></code></pre></div>
+<p>However, this doesn’t compile with the following error:</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb16-1" data-line-number="1">   • <span class="dt">Type</span> constructor ‘<span class="dt">Key</span>’ has conflicting definitions <span class="kw">in</span> the <span class="kw">module</span></a>
+<a class="sourceLine" id="cb16-2" data-line-number="2">      and its hsig file</a>
+<a class="sourceLine" id="cb16-3" data-line-number="3">      <span class="dt">Main</span> <span class="kw">module</span><span class="fu">:</span> <span class="kw">type</span> <span class="dt">Key</span> a <span class="fu">=</span></a>
+<a class="sourceLine" id="cb16-4" data-line-number="4">                     (ghc<span class="fu">-</span>prim<span class="fu">-</span><span class="fl">0.5</span><span class="fu">.</span><span class="fl">2.0</span><span class="fu">:</span><span class="dt">GHC.Classes.Eq</span> a,</a>
+<a class="sourceLine" id="cb16-5" data-line-number="5">                      hashable<span class="fu">-</span><span class="fl">1.2</span><span class="fu">.</span><span class="fl">7.0</span><span class="fu">:</span><span class="dt">Data.Hashable.Class.Hashable</span> a)</a>
+<a class="sourceLine" id="cb16-6" data-line-number="6"><span class="ot">                     ::</span> <span class="dt">Constraint</span></a>
+<a class="sourceLine" id="cb16-7" data-line-number="7">      <span class="dt">Hsig</span> file<span class="fu">:</span>  <span class="kw">class</span> <span class="dt">Key</span> k</a>
+<a class="sourceLine" id="cb16-8" data-line-number="8">      <span class="dt">Illegal</span> parameterized <span class="kw">type</span> synonym <span class="kw">in</span> implementation <span class="kw">of</span> abstract <span class="kw">data</span><span class="fu">.</span></a>
+<a class="sourceLine" id="cb16-9" data-line-number="9">      (<span class="dt">Try</span> eta reducing your <span class="kw">type</span> synonym so that it is nullary<span class="fu">.</span>)</a>
+<a class="sourceLine" id="cb16-10" data-line-number="10">    • while checking that containers<span class="fu">-</span>unordered<span class="fu">-</span>strict<span class="fu">-</span><span class="fl">0.0</span><span class="fu">.</span><span class="dv">0</span><span class="fu">:</span><span class="dt">Map.Hash</span></a>
+<a class="sourceLine" id="cb16-11" data-line-number="11">      implements signature <span class="dt">Map</span> <span class="kw">in</span></a>
+<a class="sourceLine" id="cb16-12" data-line-number="12">      containers<span class="fu">-</span>contrib<span class="fu">-</span><span class="fl">0.0</span><span class="fu">.</span><span class="dv">0</span>[<span class="dt">Map</span><span class="fu">=</span>containers<span class="fu">-</span>unordered<span class="fu">-</span>strict<span class="fu">-</span><span class="fl">0.0</span><span class="fu">.</span><span class="dv">0</span><span class="fu">:</span><span class="dt">Map.Hash</span>]</a></code></pre></div>
+<p>So, does it mean that we can’t use our type alias? Not really. To overcome this problem, we will use the following trick:</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb17-1" data-line-number="1"><span class="ot">{-# LANGUAGE FlexibleInstances    #-}</span></a>
+<a class="sourceLine" id="cb17-2" data-line-number="2"><span class="ot">{-# LANGUAGE MonoLocalBinds       #-}</span></a>
+<a class="sourceLine" id="cb17-3" data-line-number="3"><span class="ot">{-# LANGUAGE UndecidableInstances #-}</span></a>
+<a class="sourceLine" id="cb17-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb17-5" data-line-number="5"><span class="kw">class</span> (<span class="dt">Eq</span> k, <span class="dt">Hashable</span> k) <span class="ot">=&gt;</span> <span class="dt">Key</span> k</a>
+<a class="sourceLine" id="cb17-6" data-line-number="6"><span class="kw">instance</span> (<span class="dt">Eq</span> k, <span class="dt">Hashable</span> k) <span class="ot">=&gt;</span> <span class="dt">Key</span> k</a></code></pre></div>
+<p>Since we can’t use type alias for <code>Key</code>, we need to create our own type class with <code>(Eq k, Hashable k)</code> constraint. And implement this type class for every type that has specified constraints.</p>
+<p>And now if we want to use our <code>HashMap</code> instead of <code>Map</code> in our example, we only need to replace these line in cabal file</p>
+<pre><code>    , containers-ordered-strict</code></pre>
+<p>with the following line:</p>
+<pre><code>    , containers-unordered-strict</code></pre>
+<p>That’s all! It’s extremely easy to switch implementations when using Backpack.</p>
+<h3 id="use-several-implementations-inside-a-single-package">Use several implementations inside a single package</h3>
+<p>Since we now have two implementations of our <code>Map.hsig</code> interface, we might want to use them both in a single package. Unfortunately, we can’t just add <code>containers-unordered-strict</code> package to dependencies in addition to <code>containers-ordered-strict</code> and enjoy. Since both packages have a reexported module with the same name <code>Map</code> we will see a compilation error about conflicting definitions. To solve this problem, Cabal has the <code>mixins</code> field inside stanza. Our <code>containers-example.cabal</code> file will now look like this:</p>
+<pre class="cabal"><code>cabal-version:       2.0
+name:                containers-example
+version:             0.0.0
+build-type:          Simple
+
+executable map-exe
+  hs-source-dirs:      app
+  main-is:             Main.hs
+  build-depends:       base
+                     , containers-ordered-strict
+                     , containers-contrib
+
+  mixins:              containers-contrib (Map.Contrib.Group as Map.Contrib.Group.Ord)
+                                 requires (Map as Map.Ord)
+                     , containers-contrib (Map.Contrib.Group as Map.Contrib.Group.Hash)
+                                 requires (Map as Map.Hash)
+
+  default-language:    Haskell2010</code></pre>
+<p>This syntax allows to specify what module should be used as an implementation for a specific signature and under which name. The <code>as</code> part is essential because in case of multiple implementations we do need to have modules with different names.</p>
+<p>And our example will now look like this:</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb21-1" data-line-number="1"><span class="kw">module</span> <span class="dt">Main</span> <span class="kw">where</span></a>
+<a class="sourceLine" id="cb21-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb21-3" data-line-number="3"><span class="kw">import</span> <span class="kw">qualified</span> <span class="dt">Map.Contrib.Group.Hash</span> <span class="kw">as</span> <span class="dt">HM</span> (groupBy)</a>
+<a class="sourceLine" id="cb21-4" data-line-number="4"><span class="kw">import</span> <span class="kw">qualified</span> <span class="dt">Map.Contrib.Group.Ord</span> <span class="kw">as</span> <span class="dt">M</span> (groupBy)</a>
+<a class="sourceLine" id="cb21-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb21-6" data-line-number="6"><span class="ot">main ::</span> <span class="dt">IO</span> ()</a>
+<a class="sourceLine" id="cb21-7" data-line-number="7">main <span class="fu">=</span> <span class="kw">do</span></a>
+<a class="sourceLine" id="cb21-8" data-line-number="8">    putStrLn <span class="st">&quot;### Map ###&quot;</span></a>
+<a class="sourceLine" id="cb21-9" data-line-number="9">    print <span class="fu">$</span> M.groupBy (<span class="ot">`mod`</span> <span class="dv">2</span>) ([<span class="dv">1</span><span class="fu">..</span><span class="dv">10</span>]<span class="ot"> ::</span> [<span class="dt">Int</span>])</a>
+<a class="sourceLine" id="cb21-10" data-line-number="10">    putStrLn <span class="st">&quot;### HashMap ###&quot;</span></a>
+<a class="sourceLine" id="cb21-11" data-line-number="11">    print <span class="fu">$</span> HM.groupBy (<span class="ot">`mod`</span> <span class="dv">2</span>) ([<span class="dv">1</span><span class="fu">..</span><span class="dv">10</span>]<span class="ot"> ::</span> [<span class="dt">Int</span>])</a></code></pre></div>
+<p>You can see that Backpack has the ability to use multiple implementations of a single interface. But they should be accessible under different namespaces.</p>
+<h3 id="intmap-from-containers">IntMap from containers</h3>
+<p>Now, this data type is more difficult. First, keys don’t have constraint like <code>Ord</code>, they only have the specific monomorphic type <code>Int</code>. Second, <code>IntMap</code> data type has kind <code>Type</code> while <code>Map</code> from signature has kind <code>Type -&gt; Type</code>. But these problems are also solvable. To fix the issue with constraint, our <code>Key</code> constraint can be just type equality to <code>Int</code>. This can be achieved by partially applying type equality operator <code>(~)</code> to the <code>Int</code> type. Regarding different kinds: we can introduce our custom newtype with phantom type parameter. So the final solution looks like this:</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb22-1" data-line-number="1"><span class="ot">{-# LANGUAGE DerivingStrategies         #-}</span></a>
+<a class="sourceLine" id="cb22-2" data-line-number="2"><span class="ot">{-# LANGUAGE FlexibleInstances          #-}</span></a>
+<a class="sourceLine" id="cb22-3" data-line-number="3"><span class="ot">{-# LANGUAGE GeneralizedNewtypeDeriving #-}</span></a>
+<a class="sourceLine" id="cb22-4" data-line-number="4"><span class="ot">{-# LANGUAGE TypeFamilies               #-}</span></a>
+<a class="sourceLine" id="cb22-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb22-6" data-line-number="6"><span class="kw">module</span> <span class="dt">Map.Int</span></a>
+<a class="sourceLine" id="cb22-7" data-line-number="7">       ( <span class="dt">Map</span></a>
+<a class="sourceLine" id="cb22-8" data-line-number="8">       , <span class="dt">Key</span></a>
+<a class="sourceLine" id="cb22-9" data-line-number="9">       , empty</a>
+<a class="sourceLine" id="cb22-10" data-line-number="10">       , alter</a>
+<a class="sourceLine" id="cb22-11" data-line-number="11">       ) <span class="kw">where</span></a>
+<a class="sourceLine" id="cb22-12" data-line-number="12"></a>
+<a class="sourceLine" id="cb22-13" data-line-number="13"><span class="kw">import</span> <span class="kw">qualified</span> <span class="dt">Data.IntMap.Strict</span> <span class="kw">as</span> <span class="dt">M</span></a>
+<a class="sourceLine" id="cb22-14" data-line-number="14"></a>
+<a class="sourceLine" id="cb22-15" data-line-number="15"><span class="kw">newtype</span> <span class="dt">Map</span> k v <span class="fu">=</span> <span class="dt">IM</span> {<span class="ot"> unIM ::</span> <span class="dt">M.IntMap</span> v }</a>
+<a class="sourceLine" id="cb22-16" data-line-number="16">    <span class="kw">deriving</span> <span class="kw">newtype</span> (<span class="dt">Show</span>)</a>
+<a class="sourceLine" id="cb22-17" data-line-number="17"></a>
+<a class="sourceLine" id="cb22-18" data-line-number="18"><span class="kw">type</span> <span class="dt">Key</span> <span class="fu">=</span> (<span class="fu">~</span>) <span class="dt">Int</span></a>
+<a class="sourceLine" id="cb22-19" data-line-number="19"></a>
+<a class="sourceLine" id="cb22-20" data-line-number="20"><span class="ot">empty ::</span> <span class="dt">Map</span> k v</a>
+<a class="sourceLine" id="cb22-21" data-line-number="21">empty <span class="fu">=</span> <span class="dt">IM</span> M.empty</a>
+<a class="sourceLine" id="cb22-22" data-line-number="22"></a>
+<a class="sourceLine" id="cb22-23" data-line-number="23"><span class="ot">alter ::</span> <span class="dt">Key</span> k <span class="ot">=&gt;</span> (<span class="dt">Maybe</span> v <span class="ot">-&gt;</span> <span class="dt">Maybe</span> v) <span class="ot">-&gt;</span> k <span class="ot">-&gt;</span> <span class="dt">Map</span> k v <span class="ot">-&gt;</span> <span class="dt">Map</span> k v</a>
+<a class="sourceLine" id="cb22-24" data-line-number="24">alter f k <span class="fu">=</span> <span class="dt">IM</span> <span class="fu">.</span> M.alter f k <span class="fu">.</span> unIM</a></code></pre></div>
+<p>This solution is not perfect. And it’s still an open question how to make it better. Possible improvements are:</p>
+<ol type="1">
+<li>Figure out how to remove the <code>Key</code> constraint from functions like <code>toList</code> (such functions can know that <code>k</code> type variable is <code>Int</code> only when the constraint is in scope).</li>
+<li>Use <code>coerce</code> to implement all functions and give more guarantees on performance.</li>
+</ol>
+<p>But at least this solution doesn’t require advanced type-level features like <code>-XTypeFamilies</code> (despite the fact that this extension is enabled — it’s needed only for type equalities). It’s still plain Haskell. And we need to solve these problems only inside the <code>Map.Int</code> module, consumers of the signature interface don’t need to be aware of any complicated tricks. You can still write polymorphic functions without worrying about how particular instances are implemented internally.</p>
+<h3 id="map-from-primitive-containers">Map from primitive-containers</h3>
+<p>As I mentioned at the beginning of this blog post, some <code>Map</code>-like types are optimized for lookups. Thus they don’t support efficient modification operations. And that’s why it’s necessary to somehow separate read-only maps from modifiable maps. When you use typeclasses, you can easily have two different typeclasses with different names. With signatures, it’s also easy to achieve the desired result. We only need to move our updating operations into a separate package. To do so, we need to create a signature with exact same name but in another package. So now we have two packages with the same signatures:</p>
+<ul>
+<li><code>containers-sig-readonly</code></li>
+<li><code>containers-sig</code></li>
+</ul>
+<p>Signatures are externally extensible, which means that you don’t need to open an issue to the main repository that contains the root of all signatures to extend a signature. You can just create a <code>.hsig</code> file in your library, add couple extra functions you require there, and you can reuse other functions from the existing signature if you specify the package with signature in the dependencies. That’s all. No need to specify a superclass constraint for your custom type class. The signature merging algorithm will do this work for you. In simple words, if you have two signatures with the same name, they can be merged into a single signature if data types and classes have equal kinds and if the functions with same names have the same types.</p>
+<p>Both <code>containers-sig-readonly</code> and <code>containers-sig</code> packages should contain the <code>Map.hsig</code> file with <code>data Map k v</code> and <code>class Key k</code>. That’s the only boilerplate required. When both packages are used, <code>Map</code> data type and <code>Key</code> class will be merged with the corresponding types from other signatures.</p>
+<p>So if, let’s say, the authors of <code>containers-backpack</code> package forgot to add some vital function to the interface, you could implement your own signature and implementation, and still enjoy the rest of the ecosystem without any problems!</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>As the result of this Backpack journey, the <code>containers-backpack</code> repository contains the following packages:</p>
+<ul>
+<li><code>containers-sig-readonly</code>: signatures for read-only maps</li>
+<li><code>containers-sig</code>: signatures for maps that can be modified</li>
+<li><code>containers-ordered-strict</code>: implementation of signatures for the <a href="https://hackage.haskell.org/package/containers-0.6.0.1/docs/Data-Map-Strict.html"><code>Map.Strict</code></a> data type from the <a href="https://hackage.haskell.org/package/containers"><code>containers</code></a> package</li>
+<li><code>containers-int-strict</code>: implementation of signatures for the <a href="https://hackage.haskell.org/package/containers-0.6.0.1/docs/Data-IntMap-Strict.html"><code>IntMap.Strict</code></a> type from the <a href="https://hackage.haskell.org/package/containers"><code>containers</code></a> package</li>
+<li><code>containers-unordered-strict</code>: implementation of signatures for the <a href="http://hackage.haskell.org/package/unordered-containers-0.2.9.0/docs/Data-HashMap-Strict.html"><code>HashMap.Strict</code></a> from the <a href="http://hackage.haskell.org/package/unordered-containers"><code>unordered-containers</code></a> package</li>
+<li><code>containers-primitive</code>: implementation of signatures for the <a href="http://hackage.haskell.org/package/primitive-containers-0.2.0/docs/Data-Map-Lifted-Lifted.html"><code>Map.Lifted.Lifted</code></a> from the <a href="http://hackage.haskell.org/package/primitive-containers"><code>primitive-containers</code></a> package</li>
+<li><code>containers-contrib-readonly</code>: general functions for maps implemented using the <code>containers-sig-readonly</code> package</li>
+<li><code>containers-contrib</code>: general functions for maps implemented using the <code>containers-sig-readonly</code> and <code>containers-sig</code> packages</li>
+<li><code>containers-example</code>: package that mixes signatures and different implementations</li>
+</ul>
+<p>Whoa, that’s a lot of packages! But life should become more relaxed once support for multiple public libraries in cabal is implemented:</p>
+<ul>
+<li><a href="https://github.com/haskell/cabal/issues/4206">cabal/issues/4206</a></li>
+</ul>
+<p>Backpack is a really great and exciting way to develop Haskell libraries despite the number of packages it requires. This approach is extremely new and unexplored. And I encourage everyone to try it!</p>
+<p>For now, these are the opportunities I see with Backpack:</p>
+<ul>
+<li>Functions that work with a <code>String/Text/ByteString</code>-unified interface (the initial and most popular use case).</li>
+<li><a href="https://hackage.haskell.org/package/unpacked-containers"><code>unpacked-containers</code></a>: make polymorphic containers more efficient.</li>
+<li>Use <code>Int8/Int16/Int32/Int64/Word8/Word16/Word32/Word64</code> as keys in the <code>IntMap</code> data type without massive code duplication and performance overhead.</li>
+<li>Unified interfaces for data structures like <code>Map</code>s and <code>Graph</code>s. This should also reduce the amount of boilerplate required for benchmarks.</li>
+<li>Write code with the help of lens signatures that can later be replaced with either <code>microlens</code> or <code>lens</code> or something else to not have both packages in the dependencies.</li>
+</ul>
+<p>I might be wrong in some cases, but Backpack is still a very useful tool that you can put in the backpack of your Haskell skills.</p>
+              </p>
+              </div>
+          </div>
+          </div>
+
+
+      </div>
+
+
+      <!-- Bootstrap core JavaScript -->
+      <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"> </script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/haskell.min.js"></script>
+      <script src="https://cdn.rawgit.com/icons8/bower-webicon/v0.10.7/jquery-webicon.min.js"></script>
+      <script>hljs.initHighlightingOnLoad()</script>
+      <script src="https://cdn.jsdelivr.net/npm/katex@0.10.0-alpha/dist/katex.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/contrib/auto-render.min.js"></script>
+      <script async defer src="https://buttons.github.io/buttons.js"></script>
+  </body>
+</html>
