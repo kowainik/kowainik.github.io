@@ -1,0 +1,18 @@
+[
+    { "name": "Dmitrii Kovanikov"
+    , "nick": "chshersh"
+    , "who": "Haskell Adept"
+    , "about": "Haskell Adept, Functional Programming enthusiast, anime lover. I like to discover elegant solutions for sophisticated software problems by squeezing maximum from the Haskell programming language. I enjoy discussions about programming languages design. Before founding Kowainik organization, I had experience in cryptocurrency and full-stack web-applications development with Haskell. Also, I was <a href='https://github.com/jagajaga/FP-Course-ITMO' target=_blank >teaching Haskell</a> to the students at the ITMO University."
+    }
+,   { "name": "Veronika Romashkina"
+    , "nick": "vrom911"
+    , "who": "❤️: Haskell, 🍫, 🍷"
+    , "about": "I'm a functional programming enthusiast who puts effort into the growth of the Haskell open source community. I'm truly passionate about Haskell. I enjoy exploring new topics and never stop learning and improving my skills."
+    }
+,   { "name": "Vladislav Sabanov"
+    , "nick": "willbasky"
+    , "who": "Haskell Developer"
+    , "about": "I am happy to program in Haskell, devoting much time to it. I do not leave issues until they are solved. I continuously learn and dig into the heart of things. Some of my hobbies are live coding and generative art."
+    }
+
+]
