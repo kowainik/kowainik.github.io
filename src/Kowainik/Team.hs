@@ -42,11 +42,11 @@ memberAbout = field "memberAbout" $ pure . tmAbout . itemBody
 memberId    = field "memberId"    $ pure . tmId    . itemBody
 
 makeTeamContext :: [TeamMember] -> Context a
-makeTeamContext team = listField "team"
+makeTeamContext = listField "team"
     ( memberName  <> memberNick
    <> memberImage <> memberAbout
    <> memberId    <> memberWho )
-    $ traverse makeItem team
+    . traverse makeItem
 
 parseTeam :: FilePath -> IO [TeamMember]
 parseTeam teamPath = do
