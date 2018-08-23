@@ -11,13 +11,13 @@ import Hakyll (Context, Identifier, Item (..), MonadMetadata, Pattern, Rules, ap
 import Kowainik.Project (makeProjectContext)
 import Kowainik.Readme (createProjectMds)
 import Kowainik.Social (makeSocialContext)
-import Kowainik.Team (makeTeamContext)
+import Kowainik.Team (TeamMember, makeTeamContext, parseTeam)
 
 main :: IO ()
-main = createProjectMds >> mainHakyll
+main = createProjectMds >> parseTeam "team.json" >>= mainHakyll
 
-mainHakyll :: IO ()
-mainHakyll = hakyll $ do
+mainHakyll :: [TeamMember] -> IO ()
+mainHakyll team = hakyll $ do
     match ("images/**" .||. "fonts/**" .||. "js/*"  .||. "favicon.ico") $ do
         route   idRoute
         compile copyFileCompiler
@@ -30,7 +30,7 @@ mainHakyll = hakyll $ do
     create ["index.html"] $ do
         route idRoute
         compile $ do
-            let ctx = makeProjectContext <> makeSocialContext <> makeTeamContext <> defaultContext
+            let ctx = makeProjectContext <> makeSocialContext <> makeTeamContext team <> defaultContext
             makeItem ""
                 >>= applyAsTemplate ctx
                 >>= loadAndApplyTemplate "templates/team.html" ctx
