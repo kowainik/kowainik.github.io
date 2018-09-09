@@ -103,8 +103,10 @@ This sounds like pretty much what we need.
 
 You can wonder, why we are not using `Haskell` for such purposes (though we love
 it so much ♥). The answer is that we don't need `IO` capabilities for our
-problem; totality and safety of Dhall are enough here. Not to mention the very
-nice string interpolation that Dhall has. Also, we would like to learn about new
+problem; totality and safety of Dhall are enough here. Changing the configuration in
+Haskell requires to recompile whole program before generating config, but with
+Dhall there's no such extra step. Not to mention the very nice string
+interpolation that Dhall has. Also, we would like to learn about new
 technologies, and this seems like an excellent opportunity to dive into Dhall.
 
 ## Implementation
@@ -226,15 +228,15 @@ in [ warnReexport "ByteString" "Data.ByteString"
 
 The process of creating `Dhall` modules was not very painful, so we can consider
 the experiment successful and we are going to maintain the `.hlint.yaml` using
-our `hlint.dhall` configuration. Now, adding additional rule is just one line,
+our `hlint.dhall` configuration. Now, adding additional rule *is just one line*,
 and it's much easier to refactor configuration!
 
 Here is the table of file size comparison in different formats to show you how
 many keystrokes we managed to avoid.
 
-|          | __HLint__ | __Dhall__ |
-| -------- | --------- | --------- |
-| Lines    | 2662      | 763       |
+|          | __.hlint.yaml__ | __hlint.dhall__ |
+| -------- | --------------- | --------------- |
+| Lines    | 2662            | 763             |
 
 
 [relude]: https://github.com/kowainik/relude
