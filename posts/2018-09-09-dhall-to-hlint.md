@@ -150,7 +150,7 @@ data Rule
     | RuleWarn Warn
     | RuleHint Hint
 
-newtype Argumentss = Args { arguments :: [Text] }
+newtype Arguments = Args { arguments :: [Text] }
 
 newtype Ignore = Ignore { ignore :: Name }
 newtype Name = Name { name :: Text }
