@@ -134,7 +134,7 @@ $ cabal init          # initialize project in this directory
 
 See demo of `cabal init` command below:
 
-[![asciicast](https://asciinema.org/a/l4MYpsML6pAaJ0vwqKFxm4pgp.png)](https://asciinema.org/a/l4MYpsML6pAaJ0vwqKFxm4pgp)
+[![asciicast](https://asciinema.org/a/198918.png)](https://asciinema.org/a/198918)
 
 As an alternative, you can use the
 [`summoner`](https://github.com/kowainik/summoner) tool. `summoner` can generate
