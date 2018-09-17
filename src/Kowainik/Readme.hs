@@ -7,6 +7,8 @@ import Network.HTTP.Client (Manager, Response, httpLbs, parseRequest, requestHea
                             responseStatus)
 import Network.HTTP.Client.TLS (newTlsManager)
 import Network.HTTP.Types.Status (ok200)
+import System.Directory (createDirectoryIfMissing)
+import System.FilePath ((</>))
 
 import qualified Data.Text as T
 import qualified Data.Text.Lazy as LT
@@ -28,6 +30,7 @@ createProjectMds = do
     if responseStatus response == ok200 then do
         let ghProjects = ghProjectsWithoutThis response
 
+        createDirectoryIfMissing True "projects"
         for_ ghProjects $ makeReadmeMD manager
 
     else error "Status code is not ok"
@@ -51,7 +54,7 @@ createProjectMds = do
         response <- httpLbs request manager
         let responseText = LT.unlines $ drop 1 $ LT.lines $ T.decodeUtf8 $ responseBody response
 
-        let filepath :: FilePath = "projects/" ++ toString ghpName ++ ".md"
+        let filepath :: FilePath = "projects" </> toString ghpName ++ ".md"
         T.writeFile filepath $ createMdHeader gp <> responseText
 
     createMdHeader :: GitHubProject -> LText

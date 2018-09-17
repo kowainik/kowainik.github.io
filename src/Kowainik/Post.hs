@@ -2,7 +2,7 @@ module Kowainik.Post
        ( createPostsWithToc
        ) where
 
-import System.Directory (createDirectoryIfMissing, listDirectory, withCurrentDirectory)
+import System.Directory (createDirectoryIfMissing, listDirectory)
 import System.FilePath ((</>))
 
 import qualified Data.Text as T
@@ -15,8 +15,7 @@ createPostsWithToc = do
     posts <- listDirectory "posts-raw"
     for_ posts $ \post -> do
         content <- readFileText $ "posts-raw" </> post
-        withCurrentDirectory "posts" $
-            writeFileText post $ addToc content
+        writeFileText ("posts" </> post) $ addToc content
 
 {- | Modifies the body of the file in the following way:
 
