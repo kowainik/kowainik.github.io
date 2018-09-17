@@ -3,7 +3,6 @@ title: "Haskell: Build Tools"
 author: Dmitrii Kovanikov
 tags: haskell, stack, cabal, build-tools, tutorial
 ---
-# Haskell: Build Tools
 
 This blog post describes the two main ways of managing and building Haskell
 projects: using the `cabal` and `stack` build tools. The blog post doesn't try
@@ -519,7 +518,7 @@ need to add the library and its version to the `extra-deps` field inside
 `stack.yaml`.
 [See example here](https://github.com/kowainik/summoner/blob/21c4bbf2888b232ee8937e0d880cb438d9514d81/stack.yaml#L3-L5).
 
-### REPL & executables
+### REPL and executables
 
 You can use `stack repl` command to launch the `ghci` inside your project.
 

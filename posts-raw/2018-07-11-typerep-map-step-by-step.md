@@ -69,7 +69,7 @@ type from `dependent-map` parametrized by `TypeRep`.
 In `caps` the performance of lookups is extremely important so it makes sense to
 prioritize its performance above that of other functions.
 
-## Implementing `TypeRepMap`
+## Implementing TypeRepMap
 
 Sections below describe the details of the implementation phases and the general
 concepts.
@@ -694,7 +694,7 @@ type KindOf (a :: k) = k
 member :: forall a (f :: KindOf a -> Type) . Typeable a => TypeRepMap f -> Bool
 ```
 
-###  New `TypeRep` performance
+###  New TypeRep performance
 
 During benchmarking the `Map`-based implementation of `TypeRepMap`, very
 perceptible performance degradation was noticed. Here is the comparison table

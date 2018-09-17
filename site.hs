@@ -8,13 +8,17 @@ import Hakyll (Context, Identifier, Item (..), MonadMetadata, Pattern, Rules, ap
                pandocCompiler, recentFirst, relativizeUrls, route, setExtension, tagsRules,
                templateBodyCompiler, (.||.))
 
+import Kowainik.Post (createPostsWithToc)
 import Kowainik.Project (makeProjectContext)
 import Kowainik.Readme (createProjectMds)
 import Kowainik.Social (makeSocialContext)
 import Kowainik.Team (TeamMember, makeTeamContext, parseTeam)
 
 main :: IO ()
-main = createProjectMds >> parseTeam "team.json" >>= mainHakyll
+main = createProjectMds
+    >> createPostsWithToc
+    >> parseTeam "team.json"
+    >>= mainHakyll
 
 mainHakyll :: [TeamMember] -> IO ()
 mainHakyll team = hakyll $ do

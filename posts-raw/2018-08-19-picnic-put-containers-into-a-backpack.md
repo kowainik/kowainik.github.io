@@ -406,7 +406,7 @@ import Map.Contrib.Group (groupBy)
 
 main :: IO ()
 main = do
-    putStrLn "### Map ###"
+    putStrLn "=== Map ==="
     print $ groupBy (`mod` 2) ([1..10] :: [Int])
 ```
 
@@ -414,7 +414,7 @@ After compiling and running, it works like a charm!
 
 ```shell
 $ cabal new-exec map-exe
-### Map ###
+=== Map ===
 fromList [(0,10 :| [8,6,4,2]),(1,9 :| [7,5,3,1])]
 ```
 

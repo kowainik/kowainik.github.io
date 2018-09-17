@@ -114,7 +114,7 @@ pre.comment {
 @media (min-width:768px) {
     .allposts {
         position: fixed;
-        bottom: 10%;
+        bottom: 2%;
     }
 }
 @media (min-width:768px) {
@@ -160,4 +160,42 @@ pre.comment {
 .post th {
     background-color: #2C3E50;
     color: white;
+}
+@media (max-width:767px) {
+    .toc-zone {display:none;}
+    .toc {display: none;}
+}
+
+@media (min-width:768px) {
+    .toc-zone {
+        width: 100%;
+        height: 40%;
+    }
+    .toc {
+        background:rgba(255, 255, 255, 0.4);
+        overflow:hidden;
+        border-top:    2px solid #2C3E50;
+        border-bottom: 2px solid #2C3E50;
+        font-size: 0.8em;
+        height: 100%;
+        width: 100%;
+        padding-left: 0%;
+    }
+    .toc:hover { overflow-y:scroll; visibility: visible; }
+
+    .toc ul {
+        list-style-type: none;
+       padding-left: 10%;
+
+    }
+    .toc li {
+        width: 90%;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+}
+
+.post h2 a, .post h3 a, .post h4 a, .post h5 a, .post h6 a {
+    color: #2C3E50;
 }

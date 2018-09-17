@@ -2,3 +2,4 @@ resolver: lts-12.5
 
 extra-deps:
   - base-noprelude-4.11.1.0
+  - relude-0.3.0
