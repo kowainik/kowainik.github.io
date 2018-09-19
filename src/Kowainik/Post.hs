@@ -2,6 +2,7 @@ module Kowainik.Post
        ( createPostsWithToc
        ) where
 
+import Data.Char (isAlphaNum, isSpace)
 import System.Directory (createDirectoryIfMissing, listDirectory)
 import System.FilePath ((</>))
 
@@ -38,7 +39,7 @@ addToc txt = let (tocUl, txtLinks) = walk 0 $ lines txt
         then let sharp = T.takeWhile (== '#') x
                  l = T.length sharp
                  name = T.drop (l + 1) x
-                 href = T.intercalate "-" $ map T.toLower $ words name
+                 href = T.intercalate "-" $ map T.toLower $ words $ T.filter isHeaderChar name
                  li = "<li><a href='#" <> href <> "'>" <> name <> "</a></li>"
                  newHeader = sharp <> " [" <> name <> "](#" <> href <> ")"
                  newToc = case compare n (l - 1) of
@@ -48,3 +49,6 @@ addToc txt = let (tocUl, txtLinks) = walk 0 $ lines txt
                  (fToc, fList) = walk (l - 1) xs
              in (newToc <> fToc, newHeader:fList)
         else let (fToc, fList) = walk n xs in (fToc, x:fList)
+
+    isHeaderChar :: Char -> Bool
+    isHeaderChar c = isAlphaNum c || isSpace c || c == '.'

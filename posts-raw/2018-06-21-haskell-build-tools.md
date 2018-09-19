@@ -58,9 +58,9 @@ The word `cabal` in Haskell is semantically overloaded. In Haskell,  `cabal` can
 In this blog post when I use the word `cabal` I mean `cabal-install`. Otherwise
 I will specify it explicitly.
 
-### Installation
+### Cabal Installation
 
-#### Ubuntu
+#### Cabal: Ubuntu
 
 The latest `cabal` and `ghc` can both be installed through `hvr/ghc` PPA:
 
@@ -95,7 +95,7 @@ $ echo 'export PATH="$PATH:/opt/ghc/bin"' >> ~/.profile
 $ . ~/.profile
 ```
 
-#### Mac OS
+#### Cabal: Mac OS
 
 To get `cabal` for Mac Os you can just use [`brew`](https://brew.sh/):
 
@@ -108,7 +108,7 @@ If you want to work with multiple GHC versions on macOS, you may find neat
 
 * [https://haskell.futurice.com/](https://haskell.futurice.com/)
 
-#### Windows
+#### Cabal: Windows
 
 The easiest way to install `cabal` and `ghc` for Windows is to install the
 Haskell Platform, which you can do following the instructions at:
@@ -119,7 +119,7 @@ As an alternative you can `chocolatey`, a package manager for Windows:
 
 * [https://chocolatey.org/packages/ghc](https://chocolatey.org/packages/ghc)
 
-### Project initialization
+### cabal init
 
 To create a new project you can run the `cabal init` command. Cabal will then
 guide you through the interactive process, and ask you several questions
@@ -141,7 +141,7 @@ for you much more than what `cabal init` can, and it won’t ask you any redunda
 question. However, you probably should just use `cabal init` for your first
 Haskell project because `summoner` requires installation to be done first.
 
-### Project structure
+### Cabal project structure
 
 If you’ve chosen to create `cabal-example` with `src` as a directory
 
@@ -193,7 +193,7 @@ library
 Put your source code under the `src/` folder. Don’t worry about the `Setup.hs`
 file as it is not needed most of the time. You can ignore it or even delete it.
 
-### Building the project
+### Building the project with cabal
 
 To build your project, you need to have some code. Let's create a `Dummy.hs`
 file inside the `src/` directory with the following content:
@@ -254,7 +254,7 @@ $ cabal new-build
 > `new-` prefixed commands). Old commands will be replaced by new ones in
 > `cabal-3.0` and this prefix will be removed.
 
-### Adding dependency
+### Adding dependency in the .cabal file
 
 All dependencies should be specified under `build-depends` field in the `.cabal`
 file. By default, every new package has the `base` library as a dependency. But
@@ -289,7 +289,7 @@ Run `cabal new-build` to ensure that everything builds.
 > boundaries, `cabal` might not be able to build your project, because it won’t
 > know which versions of the packages to pick.
 
-### REPL
+### cabal repl
 
 Okay, we wrote some functions. So how about testing them? As mentioned earlier,
 `ghc` has an interactive interpreter. You can run it with the following command:
@@ -315,7 +315,7 @@ $
 You probably won't see the same exact numbers as output for the `dice` function.
 But there's a `1/36` chance you will.
 
-### Adding executable
+### Cabal: adding executable
 
 Evaluating functions in REPL is really fun! But usually programs are implemented
 to be used as executables later. As I mentioned earlier Haskell is a compiled
@@ -375,7 +375,7 @@ recommend this podcast:
 Even if you are only interested in using `stack` you should read the `cabal`
 section first, as I will refer to it in some parts.
 
-### Installation
+### Stack: Installation
 
 You can find instructions for how to build `stack` at the beginning of the
 `stack` documentation:
@@ -385,7 +385,7 @@ You can find instructions for how to build `stack` at the beginning of the
 You don't need to install `ghc` separately since `stack` will download a
 suitable compiler version for you.
 
-#### Unix
+#### Stack: Unix
 
 Installing `stack` on any unix system is really easy:
 
@@ -393,13 +393,13 @@ Installing `stack` on any unix system is really easy:
 $ curl -sSL https://get.haskellstack.org/ | sh
 ```
 
-#### Windows
+#### Stack: Windows
 
 For Windows, you can download the official binary directly from the website:
 
 * [https://docs.haskellstack.org/en/stable/install_and_upgrade/#windows](https://docs.haskellstack.org/en/stable/install_and_upgrade/#windows)
 
-### Project initialization
+### stack new
 
 To create a new project named `stack-example` you run:
 
@@ -427,7 +427,7 @@ automatically create a GitHub repository for your new project, so it is
 somewhere in between the `cabal init` and `stack` templates, but with some extra
 features.
 
-### Project structure
+### Stack project structure
 
 The directory hierarchy for the default `stack` template looks like this:
 
@@ -465,7 +465,7 @@ get some extra features like automatic modules discovery. `hpack` then generates
 a `.cabal` file using information from `package.yaml`. But if you don't want to
 deal with `hpack` for now you can just delete `package.yaml` file.
 
-### Building project
+### Building stack project
 
 Use the following command to build the project including `library`, `executable`
 and `test-suite` stanzas, and run tests as well.
@@ -494,7 +494,7 @@ resolver: lts-11.14
 > redundant stuff. You can safely delete everything except this one line, unless
 > you need some more advanced usage.
 
-### Adding dependency
+### Adding dependency to stack project
 
 Adding dependency for `stack` is almost the same as for `cabal`: you just add
 the library you want to the `build-depends` field.
@@ -518,7 +518,7 @@ need to add the library and its version to the `extra-deps` field inside
 `stack.yaml`.
 [See example here](https://github.com/kowainik/summoner/blob/21c4bbf2888b232ee8937e0d880cb438d9514d81/stack.yaml#L3-L5).
 
-### REPL and executables
+### Stack: REPL and executables
 
 You can use `stack repl` command to launch the `ghci` inside your project.
 
