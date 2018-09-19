@@ -15,7 +15,7 @@ If you want to change content of Kowainik web page you need to perform the follo
 ```
 ## How to add blog post
 
-If you want to add a new post you should create markdown file in the `posts/` folder. The name of this file should contain the date of the post and some name. For example: `2018-11-05-kowainik-new-project.md`.
+If you want to add a new post you should create markdown file in the `posts-raw/` folder. The name of this file should contain the date of the post and some name. For example: `2018-11-05-kowainik-new-project.md`.
 
 In the `.md` file you should add next info in the following format:
 
@@ -26,7 +26,16 @@ author: Your Name
 tags: haskell, stack, cabal, build-tools, tutorial
 ---
 
+DO NOT COPY TITLE HERE!
 Here comes the body of the post itself
+
+## Important rules!!!
+
+* Use only `##` and upper for headers.
+* Avoid special characters in the headers names (including `\``).
+* Do not start any other lines with `#` (even in code examples).
+* Tags should be one-worders.
+
 ...
 
 ```
