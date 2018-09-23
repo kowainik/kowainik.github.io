@@ -133,13 +133,16 @@ $ cabal init          # initialize project in this directory
 
 See demo of `cabal init` command below:
 
-[![asciicast](https://asciinema.org/a/198918.png)](https://asciinema.org/a/198918)
+[![asciicast](https://asciinema.org/a/196018.png)](https://asciinema.org/a/196018)
 
 As an alternative, you can use the
 [`summoner`](https://github.com/kowainik/summoner) tool. `summoner` can generate
 for you much more than what `cabal init` can, and it won’t ask you any redundant
 question. However, you probably should just use `cabal init` for your first
-Haskell project because `summoner` requires installation to be done first.
+Haskell project because `summoner` requires installation to be done first. Below
+you can see demo of `summoner` usage.
+
+[![asciicast](https://asciinema.org/a/198918.png)](https://asciinema.org/a/198918)
 
 ### Cabal project structure
 
