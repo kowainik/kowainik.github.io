@@ -196,6 +196,6 @@ pre.comment {
     }
 }
 
-.post h2 a, .post h3 a, .post h4 a, .post h5 a, .post h6 a {
+.post-body h2 a, .post-body h3 a, .post-body h4 a, .post-body h5 a, .post-body h6 a {
     color: #2C3E50;
 }
