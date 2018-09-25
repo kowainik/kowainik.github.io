@@ -10,7 +10,7 @@
 
           gtag('config', 'UA-125893749-1');
           </script>
-    <title>smuggler</title>
+    <title>logging</title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -21,8 +21,8 @@
     <!-- Twitter cards -->
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:site" content="@kowainik" />
-    <meta property="twitter:title" content="Kowainik - smuggler" />
-    <meta property="og:title" content="Kowainik - smuggler" />
+    <meta property="twitter:title" content="Kowainik - logging" />
+    <meta property="og:title" content="Kowainik - logging" />
     <!-- <meta property="og:description" content="..." /> -->
     <meta property="og:site_name" content="Kowainik" />
     <meta property="og:image" content="https://kowainik.github.io/images/logo_trans.png" />
@@ -54,65 +54,44 @@
   <body>
 
       <!-- Header -->
-      <nav class="navbar navbar-inverse navbar-fixed-left leftmenu bg-primary text-secondary">
-            <div class="navbar-header">
-                <div class="postslogo"> <a class="navbar-brand" href="../"><img class="img-fluid mb-5 d-block mx-auto" src="../images/logo-tr.png" alt="Kowainik"></a></div>
+<nav class="navbar navbar-inverse navbar-fixed-left leftmenu bg-primary text-secondary">
+   <div class="navbar-header">
+       <div class="postslogo"> <a class="navbar-brand" href="../"><img class="img-fluid mb-5 d-block mx-auto" src="../images/logo-tr.png" alt="Kowainik"></a></div>
 
+     <div class="row coolFont">
+     
+         <span class="tag-block"> <a class="btn btn-outline-dark btn-tag" href="../tags/haskell.html">haskell</a> </span>
+     
+         <span class="tag-block"> <a class="btn btn-outline-dark btn-tag" href="../tags/logging.html">logging</a> </span>
+     
+         <span class="tag-block"> <a class="btn btn-outline-dark btn-tag" href="../tags/contravariant.html">contravariant</a> </span>
+     
+         <span class="tag-block"> <a class="btn btn-outline-dark btn-tag" href="../tags/comonad.html">comonad</a> </span>
+     
+     </div>
+
+     <div class="allposts"> <h3><a href="../posts.html"> Posts =<< </a></h3></div>
+
+   </div>
+</nav>
+<div class="container info">
+    <h2 class="text-center text-uppercase text-secondary">logging</h2>
+    <hr class="star-dark mb-5">
+    <div class="content">
+    <div class="row post">
+        <div class="col-12">
+            
+            <div class="row">
+                <h5><a href="../posts/2018-09-25-co-log.html">co-log: Composable Contravariant Combinatorial Comonadic Configurable Convenient Logging</a></h5>
             </div>
-            <div class="coolFont">
-                <a class="btn btn-outline-dark btn-tag" href="https://github.com/kowainik/smuggler" data-icon="octicon-star" data-size="large" aria-label="Star Kowainik/smuggler on GitHub">Star Project</a>
-                <a class="fa-stack fa-2x" href="https://github.com/kowainik/smuggler/stargazers">
-                    <i class="fa fa-star fa-stack-2x"></i>
-                    <i id="stars" class="fa fa-stack-1x fa-inverse main-font">32</i>
-                </a>
-                <div class="author">Language: Haskell</div>
+            <div class="row coolFont"><pre class="comment text-secondary">    -- ^ September 25, 2018 by Dmitrii Kovanikov</pre></div>
+            
 
-                <div class="allposts">
-                    <h3><a href="../projects.html"> Projects =<< </a></h3>
-                </div>
-            </div>
-      </nav>
-      <div class="container info">
-          <h2 class="text-center text-uppercase text-secondary">smuggler</h2>
-          <div class="content">
-          <div class="row post">
-              <div class="col-12 post-body">
-              <p class="lead">
-                  <p><img src="https://user-images.githubusercontent.com/4276606/45937457-c2715c00-bff2-11e8-9766-f91051d36ffe.png" alt="smuggler-logo" /> <a href="https://hackage.haskell.org/package/smuggler"><img src="https://img.shields.io/hackage/v/smuggler.svg" alt="Hackage" /></a> <a href="https://travis-ci.org/kowainik/smuggler"><img src="https://secure.travis-ci.org/kowainik/smuggler.svg" alt="Build status" /></a> <a href="https://github.com/kowainik/smuggler/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-MPL--2.0-blue.svg" alt="MPL-2.0 license" /></a></p>
-<blockquote>
-<p>“So many people consider their work a daily punishment. Whereas I love my work as a translator. Translation is a journey over a sea from one shore to the other. Sometimes I think of myself as a smuggler: I cross the frontier of language with my booty of words, ideas, images, and metaphors.”</p>
-<p>― Amara Lakhous, Clash of Civilizations Over an Elevator in Piazza Vittorio</p>
-</blockquote>
-<p>Haskell Source Plugin which removes unused imports automatically.</p>
-<h2 id="how-to-use">How to use</h2>
-<p>Add <code>smuggler</code> to the dependencies of your project. Then add the following compiler options:</p>
-<pre><code>-fplugin=Smuggler.Plugin</code></pre>
-<h2 id="for-contributors">For contributors</h2>
-<p>Requirements:</p>
-<ul>
-<li><code>ghc-8.6.1</code></li>
-</ul>
-<h3 id="cabal-how-to-build">Cabal: How to build?</h3>
-<pre class="shell"><code>$ cabal new-update
-$ cabal new-build</code></pre>
-<h4 id="stack-on-macos-how-to-build">Stack on MacOS: How to build?</h4>
-<pre class="shell"><code>$ STACK_YAML=stack-mac-8.6.1.yaml stack build</code></pre>
-<h3 id="run-tests">Run tests</h3>
-<pre class="shell"><code>$ cabal new-test --allow-newer</code></pre>
-              </p>
-              </div>
-          </div>
-          </div>
+        </div>
+    </div>
+    </div>
+</div>
 
-
-      </div>
-
-      <script src="../js/stars.js"></script>
-      <script>
-       shootingStars("kowainik/smuggler", function (stars) {
-           document.getElementById("stars").innerHTML = stars;
-       });
-      </script>
 
 
       <!-- Bootstrap core JavaScript -->
