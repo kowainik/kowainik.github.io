@@ -5,11 +5,11 @@
 
      <div class ="row coolFont">
      $for(tagsList)$
-         <span class="tag-block"> <a class="btn btn-outline-dark btn-tag" href="../tags/$tag$.html">$tag$</a> </span>
+         <span class="tag-block"> <a class="btn btn-outline-dark btn-tag" href="../tags/$tag$">$tag$</a> </span>
      $endfor$
      </div>
 
-     <div class="allposts"> <h3><a href="../posts.html"> Posts =<< </a></h3></div>
+     <div class="allposts"> <h3><a href="../posts"> Posts =<< </a></h3></div>
 
    </div>
 </nav>
@@ -21,7 +21,7 @@
         <div class="col-12">
             $for(posts)$
             <div class="row">
-                <h5><a href="$url$">$title$</a></h5>
+                <h5><a href="$stripExtension(url)$">$title$</a></h5>
             </div>
             <div class="row coolFont"><pre class="comment text-secondary">    -- ^ $date$ by $author$</pre></div>
             $endfor$
