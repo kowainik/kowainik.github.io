@@ -39,7 +39,8 @@ executable site
 
   build-depends:       base-noprelude
                      , hakyll
-                     , relude >= 0.1
+                     , relude
+                     , text
                      , website
 
   ghc-options:        -Wall -threaded

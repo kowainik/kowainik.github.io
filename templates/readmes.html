@@ -6,7 +6,7 @@
      <div class ="row coolFont">
      </div>
 
-     <div class="allposts"> <h3><a href="../projects.html"> Projects =<< </a></h3></div>
+     <div class="allposts"> <h3><a href="../projects"> Projects =<< </a></h3></div>
 
    </div>
 </nav>
@@ -18,7 +18,7 @@
         <div class="col-12">
             $for(readmes)$
             <div class="row">
-                <h5><a href="$url$">$title$</a></h5>
+                <h5><a href="$stripExtension(url)$">$title$</a></h5>
             </div>
             <div class="row"><pre class="comment text-secondary">    -- ^  $description$</pre></div>
             $endfor$

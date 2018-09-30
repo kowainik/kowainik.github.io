@@ -3,9 +3,9 @@
 
 import Hakyll (Context, Identifier, Item (..), MonadMetadata, Pattern, Rules, applyAsTemplate,
                buildTags, compile, compressCssCompiler, constField, copyFileCompiler, create,
-               dateField, defaultContext, field, fromCapture, getMetadata, getTags, hakyll, idRoute,
-               listField, loadAll, loadAndApplyTemplate, lookupString, makeItem, match,
-               pandocCompiler, recentFirst, relativizeUrls, route, setExtension, tagsRules,
+               dateField, defaultContext, field, fromCapture, functionField, getMetadata, getTags,
+               hakyll, idRoute, listField, loadAll, loadAndApplyTemplate, lookupString, makeItem,
+               match, pandocCompiler, recentFirst, relativizeUrls, route, setExtension, tagsRules,
                templateBodyCompiler, (.||.))
 
 import Kowainik.Post (createPostsWithToc)
@@ -13,6 +13,9 @@ import Kowainik.Project (makeProjectContext)
 import Kowainik.Readme (createProjectMds)
 import Kowainik.Social (makeSocialContext)
 import Kowainik.Team (TeamMember, makeTeamContext, parseTeam)
+
+import qualified Data.Text as T
+
 
 main :: IO ()
 main = createProjectMds
@@ -112,9 +115,10 @@ compileProjects title page pat = do
     route idRoute
     compile $ do
         projects <- moreStarsFirst =<< loadAll pat
+        let projectsCtx = stripExtension <> defaultContext
         let ctx = constField "title" title
-               <> listField "readmes" defaultContext (pure projects)
-               <> defaultContext
+               <> listField "readmes" projectsCtx (pure projects)
+               <> projectsCtx
 
         makeItem ""
             >>= loadAndApplyTemplate page ctx
@@ -139,11 +143,19 @@ compileProjects title page pat = do
       where
         starError = error "Couldn't parse stars"
 
+
+-- | Removes the @.html@ suffix in the post URLs.
+stripExtension :: Context a
+stripExtension = functionField "stripExtension" $ \args _ ->
+    case args of
+        [k] -> pure $ fromMaybe k $ toString <$> (T.stripSuffix ".html" $ toText k)
+        _   -> error "relativizeUrl only needs a single argument"
+
 -- Context to used for posts
 postCtx :: Context String
-postCtx =
-    dateField "date" "%B %e, %Y" `mappend`
-    defaultContext
+postCtx = stripExtension
+    <> dateField "date" "%B %e, %Y"
+    <> defaultContext
 
 postCtxWithTags :: [String] -> Context String
 postCtxWithTags tags = listField "tagsList" (field "tag" $ pure . itemBody) (traverse makeItem tags)
