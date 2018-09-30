@@ -71,18 +71,18 @@
                 <div class="author">Author: Dmitrii Kovanikov</div>
                 <div class="row tag-block">
                 
-                <span class="tag-block"> <a class="btn btn-outline-dark btn-tag" href="../tags/haskell.html">haskell</a></span>
+                <span class="tag-block"> <a class="btn btn-outline-dark btn-tag" href="../tags/haskell">haskell</a></span>
                 
-                <span class="tag-block"> <a class="btn btn-outline-dark btn-tag" href="../tags/logging.html">logging</a></span>
+                <span class="tag-block"> <a class="btn btn-outline-dark btn-tag" href="../tags/logging">logging</a></span>
                 
-                <span class="tag-block"> <a class="btn btn-outline-dark btn-tag" href="../tags/contravariant.html">contravariant</a></span>
+                <span class="tag-block"> <a class="btn btn-outline-dark btn-tag" href="../tags/contravariant">contravariant</a></span>
                 
-                <span class="tag-block"> <a class="btn btn-outline-dark btn-tag" href="../tags/comonad.html">comonad</a></span>
+                <span class="tag-block"> <a class="btn btn-outline-dark btn-tag" href="../tags/comonad">comonad</a></span>
                 
                 </div>
 
                 <div class="allposts">
-                    <h3><a href="../posts.html"> Posts =<< </a></h3>
+                    <h3><a href="../posts"> Posts =<< </a></h3>
                 </div>
             </div>
       </nav>
@@ -448,7 +448,7 @@ Logging pistons...
 <p>The idea behind this solution is the following: let’s use some map to store the actions that extract the required information. So instead of specifying control options for some predefined set of possible message fields, we can just modify the map by adding or removing actions we want to execute on every call to the logging function. But since the actions might return values of different types, we need to use some dependent map.</p>
 <p>The assumption here is that usually we configure logging for our application only once at the start of our application and then we only query those actions. So we need some map where construction and modification operations should be supported but their performance is not that important. The efficiency of the lookup function, on the other hand, should be quite high. Fortunately, there’s a structure that implements the required interface. The data structure itself is implemented in the <a href="https://github.com/kowainik/typerep-map"><code>typerep-map</code></a> package. If you want to learn about the implementation details of the <code>typerep-map</code> library, you can read the following blog post:</p>
 <ul>
-<li><a href="https://kowainik.github.io/posts/2018-07-11-typerep-map-step-by-step.html">Kowainik: typerep-map step by step</a></li>
+<li><a href="https://kowainik.github.io/posts/2018-07-11-typerep-map-step-by-step">Kowainik: typerep-map step by step</a></li>
 </ul>
 <p>We can build extensible records on top of the <code>typerep-map</code>, and I’m going to explain how it’s done in <code>co-log</code>.</p>
 <p>First, let’s introduce a type family that maps arbitrary string tags to types.</p>
