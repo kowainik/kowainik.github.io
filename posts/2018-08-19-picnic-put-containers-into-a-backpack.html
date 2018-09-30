@@ -98,6 +98,8 @@
 <ul>
 <li><a href="https://github.com/kowainik/containers-backpack">kowainik/containers-backpack</a></li>
 </ul>
+<p>I also <a href="https://www.youtube.com/watch?v=GLtp3Xy7Rps">gave a talk</a> based on this blog post, so you can watch it as well:</p>
+<p><a href="https://www.youtube.com/watch?v=GLtp3Xy7Rps"><img src="https://img.youtube.com/vi/GLtp3Xy7Rps/0.jpg" alt="asciicast" /></a></p>
 <h2 id="motivation"><a href="#motivation">Motivation</a></h2>
 <p>The Haskell ecosystem contains multiple libraries that implement <code>Map</code>-like data structures. Among them there are structures like balanced binary-search trees, Patricia trees, <a href="https://vaibhavsagar.com/blog/2018/07/29/hamts-from-scratch/">hash array-mapped trees</a>, including lazy and strict versions, and many others. Even though existing implementations contain functions with the same name and structurally the same type, they don’t share a common interface because such an interface doesn’t exist. Which means that each time you want to use a type with a <code>Map</code>-like or <code>Set</code>-like interface, you have to choose a concrete data type explicitly. This straightforward approach has the advantage of having predictable and explicitly specified performance and memory characteristics for each data type. However, it reduces code reusability and composability, in particular:</p>
 <ol type="1">
