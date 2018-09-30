@@ -12,6 +12,11 @@ following repository:
 
 * [kowainik/containers-backpack](https://github.com/kowainik/containers-backpack)
 
+I also [gave a talk](https://www.youtube.com/watch?v=GLtp3Xy7Rps) based on this
+blog post, so you can watch it as well:
+
+[![asciicast](https://img.youtube.com/vi/GLtp3Xy7Rps/0.jpg)](https://www.youtube.com/watch?v=GLtp3Xy7Rps)
+
 ## Motivation
 
 The Haskell ecosystem contains multiple libraries that implement `Map`-like data
