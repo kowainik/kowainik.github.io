@@ -63,7 +63,7 @@
                 <a class="btn btn-outline-dark btn-tag" href="https://github.com/kowainik/relude" data-icon="octicon-star" data-size="large" aria-label="Star Kowainik/relude on GitHub">Star Project</a>
                 <a class="fa-stack fa-2x" href="https://github.com/kowainik/relude/stargazers">
                     <i class="fa fa-star fa-stack-2x"></i>
-                    <i id="stars" class="fa fa-stack-1x fa-inverse main-font">37</i>
+                    <i id="stars" class="fa fa-stack-1x fa-inverse main-font">59</i>
                 </a>
                 <div class="author">Language: Haskell</div>
 
@@ -86,7 +86,7 @@
 <em>Example:</em> <code>haskell  whenNotNull :: Applicative f =&gt; [a] -&gt; (NonEmpty a -&gt; f ()) -&gt; f ()</code> instead of <code>haskell  whenNotNull :: Applicative f =&gt; [a] -&gt; ([a] -&gt; f ()) -&gt; f ()</code></li>
 <li><strong>Performance.</strong> Prefer <code>Text</code> over <a href="https://www.reddit.com/r/haskell/comments/29jw0s/whats_wrong_with_string/"><code>String</code></a>, use spaceleak-free functions (like our custom <code>sum</code> and <code>product</code>), introduce <code>{-# INLINE #-}</code> and <code>{-# SPECIALIZE #-}</code> pragmas where appropriate.</li>
 <li><strong>Minimalism</strong> (low number of dependencies). We don’t force users of <code>relude</code> to stick to some specific lens or text formatting or logging library.</li>
-<li><strong>Convenience</strong> (like lifted to <code>MonadIO</code> functions, more reexports). But we want to bring common types and functions (like <code>containers</code> and <code>bytestrng</code>) into scope because they are used in almost every application anyways.</li>
+<li><strong>Convenience</strong> (like lifted to <code>MonadIO</code> functions, more reexports). But we want to bring common types and functions (like <code>containers</code> and <code>bytestring</code>) into scope because they are used in almost every application anyways.</li>
 <li><strong>Provide excellent documentation.</strong>
 <ul>
 <li>Tutorial</li>
@@ -107,6 +107,7 @@
 <li><a href="#reexports-">Reexports.</a></li>
 <li><a href="#whats-new-">What’s new?</a></li>
 <li><a href="#migration-guide-">Migration guide.</a></li>
+<li><a href="#for-developers-">For developers.</a></li>
 </ol>
 <p>This is neither a tutorial on <em>Haskell</em> nor tutorial on each function contained in <code>Relude</code>. For detailed documentation of every function together with examples and usage, see <a href="http://hackage.haskell.org/package/relude"><em>Haddock documentation</em></a>.</p>
 <h2 id="get-started">Get started <a href="#structure-of-this-tutorial">↑</a></h2>
@@ -115,6 +116,7 @@
 <p>This is the recommended way to use custom prelude. It requires you to perform the following steps:</p>
 <ol type="1">
 <li>Replace <code>base</code> dependency with corresponding version of <code>base-noprelude</code> in your <code>.cabal</code> file.</li>
+<li>Add a <code>relude</code> dependency to your <code>.cabal</code> file.</li>
 <li><p>Add the following <code>Prelude</code> module to your project (both to filesystem and to <code>exposed-modules</code>):</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">module</span> <span class="dt">Prelude</span></a>
 <a class="sourceLine" id="cb1-2" data-line-number="2">       ( <span class="kw">module</span> <span class="dt">Relude</span></a>
@@ -291,16 +293,21 @@
 </ul></li>
 <li>Run <code>hlint</code> using <code>.hlint.yaml</code> file from <code>relude</code> package to cleanup code and imports.</li>
 </ol>
-<h3 id="for-developers">For Developers</h3>
-<h4 id="generating-.hlint.yaml">Generating .hlint.yaml</h4>
+<h2 id="for-developers">For Developers <a href="#structure-of-this-tutorial">↑</a></h2>
+<h3 id="generating-.hlint.yaml">Generating .hlint.yaml</h3>
 <p>Note, that we are using custom <code>hlint</code> setting which are <code>Relude</code> specific. To keep it up to date don’t forget to reflect your changes in this file. We are using <code>Dhall</code> to maintain the configurations. To use it follow the steps below.</p>
 <p>First time:</p>
 <pre class="shell"><code>$ cabal new-install dhall-json</code></pre>
+<p>Dhall 3.0.0 is required, so make sure that the previous command installed dhall-json &gt;= 1.2.4.</p>
 <p>To generate <code>hlint</code> file:</p>
 <pre class="shell"><code>$ dhall-to-yaml --omitNull &lt;&lt;&lt; './hlint/hlint.dhall' &gt; .hlint.yaml</code></pre>
 <p>Check that you have generated valid <code>.hlint.yaml</code> file without parse errors:</p>
 <pre class="shell"><code>$ hlint test/Spec.hs</code></pre>
-<h3 id="acknowledgement">Acknowledgement</h3>
+<p>See our blog post where we describe the details of the implementation for this solution:</p>
+<ul>
+<li><a href="https://kowainik.github.io/posts/2018-09-09-dhall-to-hlint">Dhall To HLint</a></li>
+</ul>
+<h2 id="acknowledgement">Acknowledgement</h2>
 <p>Icons made by <a href="http://www.freepik.com">Freepik</a> from <a href="https://www.flaticon.com/">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/">CC 3.0 BY</a>.</p>
               </p>
               </div>
