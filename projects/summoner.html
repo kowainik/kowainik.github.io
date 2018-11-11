@@ -63,7 +63,7 @@
                 <a class="btn btn-outline-dark btn-tag" href="https://github.com/kowainik/summoner" data-icon="octicon-star" data-size="large" aria-label="Star Kowainik/summoner on GitHub">Star Project</a>
                 <a class="fa-stack fa-2x" href="https://github.com/kowainik/summoner/stargazers">
                     <i class="fa fa-star fa-stack-2x"></i>
-                    <i id="stars" class="fa fa-stack-1x fa-inverse main-font">164</i>
+                    <i id="stars" class="fa fa-stack-1x fa-inverse main-font">169</i>
                 </a>
                 <div class="author">Language: Haskell</div>
 
@@ -103,7 +103,7 @@
 <p>or directly from GitHub.</p>
 <p>You can turn on the bash auto-completion by running the following command:</p>
 <pre><code>$ source &lt;(summon --bash-completion-script `which summon`)</code></pre>
-<p>After that, you can call <code>summon</code> with the required command. To create a project, use <code>summon new</code> command specifying the prefered CLI options, follow the instructions during the interactive process of the project creation, and a new project would be created in a subfolder as well as a repository under your GitHub account (if requested).</p>
+<p>After that, you can call <code>summon</code> with the required command. To create a project, use <code>summon new</code> command specifying the preferred CLI options, follow the instructions during the interactive process of the project creation, and a new project would be created in a subfolder as well as a repository under your GitHub account (if requested).</p>
 <h3 id="usage">Usage</h3>
 <p>There are several options how to set particular configurations for the new projects:</p>
 <ol type="1">
@@ -136,8 +136,8 @@
 <li><code>bench</code> – <code>true</code> if you want to create <code>benchmark</code> folder with <code>Main.hs</code> file with <a href="https://hackage.haskell.org/package/gauge"><code>gauge</code></a> library usage example by default, <code>false</code> if you don’t. If not specified it would be asked during each run of the <code>summoner</code>.</li>
 <li><code>extensions</code> – List of the default extensions to add into <code>default-extensions</code> section in the <code>.cabal</code>.</li>
 <li><code>warnings</code> – List of the default checks and warnings to add into <code>ghc-options</code> section in the <code>.cabal</code>.</li>
-<li><code>stylish.*</code> — <code>stylish.file</code> to provide the absolute file path to the <code>.stylish-haskell.yaml</code> file to use in the project. <code>stylish.url</code> to provide the link to the <code>.stylish-haskell.yaml</code> file to use in the project. In case of the absense or wrong path/link no <code>.stylish-haskell.yaml</code> file is created.</li>
-<li><code>contributing.*</code> — <code>contributing.file</code> to provide the absolute file path to the <code>CONTRIBUTING.md</code> file to use in the project. <code>contributing.url</code> to provide the link to the <code>CONTRIBUTING.md</code> file to use in the project. In case of the absense or wrong path/link no <code>CONTRIBUTING</code> file is created.</li>
+<li><code>stylish.*</code> — <code>stylish.file</code> to provide the absolute file path to the <code>.stylish-haskell.yaml</code> file to use in the project. <code>stylish.url</code> to provide the link to the <code>.stylish-haskell.yaml</code> file to use in the project. In case of the absence or wrong path/link no <code>.stylish-haskell.yaml</code> file is created.</li>
+<li><code>contributing.*</code> — <code>contributing.file</code> to provide the absolute file path to the <code>CONTRIBUTING.md</code> file to use in the project. <code>contributing.url</code> to provide the link to the <code>CONTRIBUTING.md</code> file to use in the project. In case of the absence or wrong path/link no <code>CONTRIBUTING</code> file is created.</li>
 </ul>
 <h6 id="custom-prelude-options">Custom prelude options</h6>
 <p>Should be specified inside <code>[prelude]</code> table.</p>
