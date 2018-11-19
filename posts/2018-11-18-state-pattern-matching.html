@@ -190,7 +190,7 @@
 <blockquote>
 <p><strong>Exercise:</strong> in our decoder for the field we don’t report the position of the <code>WrongField</code> error. However, it’s quite easy to patch the decoder to take this into consideration.</p>
 </blockquote>
-<p>We’re using <code>Either ListValueError</code> as a return type of our <code>value</code> decoder to report errors. But because of that, it’s not easy to compose different <code>value</code> decoders. This is how <code>Decoder</code> for <code>User</code> might look like:</p>
+<p>We’re using <code>Either ListValueError</code> as the return type of our <code>value</code> decoder to report errors. But because of that, it’s not easy to compose different <code>value</code> decoders. This is how <code>Decoder</code> for <code>User</code> might look like:</p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="ot">user ::</span> <span class="dt">Decoder</span> (<span class="dt">Either</span> <span class="dt">ListValueError</span> <span class="dt">User</span>)</a>
 <a class="sourceLine" id="cb11-2" data-line-number="2">user <span class="fu">=</span> value valToInt <span class="fu">&gt;&gt;=</span> \<span class="kw">case</span></a>
 <a class="sourceLine" id="cb11-3" data-line-number="3">    <span class="dt">Left</span> err <span class="ot">-&gt;</span> pure <span class="fu">$</span> <span class="dt">Left</span> err</a>
@@ -199,14 +199,14 @@
 <a class="sourceLine" id="cb11-6" data-line-number="6">        <span class="dt">Right</span> hask <span class="ot">-&gt;</span> pure <span class="fu">$</span> <span class="dt">Right</span> <span class="fu">$</span> <span class="dt">User</span> age hask</a></code></pre></div>
 <p>In the last section, we are going to solve this particular problem: better composability of the value decoders.</p>
 <h2 id="parsing-a-list-of-values-statet-either"><a href="#parsing-a-list-of-values-statet-either">Parsing a list of values: StateT + Either</a></h2>
-<p>You may notice that the pattern matching we performed over <code>Either</code> looks familiar. Indeed, it is the <code>Monad</code> instance for <code>Either</code>. We couldn’t use it, because we were already using the <code>State</code> monad. This is the moment when monad transformers come to help. In simple words, with monad transformers we can combine monadic effects of multiple monads so the <code>&gt;&gt;=</code> operator performs actions for every monad in our monad transformer state.</p>
-<p>We want to combine <code>State</code> and <code>Either</code> effects, but in this particular case, we should be cautious because the <code>State</code> monad transformer and the <code>Either</code> monad transformer don’t commute. Which means that <code>StateT s Either</code> is not the same as <code>EitherT (State s)</code>. Let’s look at this closely:</p>
+<p>You may notice that the pattern matching we performed over <code>Either</code> looks familiar. Indeed, it is the <code>Monad</code> instance for <code>Either</code>. We couldn’t use it, because we were already using the <code>State</code> monad. This is when monad transformers come in to save the day! In simple words, with monad transformers we can combine monadic effects of multiple monads so the <code>&gt;&gt;=</code> operator performs actions for every monad in our monad transformer state.</p>
+<p>We want to combine <code>State</code> and <code>Either</code> effects, but in this particular case, we should be cautious because the <code>State</code> monad transformer and the <code>Either</code> monad transformer are not commutative. Which means that <code>StateT s Either</code> is not the same as <code>EitherT (State s)</code>. Let’s look at this closely:</p>
 <div class="sourceCode" id="cb12"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="dt">StateT</span> s m a <span class="fu">~</span> s <span class="ot">-&gt;</span> m (a, s)</a>
 <a class="sourceLine" id="cb12-2" data-line-number="2"><span class="dt">EitherT</span> e m a <span class="fu">~</span> m (<span class="dt">Either</span> e a)</a>
 <a class="sourceLine" id="cb12-3" data-line-number="3"></a>
 <a class="sourceLine" id="cb12-4" data-line-number="4"><span class="dv">1</span><span class="fu">.</span> <span class="dt">StateT</span>  s (<span class="dt">Either</span> e) a <span class="fu">~</span>                        s <span class="ot">-&gt;</span> <span class="dt">Either</span> e (a, s)</a>
 <a class="sourceLine" id="cb12-5" data-line-number="5"><span class="dv">2</span><span class="fu">.</span> <span class="dt">EitherT</span> e (<span class="dt">State</span>  s) a <span class="fu">~</span> <span class="dt">State</span> s (<span class="dt">Either</span> e a) <span class="fu">~</span> s <span class="ot">-&gt;</span> (<span class="dt">Either</span> e a, s)</a></code></pre></div>
-<p>Today, let’s pick the first option. The reason for this is to stop decoding as soon as we faced an error. Only after we’ve managed to decode the raw values to our type successfully, we can inspect the remaining list of values in case we need to produce the <code>ExpectedEndOfList</code> error message.</p>
+<p>Today, let’s pick the first option. The reason for this is to stop decoding as soon as we face an error. Only after we’ve managed to decode the raw values to our type successfully, we can inspect the remaining list of values in case we need to produce the <code>ExpectedEndOfList</code> error message.</p>
 <p>Let’s refactor our existing approach to this new version, and start with patching the type of the <code>Decoder</code> monad:</p>
 <div class="sourceCode" id="cb13"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="kw">newtype</span> <span class="dt">Decoder</span> a <span class="fu">=</span> <span class="dt">Decoder</span></a>
 <a class="sourceLine" id="cb13-2" data-line-number="2">    {<span class="ot"> runDecoder ::</span> <span class="dt">StateT</span> <span class="dt">Values</span> (<span class="dt">Either</span> <span class="dt">ListValueError</span>) a</a>
@@ -221,7 +221,7 @@
 <a class="sourceLine" id="cb14-6" data-line-number="6">    val<span class="fu">:</span>vals <span class="ot">-&gt;</span> <span class="kw">case</span> valDecoder val <span class="kw">of</span></a>
 <a class="sourceLine" id="cb14-7" data-line-number="7">        <span class="dt">Left</span> err <span class="ot">-&gt;</span> throwError <span class="fu">$</span> <span class="dt">WrongValue</span> err</a>
 <a class="sourceLine" id="cb14-8" data-line-number="8">        <span class="dt">Right</span> a  <span class="ot">-&gt;</span> a <span class="fu">&lt;$</span> put (<span class="dt">Values</span> vals)</a></code></pre></div>
-<p>Note how cleaner the code became! Now it’s quite easy to implement the decoder for the <code>User</code> data type:</p>
+<p>Note how the code became much cleaner! Now it’s quite easy to implement the decoder for the <code>User</code> data type:</p>
 <div class="sourceCode" id="cb15"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb15-1" data-line-number="1"><span class="ot">user ::</span> <span class="dt">Decoder</span> <span class="dt">User</span></a>
 <a class="sourceLine" id="cb15-2" data-line-number="2">user <span class="fu">=</span> <span class="dt">User</span> <span class="fu">&lt;$&gt;</span> value valToInt <span class="fu">&lt;*&gt;</span> value valToBool</a></code></pre></div>
 <p>And it’s also straightforward to decode the list of values with the given <code>Decoder</code>:</p>
@@ -238,16 +238,16 @@
 <a class="sourceLine" id="cb17-4" data-line-number="4">ghci<span class="fu">&gt;</span> decodeValues [<span class="dt">IntValue</span> <span class="dv">42</span>, <span class="dt">BoolValue</span> <span class="dt">True</span>] user</a>
 <a class="sourceLine" id="cb17-5" data-line-number="5"><span class="dt">Right</span> (<span class="dt">User</span> {userAge <span class="fu">=</span> <span class="dv">42</span>, userIsHaskeller <span class="fu">=</span> <span class="dt">True</span>})</a>
 <a class="sourceLine" id="cb17-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb17-7" data-line-number="7">ghci<span class="fu">&gt;</span> decodeValues [<span class="dt">IntValue</span> <span class="dv">42</span>, <span class="dt">BoolValue</span> <span class="dt">True</span>] user</a>
+<a class="sourceLine" id="cb17-7" data-line-number="7">ghci<span class="fu">&gt;</span> decodeValues [<span class="dt">BoolValue</span> <span class="dt">True</span>, <span class="dt">IntValue</span> <span class="dv">42</span>]  user</a>
 <a class="sourceLine" id="cb17-8" data-line-number="8"><span class="dt">Left</span> (<span class="dt">WrongValue</span> (<span class="dt">SingleValueError</span></a>
 <a class="sourceLine" id="cb17-9" data-line-number="9">    {valueErrorExpected <span class="fu">=</span> <span class="st">&quot;Int&quot;</span>, valueErrorActual <span class="fu">=</span> <span class="dt">BoolValue</span> <span class="dt">True</span>}))</a>
 <a class="sourceLine" id="cb17-10" data-line-number="10"></a>
 <a class="sourceLine" id="cb17-11" data-line-number="11">ghci<span class="fu">&gt;</span> decodeValues [<span class="dt">IntValue</span> <span class="dv">42</span>, <span class="dt">BoolValue</span> <span class="dt">True</span>, <span class="dt">BoolValue</span> <span class="dt">False</span>] user</a>
 <a class="sourceLine" id="cb17-12" data-line-number="12"><span class="dt">Left</span> (<span class="dt">ExpectedEndOfList</span> (<span class="dt">BoolValue</span> <span class="dt">False</span> <span class="fu">:|</span> []))</a></code></pre></div>
 <blockquote>
-<p><strong>NOTE:</strong> In this blog post I’ve used function-based approach for decoders. However, it’s also possible to use typeclasses-based approach to avoid passing explicitly value conversion function for value decoder and <code>Decoder</code> action to <code>decodeValues</code> function.</p>
+<p><strong>NOTE:</strong> In this blog post I’ve used a function-based approach for decoders. However, it’s also possible to use a typeclasses-based approach to avoid passing explicitly value conversion function for value decoder and <code>Decoder</code> action to <code>decodeValues</code> function.</p>
 </blockquote>
-<p>That’s all folks! I hope that after this blog post you gained a better insight into the <code>State</code> monad and monad transformers.</p>
+<p>That’s all folks! I hope that after this blog post you have gained a better insight into the <code>State</code> monad and monad transformers.</p>
 <p>Here you can find gist with the full code:</p>
 <ul>
 <li><a href="https://gist.github.com/ChShersh/a608386180330c6b1eb07144f0a06815">Pattern matching + State monad + Monad transformers</a></li>
