@@ -181,7 +181,7 @@ single value stateful decoder upfront:
    empty and stop decoding.
 3. If the list is not empty, we need to apply the given single value decoder to
    the head of the list and pattern match on the result of the decoder.
-4. If the decoder results in error, we need to rethrow that error.
+4. If the decoder results in an error, we need to rethrow that error.
 5. If the decoder is successful, we need to return our value and put the
    remaining list to the state.
 6. Check the remaining list and if it’s not empty then throw the
@@ -204,7 +204,7 @@ value valDecoder = gets unValues >>= \case
 > `WrongField` error. However, it’s quite easy to patch the decoder to take this
 > into consideration.
 
-We’re using `Either ListValueError` as a return type of our `value` decoder to
+We’re using `Either ListValueError` as the return type of our `value` decoder to
 report errors. But because of that, it’s not easy to compose different `value`
 decoders. This is how `Decoder` for `User` might look like:
 
@@ -224,14 +224,14 @@ composability of the value decoders.
 
 You may notice that the pattern matching we performed over `Either` looks
 familiar. Indeed, it is the `Monad` instance for `Either`. We couldn’t use it,
-because we were already using the `State` monad. This is the moment when monad
-transformers come to help. In simple words, with monad transformers we can
-combine monadic effects of multiple monads so the `>>=` operator performs
-actions for every monad in our monad transformer state.
+because we were already using the `State` monad. This is when monad transformers
+come in to save the day! In simple words, with monad transformers we can combine
+monadic effects of multiple monads so the `>>=` operator performs actions for
+every monad in our monad transformer state.
 
 We want to combine `State` and `Either` effects, but in this particular case, we
 should be cautious because the `State` monad transformer and the `Either` monad
-transformer don’t commute. Which means that `StateT s Either` is not the same as
+transformer are not commutative. Which means that `StateT s Either` is not the same as
 `EitherT (State s)`. Let’s look at this closely:
 
 ```haskell
@@ -243,7 +243,7 @@ EitherT e m a ~ m (Either e a)
 ```
 
 Today, let’s pick the first option. The reason for this is to stop decoding as
-soon as we faced an error. Only after we’ve managed to decode the raw values to
+soon as we face an error. Only after we’ve managed to decode the raw values to
 our type successfully, we can inspect the remaining list of values in case we
 need to produce the `ExpectedEndOfList` error message.
 
@@ -271,7 +271,7 @@ value valDecoder = gets unValues >>= \case
         Right a  -> a <$ put (Values vals)
 ```
 
-Note how cleaner the code became! Now it’s quite easy to implement the decoder
+Note how the code became much cleaner! Now it’s quite easy to implement the decoder
 for the `User` data type:
 
 ```haskell
@@ -300,7 +300,7 @@ Left UnexpectedEndOfList
 ghci> decodeValues [IntValue 42, BoolValue True] user
 Right (User {userAge = 42, userIsHaskeller = True})
 
-ghci> decodeValues [IntValue 42, BoolValue True] user
+ghci> decodeValues [BoolValue True, IntValue 42]  user
 Left (WrongValue (SingleValueError
     {valueErrorExpected = "Int", valueErrorActual = BoolValue True}))
 
@@ -308,12 +308,12 @@ ghci> decodeValues [IntValue 42, BoolValue True, BoolValue False] user
 Left (ExpectedEndOfList (BoolValue False :| []))
 ```
 
-> **NOTE:** In this blog post I’ve used function-based approach for decoders.
-> However, it’s also possible to use typeclasses-based approach to avoid passing
+> **NOTE:** In this blog post I’ve used a function-based approach for decoders.
+> However, it’s also possible to use a typeclasses-based approach to avoid passing
 > explicitly value conversion function for value decoder and `Decoder` action to
 > `decodeValues` function.
 
-That’s all folks! I hope that after this blog post you gained a better insight
+That’s all folks! I hope that after this blog post you have gained a better insight
 into the `State` monad and monad transformers.
 
 Here you can find gist with the full code:
