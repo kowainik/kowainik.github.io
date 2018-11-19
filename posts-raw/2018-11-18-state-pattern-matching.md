@@ -181,7 +181,7 @@ single value stateful decoder upfront:
    empty and stop decoding.
 3. If the list is not empty, we need to apply the given single value decoder to
    the head of the list and pattern match on the result of the decoder.
-4. If the decoder results in an error, we need to rethrow that error.
+4. If the decoder results in error, we need to rethrow that error.
 5. If the decoder is successful, we need to return our value and put the
    remaining list to the state.
 6. Check the remaining list and if it’s not empty then throw the
