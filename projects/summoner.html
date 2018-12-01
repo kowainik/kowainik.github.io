@@ -63,7 +63,7 @@
                 <a class="btn btn-outline-dark btn-tag" href="https://github.com/kowainik/summoner" data-icon="octicon-star" data-size="large" aria-label="Star Kowainik/summoner on GitHub">Star Project</a>
                 <a class="fa-stack fa-2x" href="https://github.com/kowainik/summoner/stargazers">
                     <i class="fa fa-star fa-stack-2x"></i>
-                    <i id="stars" class="fa fa-stack-1x fa-inverse main-font">169</i>
+                    <i id="stars" class="fa fa-stack-1x fa-inverse main-font">181</i>
                 </a>
                 <div class="author">Language: Haskell</div>
 
@@ -78,78 +78,348 @@
           <div class="row post">
               <div class="col-12 post-body">
               <p class="lead">
-                  <p><img src="https://user-images.githubusercontent.com/8126674/44388234-320aac00-a55a-11e8-879d-5dca68512031.png" alt="wizard" /> <a href="http://travis-ci.org/kowainik/summoner"><img src="https://secure.travis-ci.org/kowainik/summoner.svg" alt="Build status" /></a> <a href="https://github.com/kowainik/summoner/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-MPL--2.0-blue.svg" alt="MPL-2.0 license" /></a> <a href="https://hackage.haskell.org/package/summoner"><img src="https://img.shields.io/hackage/v/summoner.svg" alt="Hackage" /></a> <a href="http://stackage.org/lts/package/summoner"><img src="http://stackage.org/package/summoner/badge/lts" alt="Stackage LTS" /></a> <a href="http://stackage.org/nightly/package/summoner"><img src="http://stackage.org/package/summoner/badge/nightly" alt="Stackage Nightly" /></a> <a href="http://packdeps.haskellers.com/reverse/summoner"><img src="https://img.shields.io/hackage-deps/v/summoner.svg" alt="Hackage-Deps" /></a></p>
+                  <p><img src="https://user-images.githubusercontent.com/8126674/44388234-320aac00-a55a-11e8-879d-5dca68512031.png" alt="wizard" /> <a href="http://travis-ci.org/kowainik/summoner"><img src="https://secure.travis-ci.org/kowainik/summoner.svg" alt="Build" /></a> <a href="https://ci.appveyor.com/project/kowainik/summoner"><img src="https://ci.appveyor.com/api/projects/status/github/kowainik/summoner?branch=master&amp;svg=true" alt="Windows build" /></a> <a href="https://hackage.haskell.org/package/summoner"><img src="https://img.shields.io/hackage/v/summoner.svg" alt="Hackage" /></a> <a href="https://github.com/kowainik/summoner/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-MPL--2.0-blue.svg" alt="MPL-2.0 license" /></a></p>
 <blockquote>
 <p><em>So many of our dreams at first seem impossible, then they seem improbable, and then, when we summon the will, they soon become inevitable.</em></p>
 <p>Christopher Reeve</p>
 </blockquote>
-<p>Summoner is the tool for creating fully configured production Haskell projects.</p>
-<h2 id="demo">Demo</h2>
-<p><a href="https://asciinema.org/a/198918"><img src="https://asciinema.org/a/198918.png" alt="asciicast" /></a></p>
-<h2 id="getting-started">Getting started</h2>
-<h3 id="prerequisites">Prerequisites</h3>
-<p>To start using it make sure you have the next tools installed on your machine:</p>
+<p>Summoner is a tool for scaffolding fully configured batteries-included production Haskell projects.</p>
+<p>Do you want to create a library that is to be uploaded to Hackage/Stackage, that builds with both Cabal and Stack and supports the latest three major GHC versions? Or you are building a production application which uses a custom prelude and has CI with Travis Linux and AppVeyors Windows checks? Summoner can help you do all that with minimal effort from you - it can even upload the project to GitHub if you wish!</p>
+<p>By the way, Summoner operates as either CLI or TUI application, so you can choose what you’re more comfortable with and install only the required one.</p>
+<h2 id="structure">Structure</h2>
 <ul>
-<li><a href="http://haskellstack.org"><code>Stack</code></a> or <a href="https://www.haskell.org/cabal/"><code>cabal</code></a></li>
-<li><a href="https://git-scm.com"><code>git</code></a></li>
-<li><a href="https://github.com/github/hub"><code>hub</code></a></li>
-<li><a href="https://curl.haxx.se"><code>curl</code></a></li>
+<li><a href="#demo-">Demo</a>
+<ul>
+<li><a href="#tui-demo-">TUI demo</a></li>
+<li><a href="#cli-demo-">CLI demo</a></li>
+<li><a href="#scaffolded-project-structure-">Scaffolded project structure</a></li>
+</ul></li>
+<li><a href="#features-">Features</a></li>
+<li><a href="#get-started-">Get started</a>
+<ul>
+<li><a href="#prerequisites-">Prerequisites</a></li>
+<li><a href="#installation-">Installation</a>
+<ul>
+<li><a href="#summon-tui-">Summon-TUI</a>
+<ul>
+<li><a href="#tui-download-binary-">TUI: download binary</a></li>
+<li><a href="#tui-from-source-">TUI: from source</a></li>
+</ul></li>
+<li><a href="#summon-cli-">Summon-CLI</a>
+<ul>
+<li><a href="#cli-download-binary-">CLI: download binary</a></li>
+<li><a href="#cli-from-hackagestackage-">CLI: from Hackage/Stackage</a></li>
+<li><a href="#cli-from-source-">CLI: from source</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#setup-">Setup</a></li>
+</ul></li>
+<li><a href="#usage-">Usage</a>
+<ul>
+<li><a href="#command-line-arguments-">Command-line arguments</a></li>
+<li><a href="#file-configuration-">File configuration</a></li>
+<li><a href="#tui-">TUI</a></li>
+<li><a href="#cli-">CLI</a></li>
+</ul></li>
+<li><a href="#for-developers-">For Developers</a>
+<ul>
+<li><a href="#build-">Build</a></li>
+<li><a href="#test-">Test</a></li>
+<li><a href="#run-">Run</a></li>
+</ul></li>
+<li><a href="#changelog-">Changelog</a></li>
+<li><a href="#acknowledgments-">Acknowledgments</a></li>
 </ul>
-<h3 id="installation">Installation</h3>
-<p>The installation process can be done with the one simple command:</p>
-<pre><code>$ cabal new-install summoner</code></pre>
-<p>or</p>
-<pre><code>$ stack install summoner</code></pre>
-<p>or directly from GitHub.</p>
-<p>You can turn on the bash auto-completion by running the following command:</p>
-<pre><code>$ source &lt;(summon --bash-completion-script `which summon`)</code></pre>
-<p>After that, you can call <code>summon</code> with the required command. To create a project, use <code>summon new</code> command specifying the preferred CLI options, follow the instructions during the interactive process of the project creation, and a new project would be created in a subfolder as well as a repository under your GitHub account (if requested).</p>
-<h3 id="usage">Usage</h3>
-<p>There are several options how to set particular configurations for the new projects:</p>
+<h2 id="demo">Demo <a href="#structure">↑</a></h2>
+<h3 id="tui-demo">TUI demo <a href="#structure">↑</a></h3>
+<p><a href="https://asciinema.org/a/214424"><img src="https://asciinema.org/a/214424.png" alt="TUI demo" /></a></p>
+<h3 id="cli-demo">CLI demo <a href="#structure">↑</a></h3>
+<p><a href="https://asciinema.org/a/214433"><img src="https://asciinema.org/a/214433.png" alt="CLI demo" /></a></p>
+<h3 id="scaffolded-project-structure">Scaffolded project structure <a href="#structure">↑</a></h3>
+<p>This is an example of the project hierarchy you can get if you’re running Summoner with all options enabled:</p>
+<pre><code>project-name/
+├── app/
+│   └── Main.hs
+├── benchmark/
+│   └── Main.hs
+├── src/
+│   ├── ProjectName.hs
+│   └── Prelude.hs
+├── test/
+│   └── Spec.hs
+├── CHANGELOG.md
+├── CONTRIBUTING.md
+├── LICENSE
+├── project-name.cabal
+├── README.md
+├── Setup.hs
+├── stack.yaml
+├── appveyor.yml
+├── .git
+├── .gitignore
+├── .stylish-haskell.yaml
+└── .travis.yml</code></pre>
+<p>You can also see complete examples in the following folder:</p>
+<ul>
+<li><a href="https://github.com/kowainik/summoner/tree/master/summoner-cli/test/golden"><code>summon-cli/tests/golden</code>: Examples of scaffolded projects</a></li>
+</ul>
+<p>Directory <code>smallProject</code> contains an example of the straightforward package, and <code>fullProject</code> shows a generated project with more advanced structure and more features.</p>
+<h2 id="features">Features <a href="#structure">↑</a></h2>
+<p>Summoner is a tool that combines predefined configurations, command-line arguments and a chosen interface.</p>
+<p>To fully understand the power in your hands with the help of Summoner, please check out this section.</p>
+<p>Below you can see highlighted features in different categories.</p>
+<h3 id="project">Project <a href="#structure">↑</a></h3>
+<ul>
+<li>Support for Cabal and Stack build tools.</li>
+<li>Ability to pick stanzas (library, executable, test-suite, benchmark).</li>
+<li>Option to include an alternative prelude, if desired. The project would then use <a href="http://hackage.haskell.org/package/Prelude"><code>base-noprelude</code> technique</a>, and the <code>Prelude</code> module would be added to the library target.</li>
+<li>Whole Hackage-upload checklist support.</li>
+<li>Support for multiple GHC versions, with thoughtful reflection on project meta, base versions (e.g. <code>base &gt;= 4.9 &amp;&amp; &lt; 4.12</code>), etc.</li>
+<li>Different license support: MIT, BSD2, BSD3, GPL-2, GPL-3, LGPL-2.1, LGPL-3, AGPL-3, Apache-2.0, MPL-2.0, None (All Rights Reserved license without file).</li>
+<li>Creation of the <code>CHANGELOG.md</code> file with <a href="https://pvp.haskell.org">PVP versioning policy</a>.</li>
+<li>Ability to include your <code>.stylish-haskell.yaml</code> file.</li>
+<li><p>Usage of the <code>ghc-options</code> field with sensible defaults.</p>
+<p>If warnings are not explicitly stated in the configuration file, then the following list of GHC flags is added to all stanzas:</p>
+<pre><code>-Wall
+-Wincomplete-uni-patterns
+-Wincomplete-record-updates
+-Wcompat
+-Widentities
+-Wredundant-constraints      (ghc &gt;= 8.0)
+-fhide-source-paths          (ghc &gt;= 8.2.2)
+-Wmissing-export-lists       (ghc &gt;= 8.4.1)
+-Wpartial-fields             (ghc &gt;= 8.4.1)</code></pre>
+<p>Besides, the following GHC options are added to the executable, tests and benchmark stanzas:</p>
+<pre><code>-threaded
+-rtsopts
+-with-rtsopts=-N</code></pre></li>
+</ul>
+<h3 id="github">GitHub <a href="#structure">↑</a></h3>
+<ul>
+<li>Initialisation of the git repository inside the project folder.</li>
+<li>Initial commit creation.</li>
+<li>Uploading the repository to GitHub.</li>
+<li>Exhaustive <code>.gitignore</code> file.</li>
+<li>Formation of the <code>README</code> file with Hackage, Stackage and CI badges.</li>
+<li>Linking to the GitHub repository in the <code>.cabal</code> file.</li>
+<li>Ability to include your <code>CONTRIBUTING.md</code> file.</li>
+</ul>
+<h3 id="ci">CI <a href="#structure">↑</a></h3>
+<ul>
+<li>Generation of the <code>.travis.yml</code> file that runs build and tests on CI under Linux.</li>
+<li>Configuration matrix on CI to build with multiple GHC versions and various build tools.</li>
+<li><code>-Werror</code> is enabled on CI not to miss any warnings.</li>
+<li>Run HLint checks on CI.</li>
+<li>Generation of the <code>appveyor.yaml</code> file which runs build and tests on CI under Windows.</li>
+</ul>
+<h3 id="others">Others <a href="#structure">↑</a></h3>
+<ul>
+<li>Ability to create a project in offline mode.</li>
+</ul>
+<h2 id="get-started">Get started <a href="#structure">↑</a></h2>
+<h3 id="prerequisites">Prerequisites <a href="#structure">↑</a></h3>
+<p>To start using Summoner make sure that you have the following tools installed on your machine:</p>
+<ul>
+<li><a href="https://git-scm.com"><code>git</code></a> – to initialize the GitHub repo.</li>
+<li><a href="https://github.com/github/hub"><code>hub</code></a> – to upload the project to GitHub.</li>
+<li><a href="https://curl.haxx.se"><code>curl</code></a> – to download licenses.</li>
+</ul>
+<h3 id="installation">Installation <a href="#structure">↑</a></h3>
+<p>Summon contains two executables:</p>
+<ul>
+<li><code>summon</code>: scaffold projects using interactive CLI mode.</li>
+<li><code>summon-tui</code>: scaffold projects using TUI.</li>
+</ul>
+<p>Below you can find the description of how to install each of them so you can choose the one you want.</p>
+<h4 id="summon-tui">Summon-TUI <a href="#structure">↑</a></h4>
+<blockquote>
+<p><strong>NOTE:</strong> <code>summon-tui</code> is not supported on Windows. See <a href="https://github.com/jtdaugherty/vty/pull/1">this issue</a>.</p>
+</blockquote>
+<h5 id="tui-download-binary">TUI: download binary <a href="#structure">↑</a></h5>
+<p>You can download binary directly <a href="https://github.com/kowainik/summoner/releases">from GitHub releases</a>.</p>
+<p>After downloading binary, make it executable and copy it under convenient location, for example:</p>
+<pre class="shell"><code>chmod +x summon-cli-linux
+mv summon-cli-linux ~/.local/bin/summon</code></pre>
+<h5 id="tui-from-source">TUI: from source <a href="#structure">↑</a></h5>
+<p>Fetch the repo using <code>cabal</code>:</p>
+<pre class="shell"><code>cabal get -s summoner</code></pre>
+<p>or clone the directory from GitHub:</p>
+<pre class="shell"><code>git clone https://github.com/kowainik/summoner.git</code></pre>
+<p>Step into the directory:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb7-1" data-line-number="1">cd summoner</a></code></pre></div>
+<p>Build and install using <code>cabal</code>:</p>
+<pre class="shell"><code>cabal new-install summoner-tui:exe:summon-tui</code></pre>
+<p>Build and install using <code>stack</code>:</p>
+<pre class="shell"><code>stack install summoner-tui:exe:summon-tui</code></pre>
+<h4 id="summon-cli">Summon-CLI <a href="#structure">↑</a></h4>
+<h5 id="cli-download-binary">CLI: download binary <a href="#structure">↑</a></h5>
+<p>You can download binary directly <a href="https://github.com/kowainik/summoner/releases">from GitHub releases</a>.</p>
+<p>After downloading binary, make it executable and copy it under convenient location, for example:</p>
+<pre class="shell"><code>chmod +x summon-cli-linux
+mv summon-cli-linux ~/.local/bin/summon</code></pre>
+<h5 id="cli-from-hackagestackage">CLI: from Hackage/Stackage <a href="#structure">↑</a></h5>
+<p>Using <code>cabal</code>:</p>
+<pre class="shell"><code>cabal new-update
+cabal new-install summoner</code></pre>
+<p>Using <code>stack</code>:</p>
+<pre class="shell"><code>stack install summoner</code></pre>
+<h5 id="cli-from-source">CLI: from source <a href="#structure">↑</a></h5>
+<p>Fetch the repo using <code>cabal</code>:</p>
+<pre class="shell"><code>cabal get -s summoner</code></pre>
+<p>or clone the directory from GitHub:</p>
+<pre class="shell"><code>git clone https://github.com/kowainik/summoner.git</code></pre>
+<p>Step into the directory:</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb15-1" data-line-number="1">cd summoner</a></code></pre></div>
+<p>Build and install using <code>cabal</code>:</p>
+<pre class="shell"><code>cabal new-install summoner-cli:exe:summon</code></pre>
+<p>Build and install using <code>stack</code>:</p>
+<pre class="shell"><code>stack install summoner:exe:summon</code></pre>
+<h3 id="setup">Setup <a href="#structure">↑</a></h3>
+<p>You can turn on bash auto-completion by running the following command:</p>
+<pre class="shell"><code>source &lt;(summon --bash-completion-script `which summon`)</code></pre>
+<h2 id="usage">Usage <a href="#structure">↑</a></h2>
+<p>To start <code>summon</code>ing projects nothing additional is required. However, to tweak your settings further, you can use additional configuration settings. There are several options you can use to set particular configurations for new projects (in increasing order of priority):</p>
 <ol type="1">
 <li>Default configuration file (<code>~/.summoner.toml</code>).</li>
 <li>Explicitly specified configuration file by <code>--file FILENAME</code> option (used instead of the default one if specified).</li>
 <li>Options that are stated by CLI arguments.</li>
-<li>Interactively inputed answers during work of the <code>summon</code> command (for the options that were not specified on previous steps).</li>
+<li>User input. It could be
+<ul>
+<li><strong>TUI</strong> – User data specified in the window of <code>summon-tui</code>.</li>
+<li><strong>CLI</strong> – Interactively inputted answers during execution of the <code>summon</code> command (for the options that were not specified on previous steps).</li>
+</ul></li>
 </ol>
-<p>So, the configuration uses <a href="https://medium.com/@jonathangfischoff/the-partial-options-monoid-pattern-31914a71fc67"><code>Partial Options Monoid Pattern</code></a>.</p>
-<p>If none of the mentioned above cases used then the configuration will be built interactively.</p>
-<h4 id="configurations">Configurations</h4>
-<h5 id="toml-files"><code>.toml</code> files:</h5>
-<p>Here is the list of the options that could be configured for your needs:</p>
-<h6 id="global-keys">Global keys</h6>
-<ul>
-<li><code>cabal</code> – <code>true</code> if you want to build you project with <code>cabal</code>, <code>false</code> if you don’t. If not specified it would be asked during each run of the <code>summoner</code>.</li>
-<li><code>stack</code> – <code>true</code> if you want to build your project with <code>stack</code>, <code>false</code> if you don’t. If not specified it would be asked during each run of the <code>summoner</code>.</li>
-<li><code>owner</code> – <code>GitHub</code> login.</li>
-<li><code>fullName</code> – full name.</li>
-<li><code>email</code> – e-mail address.</li>
-<li><code>license</code> – license (possible options: <code>MIT</code>, <code>BSD2</code>, <code>BSD3</code>, <code>GPL-2</code>, <code>GPL-3</code>, <code>LGPL-2.1</code>, <code>LGPL-3</code>, <code>AGPL-3</code>, <code>Apache-2.0</code>, <code>MPL-2.0</code>).</li>
-<li><code>ghcVersions</code> – <code>summoner</code> uses default <code>GHC-8.2.2</code>. But additionally you can specify other versions. For each version <code>x.y.z</code> the <code>stack-x.y.z.yaml</code> will be created.</li>
-<li><code>github</code> – <code>true</code> if you want to turn on <code>GitHub</code> integration by default, <code>false</code> if you don’t. If not specified it would be asked during each run of the <code>summoner</code>.</li>
-<li><code>travis</code> – <code>true</code> if you want to turn on <code>Travis</code> integration by default, <code>false</code> if you don’t. Ignored if <code>github = false</code>. If not specified it would be asked during each run of the <code>summoner</code>.</li>
-<li><code>appveyor</code> – <code>true</code> if you want to turn on <code>AppVeyor</code> integration by default, <code>false</code> if you don’t. Ignored if <code>github = false</code>. If not specified it would be asked during each run of the <code>summoner</code>.</li>
-<li><code>private</code> – <code>true</code> if you want to create private repositories by default, <code>false</code> if you don’t. Ignored if <code>github = false</code>. If not specified it would be asked during each run of the <code>summoner</code>.</li>
-<li><code>lib</code> – <code>true</code> if you want to create <code>src</code> folder with dummy <code>Lib.hs</code> file and library target by default, <code>false</code> if you don’t. If not specified it would be asked during each run of the <code>summoner</code>.</li>
-<li><code>exe</code> – <code>true</code> if you want to create <code>app</code> folder with dummy <code>Main.hs</code> file and executable target by default, <code>false</code> if you don’t. If not specified it would be asked during each run of the <code>summoner</code>.</li>
-<li><code>test</code> – <code>true</code> if you want to create <code>test</code> folder with dummy <code>Spec.hs</code> file and test target by default, <code>false</code> if you don’t. If not specified it would be asked during each run of the <code>summoner</code>.</li>
-<li><code>bench</code> – <code>true</code> if you want to create <code>benchmark</code> folder with <code>Main.hs</code> file with <a href="https://hackage.haskell.org/package/gauge"><code>gauge</code></a> library usage example by default, <code>false</code> if you don’t. If not specified it would be asked during each run of the <code>summoner</code>.</li>
-<li><code>extensions</code> – List of the default extensions to add into <code>default-extensions</code> section in the <code>.cabal</code>.</li>
-<li><code>warnings</code> – List of the default checks and warnings to add into <code>ghc-options</code> section in the <code>.cabal</code>.</li>
-<li><code>stylish.*</code> — <code>stylish.file</code> to provide the absolute file path to the <code>.stylish-haskell.yaml</code> file to use in the project. <code>stylish.url</code> to provide the link to the <code>.stylish-haskell.yaml</code> file to use in the project. In case of the absence or wrong path/link no <code>.stylish-haskell.yaml</code> file is created.</li>
-<li><code>contributing.*</code> — <code>contributing.file</code> to provide the absolute file path to the <code>CONTRIBUTING.md</code> file to use in the project. <code>contributing.url</code> to provide the link to the <code>CONTRIBUTING.md</code> file to use in the project. In case of the absence or wrong path/link no <code>CONTRIBUTING</code> file is created.</li>
-</ul>
-<h6 id="custom-prelude-options">Custom prelude options</h6>
-<p>Should be specified inside <code>[prelude]</code> table.</p>
-<ul>
-<li><code>package</code> – Name of the package of the custom prelude you’d like to use in the project (doesn’t work without <code>module</code> field).</li>
-<li><code>module</code> – Name of the module of the custom prelude you’d like to use in the project (doesn’t work without <code>package</code> field).</li>
-</ul>
-<h6 id="examples">Examples</h6>
-<p>See an example of <a href="https://github.com/kowainik/org/blob/master/.summoner.toml">the configuration for projects of the <code>Kowainik</code> organization</a>.</p>
-<p>By default, the <code>summoner</code> looks for the configuration file (<code>.summoner.toml</code>) in home directory.</p>
-<p>The other way to specify some particular <code>.toml</code> file is <code>summon new PROJECTNAME --file FILEPATH</code> command.</p>
-<h5 id="cli">CLI</h5>
+<p>To cut a long story short, the configuration uses <a href="https://medium.com/@jonathangfischoff/the-partial-options-monoid-pattern-31914a71fc67">Partial Options Monoid Pattern</a>.</p>
+<h3 id="file-configuration">File configuration <a href="#structure">↑</a></h3>
+<p>Here is the list of the options that can be configured to suit your needs. If options are not specified, they are asked interactively (or some sensible defaults are used).</p>
+<table>
+<colgroup>
+<col style="width: 9%" />
+<col style="width: 4%" />
+<col style="width: 86%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>cabal</code></td>
+<td>Bool</td>
+<td>Add Cabal support?</td>
+</tr>
+<tr class="even">
+<td><code>stack</code></td>
+<td>Bool</td>
+<td>Add Stack support?</td>
+</tr>
+<tr class="odd">
+<td><code>owner</code></td>
+<td>Text</td>
+<td>GitHub login.</td>
+</tr>
+<tr class="even">
+<td><code>fullName</code></td>
+<td>Text</td>
+<td>Full name.</td>
+</tr>
+<tr class="odd">
+<td><code>email</code></td>
+<td>Text</td>
+<td>E-mail address.</td>
+</tr>
+<tr class="even">
+<td><code>license</code></td>
+<td>License</td>
+<td>One of: <code>MIT</code>, <code>BSD2</code>, <code>BSD3</code>, <code>GPL-2</code>, <code>GPL-3</code>, <code>LGPL-2.1</code>, <code>LGPL-3</code>, <code>AGPL-3</code>, <code>Apache-2.0</code>, <code>MPL-2.0</code>, <code>None</code>.</td>
+</tr>
+<tr class="odd">
+<td><code>ghcVersions</code></td>
+<td>[GHC]</td>
+<td><code>summoner</code> uses default <code>GHC-8.4.4</code>. However, additionally you can specify other versions. For each version <code>x.y.z</code> the <code>stack-x.y.z.yaml</code> will be created.</td>
+</tr>
+<tr class="even">
+<td><code>github</code></td>
+<td>Bool</td>
+<td>Turn on <code>GitHub</code> integration by default?</td>
+</tr>
+<tr class="odd">
+<td><code>private</code></td>
+<td>Bool</td>
+<td>Create private repository by default? (Ignored if <code>github = false</code>)</td>
+</tr>
+<tr class="even">
+<td><code>travis</code></td>
+<td>Bool</td>
+<td>Turn on <code>Travis</code> integration by default? (Ignored if <code>github = false</code>)</td>
+</tr>
+<tr class="odd">
+<td><code>appveyor</code></td>
+<td>Bool</td>
+<td>Turn on <code>AppVeyor</code> integration by default? (Ignored if <code>github = false</code>)</td>
+</tr>
+<tr class="even">
+<td><code>lib</code></td>
+<td>Bool</td>
+<td>Create <code>src</code> folder with simple <code>ProjectName.hs</code> file and library target?</td>
+</tr>
+<tr class="odd">
+<td><code>exe</code></td>
+<td>Bool</td>
+<td>Create <code>app</code> folder with simple <code>Main.hs</code> file and executable target?</td>
+</tr>
+<tr class="even">
+<td><code>test</code></td>
+<td>Bool</td>
+<td>Create <code>test</code> folder with simple <code>Spec.hs</code> file and test target?</td>
+</tr>
+<tr class="odd">
+<td><code>bench</code></td>
+<td>Bool</td>
+<td>Create <code>benchmark</code> folder with <code>Main.hs</code> file with <a href="https://hackage.haskell.org/package/gauge"><code>gauge</code></a> library usage example?</td>
+</tr>
+<tr class="even">
+<td><code>extensions</code></td>
+<td>[Text]</td>
+<td>List of the default extensions to add into <code>default-extensions</code> section in the <code>.cabal</code>.</td>
+</tr>
+<tr class="odd">
+<td><code>warnings</code></td>
+<td>[Text]</td>
+<td>List of the default checks and warnings to add into <code>ghc-options</code> section in the <code>.cabal</code>.</td>
+</tr>
+<tr class="even">
+<td><code>stylish.*</code></td>
+<td>Text</td>
+<td><code>stylish.file</code> to provide the absolute file path OR <code>stylish.url</code> to download the <code>.stylish-haskell.yaml</code> file to use in the project.</td>
+</tr>
+<tr class="odd">
+<td><code>contributing.*</code></td>
+<td>Text</td>
+<td><code>contributing.file</code> to provide the absolute file path OR <code>contributing.url</code> download OR <code>contribuint.link</code> to link the <code>CONTRIBUTING.md</code> file to use in the project.</td>
+</tr>
+<tr class="even">
+<td><code>[prelude]</code></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><code>package</code></td>
+<td>Text</td>
+<td>The package name of the custom prelude you’d like to use in the project (doesn’t work without <code>module</code> field).</td>
+</tr>
+<tr class="even">
+<td><code>module</code></td>
+<td>Text</td>
+<td>The module name of the custom prelude you’d like to use in the project (doesn’t work without <code>package</code> field).</td>
+</tr>
+</tbody>
+</table>
+<p>See the example of <a href="https://github.com/kowainik/org/blob/master/.summoner.toml">the configuration for projects of the <code>Kowainik</code> organization</a>.</p>
+<h3 id="command-line-arguments">Command line arguments <a href="#structure">↑</a></h3>
 <p>Available commands:</p>
 <pre><code>Usage:
   summon COMMAND
@@ -162,7 +432,7 @@ Available commands:
 Available global options:
   -h, --help               Show this help text
   -v, --version            Show summoner's version</code></pre>
-<p><strong><code>summon new</code></strong> command:</p>
+<h4 id="summon-new-command"><strong>summon new</strong> command: <a href="#structure">↑</a></h4>
 <pre><code>Usage:
   summon new PROJECT_NAME [--ignore-config] [--no-upload] [--offline]
              [-f|--file FILENAME]
@@ -204,7 +474,7 @@ Available command options:
   -e, --exec               Executable target
   -t, --test               Tests
   -b, --benchmark          Benchmarks</code></pre>
-<p><strong><code>summon show</code></strong> command:</p>
+<h4 id="summon-show-command"><strong>summon show</strong> command: <a href="#structure">↑</a></h4>
 <pre><code>Usage:
   summon show COMMAND
       Show supported licenses or ghc versions
@@ -216,55 +486,131 @@ Available commands:
 
 Available options:
   -h, --help               Show this help text</code></pre>
-<p>The options to be enabled/disabled can be specified while running the command. If any of the applicable command options wasn’t tagged as enabled/disabled, then the question is asked during the work of the tool.</p>
-<p>For example,</p>
-<pre><code>  summon new my-project with -letgcpw without -b --prelude-package relude --prelude-module Relude</code></pre>
-<p>creates the fully functional project which uses custom prelude <code>relude</code>, contains library, executable file, tests and create private repository on <a href="https://github.com">github</a> integrated with <code>Travis-CI</code>, <code>AppVeyor-CI</code>, but benchmarks won’t be attached to this one.</p>
-<p>But when calling this command</p>
-<pre><code>  summon new my-project</code></pre>
-<p>the tool asks about every particular option, rather you’d like to have it or not in your project.</p>
-<h2 id="features">Features</h2>
-<p>If you’re running the <code>summoner</code> with all options enabled a project with the following hierarchy is created:</p>
-<pre><code>project-name
-├── app
-│   └── Main.hs
-├── benchmark
-│   └── Main.hs
-├── src
-│   ├── ProjectName.hs
-│   └── Prelude.hs
-├── test
-│   └── Spec.hs
-├── CHANGELOG.md
-├── LICENSE
-├── project-name.cabal
-├── README.md
-├── Setup.hs
-├── stack.yaml
-├── appveyor.yml
-├── .git
-├── .gitignore
-└── .travis.yml</code></pre>
-<p>Moreover, a repository with one commit at master is added with enabled Travis CI for that.</p>
-<h2 id="ghc-options">GHC options</h2>
-<p>The <code>-Wall</code> option is added to every stanza.</p>
-<p>The following warning checks are added by default to executable, tests and benchmark stanzas:</p>
-<pre><code>-threaded
--rtsopts
--with-rtsopts=-N</code></pre>
-<p>If warnings are not explicitly stated in the configuration file, then the following ghc-options are added to all stanzas.</p>
-<pre><code>-Wincomplete-uni-patterns
--Wincomplete-record-updates
--Wcompat
--Widentities
--Wredundant-constraints      (ghc &gt;= 8.0)
--fhide-source-paths          (ghc &gt;= 8.2.2)
--Wmissing-export-lists       (ghc &gt;= 8.4.1)
--Wpartial-fields             (ghc &gt;= 8.4.1)</code></pre>
-<p><strong>Note</strong>: -Werror is enabled in Travis CI when building with stack but <strong>not</strong> when building with cabal (<a href="https://github.com/haskell/cabal/issues/3883">Why?</a>)</p>
-<h2 id="change-log">Change log</h2>
-<p><a href="CHANGELOG.md">List of changes</a>.</p>
-<h2 id="acknowledgments">Acknowledgments</h2>
+<p>For example, the following command preconfigures the project settings with the custom prelude <code>relude</code>, included library, executable, test stanzas (but without benchmarks), creates a private repository on GitHub with the Travis CI and AppVeyor CI integrated.</p>
+<pre class="shell"><code>summon new my-project with -letgcpw without -b --prelude-package relude --prelude-module Relude</code></pre>
+<h3 id="tui">TUI <a href="#structure">↑</a></h3>
+<h4 id="tui-new-command">TUI new command <a href="#structure">↑</a></h4>
+<figure>
+<img src="https://user-images.githubusercontent.com/8126674/49283553-fc684e00-f4cc-11e8-8411-f173f5f19a71.png" alt="summon new TUI" /><figcaption>summon new TUI</figcaption>
+</figure>
+<blockquote>
+<p><strong>Section 1</strong> – The main section where user inputs data or changes the configurations.</p>
+</blockquote>
+<blockquote>
+<p><strong>Section 2</strong> – The structure of the project that is going to be created with the current configurations. This tree changes on-the-fly.</p>
+</blockquote>
+<blockquote>
+<p><strong>Section 3</strong> – Hints, project status, or current errors in the configurations.</p>
+</blockquote>
+<blockquote>
+<p><strong>Section 4</strong> – Useful hotkeys.</p>
+</blockquote>
+<p>The TUI window opens with the pre-filled information received from a config file and command-line arguments. However, it’s possible to change any field as per your needs.</p>
+<p>In the screenshot you can see that you’ll be given a few text fields to fill in or some checkboxes that represent boolean values of the configurations. To help you fill in the correct input, there are some ⓘ info messages in the <code>Status</code> section, which give additional details about the current field.</p>
+<p>To help you navigate between the form fields here are the available hotkeys:</p>
+<table>
+<colgroup>
+<col style="width: 28%" />
+<col style="width: 71%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Key</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><kbd>Esc</kbd></td>
+<td>Abort <code>summoner</code></td>
+</tr>
+<tr class="even">
+<td><kbd>Enter</kbd></td>
+<td>If input is valid go to the Confirm window</td>
+</tr>
+<tr class="odd">
+<td><kbd>Tab</kbd></td>
+<td>Change the focus to the next active field</td>
+</tr>
+<tr class="even">
+<td><kbd>Shift</kbd> + <kbd>Tab</kbd></td>
+<td>Change the focus to the previous active field</td>
+</tr>
+<tr class="odd">
+<td><kbd>Space</kbd></td>
+<td>Enable/disable current checkbox or radio button</td>
+</tr>
+<tr class="even">
+<td><kbd>Ctrl</kbd> + <kbd>d</kbd></td>
+<td>Delete the input of the current text field</td>
+</tr>
+<tr class="odd">
+<td><kbd>Ctrl</kbd> + <kbd>u</kbd></td>
+<td>Delete the input of the current text field from the cursor position to the beginning</td>
+</tr>
+<tr class="even">
+<td><kbd>Ctrl</kbd> + <kbd>k</kbd></td>
+<td>Delete the input of the current text field from the cursor position to the end</td>
+</tr>
+<tr class="odd">
+<td><kbd>Ctrl</kbd> + <kbd>a</kbd></td>
+<td>Move the cursor to the beginning of the current input field</td>
+</tr>
+<tr class="even">
+<td><kbd>Ctrl</kbd> + <kbd>e</kbd></td>
+<td>Move the cursor to the end of the current input field</td>
+</tr>
+<tr class="odd">
+<td><kbd>Up</kbd>/<kbd>Down</kbd></td>
+<td>Scroll license list when focused</td>
+</tr>
+</tbody>
+</table>
+<p>Note that the form should be valid in order to be able to go to the Confirm window. If there are some errors in the input, you could see details about these errors in the <code>Status</code> section of the form.</p>
+<h4 id="tui-show-command">TUI show command <a href="#structure">↑</a></h4>
+<p>These commands display the list of supported GHC versions or Licenses. Also, when the license name is specified the window with the scrollable content of the License text is shown.</p>
+<h3 id="cli">CLI <a href="#structure">↑</a></h3>
+<h4 id="cli-new-command">CLI new command <a href="#structure">↑</a></h4>
+<p>In CLI mode of operation Summoner asks about every project setting. Most of the questions contain a default value, so you can press <kbd>Enter</kbd> to choose the default value. If some option is specified via a configuration file or CLI arguments, then the question is skipped and the predefined value is used.</p>
+<h4 id="cli-show-command">CLI show command <a href="#structure">↑</a></h4>
+<p>These commands display the list of supported GHC versions, or Licenses. Also, when the license name is specified, the content of the License is outputted to the terminal.</p>
+<h2 id="for-developers">For Developers <a href="#structure">↑</a></h2>
+<p>If you’d like to take part in the development processes, here are a few things to keep in mind:</p>
+<ul>
+<li>Summoner is a multi-package project which has two packages inside: <code>summoner-cli</code> and <code>summoner-tui</code>. We are supporting the same functionality in both of them, so, if it’s possible, you should add/change the code in both of the packages.</li>
+<li>Summoner uses the custom prelude <a href="https://github.com/kowainik/relude"><code>relude</code></a>.</li>
+<li>We are using the <a href="https://github.com/kowainik/org/blob/master/style-guide.md#haskell-style-guide">Kowainik style guide</a>.</li>
+<li>To sum up, <a href="https://github.com/kowainik/org/blob/master/CONTRIBUTING.md#contributing-to-the-kowainik-repositories">here is the Contributing guide</a> we use across the repositories.</li>
+<li>This project is contributor-friendly, so be kind to other people working on the project.</li>
+</ul>
+<h3 id="dependencies">Dependencies <a href="#structure">↑</a></h3>
+<p>On Linux, to build the <code>summoner-tui</code> you’ll need to have <code>libtinfo</code> installed. The easiest way to get this is from your system’s package manager and is usually available as the package <code>libtinfo-dev</code>.</p>
+<h3 id="build">Build <a href="#structure">↑</a></h3>
+<p>To build the project you can use the following commands:</p>
+<pre class="shell="><code>cabal new-build all</code></pre>
+<p>for Cabal and</p>
+<pre class="shell="><code>stack build</code></pre>
+<p>for Stack.</p>
+<h3 id="test">Test <a href="#structure">↑</a></h3>
+<p>Summoner uses the golden tests technique for assuring the correctness of the generated files. For this purpose, we have <a href="https://github.com/kowainik/summoner/tree/master/summoner-cli/test/golden">the <code>golden</code> folder</a> with two sample projects to test against.</p>
+<p>To actually run tests you need to run:</p>
+<pre class="shell"><code>cabal new-test all</code></pre>
+<p>or</p>
+<pre class="shell"><code>stack test</code></pre>
+<h3 id="run">Run <a href="#structure">↑</a></h3>
+<p>Building Summoner with the recommended method creates two executables: <code>summon</code> and <code>summon-tui</code>. To run the compiled executable you can use the following commands:</p>
+<pre class="shell"><code>cabal new-exec summon -- SOME_COMMAND
+cabal new-exec summon-tui -- SOME_COMMAND</code></pre>
+<p>or</p>
+<pre class="shell"><code>stack exec summon -- SOME_COMMAND
+stack exec summon-tui -- SOME_COMMAND</code></pre>
+<h2 id="changelog">Changelog <a href="#structure">↑</a></h2>
+<p>Each package has its own changelog:</p>
+<ul>
+<li><a href="https://github.com/kowainik/summoner/blob/master/summoner-cli/CHANGELOG.md#changelog">Summoner changelog</a>.</li>
+<li><a href="https://github.com/kowainik/summoner/blob/master/summoner-tui/CHANGELOG.md#changelog">Summoner-TUI changelog</a>.</li>
+</ul>
+<h2 id="acknowledgments">Acknowledgments <a href="#structure">↑</a></h2>
 <p>This project was inspired by <a href="https://github.com/aelve/new-hs#readme">Aelve/new-hs</a>, which is the tool with the same goal but it’s only for creating cabal projects.</p>
 <p>Icons made by <a href="https://www.flaticon.com/authors/nikita-golubev">Nikita Golubev</a> from <a href="https://www.flaticon.com/">Flaticon</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/">CC 3.0 BY</a>.</p>
               </p>
