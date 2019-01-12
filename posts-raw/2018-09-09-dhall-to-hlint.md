@@ -190,11 +190,12 @@ in let warnReexport
     : Text -> Text -> Rule
     = \(f : Text) -> \(mod : Text) ->
         -- using our constructor to create the `Warn`
-        rule.Warn {warn =
-            { name = ["Use '${f}' from Relude"] : Optional Text
+        rule.Warn
+        { warn =
+            { name = Some "Use '${f}' from Relude"
             , lhs = "${mod}.${f}"
             , rhs = "${f}"
-            , note = ["'${f}' is already exported from Relude"] : Optional Text
+            , note = Some "'${f}' is already exported from Relude"
             }
         }
 in { warnReexport   = warnReexport
@@ -236,7 +237,7 @@ many keystrokes we managed to avoid.
 
 |          | __.hlint.yaml__ | __hlint.dhall__ |
 | -------- | --------------- | --------------- |
-| Lines    | 2662            | 763             |
+| Lines    | 2986            | 883             |
 
 
 [relude]: https://github.com/kowainik/relude

@@ -71,7 +71,7 @@ Use the following commands for installation:
 ```shell
 $ sudo add-apt-repository ppa:hvr/ghc
 $ sudo apt update
-$ sudo apt install ghc-8.4.3 cabal-install-head
+$ sudo apt install ghc-8.6.3 cabal-install-head
 ```
 
 > **NOTE:** It's best to install `cabal` HEAD since it has better support for
@@ -81,18 +81,18 @@ You can check the versions of the installed binaries like so:
 
 ```shell
 $ /opt/ghc/bin/ghc --version
-The Glorious Glasgow Haskell Compilation System, version 8.4.3
+The Glorious Glasgow Haskell Compilation System, version 8.6.3
 $ /opt/ghc/bin/cabal --version
-cabal-install version 2.3.0.0
-compiled using version 2.3.0.0 of the Cabal library
+cabal-install version 2.5.0.0
+compiled using version 2.5.0.0 of the Cabal library
 ```
 
 To make development easier, you can also add those binaries to your `$PATH`
 environment variable.
 
 ```shell
-$ echo 'export PATH="$PATH:/opt/ghc/bin"' >> ~/.profile
-$ . ~/.profile
+$ echo 'export PATH="$PATH:/opt/ghc/bin"' >> ~/.bashrc
+$ . ~/.bashrc
 ```
 
 #### Cabal: Mac OS
@@ -489,7 +489,7 @@ each other smoothly. You can check `stack.yaml` file to see which resolver you
 use. Look for a line like this one:
 
 ```haskell
-resolver: lts-11.14
+resolver: lts-13.2
 ```
 
 > **NOTE:** This is the only line in `stack.yaml` that is required for stack to
@@ -507,7 +507,7 @@ used in your project, you can open the Stackage web page with the resolver
 specified in your `stack.yaml` and search for the library you're interested in.
 For example, here we need
 
-* [https://www.stackage.org/lts-11.14](https://www.stackage.org/lts-11.14)
+* [https://www.stackage.org/lts-13.2](https://www.stackage.org/lts-13.2)
 
 You can also do this through the terminal. For instance, for the `random` library
 we can run:
@@ -553,3 +553,4 @@ can check the following repositories:
 * [phischu/fragnix](https://github.com/phischu/fragnix)
 * [nmattia/snack](https://github.com/nmattia/snack)
 * [mrkgnao/rien](https://github.com/mrkgnao/rien)
+* [judah/pier](https://github.com/judah/pier)

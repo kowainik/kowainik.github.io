@@ -691,7 +691,8 @@ contains the following packages:
 Whoa, that’s a lot of packages! But life should become more relaxed once support
 for multiple public libraries in cabal is implemented:
 
-* [cabal/issues/4206](https://github.com/haskell/cabal/issues/4206)
+* [cabal/issues/5660](https://github.com/haskell/cabal/issues/5660)
+* [hackage-server/issues/789](https://github.com/haskell/hackage-server/issues/789)
 
 Backpack is a really great and exciting way to develop Haskell libraries despite
 the number of packages it requires. This approach is extremely new and
@@ -706,7 +707,7 @@ For now, these are the  opportunities I see with Backpack:
 * Use `Int8/Int16/Int32/Int64/Word8/Word16/Word32/Word64` as keys in the
   `IntMap` data type without massive code duplication and performance overhead.
 * Unified interfaces for data structures like `Map`s and `Graph`s. This should
-  also reduce the amount of boilerplate required for benchmarks.
+  also reduce the amount of boilerplate required for tests and benchmarks.
 * Write code with the help of lens signatures that can later be replaced with
   either `microlens` or `lens` or something else to not have both packages in
   the dependencies.
