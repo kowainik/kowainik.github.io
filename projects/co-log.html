@@ -63,7 +63,7 @@
                 <a class="btn btn-outline-dark btn-tag" href="https://github.com/kowainik/co-log" data-icon="octicon-star" data-size="large" aria-label="Star Kowainik/co-log on GitHub">Star Project</a>
                 <a class="fa-stack fa-2x" href="https://github.com/kowainik/co-log/stargazers">
                     <i class="fa fa-star fa-stack-2x"></i>
-                    <i id="stars" class="fa fa-stack-1x fa-inverse main-font">42</i>
+                    <i id="stars" class="fa fa-stack-1x fa-inverse main-font">53</i>
                 </a>
                 <div class="author">Language: Haskell</div>
 
@@ -89,6 +89,82 @@
 <li><a href="co-log"><code>co-log</code></a>: implementation of logging library based on <code>co-log-core</code>.</li>
 </ul>
 <p>See <a href="co-log/README.md">How to start using <code>co-log</code>?</a> for simple example of the <code>co-log</code> library usage.</p>
+<h2 id="benchmarks">Benchmarks</h2>
+<p><code>co-log</code> is compared with basic functions like <code>putStrLn</code>. Since IO overhead is big enough, every benchmark dumps 10K messages to output. If benchmark name doesn’t contain <code>Message</code> then this benchmark simply dumps string <code>"message"</code> to output, othwerwise it works with <code>Message</code> data type from the <code>co-log</code> library.</p>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Benchmarks</th>
+<th style="text-align: left;">Time</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><code>Prelude.putStrLn</code></td>
+<td style="text-align: left;"><code>5.358ms</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>Text.putStrLn</code></td>
+<td style="text-align: left;"><code>9.255ms</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>ByteString.putStrLn</code></td>
+<td style="text-align: left;"><code>2.970ms</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>mempty</code></td>
+<td style="text-align: left;"><code>1.229ms</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>logStringStdout</code></td>
+<td style="text-align: left;"><code>5.127ms</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>logPrint</code></td>
+<td style="text-align: left;"><code>5.163ms</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>logTextStdout</code></td>
+<td style="text-align: left;"><code>5.140ms</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>logByteStringStdout</code></td>
+<td style="text-align: left;"><code>3.931ms</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>logByteStringStderr</code></td>
+<td style="text-align: left;"><code>17.503ms</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>ByteString &gt; (stdout &lt;&gt; stderr)</code></td>
+<td style="text-align: left;"><code>17.612ms</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>Message &gt; format &gt; stdout</code></td>
+<td style="text-align: left;"><code>9.367ms</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>Message &gt; format &gt; ByteString &gt; stdout</code></td>
+<td style="text-align: left;"><code>2.994ms</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>Message{callstack} &gt; format &gt; stdout</code></td>
+<td style="text-align: left;"><code>9.367ms</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>Message{callstack:5} &gt; format &gt; stdout</code></td>
+<td style="text-align: left;"><code>9.441ms</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>Message{callstack:50} &gt; format &gt; stdout</code></td>
+<td style="text-align: left;"><code>9.305ms</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>Message{Time,ThreadId} &gt; format &gt; stdout</code></td>
+<td style="text-align: left;"><code>154.880ms</code></td>
+</tr>
+</tbody>
+</table>
               </p>
               </div>
           </div>

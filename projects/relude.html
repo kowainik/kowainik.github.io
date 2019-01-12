@@ -63,7 +63,7 @@
                 <a class="btn btn-outline-dark btn-tag" href="https://github.com/kowainik/relude" data-icon="octicon-star" data-size="large" aria-label="Star Kowainik/relude on GitHub">Star Project</a>
                 <a class="fa-stack fa-2x" href="https://github.com/kowainik/relude/stargazers">
                     <i class="fa fa-star fa-stack-2x"></i>
-                    <i id="stars" class="fa fa-stack-1x fa-inverse main-font">80</i>
+                    <i id="stars" class="fa fa-stack-1x fa-inverse main-font">90</i>
                 </a>
                 <div class="author">Language: Haskell</div>
 
@@ -107,6 +107,10 @@
 <li><a href="#reexports-">Reexports.</a></li>
 <li><a href="#whats-new-">What’s new?</a></li>
 <li><a href="#migration-guide-">Migration guide.</a></li>
+<li><a href="#comparison-with-other-alternative-preludes-">Comparison with other alternative preludes</a>
+<ul>
+<li><a href="#relude-vs-protolude-">Relude vs Protolude</a></li>
+</ul></li>
 <li><a href="#for-developers-">For developers.</a></li>
 </ol>
 <p>This is neither a tutorial on <em>Haskell</em> nor tutorial on each function contained in <code>Relude</code>. For detailed documentation of every function together with examples and usage, see <a href="http://hackage.haskell.org/package/relude"><em>Haddock documentation</em></a>.</p>
@@ -118,11 +122,11 @@
 <li>Replace <code>base</code> dependency with corresponding version of <code>base-noprelude</code> in your <code>.cabal</code> file.</li>
 <li>Add a <code>relude</code> dependency to your <code>.cabal</code> file.</li>
 <li><p>Add the following <code>Prelude</code> module to your project (both to filesystem and to <code>exposed-modules</code>):</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">module</span> <span class="dt">Prelude</span></a>
-<a class="sourceLine" id="cb1-2" data-line-number="2">       ( <span class="kw">module</span> <span class="dt">Relude</span></a>
-<a class="sourceLine" id="cb1-3" data-line-number="3">       ) <span class="kw">where</span></a>
-<a class="sourceLine" id="cb1-4" data-line-number="4"></a>
-<a class="sourceLine" id="cb1-5" data-line-number="5"><span class="kw">import</span> <span class="dt">Relude</span></a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb1-1" title="1"><span class="kw">module</span> <span class="dt">Prelude</span></a>
+<a class="sourceLine" id="cb1-2" title="2">       ( <span class="kw">module</span> <span class="dt">Relude</span></a>
+<a class="sourceLine" id="cb1-3" title="3">       ) <span class="kw">where</span></a>
+<a class="sourceLine" id="cb1-4" title="4"></a>
+<a class="sourceLine" id="cb1-5" title="5"><span class="kw">import</span> <span class="dt">Relude</span></a></code></pre></div>
 <blockquote>
 <p><strong>NOTE:</strong> if you use <a href="https://github.com/kowainik/summoner"><code>summoner</code></a> to generate Haskell project, this tool can automatically create such structure for you when you specify custom prelude.</p>
 </blockquote></li>
@@ -131,11 +135,11 @@
 <p>This is a very convenient way to add a custom prelude to your project because you don’t need to import module manually inside each file and enable the <code>NoImplicitPrelude</code> extension.</p>
 <h3 id="per-file-configuration">Per-file configuration</h3>
 <p>Disable the built-in prelude at the top of your file:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="ot">{-# LANGUAGE NoImplicitPrelude #-}</span></a></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb2-1" title="1"><span class="ot">{-# LANGUAGE NoImplicitPrelude #-}</span></a></code></pre></div>
 <p>Or directly in your project <code>.cabal</code> file, if you want to use in every module by default:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb3-1" data-line-number="1">default<span class="fu">-</span>extensions<span class="fu">:</span> <span class="dt">NoImplicitPrelude</span></a></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb3-1" title="1">default<span class="fu">-</span>extensions<span class="fu">:</span> <span class="dt">NoImplicitPrelude</span></a></code></pre></div>
 <p>Then add the following import to your modules:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="kw">import</span> <span class="dt">Relude</span></a></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb4-1" title="1"><span class="kw">import</span> <span class="dt">Relude</span></a></code></pre></div>
 <h2 id="difference-from-prelude">Difference from Prelude <a href="#structure-of-this-tutorial">↑</a></h2>
 <ul>
 <li><code>head</code>, <code>tail</code>, <code>last</code>, <code>init</code> work with <code>NonEmpty a</code> instead of <code>[a]</code>.</li>
@@ -206,21 +210,21 @@
 <li><code>uncons</code> splits a list at the first element.</li>
 <li><code>ordNub</code> and <code>sortNub</code> are <em>O(n log n)</em> versions of <code>nub</code> (which is quadratic) and <code>hashNub</code> and <code>unstableNub</code> are almost <em>O(n)</em> versions of <code>nub</code>.</li>
 <li><code>(&amp;)</code> – reverse application. <code>x &amp; f &amp; g</code> instead of <code>g $ f $ x</code> is useful sometimes.</li>
-<li><code>whenM</code>, <code>unlessM</code>, <code>ifM</code>, <code>guardM</code> are available and do what you expect them to do (e.g. <code>whenM (doesFileExist &quot;foo&quot;)</code>).</li>
+<li><code>whenM</code>, <code>unlessM</code>, <code>ifM</code>, <code>guardM</code> are available and do what you expect them to do (e.g. <code>whenM (doesFileExist "foo")</code>).</li>
 <li><p>General fold functions:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="ot">foldMapA ::</span> (<span class="dt">Monoid</span> b, <span class="dt">Applicative</span> m, <span class="dt">Foldable</span> f) <span class="ot">=&gt;</span> (a <span class="ot">-&gt;</span> m b) <span class="ot">-&gt;</span> f a <span class="ot">-&gt;</span> m b</a>
-<a class="sourceLine" id="cb5-2" data-line-number="2"><span class="ot">foldMapM ::</span> (<span class="dt">Monoid</span> b, <span class="dt">Monad</span> m, <span class="dt">Foldable</span> f) <span class="ot">=&gt;</span> (a <span class="ot">-&gt;</span> m b) <span class="ot">-&gt;</span> f a <span class="ot">-&gt;</span> m b</a></code></pre></div></li>
+<div class="sourceCode" id="cb5"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb5-1" title="1"><span class="ot">foldMapA ::</span> (<span class="dt">Monoid</span> b, <span class="dt">Applicative</span> m, <span class="dt">Foldable</span> f) <span class="ot">=&gt;</span> (a <span class="ot">-&gt;</span> m b) <span class="ot">-&gt;</span> f a <span class="ot">-&gt;</span> m b</a>
+<a class="sourceLine" id="cb5-2" title="2"><span class="ot">foldMapM ::</span> (<span class="dt">Monoid</span> b, <span class="dt">Monad</span> m, <span class="dt">Foldable</span> f) <span class="ot">=&gt;</span> (a <span class="ot">-&gt;</span> m b) <span class="ot">-&gt;</span> f a <span class="ot">-&gt;</span> m b</a></code></pre></div></li>
 <li><code>readMaybe</code> and <code>readEither</code> are like <code>read</code> but total and give either <code>Maybe</code> or <code>Either</code> with parse error.</li>
 <li><p><code>when(Just|Nothing|Left|Right|NotEmpty)[M][_]</code> let you conditionally execute something. Before:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="kw">case</span> mbX <span class="kw">of</span></a>
-<a class="sourceLine" id="cb6-2" data-line-number="2">    <span class="dt">Nothing</span> <span class="ot">-&gt;</span> return ()</a>
-<a class="sourceLine" id="cb6-3" data-line-number="3">    <span class="dt">Just</span> x  <span class="ot">-&gt;</span> f x</a></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb6-1" title="1"><span class="kw">case</span> mbX <span class="kw">of</span></a>
+<a class="sourceLine" id="cb6-2" title="2">    <span class="dt">Nothing</span> <span class="ot">-&gt;</span> <span class="fu">return</span> ()</a>
+<a class="sourceLine" id="cb6-3" title="3">    <span class="dt">Just</span> x  <span class="ot">-&gt;</span> f x</a></code></pre></div>
 <p>After:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb7-1" data-line-number="1">whenJust mbX <span class="fu">$</span> \x <span class="ot">-&gt;</span></a>
-<a class="sourceLine" id="cb7-2" data-line-number="2">    f x</a></code></pre></div></li>
+<div class="sourceCode" id="cb7"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb7-1" title="1">whenJust mbX <span class="fu">$</span> \x <span class="ot">-&gt;</span></a>
+<a class="sourceLine" id="cb7-2" title="2">    f x</a></code></pre></div></li>
 <li><p><code>for_</code> for loops. There’s also <code>forM_</code> but <code>for_</code> looks a bit nicer.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb8-1" data-line-number="1">for_ [<span class="dv">1</span><span class="fu">..</span><span class="dv">10</span>] <span class="fu">$</span> \i <span class="ot">-&gt;</span> <span class="kw">do</span></a>
-<a class="sourceLine" id="cb8-2" data-line-number="2">    <span class="fu">...</span></a></code></pre></div></li>
+<div class="sourceCode" id="cb8"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb8-1" title="1">for_ [<span class="dv">1</span><span class="fu">..</span><span class="dv">10</span>] <span class="fu">$</span> \i <span class="ot">-&gt;</span> <span class="kw">do</span></a>
+<a class="sourceLine" id="cb8-2" title="2">    <span class="fu">...</span></a></code></pre></div></li>
 <li><p><code>andM</code>, <code>allM</code>, <code>anyM</code>, <code>orM</code> are monadic version of corresponding functions from <code>base</code>.</p></li>
 <li>Conversions between <code>Either</code> and <code>Maybe</code> like <code>rightToMaybe</code> and <code>maybeToLeft</code> with clear semantic.</li>
 <li><code>using(Reader|State)[T]</code> functions as aliases for <code>flip run(Reader|State)[T]</code>.</li>
@@ -237,13 +241,13 @@
 <li><code>inverseMap :: (Bounded a, Enum a, Ord k) =&gt; (a -&gt; k) -&gt; k -&gt; Maybe a</code>: convert functions like <code>show</code> to parsers.</li>
 </ol></li>
 <li><p>Nice helpers to deal with <code>newtype</code>s in a more pleasant way:</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb9-1" data-line-number="1">ghci<span class="fu">&gt;</span> <span class="kw">newtype</span> <span class="dt">Foo</span> <span class="fu">=</span> <span class="dt">Foo</span> <span class="dt">Bool</span> <span class="kw">deriving</span> <span class="dt">Show</span></a>
-<a class="sourceLine" id="cb9-2" data-line-number="2">ghci<span class="fu">&gt;</span> under not (<span class="dt">Foo</span> <span class="dt">True</span>)</a>
-<a class="sourceLine" id="cb9-3" data-line-number="3"><span class="dt">Foo</span> <span class="dt">False</span></a></code></pre></div></li>
+<div class="sourceCode" id="cb9"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb9-1" title="1">ghci<span class="fu">&gt;</span> <span class="kw">newtype</span> <span class="dt">Foo</span> <span class="fu">=</span> <span class="dt">Foo</span> <span class="dt">Bool</span> <span class="kw">deriving</span> <span class="dt">Show</span></a>
+<a class="sourceLine" id="cb9-2" title="2">ghci<span class="fu">&gt;</span> under <span class="fu">not</span> (<span class="dt">Foo</span> <span class="dt">True</span>)</a>
+<a class="sourceLine" id="cb9-3" title="3"><span class="dt">Foo</span> <span class="dt">False</span></a></code></pre></div></li>
 <li><p>Functions to operate with <code>CallStack</code>:</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="fu">&gt;&gt;&gt;</span><span class="ot"> foo ::</span> <span class="dt">HasCallStack</span> <span class="ot">=&gt;</span> <span class="dt">String</span>; foo <span class="fu">=</span> ownName</a>
-<a class="sourceLine" id="cb10-2" data-line-number="2"><span class="fu">&gt;&gt;&gt;</span> foo</a>
-<a class="sourceLine" id="cb10-3" data-line-number="3"><span class="st">&quot;foo&quot;</span></a></code></pre></div></li>
+<div class="sourceCode" id="cb10"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb10-1" title="1"><span class="fu">&gt;&gt;&gt;</span><span class="ot"> foo ::</span> <span class="dt">HasCallStack</span> <span class="ot">=&gt;</span> <span class="dt">String</span>; foo <span class="fu">=</span> ownName</a>
+<a class="sourceLine" id="cb10-2" title="2"><span class="fu">&gt;&gt;&gt;</span> foo</a>
+<a class="sourceLine" id="cb10-3" title="3"><span class="st">&quot;foo&quot;</span></a></code></pre></div></li>
 <li><code>Foldable1</code> typeclass that contains generalized interface for folding non-empty structures like <code>NonEmpty</code>.</li>
 <li><p><code>Validation</code> data type as an alternative to <code>Either</code> when you want to combine all errors.</p></li>
 </ul>
@@ -293,6 +297,25 @@
 <li>Use <code>(putStr[Ln]|readFile|writeFile|appendFile)[Text|LText|BS|LBS]</code> functions.</li>
 </ul></li>
 <li>Run <code>hlint</code> using <code>.hlint.yaml</code> file from <code>relude</code> package to cleanup code and imports.</li>
+</ol>
+<h2 id="comparison-with-other-alternative-preludes">Comparison with other alternative preludes <a href="#structure-of-this-tutorial">↑</a></h2>
+<p>There are quite a few libraries that can be used as alternative preludes in Haskell, let’s compare Relude with some of them.</p>
+<h3 id="relude-vs-protolude">Relude vs Protolude <a href="#structure-of-this-tutorial">↑</a></h3>
+<p><a href="https://github.com/sdiehl/protolude">Protolude</a> is one of the most popular alternative preludes. It’s also relatively small, but:</p>
+<ol type="1">
+<li>Protolude supports older GHC versions (from GHC 7.6.1) while <code>relude</code> only supports from GHC 8.0.2. So if you aim ancient GHC versions, <code>protolude</code> might be a better choice. But because of that it contains a lot of CPP, code is ugly in some places as a consequence and it’s more difficult to add, remove or change things there.</li>
+<li><code>relude</code> has much better documentation:
+<ul>
+<li><a href="http://hackage.haskell.org/package/relude/docs/Relude.html">High-level overview of internal module structure</a></li>
+<li>100% Haddock coverage</li>
+<li>Almost every function has usage examples and all examples are tested with <code>doctest</code> (which also sometimes hard to do because of multiple GHC versions support, but we try really hard)</li>
+<li><a href="structure-of-this-tutorial">Tutorial + migration guide</a> from <code>Prelude</code> and just general description of the whole package and libraries it depends on.</li>
+</ul></li>
+<li><code>relude</code> has custom HLint rules specific to it: you can use them to remove redundant imports or find hints how to use functions from <code>relude</code>. Moreover, the HLint rules are generated using Dhall and there is <a href="https://kowainik.github.io/posts/2018-09-09-dhall-to-hlint">a blog post about this technique</a>. This allows to maintain HLint rules much easier because it’s already not an easy task.</li>
+<li><code>relude</code> has less dependencies and is slightly lighter because of that but still very powerful and useful.</li>
+<li>One minor difference: <code>head</code> in <code>protolude</code> returns <code>Maybe a</code> while in <code>relude</code> it works with <code>NonEmpty</code>.</li>
+<li>Minor feature: <code>relude</code> uses type-level magic to forbid <code>elem</code> and <code>notElem</code> functions for <code>Set</code> and <code>HashSet</code> (because <code>elem</code> from <code>Foldable</code> run in <em>O(n)</em> time and you can accidentally use <code>elem</code> from <code>Foldable</code> but with <code>relude</code> you can’t).</li>
+<li><code>relude</code> is opt-in oriented and has a notion of <code>Extra.*</code> modules that are not exported by default from the <code>Relude</code> module. So we don’t spoil global namespace but still have a lot of useful features like polymorphic functions to work with every <code>newtype</code>, <code>Enum/Bounded</code>-related useful utilities, functions to take a name of any type as <code>Text</code> and much more. It’s very easy to make them accessible package-wide with <code>base-noprelude</code> trick!</li>
 </ol>
 <h2 id="for-developers">For Developers <a href="#structure-of-this-tutorial">↑</a></h2>
 <h3 id="generating-.hlint.yaml">Generating .hlint.yaml</h3>

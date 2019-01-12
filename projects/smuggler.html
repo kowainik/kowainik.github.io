@@ -87,10 +87,12 @@
 <h2 id="how-to-use">How to use</h2>
 <p>Add <code>smuggler</code> to the dependencies of your project. Then add the following compiler options:</p>
 <pre><code>-fplugin=Smuggler.Plugin</code></pre>
+<p>You can also use <code>smuggler</code> with <code>ghcid</code> to enable on-the-fly features:</p>
+<pre><code>ghcid --command='cabal new-repl --ghc-options=&quot;-fplugin=Smuggler.Plugin&quot;'</code></pre>
 <h2 id="for-contributors">For contributors</h2>
 <p>Requirements:</p>
 <ul>
-<li><code>ghc-8.6.1</code></li>
+<li><code>ghc-8.6.3</code></li>
 </ul>
 <h3 id="cabal-how-to-build">Cabal: How to build?</h3>
 <pre class="shell"><code>$ cabal new-update
