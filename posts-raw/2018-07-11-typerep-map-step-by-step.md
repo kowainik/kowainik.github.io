@@ -211,9 +211,10 @@ So we get:
 ```haskell
 newtype TypeRepMap = TypeRepMap { unMap :: LMap.Map TypeRep Any }
 
-insert val = TypeRepMap
-           . LMap.insert (typeRep $ Proxy @a) (unsafeCoerce val)
-           . unMap
+insert val =
+      TypeRepMap
+    . LMap.insert (typeRep $ Proxy @a) (unsafeCoerce val)
+    . unMap
 
 lookup = fmap unsafeCoerce . LMap.lookup (typeRep $ Proxy @a) . unMap
 
@@ -408,10 +409,11 @@ And the `lookup` function was implemented like this:
 
 ```haskell
 lookup :: forall a f . Typeable a => TypeRepVector f -> Maybe (f a)
-lookup tVect =  fromAny . (anys tVect V.!)
-            <$> binarySearch (typeRepFingerprint $ typeRep $ Proxy @a)
-                             (fingerprintAs tVect)
-                             (fingerprintBs tVect)
+lookup tVect =
+        fromAny . (anys tVect V.!)
+    <$> binarySearch (typeRepFingerprint $ typeRep $ Proxy @a)
+                     (fingerprintAs tVect)
+                     (fingerprintBs tVect)
 ```
 
 It uses a manually implemented version of the binary search algorithm optimized
@@ -470,11 +472,12 @@ Using these data types we can now implement the function which builds
 `TypeRepMap` of the desired size.
 
 ```haskell
-buildBigMap :: forall a . Typeable a
-            => Int
-            -> Proxy a
-            -> TypeRepMap Proxy
-            -> TypeRepMap Proxy
+buildBigMap
+    :: forall a . Typeable a
+    => Int
+    -> Proxy a
+    -> TypeRepMap Proxy
+    -> TypeRepMap Proxy
 ```
 
 so when I run `buildBigMap` with size `n` and `Proxy a`, it calls itself
