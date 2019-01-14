@@ -171,6 +171,47 @@
 <a class="sourceLine" id="cb5-5" title="5">    <span class="kw">case</span> res <span class="kw">of</span></a>
 <a class="sourceLine" id="cb5-6" title="6">        <span class="dt">Left</span> err <span class="ot">-&gt;</span> <span class="fu">print</span> err</a>
 <a class="sourceLine" id="cb5-7" title="7">        <span class="dt">Right</span> settings <span class="ot">-&gt;</span> TIO.putStrLn <span class="fu">$</span> Toml.encode settingsCodec settings</a></code></pre></div>
+<h2 id="benchmarks-and-comparison-with-other-libraries">Benchmarks and comparison with other libraries</h2>
+<p><code>tomland</code> is compared with other libraries. Since it uses 2-step approach with converting text to intermediate AST and only then decoding Haskell type from this AST, benchmarks are also implemented in a way to reflect this difference.</p>
+<table>
+<thead>
+<tr class="header">
+<th>Library</th>
+<th>parse :: Text -&gt; AST</th>
+<th>transform :: AST -&gt; Haskell</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>tomland</code></td>
+<td><code>387.5 μs</code></td>
+<td><code>1.313 μs</code></td>
+</tr>
+<tr class="even">
+<td><code>htoml</code></td>
+<td><code>801.2 μs</code></td>
+<td><code>32.54 μs</code></td>
+</tr>
+<tr class="odd">
+<td><code>htoml-megaparsec</code></td>
+<td><code>318.7 μs</code></td>
+<td><code>34.74 μs</code></td>
+</tr>
+<tr class="even">
+<td><code>toml-parser</code></td>
+<td><code>157.2 μs</code></td>
+<td><code>1.156 μs</code></td>
+</tr>
+</tbody>
+</table>
+<p>You may see that <code>tomland</code> is not the fastest one (though still very fast). But performance hasn’t been optimized so far and:</p>
+<ol type="1">
+<li><code>toml-parser</code> doesn’t support the array of tables and because of that it’s hardly possible to specify the list of custom data types in TOML with this library.</li>
+<li><code>tomland</code> supports latest TOML spec while <code>htoml</code> and <code>htoml-megaparsec</code> don’t have support for all types, values and formats.</li>
+<li><code>tomland</code> is the only library that has pretty-printing.</li>
+<li><code>toml-parser</code> doesn’t have ways to convert TOML AST to custom Haskell types and <code>htoml*</code> libraries use typeclasses-based approach via <code>aeson</code> library.</li>
+<li><code>tomland</code> is bidirectional :slightly_smiling_face:</li>
+</ol>
               </p>
               </div>
           </div>
