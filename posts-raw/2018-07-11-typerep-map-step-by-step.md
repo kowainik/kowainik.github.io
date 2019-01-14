@@ -1,7 +1,7 @@
 ---
 title: "typerep-map step by step"
 author: Veronika Romashkina
-tags: haskell, dependent types, typerep, data structure
+tags: haskell, dependent types, typerep, data structure, GADTs
 ---
 
 Recently, I have been working on a very interesting and sophisticated project
