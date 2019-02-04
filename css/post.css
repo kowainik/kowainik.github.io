@@ -1,18 +1,8 @@
-.navbar {
-    align-items: stretch;
-}
-@media (min-width:768px){
-    .container{width:503px}
-}
-@media (min-width:992px){
-    .container{width:723px}
-}
-@media (min-width:1200px){
-    .container{width:923px}
-}
-@media (min-width:1432px) {
-    .container{width:1170px}
-}
+.navbar {align-items: stretch;}
+@media (min-width:768px) {.container{width:503px}}
+@media (min-width:992px) {.container{width:723px}}
+@media (min-width:1200px){.container{width:923px}}
+@media (min-width:1432px){.container{width:1170px}}
 @media (min-width:768px) {
     body {padding-top: 70px}
     .navbar-fixed-left {
@@ -52,9 +42,6 @@
     .navbar-fixed-left .navbar-collapse .navbar-nav>li{
         width:100%
     }
-    .navbar-fixed-left .navbar-collapse .navbar-nav>li.dropdown .dropdown-menu {
-        top:0
-    }
     .navbar-fixed-left .navbar-collapse .navbar-nav.navbar-right{
         margin-right:0
     }
@@ -68,9 +55,7 @@
         border-width: 0 1px 0 0 !important
     }
 }
-pre, code {
-    text-align: left;
-}
+pre, code {text-align: left;}
 .info {
     min-height: 100%;
     margin-top: 2%;
@@ -118,7 +103,6 @@ pre.comment {
 .post-body a:focus, .post-body a:hover, .post-body a:active{
     text-decoration: none;
     color: #26e4bb;
-
 }
 
 .post-body a img {
@@ -135,7 +119,7 @@ pre.comment {
 }
 
 .post table {
-    width: 60%;
+    width: 80%;
     align: center;
 }
 .post table, th, td {
@@ -149,6 +133,7 @@ pre.comment {
     background-color: #2C3E50;
     color: white;
 }
+/* Table of Contents (TOC) */
 @media (max-width:767px) {
     .toc-zone {display:none;}
     .toc {display: none;}
@@ -171,11 +156,9 @@ pre.comment {
         margin-top: 0%;
     }
     .toc:hover { overflow-y:scroll; visibility: visible; }
-
     .toc ul {
         list-style-type: none;
-       padding-left: 10%;
-
+        padding-left: 10%;
     }
     .toc li {
         width: 90%;
@@ -188,3 +171,6 @@ pre.comment {
 .post-body h2 a, .post-body h3 a, .post-body h4 a, .post-body h5 a, .post-body h6 a {
     color: #2C3E50;
 }
+
+/* Comments color in the code blocks */
+.hljs-comment {color: #c0c0c0 !important;}
