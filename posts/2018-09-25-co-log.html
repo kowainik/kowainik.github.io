@@ -22,10 +22,12 @@
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:site" content="@kowainik" />
     <meta property="twitter:title" content="Kowainik - co-log: Composable Contravariant Combinatorial Comonadic Configurable Convenient Logging" />
+    <meta name="twitter:description" content="Architecture of the modern logging library in Haskell" />
+    <meta name="twitter:image:src" content="https://kowainik.github.io/images/logo-yellow.png" />
     <meta property="og:title" content="Kowainik - co-log: Composable Contravariant Combinatorial Comonadic Configurable Convenient Logging" />
-    <!-- <meta property="og:description" content="..." /> -->
+    <meta property="og:description" content="Architecture of the modern logging library in Haskell" />
     <meta property="og:site_name" content="Kowainik" />
-    <meta property="og:image" content="https://kowainik.github.io/images/logo_trans.png" />
+    <meta property="og:image" content="https://kowainik.github.io/images/logo-yellow.png" />
 
     <!-- Favicon -->
     <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon">
@@ -33,36 +35,51 @@
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/tomorrow-night.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/katex@0.10.0-alpha/dist/katex.min.css" rel="stylesheet">
-
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.11.0/styles/dracula.min.css" />
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
     <!-- Custom fonts for this template -->
     <link href="../css/font-awesome.css" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
-    <link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css">
 
-    <!-- Plugin CSS -->
-    <link href="../css/magnific-popup.css" rel="stylesheet" type="text/css">
     <!-- Custom styles for this template -->
     <link href="../css/default.css" rel="stylesheet">
     <link href="../css/post.css" rel="stylesheet">
   </head>
 
-  <body>
+  <body class="body-posts">
 
           <!-- Header -->
       <nav class="navbar navbar-inverse navbar-fixed-left leftmenu bg-primary text-secondary">
             <div class="navbar-header">
-                <div class="postslogo"> <a class="navbar-brand" href="../"><img class="img-fluid d-block mx-auto" src="../images/logo-tr.png" alt="Kowainik"></a></div>
+                <div class="postslogo"> <a class="navbar-brand" href="../"><img class="img-fluid" src="../images/logo-tr.png" alt="Kowainik"></a></div>
             </div>
             <div class="toc-zone">
                 <h6 class="coolFont">Contents</h6>
-
                 <div class="toc">
-                    <ul> <li><a href="#introduction">Introduction</a></li><li><a href="#logaction">LogAction</a></li><ul> <li><a href="#data-type">Data type</a></li><li><a href="#how-to-use-it">How to use it?</a></li></ul> <li><a href="#composable">Composable</a></li><ul> <li><a href="#semigroup">Semigroup</a></li><li><a href="#monoid">Monoid</a></li></ul> <li><a href="#contravariant-functors">Contravariant functors</a></li><ul> <li><a href="#contravariant">Contravariant</a></li><ul> <li><a href="#contramap">contramap</a></li><li><a href="#cfilter">cfilter</a></li><li><a href="#cmapm">cmapM</a></li></ul> <li><a href="#divisible">Divisible</a></li><li><a href="#decidable">Decidable</a></li></ul> <li><a href="#combinators">Combinators</a></li><li><a href="#comonads">Comonads</a></li><li><a href="#configurable-convenient">Configurable & Convenient</a></li><li><a href="#conclusion-unexplored-opportunities">Conclusion & unexplored opportunities</a></li><li><a href="#acknowledgement">Acknowledgement</a></li></ul>
+                    <ul>
+<li><a href="#introduction">Introduction</a></li>
+<li><a href="#logaction">LogAction</a><ul>
+<li><a href="#data-type">Data type</a></li>
+<li><a href="#how-to-use-it">How to use it?</a></li>
+</ul></li>
+<li><a href="#composable">Composable</a><ul>
+<li><a href="#semigroup">Semigroup</a></li>
+<li><a href="#monoid">Monoid</a></li>
+</ul></li>
+<li><a href="#contravariant-functors">Contravariant functors</a><ul>
+<li><a href="#contravariant">Contravariant</a><ul>
+<li><a href="#contramap">contramap</a></li>
+<li><a href="#cfilter">cfilter</a></li>
+<li><a href="#cmapm">cmapM</a></li>
+</ul></li>
+<li><a href="#divisible">Divisible</a></li>
+<li><a href="#decidable">Decidable</a></li>
+</ul></li>
+<li><a href="#combinators">Combinators</a></li>
+<li><a href="#comonads">Comonads</a></li>
+<li><a href="#configurable-convenient">Configurable &amp; Convenient</a></li>
+<li><a href="#conclusion-unexplored-opportunities">Conclusion &amp; unexplored opportunities</a></li>
+<li><a href="#acknowledgement">Acknowledgement</a></li>
+</ul>
                 </div>
             </div>
             <div class="coolFont">
@@ -97,7 +114,7 @@
 <ul>
 <li><a href="https://github.com/kowainik/co-log">kowainik/co-log</a></li>
 </ul>
-<h2 id="introduction"><a href="#introduction">Introduction</a></h2>
+<h2 id="introduction">Introduction</h2>
 <p>There are already several logging frameworks within the Haskell ecosystem and every library has its own idea and architecture:</p>
 <ul>
 <li><a href="http://hackage.haskell.org/package/katip">katip</a></li>
@@ -123,9 +140,9 @@
 <li><a href="http://hackage.haskell.org/package/co-log">co-log</a>: implementation of a logging library based on <code>co-log-core</code></li>
 </ul>
 <p>In the following sections, I’m going to describe the main ideas behind these two packages alongside with some implementation details.</p>
-<h2 id="logaction"><a href="#logaction">LogAction</a></h2>
+<h2 id="logaction">LogAction</h2>
 <p>This section introduces the fundamental piece in the <code>co-log</code> design: the <code>LogAction</code> data type.</p>
-<h3 id="data-type"><a href="#data-type">Data type</a></h3>
+<h3 id="data-type">Data type</h3>
 <p>The main piece of the <code>co-log</code> logging library is the following structure:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb1-1" title="1"><span class="kw">newtype</span> <span class="dt">LogAction</span> m msg <span class="fu">=</span> <span class="dt">LogAction</span></a>
 <a class="sourceLine" id="cb1-2" title="2">    {<span class="ot"> unLogAction ::</span> msg <span class="ot">-&gt;</span> m ()</a>
@@ -142,7 +159,7 @@
 <blockquote>
 <p><strong>NOTE:</strong> For simplicity purposes this blog post uses <code>String</code> data type for logging. In practice, it’s better to use <code>Text</code> or <code>ByteString</code> data types instead of <code>String</code> as they provide better performance. Even better, you can use Backpack and implement a general interface around <a href="https://github.com/haskell-backpack/backpack-str">backpack-str</a> package.</p>
 </blockquote>
-<h3 id="how-to-use-it"><a href="#how-to-use-it">How to use it?</a></h3>
+<h3 id="how-to-use-it">How to use it?</h3>
 <p>Once you’ve created <code>LogAction</code>, you need to use it in your application. There are multiple ways to use <code>LogAction</code> in your code since it’s just a value:</p>
 <ul>
 <li>Pass it as an argument to your functions explicitly each time</li>
@@ -200,8 +217,8 @@
 <p>And the output is exactly what we expected:</p>
 <pre class="shell"><code>Starting application...
 Finishing application...</code></pre>
-<h2 id="composable"><a href="#composable">Composable</a></h2>
-<h3 id="semigroup"><a href="#semigroup">Semigroup</a></h3>
+<h2 id="composable">Composable</h2>
+<h3 id="semigroup">Semigroup</h3>
 <p>Let’s see how to make our <code>LogAction</code> composable. Currently, we have only one action that prints <code>String</code> to <code>stdout</code>. What if we also want to print the same <code>String</code> to <code>stderr</code> in addition? Or to some file? Of course, we can create a separate <code>LogAction</code> that does just that:</p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb11-1" title="1"><span class="ot">logStringBoth ::</span> <span class="dt">LogAction</span> <span class="dt">IO</span> <span class="dt">String</span></a>
 <a class="sourceLine" id="cb11-2" title="2">logStringBoth <span class="fu">=</span> <span class="dt">LogAction</span> <span class="fu">$</span> \msg <span class="ot">-&gt;</span> <span class="kw">do</span></a>
@@ -221,19 +238,19 @@ Finishing application...</code></pre>
 <a class="sourceLine" id="cb13-6" title="6"></a>
 <a class="sourceLine" id="cb13-7" title="7"><span class="ot">logStringBoth ::</span> <span class="dt">LogAction</span> <span class="dt">IO</span> <span class="dt">String</span></a>
 <a class="sourceLine" id="cb13-8" title="8">logStringBoth <span class="fu">=</span> logStringStdout <span class="fu">&lt;&gt;</span> logStringStderr</a></code></pre></div>
-<h3 id="monoid"><a href="#monoid">Monoid</a></h3>
+<h3 id="monoid">Monoid</h3>
 <p>The <a href="https://hackage.haskell.org/package/base-4.11.1.0/docs/Prelude.html#t:Monoid"><code>Monoid</code></a> instance is even simpler:</p>
 <div class="sourceCode" id="cb14"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb14-1" title="1"><span class="kw">instance</span> <span class="dt">Applicative</span> m <span class="ot">=&gt;</span> <span class="dt">Monoid</span> (<span class="dt">LogAction</span> m a) <span class="kw">where</span></a>
 <a class="sourceLine" id="cb14-2" title="2"><span class="ot">    mempty ::</span> <span class="dt">LogAction</span> m a</a>
 <a class="sourceLine" id="cb14-3" title="3">    <span class="fu">mempty</span> <span class="fu">=</span> <span class="dt">LogAction</span> <span class="fu">$</span> \_ <span class="ot">-&gt;</span> <span class="fu">pure</span> ()</a></code></pre></div>
 <p>It adds the empty <code>LogAction</code> that does nothing to the <code>Semigroup</code> instance. It’s quite straightforward to show that the above instances satisfy associativity and neutrality laws. The nice thing about the <code>Monoid</code> instance is the ability to disable logging. Usually, logging libraries provide some extra transformer with a name like <code>NoLoggingT</code> which you can put on top of your monad transformer tower to disable logging. But with a <code>Monoid</code> instance for <code>LogAction</code> you can just pass <code>mempty</code> as your logging action and that’s all. This approach also works quite well if you want to disable logging only in some specific piece of your code.</p>
-<h2 id="contravariant-functors"><a href="#contravariant-functors">Contravariant functors</a></h2>
+<h2 id="contravariant-functors">Contravariant functors</h2>
 <p>This section covers the contravariant family of typeclasses regarding <code>LogAction</code>. The typeclasses themselves are implemented in the <a href="https://hackage.haskell.org/package/contravariant"><code>contravariant</code></a> package. This section assumes some basic knowledge for Contravariant functors, if you’re not familiar with them, I strongly recommend watching the following talk by George Wilson:</p>
 <ul>
 <li><a href="https://www.youtube.com/watch?v=IJ_bVVsQhvc">YOW! Lambda Jam 2018 - George Wilson - Contravariant Functors: The Other Side of the Coin</a></li>
 </ul>
-<h3 id="contravariant"><a href="#contravariant">Contravariant</a></h3>
-<h4 id="contramap"><a href="#contramap">contramap</a></h4>
+<h3 id="contravariant">Contravariant</h3>
+<h4 id="contramap">contramap</h4>
 <p>Let’s first have a look at <code>Contravariant</code> typeclass and its instance for <code>LogAction</code>:</p>
 <div class="sourceCode" id="cb15"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb15-1" title="1"><span class="kw">class</span> <span class="dt">Contravariant</span> f <span class="kw">where</span></a>
 <a class="sourceLine" id="cb15-2" title="2"><span class="ot">    contramap ::</span> (a <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> f b <span class="ot">-&gt;</span> f a</a>
@@ -268,7 +285,7 @@ Finishing application...</code></pre>
 <pre class="shell"><code>[Debug] Starting application...
 [Info] Finishing application...</code></pre>
 <p>The problem of showing the output is handled separately from the problem of providing the input to the loggers. If you want to format the output in a different way (as JSON for example) you can just switch the formatting function to a different one.</p>
-<h4 id="cfilter"><a href="#cfilter">cfilter</a></h4>
+<h4 id="cfilter">cfilter</h4>
 <p>Okay, now we would like to discard any <code>Debug</code> messages from the output. It’s easy to do after writing a contravariant filter function:</p>
 <div class="sourceCode" id="cb20"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb20-1" title="1"><span class="ot">cfilter ::</span> <span class="dt">Applicative</span> m <span class="ot">=&gt;</span> (msg <span class="ot">-&gt;</span> <span class="dt">Bool</span>) <span class="ot">-&gt;</span> <span class="dt">LogAction</span> m msg <span class="ot">-&gt;</span> <span class="dt">LogAction</span> m msg</a>
 <a class="sourceLine" id="cb20-2" title="2">cfilter p (<span class="dt">LogAction</span> action) <span class="fu">=</span> <span class="dt">LogAction</span> <span class="fu">$</span> \a <span class="ot">-&gt;</span> when (p a) (action a)</a></code></pre></div>
@@ -279,7 +296,7 @@ Finishing application...</code></pre>
 <a class="sourceLine" id="cb21-4" title="4">    <span class="fu">$</span> contramap fmtMessage logStringStdout</a>
 <a class="sourceLine" id="cb21-5" title="5">    )</a>
 <a class="sourceLine" id="cb21-6" title="6">    example</a></code></pre></div>
-<h4 id="cmapm"><a href="#cmapm">cmapM</a></h4>
+<h4 id="cmapm">cmapM</h4>
 <p>There’s even more! We’re not satisfied with printing only <code>Severity</code> of the message. We would like to print the timestamp of the logging message as well. This is very useful for further log analysis. But with <code>contramap</code> we can’t do that because taking the current time is an impure function. So let’s implement <code>cmapM</code> function and see how it helps:</p>
 <div class="sourceCode" id="cb22"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb22-1" title="1"><span class="ot">cmapM ::</span> <span class="dt">Monad</span> m <span class="ot">=&gt;</span> (a <span class="ot">-&gt;</span> m b) <span class="ot">-&gt;</span> <span class="dt">LogAction</span> m b <span class="ot">-&gt;</span> <span class="dt">LogAction</span> m a</a>
 <a class="sourceLine" id="cb22-2" title="2">cmapM f (<span class="dt">LogAction</span> action) <span class="fu">=</span> <span class="dt">LogAction</span> (f <span class="fu">&gt;=&gt;</span> action)</a></code></pre></div>
@@ -306,7 +323,7 @@ Finishing application...</code></pre>
 <a class="sourceLine" id="cb25-4" title="4">    example</a></code></pre></div>
 <p>And now we have a more verbose output:</p>
 <pre class="shell"><code>[Info] [11:54:31.809 13 Sep 2018 UTC] Finishing application...</code></pre>
-<h3 id="divisible"><a href="#divisible">Divisible</a></h3>
+<h3 id="divisible">Divisible</h3>
 <p>The Functor-Applicative-Alternative family of typeclasses is well-known to most Haskellers. But there are similar typeclasses for contravariant data types. Specifically, Contravariant-Divisible-Decidable. Let’s look at the <code>Divisible</code> typeclass definition and its instance for <code>LogAction</code>:</p>
 <div class="sourceCode" id="cb27"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb27-1" title="1"><span class="kw">class</span> <span class="dt">Contravariant</span> f <span class="ot">=&gt;</span> <span class="dt">Divisible</span> f <span class="kw">where</span></a>
 <a class="sourceLine" id="cb27-2" title="2"><span class="ot">    conquer ::</span> f a</a>
@@ -320,7 +337,7 @@ Finishing application...</code></pre>
 <a class="sourceLine" id="cb27-10" title="10">    divide f (<span class="dt">LogAction</span> actionB) (<span class="dt">LogAction</span> actionC) <span class="fu">=</span></a>
 <a class="sourceLine" id="cb27-11" title="11">        <span class="dt">LogAction</span> <span class="fu">$</span> \(f <span class="ot">-&gt;</span> (b, c)) <span class="ot">-&gt;</span> actionB b <span class="fu">*&gt;</span> actionC c</a></code></pre></div>
 <p>What this instance means is that if you know how to split some complex data structure into smaller pieces and if you know how to log each piece independently, you can now log the whole data structure.</p>
-<h3 id="decidable"><a href="#decidable">Decidable</a></h3>
+<h3 id="decidable">Decidable</h3>
 <p><code>Decidable</code> is similar to <code>Alternative</code> but for the Contravariant family of functors.</p>
 <div class="sourceCode" id="cb28"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb28-1" title="1"><span class="kw">import</span> <span class="dt">Data.Void</span> (<span class="dt">Void</span>, absurd)</a>
 <a class="sourceLine" id="cb28-2" title="2"></a>
@@ -336,7 +353,7 @@ Finishing application...</code></pre>
 <a class="sourceLine" id="cb28-12" title="12">    choose f (<span class="dt">LogAction</span> actionB) (<span class="dt">LogAction</span> actionC) <span class="fu">=</span></a>
 <a class="sourceLine" id="cb28-13" title="13">        <span class="dt">LogAction</span> (<span class="fu">either</span> actionB actionC <span class="fu">.</span> f)</a></code></pre></div>
 <p>The meaning of the <code>Decidable</code> instance for <code>LogAction</code> is that you can look at your logging message and decide what exactly you want to log. And if you know how to log every decision independently, you then can log the message.</p>
-<h2 id="combinators"><a href="#combinators">Combinators</a></h2>
+<h2 id="combinators">Combinators</h2>
 <p>Using the above instances and combinators from the <code>co-log</code> library, we can now have a combinatorial logging library.</p>
 <p>Let’s first introduce the data types we want to log:</p>
 <div class="sourceCode" id="cb29"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb29-1" title="1"><span class="kw">data</span> <span class="dt">Engine</span> <span class="fu">=</span> <span class="dt">Pistons</span> <span class="dt">Int</span> <span class="fu">|</span> <span class="dt">Rocket</span></a>
@@ -397,7 +414,7 @@ Finished logging model...
 Logging pistons...
 4</code></pre>
 <p>This example might look not so convincing. But the approach becomes more useful when you want to log sophisticated data structures as it allows you to divide the message into smaller pieces and decide what to log.</p>
-<h2 id="comonads"><a href="#comonads">Comonads</a></h2>
+<h2 id="comonads">Comonads</h2>
 <p>Now, let’s talk about one of the most interesting parts of the <code>co-log</code> library. There is the <code>Comonad</code> typeclass which is dual to <code>Monad</code>. It’s implemented in the <a href="http://hackage.haskell.org/package/comonad"><code>comonad</code> package</a>:</p>
 <div class="sourceCode" id="cb35"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb35-1" title="1"><span class="kw">class</span> <span class="dt">Functor</span> w <span class="ot">=&gt;</span> <span class="dt">Comonad</span> w <span class="kw">where</span></a>
 <a class="sourceLine" id="cb35-2" title="2"><span class="ot">    extract ::</span> w a <span class="ot">-&gt;</span> a</a>
@@ -437,7 +454,7 @@ Logging pistons...
 <a class="sourceLine" id="cb39-10" title="10">foo<span class="fu">.</span>g<span class="fu">.</span>f1</a>
 <a class="sourceLine" id="cb39-11" title="11">foo<span class="fu">.</span>g<span class="fu">.</span>f2</a></code></pre></div>
 <p>What this comonadic aspect of the interface means is that you can extend the existing <code>LogAction</code> by passing an additional payload to every message. This only works if your message is a <code>Semigroup</code> (or <code>Monoid</code>) and preferably a commutative <code>Semigroup</code> (or <code>Monoid</code>). For example, <code>Map String String</code>. If you log key-value pairs, you might want to add additional entries depending on the local context. Turns out this is extremely useful for structured logging: if you log JSON values, you might want to add extra keys or tags or values for specific functions and here is where the comonadic interface becomes helpful.</p>
-<h2 id="configurable-convenient"><a href="#configurable-convenient">Configurable &amp; Convenient</a></h2>
+<h2 id="configurable-convenient">Configurable &amp; Convenient</h2>
 <p>This section covers how dependent map, type-level programming and the <a href="https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/glasgow_exts.html#overloaded-labels"><code>-XOverloadedLabels</code> language extension</a> are used to implement a flexible and extensible interface for logging configuration.</p>
 <p>Earlier I’ve introduced the <code>RichMessage</code> data type that allows to extend a simple <code>Message</code> with the result of an IO action:</p>
 <div class="sourceCode" id="cb40"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb40-1" title="1"><span class="kw">data</span> <span class="dt">RichMessage</span> <span class="fu">=</span> <span class="dt">RichMessage</span></a>
@@ -497,7 +514,7 @@ Logging pistons...
 <ul>
 <li><a href="https://github.com/kowainik/co-log/issues/28">kowainik/co-log#issue-28</a></li>
 </ul>
-<h2 id="conclusion-unexplored-opportunities"><a href="#conclusion-unexplored-opportunities">Conclusion &amp; unexplored opportunities</a></h2>
+<h2 id="conclusion-unexplored-opportunities">Conclusion &amp; unexplored opportunities</h2>
 <p>The <code>LogAction</code> data type is very simple on its own, but together with different instances, it brings a lot of power:</p>
 <ul>
 <li><code>Semigroup</code>: perform multiple actions for the same message</li>
@@ -508,7 +525,7 @@ Logging pistons...
 <li><code>Comonad</code>: add an extra monoidal payload to message possibly using context</li>
 </ul>
 <p>There’s also the <a href="https://hackage.haskell.org/package/comonad-5.0.4/docs/Control-Comonad.html#t:ComonadApply"><code>ComonadApply</code></a> typeclass which purpose in application to <code>LogAction</code> is yet to be explored. And it would be really great to implement different logging backends for the <code>co-log</code> library (ElasticSearch, PostgreSQL, etc.).</p>
-<h2 id="acknowledgement"><a href="#acknowledgement">Acknowledgement</a></h2>
+<h2 id="acknowledgement">Acknowledgement</h2>
 <p>If you want to play with this approach in <a href="http://www.purescript.org/">PureScript</a>, there is a library that implements a similar idea:</p>
 <ul>
 <li><a href="https://github.com/rightfold/purescript-logging">rightfold/purescript-logging</a></li>
@@ -517,8 +534,6 @@ Logging pistons...
               </div>
           </div>
           </div>
-
-
       </div>
 
 
@@ -526,13 +541,9 @@ Logging pistons...
       <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"> </script>
       <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/haskell.min.js"></script>
-      <script src="https://cdn.rawgit.com/icons8/bower-webicon/v0.10.7/jquery-webicon.min.js"></script>
       <script>hljs.initHighlightingOnLoad()</script>
-      <script src="https://cdn.jsdelivr.net/npm/katex@0.10.0-alpha/dist/katex.min.js"></script>
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/contrib/auto-render.min.js"></script>
       <script async defer src="https://buttons.github.io/buttons.js"></script>
   </body>
 </html>

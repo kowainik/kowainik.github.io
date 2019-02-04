@@ -22,10 +22,12 @@
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:site" content="@kowainik" />
     <meta property="twitter:title" content="Kowainik - State monad comes to help sequential pattern matching" />
+    <meta name="twitter:description" content="Combining Monad transformers and applicative functors for better error messages report" />
+    <meta name="twitter:image:src" content="https://kowainik.github.io/images/logo-yellow.png" />
     <meta property="og:title" content="Kowainik - State monad comes to help sequential pattern matching" />
-    <!-- <meta property="og:description" content="..." /> -->
+    <meta property="og:description" content="Combining Monad transformers and applicative functors for better error messages report" />
     <meta property="og:site_name" content="Kowainik" />
-    <meta property="og:image" content="https://kowainik.github.io/images/logo_trans.png" />
+    <meta property="og:image" content="https://kowainik.github.io/images/logo-yellow.png" />
 
     <!-- Favicon -->
     <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon">
@@ -33,36 +35,33 @@
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/tomorrow-night.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/katex@0.10.0-alpha/dist/katex.min.css" rel="stylesheet">
-
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.11.0/styles/dracula.min.css" />
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
     <!-- Custom fonts for this template -->
     <link href="../css/font-awesome.css" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
-    <link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css">
 
-    <!-- Plugin CSS -->
-    <link href="../css/magnific-popup.css" rel="stylesheet" type="text/css">
     <!-- Custom styles for this template -->
     <link href="../css/default.css" rel="stylesheet">
     <link href="../css/post.css" rel="stylesheet">
   </head>
 
-  <body>
+  <body class="body-posts">
 
           <!-- Header -->
       <nav class="navbar navbar-inverse navbar-fixed-left leftmenu bg-primary text-secondary">
             <div class="navbar-header">
-                <div class="postslogo"> <a class="navbar-brand" href="../"><img class="img-fluid d-block mx-auto" src="../images/logo-tr.png" alt="Kowainik"></a></div>
+                <div class="postslogo"> <a class="navbar-brand" href="../"><img class="img-fluid" src="../images/logo-tr.png" alt="Kowainik"></a></div>
             </div>
             <div class="toc-zone">
                 <h6 class="coolFont">Contents</h6>
-
                 <div class="toc">
-                    <ul> <li><a href="#problem">Problem</a></li><li><a href="#naive-solution">Naive solution</a></li><li><a href="#parsing-a-single-value">Parsing a single value</a></li><li><a href="#parsing-a-list-of-values-state">Parsing a list of values: State</a></li><li><a href="#parsing-a-list-of-values-statet-either">Parsing a list of values: StateT + Either</a></li></ul>
+                    <ul>
+<li><a href="#problem">Problem</a></li>
+<li><a href="#naive-solution">Naive solution</a></li>
+<li><a href="#parsing-a-single-value">Parsing a single value</a></li>
+<li><a href="#parsing-a-list-of-values-state">Parsing a list of values: State</a></li>
+<li><a href="#parsing-a-list-of-values-statet-either">Parsing a list of values: StateT + Either</a></li>
+</ul>
                 </div>
             </div>
             <div class="coolFont">
@@ -92,7 +91,7 @@
               <p class="lead">
                   <p>Let’s try to solve one specific problem using the <code>State</code> monad and monad transformers to see how pure stateful computations work in Haskell and how they can be used to write better interfaces. This blog post shouldn’t be considered as a tutorial on the <code>State</code> monad or monad transformers, but if you’re already familiar with those concepts, you may find the following use case interesting.</p>
 <p>The blog post also contains several exercises, so you can follow the code by yourself and try to expand the presented solution along with solving exercises.</p>
-<h2 id="problem"><a href="#problem">Problem</a></h2>
+<h2 id="problem">Problem</h2>
 <p>Consider the following data type:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb1-1" title="1"><span class="kw">data</span> <span class="dt">Value</span></a>
 <a class="sourceLine" id="cb1-2" title="2">    <span class="fu">=</span> <span class="dt">BoolValue</span> <span class="dt">Bool</span></a>
@@ -111,7 +110,7 @@
 </ol>
 <p>Basically, any form of unstructured data that you want to decode to structured types.</p>
 <p>I’m going to describe in detail, a possible general solution for implementing <code>decodeValues</code> with an explanatory error message.</p>
-<h2 id="naive-solution"><a href="#naive-solution">Naive solution</a></h2>
+<h2 id="naive-solution">Naive solution</h2>
 <p>Suppose that you have this Haskell data type:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb3-1" title="1"><span class="kw">data</span> <span class="dt">User</span> <span class="fu">=</span> <span class="dt">User</span></a>
 <a class="sourceLine" id="cb3-2" title="2">    {<span class="ot"> userAge         ::</span> <span class="dt">Int</span></a>
@@ -132,7 +131,7 @@
 <p><strong>Exercise:</strong> try to implement the <code>decodeValues</code> function for <code>User</code> that reports good error messages and uses only pattern matching.</p>
 </blockquote>
 <p>The following sections of the blog post show a general solution to this problem with fine-grained error messages.</p>
-<h2 id="parsing-a-single-value"><a href="#parsing-a-single-value">Parsing a single value</a></h2>
+<h2 id="parsing-a-single-value">Parsing a single value</h2>
 <p>First of all, like any other good Haskeller, I am going to decompose this huge problem into a few smaller ones. In the previous section, we started from decoding whole list of values, but let’s now learn how to decode a single value. Before that, however, we need to think about the data type of the error message. To have a clear understanding of what’s wrong with a single value, we need to know what the received value was and what we expected it to be:</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb5-1" title="1"><span class="kw">data</span> <span class="dt">SingleValueError</span> <span class="fu">=</span> <span class="dt">SingleValueError</span></a>
 <a class="sourceLine" id="cb5-2" title="2">    {<span class="ot"> singleValueErrorExpected ::</span> <span class="dt">Text</span></a>
@@ -150,7 +149,7 @@
 <p><strong>NOTE:</strong> we can remove some code duplication already at this stage! If you have a function like <code>typeName :: Typeable a =&gt; Text</code> (see <a href="http://hackage.haskell.org/package/relude-0.4.0/docs/Relude-Extra-Type.html#v:typeName">the implementation here</a>) and you derive prisms for the <code>Value</code> data type, you can implement a single generic <code>fromValue</code> function. But for the sake of simplicity, we won’t mind a bit of boilerplate code.</p>
 </blockquote>
 <p>Once we’ve learned how to decode a single value, let’s proceed with expanding this approach for a list of values.</p>
-<h2 id="parsing-a-list-of-values-state"><a href="#parsing-a-list-of-values-state">Parsing a list of values: State</a></h2>
+<h2 id="parsing-a-list-of-values-state">Parsing a list of values: State</h2>
 <p>Just like in the previous section, let’s start with creating the data type for our error messages:</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb7-1" title="1"><span class="kw">data</span> <span class="dt">ListValueError</span></a>
 <a class="sourceLine" id="cb7-2" title="2">    <span class="fu">=</span> <span class="dt">UnexpectedEndOfList</span></a>
@@ -198,7 +197,7 @@
 <a class="sourceLine" id="cb11-5" title="5">        <span class="dt">Left</span> err <span class="ot">-&gt;</span> <span class="fu">pure</span> <span class="fu">$</span> <span class="dt">Left</span> err</a>
 <a class="sourceLine" id="cb11-6" title="6">        <span class="dt">Right</span> hask <span class="ot">-&gt;</span> <span class="fu">pure</span> <span class="fu">$</span> <span class="dt">Right</span> <span class="fu">$</span> <span class="dt">User</span> age hask</a></code></pre></div>
 <p>In the last section, we are going to solve this particular problem: better composability of the value decoders.</p>
-<h2 id="parsing-a-list-of-values-statet-either"><a href="#parsing-a-list-of-values-statet-either">Parsing a list of values: StateT + Either</a></h2>
+<h2 id="parsing-a-list-of-values-statet-either">Parsing a list of values: StateT + Either</h2>
 <p>You may notice that the pattern matching we performed over <code>Either</code> looks familiar. Indeed, it is the <code>Monad</code> instance for <code>Either</code>. We couldn’t use it, because we were already using the <code>State</code> monad. This is when monad transformers come in to save the day! In simple words, with monad transformers we can combine monadic effects of multiple monads so the <code>&gt;&gt;=</code> operator performs actions for every monad in our monad transformer state.</p>
 <p>We want to combine <code>State</code> and <code>Either</code> effects, but in this particular case, we should be cautious because the <code>State</code> monad transformer and the <code>Either</code> monad transformer are not commutative. Which means that <code>StateT s Either</code> is not the same as <code>EitherT (State s)</code>. Let’s look at this closely:</p>
 <div class="sourceCode" id="cb12"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb12-1" title="1"><span class="dt">StateT</span> s m a <span class="fu">~</span> s <span class="ot">-&gt;</span> m (a, s)</a>
@@ -256,8 +255,6 @@
               </div>
           </div>
           </div>
-
-
       </div>
 
 
@@ -265,13 +262,9 @@
       <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"> </script>
       <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/haskell.min.js"></script>
-      <script src="https://cdn.rawgit.com/icons8/bower-webicon/v0.10.7/jquery-webicon.min.js"></script>
       <script>hljs.initHighlightingOnLoad()</script>
-      <script src="https://cdn.jsdelivr.net/npm/katex@0.10.0-alpha/dist/katex.min.js"></script>
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/contrib/auto-render.min.js"></script>
       <script async defer src="https://buttons.github.io/buttons.js"></script>
   </body>
 </html>

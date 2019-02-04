@@ -22,10 +22,12 @@
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:site" content="@kowainik" />
     <meta property="twitter:title" content="Kowainik - Hacktoberfest 2018 Wrap-up" />
+    <meta name="twitter:description" content="Astonishing results of the Hacktoberfest 2018 in Kowainik" />
+    <meta name="twitter:image:src" content="https://kowainik.github.io/images/logo-yellow.png" />
     <meta property="og:title" content="Kowainik - Hacktoberfest 2018 Wrap-up" />
-    <!-- <meta property="og:description" content="..." /> -->
+    <meta property="og:description" content="Astonishing results of the Hacktoberfest 2018 in Kowainik" />
     <meta property="og:site_name" content="Kowainik" />
-    <meta property="og:image" content="https://kowainik.github.io/images/logo_trans.png" />
+    <meta property="og:image" content="https://kowainik.github.io/images/logo-yellow.png" />
 
     <!-- Favicon -->
     <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon">
@@ -33,36 +35,39 @@
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/tomorrow-night.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/katex@0.10.0-alpha/dist/katex.min.css" rel="stylesheet">
-
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.11.0/styles/dracula.min.css" />
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
     <!-- Custom fonts for this template -->
     <link href="../css/font-awesome.css" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
-    <link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css">
 
-    <!-- Plugin CSS -->
-    <link href="../css/magnific-popup.css" rel="stylesheet" type="text/css">
     <!-- Custom styles for this template -->
     <link href="../css/default.css" rel="stylesheet">
     <link href="../css/post.css" rel="stylesheet">
   </head>
 
-  <body>
+  <body class="body-posts">
 
           <!-- Header -->
       <nav class="navbar navbar-inverse navbar-fixed-left leftmenu bg-primary text-secondary">
             <div class="navbar-header">
-                <div class="postslogo"> <a class="navbar-brand" href="../"><img class="img-fluid d-block mx-auto" src="../images/logo-tr.png" alt="Kowainik"></a></div>
+                <div class="postslogo"> <a class="navbar-brand" href="../"><img class="img-fluid" src="../images/logo-tr.png" alt="Kowainik"></a></div>
             </div>
             <div class="toc-zone">
                 <h6 class="coolFont">Contents</h6>
-
                 <div class="toc">
-                    <ul> <li><a href="#highlights">Highlights</a></li><ul> <li><a href="#relude">relude</a></li><li><a href="#summoner">summoner</a></li><li><a href="#colog">co-log</a></li><li><a href="#tomland">tomland</a></li><li><a href="#containersbackpack">containers-backpack</a></li><li><a href="#typerepmap">typerep-map</a></li><li><a href="#smuggler">smuggler</a></li></ul> <li><a href="#acknowledgment">Acknowledgment</a></li><li><a href="#future">Future</a></li></ul>
+                    <ul>
+<li><a href="#highlights">Highlights</a><ul>
+<li><a href="#relude">relude</a></li>
+<li><a href="#summoner">summoner</a></li>
+<li><a href="#co-log">co-log</a></li>
+<li><a href="#tomland">tomland</a></li>
+<li><a href="#containers-backpack">containers-backpack</a></li>
+<li><a href="#typerep-map">typerep-map</a></li>
+<li><a href="#smuggler">smuggler</a></li>
+</ul></li>
+<li><a href="#acknowledgment">Acknowledgment</a></li>
+<li><a href="#future">Future</a></li>
+</ul>
                 </div>
             </div>
             <div class="coolFont">
@@ -95,44 +100,44 @@
 <li>72 issues of various difficulty were resolved</li>
 <li>5173 additions and 1646 deletions were bravely committed</li>
 </ul>
-<h2 id="highlights"><a href="#highlights">Highlights</a></h2>
+<h2 id="highlights">Highlights</h2>
 <p>If you like the statistics as much as we do or just would like to see more detailed information about the changes, we have prepared the following sections with the main highlights for each of the participating project and some numbers to show our joint effort during the last month.</p>
-<h3 id="relude"><a href="#relude">relude</a></h3>
+<h3 id="relude">relude</h3>
 <p>Our alternative prelude underwent several useful changes. The main ones: reexporting <code>Contravariant</code> functors from <code>base</code>, various improvements to the custom HLint rules, documentation enhancements and more convenient functions to work with <code>Validation</code>, <code>Typeable</code>, tuples and much more.</p>
 <figure>
 <img src="https://user-images.githubusercontent.com/4276606/47835030-eb98bf80-dddc-11e8-8e19-7f279f804258.png" alt="relude insights" /><figcaption><code>relude</code> insights</figcaption>
 </figure>
-<h3 id="summoner"><a href="#summoner">summoner</a></h3>
+<h3 id="summoner">summoner</h3>
 <p>This project received various improvements to the configuration settings and several bugfixes of different parts of project scaffolding. Also, the internals of <code>summoner</code> were significantly refactored, improved and became more type safe.</p>
 <figure>
 <img src="https://user-images.githubusercontent.com/4276606/47835189-96a97900-dddd-11e8-9361-a43c7f2717a7.png" alt="summoner insights" /><figcaption><code>summoner</code> insights</figcaption>
 </figure>
-<h3 id="co-log"><a href="#colog">co-log</a></h3>
+<h3 id="co-log">co-log</h3>
 <p>Our logging library received very generous contributions! Among them multithreading logger actions based on the bounded channels, various improvements to the interface that make it more convenient and the <code>doctest</code> checks to the core modules.</p>
 <figure>
 <img src="https://user-images.githubusercontent.com/4276606/47835042-fb180880-dddc-11e8-9846-def75b71db11.png" alt="co-log insights" /><figcaption><code>co-log</code> insights</figcaption>
 </figure>
-<h3 id="tomland"><a href="#tomland">tomland</a></h3>
+<h3 id="tomland">tomland</h3>
 <p>Tomland is our bidirectional TOML conversion library. It hasn’t been publicly announced yet, but a lot of people were helping us to achieve the <code>1.0.0</code> milestone in a very short time. Our amazing volunteers added a lot of improvements to the parser, bidirectional converters for various types, golden tests for pretty-printing, benchmarks with other libraries and much more! This really moves this library to a stable state.</p>
 <figure>
 <img src="https://user-images.githubusercontent.com/4276606/47835169-85606c80-dddd-11e8-9bbd-1686ac31db0a.png" alt="tomland insights" /><figcaption><code>tomland</code> insights</figcaption>
 </figure>
-<h3 id="containers-backpack"><a href="#containersbackpack">containers-backpack</a></h3>
+<h3 id="containers-backpack">containers-backpack</h3>
 <p>A lot of people did a great job on improving Backpack interface for <code>containers</code>: faster implementations of functions using smart techniques, implementation of a basic polymorphic test-suite with the property-based tests for laws and an initial version of benchmarks using the Backpack signatures.</p>
 <figure>
 <img src="https://user-images.githubusercontent.com/4276606/47835153-71b50600-dddd-11e8-804d-cb56a6c24705.png" alt="containers-backpack insights" /><figcaption><code>containers-backpack</code> insights</figcaption>
 </figure>
-<h3 id="typerep-map"><a href="#typerepmap">typerep-map</a></h3>
+<h3 id="typerep-map">typerep-map</h3>
 <p>Our fast dependent map now has benchmarks for the <code>insert</code> functions and the work on speed boost of this function is in progress.</p>
 <figure>
 <img src="https://user-images.githubusercontent.com/4276606/47835049-04a17080-dddd-11e8-9338-2ec5e5b72375.png" alt="typerep-map insights" /><figcaption><code>typerep-map</code> insights</figcaption>
 </figure>
-<h3 id="smuggler"><a href="#smuggler">smuggler</a></h3>
+<h3 id="smuggler">smuggler</h3>
 <p>GHC Source Plugin that automatically removes unused imports now can remove trailing commas in imports! This was a problem because trailing commas in imports lists <a href="https://ghc.haskell.org/trac/ghc/ticket/15392">leads to the compilation error</a>, but now it works smoothly. Also, the performance of the plugin was improved and more tests were added.</p>
 <figure>
 <img src="https://user-images.githubusercontent.com/4276606/47835057-09febb00-dddd-11e8-9ab3-65f461068cc2.png" alt="smuggler insights" /><figcaption><code>smuggler</code> insights</figcaption>
 </figure>
-<h2 id="acknowledgment"><a href="#acknowledgment">Acknowledgment</a></h2>
+<h2 id="acknowledgment">Acknowledgment</h2>
 <p>This is a huge amount of work, and we are really proud that so many wonderful people come to help our small organization to produce better libraries.</p>
 <p>We would like to thank everyone personally who submitted improvements to our repositories. Here are the names of our heroes:</p>
 <ul>
@@ -174,7 +179,7 @@
 <li><a href="https://github.com/willbasky">willbasky</a>: 4 PRs</li>
 <li><a href="https://github.com/yigitozkavci">yigitozkavci</a>: 2 PRs</li>
 </ul>
-<h2 id="future"><a href="#future">Future</a></h2>
+<h2 id="future">Future</h2>
 <p>This was a challenging month for us as for maintainers as well. To be honest, we didn’t expect that many amazing contributions by a lot of awesome people! We are really happy that people did so many useful and helpful things. We were trying to spend all our time to make the PR submitting/reviewing process as clear, easy and fun as possible. We tried our best to provide good feedback through help and code review, we devoted this whole month to Hacktoberfest and we hope that people really enjoyed working with us and learning new stuff 😊</p>
 <p>Anyway, if you have some feedback or thoughts on how to improve participants experience in the future, let us know! We’re always open for ideas that help to make the world better 😃</p>
 <figure>
@@ -184,8 +189,6 @@
               </div>
           </div>
           </div>
-
-
       </div>
 
 
@@ -193,13 +196,9 @@
       <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"> </script>
       <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/haskell.min.js"></script>
-      <script src="https://cdn.rawgit.com/icons8/bower-webicon/v0.10.7/jquery-webicon.min.js"></script>
       <script>hljs.initHighlightingOnLoad()</script>
-      <script src="https://cdn.jsdelivr.net/npm/katex@0.10.0-alpha/dist/katex.min.js"></script>
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/contrib/auto-render.min.js"></script>
       <script async defer src="https://buttons.github.io/buttons.js"></script>
   </body>
 </html>

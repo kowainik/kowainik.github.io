@@ -22,10 +22,12 @@
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:site" content="@kowainik" />
     <meta property="twitter:title" content="Kowainik - Picnic: put containers into a backpack" />
+    <meta name="twitter:description" content="The Backpack implementation of the uniform interface for containers" />
+    <meta name="twitter:image:src" content="https://kowainik.github.io/images/logo-yellow.png" />
     <meta property="og:title" content="Kowainik - Picnic: put containers into a backpack" />
-    <!-- <meta property="og:description" content="..." /> -->
+    <meta property="og:description" content="The Backpack implementation of the uniform interface for containers" />
     <meta property="og:site_name" content="Kowainik" />
-    <meta property="og:image" content="https://kowainik.github.io/images/logo_trans.png" />
+    <meta property="og:image" content="https://kowainik.github.io/images/logo-yellow.png" />
 
     <!-- Favicon -->
     <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon">
@@ -33,36 +35,38 @@
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/tomorrow-night.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/katex@0.10.0-alpha/dist/katex.min.css" rel="stylesheet">
-
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.11.0/styles/dracula.min.css" />
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
     <!-- Custom fonts for this template -->
     <link href="../css/font-awesome.css" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
-    <link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css">
 
-    <!-- Plugin CSS -->
-    <link href="../css/magnific-popup.css" rel="stylesheet" type="text/css">
     <!-- Custom styles for this template -->
     <link href="../css/default.css" rel="stylesheet">
     <link href="../css/post.css" rel="stylesheet">
   </head>
 
-  <body>
+  <body class="body-posts">
 
           <!-- Header -->
       <nav class="navbar navbar-inverse navbar-fixed-left leftmenu bg-primary text-secondary">
             <div class="navbar-header">
-                <div class="postslogo"> <a class="navbar-brand" href="../"><img class="img-fluid d-block mx-auto" src="../images/logo-tr.png" alt="Kowainik"></a></div>
+                <div class="postslogo"> <a class="navbar-brand" href="../"><img class="img-fluid" src="../images/logo-tr.png" alt="Kowainik"></a></div>
             </div>
             <div class="toc-zone">
                 <h6 class="coolFont">Contents</h6>
-
                 <div class="toc">
-                    <ul> <li><a href="#motivation">Motivation</a></li><li><a href="#solution-with-typeclasses">Solution with typeclasses</a></li><li><a href="#backpack">Backpack</a></li><ul> <li><a href="#map-from-containers">Map from containers</a></li><li><a href="#hashmap-from-unorderedcontainers">HashMap from unordered-containers</a></li><li><a href="#use-several-implementations-inside-a-single-package">Use several implementations inside a single package</a></li><li><a href="#intmap-from-containers">IntMap from containers</a></li><li><a href="#map-from-primitivecontainers">Map from primitive-containers</a></li></ul> <li><a href="#conclusion">Conclusion</a></li></ul>
+                    <ul>
+<li><a href="#motivation">Motivation</a></li>
+<li><a href="#solution-with-typeclasses">Solution with typeclasses</a></li>
+<li><a href="#backpack">Backpack</a><ul>
+<li><a href="#map-from-containers">Map from containers</a></li>
+<li><a href="#hashmap-from-unordered-containers">HashMap from unordered-containers</a></li>
+<li><a href="#use-several-implementations-inside-a-single-package">Use several implementations inside a single package</a></li>
+<li><a href="#intmap-from-containers">IntMap from containers</a></li>
+<li><a href="#map-from-primitive-containers">Map from primitive-containers</a></li>
+</ul></li>
+<li><a href="#conclusion">Conclusion</a></li>
+</ul>
                 </div>
             </div>
             <div class="coolFont">
@@ -100,7 +104,7 @@
 </ul>
 <p>I also <a href="https://www.youtube.com/watch?v=GLtp3Xy7Rps">gave a talk</a> based on this blog post, so you can watch it as well:</p>
 <p><a href="https://www.youtube.com/watch?v=GLtp3Xy7Rps"><img src="https://img.youtube.com/vi/GLtp3Xy7Rps/0.jpg" alt="asciicast" /></a></p>
-<h2 id="motivation"><a href="#motivation">Motivation</a></h2>
+<h2 id="motivation">Motivation</h2>
 <p>The Haskell ecosystem contains multiple libraries that implement <code>Map</code>-like data structures. Among them there are structures like balanced binary-search trees, Patricia trees, <a href="https://vaibhavsagar.com/blog/2018/07/29/hamts-from-scratch/">hash array-mapped trees</a>, including lazy and strict versions, and many others. Even though existing implementations contain functions with the same name and structurally the same type, they don’t share a common interface because such an interface doesn’t exist. Which means that each time you want to use a type with a <code>Map</code>-like or <code>Set</code>-like interface, you have to choose a concrete data type explicitly. This straightforward approach has the advantage of having predictable and explicitly specified performance and memory characteristics for each data type. However, it reduces code reusability and composability, in particular:</p>
 <ol type="1">
 <li>It’s not easy to switch from one data type to another: we need to change package dependencies, imports, data type name and function names.</li>
@@ -136,7 +140,7 @@
 <a class="sourceLine" id="cb2-10" title="10">         ]</a></code></pre></div>
 <p>It would be great if we could reuse this <code>groupBy</code> function with any <code>Map</code>-like data structure. Moreover, for most popular data types like <code>Map</code>, <code>HashMap</code>, or <code>IntMap</code>, we can’t really write a more efficient version. It would be more convenient to have all functions like <code>groupBy</code> implemented once and have the ability to choose a specialized implementation based on the needs of the program.</p>
 <p>To explore what people would think of such an interface <a href="https://twitter.com/vronnie911/status/1020701995164884992">we made a poll</a> recently. And it looks like people are apprehensive but interested about having a unified interface. From the feedback we received in the comments, Backpack looks like the most suitable solution for this problem at the moment. So we accepted the challenge and decided to try using Backpack. This blog post contains the detailed description of our results.</p>
-<h2 id="solution-with-typeclasses"><a href="#solution-with-typeclasses">Solution with typeclasses</a></h2>
+<h2 id="solution-with-typeclasses">Solution with typeclasses</h2>
 <p>Backpack is a relatively new technology. However, people have been making attempts to implement a common interface for <code>Map</code>s long before that. One of the most famous examples is the <a href="http://hackage.haskell.org/package/mono-traversable-1.0.9.0/docs/Data-Containers.html"><code>mono-traversable</code></a> package. We tried to create an alternative solution in <a href="https://github.com/kowainik/relude"><code>relude</code></a>. To get an idea of how a typeclass-based solution might look like, you can take a look at this extract from <code>relude</code>:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb3-1" title="1"><span class="kw">class</span> <span class="dt">StaticMap</span> t <span class="kw">where</span></a>
 <a class="sourceLine" id="cb3-2" title="2">    <span class="kw">type</span> <span class="dt">Key</span><span class="ot"> t ::</span> <span class="dt">Type</span></a>
@@ -162,7 +166,7 @@
 </ol>
 <p>Having a typeclass can potentially decrease performance because of the way typeclasses are implemented in Haskell. For something like <em>access to the database</em> the overhead of a type class is not noticeable, but for operations with pure maps it’s a huge disadvantage to have non-optimized functions. In addition to not having a performance overhead, Backpack also contains a lot of other features (read <a href="https://github.com/ezyang/ghc-proposals/blob/backpack/proposals/0000-backpack.rst#motivation">motivation behind Backpack</a> to see the whole list).</p>
 <p>Below we look at how Backpack can be used to implement an interface for <code>Map</code>-like data structures without the disadvantages of type classes.</p>
-<h2 id="backpack"><a href="#backpack">Backpack</a></h2>
+<h2 id="backpack">Backpack</h2>
 <p>The general idea behind using Backpack to solve this problem is simple. First, you write the types of the desired methods — <strong>signatures</strong>. And then you implement these signatures for the different data types. But there are different challenges in using this approach for <code>Map</code>-like data types:</p>
 <ol type="1">
 <li>Data types are different across libraries (like <code>Map</code> and <code>HashMap</code>).</li>
@@ -172,7 +176,7 @@
 <li>Different libraries implement the same functions with different constraints.</li>
 </ol>
 <p>But don’t worry, we are going to describe how we overcame these issues.</p>
-<h3 id="map-from-containers"><a href="#map-from-containers">Map from containers</a></h3>
+<h3 id="map-from-containers">Map from containers</h3>
 <p>First, let’s put all signatures into a separate package that contains only the signature file. The Cabal file for this package looks like this:</p>
 <pre class="cabal"><code>cabal-version:       2.0
 name:                containers-sig
@@ -330,7 +334,7 @@ executable map-exe
 <pre class="shell"><code>$ cabal new-exec map-exe
 === Map ===
 fromList [(0,10 :| [8,6,4,2]),(1,9 :| [7,5,3,1])]</code></pre>
-<h3 id="hashmap-from-unordered-containers"><a href="#hashmap-from-unorderedcontainers">HashMap from unordered-containers</a></h3>
+<h3 id="hashmap-from-unordered-containers">HashMap from unordered-containers</h3>
 <p>We now have one implementation of the <code>containers-sig</code> package. But that’s not enough. The key point is to have a generalized interface for different implementations. It doesn’t make much sense to have an interface with only one implementation, so let’s create our interface for <code>HashMap</code> from the <code>unordered-containers</code> package. Similarly to the <code>containers-ordered-strict</code> package, we are creating the <code>containers-unordered-strict</code> package.</p>
 <blockquote>
 <p><strong>NOTE:</strong> At this point, you might notice that Backpack requires to create many packages. And that’s true. We could put the implementation inside <code>containers-ordered-strict</code> under a different module name, but in our case we don’t want to have extra dependencies if the user is only interested in a single implementation. Also, it wouldn’t work well with <code>reexported-modules</code> approach since we can’t reexport two different modules under same name.</p>
@@ -382,7 +386,7 @@ fromList [(0,10 :| [8,6,4,2]),(1,9 :| [7,5,3,1])]</code></pre>
 <p>with the following line:</p>
 <pre><code>    , containers-unordered-strict</code></pre>
 <p>That’s all! It’s extremely easy to switch implementations when using Backpack.</p>
-<h3 id="use-several-implementations-inside-a-single-package"><a href="#use-several-implementations-inside-a-single-package">Use several implementations inside a single package</a></h3>
+<h3 id="use-several-implementations-inside-a-single-package">Use several implementations inside a single package</h3>
 <p>Since we now have two implementations of our <code>Map.hsig</code> interface, we might want to use them both in a single package. Unfortunately, we can’t just add <code>containers-unordered-strict</code> package to dependencies in addition to <code>containers-ordered-strict</code> and enjoy. Since both packages have a reexported module with the same name <code>Map</code> we will see a compilation error about conflicting definitions. To solve this problem, Cabal has the <code>mixins</code> field inside stanza. Our <code>containers-example.cabal</code> file will now look like this:</p>
 <pre class="cabal"><code>cabal-version:       2.0
 name:                containers-example
@@ -416,7 +420,7 @@ executable map-exe
 <a class="sourceLine" id="cb21-10" title="10">    <span class="fu">putStrLn</span> <span class="st">&quot;### HashMap ###&quot;</span></a>
 <a class="sourceLine" id="cb21-11" title="11">    <span class="fu">print</span> <span class="fu">$</span> HM.groupBy (<span class="ot">`mod`</span> <span class="dv">2</span>) ([<span class="dv">1</span><span class="fu">..</span><span class="dv">10</span>]<span class="ot"> ::</span> [<span class="dt">Int</span>])</a></code></pre></div>
 <p>You can see that Backpack has the ability to use multiple implementations of a single interface. But they should be accessible under different namespaces.</p>
-<h3 id="intmap-from-containers"><a href="#intmap-from-containers">IntMap from containers</a></h3>
+<h3 id="intmap-from-containers">IntMap from containers</h3>
 <p>Now, this data type is more difficult. First, keys don’t have constraint like <code>Ord</code>, they only have the specific monomorphic type <code>Int</code>. Second, <code>IntMap</code> data type has kind <code>Type</code> while <code>Map</code> from signature has kind <code>Type -&gt; Type</code>. But these problems are also solvable. To fix the issue with constraint, our <code>Key</code> constraint can be just type equality to <code>Int</code>. This can be achieved by partially applying type equality operator <code>(~)</code> to the <code>Int</code> type. Regarding different kinds: we can introduce our custom newtype with phantom type parameter. So the final solution looks like this:</p>
 <div class="sourceCode" id="cb22"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb22-1" title="1"><span class="ot">{-# LANGUAGE DerivingStrategies         #-}</span></a>
 <a class="sourceLine" id="cb22-2" title="2"><span class="ot">{-# LANGUAGE FlexibleInstances          #-}</span></a>
@@ -448,7 +452,7 @@ executable map-exe
 <li>Use <code>coerce</code> to implement all functions and give more guarantees on performance.</li>
 </ol>
 <p>But at least this solution doesn’t require advanced type-level features like <code>-XTypeFamilies</code> (despite the fact that this extension is enabled — it’s needed only for type equalities). It’s still plain Haskell. And we need to solve these problems only inside the <code>Map.Int</code> module, consumers of the signature interface don’t need to be aware of any complicated tricks. You can still write polymorphic functions without worrying about how particular instances are implemented internally.</p>
-<h3 id="map-from-primitive-containers"><a href="#map-from-primitivecontainers">Map from primitive-containers</a></h3>
+<h3 id="map-from-primitive-containers">Map from primitive-containers</h3>
 <p>As I mentioned at the beginning of this blog post, some <code>Map</code>-like types are optimized for lookups. Thus they don’t support efficient modification operations. And that’s why it’s necessary to somehow separate read-only maps from modifiable maps. When you use typeclasses, you can easily have two different typeclasses with different names. With signatures, it’s also easy to achieve the desired result. We only need to move our updating operations into a separate package. To do so, we need to create a signature with exact same name but in another package. So now we have two packages with the same signatures:</p>
 <ul>
 <li><code>containers-sig-readonly</code></li>
@@ -457,7 +461,7 @@ executable map-exe
 <p>Signatures are externally extensible, which means that you don’t need to open an issue to the main repository that contains the root of all signatures to extend a signature. You can just create a <code>.hsig</code> file in your library, add couple extra functions you require there, and you can reuse other functions from the existing signature if you specify the package with signature in the dependencies. That’s all. No need to specify a superclass constraint for your custom type class. The signature merging algorithm will do this work for you. In simple words, if you have two signatures with the same name, they can be merged into a single signature if data types and classes have equal kinds and if the functions with same names have the same types.</p>
 <p>Both <code>containers-sig-readonly</code> and <code>containers-sig</code> packages should contain the <code>Map.hsig</code> file with <code>data Map k v</code> and <code>class Key k</code>. That’s the only boilerplate required. When both packages are used, <code>Map</code> data type and <code>Key</code> class will be merged with the corresponding types from other signatures.</p>
 <p>So if, let’s say, the authors of <code>containers-backpack</code> package forgot to add some vital function to the interface, you could implement your own signature and implementation, and still enjoy the rest of the ecosystem without any problems!</p>
-<h2 id="conclusion"><a href="#conclusion">Conclusion</a></h2>
+<h2 id="conclusion">Conclusion</h2>
 <p>As the result of this Backpack journey, the <code>containers-backpack</code> repository contains the following packages:</p>
 <ul>
 <li><code>containers-sig-readonly</code>: signatures for read-only maps</li>
@@ -489,8 +493,6 @@ executable map-exe
               </div>
           </div>
           </div>
-
-
       </div>
 
 
@@ -498,13 +500,9 @@ executable map-exe
       <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"> </script>
       <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/haskell.min.js"></script>
-      <script src="https://cdn.rawgit.com/icons8/bower-webicon/v0.10.7/jquery-webicon.min.js"></script>
       <script>hljs.initHighlightingOnLoad()</script>
-      <script src="https://cdn.jsdelivr.net/npm/katex@0.10.0-alpha/dist/katex.min.js"></script>
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/contrib/auto-render.min.js"></script>
       <script async defer src="https://buttons.github.io/buttons.js"></script>
   </body>
 </html>

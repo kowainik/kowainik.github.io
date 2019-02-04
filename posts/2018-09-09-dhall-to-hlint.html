@@ -22,10 +22,12 @@
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:site" content="@kowainik" />
     <meta property="twitter:title" content="Kowainik - Dhall to HLint: Using Dhall to generate HLint rules" />
+    <meta name="twitter:description" content="Creating custom HLint rules for alternative preludes with Dhall" />
+    <meta name="twitter:image:src" content="https://kowainik.github.io/images/logo-yellow.png" />
     <meta property="og:title" content="Kowainik - Dhall to HLint: Using Dhall to generate HLint rules" />
-    <!-- <meta property="og:description" content="..." /> -->
+    <meta property="og:description" content="Creating custom HLint rules for alternative preludes with Dhall" />
     <meta property="og:site_name" content="Kowainik" />
-    <meta property="og:image" content="https://kowainik.github.io/images/logo_trans.png" />
+    <meta property="og:image" content="https://kowainik.github.io/images/logo-yellow.png" />
 
     <!-- Favicon -->
     <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon">
@@ -33,36 +35,32 @@
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/tomorrow-night.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/katex@0.10.0-alpha/dist/katex.min.css" rel="stylesheet">
-
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.11.0/styles/dracula.min.css" />
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
     <!-- Custom fonts for this template -->
     <link href="../css/font-awesome.css" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
-    <link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css">
 
-    <!-- Plugin CSS -->
-    <link href="../css/magnific-popup.css" rel="stylesheet" type="text/css">
     <!-- Custom styles for this template -->
     <link href="../css/default.css" rel="stylesheet">
     <link href="../css/post.css" rel="stylesheet">
   </head>
 
-  <body>
+  <body class="body-posts">
 
           <!-- Header -->
       <nav class="navbar navbar-inverse navbar-fixed-left leftmenu bg-primary text-secondary">
             <div class="navbar-header">
-                <div class="postslogo"> <a class="navbar-brand" href="../"><img class="img-fluid d-block mx-auto" src="../images/logo-tr.png" alt="Kowainik"></a></div>
+                <div class="postslogo"> <a class="navbar-brand" href="../"><img class="img-fluid" src="../images/logo-tr.png" alt="Kowainik"></a></div>
             </div>
             <div class="toc-zone">
                 <h6 class="coolFont">Contents</h6>
-
                 <div class="toc">
-                    <ul> <li><a href="#motivation">Motivation</a></li><li><a href="#why-dhall">Why Dhall</a></li><li><a href="#implementation">Implementation</a></li><li><a href="#conclusion">Conclusion</a></li></ul>
+                    <ul>
+<li><a href="#motivation">Motivation</a></li>
+<li><a href="#why-dhall">Why Dhall</a></li>
+<li><a href="#implementation">Implementation</a></li>
+<li><a href="#conclusion">Conclusion</a></li>
+</ul>
                 </div>
             </div>
             <div class="coolFont">
@@ -93,7 +91,7 @@
               <div class="col-12 post-body">
               <p class="lead">
                   <p>This short blog post covers the process of creating the <code>.hlint.yaml</code> file from the Dhall configuration.</p>
-<h2 id="motivation"><a href="#motivation">Motivation</a></h2>
+<h2 id="motivation">Motivation</h2>
 <p>Let’s first figure out why one could need custom <a href="https://github.com/ndmitchell/hlint">HLint</a> rules. The default HLint settings mostly cover <code>base</code> library. However, nowadays many people are using alternative preludes. Having <code>.hlint.yaml</code> file specific to the prelude library can help to migrate to the alternative prelude and use it efficiently.</p>
 <p>Our Kowainik organisation is not an exception, and we also have our custom prelude – <a href="https://github.com/kowainik/relude"><code>relude</code></a>. We are working a lot to make it very friendly to those who are using it. <code>relude</code> functionality has a few differencies from what standard <code>Prelude</code> gives us, which means that not all out-of-the-box HLint rules are suitable for us. That’s why we need our own rules to provide more information about <code>relude</code> just by running <code>hlint</code> on your project that uses <code>relude</code> as a custom prelude. To show how helpful it could be I list use cases for custom HLint rules below.</p>
 <ul>
@@ -131,14 +129,14 @@
 <a class="sourceLine" id="cb5-5" title="5">          executed previously would no longer be executed.</a></code></pre></div></li>
 </ul>
 <p>To summarise everything said before, we have to write a lot of boilerplate to cover all these rules which we (as lazybones) would like to avoid at all costs. Moreover, the maintenance price is quite high for thousands of lines of <code>yaml</code>.</p>
-<h2 id="why-dhall"><a href="#why-dhall">Why Dhall</a></h2>
+<h2 id="why-dhall">Why Dhall</h2>
 <p>As the tool that can help us with removing boilerplate, we have chosen <a href="https://github.com/dhall-lang/dhall-lang">Dhall language</a>. As reference:</p>
 <blockquote>
 <p>Dhall is a programmable configuration language that is not Turing-complete. You can think of Dhall as: JSON + functions + types + imports</p>
 </blockquote>
 <p>This sounds like pretty much what we need.</p>
 <p>You can wonder, why we are not using <code>Haskell</code> for such purposes (though we love it so much ♥). The answer is that we don’t need <code>IO</code> capabilities for our problem; totality and safety of Dhall are enough here. Changing the configuration in Haskell requires to recompile whole program before generating config, but with Dhall there’s no such extra step. Not to mention the very nice string interpolation that Dhall has. Also, we would like to learn about new technologies, and this seems like an excellent opportunity to dive into Dhall.</p>
-<h2 id="implementation"><a href="#implementation">Implementation</a></h2>
+<h2 id="implementation">Implementation</h2>
 <p>Basically, HLint file is just a list of different kind of rules. List in Dhall should consist of the elements of the same type (because Dhall is the typed configuration language), but as you’ve seen we need to use <code>warn</code>, <code>ignore</code>, <code>hint</code> and other rules. To unify different rule types with the same type we can create sum type in Dhall. Here how you do it (this is the <a href="https://github.com/kowainik/relude/blob/master/hlint/Rule.dhall"><code>hlint/Rule.dhall</code></a> file):</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb6-1" title="1"><span class="fu">&lt;</span> <span class="dt">Arguments</span> <span class="fu">:</span></a>
 <a class="sourceLine" id="cb6-2" title="2">    { arguments <span class="fu">:</span> <span class="dt">List</span> <span class="dt">Text</span> }</a>
@@ -219,7 +217,7 @@
 <p>And the same with all other rules, pretty easy.</p>
 <p>To generate <code>.hlint.yaml</code> from <code>hlint.dhall</code> you can run the following command (you need to have <a href="https://hackage.haskell.org/package/dhall-json"><code>dhall-json</code></a> installed):</p>
 <pre class="shell"><code>$  dhall-to-yaml --omitNull &lt;&lt;&lt; './hlint/hlint.dhall' &gt; .hlint.yaml</code></pre>
-<h2 id="conclusion"><a href="#conclusion">Conclusion</a></h2>
+<h2 id="conclusion">Conclusion</h2>
 <p>The process of creating <code>Dhall</code> modules was not very painful, so we can consider the experiment successful and we are going to maintain the <code>.hlint.yaml</code> using our <code>hlint.dhall</code> configuration. Now, adding additional rule <em>is just one line</em>, and it’s much easier to refactor configuration!</p>
 <p>Here is the table of file size comparison in different formats to show you how many keystrokes we managed to avoid.</p>
 <table>
@@ -242,8 +240,6 @@
               </div>
           </div>
           </div>
-
-
       </div>
 
 
@@ -251,13 +247,9 @@
       <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"> </script>
       <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/haskell.min.js"></script>
-      <script src="https://cdn.rawgit.com/icons8/bower-webicon/v0.10.7/jquery-webicon.min.js"></script>
       <script>hljs.initHighlightingOnLoad()</script>
-      <script src="https://cdn.jsdelivr.net/npm/katex@0.10.0-alpha/dist/katex.min.js"></script>
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/contrib/auto-render.min.js"></script>
       <script async defer src="https://buttons.github.io/buttons.js"></script>
   </body>
 </html>

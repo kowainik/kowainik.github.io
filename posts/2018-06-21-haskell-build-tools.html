@@ -22,10 +22,12 @@
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:site" content="@kowainik" />
     <meta property="twitter:title" content="Kowainik - Haskell: Build Tools" />
+    <meta name="twitter:description" content="Description of the basic workflows with the main Haskell build tools" />
+    <meta name="twitter:image:src" content="https://kowainik.github.io/images/logo-yellow.png" />
     <meta property="og:title" content="Kowainik - Haskell: Build Tools" />
-    <!-- <meta property="og:description" content="..." /> -->
+    <meta property="og:description" content="Description of the basic workflows with the main Haskell build tools" />
     <meta property="og:site_name" content="Kowainik" />
-    <meta property="og:image" content="https://kowainik.github.io/images/logo_trans.png" />
+    <meta property="og:image" content="https://kowainik.github.io/images/logo-yellow.png" />
 
     <!-- Favicon -->
     <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon">
@@ -33,36 +35,56 @@
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/tomorrow-night.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/katex@0.10.0-alpha/dist/katex.min.css" rel="stylesheet">
-
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.11.0/styles/dracula.min.css" />
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
     <!-- Custom fonts for this template -->
     <link href="../css/font-awesome.css" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
-    <link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css">
 
-    <!-- Plugin CSS -->
-    <link href="../css/magnific-popup.css" rel="stylesheet" type="text/css">
     <!-- Custom styles for this template -->
     <link href="../css/default.css" rel="stylesheet">
     <link href="../css/post.css" rel="stylesheet">
   </head>
 
-  <body>
+  <body class="body-posts">
 
           <!-- Header -->
       <nav class="navbar navbar-inverse navbar-fixed-left leftmenu bg-primary text-secondary">
             <div class="navbar-header">
-                <div class="postslogo"> <a class="navbar-brand" href="../"><img class="img-fluid d-block mx-auto" src="../images/logo-tr.png" alt="Kowainik"></a></div>
+                <div class="postslogo"> <a class="navbar-brand" href="../"><img class="img-fluid" src="../images/logo-tr.png" alt="Kowainik"></a></div>
             </div>
             <div class="toc-zone">
                 <h6 class="coolFont">Contents</h6>
-
                 <div class="toc">
-                    <ul> <li><a href="#introduction">Introduction</a></li><li><a href="#cabal">Cabal</a></li><ul> <li><a href="#cabal-installation">Cabal Installation</a></li><ul> <li><a href="#cabal-ubuntu">Cabal: Ubuntu</a></li><li><a href="#cabal-mac-os">Cabal: Mac OS</a></li><li><a href="#cabal-windows">Cabal: Windows</a></li></ul> <li><a href="#cabal-init">cabal init</a></li><li><a href="#cabal-project-structure">Cabal project structure</a></li><li><a href="#building-the-project-with-cabal">Building the project with cabal</a></li><li><a href="#adding-dependency-in-the-.cabal-file">Adding dependency in the .cabal file</a></li><li><a href="#cabal-repl">cabal repl</a></li><li><a href="#cabal-adding-executable">Cabal: adding executable</a></li></ul> <li><a href="#stack">Stack</a></li><ul> <li><a href="#stack-installation">Stack: Installation</a></li><ul> <li><a href="#stack-unix">Stack: Unix</a></li><li><a href="#stack-windows">Stack: Windows</a></li></ul> <li><a href="#stack-new">stack new</a></li><li><a href="#stack-project-structure">Stack project structure</a></li><li><a href="#building-stack-project">Building stack project</a></li><li><a href="#lts-resolver">LTS resolver</a></li><li><a href="#adding-dependency-to-stack-project">Adding dependency to stack project</a></li><li><a href="#stack-repl-and-executables">Stack: REPL and executables</a></li></ul> <li><a href="#conclusion">Conclusion</a></li><li><a href="#other">Other</a></li></ul>
+                    <ul>
+<li><a href="#introduction">Introduction</a></li>
+<li><a href="#cabal">Cabal</a><ul>
+<li><a href="#cabal-installation">Cabal Installation</a><ul>
+<li><a href="#cabal-ubuntu">Cabal: Ubuntu</a></li>
+<li><a href="#cabal-mac-os">Cabal: Mac OS</a></li>
+<li><a href="#cabal-windows">Cabal: Windows</a></li>
+</ul></li>
+<li><a href="#cabal-init">cabal init</a></li>
+<li><a href="#cabal-project-structure">Cabal project structure</a></li>
+<li><a href="#building-the-project-with-cabal">Building the project with cabal</a></li>
+<li><a href="#adding-dependency-in-the-.cabal-file">Adding dependency in the .cabal file</a></li>
+<li><a href="#cabal-repl">cabal repl</a></li>
+<li><a href="#cabal-adding-executable">Cabal: adding executable</a></li>
+</ul></li>
+<li><a href="#stack">Stack</a><ul>
+<li><a href="#stack-installation">Stack: Installation</a><ul>
+<li><a href="#stack-unix">Stack: Unix</a></li>
+<li><a href="#stack-windows">Stack: Windows</a></li>
+</ul></li>
+<li><a href="#stack-new">stack new</a></li>
+<li><a href="#stack-project-structure">Stack project structure</a></li>
+<li><a href="#building-stack-project">Building stack project</a></li>
+<li><a href="#lts-resolver">LTS resolver</a></li>
+<li><a href="#adding-dependency-to-stack-project">Adding dependency to stack project</a></li>
+<li><a href="#stack-repl-and-executables">Stack: REPL and executables</a></li>
+</ul></li>
+<li><a href="#conclusion">Conclusion</a></li>
+<li><a href="#other">Other</a></li>
+</ul>
                 </div>
             </div>
             <div class="coolFont">
@@ -95,7 +117,7 @@
               <div class="col-12 post-body">
               <p class="lead">
                   <p>This blog post describes the two main ways of managing and building Haskell projects: using the <code>cabal</code> and <code>stack</code> build tools. The blog post doesn’t try to replace documentation for any of the building tools, nor does it try to cover all possible ways to build a Haskell project. Rather, it tries to give beginners step by step instructions on how to create and build a simple project. The goal is to reduce the confusion, especially for those who have just started working with Haskell. While documentation is good to gain a deep understanding, sometimes you just need things to be done straight away.</p>
-<h2 id="introduction"><a href="#introduction">Introduction</a></h2>
+<h2 id="introduction">Introduction</h2>
 <p>Haskell is a compiled programming language that also has an interpreter. The interpreter allows you to experiment with packages, like those from <a href="https://hackage.haskell.org/">Hackage</a> (Haskell central packages repository), in a small single file or even in the interactive REPL called <code>ghci</code>. But for big projects, it’s better to organize the source code into modules as it will help with maintainability. Build tools like <code>cabal</code> and <code>stack</code> can help you manage the building process.</p>
 <p>Hackage has a lot of libraries and finding the function you need can be frustrating. Luckily, you can use <a href="https://hoogle.haskell.org/">hoogle</a> to search by name or type. Even then there are several build tools for Haskell and deciding which one to use can be difficult. This blog post focuses on two such tools:</p>
 <ol type="1">
@@ -109,7 +131,7 @@
 </ul></li>
 </ol>
 <p>These tools are chosen because they are the most popular and mature. I won’t make any claim on which one is better, instead I will give you an overall idea of what the package development looks like for each of them. Hopefully, by the end of this post you will be able to choose which approach fits you more.</p>
-<h2 id="cabal"><a href="#cabal">Cabal</a></h2>
+<h2 id="cabal">Cabal</h2>
 <p>The word <code>cabal</code> in Haskell is semantically overloaded. In Haskell, <code>cabal</code> can refer to:</p>
 <ol type="1">
 <li><code>cabal-install</code>
@@ -127,8 +149,8 @@
 </ol>
 <p><strong>PLEASE DON’T USE THE WORD “CABAL” WITHOUT CONTEXT!</strong></p>
 <p>In this blog post when I use the word <code>cabal</code> I mean <code>cabal-install</code>. Otherwise I will specify it explicitly.</p>
-<h3 id="cabal-installation"><a href="#cabal-installation">Cabal Installation</a></h3>
-<h4 id="cabal-ubuntu"><a href="#cabal-ubuntu">Cabal: Ubuntu</a></h4>
+<h3 id="cabal-installation">Cabal Installation</h3>
+<h4 id="cabal-ubuntu">Cabal: Ubuntu</h4>
 <p>The latest <code>cabal</code> and <code>ghc</code> can both be installed through <code>hvr/ghc</code> PPA:</p>
 <ul>
 <li><a href="https://launchpad.net/~hvr/+archive/ubuntu/ghc">https://launchpad.net/~hvr/+archive/ubuntu/ghc</a></li>
@@ -149,14 +171,14 @@ compiled using version 2.5.0.0 of the Cabal library</code></pre>
 <p>To make development easier, you can also add those binaries to your <code>$PATH</code> environment variable.</p>
 <pre class="shell"><code>$ echo 'export PATH=&quot;$PATH:/opt/ghc/bin&quot;' &gt;&gt; ~/.bashrc
 $ . ~/.bashrc</code></pre>
-<h4 id="cabal-mac-os"><a href="#cabal-mac-os">Cabal: Mac OS</a></h4>
+<h4 id="cabal-mac-os">Cabal: Mac OS</h4>
 <p>To get <code>cabal</code> for Mac Os you can just use <a href="https://brew.sh/"><code>brew</code></a>:</p>
 <pre><code>$ brew install ghc cabal-install</code></pre>
 <p>If you want to work with multiple GHC versions on macOS, you may find neat <code>haskell-on-macos.py</code> script useful:</p>
 <ul>
 <li><a href="https://haskell.futurice.com/">https://haskell.futurice.com/</a></li>
 </ul>
-<h4 id="cabal-windows"><a href="#cabal-windows">Cabal: Windows</a></h4>
+<h4 id="cabal-windows">Cabal: Windows</h4>
 <p>The easiest way to install <code>cabal</code> and <code>ghc</code> for Windows is to install the Haskell Platform, which you can do following the instructions at:</p>
 <ul>
 <li><a href="https://www.haskell.org/platform/">https://www.haskell.org/platform/</a></li>
@@ -165,7 +187,7 @@ $ . ~/.bashrc</code></pre>
 <ul>
 <li><a href="https://chocolatey.org/packages/ghc">https://chocolatey.org/packages/ghc</a></li>
 </ul>
-<h3 id="cabal-init"><a href="#cabal-init">cabal init</a></h3>
+<h3 id="cabal-init">cabal init</h3>
 <p>To create a new project you can run the <code>cabal init</code> command. Cabal will then guide you through the interactive process, and ask you several questions regarding the structure of your project.</p>
 <pre class="shell"><code>$ mkdir cabal-example # create project directory
 $ cd cabal-example    # go into this directory
@@ -174,7 +196,7 @@ $ cabal init          # initialize project in this directory</code></pre>
 <p><a href="https://asciinema.org/a/196018"><img src="https://asciinema.org/a/196018.png" alt="cabal init demo" /></a></p>
 <p>As an alternative, you can use the <a href="https://github.com/kowainik/summoner"><code>summoner</code></a> tool. <code>summoner</code> can generate for you much more than what <code>cabal init</code> can, and it won’t ask you any redundant question. However, you probably should just use <code>cabal init</code> for your first Haskell project because <code>summoner</code> requires installation to be done first. Below you can see demo of <code>summoner</code> usage.</p>
 <p><a href="https://asciinema.org/a/214424"><img src="https://asciinema.org/a/214424.png" alt="Summoner TUI demo" /></a></p>
-<h3 id="cabal-project-structure"><a href="#cabal-project-structure">Cabal project structure</a></h3>
+<h3 id="cabal-project-structure">Cabal project structure</h3>
 <p>If you’ve chosen to create <code>cabal-example</code> with <code>src</code> as a directory</p>
 <p>After initializing your package with name <code>cabal-example</code> which builds <code>Library</code> and has <code>src/</code> as code source directory, you will get the following structure:</p>
 <pre class="shell"><code>$ tree cabal-example
@@ -212,7 +234,7 @@ library
   hs-source-dirs:      src
   default-language:    Haskell2010</code></pre>
 <p>Put your source code under the <code>src/</code> folder. Don’t worry about the <code>Setup.hs</code> file as it is not needed most of the time. You can ignore it or even delete it.</p>
-<h3 id="building-the-project-with-cabal"><a href="#building-the-project-with-cabal">Building the project with cabal</a></h3>
+<h3 id="building-the-project-with-cabal">Building the project with cabal</h3>
 <p>To build your project, you need to have some code. Let’s create a <code>Dummy.hs</code> file inside the <code>src/</code> directory with the following content:</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb8-1" title="1"><span class="kw">module</span> <span class="dt">Dummy</span> <span class="kw">where</span></a>
 <a class="sourceLine" id="cb8-2" title="2"></a>
@@ -239,7 +261,7 @@ library
 <blockquote>
 <p><strong>IMPORTANT NOTE:</strong> <code>cabal</code> also has a <code>build</code> and <code>update</code> command <strong>without</strong> the <code>new-</code> prefix. Don’t use them! Use the commands with the <code>new-</code> prefix instead: they just work better. Implementing proper build tool is a really difficult task and it’s not immediately obvious how things should be done. But this doesn’t mean that once you figure out a better way of doing things you should implement it under the old interface. Package authors care about their users: they keep the old way to build packages so people can continue using it, even though the new proper way is available (through the <code>new-</code> prefixed commands). Old commands will be replaced by new ones in <code>cabal-3.0</code> and this prefix will be removed.</p>
 </blockquote>
-<h3 id="adding-dependency-in-the-.cabal-file"><a href="#adding-dependency-in-the-.cabal-file">Adding dependency in the .cabal file</a></h3>
+<h3 id="adding-dependency-in-the-.cabal-file">Adding dependency in the .cabal file</h3>
 <p>All dependencies should be specified under <code>build-depends</code> field in the <code>.cabal</code> file. By default, every new package has the <code>base</code> library as a dependency. But there are many more packages on Hackage! For example, to operate with random values we can use the <a href="https://hackage.haskell.org/package/random"><code>random</code></a> package. In order to do that you will need to modify the <code>build-depends</code> field in the <code>.cabal</code> file in the following way:</p>
 <pre class="cabal"><code>  build-depends:       base &gt;=4.11 &amp;&amp; &lt;4.12, random</code></pre>
 <p>And then, we will be able to use any function from this package!</p>
@@ -256,7 +278,7 @@ library
 <blockquote>
 <p><strong>NOTE:</strong> Usually there are multiple versions of a package with the same name. You may notice that version boundaries are specified for the <code>base</code> package in your <code>.cabal</code> file. If you have a lot of packages without explicit version boundaries, <code>cabal</code> might not be able to build your project, because it won’t know which versions of the packages to pick.</p>
 </blockquote>
-<h3 id="cabal-repl"><a href="#cabal-repl">cabal repl</a></h3>
+<h3 id="cabal-repl">cabal repl</h3>
 <p>Okay, we wrote some functions. So how about testing them? As mentioned earlier, <code>ghc</code> has an interactive interpreter. You can run it with the following command:</p>
 <pre class="shell"><code>$ cabal new-repl</code></pre>
 <p>And then you can evaluate the code we wrote in REPL:</p>
@@ -270,7 +292,7 @@ library
 <a class="sourceLine" id="cb16-8" title="8"><span class="dt">Leavning</span> <span class="dt">GHCi</span><span class="fu">.</span></a>
 <a class="sourceLine" id="cb16-9" title="9"><span class="fu">$</span></a></code></pre></div>
 <p>You probably won’t see the same exact numbers as output for the <code>dice</code> function. But there’s a <code>1/36</code> chance you will.</p>
-<h3 id="cabal-adding-executable"><a href="#cabal-adding-executable">Cabal: adding executable</a></h3>
+<h3 id="cabal-adding-executable">Cabal: adding executable</h3>
 <p>Evaluating functions in REPL is really fun! But usually programs are implemented to be used as executables later. As I mentioned earlier Haskell is a compiled language so you can have native binary. To do this you need to add <code>executable</code> to the <code>.cabal</code> file.</p>
 <blockquote>
 <p><strong>NOTE:</strong> Top-level sections like <code>library</code>, <code>executable</code> and others are called <em>stanzas</em> in the cabal format specification.</p>
@@ -301,23 +323,23 @@ $ cabal new-exec my-exe</code></pre>
 <ul>
 <li><a href="https://haskell-at-work.com/episodes/2018-05-13-introduction-to-cabal.html">https://haskell-at-work.com/episodes/2018-05-13-introduction-to-cabal.html</a></li>
 </ul>
-<h2 id="stack"><a href="#stack">Stack</a></h2>
+<h2 id="stack">Stack</h2>
 <p>Even if you are only interested in using <code>stack</code> you should read the <code>cabal</code> section first, as I will refer to it in some parts.</p>
-<h3 id="stack-installation"><a href="#stack-installation">Stack: Installation</a></h3>
+<h3 id="stack-installation">Stack: Installation</h3>
 <p>You can find instructions for how to build <code>stack</code> at the beginning of the <code>stack</code> documentation:</p>
 <ul>
 <li><a href="https://docs.haskellstack.org/en/stable/README/#how-to-install">https://docs.haskellstack.org/en/stable/README/#how-to-install</a></li>
 </ul>
 <p>You don’t need to install <code>ghc</code> separately since <code>stack</code> will download a suitable compiler version for you.</p>
-<h4 id="stack-unix"><a href="#stack-unix">Stack: Unix</a></h4>
+<h4 id="stack-unix">Stack: Unix</h4>
 <p>Installing <code>stack</code> on any unix system is really easy:</p>
 <pre class="shell"><code>$ curl -sSL https://get.haskellstack.org/ | sh</code></pre>
-<h4 id="stack-windows"><a href="#stack-windows">Stack: Windows</a></h4>
+<h4 id="stack-windows">Stack: Windows</h4>
 <p>For Windows, you can download the official binary directly from the website:</p>
 <ul>
 <li><a href="https://docs.haskellstack.org/en/stable/install_and_upgrade/#windows">https://docs.haskellstack.org/en/stable/install_and_upgrade/#windows</a></li>
 </ul>
-<h3 id="stack-new"><a href="#stack-new">stack new</a></h3>
+<h3 id="stack-new">stack new</h3>
 <p>To create a new project named <code>stack-example</code> you run:</p>
 <pre class="shell"><code>$ stack new stack-example</code></pre>
 <blockquote>
@@ -328,7 +350,7 @@ $ cabal new-exec my-exe</code></pre>
 <li><a href="https://github.com/commercialhaskell/stack-templates">commercialhaskell/stack-templates</a></li>
 </ul>
 <p>Alternatively you can use the <a href="https://github.com/kowainik/summoner"><code>summoner</code></a> tool to create your projects. Any <code>stack</code> template describes a static project hierarchy with only simple configurable metadata like <em>user name</em>. But sometimes you might want more, like the ability to add <code>benchmarks</code> stanza to your package. Generally, you don’t want to have multiple templates that are just slightly different versions of one major template. <code>summoner</code> can also automatically create a GitHub repository for your new project, so it is somewhere in between the <code>cabal init</code> and <code>stack</code> templates, but with some extra features.</p>
-<h3 id="stack-project-structure"><a href="#stack-project-structure">Stack project structure</a></h3>
+<h3 id="stack-project-structure">Stack project structure</h3>
 <p>The directory hierarchy for the default <code>stack</code> template looks like this:</p>
 <pre class="shell"><code>$ tree stack-example/
 stack-example/
@@ -350,17 +372,17 @@ stack-example/
 <p>Here you see that many more files were created for you than with <code>cabal</code>. Here are <code>library</code>, <code>executable</code> and <code>test-suite</code> stanzas added to the <code>.cabal</code> file with the corresponding Haskell code being put into the <code>src/</code>, <code>app/</code> and <code>test/</code> directories respectively.</p>
 <p>The <code>stack.yaml</code> file contains some extra configuration for <code>stack</code>.</p>
 <p>The <code>package.yaml</code> file contains the packages description in an alternative format that is used by <a href="https://github.com/sol/hpack"><code>hpack</code></a>. TL;DR Instead of writing package description in <code>cabal</code> format you can write it in YAML and you get some extra features like automatic modules discovery. <code>hpack</code> then generates a <code>.cabal</code> file using information from <code>package.yaml</code>. But if you don’t want to deal with <code>hpack</code> for now you can just delete <code>package.yaml</code> file.</p>
-<h3 id="building-stack-project"><a href="#building-stack-project">Building stack project</a></h3>
+<h3 id="building-stack-project">Building stack project</h3>
 <p>Use the following command to build the project including <code>library</code>, <code>executable</code> and <code>test-suite</code> stanzas, and run tests as well.</p>
 <pre class="shell"><code>$ stack build --test</code></pre>
 <p><code>stack</code> will automatically download the proper GHC version during your first build.</p>
-<h3 id="lts-resolver"><a href="#lts-resolver">LTS resolver</a></h3>
+<h3 id="lts-resolver">LTS resolver</h3>
 <p>One of the main differences between <code>stack</code> and <code>cabal</code> is how they determine the proper version for package dependencies. They both use the <code>Cabal</code> library to parse <code>.cabal</code> files. However, <code>stack</code> uses the notion of LTS resolver. In simple words: resolver is just a Hackage snapshot where packages can work with each other smoothly. You can check <code>stack.yaml</code> file to see which resolver you use. Look for a line like this one:</p>
 <div class="sourceCode" id="cb24"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb24-1" title="1">resolver<span class="fu">:</span> lts<span class="fu">-</span><span class="fl">13.2</span></a></code></pre></div>
 <blockquote>
 <p><strong>NOTE:</strong> This is the only line in <code>stack.yaml</code> that is required for stack to work in most cases. The default <code>stack.yaml</code> file will contain a lot of redundant stuff. You can safely delete everything except this one line, unless you need some more advanced usage.</p>
 </blockquote>
-<h3 id="adding-dependency-to-stack-project"><a href="#adding-dependency-to-stack-project">Adding dependency to stack project</a></h3>
+<h3 id="adding-dependency-to-stack-project">Adding dependency to stack project</h3>
 <p>Adding dependency for <code>stack</code> is almost the same as for <code>cabal</code>: you just add the library you want to the <code>build-depends</code> field.</p>
 <p>If you are wondering which version of the package from <code>build-depends</code> will be used in your project, you can open the Stackage web page with the resolver specified in your <code>stack.yaml</code> and search for the library you’re interested in. For example, here we need</p>
 <ul>
@@ -369,13 +391,13 @@ stack-example/
 <p>You can also do this through the terminal. For instance, for the <code>random</code> library we can run:</p>
 <pre class="shell"><code>$ stack ls dependencies | grep random</code></pre>
 <p>Sometimes a library might not be in the specified resolver. In that case, you need to add the library and its version to the <code>extra-deps</code> field inside <code>stack.yaml</code>. <a href="https://github.com/kowainik/summoner/blob/21c4bbf2888b232ee8937e0d880cb438d9514d81/stack.yaml#L3-L5">See example here</a>.</p>
-<h3 id="stack-repl-and-executables"><a href="#stack-repl-and-executables">Stack: REPL and executables</a></h3>
+<h3 id="stack-repl-and-executables">Stack: REPL and executables</h3>
 <p>You can use <code>stack repl</code> command to launch the <code>ghci</code> inside your project.</p>
 <p>Use the following command to run a specific executable stanza:</p>
 <pre class="shell"><code>$ stack exec name-of-my-executable</code></pre>
-<h2 id="conclusion"><a href="#conclusion">Conclusion</a></h2>
+<h2 id="conclusion">Conclusion</h2>
 <p>In conclusion, I want to say that workflows for <code>cabal</code> and <code>stack</code> might look very similar, but the ideas behind them are different. I recommend you to try both before sticking to one tool. And I hope the instructions above will help you to get started with creating Haskell projects!</p>
-<h2 id="other"><a href="#other">Other</a></h2>
+<h2 id="other">Other</h2>
 <p>Useful addition to <code>cabal</code> and <code>stack</code> in terms of building tools is <code>nix</code>. <a href="https://nixos.org/nix/">Nix</a> is also a very popular choice but it’s not yet beginner friendly. If you are interested in knowing more about how to apply <code>nix</code> to Haskell, I suggest you read this tutorial:</p>
 <ul>
 <li><a href="https://github.com/Gabriel439/haskell-nix">Gabriel439/haskell-nix</a></li>
@@ -391,8 +413,6 @@ stack-example/
               </div>
           </div>
           </div>
-
-
       </div>
 
 
@@ -400,13 +420,9 @@ stack-example/
       <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"> </script>
       <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/haskell.min.js"></script>
-      <script src="https://cdn.rawgit.com/icons8/bower-webicon/v0.10.7/jquery-webicon.min.js"></script>
       <script>hljs.initHighlightingOnLoad()</script>
-      <script src="https://cdn.jsdelivr.net/npm/katex@0.10.0-alpha/dist/katex.min.js"></script>
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/contrib/auto-render.min.js"></script>
       <script async defer src="https://buttons.github.io/buttons.js"></script>
   </body>
 </html>
