@@ -5,9 +5,9 @@
     src: local('Noteworthy Light'), url('/fonts/Noteworthy-Lt.woff') format('woff');
 }
 
-body {
-    font-family: 'Lato';
-}
+body {font-family: 'Lato';}
+.body-posts {font-family: 'Ubuntu';}
+code, pre {font-family: 'Ubuntu Mono'; font-size:1.2rem;}
 
 h1, h2, h3, h4, h5, h6 {
     font-weight: 700;
@@ -173,3 +173,12 @@ hr.star-dark-pr:after {
 .p404-img {
     max-height: 15vh;
 }
+
+/* Code */
+code {
+    padding: 0% 0.5%;
+    color:#2C3E50 !important;
+    background-color:#FAFFC3 !important;
+}
+
+pre > code {background-color: #2C3E50 !important; color: #fff !important; }
