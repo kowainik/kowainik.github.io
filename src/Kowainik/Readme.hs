@@ -13,7 +13,7 @@ import System.FilePath ((</>))
 import qualified Data.Text as T
 import qualified Data.Text.Lazy as LT
 import qualified Data.Text.Lazy.Encoding as T
-import qualified Data.Text.Lazy.IO as T
+
 
 createProjectMds :: IO ()
 createProjectMds = do
@@ -55,7 +55,7 @@ createProjectMds = do
         let responseText = LT.unlines $ drop 1 $ LT.lines $ T.decodeUtf8 $ responseBody response
 
         let filepath :: FilePath = "projects" </> toString ghpName ++ ".md"
-        T.writeFile filepath $ createMdHeader gp <> responseText
+        writeFileLText filepath $ createMdHeader gp <> responseText
 
     createMdHeader :: GitHubProject -> LText
     createMdHeader GitHubProject{..} = toLazy $ unlines

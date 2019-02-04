@@ -10,8 +10,8 @@ import Data.Aeson (FromJSON (..), eitherDecode, withObject, (.:))
 import Data.Char (toLower)
 import Hakyll (Context, field, itemBody, listField, makeItem)
 
-import qualified Data.ByteString.Lazy as LBS
 import qualified Data.String as String (words)
+
 
 -- | Information about team member.
 data TeamMember = TeamMember
@@ -50,7 +50,7 @@ makeTeamContext = listField "team"
 
 parseTeam :: FilePath -> IO [TeamMember]
 parseTeam teamPath = do
-    teamJson <- LBS.readFile teamPath
+    teamJson <- readFileLBS teamPath
     let eitherTeam = eitherDecode teamJson
     case eitherTeam of
         Left e     -> error $ toText e
