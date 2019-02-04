@@ -1,0 +1,61 @@
+cabal-version:         2.0
+name:                  kowainik-site
+version:               0.1.0.0
+synopsis:              Kowainik website
+description:           Kowainik website
+homepage:              https://github.com/kowainik/kowainik.github.io
+bug-reports:           https://github.com/kowainik/kowainik.github.io/issues
+license:               MPL-2.0
+license-file:          LICENSE
+author:                Kowainik
+maintainer:            xrom.xkov@gmail.com
+copyright:             2018-2019 Kowainik
+category:              Web
+build-type:            Simple
+extra-doc-files:       README.md
+tested-with:           GHC == 8.6.3
+
+library
+  hs-source-dirs:      src
+
+  exposed-modules:     Kowainik.Project
+                       Kowainik.Readme
+                       Kowainik.Social
+                       Kowainik.Team
+                       Prelude
+
+  build-depends:       base-noprelude ^>= 4.12
+                     , aeson
+                     , bytestring
+                     , directory
+                     , filepath
+                     , hakyll
+                     , http-client
+                     , http-client-tls
+                     , http-types
+                     , relude
+                     , text
+
+  ghc-options:         -Wall
+
+  default-language:    Haskell2010
+  default-extensions:  LambdaCase
+                       OverloadedStrings
+                       RecordWildCards
+                       ScopedTypeVariables
+                       TypeApplications
+
+executable site
+  main-is:             site.hs
+
+  build-depends:       base-noprelude
+                     , hakyll
+                     , kowainik-site
+                     , pandoc
+                     , relude
+                     , text
+
+  ghc-options:        -Wall -threaded
+
+  default-language:   Haskell2010
+  default-extensions: OverloadedStrings

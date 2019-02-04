@@ -3,12 +3,13 @@
 
 import Hakyll (Context, Identifier, Item (..), MonadMetadata, Pattern, Rules, applyAsTemplate,
                buildTags, compile, compressCssCompiler, constField, copyFileCompiler, create,
-               dateField, defaultContext, field, fromCapture, functionField, getMetadata, getTags,
-               hakyll, idRoute, listField, loadAll, loadAndApplyTemplate, lookupString, makeItem,
-               match, pandocCompiler, recentFirst, relativizeUrls, route, setExtension, tagsRules,
-               templateBodyCompiler, (.||.))
+               dateField, defaultContext, defaultHakyllReaderOptions, defaultHakyllWriterOptions,
+               field, fromCapture, functionField, getMetadata, getResourceString, getTags, hakyll,
+               idRoute, listField, loadAll, loadAndApplyTemplate, lookupString, makeItem, match,
+               pandocCompiler, recentFirst, relativizeUrls, renderPandocWith, route, setExtension,
+               tagsRules, templateBodyCompiler, (.||.))
+import Text.Pandoc.Options (WriterOptions (..))
 
-import Kowainik.Post (createPostsWithToc)
 import Kowainik.Project (makeProjectContext)
 import Kowainik.Readme (createProjectMds)
 import Kowainik.Social (makeSocialContext)
@@ -19,7 +20,6 @@ import qualified Data.Text as T
 
 main :: IO ()
 main = createProjectMds
-    >> createPostsWithToc
     >> parseTeam "team.json"
     >>= mainHakyll
 
@@ -48,10 +48,13 @@ mainHakyll team = hakyll $ do
     match "posts/*" $ do
         route $ setExtension "html"
         compile $ do
-            i   <- pandocCompiler
+            i   <- getResourceString
+            pandoc <- renderPandocWith defaultHakyllReaderOptions withToc i
+            let toc = itemBody pandoc
             tgs <- getTags (itemIdentifier i)
-            let postTagsCtx = postCtxWithTags tgs
-            loadAndApplyTemplate "templates/post.html" postTagsCtx i
+            let postTagsCtx = postCtxWithTags tgs <> constField "toc" toc
+            pandocCompiler
+                >>= loadAndApplyTemplate "templates/post.html" postTagsCtx
                 >>= loadAndApplyTemplate "templates/posts-default.html" postTagsCtx
                 >>= relativizeUrls
 
@@ -61,9 +64,9 @@ mainHakyll team = hakyll $ do
     -- build up tags
     tags <- buildTags "posts/*" (fromCapture "tags/*.html")
 
-    tagsRules tags $ \tag pattern -> do
+    tagsRules tags $ \tag ptrn -> do
         let title = "Posts tagged \"" ++ tag ++ "\""
-        compilePosts title "templates/tag.html" pattern
+        compilePosts title "templates/tag.html" ptrn
 
 
     ----------------------------------------------------------------------------
@@ -71,11 +74,10 @@ mainHakyll team = hakyll $ do
     ----------------------------------------------------------------------------
     match "projects/*" $ do
         route $ setExtension "html"
-        compile $ do
-            pandocCompiler
-                >>= loadAndApplyTemplate "templates/readme.html" defaultContext
-                >>= loadAndApplyTemplate "templates/posts-default.html" defaultContext
-                >>= relativizeUrls
+        compile $ pandocCompiler
+            >>= loadAndApplyTemplate "templates/readme.html" defaultContext
+            >>= loadAndApplyTemplate "templates/posts-default.html" defaultContext
+            >>= relativizeUrls
 
     -- All projects page
     create ["projects.html"] $ compileProjects "Projects" "templates/readmes.html" "projects/*"
@@ -84,14 +86,19 @@ mainHakyll team = hakyll $ do
     -- Render the 404 page, we don't relativize URL's here.
     create ["404.html"] $ do
         route idRoute
-        compile $ do
-            let ctx = defaultContext
-            makeItem ""
-                >>= applyAsTemplate ctx
-                >>= loadAndApplyTemplate "templates/404.html" ctx
+        compile $ makeItem ""
+            >>= applyAsTemplate defaultContext
+            >>= loadAndApplyTemplate "templates/404.html" defaultContext
 
     match "templates/*" $ compile templateBodyCompiler
 
+-- | Compose TOC from the markdown.
+withToc :: WriterOptions
+withToc = defaultHakyllWriterOptions
+    { writerTableOfContents = True
+    , writerTOCDepth = 4
+    , writerTemplate = Just "$toc$"
+    }
 
 compilePosts :: String -> Identifier -> Pattern -> Rules ()
 compilePosts title page pat = do
@@ -129,12 +136,13 @@ compileProjects title page pat = do
     moreStarsFirst = sortByM $ getItemStars . itemIdentifier
       where
         sortByM :: (Monad m, Ord k) => (a -> m k) -> [a] -> m [a]
-        sortByM f xs = fmap (map fst . sortBy (flip $ comparing snd)) $
-                       mapM (\x -> (x,) <$> (f x)) xs
+        sortByM f xs = map fst . sortBy (flip $ comparing snd) <$>
+            mapM (\x -> (x,) <$> f x) xs
 
-    getItemStars :: MonadMetadata m
-                 => Identifier    -- ^ Input page
-                 -> m Int         -- ^ Parsed GitHub Stars
+    getItemStars
+        :: MonadMetadata m
+        => Identifier    -- ^ Input page
+        -> m Int         -- ^ Parsed GitHub Stars
     getItemStars id' = do
         metadata <- getMetadata id'
         let mbStar = lookupString "stars" metadata >>= readMaybe @Int
@@ -146,10 +154,9 @@ compileProjects title page pat = do
 
 -- | Removes the @.html@ suffix in the post URLs.
 stripExtension :: Context a
-stripExtension = functionField "stripExtension" $ \args _ ->
-    case args of
-        [k] -> pure $ fromMaybe k $ toString <$> (T.stripSuffix ".html" $ toText k)
-        _   -> error "relativizeUrl only needs a single argument"
+stripExtension = functionField "stripExtension" $ \args _ -> case args of
+    [k] -> pure $ maybe k toString (T.stripSuffix ".html" $ toText k)
+    _   -> error "relativizeUrl only needs a single argument"
 
 -- Context to used for posts
 postCtx :: Context String
@@ -158,5 +165,6 @@ postCtx = stripExtension
     <> defaultContext
 
 postCtxWithTags :: [String] -> Context String
-postCtxWithTags tags = listField "tagsList" (field "tag" $ pure . itemBody) (traverse makeItem tags)
+postCtxWithTags tags =
+    listField "tagsList" (field "tag" $ pure . itemBody) (traverse makeItem tags)
     <> postCtx
