@@ -2,6 +2,7 @@
 title: "Picnic: put containers into a backpack"
 author: Dmitrii Kovanikov
 tags: haskell, backpack, containers, cabal, tutorial
+description: "The Backpack implementation of the uniform interface for containers"
 ---
 
 This blog post walks the reader through the Backpack implementation of the

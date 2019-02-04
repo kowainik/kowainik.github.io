@@ -2,6 +2,7 @@
 title: "Hacktoberfest 2018 Wrap-up"
 author: Kowainik
 tags: haskell, hacktoberfest
+description: "Astonishing results of the Hacktoberfest 2018 in Kowainik"
 ---
 
 Wow, what an exciting month it was! The open-source world completely took our
