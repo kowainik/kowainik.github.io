@@ -2,6 +2,7 @@
 title: "Dhall to HLint: Using Dhall to generate HLint rules"
 author: Veronika Romashkina
 tags: haskell, hlint, dhall, prelude
+description: "Creating custom HLint rules for alternative preludes with Dhall"
 ---
 
 This short blog post covers the process of creating the `.hlint.yaml` file from

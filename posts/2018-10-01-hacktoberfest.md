@@ -2,6 +2,7 @@
 title: "Hacktoberfest 2018: Call for participation"
 author: Kowainik
 tags: hacktoberfest, haskell
+description: "Join us in the Hacktoberfest 2018!"
 ---
 
 It’s October already which means that

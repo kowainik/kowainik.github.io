@@ -31,19 +31,12 @@ a:focus, a:hover, a:active {
 }
 
 /* Dark bg */
-.bg-secondary {
-    background-color: #2C3E50 !important;
-}
-
+.bg-secondary {background-color: #2C3E50 !important;}
 /* beautiful text */
-.text-primary {
-    color: #26e4bb !important;
-}
+.text-primary {color: #26e4bb !important;}
 
 /* Dark text */
-.text-secondary {
-    color: #2C3E50 !important;
-}
+.text-secondary {color: #2C3E50 !important;}
 
 .main-font {
     font-family: 'Montserrat';
@@ -78,13 +71,9 @@ hr.star-dark-pr:after {
     font-size: 2em;
 }
 
-hr.star-light {
-    border-color: #fff;
-}
+hr.star-light {border-color: #fff;}
 
-hr.star-light:after {
-    color: #fff;
-}
+hr.star-light:after {color: #fff;}
 
 hr.star-dark,
 hr.star-dark-pr{
@@ -101,17 +90,13 @@ hr.star-dark-pr:after {
     background-color: #26e4bb !important;
     background-image: url("/images/circles.png");
     background-repeat: repeat;
-
 }
-
 
 /*******************************
  ******** Buttons
  *******************************/
 
-.btn {
-    border-width: 2px;
-}
+.btn {border-width: 2px;}
 .btn-xl {
     padding: 1rem 1.75rem;
     font-size: 1.25rem;

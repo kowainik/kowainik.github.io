@@ -2,6 +2,7 @@
 title: State monad comes to help sequential pattern matching
 author: Dmitrii Kovanikov
 tags: haskell, state, transformers
+description: "Combining Monad transformers and applicative functors for better error messages report"
 ---
 
 Let’s try to solve one specific problem using the `State` monad and monad

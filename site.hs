@@ -109,6 +109,7 @@ compilePosts title page pat = do
         tagsList <- ordNub . concat <$> traverse getTags ids
         let ctx = postCtxWithTags tagsList
                <> constField "title" title
+               <> constField "description" "Kowainik blog"
                <> listField "posts" postCtx (return posts)
                <> defaultContext
 
@@ -124,6 +125,7 @@ compileProjects title page pat = do
         projects <- moreStarsFirst =<< loadAll pat
         let projectsCtx = stripExtension <> defaultContext
         let ctx = constField "title" title
+               <> constField "description" "Kowainik projects"
                <> listField "readmes" projectsCtx (pure projects)
                <> projectsCtx
 

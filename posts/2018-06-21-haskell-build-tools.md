@@ -2,6 +2,7 @@
 title: "Haskell: Build Tools"
 author: Dmitrii Kovanikov
 tags: haskell, stack, cabal, build-tools, tutorial
+description: "Description of the basic workflows with the main Haskell build tools"
 ---
 
 This blog post describes the two main ways of managing and building Haskell
