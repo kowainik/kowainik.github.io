@@ -3,12 +3,13 @@
 
 import Hakyll (Context, Identifier, Item (..), MonadMetadata, Pattern, Rules, applyAsTemplate,
                buildTags, compile, compressCssCompiler, constField, copyFileCompiler, create,
-               dateField, defaultContext, field, fromCapture, functionField, getMetadata, getTags,
-               hakyll, idRoute, listField, loadAll, loadAndApplyTemplate, lookupString, makeItem,
-               match, pandocCompiler, recentFirst, relativizeUrls, route, setExtension, tagsRules,
-               templateBodyCompiler, (.||.))
+               dateField, defaultContext, defaultHakyllReaderOptions, defaultHakyllWriterOptions,
+               field, fromCapture, functionField, getMetadata, getResourceString, getTags, hakyll,
+               idRoute, listField, loadAll, loadAndApplyTemplate, lookupString, makeItem, match,
+               pandocCompiler, recentFirst, relativizeUrls, renderPandocWith, route, setExtension,
+               tagsRules, templateBodyCompiler, (.||.))
+import Text.Pandoc.Options (WriterOptions (..))
 
-import Kowainik.Post (createPostsWithToc)
 import Kowainik.Project (makeProjectContext)
 import Kowainik.Readme (createProjectMds)
 import Kowainik.Social (makeSocialContext)
@@ -19,7 +20,6 @@ import qualified Data.Text as T
 
 main :: IO ()
 main = createProjectMds
-    >> createPostsWithToc
     >> parseTeam "team.json"
     >>= mainHakyll
 
@@ -48,10 +48,13 @@ mainHakyll team = hakyll $ do
     match "posts/*" $ do
         route $ setExtension "html"
         compile $ do
-            i   <- pandocCompiler
+            i   <- getResourceString
+            pandoc <- renderPandocWith defaultHakyllReaderOptions withToc i
+            let toc = itemBody pandoc
             tgs <- getTags (itemIdentifier i)
-            let postTagsCtx = postCtxWithTags tgs
-            loadAndApplyTemplate "templates/post.html" postTagsCtx i
+            let postTagsCtx = postCtxWithTags tgs <> constField "toc" toc
+            pandocCompiler
+                >>= loadAndApplyTemplate "templates/post.html" postTagsCtx
                 >>= loadAndApplyTemplate "templates/posts-default.html" postTagsCtx
                 >>= relativizeUrls
 
@@ -92,6 +95,13 @@ mainHakyll team = hakyll $ do
 
     match "templates/*" $ compile templateBodyCompiler
 
+-- | Compose TOC from the markdown.
+withToc :: WriterOptions
+withToc = defaultHakyllWriterOptions
+    { writerTableOfContents = True
+    , writerTOCDepth = 4
+    , writerTemplate = Just "$toc$"
+    }
 
 compilePosts :: String -> Identifier -> Pattern -> Rules ()
 compilePosts title page pat = do

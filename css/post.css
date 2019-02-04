@@ -19,11 +19,12 @@
         position:fixed;top:0;width:100%;z-index:1030
     }
     .navbar-header {
-        top: 0;
+        top: 0%;
+        height: 3%;
+        margin-bottom: 0%;
+        padding-bottom: 0%;
         margin-top: 1%;
     }
-
-
 }
 @media (max-width:768px) {
     .body {padding-top: 0px;}
@@ -41,7 +42,7 @@
         padding-right:0;padding-left:0;width:auto
     }
     .navbar-fixed-left .navbar-header{
-        float:none;padding-left:15px;padding-right:15px}
+        float:none;padding-left:15px;padding-right:15px; padding-bottom:0%; margin-bottom:0%;}
     .navbar-fixed-left .navbar-collapse{
         padding-right:0;padding-left:0;max-height:none
     }
@@ -57,8 +58,6 @@
     .navbar-fixed-left .navbar-collapse .navbar-nav.navbar-right{
         margin-right:0
     }
-}
-@media (min-width:768px) {
     body {
         padding-top: 0;
         margin-left: 232px
@@ -67,17 +66,6 @@
         right: auto !important;
         left: 0 !important;
         border-width: 0 1px 0 0 !important
-    }
-    .navbar-fixed-left .dropdown .dropdown-menu {
-        left: 100%;
-        right: auto;
-        border-radius: 0 3px 3px 0
-    }
-    .navbar-fixed-left .dropdown .dropdown-toggle .caret {
-        border-top: 4px solid transparent;
-        border-left: 4px solid;
-        border-bottom: 4px solid transparent;
-        border-right: none
     }
 }
 pre, code {
@@ -114,12 +102,12 @@ pre.comment {
 @media (min-width:768px) {
     .allposts {
         position: fixed;
-        bottom: 2%;
+        bottom: 1%;
     }
 }
 @media (min-width:768px) {
     .postslogo {
-        margin-top: 20%;
+        margin-top: 10%;
     }
 }
 .post-body a{
@@ -180,6 +168,7 @@ pre.comment {
         height: 100%;
         width: 100%;
         padding-left: 0%;
+        margin-top: 0%;
     }
     .toc:hover { overflow-y:scroll; visibility: visible; }
 
