@@ -13,6 +13,7 @@ import Text.Pandoc.Options (WriterOptions (..))
 import Kowainik.Project (makeProjectContext)
 import Kowainik.Readme (createProjectMds)
 import Kowainik.Social (makeSocialContext)
+import Kowainik.StyleGuide (syncStyleGuide)
 import Kowainik.Team (TeamMember, makeTeamContext, parseTeam)
 
 import qualified Data.Text as T
@@ -20,6 +21,7 @@ import qualified Data.Text as T
 
 main :: IO ()
 main = createProjectMds
+    >> syncStyleGuide
     >> parseTeam "team.json"
     >>= mainHakyll
 

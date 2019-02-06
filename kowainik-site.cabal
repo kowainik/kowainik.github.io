@@ -21,6 +21,7 @@ library
   exposed-modules:     Kowainik.Project
                        Kowainik.Readme
                        Kowainik.Social
+                       Kowainik.StyleGuide
                        Kowainik.Team
                        Prelude
 
