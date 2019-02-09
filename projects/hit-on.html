@@ -57,7 +57,7 @@
                 <a class="btn btn-outline-dark btn-tag" href="https://github.com/kowainik/hit-on" data-icon="octicon-star" data-size="large" aria-label="Star Kowainik/hit-on on GitHub">Star Project</a>
                 <a class="fa-stack fa-2x" href="https://github.com/kowainik/hit-on/stargazers">
                     <i class="fa fa-star fa-stack-2x"></i>
-                    <i id="stars" class="fa fa-stack-1x fa-inverse main-font">1</i>
+                    <i id="stars" class="fa fa-stack-1x fa-inverse main-font">2</i>
                 </a>
                 <div class="author">Language: Haskell</div>
 
@@ -73,10 +73,138 @@
               <div class="col-12 post-body">
               <p class="lead">
                   <p><a href="https://hackage.haskell.org/package/hit-on"><img src="https://img.shields.io/hackage/v/hit-on.svg" alt="Hackage" /></a> <a href="LICENSE"><img src="https://img.shields.io/badge/license-MPL--2.0-blue.svg" alt="MPL-2.0 license" /></a> <a href="http://stackage.org/lts/package/hit-on"><img src="http://stackage.org/package/hit-on/badge/lts" alt="Stackage Lts" /></a> <a href="http://stackage.org/nightly/package/hit-on"><img src="http://stackage.org/package/hit-on/badge/nightly" alt="Stackage Nightly" /></a> <a href="https://travis-ci.org/kowainik/hit-on"><img src="https://secure.travis-ci.org/kowainik/hit-on.svg" alt="Build status" /></a></p>
-<p>Haskell Git Helper Tool</p>
-<h2 id="configure">Configure</h2>
-<p>Specify your login:</p>
-<pre><code>git config --global user.login &lt;your_login&gt;</code></pre>
+<p><strong>Kowainik Git Workflow Helper Tool.</strong></p>
+<p>You can find the description of the workflow here:</p>
+<ul>
+<li><a href="https://github.com/kowainik/org#workflow">Kowainik Git Workflow</a></li>
+</ul>
+<p><code>hit-on</code> provides the <code>hit</code> binary with a convenient command-line interface to improve the interaction with <a href="https://git-scm.com/"><code>git</code></a> in a compatible way with the described working methods. It saves time for people who use this workflow on a daily basis, helps beginners expand their insight of the core VCS processes and makes collaboration between team members easier during development.</p>
+<h2 id="getting-started">Getting started</h2>
+<h3 id="prerequisites">Prerequisites</h3>
+<p>To start using <code>hit</code> make sure that you have the following tools installed on your machine:</p>
+<ul>
+<li><a href="https://git-scm.com/"><code>git</code></a> — <code>hit</code> is a wrapper around <code>git</code></li>
+</ul>
+<h3 id="installation">Installation</h3>
+<p>There are several methods to install the <code>hit</code> tool. You can choose the one that you are most comfortable with.</p>
+<h4 id="download-from-releases">Download from releases</h4>
+<p>You can download the <code>hit</code> binary directly from the GitHub releases:</p>
+<ul>
+<li><a href="https://github.com/kowainik/hit-on/releases"><code>hit</code> releases</a></li>
+</ul>
+<p>After downloading, make it executable and copy it to a convenient location, for example:</p>
+<pre class="shell"><code>chmod +x hit-linux
+mv hit-linux ~/.local/bin/hit</code></pre>
+<h4 id="build-from-source">Build from source</h4>
+<blockquote>
+<p><strong>NOTE:</strong> the project is written in Haskell, so you need to have one of the Haskell build tools installed. See this <a href="https://kowainik.github.io/posts/2018-06-21-haskell-build-tools">blog post</a> for installation and usage instructions.</p>
+</blockquote>
+<p>You need to follow these steps:</p>
+<ol type="1">
+<li><p>Clone the repository from GitHub</p>
+<pre class="shell"><code>git clone https://github.com/kowainik/hit-on.git</code></pre></li>
+<li><p>Step into the directory</p>
+<pre class="shell"><code>cd hit-on</code></pre></li>
+<li>Install the project with one of the build tools</li>
+</ol>
+<ul>
+<li><a href="https://www.haskell.org/cabal/users-guide/">Cabal</a> <code>shell     cabal new-install hit-on</code> <strong>Note:</strong> make sure you have <code>~/.cabal/bin</code> in your $PATH</li>
+<li><a href="https://docs.haskellstack.org/en/stable/README/">Stack</a> <code>shell     stack install hit-on</code></li>
+</ul>
+<ol start="4" type="1">
+<li><p>Make sure that <code>hit</code> is installed:</p>
+<pre class="shell"><code>hit --version</code></pre></li>
+</ol>
+<h4 id="macos-package-manager">macOS package manager</h4>
+<p>Currently, this method of installation is not supported. See <a href="https://github.com/kowainik/hit-on/issues/41">this issue</a> for more details or if you want to help.</p>
+<h4 id="ubuntu-package-manager">Ubuntu package manager</h4>
+<p>Currently, this method of installation is not supported. See <a href="https://github.com/kowainik/hit-on/issues/42">this issue</a> for more details or if you want to help.</p>
+<h3 id="setting-up">Setting up</h3>
+<p>Follow the steps below to configure <code>hit</code> :</p>
+<ol type="1">
+<li>Specify your GitHub login in the global <code>.gitconfig</code></li>
+</ol>
+<pre class="shell"><code>git config --global user.login &lt;your_login&gt;</code></pre>
+<ol start="2" type="1">
+<li><strong>This step is only required if you want to use <code>hit</code> with private repositories</strong>.
+<ol type="1">
+<li><a href="https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line/">Create OAuth token on GitHub.</a></li>
+<li>Copy the generated token.</li>
+<li>Export token as an environment variable <code>shell  export GITHUB_TOKEN=&lt;paste_generated_token_here&gt;</code></li>
+</ol></li>
+</ol>
+<h2 id="usage">Usage</h2>
+<p>The best way to demonstrate the power of the <code>hit</code> tool on a day-to-day basis with our workflow is to go through the entire workflow step by step, solving an ordinary problem of the typical <a href="https://git-scm.com/"><code>git</code></a> user.</p>
+<blockquote>
+<p>Here we assume that you work with <code>origin</code> remote with the main branch set to <code>master</code>.</p>
+</blockquote>
+<h3 id="hit-hop">hit hop</h3>
+<p>When you want to start working on a new issue, you usually want to make sure you’re using the latest version of your project. As a <code>git</code> user you may use the following commands:</p>
+<pre class="shell"><code>git checkout master
+git pull --rebase --prune</code></pre>
+<p>With <code>hit</code> you can just:</p>
+<pre class="shell"><code>hit hop</code></pre>
+<h3 id="hit-issue">hit issue</h3>
+<p>Now you need to decide which issue you want to work on. You can use the <code>hit issue</code> command to see the full list of all open issues. After choosing the number of the issue, let’s say 42, call <code>hit issue 42</code> to see the details of that issue.</p>
+<h3 id="hit-new">hit new</h3>
+<p>Start your work in a new branch. According to our workflow, branch names should have the following form:</p>
+<pre><code>&lt;user_login&gt;/&lt;issue_number&gt;-&lt;short_issue_description&gt;</code></pre>
+<p>With <code>git</code> you can create a branch using the following command:</p>
+<pre class="shell"><code>git checkout -b my-login/42-short-desc</code></pre>
+<p><code>hit</code> allows you to accomplish this task in an easier manner:</p>
+<pre class="shell"><code>hit new 42</code></pre>
+<p>It uses the issue title to generate a short description.</p>
+<h3 id="hit-commit">hit commit</h3>
+<p>After finishing your work on that issue, you need to commit your changes. With <code>git</code> you would do the following:</p>
+<pre class="shell"><code>git add .
+git commit -m &quot;[#42] Implement my feature
+
+Resolves #42&quot;</code></pre>
+<p>With <code>hit</code> you need only to specify the text of the commit to get the same result:</p>
+<pre class="shell"><code>hit commit &quot;Implement my feature&quot;</code></pre>
+<p>Note that you don’t need to keep in mind the current issue number. However, if you want to refresh the context about the issue, use the <code>hit current</code> command.</p>
+<h3 id="hit-push">hit push</h3>
+<p>After committing your changes locally, you need to push them to the remote repository. It’s usually a good practice to push only the current branch.</p>
+<p>The <code>git</code> command for this is a little bit verbose:</p>
+<pre class="shell"><code>git push -u origin my-login/42-short-desc</code></pre>
+<p><code>hit</code> allows you to save several keystrokes:</p>
+<pre class="shell"><code>hit push</code></pre>
+<h3 id="hit-sync">hit sync</h3>
+<p>After opening the pull request, some of the reviewers suggested changes that you applied as commits to the remote branch via GitHub interface. Now you need to sync your local branch with the remote one.</p>
+<p>With <code>git</code> you can do the following:</p>
+<pre class="shell"><code>git pull --rebase origin my-login/42-short-desc</code></pre>
+<p>However, with <code>hit</code> you can just:</p>
+<pre class="shell"><code>hit sync</code></pre>
+<h3 id="hit-fresh">hit fresh</h3>
+<p>While you were waiting for the second round of reviews, another pull request was merged to the <code>master</code> branch. Now you need to apply the new <code>master</code> changes to your local branch.</p>
+<p>With <code>git</code> you can do the following:</p>
+<pre class="shell"><code>git fetch origin master
+git rebase origin/master</code></pre>
+<p>Again, with <code>hit</code> you can do better:</p>
+<pre class="shell"><code>hit fresh</code></pre>
+<h3 id="hit-fix">hit fix</h3>
+<p>Now you need to make changes to your work locally according to the code review and push them to the remote repository.</p>
+<p><code>git</code> requires from you to do several steps to accomplish this simple task:</p>
+<pre class="shell"><code>git add .
+git commit -m &quot;Fix after review&quot;
+git push origin my-login/42-short-desc</code></pre>
+<p><code>hit</code> helps you with this as well:</p>
+<pre class="shell"><code>hit fix</code></pre>
+<h3 id="hit-amend">hit amend</h3>
+<p>Oops, you’ve just realised that you have made a typo in your work! So you fixed the typo. But now you want to update the remote branch without creating a new unnecessary commit.</p>
+<p>With <code>git</code> you can do the following:</p>
+<pre class="shell"><code>git commit -a --amend --no-edit
+git push origin my-login/42-short-desc --force</code></pre>
+<p>With <code>hit</code> you can simply:</p>
+<pre class="shell"><code>hit amend</code></pre>
+<h3 id="hit-resolve">hit resolve</h3>
+<p>Hooray, your PR just got merged! It’s time to clean your local repository and start working on a new issue!</p>
+<p>With <code>git</code> you would do the following:</p>
+<pre class="shell"><code>git checkout master
+git pull --rebase --prune
+git branch -D my-login/42-short-desc</code></pre>
+<p>With <code>hit</code> you can finish your work faster:</p>
+<pre class="shell"><code>hit resolve</code></pre>
               </p>
               </div>
           </div>
