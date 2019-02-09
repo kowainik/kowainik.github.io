@@ -30,7 +30,7 @@ library
                      , bytestring
                      , directory
                      , filepath
-                     , hakyll
+                     , hakyll ^>= 4.12.5.1
                      , http-client
                      , http-client-tls
                      , http-types
