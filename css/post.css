@@ -166,6 +166,9 @@ pre.comment {
         overflow: hidden;
         text-overflow: ellipsis;
     }
+    .toc a, .toc a:visited {
+        color: #2C3E50;
+    }
 }
 
 .post-body h2 a, .post-body h3 a, .post-body h4 a, .post-body h5 a, .post-body h6 a {
@@ -174,3 +177,8 @@ pre.comment {
 
 /* Comments color in the code blocks */
 .hljs-comment {color: #c0c0c0 !important;}
+
+.active > a {color: #26e4bb !important;}
+
+a.anchor{color:#64328c;display:none;font-size:80%;margin-left:12px;text-decoration:none}
+h1:hover a.anchor,h2:hover a.anchor,h3:hover a.anchor{display:inline;color:#64328c}

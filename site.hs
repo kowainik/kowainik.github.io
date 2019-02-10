@@ -1,13 +1,14 @@
 {-# LANGUAGE TupleSections    #-}
 {-# LANGUAGE TypeApplications #-}
 
-import Hakyll (Context, Identifier, Item (..), MonadMetadata, Pattern, Rules, applyAsTemplate,
-               buildTags, compile, compressCssCompiler, constField, copyFileCompiler, create,
-               dateField, defaultContext, defaultHakyllReaderOptions, defaultHakyllWriterOptions,
-               field, fromCapture, functionField, getMetadata, getResourceString, getTags, hakyll,
-               idRoute, listField, loadAll, loadAndApplyTemplate, lookupString, makeItem, match,
-               pandocCompiler, recentFirst, relativizeUrls, renderPandocWith, route, setExtension,
-               tagsRules, templateBodyCompiler, (.||.))
+import Hakyll (Compiler, Context, Identifier, Item (..), MonadMetadata, Pattern, Rules,
+               applyAsTemplate, buildTags, compile, compressCssCompiler, constField,
+               copyFileCompiler, create, dateField, defaultContext, defaultHakyllReaderOptions,
+               defaultHakyllWriterOptions, field, fromCapture, functionField, getMetadata,
+               getResourceString, getTags, hakyll, idRoute, listField, loadAll,
+               loadAndApplyTemplate, lookupString, makeItem, match, pandocCompilerWithTransform,
+               recentFirst, relativizeUrls, renderPandocWith, route, setExtension, tagsRules,
+               templateBodyCompiler, (.||.))
 import Text.Pandoc.Options (WriterOptions (..))
 
 import Kowainik.Project (makeProjectContext)
@@ -17,6 +18,8 @@ import Kowainik.StyleGuide (syncStyleGuide)
 import Kowainik.Team (TeamMember, makeTeamContext, parseTeam)
 
 import qualified Data.Text as T
+import qualified Text.Pandoc as Pandoc
+import qualified Text.Pandoc.Walk as Pandoc.Walk
 
 
 main :: IO ()
@@ -55,7 +58,7 @@ mainHakyll team = hakyll $ do
             let toc = itemBody pandoc
             tgs <- getTags (itemIdentifier i)
             let postTagsCtx = postCtxWithTags tgs <> constField "toc" toc
-            pandocCompiler
+            anchorsPandocCompiler
                 >>= loadAndApplyTemplate "templates/post.html" postTagsCtx
                 >>= loadAndApplyTemplate "templates/posts-default.html" postTagsCtx
                 >>= relativizeUrls
@@ -76,7 +79,7 @@ mainHakyll team = hakyll $ do
     ----------------------------------------------------------------------------
     match "projects/*" $ do
         route $ setExtension "html"
-        compile $ pandocCompiler
+        compile $ anchorsPandocCompiler
             >>= loadAndApplyTemplate "templates/readme.html" defaultContext
             >>= loadAndApplyTemplate "templates/posts-default.html" defaultContext
             >>= relativizeUrls
@@ -161,6 +164,25 @@ stripExtension :: Context a
 stripExtension = functionField "stripExtension" $ \args _ -> case args of
     [k] -> pure $ maybe k toString (T.stripSuffix ".html" $ toText k)
     _   -> error "relativizeUrl only needs a single argument"
+
+-- | Our own pandoc compiler which adds anchors automatically.
+anchorsPandocCompiler :: Compiler (Item String)
+anchorsPandocCompiler = pandocCompilerWithTransform
+    defaultHakyllReaderOptions
+    defaultHakyllWriterOptions
+    addAnchors
+
+-- | Modifie a headers to add an extra anchor which links to the header.  This
+-- allows you to easily copy an anchor link to a header.
+addAnchors :: Pandoc.Pandoc -> Pandoc.Pandoc
+addAnchors =
+    Pandoc.Walk.walk addAnchor
+  where
+    addAnchor :: Pandoc.Block -> Pandoc.Block
+    addAnchor (Pandoc.Header level attr@(id_, _, _) content) =
+        Pandoc.Header level attr $ content ++
+            [Pandoc.Link ("", ["anchor"], []) [Pandoc.Str "🔗"] ('#' : id_, "")]
+    addAnchor block = block
 
 -- Context to used for posts
 postCtx :: Context String
