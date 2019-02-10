@@ -53,6 +53,7 @@ executable site
                      , hakyll
                      , kowainik-site
                      , pandoc
+                     , pandoc-types
                      , relude
                      , text
 
