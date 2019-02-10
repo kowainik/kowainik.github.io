@@ -57,7 +57,7 @@
                 <a class="btn btn-outline-dark btn-tag" href="https://github.com/kowainik/tomland" data-icon="octicon-star" data-size="large" aria-label="Star Kowainik/tomland on GitHub">Star Project</a>
                 <a class="fa-stack fa-2x" href="https://github.com/kowainik/tomland/stargazers">
                     <i class="fa fa-star fa-stack-2x"></i>
-                    <i id="stars" class="fa fa-stack-1x fa-inverse main-font">38</i>
+                    <i id="stars" class="fa fa-stack-1x fa-inverse main-font">39</i>
                 </a>
                 <div class="author">Language: Haskell</div>
 
@@ -83,7 +83,7 @@
 </ul>
 <p>This README contains a basic usage example of the <code>tomland</code> library. All code below can be compiled and run with the following command:</p>
 <pre><code>cabal new-run readme</code></pre>
-<h2 id="preamble-imports-and-language-extensions">Preamble: imports and language extensions</h2>
+<h2 id="preamble-imports-and-language-extensions">Preamble: imports and language extensions<a href="#preamble-imports-and-language-extensions" class="anchor">🔗</a></h2>
 <p>Since this is a literate haskell file, we need to specify all our language extensions and imports up front.</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb2-1" title="1"><span class="ot">{-# OPTIONS -Wno-unused-top-binds #-}</span></a>
 <a class="sourceLine" id="cb2-2" title="2"></a>
@@ -99,7 +99,7 @@
 <a class="sourceLine" id="cb2-12" title="12"><span class="kw">import</span> <span class="kw">qualified</span> <span class="dt">Toml</span></a></code></pre></div>
 <p><code>tomland</code> is mostly designed for qualified imports and intended to be imported as follows:</p>
 <p><code>haskell ignore import Toml (TomlCodec, (.=))  -- add 'TomlBiMap' and 'Key' here optionally import qualified Toml</code></p>
-<h2 id="data-type-parsing-and-printing">Data type: parsing and printing</h2>
+<h2 id="data-type-parsing-and-printing">Data type: parsing and printing<a href="#data-type-parsing-and-printing" class="anchor">🔗</a></h2>
 <p>We’re going to parse TOML configuration from <a href="examples/readme.toml"><code>examples/readme.toml</code></a> file.</p>
 <p>This static configuration is captured by the following Haskell data type:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb3-1" title="1"><span class="kw">data</span> <span class="dt">Settings</span> <span class="fu">=</span> <span class="dt">Settings</span></a>
@@ -165,7 +165,7 @@
 <a class="sourceLine" id="cb5-5" title="5">    <span class="kw">case</span> res <span class="kw">of</span></a>
 <a class="sourceLine" id="cb5-6" title="6">        <span class="dt">Left</span> err <span class="ot">-&gt;</span> <span class="fu">print</span> err</a>
 <a class="sourceLine" id="cb5-7" title="7">        <span class="dt">Right</span> settings <span class="ot">-&gt;</span> TIO.putStrLn <span class="fu">$</span> Toml.encode settingsCodec settings</a></code></pre></div>
-<h2 id="benchmarks-and-comparison-with-other-libraries">Benchmarks and comparison with other libraries</h2>
+<h2 id="benchmarks-and-comparison-with-other-libraries">Benchmarks and comparison with other libraries<a href="#benchmarks-and-comparison-with-other-libraries" class="anchor">🔗</a></h2>
 <p><code>tomland</code> is compared with other libraries. Since it uses 2-step approach with converting text to intermediate AST and only then decoding Haskell type from this AST, benchmarks are also implemented in a way to reflect this difference.</p>
 <table>
 <thead>
@@ -206,7 +206,7 @@
 <li><code>toml-parser</code> doesn’t have ways to convert TOML AST to custom Haskell types and <code>htoml*</code> libraries use typeclasses-based approach via <code>aeson</code> library.</li>
 <li><code>tomland</code> is bidirectional :slightly_smiling_face:</li>
 </ol>
-<h2 id="acknowledgement">Acknowledgement</h2>
+<h2 id="acknowledgement">Acknowledgement<a href="#acknowledgement" class="anchor">🔗</a></h2>
 <p>Icons made by <a href="http://www.freepik.com">Freepik</a> from <a href="https://www.flaticon.com/">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/">CC 3.0 BY</a>.</p>
               </p>
               </div>
@@ -226,6 +226,7 @@
 
       <!-- Bootstrap core JavaScript -->
       <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"> </script>
+      <script src="../js/post.js"> </script>
       <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
       <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>

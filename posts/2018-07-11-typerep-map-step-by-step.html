@@ -54,7 +54,7 @@
             </div>
             <div class="toc-zone">
                 <h6 class="coolFont">Contents</h6>
-                <div class="toc">
+                <div class="toc" id="main">
                     <ul>
 <li><a href="#what-its-all-about">What it’s all about</a><ul>
 <li><a href="#existing-solutions">Existing Solutions</a></li>
@@ -118,7 +118,7 @@
 <ul>
 <li><a href="https://github.com/kowainik/typerep-map">kowainik/typerep-map</a></li>
 </ul>
-<h2 id="what-its-all-about">What it’s all about</h2>
+<h2 id="what-its-all-about">What it’s all about<a href="#what-its-all-about" class="anchor">🔗</a></h2>
 <p>The basic idea behind <code>typerep-map</code> is to have a data structure like <a href="http://hackage.haskell.org/package/containers/docs/Data-Map-Lazy.html#t:Map"><code>Map</code></a>, but where types serve as keys, and values stored in the map are of the type specified in the corresponding key.</p>
 <p>An example image of this structure:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode yaml"><code class="sourceCode yaml"><a class="sourceLine" id="cb1-1" title="1"><span class="fu">Int:</span><span class="at"> </span><span class="dv">42</span></a>
@@ -134,21 +134,21 @@
 <a class="sourceLine" id="cb2-6" title="6">                                           <span class="fu">^</span>     <span class="fu">^</span>      <span class="fu">^</span>     <span class="fu">^</span></a>
 <a class="sourceLine" id="cb2-7" title="7">                                          key   value  key  value</a></code></pre></div>
 <p>We also want our values to be indexed by a polymorphic type, but that will be explained later.</p>
-<h3 id="existing-solutions">Existing Solutions</h3>
+<h3 id="existing-solutions">Existing Solutions<a href="#existing-solutions" class="anchor">🔗</a></h3>
 <p>There already exist some libraries that implement ideas similar to <code>typerep-map</code>:</p>
 <ul>
 <li><a href="https://hackage.haskell.org/package/type-map"><code>type-map</code></a> appears to resemble our project, however the interface is different. They track the elements in the types and don’t provide the desired parametrization.</li>
 <li><a href="https://hackage.haskell.org/package/dependent-map"><code>dependent-map</code></a> is closer to our goal in terms of the interface but the package has a complete reimplementation of <code>Data.Map.Lazy</code>, and the goal of the <code>typerep-map</code> project is to have an efficient implementation based on primitive unboxed arrays.</li>
 </ul>
-<h3 id="motivation">Motivation</h3>
+<h3 id="motivation">Motivation<a href="#motivation" class="anchor">🔗</a></h3>
 <p>You might wonder what <code>typerep-map</code> brings to the table if there are other packages that aim to fulfil the same purpose. The primary goal is to use it in the <a href="https://github.com/int-index/caps"><code>caps</code></a> library instead of the <a href="https://hackage.haskell.org/package/dependent-map-0.2.4.0/docs/Data-Dependent-Map.html#t:DMap"><code>DMap</code></a> type from <code>dependent-map</code> parametrized by <code>TypeRep</code>.</p>
 <p>In <code>caps</code> the performance of lookups is extremely important so it makes sense to prioritize its performance above that of other functions.</p>
-<h2 id="implementing-typerepmap">Implementing TypeRepMap</h2>
+<h2 id="implementing-typerepmap">Implementing TypeRepMap<a href="#implementing-typerepmap" class="anchor">🔗</a></h2>
 <p>Sections below describe the details of the implementation phases and the general concepts.</p>
 <blockquote>
 <p><strong>NOTE:</strong> in this blog post I am talking about <code>ghc-8.0.2</code> or higher.</p>
 </blockquote>
-<h3 id="extensions-used">Extensions used</h3>
+<h3 id="extensions-used">Extensions used<a href="#extensions-used" class="anchor">🔗</a></h3>
 <p>The code snippets in this blog post assume that the following extensions are enabled:</p>
 <ul>
 <li><code>-XTypeApplications</code></li>
@@ -157,9 +157,9 @@
 <li><code>-XTypeInType</code></li>
 <li><code>-XAllowAmbiguousTypes</code></li>
 </ul>
-<h2 id="map-based-implementation">Map-based implementation</h2>
+<h2 id="map-based-implementation">Map-based implementation<a href="#map-based-implementation" class="anchor">🔗</a></h2>
 <p>The reference implementation is more or less straightforward. It uses a lazy <a href="http://hackage.haskell.org/package/containers/docs/Data-Map-Lazy.html#t:Map"><code>Map</code></a> from <code>containers</code> as an internal representation of the desired data type.</p>
-<h3 id="keys">Keys</h3>
+<h3 id="keys">Keys<a href="#keys" class="anchor">🔗</a></h3>
 <p>Normally, types in Haskell are only present at compile-time: after type-checking, they are completely erased from the program. And yet we want to use types as keys in a map. This requires a runtime representation for types. Luckily, the standard library provides a runtime representation for types in the form of <a href="https://hackage.haskell.org/package/base/docs/Data-Typeable.html#t:TypeRep"><code>TypeRep</code></a>. But there are actually two different definitions of <code>TypeRep</code> in <code>base</code>:</p>
 <ul>
 <li><a href="https://hackage.haskell.org/package/base/docs/Type-Reflection.html#t:TypeRep">Type.Reflection.TypeRep</a></li>
@@ -189,7 +189,7 @@
 <a class="sourceLine" id="cb5-6" title="6"></a>
 <a class="sourceLine" id="cb5-7" title="7">ghci<span class="fu">&gt;</span> <span class="fu">:</span>t it</a>
 <a class="sourceLine" id="cb5-8" title="8"><span class="ot">it ::</span> <span class="dt">TypeRep</span></a></code></pre></div>
-<h3 id="values">Values</h3>
+<h3 id="values">Values<a href="#values" class="anchor">🔗</a></h3>
 <p>For the first prototype, I decided to use <a href="https://hackage.haskell.org/package/base-4.11.1.0/docs/Data-Dynamic.html#t:Dynamic"><code>Dynamic</code></a> as values in our <code>TypeRepMap</code>.</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb6-1" title="1">ghci<span class="fu">&gt;</span> <span class="fu">:</span>t toDyn</a>
 <a class="sourceLine" id="cb6-2" title="2"><span class="ot">toDyn ::</span> <span class="dt">Typeable</span> a <span class="ot">=&gt;</span> a <span class="ot">-&gt;</span> <span class="dt">Dynamic</span></a>
@@ -230,7 +230,7 @@
 <a class="sourceLine" id="cb11-6" title="6">ghci<span class="fu">&gt;</span><span class="ot"> x ::</span> <span class="dt">Maybe</span> ()</a>
 <a class="sourceLine" id="cb11-7" title="7"><span class="dt">Nothing</span></a></code></pre></div>
 <p>All right, we have a simple working version. But there are ways to improve it.</p>
-<h3 id="parameterization">Parameterization</h3>
+<h3 id="parameterization">Parameterization<a href="#parameterization" class="anchor">🔗</a></h3>
 <p>The next step is to parametrize our data type by type variable <code>f</code> with kind <code>f :: k -&gt; *</code>. This <code>f</code> will be the <em>interpretation</em> of our keys. Such parameterization allows us to encode additional structure common between all elements, making it possible to use <code>TypeRepMap</code> to model a variety of things from extensible records to monadic effects. This sort of parametrization may be familiar to users of <a href="http://hackage.haskell.org/package/vinyl"><code>vinyl</code></a> records.</p>
 <p>Note that the input kind is <code>k</code> — we want to support arbitrary kinds as well. Since <code>TypeRep</code> is poly-kinded, the interpretation can use any kind for the keys (see some examples in <a href="https://hackage.haskell.org/package/typerep-map-0.1.0/docs/Data-TypeRepMap.html">documentation</a>).</p>
 <div class="sourceCode" id="cb12"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb12-1" title="1"><span class="kw">newtype</span> <span class="dt">TypeRepMap</span> (<span class="ot">f ::</span> k <span class="ot">-&gt;</span> <span class="fu">*</span>) <span class="fu">=</span> <span class="dt">TypeRepMap</span></a>
@@ -244,7 +244,7 @@
 <p><strong>NOTE:</strong> Another reason to get rid of the <code>Dynamic</code>: if we keep it then we have to specify <code>Typeable (f a)</code> constraint instead of <code>Typeable a</code> in the type declarations. And having <code>Typeable a</code> constraint would let us implement the following function efficiently:</p>
 <div class="sourceCode" id="cb14"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb14-1" title="1"><span class="ot">hoist ::</span> (<span class="kw">forall</span> x<span class="fu">.</span> f x <span class="ot">-&gt;</span> g x) <span class="ot">-&gt;</span> <span class="dt">TypeRepMap</span> f <span class="ot">-&gt;</span> <span class="dt">TypeRepMap</span> g</a></code></pre></div>
 </blockquote>
-<h2 id="vector-based-implementation">Vector-based implementation</h2>
+<h2 id="vector-based-implementation">Vector-based implementation<a href="#vector-based-implementation" class="anchor">🔗</a></h2>
 <p>The next step is to write an alternative implementation based on <a href="https://hackage.haskell.org/package/vector/docs/Data-Vector-Unboxed.html">unboxed vectors</a>, which is expected to be faster.</p>
 <p>We want to use <code>Vector (TypeRep, Any)</code> instead of our lazy map. This vector is going to be sorted by <code>TypeRep</code>. <code>insert</code>/<code>lookup</code> algorithms should be implemented manually in the following way:</p>
 <ul>
@@ -274,7 +274,7 @@
 <p><code>TypeRep</code> from <code>Data.Typeable</code> module is defined as</p>
 <div class="sourceCode" id="cb19"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb19-1" title="1"><span class="kw">type</span> <span class="dt">TypeRep</span> <span class="fu">=</span> <span class="dt">SomeTypeRep</span></a></code></pre></div>
 <p>If we take a look at the <a href="https://hackage.haskell.org/package/base-4.11.1.0/docs/src/Data.Typeable.Internal.html#line-318"><code>Ord</code> instance</a> of <code>SomeTypeRep</code> in <code>base</code> we’ll see that it’s confirmed that <code>Fingerprint</code> is unique for each <code>TypeRep</code>. That means it’s okay to use <code>Fingerprint</code> as a key instead of <code>TypeRep</code>.</p>
-<h3 id="vector">Vector</h3>
+<h3 id="vector">Vector<a href="#vector" class="anchor">🔗</a></h3>
 <p>This is initial vector-based implementation:</p>
 <div class="sourceCode" id="cb20"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb20-1" title="1"><span class="kw">data</span> <span class="dt">TypeRepMap</span> (<span class="ot">f ::</span> k <span class="ot">-&gt;</span> <span class="fu">*</span>) <span class="fu">=</span> <span class="dt">TypeRepMap</span></a>
 <a class="sourceLine" id="cb20-2" title="2">    {<span class="ot"> fingerprints ::</span> <span class="dt">Vector</span> <span class="dt">Fingerprint</span></a>
@@ -287,7 +287,7 @@
 </ul>
 <p>As the reference for <code>Prim</code> instance implementation, we can use the <a href="https://hackage.haskell.org/package/vector-0.12.0.1/docs/Data-Vector-Storable.html#t:Storable"><code>Storable</code></a> type class which contains similar functions. There is already the instance <code>Storable</code> for <code>Fingerprint</code>. An assumption is that there is no significant difference between <code>Storable</code> and <code>Prim</code> for our <code>lookup</code> checks and we can use storable vector instead of unboxed one. For more information about the difference between those typeclasses see <a href="https://stackoverflow.com/questions/40176678/differences-between-storable-and-unboxed-vectors/40198950#40198950">this SO answer</a>.</p>
 <p>Though our initial assumptions were false and turned out that <code>Storable</code> doesn’t give the desired performance boost as shown with benchmarks.</p>
-<h3 id="optimal-vector">Optimal Vector</h3>
+<h3 id="optimal-vector">Optimal Vector<a href="#optimal-vector" class="anchor">🔗</a></h3>
 <p>According to the source code, <code>Fingerprint</code> is a pair of <code>(Word64, Word64)</code>. So instead of having a single vector of <code>Fingerprint</code>s we can have a vector of <code>Word64</code> where <code>Fingerprint</code> with number <code>i</code> stored on <code>2 * i</code> and <code>2 * i + 1</code> indices.</p>
 <p>But actually, it’s better to split it into two separate vectors of <code>Word64</code> where one vector stores the first halves of <code>Fingerprint</code> and the other one stores the second halves correspondingly. It makes the implementation easier and also faster (checked with benchmarks) because of the assumption that it should be almost always enough to compare only the first part and it makes key comparison faster.</p>
 <p>After all described optimizations were done our structure took the following form:</p>
@@ -305,7 +305,7 @@
 <a class="sourceLine" id="cb22-6" title="6">                     (fingerprintBs tVect)</a></code></pre></div>
 <p>It uses a manually implemented version of the binary search algorithm optimized for unboxed vectors. The algorithm initially performs a binary search using the <code>fingerprintAs</code> vector only. And then, after finding the first half, walks through the <code>fingerprintBs</code> vector.</p>
 <p>At first, a simple naive binary search was implemented but later it was rewritten into a cache-optimized binary search (<a href="http://bannalia.blogspot.ru/2015/06/cache-friendly-binary-search.html">see the description here</a>) which boosted the performance significantly.</p>
-<h2 id="array-based-implementation">Array-based implementation</h2>
+<h2 id="array-based-implementation">Array-based implementation<a href="#array-based-implementation" class="anchor">🔗</a></h2>
 <p>But that’s not all. Later we noticed that every vector has the following definition:</p>
 <div class="sourceCode" id="cb23"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb23-1" title="1"><span class="kw">data</span> <span class="dt">Vector</span> a <span class="fu">=</span> <span class="dt">Vector</span> <span class="ot">{-# UNPACK #-}</span> <span class="fu">!</span><span class="dt">Int</span></a>
 <a class="sourceLine" id="cb23-2" title="2">                       <span class="ot">{-# UNPACK #-}</span> <span class="fu">!</span><span class="dt">Int</span></a>
@@ -317,7 +317,7 @@
 <a class="sourceLine" id="cb24-3" title="3">    ,<span class="ot"> fingerprintBs ::</span> <span class="ot">{-# UNPACK #-}</span> <span class="fu">!</span>(<span class="dt">PrimArray</span> <span class="dt">Word64</span>)</a>
 <a class="sourceLine" id="cb24-4" title="4">    ,<span class="ot"> anys          ::</span> <span class="ot">{-# UNPACK #-}</span> <span class="fu">!</span>(<span class="dt">Array</span> <span class="dt">Any</span>)</a>
 <a class="sourceLine" id="cb24-5" title="5">    }</a></code></pre></div>
-<h2 id="benchmarking">Benchmarking</h2>
+<h2 id="benchmarking">Benchmarking<a href="#benchmarking" class="anchor">🔗</a></h2>
 <p>Initially, I was frustrated about this part because I had no idea how to create the <code>Map</code> of 1000 elements as that means I needed to somehow generate 1000 types. But there was actually a pretty elegant solution for this puzzle — polymorphic recursion.</p>
 <p>Let’s introduce the following data types as type-level natural numbers:</p>
 <div class="sourceCode" id="cb25"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb25-1" title="1"><span class="kw">data</span> <span class="dt">Z</span></a>
@@ -433,13 +433,13 @@ fromList :: [TF f] -&gt; TypeRepMap f</code></pre>
 <a class="sourceLine" id="cb33-21" title="21">                     <span class="fl">1.000</span> <span class="dt">R</span>²   (<span class="fl">1.000</span> <span class="dt">R</span>² <span class="fu">..</span> <span class="fl">1.000</span> <span class="dt">R</span>²)</a>
 <a class="sourceLine" id="cb33-22" title="22">mean                 <span class="fl">183.6</span> ns   (<span class="fl">183.3</span> ns <span class="fu">..</span> <span class="fl">184.4</span> ns)</a>
 <a class="sourceLine" id="cb33-23" title="23">std dev              <span class="fl">1.535</span> ns   (<span class="fl">958.3</span> ps <span class="fu">..</span> <span class="fl">2.631</span> ns)</a></code></pre></div>
-<h2 id="conclusion">Conclusion</h2>
+<h2 id="conclusion">Conclusion<a href="#conclusion" class="anchor">🔗</a></h2>
 <p>In this blog post, I wanted to show the difficulties, tricks, and useful information which I personally learned during the implementation of an optimized version of <code>TypeRepMap</code>. Also, I needed to somehow structure the knowledge I’ve gained while working on this project. You can say that some parts of the post can be skipped or might be irrelevant but I wrote it in such a way on purpose to highlight the topics that I find very hard to find and understand quickly. So I hope you too will find this knowledge useful!</p>
-<h2 id="acknowledgments">Acknowledgments</h2>
+<h2 id="acknowledgments">Acknowledgments<a href="#acknowledgments" class="anchor">🔗</a></h2>
 <p>Many thanks to Vladislav Zavialov (<a href="https://github.com/int-index">@int-index</a>) for mentoring this project! It was the great experience for me.</p>
-<h2 id="bonus">Bonus</h2>
+<h2 id="bonus">Bonus<a href="#bonus" class="anchor">🔗</a></h2>
 <p>A few more challenges on the way to the release <code>typerep-map</code>:</p>
-<h3 id="kindof">KindOf</h3>
+<h3 id="kindof">KindOf<a href="#kindof" class="anchor">🔗</a></h3>
 <p>During interface enhancement I ran into some weird issue described below.</p>
 <p>It’s nice to have the <code>member</code> function and it makes sense to implement it using already written lookup function:</p>
 <div class="sourceCode" id="cb34"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb34-1" title="1"><span class="ot">member ::</span> <span class="kw">forall</span> a f <span class="fu">.</span> <span class="dt">Typeable</span> a <span class="ot">=&gt;</span> <span class="dt">TypeRepMap</span> f <span class="ot">-&gt;</span> <span class="dt">Bool</span></a>
@@ -457,7 +457,7 @@ fromList :: [TF f] -&gt; TypeRepMap f</code></pre>
 <div class="sourceCode" id="cb37"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb37-1" title="1"><span class="kw">type</span> <span class="dt">KindOf</span> (<span class="ot">a ::</span> k) <span class="fu">=</span> k</a>
 <a class="sourceLine" id="cb37-2" title="2"></a>
 <a class="sourceLine" id="cb37-3" title="3"><span class="ot">member ::</span> <span class="kw">forall</span> a (<span class="ot">f ::</span> <span class="dt">KindOf</span> a <span class="ot">-&gt;</span> <span class="dt">Type</span>) <span class="fu">.</span> <span class="dt">Typeable</span> a <span class="ot">=&gt;</span> <span class="dt">TypeRepMap</span> f <span class="ot">-&gt;</span> <span class="dt">Bool</span></a></code></pre></div>
-<h3 id="new-typerep-performance">New TypeRep performance</h3>
+<h3 id="new-typerep-performance">New TypeRep performance<a href="#new-typerep-performance" class="anchor">🔗</a></h3>
 <p>During benchmarking the <code>Map</code>-based implementation of <code>TypeRepMap</code>, very perceptible performance degradation was noticed. Here is the comparison table with the results we have with our <code>Map</code>-based implementation.</p>
 <table>
 <thead>
@@ -486,7 +486,7 @@ fromList :: [TF f] -&gt; TypeRepMap f</code></pre>
 </tbody>
 </table>
 <p>We didn’t observe this performance degradation when we used <code>Fingerprint</code> as keys, so it’s probably an issue with the new <code>TypeRep</code>.</p>
-<h3 id="knownnat-and-typeable">KnownNat and Typeable</h3>
+<h3 id="knownnat-and-typeable">KnownNat and Typeable<a href="#knownnat-and-typeable" class="anchor">🔗</a></h3>
 <p>Initial version of <code>buildBigMap</code> function had this type signature:</p>
 <div class="sourceCode" id="cb38"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb38-1" title="1"><span class="ot">buildBigMap ::</span> <span class="kw">forall</span> (<span class="ot">a ::</span> <span class="dt">Nat</span>) <span class="fu">.</span> (<span class="dt">Typeable</span> a, <span class="dt">KnownNat</span> a) <span class="ot">=&gt;</span> <span class="fu">...</span></a></code></pre></div>
 <p>But, unfortunately, it became broken on GHC-8.4.3! Turned out that <code>Typeable</code> and <code>KnownNat</code> constraints don’t play well together. This observation resulted in the following ghc ticket with quite an interesting discussion:</p>
@@ -502,6 +502,7 @@ fromList :: [TF f] -&gt; TypeRepMap f</code></pre>
 
       <!-- Bootstrap core JavaScript -->
       <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"> </script>
+      <script src="../js/post.js"> </script>
       <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
       <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>

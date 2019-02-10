@@ -74,7 +74,7 @@
               <p class="lead">
                   <p><a href="https://hackage.haskell.org/package/life-sync"><img src="https://img.shields.io/hackage/v/life-sync.svg" alt="Hackage" /></a> <a href="https://travis-ci.org/kowainik/life-sync"><img src="https://secure.travis-ci.org/kowainik/life-sync.svg" alt="Build status" /></a> <a href="https://github.com/kowainik/life-sync/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="MIT license" /></a> <a href="http://stackage.org/lts/package/life-sync"><img src="http://stackage.org/package/life-sync/badge/lts" alt="Stackage LTS" /></a> <a href="http://stackage.org/nightly/package/life-sync"><img src="http://stackage.org/package/life-sync/badge/nightly" alt="Stackage Nightly" /></a></p>
 <p><code>life-sync</code> is a CLI tool that makes it easier to synchronize a repository of personal config files across multiple machines.</p>
-<h2 id="motivation">Motivation</h2>
+<h2 id="motivation">Motivation<a href="#motivation" class="anchor">🔗</a></h2>
 <p>You might have some configuration files with different settings for your system. For example:</p>
 <ol type="1">
 <li>Preferred settings for your editors (Spacemacs, Vim, etc.).</li>
@@ -88,20 +88,20 @@
 <li>You were given a new laptop at work.</li>
 </ol>
 <p>Every time this happens, you need to walk through the tedious process of copying your data again. It’s a well-known practice to <a href="https://dotfiles.github.io/">store configs in a <code>dotfiles</code> GitHub repository</a>. And <code>life-sync</code> makes it much easier to maintain this repository! With a single command, your can copy every file and directory from your <code>dotfiles</code> repository to your machine. Or update your remote <code>dotfiles</code> repository after multiple local changes to different files.</p>
-<h2 id="prerequisites">Prerequisites</h2>
+<h2 id="prerequisites">Prerequisites<a href="#prerequisites" class="anchor">🔗</a></h2>
 <ul>
 <li><a href="https://git-scm.com"><code>git</code></a></li>
 <li><a href="https://github.com/github/hub"><code>hub</code></a></li>
 <li>SSH access to Github configured</li>
 </ul>
-<h2 id="installation">Installation</h2>
+<h2 id="installation">Installation<a href="#installation" class="anchor">🔗</a></h2>
 <p>Install with one simple command:</p>
 <pre class="shell"><code>$ cabal install life-sync</code></pre>
 <p>or</p>
 <pre class="shell"><code>$ stack install life-sync-1.0</code></pre>
 <p>You can turn on bash auto-completion by running the following command:</p>
 <pre><code>$ source &lt;(life --bash-completion-script `which life`)</code></pre>
-<h2 id="usage">Usage</h2>
+<h2 id="usage">Usage<a href="#usage" class="anchor">🔗</a></h2>
 <p>After installing <code>life-sync</code> you need to call the command <code>life</code> with specified options:</p>
 <pre><code>$ life --help
 Usage: life COMMAND
@@ -146,18 +146,18 @@ Available commands:
 <ul>
 <li><a href="https://github.com/ChShersh/dotfiles">ChShersh/dotfiles</a></li>
 </ul>
-<h2 id="examples">Examples</h2>
-<h3 id="create-a-dotfiles-repository-for-the-first-time">Create a <code>dotfiles</code> repository for the first time</h3>
+<h2 id="examples">Examples<a href="#examples" class="anchor">🔗</a></h2>
+<h3 id="create-a-dotfiles-repository-for-the-first-time">Create a <code>dotfiles</code> repository for the first time<a href="#create-a-dotfiles-repository-for-the-first-time" class="anchor">🔗</a></h3>
 <pre><code>$ life init MyGithubName</code></pre>
-<h3 id="track-a-new-file-or-directory">Track a new file or directory</h3>
+<h3 id="track-a-new-file-or-directory">Track a new file or directory<a href="#track-a-new-file-or-directory" class="anchor">🔗</a></h3>
 <p>To track a file:</p>
 <pre><code>$ life add -f path/to/file/relative/from/home</code></pre>
 <p>To track a directory:</p>
 <pre><code>$ life add -d path/to/dir/relative/from/home</code></pre>
 <p>To stop tracking some file, use <code>life remove</code> instead.</p>
-<h3 id="push-all-changes-to-the-remote-repository">Push all changes to the remote repository</h3>
+<h3 id="push-all-changes-to-the-remote-repository">Push all changes to the remote repository<a href="#push-all-changes-to-the-remote-repository" class="anchor">🔗</a></h3>
 <pre><code>$ life push</code></pre>
-<h3 id="pull-all-changes-from-the-remote-repository">Pull all changes from the remote repository</h3>
+<h3 id="pull-all-changes-from-the-remote-repository">Pull all changes from the remote repository<a href="#pull-all-changes-from-the-remote-repository" class="anchor">🔗</a></h3>
 <p>To pull every file and directory:</p>
 <pre><code>$ life pull ChShersh</code></pre>
 <p>To pull everything except some files or some directories:</p>
@@ -180,6 +180,7 @@ Available commands:
 
       <!-- Bootstrap core JavaScript -->
       <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"> </script>
+      <script src="../js/post.js"> </script>
       <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
       <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>

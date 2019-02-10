@@ -54,7 +54,7 @@
             </div>
             <div class="toc-zone">
                 <h6 class="coolFont">Contents</h6>
-                <div class="toc">
+                <div class="toc" id="main">
                     <ul>
 <li><a href="#style-guide-goals">Style guide goals</a></li>
 <li><a href="#rule-of-thumb-when-working-with-existing-source-code">Rule of thumb when working with existing source code</a></li>
@@ -109,7 +109,7 @@
 <p>Style guide used in Kowainik.</p>
 </blockquote>
 <p>This document is a collection of best-practices inspired by commercial and free open source Haskell libraries and applications.</p>
-<h2 id="style-guide-goals">Style guide goals</h2>
+<h2 id="style-guide-goals">Style guide goals<a href="#style-guide-goals" class="anchor">🔗</a></h2>
 <p>The purpose of this document is to help developers and people working on Haskell code-bases to have a smoother experience while dealing with code in different situations. This style guide aims to increase productivity by defining the following goals:</p>
 <ol type="1">
 <li>Make code <strong>easier to understand:</strong> ideas for solutions should not be hidden behind complex and obscure code.</li>
@@ -117,9 +117,9 @@
 <li>Make code <strong>easier to write:</strong> developers should think about code formatting rules as little as possible. The style guide should answer any query pertaining to the formatting of a specific piece of code.</li>
 <li>Make code <strong>easier to maintain:</strong> this style guide aims to reduce the burden of maintaining packages using version control systems unless this conflicts with the previous points.</li>
 </ol>
-<h2 id="rule-of-thumb-when-working-with-existing-source-code">Rule of thumb when working with existing source code</h2>
+<h2 id="rule-of-thumb-when-working-with-existing-source-code">Rule of thumb when working with existing source code<a href="#rule-of-thumb-when-working-with-existing-source-code" class="anchor">🔗</a></h2>
 <p>The general rule is to stick to the same coding style that is already used in the file you are editing. If you must make significant style modifications, then commit them independently from the functional changes so that someone looking back through the changelog can easily distinguish between them.</p>
-<h2 id="indentation">Indentation</h2>
+<h2 id="indentation">Indentation<a href="#indentation" class="anchor">🔗</a></h2>
 <p>Indent code blocks with <em>4 spaces</em>.</p>
 <p>Indent <code>where</code> keywords with <em>2 spaces</em> and always put a <code>where</code> keyword on a new line.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb1-1" title="1"><span class="ot">showSign ::</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">String</span></a>
@@ -136,12 +136,12 @@
 <a class="sourceLine" id="cb1-12" title="12">  <span class="kw">where</span></a>
 <a class="sourceLine" id="cb1-13" title="13"><span class="ot">    greeting ::</span> <span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">String</span></a>
 <a class="sourceLine" id="cb1-14" title="14">    greeting name <span class="fu">=</span> <span class="st">&quot;Hey &quot;</span> <span class="fu">++</span> name <span class="fu">++</span> <span class="st">&quot;!&quot;</span></a></code></pre></div>
-<h2 id="line-length">Line length</h2>
+<h2 id="line-length">Line length<a href="#line-length" class="anchor">🔗</a></h2>
 <p>The maximum allowed line length is <em>90 characters</em>. If your line of code exceeds this limit, try to split code into smaller chunks or break long lines over multiple shorter ones.</p>
-<h2 id="whitespaces">Whitespaces</h2>
+<h2 id="whitespaces">Whitespaces<a href="#whitespaces" class="anchor">🔗</a></h2>
 <p><strong>No trailing whitespaces</strong> (use some tools to automatically cleanup trailing whitespaces).</p>
 <p>Surround binary operators with a single space on either side.</p>
-<h2 id="alignment">Alignment</h2>
+<h2 id="alignment">Alignment<a href="#alignment" class="anchor">🔗</a></h2>
 <p>Use <em>comma-leading</em> style for formatting module exports, lists, tuples, records, etc.</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb2-1" title="1"><span class="ot">answers ::</span> [<span class="dt">Maybe</span> <span class="dt">Int</span>]</a>
 <a class="sourceLine" id="cb2-2" title="2">answers <span class="fu">=</span></a>
@@ -193,8 +193,8 @@
 <a class="sourceLine" id="cb7-3" title="3">    secondArgumentOfThisFunction</a>
 <a class="sourceLine" id="cb7-4" title="4">    (<span class="dt">DummyDatatype</span> withDummyField1 andDummyField2)</a>
 <a class="sourceLine" id="cb7-5" title="5">    lastArgumentOfThisFunction</a></code></pre></div>
-<h2 id="naming">Naming</h2>
-<h3 id="functions-and-variables">Functions and variables</h3>
+<h2 id="naming">Naming<a href="#naming" class="anchor">🔗</a></h2>
+<h3 id="functions-and-variables">Functions and variables<a href="#functions-and-variables" class="anchor">🔗</a></h3>
 <ul>
 <li><strong>lowerCamelCase</strong> for function and variable names.</li>
 <li><strong>UpperCamelCase</strong> for data types, typeclasses and constructors.</li>
@@ -235,7 +235,7 @@
 <a class="sourceLine" id="cb10-10" title="10">    function firstElement <span class="fu">:</span> <span class="fu">map</span> function remainingList</a></code></pre></div>
 <p>For readability reasons, do not capitalize all letters when using an abbreviation as a part of a longer name. For example, write <code>HttpServer</code> instead of <code>HTTPServer</code>.</p>
 <p>Unicode symbols are allowed only in modules that already use unicode symbols. If you create a unicode name, you should also create a non-unicode one as an alias.</p>
-<h3 id="data-types">Data types</h3>
+<h3 id="data-types">Data types<a href="#data-types" class="anchor">🔗</a></h3>
 <p>Creating data types is extremely easy in Haskell. It is usually a good idea to introduce a custom data type (enum or <code>newtype</code>) instead of using a commonly used data type (like <code>Int</code>, <code>String</code>, <code>Set Text</code>, etc.).</p>
 <p><code>type</code> aliases are allowed only for specializing general types:</p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb11-1" title="1"><span class="co">-- + Good</span></a>
@@ -261,7 +261,7 @@
 <a class="sourceLine" id="cb15-3" title="3">    {<span class="ot"> hrDate        ::</span> <span class="dt">UTCTime</span></a>
 <a class="sourceLine" id="cb15-4" title="4">    ,<span class="ot"> hrMeasurement ::</span> <span class="dt">Double</span></a>
 <a class="sourceLine" id="cb15-5" title="5">    }</a></code></pre></div>
-<h2 id="comments">Comments</h2>
+<h2 id="comments">Comments<a href="#comments" class="anchor">🔗</a></h2>
 <p>Separate end-of-line comments from the code with <em>2 spaces</em>.</p>
 <div class="sourceCode" id="cb16"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb16-1" title="1"><span class="kw">newtype</span> <span class="dt">Measure</span> <span class="fu">=</span> <span class="dt">Measure</span></a>
 <a class="sourceLine" id="cb16-2" title="2">    {<span class="ot"> unMeasure ::</span> <span class="dt">Double</span>  <span class="co">-- ^ See how 2 spaces separate this comment</span></a>
@@ -319,13 +319,13 @@
 <a class="sourceLine" id="cb19-15" title="15"><span class="co">&quot;S.H.I.E.L.D&quot;</span></a>
 <a class="sourceLine" id="cb19-16" title="16"><span class="co">-}</span></a>
 <a class="sourceLine" id="cb19-17" title="17"><span class="ot">intersperse ::</span> <span class="dt">Char</span> <span class="ot">-&gt;</span> <span class="dt">Text</span> <span class="ot">-&gt;</span> <span class="dt">Text</span></a></code></pre></div>
-<h2 id="guideline-for-module-formatting">Guideline for module formatting</h2>
+<h2 id="guideline-for-module-formatting">Guideline for module formatting<a href="#guideline-for-module-formatting" class="anchor">🔗</a></h2>
 <p>Allowed tools for automatic module formatting:</p>
 <ul>
 <li><a href="https://github.com/jaspervdj/stylish-haskell"><code>stylish-haskell</code></a> (with a relevant <a href="https://github.com/kowainik/org/blob/master/.stylish-haskell.yaml"><code>.stylish-haskell.yaml</code></a>): for formatting the import section and for alignment.</li>
 <li><a href="https://github.com/kowainik/smuggler"><code>smuggler</code></a>: for removing unused imports.</li>
 </ul>
-<h3 id="language--">{-# LANGUAGE #-}</h3>
+<h3 id="language--">{-# LANGUAGE #-}<a href="#language--" class="anchor">🔗</a></h3>
 <p>Put <code>OPTIONS_GHC</code> pragma before <code>LANGUAGE</code> pragmas in a separate section. Write each <code>LANGUAGE</code> pragma on its own line, sort them alphabetically and align by max width among them.</p>
 <div class="sourceCode" id="cb20"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb20-1" title="1"><span class="ot">{-# OPTIONS_GHC -fno-warn-orphans #-}</span></a>
 <a class="sourceLine" id="cb20-2" title="2"></a>
@@ -346,7 +346,7 @@
 <a class="sourceLine" id="cb21-11" title="11"><span class="dt">TupleSections</span></a>
 <a class="sourceLine" id="cb21-12" title="12"><span class="dt">TypeApplications</span></a>
 <a class="sourceLine" id="cb21-13" title="13"><span class="dt">ViewPatterns</span></a></code></pre></div>
-<h3 id="export-lists">Export lists</h3>
+<h3 id="export-lists">Export lists<a href="#export-lists" class="anchor">🔗</a></h3>
 <p>Use the following rules to format the export section:</p>
 <ol type="1">
 <li><strong>Always write</strong> an explicit export list.</li>
@@ -365,7 +365,7 @@
 <a class="sourceLine" id="cb22-9" title="9">       , insertWith</a>
 <a class="sourceLine" id="cb22-10" title="10">       , alter</a>
 <a class="sourceLine" id="cb22-11" title="11">       ) <span class="kw">where</span></a></code></pre></div>
-<h3 id="imports">Imports</h3>
+<h3 id="imports">Imports<a href="#imports" class="anchor">🔗</a></h3>
 <p>Always use explicit import lists or qualified imports. Use qualified imports only if the import list is big enough or there are conflicts in names. This makes the code more robust against changes in dependent libraries.</p>
 <ul>
 <li><strong>Exception:</strong> modules that only reexport other entire modules.</li>
@@ -397,7 +397,7 @@
 <a class="sourceLine" id="cb23-15" title="15"></a>
 <a class="sourceLine" id="cb23-16" title="16"><span class="kw">data</span> <span class="dt">Foo</span></a>
 <a class="sourceLine" id="cb23-17" title="17"><span class="fu">...</span></a></code></pre></div>
-<h3 id="data-declaration">Data declaration</h3>
+<h3 id="data-declaration">Data declaration<a href="#data-declaration" class="anchor">🔗</a></h3>
 <p>Refer to the <a href="#alignment">Alignment section</a> to see how to format data type declarations.</p>
 <p>Records for data types with multiple constructors are forbidden.</p>
 <div class="sourceCode" id="cb24"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb24-1" title="1"><span class="co">-- - Bad</span></a>
@@ -417,7 +417,7 @@
 <a class="sourceLine" id="cb24-15" title="15"><span class="kw">data</span> <span class="dt">Foo</span></a>
 <a class="sourceLine" id="cb24-16" title="16">    <span class="fu">=</span> <span class="dt">Bar</span> <span class="dt">Int</span> <span class="dt">Double</span></a>
 <a class="sourceLine" id="cb24-17" title="17">    <span class="fu">|</span> <span class="dt">Baz</span> <span class="dt">Int</span> <span class="dt">Double</span> <span class="dt">Text</span></a></code></pre></div>
-<h3 id="deriving">Deriving</h3>
+<h3 id="deriving">Deriving<a href="#deriving" class="anchor">🔗</a></h3>
 <p>Type classes in the deriving section should always be surrounded by parentheses. Don’t derive typeclasses unnecessarily.</p>
 <p>Use <a href="https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/glasgow_exts.html#deriving-strategies"><code>-XDerivingStrategies</code></a> extension for <code>newtype</code>s to explicitly specify the way you want to derive type classes:</p>
 <div class="sourceCode" id="cb25"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb25-1" title="1"><span class="ot">{-# LANGUAGE DeriveAnyClass             #-}</span></a>
@@ -445,7 +445,7 @@
 <a class="sourceLine" id="cb27-2" title="2">    {<span class="ot"> pointX ::</span> <span class="ot">{-# UNPACK #-}</span> <span class="fu">!</span><span class="dt">Double</span>  <span class="co">-- ^ X coordinate</span></a>
 <a class="sourceLine" id="cb27-3" title="3">    ,<span class="ot"> pointY ::</span> <span class="ot">{-# UNPACK #-}</span> <span class="fu">!</span><span class="dt">Double</span>  <span class="co">-- ^ Y coordinate</span></a>
 <a class="sourceLine" id="cb27-4" title="4">    }</a></code></pre></div>
-<h3 id="function-declaration">Function declaration</h3>
+<h3 id="function-declaration">Function declaration<a href="#function-declaration" class="anchor">🔗</a></h3>
 <p>All top-level functions <em>must</em> have type signatures.</p>
 <p>All functions inside a <code>where</code> block <em>must</em> have type signatures. Explicit type signatures help to avoid cryptic type errors.</p>
 <blockquote>
@@ -492,7 +492,7 @@
 <a class="sourceLine" id="cb33-4" title="4">    ,<span class="ot"> trAnys        ::</span> <span class="ot">{-# UNPACK #-}</span> <span class="fu">!</span>(<span class="dt">Array</span> <span class="dt">Any</span>)</a>
 <a class="sourceLine" id="cb33-5" title="5">    ,<span class="ot"> trKeys        ::</span> <span class="ot">{-# UNPACK #-}</span> <span class="fu">!</span>(<span class="dt">Array</span> <span class="dt">Any</span>)</a>
 <a class="sourceLine" id="cb33-6" title="6">    }</a></code></pre></div>
-<h3 id="if-then-else-clauses">if-then-else clauses</h3>
+<h3 id="if-then-else-clauses">if-then-else clauses<a href="#if-then-else-clauses" class="anchor">🔗</a></h3>
 <p>Prefer guards over <em>if-then-else</em> where possible.</p>
 <div class="sourceCode" id="cb34"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb34-1" title="1"><span class="co">-- + Good</span></a>
 <a class="sourceLine" id="cb34-2" title="2"><span class="ot">showParity ::</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Bool</span></a>
@@ -520,7 +520,7 @@
 <p>In the code outside <code>do</code>-blocks you can align <em>if-then-else</em> clauses like you would normal expressions:</p>
 <div class="sourceCode" id="cb36"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb36-1" title="1"><span class="ot">shiftInts ::</span> [<span class="dt">Int</span>] <span class="ot">-&gt;</span> [<span class="dt">Int</span>]</a>
 <a class="sourceLine" id="cb36-2" title="2">shiftInts <span class="fu">=</span> <span class="fu">map</span> <span class="fu">$</span> \n <span class="ot">-&gt;</span> <span class="kw">if</span> <span class="fu">even</span> n <span class="kw">then</span> n <span class="fu">+</span> <span class="dv">1</span> <span class="kw">else</span> n <span class="fu">-</span> <span class="dv">1</span></a></code></pre></div>
-<h3 id="case-expressions">Case expressions</h3>
+<h3 id="case-expressions">Case expressions<a href="#case-expressions" class="anchor">🔗</a></h3>
 <p>Align the <code>-&gt;</code> arrows in the alternatives when it helps readability.</p>
 <div class="sourceCode" id="cb37"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb37-1" title="1"><span class="co">-- + Good</span></a>
 <a class="sourceLine" id="cb37-2" title="2"><span class="ot">firstOrDefault ::</span> [a] <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> a</a>
@@ -543,14 +543,14 @@
 <a class="sourceLine" id="cb38-2" title="2">fromMaybe v <span class="fu">=</span> \<span class="kw">case</span></a>
 <a class="sourceLine" id="cb38-3" title="3">    <span class="dt">Nothing</span> <span class="ot">-&gt;</span> v</a>
 <a class="sourceLine" id="cb38-4" title="4">    <span class="dt">Just</span> x  <span class="ot">-&gt;</span> x</a></code></pre></div>
-<h3 id="let-expressions">let expressions</h3>
+<h3 id="let-expressions">let expressions<a href="#let-expressions" class="anchor">🔗</a></h3>
 <p>Write every <code>let</code>-binding on a new line:</p>
 <div class="sourceCode" id="cb39"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb39-1" title="1"><span class="ot">isLimitedBy ::</span> <span class="dt">Integer</span> <span class="ot">-&gt;</span> <span class="dt">Natural</span> <span class="ot">-&gt;</span> <span class="dt">Bool</span></a>
 <a class="sourceLine" id="cb39-2" title="2">isLimitedBy n limit <span class="fu">=</span></a>
 <a class="sourceLine" id="cb39-3" title="3">    <span class="kw">let</span> intLimit <span class="fu">=</span> <span class="fu">toInteger</span> limit</a>
 <a class="sourceLine" id="cb39-4" title="4">    <span class="kw">in</span> n <span class="fu">&lt;=</span> intLimit</a></code></pre></div>
 <p>Put a <code>let</code> before each variable inside a <code>do</code> block. In pure functions try to avoid <code>let</code>. Instead, use <code>where</code>.</p>
-<h2 id="general-recommendations">General recommendations</h2>
+<h2 id="general-recommendations">General recommendations<a href="#general-recommendations" class="anchor">🔗</a></h2>
 <p>Try to split code into separate modules.</p>
 <p>Avoid abusing point-free style. For example, this is hard to read:</p>
 <div class="sourceCode" id="cb40"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb40-1" title="1">f <span class="fu">=</span> (g <span class="fu">.</span>) <span class="fu">.</span> h  <span class="co">-- :(</span></a></code></pre></div>
@@ -577,6 +577,7 @@
 
       <!-- Bootstrap core JavaScript -->
       <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"> </script>
+      <script src="../js/post.js"> </script>
       <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
       <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>

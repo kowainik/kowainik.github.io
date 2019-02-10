@@ -74,7 +74,7 @@
               <p class="lead">
                   <p><a href="http://travis-ci.org/kowainik/idris-patricia"><img src="https://secure.travis-ci.org/kowainik/idris-patricia.svg" alt="Build status" /></a> <a href="https://github.com/kowainik/idris-patricia/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="MIT license" /></a></p>
 <p>This package implements map from integer key to values. Data structure can be used as persistent array. Implementation is based on article about patricia trees and on <a href="https://hackage.haskell.org/package/containers-0.5.10.2/docs/Data-IntMap-Lazy.html">existing Haskell implementation</a> from <a href="http://hackage.haskell.org/package/containers"><code>containers</code></a> package. Dependent types can help to ensure some invariants for data structure.</p>
-<h2 id="repl-examples">REPL examples</h2>
+<h2 id="repl-examples">REPL examples<a href="#repl-examples" class="anchor">🔗</a></h2>
 <div class="sourceCode" id="cb1"><pre class="sourceCode idris"><code class="sourceCode idris"><a class="sourceLine" id="cb1-1" title="1">λΠ<span class="fu">&gt;</span> the (<span class="dt">Int32Map</span> <span class="dt">String</span>) <span class="fu">$</span> insert <span class="dv">3</span> <span class="st">&quot;a&quot;</span> <span class="dt">Empty</span></a>
 <a class="sourceLine" id="cb1-2" title="2"><span class="dt">Leaf</span> (<span class="dt">MkBits</span> <span class="dv">3</span>) <span class="st">&quot;a&quot;</span> <span class="ot">:</span> <span class="dt">IntBitMap</span> <span class="dv">32</span> <span class="dt">String</span></a>
 <a class="sourceLine" id="cb1-3" title="3"></a>
@@ -89,11 +89,11 @@
 <a class="sourceLine" id="cb1-12" title="12"></a>
 <a class="sourceLine" id="cb1-13" title="13">λΠ<span class="fu">&gt;</span> toList <span class="fu">$</span> the (<span class="dt">IntBitMap</span> <span class="dv">32</span> <span class="dt">String</span>) <span class="fu">$</span> insert <span class="dv">2</span> <span class="st">&quot;c&quot;</span> <span class="fu">$</span> insert <span class="dv">4</span> <span class="st">&quot;b&quot;</span> <span class="fu">$</span> insert <span class="dv">3</span> <span class="st">&quot;a&quot;</span> <span class="dt">Empty</span></a>
 <a class="sourceLine" id="cb1-14" title="14">[<span class="st">&quot;c&quot;</span>, <span class="st">&quot;a&quot;</span>, <span class="st">&quot;b&quot;</span>] <span class="ot">:</span> <span class="dt">List</span> <span class="dt">String</span></a></code></pre></div>
-<h2 id="how-to-build">How to build</h2>
-<h3 id="nix">Nix</h3>
+<h2 id="how-to-build">How to build<a href="#how-to-build" class="anchor">🔗</a></h2>
+<h3 id="nix">Nix<a href="#nix" class="anchor">🔗</a></h3>
 <p>Just run this command to build project and run tests.</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb2-1" title="1"><span class="ex">nix-shell</span> -A idris-patricia --command <span class="st">&quot;bash install-dependencies.sh &amp;&amp; idris --testpkg patricia-nix.ipkg --idrispath dependencies/specdris/src&quot;</span></a></code></pre></div>
-<h3 id="no-nix">No-Nix</h3>
+<h3 id="no-nix">No-Nix<a href="#no-nix" class="anchor">🔗</a></h3>
 <ol type="1">
 <li>Install <a href="https://github.com/pheymann/specdris"><code>specdris</code></a> following instructions from repository.</li>
 <li>Run <code>idris --testpkg patricia.ipkg</code>.</li>
@@ -116,6 +116,7 @@
 
       <!-- Bootstrap core JavaScript -->
       <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"> </script>
+      <script src="../js/post.js"> </script>
       <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
       <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>

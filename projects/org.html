@@ -73,11 +73,11 @@
               <div class="col-12 post-body">
               <p class="lead">
                   <p>This repository contains company-wide guidelines on writing code and organizing workflow. If Kowainik member doesn’t know how some part of his/her work should be done he/she should refer to this guide. If some part of the workflow is not clear from this document — feel free to open an issue to this repository. But, of course, everyone should read this README first.</p>
-<h2 id="communication">Communication</h2>
+<h2 id="communication">Communication<a href="#communication" class="anchor">🔗</a></h2>
 <p>Slack messenger is currently used as primary tool for communication (unless better options discovered). Workspace:</p>
 <pre><code>kowainik.slack.com</code></pre>
 <p>It’s better to share ideas and insights under relevant issues for projects but if there’s no such issue or such discussion is rather informal, Slack can be used for communication between team members. Also it uses integration with different useful applications.</p>
-<h3 id="slack">Slack</h3>
+<h3 id="slack">Slack<a href="#slack" class="anchor">🔗</a></h3>
 <p>Below is set of general rules for communication in slack:</p>
 <ol type="1">
 <li><strong>NO PRIVATE CHANNELS.</strong></li>
@@ -91,13 +91,13 @@
 <li><strong>Thread-based discussion.</strong> Try to follow topic-based discussion: post some message to channel, reply in thread to this message without duplicating messages to channel.</li>
 <li><p><strong>Channel topics.</strong> If this is a project channel then topic should contain link to project sources.</p></li>
 </ol>
-<h2 id="workflow">Workflow</h2>
-<h3 id="version-control-system">Version control system</h3>
+<h2 id="workflow">Workflow<a href="#workflow" class="anchor">🔗</a></h2>
+<h3 id="version-control-system">Version control system<a href="#version-control-system" class="anchor">🔗</a></h3>
 <p>Git version control system based on GitHub is used.</p>
 <blockquote>
 <p>TODO: experiment with Pijul at some moment in future.</p>
 </blockquote>
-<h4 id="issues-and-branches">Issues and branches</h4>
+<h4 id="issues-and-branches">Issues and branches<a href="#issues-and-branches" class="anchor">🔗</a></h4>
 <ol type="1">
 <li>Work should be done under corresponding GitHub issue. If such issue doesn’t exist: create it.</li>
 <li>Always discuss work under corresponding GitHub issue before doing this issue. If you see multiple ways to do something — discuss with somebody under issue comments section how to do this. If you’re not sure that there’s only one way to do the thing — discuss with somebody under issue comments section how to do this. In perfect case scenario each issue should contain some plan how to do this issue.</li>
@@ -119,7 +119,7 @@ If you don’t change source code, only documentation, then it’s recommended t
 <li>Example: <code>Change README.md [skip ci]</code></li>
 </ul></li>
 </ol>
-<h4 id="pull-requests">Pull requests</h4>
+<h4 id="pull-requests">Pull requests<a href="#pull-requests" class="anchor">🔗</a></h4>
 <ol type="1">
 <li>Open PR if you:
 <ul>
@@ -133,7 +133,7 @@ If you don’t change source code, only documentation, then it’s recommended t
 <li>Resolve all conflicts using only <code>git rebase</code> command to make history clean.</li>
 <li>If you’re the second person who approves the PR you should click on the <a href="https://help.github.com/articles/about-pull-request-merges/#squash-and-merge-your-pull-request-commits"><code>Squash and Merge</code></a> button.</li>
 </ol>
-<h3 id="project-structure">Project structure</h3>
+<h3 id="project-structure">Project structure<a href="#project-structure" class="anchor">🔗</a></h3>
 <ol type="1">
 <li>Use <code>cabal</code> build tool with <code>cabal new-build</code> or <code>stack</code> as a main build tool. But it’s desired to support both of them on CI.</li>
 <li>Every project should contain the following files in addition to code:
@@ -150,7 +150,7 @@ If you don’t change source code, only documentation, then it’s recommended t
 <blockquote>
 <p><strong>TODO:</strong> What about Windows CI?</p>
 </blockquote>
-<h2 id="code-style">Code style</h2>
+<h2 id="code-style">Code style<a href="#code-style" class="anchor">🔗</a></h2>
 <ol type="1">
 <li>Use <a href="style-guide.md">Kowainik Style guide</a> for Haskell code.</li>
 <li>Use <a href="https://github.com/jaspervdj/stylish-haskell"><code>stylish-haskell</code></a> with <a href=".stylish-haskell.yaml"><code>.stylish-haskell.yaml</code></a> to format code.</li>
@@ -174,6 +174,7 @@ If you don’t change source code, only documentation, then it’s recommended t
 
       <!-- Bootstrap core JavaScript -->
       <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"> </script>
+      <script src="../js/post.js"> </script>
       <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
       <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>

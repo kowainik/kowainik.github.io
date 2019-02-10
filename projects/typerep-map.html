@@ -75,7 +75,7 @@
                   <p><img src="https://user-images.githubusercontent.com/8126674/44323413-788dd700-a484-11e8-842e-f224cfaa4206.png" alt="electricity" /> <a href="https://hackage.haskell.org/package/typerep-map"><img src="https://img.shields.io/hackage/v/typerep-map.svg" alt="Hackage" /></a> <a href="https://travis-ci.org/kowainik/typerep-map"><img src="https://secure.travis-ci.org/kowainik/typerep-map.svg" alt="Build status" /></a> <a href="https://github.com/vrom911/typerep-map/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="MIT license" /></a></p>
 <p><code>typerep-map</code> introduces <code>TMap</code> and <code>TypeRepMap</code> — data structures like <a href="http://hackage.haskell.org/package/containers-0.6.0.1/docs/Data-Map-Lazy.html#t:Map"><code>Map</code></a>, but where types serve as keys, and values have the types specified in the corresponding key spots.</p>
 <p>For the more details on the implementation see <a href="https://kowainik.github.io/posts/2018-07-11-typerep-map-step-by-step">this blog post</a>.</p>
-<h2 id="usage-example">Usage example</h2>
+<h2 id="usage-example">Usage example<a href="#usage-example" class="anchor">🔗</a></h2>
 <div class="sourceCode" id="cb1"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb1-1" title="1">ghci<span class="fu">&gt;</span> <span class="kw">import</span> <span class="dt">Data.TMap</span></a>
 <a class="sourceLine" id="cb1-2" title="2"></a>
 <a class="sourceLine" id="cb1-3" title="3">ghci<span class="fu">&gt;</span> tm <span class="fu">=</span> insert <span class="dt">True</span> <span class="fu">$</span> one (<span class="dv">42</span><span class="ot"> ::</span> <span class="dt">Int</span>)</a>
@@ -104,7 +104,7 @@
 <a class="sourceLine" id="cb1-26" title="26"></a>
 <a class="sourceLine" id="cb1-27" title="27">ghci<span class="fu">&gt;</span> member <span class="fu">@</span><span class="dt">Int</span> tm'</a>
 <a class="sourceLine" id="cb1-28" title="28"><span class="dt">False</span></a></code></pre></div>
-<h2 id="benchmarks">Benchmarks</h2>
+<h2 id="benchmarks">Benchmarks<a href="#benchmarks" class="anchor">🔗</a></h2>
 <p>Tables below contain comparision with <code>DMap TypeRep</code> of ten <code>lookup</code> operations on structure with size <code>10^4</code>:</p>
 <table>
 <thead>
@@ -163,6 +163,7 @@
 
       <!-- Bootstrap core JavaScript -->
       <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"> </script>
+      <script src="../js/post.js"> </script>
       <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
       <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>

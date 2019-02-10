@@ -80,7 +80,7 @@
 <p>Summoner is a tool for scaffolding fully configured batteries-included production Haskell projects.</p>
 <p>Do you want to create a library that is to be uploaded to Hackage/Stackage, that builds with both Cabal and Stack and supports the latest three major GHC versions? Or you are building a production application which uses a custom prelude and has CI with Travis Linux and AppVeyors Windows checks? Summoner can help you do all that with minimal effort from you - it can even upload the project to GitHub if you wish!</p>
 <p>By the way, Summoner operates as either CLI or TUI application, so you can choose what you’re more comfortable with and install only the required one.</p>
-<h2 id="structure">Structure</h2>
+<h2 id="structure">Structure<a href="#structure" class="anchor">🔗</a></h2>
 <ul>
 <li><a href="#demo-">Demo</a>
 <ul>
@@ -124,12 +124,12 @@
 <li><a href="#changelog-">Changelog</a></li>
 <li><a href="#acknowledgments-">Acknowledgments</a></li>
 </ul>
-<h2 id="demo">Demo <a href="#structure">↑</a></h2>
-<h3 id="tui-demo">TUI demo <a href="#structure">↑</a></h3>
+<h2 id="demo">Demo <a href="#structure">↑</a><a href="#demo" class="anchor">🔗</a></h2>
+<h3 id="tui-demo">TUI demo <a href="#structure">↑</a><a href="#tui-demo" class="anchor">🔗</a></h3>
 <p><a href="https://asciinema.org/a/214424"><img src="https://asciinema.org/a/214424.png" alt="TUI demo" /></a></p>
-<h3 id="cli-demo">CLI demo <a href="#structure">↑</a></h3>
+<h3 id="cli-demo">CLI demo <a href="#structure">↑</a><a href="#cli-demo" class="anchor">🔗</a></h3>
 <p><a href="https://asciinema.org/a/214433"><img src="https://asciinema.org/a/214433.png" alt="CLI demo" /></a></p>
-<h3 id="scaffolded-project-structure">Scaffolded project structure <a href="#structure">↑</a></h3>
+<h3 id="scaffolded-project-structure">Scaffolded project structure <a href="#structure">↑</a><a href="#scaffolded-project-structure" class="anchor">🔗</a></h3>
 <p>This is an example of the project hierarchy you can get if you’re running Summoner with all options enabled:</p>
 <pre><code>project-name/
 ├── app/
@@ -158,11 +158,11 @@
 <li><a href="https://github.com/kowainik/summoner/tree/master/summoner-cli/test/golden"><code>summon-cli/tests/golden</code>: Examples of scaffolded projects</a></li>
 </ul>
 <p>Directory <code>smallProject</code> contains an example of the straightforward package, and <code>fullProject</code> shows a generated project with more advanced structure and more features.</p>
-<h2 id="features">Features <a href="#structure">↑</a></h2>
+<h2 id="features">Features <a href="#structure">↑</a><a href="#features" class="anchor">🔗</a></h2>
 <p>Summoner is a tool that combines predefined configurations, command-line arguments and a chosen interface.</p>
 <p>To fully understand the power in your hands with the help of Summoner, please check out this section.</p>
 <p>Below you can see highlighted features in different categories.</p>
-<h3 id="project">Project <a href="#structure">↑</a></h3>
+<h3 id="project">Project <a href="#structure">↑</a><a href="#project" class="anchor">🔗</a></h3>
 <ul>
 <li>Support for Cabal and Stack build tools.</li>
 <li>Ability to pick stanzas (library, executable, test-suite, benchmark).</li>
@@ -188,7 +188,7 @@
 -rtsopts
 -with-rtsopts=-N</code></pre></li>
 </ul>
-<h3 id="github">GitHub <a href="#structure">↑</a></h3>
+<h3 id="github">GitHub <a href="#structure">↑</a><a href="#github" class="anchor">🔗</a></h3>
 <ul>
 <li>Initialisation of the git repository inside the project folder.</li>
 <li>Initial commit creation.</li>
@@ -198,7 +198,7 @@
 <li>Linking to the GitHub repository in the <code>.cabal</code> file.</li>
 <li>Ability to include your <code>CONTRIBUTING.md</code> file.</li>
 </ul>
-<h3 id="ci">CI <a href="#structure">↑</a></h3>
+<h3 id="ci">CI <a href="#structure">↑</a><a href="#ci" class="anchor">🔗</a></h3>
 <ul>
 <li>Generation of the <code>.travis.yml</code> file that runs build and tests on CI under Linux.</li>
 <li>Configuration matrix on CI to build with multiple GHC versions and various build tools.</li>
@@ -206,35 +206,35 @@
 <li>Run HLint checks on CI.</li>
 <li>Generation of the <code>appveyor.yaml</code> file which runs build and tests on CI under Windows.</li>
 </ul>
-<h3 id="others">Others <a href="#structure">↑</a></h3>
+<h3 id="others">Others <a href="#structure">↑</a><a href="#others" class="anchor">🔗</a></h3>
 <ul>
 <li>Ability to create a project in offline mode.</li>
 </ul>
-<h2 id="get-started">Get started <a href="#structure">↑</a></h2>
-<h3 id="prerequisites">Prerequisites <a href="#structure">↑</a></h3>
+<h2 id="get-started">Get started <a href="#structure">↑</a><a href="#get-started" class="anchor">🔗</a></h2>
+<h3 id="prerequisites">Prerequisites <a href="#structure">↑</a><a href="#prerequisites" class="anchor">🔗</a></h3>
 <p>To start using Summoner make sure that you have the following tools installed on your machine:</p>
 <ul>
 <li><a href="https://git-scm.com"><code>git</code></a> – to initialize the GitHub repo.</li>
 <li><a href="https://github.com/github/hub"><code>hub</code></a> – to upload the project to GitHub.</li>
 <li><a href="https://curl.haxx.se"><code>curl</code></a> – to download licenses.</li>
 </ul>
-<h3 id="installation">Installation <a href="#structure">↑</a></h3>
+<h3 id="installation">Installation <a href="#structure">↑</a><a href="#installation" class="anchor">🔗</a></h3>
 <p>Summon contains two executables:</p>
 <ul>
 <li><code>summon</code>: scaffold projects using interactive CLI mode.</li>
 <li><code>summon-tui</code>: scaffold projects using TUI.</li>
 </ul>
 <p>Below you can find the description of how to install each of them so you can choose the one you want.</p>
-<h4 id="summon-tui">Summon-TUI <a href="#structure">↑</a></h4>
+<h4 id="summon-tui">Summon-TUI <a href="#structure">↑</a><a href="#summon-tui" class="anchor">🔗</a></h4>
 <blockquote>
 <p><strong>NOTE:</strong> <code>summon-tui</code> is not supported on Windows. See <a href="https://github.com/jtdaugherty/vty/pull/1">this issue</a>.</p>
 </blockquote>
-<h5 id="tui-download-binary">TUI: download binary <a href="#structure">↑</a></h5>
+<h5 id="tui-download-binary">TUI: download binary <a href="#structure">↑</a><a href="#tui-download-binary" class="anchor">🔗</a></h5>
 <p>You can download binary directly <a href="https://github.com/kowainik/summoner/releases">from GitHub releases</a>.</p>
 <p>After downloading binary, make it executable and copy it under convenient location, for example:</p>
 <pre class="shell"><code>chmod +x summon-cli-linux
 mv summon-cli-linux ~/.local/bin/summon</code></pre>
-<h5 id="tui-from-source">TUI: from source <a href="#structure">↑</a></h5>
+<h5 id="tui-from-source">TUI: from source <a href="#structure">↑</a><a href="#tui-from-source" class="anchor">🔗</a></h5>
 <p>Fetch the repo using <code>cabal</code>:</p>
 <pre class="shell"><code>cabal get -s summoner</code></pre>
 <p>or clone the directory from GitHub:</p>
@@ -245,19 +245,19 @@ mv summon-cli-linux ~/.local/bin/summon</code></pre>
 <pre class="shell"><code>cabal new-install summoner-tui:exe:summon-tui</code></pre>
 <p>Build and install using <code>stack</code>:</p>
 <pre class="shell"><code>stack install summoner-tui:exe:summon-tui</code></pre>
-<h4 id="summon-cli">Summon-CLI <a href="#structure">↑</a></h4>
-<h5 id="cli-download-binary">CLI: download binary <a href="#structure">↑</a></h5>
+<h4 id="summon-cli">Summon-CLI <a href="#structure">↑</a><a href="#summon-cli" class="anchor">🔗</a></h4>
+<h5 id="cli-download-binary">CLI: download binary <a href="#structure">↑</a><a href="#cli-download-binary" class="anchor">🔗</a></h5>
 <p>You can download binary directly <a href="https://github.com/kowainik/summoner/releases">from GitHub releases</a>.</p>
 <p>After downloading binary, make it executable and copy it under convenient location, for example:</p>
 <pre class="shell"><code>chmod +x summon-cli-linux
 mv summon-cli-linux ~/.local/bin/summon</code></pre>
-<h5 id="cli-from-hackagestackage">CLI: from Hackage/Stackage <a href="#structure">↑</a></h5>
+<h5 id="cli-from-hackagestackage">CLI: from Hackage/Stackage <a href="#structure">↑</a><a href="#cli-from-hackagestackage" class="anchor">🔗</a></h5>
 <p>Using <code>cabal</code>:</p>
 <pre class="shell"><code>cabal new-update
 cabal new-install summoner</code></pre>
 <p>Using <code>stack</code>:</p>
 <pre class="shell"><code>stack install summoner</code></pre>
-<h5 id="cli-from-source">CLI: from source <a href="#structure">↑</a></h5>
+<h5 id="cli-from-source">CLI: from source <a href="#structure">↑</a><a href="#cli-from-source" class="anchor">🔗</a></h5>
 <p>Fetch the repo using <code>cabal</code>:</p>
 <pre class="shell"><code>cabal get -s summoner</code></pre>
 <p>or clone the directory from GitHub:</p>
@@ -268,10 +268,10 @@ cabal new-install summoner</code></pre>
 <pre class="shell"><code>cabal new-install summoner-cli:exe:summon</code></pre>
 <p>Build and install using <code>stack</code>:</p>
 <pre class="shell"><code>stack install summoner:exe:summon</code></pre>
-<h3 id="setup">Setup <a href="#structure">↑</a></h3>
+<h3 id="setup">Setup <a href="#structure">↑</a><a href="#setup" class="anchor">🔗</a></h3>
 <p>You can turn on bash auto-completion by running the following command:</p>
 <pre class="shell"><code>source &lt;(summon --bash-completion-script `which summon`)</code></pre>
-<h2 id="usage">Usage <a href="#structure">↑</a></h2>
+<h2 id="usage">Usage <a href="#structure">↑</a><a href="#usage" class="anchor">🔗</a></h2>
 <p>To start <code>summon</code>ing projects nothing additional is required. However, to tweak your settings further, you can use additional configuration settings. There are several options you can use to set particular configurations for new projects (in increasing order of priority):</p>
 <ol type="1">
 <li>Default configuration file (<code>~/.summoner.toml</code>).</li>
@@ -284,7 +284,7 @@ cabal new-install summoner</code></pre>
 </ul></li>
 </ol>
 <p>To cut a long story short, the configuration uses <a href="https://medium.com/@jonathangfischoff/the-partial-options-monoid-pattern-31914a71fc67">Partial Options Monoid Pattern</a>.</p>
-<h3 id="file-configuration">File configuration <a href="#structure">↑</a></h3>
+<h3 id="file-configuration">File configuration <a href="#structure">↑</a><a href="#file-configuration" class="anchor">🔗</a></h3>
 <p>Here is the list of the options that can be configured to suit your needs. If options are not specified, they are asked interactively (or some sensible defaults are used).</p>
 <table>
 <colgroup>
@@ -413,7 +413,7 @@ cabal new-install summoner</code></pre>
 </tbody>
 </table>
 <p>See the example of <a href="https://github.com/kowainik/org/blob/master/.summoner.toml">the configuration for projects of the <code>Kowainik</code> organization</a>.</p>
-<h3 id="command-line-arguments">Command line arguments <a href="#structure">↑</a></h3>
+<h3 id="command-line-arguments">Command line arguments <a href="#structure">↑</a><a href="#command-line-arguments" class="anchor">🔗</a></h3>
 <p>Available commands:</p>
 <pre><code>Usage:
   summon COMMAND
@@ -426,7 +426,7 @@ Available commands:
 Available global options:
   -h, --help               Show this help text
   -v, --version            Show summoner's version</code></pre>
-<h4 id="summon-new-command"><strong>summon new</strong> command: <a href="#structure">↑</a></h4>
+<h4 id="summon-new-command"><strong>summon new</strong> command: <a href="#structure">↑</a><a href="#summon-new-command" class="anchor">🔗</a></h4>
 <pre><code>Usage:
   summon new PROJECT_NAME [--ignore-config] [--no-upload] [--offline]
              [-f|--file FILENAME]
@@ -468,7 +468,7 @@ Available command options:
   -e, --exec               Executable target
   -t, --test               Tests
   -b, --benchmark          Benchmarks</code></pre>
-<h4 id="summon-show-command"><strong>summon show</strong> command: <a href="#structure">↑</a></h4>
+<h4 id="summon-show-command"><strong>summon show</strong> command: <a href="#structure">↑</a><a href="#summon-show-command" class="anchor">🔗</a></h4>
 <pre><code>Usage:
   summon show COMMAND
       Show supported licenses or ghc versions
@@ -482,8 +482,8 @@ Available options:
   -h, --help               Show this help text</code></pre>
 <p>For example, the following command preconfigures the project settings with the custom prelude <code>relude</code>, included library, executable, test stanzas (but without benchmarks), creates a private repository on GitHub with the Travis CI and AppVeyor CI integrated.</p>
 <pre class="shell"><code>summon new my-project with -letgcpw without -b --prelude-package relude --prelude-module Relude</code></pre>
-<h3 id="tui">TUI <a href="#structure">↑</a></h3>
-<h4 id="tui-new-command">TUI new command <a href="#structure">↑</a></h4>
+<h3 id="tui">TUI <a href="#structure">↑</a><a href="#tui" class="anchor">🔗</a></h3>
+<h4 id="tui-new-command">TUI new command <a href="#structure">↑</a><a href="#tui-new-command" class="anchor">🔗</a></h4>
 <figure>
 <img src="https://user-images.githubusercontent.com/8126674/49283553-fc684e00-f4cc-11e8-8411-f173f5f19a71.png" alt="summon new TUI" /><figcaption>summon new TUI</figcaption>
 </figure>
@@ -561,14 +561,14 @@ Available options:
 </tbody>
 </table>
 <p>Note that the form should be valid in order to be able to go to the Confirm window. If there are some errors in the input, you could see details about these errors in the <code>Status</code> section of the form.</p>
-<h4 id="tui-show-command">TUI show command <a href="#structure">↑</a></h4>
+<h4 id="tui-show-command">TUI show command <a href="#structure">↑</a><a href="#tui-show-command" class="anchor">🔗</a></h4>
 <p>These commands display the list of supported GHC versions or Licenses. Also, when the license name is specified the window with the scrollable content of the License text is shown.</p>
-<h3 id="cli">CLI <a href="#structure">↑</a></h3>
-<h4 id="cli-new-command">CLI new command <a href="#structure">↑</a></h4>
+<h3 id="cli">CLI <a href="#structure">↑</a><a href="#cli" class="anchor">🔗</a></h3>
+<h4 id="cli-new-command">CLI new command <a href="#structure">↑</a><a href="#cli-new-command" class="anchor">🔗</a></h4>
 <p>In CLI mode of operation Summoner asks about every project setting. Most of the questions contain a default value, so you can press <kbd>Enter</kbd> to choose the default value. If some option is specified via a configuration file or CLI arguments, then the question is skipped and the predefined value is used.</p>
-<h4 id="cli-show-command">CLI show command <a href="#structure">↑</a></h4>
+<h4 id="cli-show-command">CLI show command <a href="#structure">↑</a><a href="#cli-show-command" class="anchor">🔗</a></h4>
 <p>These commands display the list of supported GHC versions, or Licenses. Also, when the license name is specified, the content of the License is outputted to the terminal.</p>
-<h2 id="for-developers">For Developers <a href="#structure">↑</a></h2>
+<h2 id="for-developers">For Developers <a href="#structure">↑</a><a href="#for-developers" class="anchor">🔗</a></h2>
 <p>If you’d like to take part in the development processes, here are a few things to keep in mind:</p>
 <ul>
 <li>Summoner is a multi-package project which has two packages inside: <code>summoner-cli</code> and <code>summoner-tui</code>. We are supporting the same functionality in both of them, so, if it’s possible, you should add/change the code in both of the packages.</li>
@@ -577,34 +577,34 @@ Available options:
 <li>To sum up, <a href="https://github.com/kowainik/org/blob/master/CONTRIBUTING.md#contributing-to-the-kowainik-repositories">here is the Contributing guide</a> we use across the repositories.</li>
 <li>This project is contributor-friendly, so be kind to other people working on the project.</li>
 </ul>
-<h3 id="dependencies">Dependencies <a href="#structure">↑</a></h3>
+<h3 id="dependencies">Dependencies <a href="#structure">↑</a><a href="#dependencies" class="anchor">🔗</a></h3>
 <p>On Linux, to build the <code>summoner-tui</code> you’ll need to have <code>libtinfo</code> installed. The easiest way to get this is from your system’s package manager and is usually available as the package <code>libtinfo-dev</code>.</p>
-<h3 id="build">Build <a href="#structure">↑</a></h3>
+<h3 id="build">Build <a href="#structure">↑</a><a href="#build" class="anchor">🔗</a></h3>
 <p>To build the project you can use the following commands:</p>
 <pre class="shell="><code>cabal new-build all</code></pre>
 <p>for Cabal and</p>
 <pre class="shell="><code>stack build</code></pre>
 <p>for Stack.</p>
-<h3 id="test">Test <a href="#structure">↑</a></h3>
+<h3 id="test">Test <a href="#structure">↑</a><a href="#test" class="anchor">🔗</a></h3>
 <p>Summoner uses the golden tests technique for assuring the correctness of the generated files. For this purpose, we have <a href="https://github.com/kowainik/summoner/tree/master/summoner-cli/test/golden">the <code>golden</code> folder</a> with two sample projects to test against.</p>
 <p>To actually run tests you need to run:</p>
 <pre class="shell"><code>cabal new-test all</code></pre>
 <p>or</p>
 <pre class="shell"><code>stack test</code></pre>
-<h3 id="run">Run <a href="#structure">↑</a></h3>
+<h3 id="run">Run <a href="#structure">↑</a><a href="#run" class="anchor">🔗</a></h3>
 <p>Building Summoner with the recommended method creates two executables: <code>summon</code> and <code>summon-tui</code>. To run the compiled executable you can use the following commands:</p>
 <pre class="shell"><code>cabal new-exec summon -- SOME_COMMAND
 cabal new-exec summon-tui -- SOME_COMMAND</code></pre>
 <p>or</p>
 <pre class="shell"><code>stack exec summon -- SOME_COMMAND
 stack exec summon-tui -- SOME_COMMAND</code></pre>
-<h2 id="changelog">Changelog <a href="#structure">↑</a></h2>
+<h2 id="changelog">Changelog <a href="#structure">↑</a><a href="#changelog" class="anchor">🔗</a></h2>
 <p>Each package has its own changelog:</p>
 <ul>
 <li><a href="https://github.com/kowainik/summoner/blob/master/summoner-cli/CHANGELOG.md#changelog">Summoner changelog</a>.</li>
 <li><a href="https://github.com/kowainik/summoner/blob/master/summoner-tui/CHANGELOG.md#changelog">Summoner-TUI changelog</a>.</li>
 </ul>
-<h2 id="acknowledgments">Acknowledgments <a href="#structure">↑</a></h2>
+<h2 id="acknowledgments">Acknowledgments <a href="#structure">↑</a><a href="#acknowledgments" class="anchor">🔗</a></h2>
 <p>This project was inspired by <a href="https://github.com/aelve/new-hs#readme">Aelve/new-hs</a>, which is the tool with the same goal but it’s only for creating cabal projects.</p>
 <p>Icons made by <a href="https://www.flaticon.com/authors/nikita-golubev">Nikita Golubev</a> from <a href="https://www.flaticon.com/">Flaticon</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/">CC 3.0 BY</a>.</p>
               </p>
@@ -625,6 +625,7 @@ stack exec summon-tui -- SOME_COMMAND</code></pre>
 
       <!-- Bootstrap core JavaScript -->
       <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"> </script>
+      <script src="../js/post.js"> </script>
       <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
       <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>

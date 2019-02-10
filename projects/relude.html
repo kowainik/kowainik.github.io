@@ -93,7 +93,7 @@
 <li><p><strong>Exploration.</strong> Experiment with new ideas and proposals without introducing breaking changes. <code>relude</code> uses the approach with <code>Extra.*</code> modules which are not exported by default so it’s quite easy to bring something new and let users decide to use it or not.</p></li>
 </ol>
 <p>This README contains introduction to <code>Relude</code> and a tutorial on how to use it.</p>
-<h2 id="structure-of-this-tutorial">Structure of this tutorial</h2>
+<h2 id="structure-of-this-tutorial">Structure of this tutorial<a href="#structure-of-this-tutorial" class="anchor">🔗</a></h2>
 <p>This tutorial has several parts:</p>
 <ol type="1">
 <li><a href="#get-started-">Get started</a>
@@ -113,9 +113,9 @@
 <li><a href="#for-developers-">For developers</a></li>
 </ol>
 <p>This is neither a tutorial on <em>Haskell</em> nor tutorial on each function contained in <code>Relude</code>. For detailed documentation of every function together with examples and usage, see <a href="http://hackage.haskell.org/package/relude"><em>Haddock documentation</em></a>.</p>
-<h2 id="get-started">Get started <a href="#structure-of-this-tutorial">↑</a></h2>
+<h2 id="get-started">Get started <a href="#structure-of-this-tutorial">↑</a><a href="#get-started" class="anchor">🔗</a></h2>
 <p>If you want to start using <code>relude</code> in your project and explore it with the help of compiler, set everything up according to one of the instructions below.</p>
-<h3 id="base-noprelude">base-noprelude <a href="#structure-of-this-tutorial">↑</a></h3>
+<h3 id="base-noprelude">base-noprelude <a href="#structure-of-this-tutorial">↑</a><a href="#base-noprelude" class="anchor">🔗</a></h3>
 <p>This is the recommended way to use custom prelude. It requires you to perform the following steps:</p>
 <ol type="1">
 <li>Replace <code>base</code> dependency with corresponding version of <code>base-noprelude</code> in your <code>.cabal</code> file.</li>
@@ -132,7 +132,7 @@
 <li><p>Optionally modify your <code>Prelude</code> to include more or less functions. Probably you want to hide something from <code>Relude</code> module. Or maybe you want to add something from <code>Relude.Extra.*</code> modules!</p></li>
 </ol>
 <p>This is a very convenient way to add a custom prelude to your project because you don’t need to import module manually inside each file and enable the <code>NoImplicitPrelude</code> extension.</p>
-<h3 id="mixins">Mixins <a href="#structure-of-this-tutorial">↑</a></h3>
+<h3 id="mixins">Mixins <a href="#structure-of-this-tutorial">↑</a><a href="#mixins" class="anchor">🔗</a></h3>
 <p>You can use Cabal feature <code>mixins</code> to replace the default <code>Prelude</code> with <code>Relude</code> without need to add extra dependencies or import <code>Relude</code> manually each time. See the following example:</p>
 <blockquote>
 <p><strong>NOTE:</strong> this requires Cabal version to be at least <code>2.2</code></p>
@@ -153,14 +153,14 @@ library
 <p>If you want to be able to import <code>Extra.*</code> modules when using <code>mixins</code> approach, you need to list those modules under <code>mixins</code> field as well, like this:</p>
 <pre class="cabal"><code>  mixins:              base hiding (Prelude)
                      , relude (Relude as Prelude, Relude.Extra.Enum)</code></pre>
-<h3 id="noimplicitprelude">NoImplicitPrelude <a href="#structure-of-this-tutorial">↑</a></h3>
+<h3 id="noimplicitprelude">NoImplicitPrelude <a href="#structure-of-this-tutorial">↑</a><a href="#noimplicitprelude" class="anchor">🔗</a></h3>
 <p>Disable the built-in prelude at the top of your file:</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb4-1" title="1"><span class="ot">{-# LANGUAGE NoImplicitPrelude #-}</span></a></code></pre></div>
 <p>Or directly in your project <code>.cabal</code> file, if you want to use in every module by default:</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb5-1" title="1">default<span class="fu">-</span>extensions<span class="fu">:</span> <span class="dt">NoImplicitPrelude</span></a></code></pre></div>
 <p>Add <code>relude</code> as a dependency of your project. Then add the following import to your modules:</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb6-1" title="1"><span class="kw">import</span> <span class="dt">Relude</span></a></code></pre></div>
-<h2 id="difference-from-prelude">Difference from Prelude <a href="#structure-of-this-tutorial">↑</a></h2>
+<h2 id="difference-from-prelude">Difference from Prelude <a href="#structure-of-this-tutorial">↑</a><a href="#difference-from-prelude" class="anchor">🔗</a></h2>
 <ul>
 <li><code>head</code>, <code>tail</code>, <code>last</code>, <code>init</code> work with <code>NonEmpty a</code> instead of <code>[a]</code>.</li>
 <li><code>undefined</code> triggers a compiler warning, because you probably don’t want to leave <code>undefined</code> in your code. Either use <code>throwIO</code>, <code>Except</code>, <code>error</code> or <code>bug</code>.</li>
@@ -176,7 +176,7 @@ library
 <li><code>error</code> takes <code>Text</code>.</li>
 <li><code>lookup</code> for lists is not exported.</li>
 </ul>
-<h2 id="reexports">Reexports <a href="#structure-of-this-tutorial">↑</a></h2>
+<h2 id="reexports">Reexports <a href="#structure-of-this-tutorial">↑</a><a href="#reexports" class="anchor">🔗</a></h2>
 <p><code>relude</code> reexports some parts of the following libraries:</p>
 <ul>
 <li><code>base</code></li>
@@ -190,7 +190,7 @@ library
 <li><code>stm</code></li>
 </ul>
 <p>If you want to clean up imports after switching to <code>relude</code>, you can use <code>relude</code>-specific <a href=".hlint.yaml"><code>.hlint.yaml</code></a> configuration for this task.</p>
-<h3 id="base">base</h3>
+<h3 id="base">base<a href="#base" class="anchor">🔗</a></h3>
 <p>Some generally useful modules from <code>base</code> package, like: <code>Control.Applicative</code>, <code>Data.Traversable</code>, <code>Data.Monoid</code>, <code>Data.List</code>, and lots of others.</p>
 <p><code>liftIO</code> and <code>MonadIO</code> are exported by default. A lot of <code>IO</code> functions are generalized to <code>MonadIO</code>.</p>
 <p><a href="http://hackage.haskell.org/package/base-4.9.1.0/docs/Data-Bifunctor.html"><code>Bifunctor</code></a> type class with useful instances is exported.</p>
@@ -202,26 +202,26 @@ library
 <p>We also have <code>data Undefined = Undefined</code> (which, too, comes with warnings).</p>
 <p><code>relude</code> reexports <code>Exception</code> type from the <code>base</code> package and introduces the <code>bug</code> function as an alternative to <code>error</code>. There’s also a very convenient <code>Exc</code> pattern-synonym to handle exceptions of different types.</p>
 <p>See <a href="src/Relude/Exception.hs"><code>Relude.Exception</code></a> module for details on exceptions.</p>
-<h3 id="containers-unordered-containers">containers &amp; unordered-containers</h3>
+<h3 id="containers-unordered-containers">containers &amp; unordered-containers<a href="#containers-unordered-containers" class="anchor">🔗</a></h3>
 <p>The following types from these two packages are exported: Then, some commonly used types:</p>
 <ul>
 <li>Maps: strict versions of <code>Map</code>, <code>HashMap</code>, <code>IntMap</code>.</li>
 <li>Sets: <code>Set</code>, <code>HashSet</code>, <code>IntSet</code>.</li>
 <li>Sequences: <code>Seq</code>.</li>
 </ul>
-<h3 id="text-bytestring">text &amp; bytestring</h3>
+<h3 id="text-bytestring">text &amp; bytestring<a href="#text-bytestring" class="anchor">🔗</a></h3>
 <p><code>relude</code> exports <code>Text</code> and <code>ByteString</code> (as well as synonyms <code>LText</code> and <code>LByteString</code> for lazy versions) and some functions work with <code>Text</code> instead of <code>String</code> – specifically, IO functions (<code>readFile</code>, <code>putStrLn</code>, etc) and <code>show</code>. In fact, <code>show</code> is polymorphic and can produce strict or lazy <code>Text</code>, <code>String</code>, or <code>ByteString</code>. Also, <code>toText/toLText/toString</code> can convert <code>Text|LText|String</code> types to <code>Text/LText/String</code>. If you want to convert to and from <code>ByteString</code> use <code>encodeUtf8/decodeUtf8</code> functions.</p>
-<h3 id="transforms-mtl">transforms &amp; mtl</h3>
+<h3 id="transforms-mtl">transforms &amp; mtl<a href="#transforms-mtl" class="anchor">🔗</a></h3>
 <p>The following parts of these two libraries are exported:</p>
 <ul>
 <li>Transformers: <code>State[T]</code>, <code>Reader[T]</code>, <code>ExceptT</code>, <code>MaybeT</code>.</li>
 <li>Classes: <code>MonadReader</code>, <code>MonadState</code>, <code>MonadError</code>.</li>
 </ul>
-<h3 id="deepseq">Deepseq</h3>
+<h3 id="deepseq">Deepseq<a href="#deepseq" class="anchor">🔗</a></h3>
 <p><code>deepseq</code> is exported. For instance, if you want to force deep evaluation of some value (in <code>IO</code>), you can write <code>evaluateNF a</code>. WHNF evaluation is possible with <code>evaluateWHNF a</code>.</p>
-<h2 id="whats-new">What’s new? <a href="#structure-of-this-tutorial">↑</a></h2>
+<h2 id="whats-new">What’s new? <a href="#structure-of-this-tutorial">↑</a><a href="#whats-new" class="anchor">🔗</a></h2>
 <p>Finally, we can move to part describing the new cool features we bring with <code>relude</code>.</p>
-<h3 id="available-by-default">Available by default</h3>
+<h3 id="available-by-default">Available by default<a href="#available-by-default" class="anchor">🔗</a></h3>
 <ul>
 <li>Safe analogue for list functions: use <code>viaNonEmpty</code> function to get <code>Maybe a</code>.
 <ul>
@@ -253,7 +253,7 @@ library
 <li><code>evaluateWHNF</code> and <code>evaluateNF</code> functions as clearer and lifted aliases for <code>evaluate</code> and <code>evaluate . force</code>.</li>
 <li><p><code>MonadFail</code> instance for <code>Either</code>.</p></li>
 </ul>
-<h3 id="need-to-import-explicitly">Need to import explicitly</h3>
+<h3 id="need-to-import-explicitly">Need to import explicitly<a href="#need-to-import-explicitly" class="anchor">🔗</a></h3>
 <ul>
 <li>Convenient functions to work with <code>(Bounded a, Enum a)</code> types:
 <ol type="1">
@@ -272,7 +272,7 @@ library
 <li><p><code>Validation</code> data type as an alternative to <code>Either</code> when you want to combine all errors.</p></li>
 </ul>
 <p>Explore <code>Extra</code> modules: <a href="src/Relude/Extra/"><code>Relude.Extra</code></a></p>
-<h2 id="migration-guide">Migration guide <a href="#structure-of-this-tutorial">↑</a></h2>
+<h2 id="migration-guide">Migration guide <a href="#structure-of-this-tutorial">↑</a><a href="#migration-guide" class="anchor">🔗</a></h2>
 <p>In order to replace default <code>Prelude</code> with <code>relude</code> you should start with instructions given in <a href="#get-started-"><em>get started</em></a> section.</p>
 <p>This section describes what you need to change to make your code compile with <code>relude</code>.</p>
 <ol type="1">
@@ -318,9 +318,9 @@ library
 </ul></li>
 <li>Run <code>hlint</code> using <code>.hlint.yaml</code> file from <code>relude</code> package to cleanup code and imports.</li>
 </ol>
-<h2 id="comparison-with-other-alternative-preludes">Comparison with other alternative preludes <a href="#structure-of-this-tutorial">↑</a></h2>
+<h2 id="comparison-with-other-alternative-preludes">Comparison with other alternative preludes <a href="#structure-of-this-tutorial">↑</a><a href="#comparison-with-other-alternative-preludes" class="anchor">🔗</a></h2>
 <p>There are quite a few libraries that can be used as alternative preludes in Haskell, let’s compare Relude with some of them.</p>
-<h3 id="relude-vs-protolude">Relude vs Protolude <a href="#structure-of-this-tutorial">↑</a></h3>
+<h3 id="relude-vs-protolude">Relude vs Protolude <a href="#structure-of-this-tutorial">↑</a><a href="#relude-vs-protolude" class="anchor">🔗</a></h3>
 <p><a href="https://github.com/sdiehl/protolude">Protolude</a> is one of the most popular alternative preludes. It’s also relatively small, but:</p>
 <ol type="1">
 <li>Protolude supports older GHC versions (from GHC 7.6.1) while <code>relude</code> only supports from GHC 8.0.2. So if you aim ancient GHC versions, <code>protolude</code> might be a better choice. But because of that it contains a lot of CPP, code is ugly in some places as a consequence and it’s more difficult to add, remove or change things there.</li>
@@ -337,8 +337,8 @@ library
 <li>Minor feature: <code>relude</code> uses type-level magic to forbid <code>elem</code> and <code>notElem</code> functions for <code>Set</code> and <code>HashSet</code> (because <code>elem</code> from <code>Foldable</code> run in <em>O(n)</em> time and you can accidentally use <code>elem</code> from <code>Foldable</code> but with <code>relude</code> you can’t).</li>
 <li><code>relude</code> is opt-in oriented and has a notion of <code>Extra.*</code> modules that are not exported by default from the <code>Relude</code> module. So we don’t spoil global namespace but still have a lot of useful features like polymorphic functions to work with every <code>newtype</code>, <code>Enum/Bounded</code>-related useful utilities, functions to take a name of any type as <code>Text</code> and much more. It’s very easy to make them accessible package-wide with <code>base-noprelude</code> trick!</li>
 </ol>
-<h2 id="for-developers">For Developers <a href="#structure-of-this-tutorial">↑</a></h2>
-<h3 id="generating-.hlint.yaml">Generating .hlint.yaml</h3>
+<h2 id="for-developers">For Developers <a href="#structure-of-this-tutorial">↑</a><a href="#for-developers" class="anchor">🔗</a></h2>
+<h3 id="generating-.hlint.yaml">Generating .hlint.yaml<a href="#generating-.hlint.yaml" class="anchor">🔗</a></h3>
 <p>Note, that we are using custom <code>hlint</code> setting which are <code>Relude</code> specific. To keep it up to date don’t forget to reflect your changes in this file. We are using <code>Dhall</code> to maintain the configurations. To use it follow the steps below.</p>
 <p>First time:</p>
 <pre class="shell"><code>$ cabal new-install dhall-json</code></pre>
@@ -351,7 +351,7 @@ library
 <ul>
 <li><a href="https://kowainik.github.io/posts/2018-09-09-dhall-to-hlint">Dhall To HLint</a></li>
 </ul>
-<h2 id="acknowledgement">Acknowledgement</h2>
+<h2 id="acknowledgement">Acknowledgement<a href="#acknowledgement" class="anchor">🔗</a></h2>
 <p>Icons made by <a href="http://www.freepik.com">Freepik</a> from <a href="https://www.flaticon.com/">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/">CC 3.0 BY</a>.</p>
               </p>
               </div>
@@ -371,6 +371,7 @@ library
 
       <!-- Bootstrap core JavaScript -->
       <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"> </script>
+      <script src="../js/post.js"> </script>
       <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
       <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
