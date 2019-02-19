@@ -57,7 +57,7 @@
                 <a class="btn btn-outline-dark btn-tag" href="https://github.com/kowainik/tomland" data-icon="octicon-star" data-size="large" aria-label="Star Kowainik/tomland on GitHub">Star Project</a>
                 <a class="fa-stack fa-2x" href="https://github.com/kowainik/tomland/stargazers">
                     <i class="fa fa-star fa-stack-2x"></i>
-                    <i id="stars" class="fa fa-stack-1x fa-inverse main-font">39</i>
+                    <i id="stars" class="fa fa-stack-1x fa-inverse main-font">40</i>
                 </a>
                 <div class="author">Language: Haskell</div>
 
@@ -102,26 +102,26 @@
 <h2 id="data-type-parsing-and-printing">Data type: parsing and printing<a href="#data-type-parsing-and-printing" class="anchor">🔗</a></h2>
 <p>We’re going to parse TOML configuration from <a href="examples/readme.toml"><code>examples/readme.toml</code></a> file.</p>
 <p>This static configuration is captured by the following Haskell data type:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb3-1" title="1"><span class="kw">data</span> <span class="dt">Settings</span> <span class="fu">=</span> <span class="dt">Settings</span></a>
-<a class="sourceLine" id="cb3-2" title="2">    {<span class="ot"> settingsPort        ::</span> <span class="fu">!</span><span class="dt">Port</span></a>
-<a class="sourceLine" id="cb3-3" title="3">    ,<span class="ot"> settingsDescription ::</span> <span class="fu">!</span><span class="dt">Text</span></a>
+<div class="sourceCode" id="cb3"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb3-1" title="1"><span class="kw">data</span> <span class="dt">Settings</span> <span class="ot">=</span> <span class="dt">Settings</span></a>
+<a class="sourceLine" id="cb3-2" title="2">    {<span class="ot"> settingsPort        ::</span> <span class="op">!</span><span class="dt">Port</span></a>
+<a class="sourceLine" id="cb3-3" title="3">    ,<span class="ot"> settingsDescription ::</span> <span class="op">!</span><span class="dt">Text</span></a>
 <a class="sourceLine" id="cb3-4" title="4">    ,<span class="ot"> settingsCodes       ::</span> [<span class="dt">Int</span>]</a>
-<a class="sourceLine" id="cb3-5" title="5">    ,<span class="ot"> settingsMail        ::</span> <span class="fu">!</span><span class="dt">Mail</span></a>
-<a class="sourceLine" id="cb3-6" title="6">    ,<span class="ot"> settingsUsers       ::</span> <span class="fu">!</span>[<span class="dt">User</span>]</a>
+<a class="sourceLine" id="cb3-5" title="5">    ,<span class="ot"> settingsMail        ::</span> <span class="op">!</span><span class="dt">Mail</span></a>
+<a class="sourceLine" id="cb3-6" title="6">    ,<span class="ot"> settingsUsers       ::</span> <span class="op">!</span>[<span class="dt">User</span>]</a>
 <a class="sourceLine" id="cb3-7" title="7">    }</a>
 <a class="sourceLine" id="cb3-8" title="8"></a>
-<a class="sourceLine" id="cb3-9" title="9"><span class="kw">data</span> <span class="dt">Mail</span> <span class="fu">=</span> <span class="dt">Mail</span></a>
-<a class="sourceLine" id="cb3-10" title="10">    {<span class="ot"> mailHost           ::</span> <span class="fu">!</span><span class="dt">Host</span></a>
-<a class="sourceLine" id="cb3-11" title="11">    ,<span class="ot"> mailSendIfInactive ::</span> <span class="fu">!</span><span class="dt">Bool</span></a>
+<a class="sourceLine" id="cb3-9" title="9"><span class="kw">data</span> <span class="dt">Mail</span> <span class="ot">=</span> <span class="dt">Mail</span></a>
+<a class="sourceLine" id="cb3-10" title="10">    {<span class="ot"> mailHost           ::</span> <span class="op">!</span><span class="dt">Host</span></a>
+<a class="sourceLine" id="cb3-11" title="11">    ,<span class="ot"> mailSendIfInactive ::</span> <span class="op">!</span><span class="dt">Bool</span></a>
 <a class="sourceLine" id="cb3-12" title="12">    }</a>
 <a class="sourceLine" id="cb3-13" title="13"></a>
 <a class="sourceLine" id="cb3-14" title="14"><span class="kw">data</span> <span class="dt">User</span></a>
-<a class="sourceLine" id="cb3-15" title="15">    <span class="fu">=</span> <span class="dt">Admin</span>  <span class="dt">Integer</span>  <span class="co">-- id of admin</span></a>
-<a class="sourceLine" id="cb3-16" title="16">    <span class="fu">|</span> <span class="dt">Client</span> <span class="dt">Text</span>     <span class="co">-- name of the client</span></a>
+<a class="sourceLine" id="cb3-15" title="15">    <span class="ot">=</span> <span class="dt">Admin</span>  <span class="dt">Integer</span>  <span class="co">-- id of admin</span></a>
+<a class="sourceLine" id="cb3-16" title="16">    <span class="op">|</span> <span class="dt">Client</span> <span class="dt">Text</span>     <span class="co">-- name of the client</span></a>
 <a class="sourceLine" id="cb3-17" title="17">    <span class="kw">deriving</span> (<span class="dt">Show</span>)</a>
 <a class="sourceLine" id="cb3-18" title="18"></a>
-<a class="sourceLine" id="cb3-19" title="19"><span class="kw">newtype</span> <span class="dt">Port</span> <span class="fu">=</span> <span class="dt">Port</span> <span class="dt">Int</span></a>
-<a class="sourceLine" id="cb3-20" title="20"><span class="kw">newtype</span> <span class="dt">Host</span> <span class="fu">=</span> <span class="dt">Host</span> <span class="dt">Text</span></a></code></pre></div>
+<a class="sourceLine" id="cb3-19" title="19"><span class="kw">newtype</span> <span class="dt">Port</span> <span class="ot">=</span> <span class="dt">Port</span> <span class="dt">Int</span></a>
+<a class="sourceLine" id="cb3-20" title="20"><span class="kw">newtype</span> <span class="dt">Host</span> <span class="ot">=</span> <span class="dt">Host</span> <span class="dt">Text</span></a></code></pre></div>
 <p>Using <code>tomland</code> library, you can write bidirectional converters for these types using the following guidelines and helper functions:</p>
 <ol type="1">
 <li>If your fields are some simple basic types like <code>Int</code> or <code>Text</code> you can just use standard codecs like <code>Toml.int</code> and <code>Toml.text</code>.</li>
@@ -131,40 +131,40 @@
 <li><code>tomland</code> separates conversion between Haskell types and TOML values from matching values by keys. Converters between types and values have type <code>TomlBiMap</code> and are named with capital letter started with underscore. Main type for TOML codecs is called <code>TomlCodec</code>. To lift <code>TomlBiMap</code> to <code>TomlCodec</code> you need to use <code>Toml.match</code> function.</li>
 </ol>
 <div class="sourceCode" id="cb4"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb4-1" title="1"><span class="ot">settingsCodec ::</span> <span class="dt">TomlCodec</span> <span class="dt">Settings</span></a>
-<a class="sourceLine" id="cb4-2" title="2">settingsCodec <span class="fu">=</span> <span class="dt">Settings</span></a>
-<a class="sourceLine" id="cb4-3" title="3">    <span class="fu">&lt;$&gt;</span> Toml.diwrap (Toml.int  <span class="st">&quot;server.port&quot;</span>)       <span class="fu">.=</span> settingsPort</a>
-<a class="sourceLine" id="cb4-4" title="4">    <span class="fu">&lt;*&gt;</span> Toml.text              <span class="st">&quot;server.description&quot;</span> <span class="fu">.=</span> settingsDescription</a>
-<a class="sourceLine" id="cb4-5" title="5">    <span class="fu">&lt;*&gt;</span> Toml.arrayOf Toml._Int <span class="st">&quot;server.codes&quot;</span>       <span class="fu">.=</span> settingsCodes</a>
-<a class="sourceLine" id="cb4-6" title="6">    <span class="fu">&lt;*&gt;</span> Toml.table mailCodec   <span class="st">&quot;mail&quot;</span>               <span class="fu">.=</span> settingsMail</a>
-<a class="sourceLine" id="cb4-7" title="7">    <span class="fu">&lt;*&gt;</span> Toml.list  userCodec   <span class="st">&quot;user&quot;</span>               <span class="fu">.=</span> settingsUsers</a>
+<a class="sourceLine" id="cb4-2" title="2">settingsCodec <span class="ot">=</span> <span class="dt">Settings</span></a>
+<a class="sourceLine" id="cb4-3" title="3">    <span class="op">&lt;$&gt;</span> Toml.diwrap (Toml.int  <span class="st">&quot;server.port&quot;</span>)       <span class="op">.=</span> settingsPort</a>
+<a class="sourceLine" id="cb4-4" title="4">    <span class="op">&lt;*&gt;</span> Toml.text              <span class="st">&quot;server.description&quot;</span> <span class="op">.=</span> settingsDescription</a>
+<a class="sourceLine" id="cb4-5" title="5">    <span class="op">&lt;*&gt;</span> Toml.arrayOf Toml._Int <span class="st">&quot;server.codes&quot;</span>       <span class="op">.=</span> settingsCodes</a>
+<a class="sourceLine" id="cb4-6" title="6">    <span class="op">&lt;*&gt;</span> Toml.table mailCodec   <span class="st">&quot;mail&quot;</span>               <span class="op">.=</span> settingsMail</a>
+<a class="sourceLine" id="cb4-7" title="7">    <span class="op">&lt;*&gt;</span> Toml.list  userCodec   <span class="st">&quot;user&quot;</span>               <span class="op">.=</span> settingsUsers</a>
 <a class="sourceLine" id="cb4-8" title="8"></a>
 <a class="sourceLine" id="cb4-9" title="9"><span class="ot">mailCodec ::</span> <span class="dt">TomlCodec</span> <span class="dt">Mail</span></a>
-<a class="sourceLine" id="cb4-10" title="10">mailCodec <span class="fu">=</span> <span class="dt">Mail</span></a>
-<a class="sourceLine" id="cb4-11" title="11">    <span class="fu">&lt;$&gt;</span> Toml.diwrap (Toml.text <span class="st">&quot;host&quot;</span>) <span class="fu">.=</span> mailHost</a>
-<a class="sourceLine" id="cb4-12" title="12">    <span class="fu">&lt;*&gt;</span> Toml.bool <span class="st">&quot;send-if-inactive&quot;</span>   <span class="fu">.=</span> mailSendIfInactive</a>
+<a class="sourceLine" id="cb4-10" title="10">mailCodec <span class="ot">=</span> <span class="dt">Mail</span></a>
+<a class="sourceLine" id="cb4-11" title="11">    <span class="op">&lt;$&gt;</span> Toml.diwrap (Toml.text <span class="st">&quot;host&quot;</span>) <span class="op">.=</span> mailHost</a>
+<a class="sourceLine" id="cb4-12" title="12">    <span class="op">&lt;*&gt;</span> Toml.bool <span class="st">&quot;send-if-inactive&quot;</span>   <span class="op">.=</span> mailSendIfInactive</a>
 <a class="sourceLine" id="cb4-13" title="13"></a>
 <a class="sourceLine" id="cb4-14" title="14"><span class="ot">_Admin ::</span> <span class="dt">TomlBiMap</span> <span class="dt">User</span> <span class="dt">Integer</span></a>
-<a class="sourceLine" id="cb4-15" title="15">_Admin <span class="fu">=</span> Toml.prism <span class="dt">Admin</span> <span class="fu">$</span> \<span class="kw">case</span></a>
+<a class="sourceLine" id="cb4-15" title="15">_Admin <span class="ot">=</span> Toml.prism <span class="dt">Admin</span> <span class="op">$</span> \<span class="kw">case</span></a>
 <a class="sourceLine" id="cb4-16" title="16">    <span class="dt">Admin</span> i <span class="ot">-&gt;</span> <span class="dt">Right</span> i</a>
 <a class="sourceLine" id="cb4-17" title="17">    other   <span class="ot">-&gt;</span> Toml.wrongConstructor <span class="st">&quot;Admin&quot;</span> other</a>
 <a class="sourceLine" id="cb4-18" title="18"></a>
 <a class="sourceLine" id="cb4-19" title="19"><span class="ot">_Client ::</span> <span class="dt">TomlBiMap</span> <span class="dt">User</span> <span class="dt">Text</span></a>
-<a class="sourceLine" id="cb4-20" title="20">_Client <span class="fu">=</span> Toml.prism <span class="dt">Client</span> <span class="fu">$</span> \<span class="kw">case</span></a>
+<a class="sourceLine" id="cb4-20" title="20">_Client <span class="ot">=</span> Toml.prism <span class="dt">Client</span> <span class="op">$</span> \<span class="kw">case</span></a>
 <a class="sourceLine" id="cb4-21" title="21">    <span class="dt">Client</span> n <span class="ot">-&gt;</span> <span class="dt">Right</span> n</a>
 <a class="sourceLine" id="cb4-22" title="22">    other    <span class="ot">-&gt;</span> Toml.wrongConstructor <span class="st">&quot;Client&quot;</span> other</a>
 <a class="sourceLine" id="cb4-23" title="23"></a>
 <a class="sourceLine" id="cb4-24" title="24"><span class="ot">userCodec ::</span> <span class="dt">TomlCodec</span> <span class="dt">User</span></a>
-<a class="sourceLine" id="cb4-25" title="25">userCodec <span class="fu">=</span></a>
-<a class="sourceLine" id="cb4-26" title="26">        Toml.match (_Admin <span class="fu">&gt;&gt;&gt;</span> Toml._Integer) <span class="st">&quot;id&quot;</span></a>
-<a class="sourceLine" id="cb4-27" title="27">    <span class="fu">&lt;|&gt;</span> Toml.match (_Client <span class="fu">&gt;&gt;&gt;</span> Toml._Text) <span class="st">&quot;name&quot;</span></a></code></pre></div>
+<a class="sourceLine" id="cb4-25" title="25">userCodec <span class="ot">=</span></a>
+<a class="sourceLine" id="cb4-26" title="26">        Toml.match (_Admin <span class="op">&gt;&gt;&gt;</span> Toml._Integer) <span class="st">&quot;id&quot;</span></a>
+<a class="sourceLine" id="cb4-27" title="27">    <span class="op">&lt;|&gt;</span> Toml.match (_Client <span class="op">&gt;&gt;&gt;</span> Toml._Text) <span class="st">&quot;name&quot;</span></a></code></pre></div>
 <p>And now we’re ready to parse our TOML and print the result back to see whether everything is okay.</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb5-1" title="1"><span class="ot">main ::</span> <span class="dt">IO</span> ()</a>
-<a class="sourceLine" id="cb5-2" title="2">main <span class="fu">=</span> <span class="kw">do</span></a>
+<a class="sourceLine" id="cb5-2" title="2">main <span class="ot">=</span> <span class="kw">do</span></a>
 <a class="sourceLine" id="cb5-3" title="3">    tomlExample <span class="ot">&lt;-</span> TIO.readFile <span class="st">&quot;examples/readme.toml&quot;</span></a>
-<a class="sourceLine" id="cb5-4" title="4">    <span class="kw">let</span> res <span class="fu">=</span> Toml.decode settingsCodec tomlExample</a>
+<a class="sourceLine" id="cb5-4" title="4">    <span class="kw">let</span> res <span class="ot">=</span> Toml.decode settingsCodec tomlExample</a>
 <a class="sourceLine" id="cb5-5" title="5">    <span class="kw">case</span> res <span class="kw">of</span></a>
 <a class="sourceLine" id="cb5-6" title="6">        <span class="dt">Left</span> err <span class="ot">-&gt;</span> <span class="fu">print</span> err</a>
-<a class="sourceLine" id="cb5-7" title="7">        <span class="dt">Right</span> settings <span class="ot">-&gt;</span> TIO.putStrLn <span class="fu">$</span> Toml.encode settingsCodec settings</a></code></pre></div>
+<a class="sourceLine" id="cb5-7" title="7">        <span class="dt">Right</span> settings <span class="ot">-&gt;</span> TIO.putStrLn <span class="op">$</span> Toml.encode settingsCodec settings</a></code></pre></div>
 <h2 id="benchmarks-and-comparison-with-other-libraries">Benchmarks and comparison with other libraries<a href="#benchmarks-and-comparison-with-other-libraries" class="anchor">🔗</a></h2>
 <p><code>tomland</code> is compared with other libraries. Since it uses 2-step approach with converting text to intermediate AST and only then decoding Haskell type from this AST, benchmarks are also implemented in a way to reflect this difference.</p>
 <table>

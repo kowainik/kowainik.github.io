@@ -94,8 +94,8 @@
 <h2 id="problem">Problem<a href="#problem" class="anchor">🔗</a></h2>
 <p>Consider the following data type:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb1-1" title="1"><span class="kw">data</span> <span class="dt">Value</span></a>
-<a class="sourceLine" id="cb1-2" title="2">    <span class="fu">=</span> <span class="dt">BoolValue</span> <span class="dt">Bool</span></a>
-<a class="sourceLine" id="cb1-3" title="3">    <span class="fu">|</span> <span class="dt">IntValue</span> <span class="dt">Int</span></a></code></pre></div>
+<a class="sourceLine" id="cb1-2" title="2">    <span class="ot">=</span> <span class="dt">BoolValue</span> <span class="dt">Bool</span></a>
+<a class="sourceLine" id="cb1-3" title="3">    <span class="op">|</span> <span class="dt">IntValue</span> <span class="dt">Int</span></a></code></pre></div>
 <p>This is a plain Haskell sum type that represents possible options of parsing the string into a more structured type.</p>
 <blockquote>
 <p><strong>NOTE:</strong> how to parse a string into a <code>Value</code> is out of the scope of this blog post.</p>
@@ -112,14 +112,14 @@
 <p>I’m going to describe in detail, a possible general solution for implementing <code>decodeValues</code> with an explanatory error message.</p>
 <h2 id="naive-solution">Naive solution<a href="#naive-solution" class="anchor">🔗</a></h2>
 <p>Suppose that you have this Haskell data type:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb3-1" title="1"><span class="kw">data</span> <span class="dt">User</span> <span class="fu">=</span> <span class="dt">User</span></a>
+<div class="sourceCode" id="cb3"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb3-1" title="1"><span class="kw">data</span> <span class="dt">User</span> <span class="ot">=</span> <span class="dt">User</span></a>
 <a class="sourceLine" id="cb3-2" title="2">    {<span class="ot"> userAge         ::</span> <span class="dt">Int</span></a>
 <a class="sourceLine" id="cb3-3" title="3">    ,<span class="ot"> userIsHaskeller ::</span> <span class="dt">Bool</span></a>
 <a class="sourceLine" id="cb3-4" title="4">    }</a></code></pre></div>
 <p>It’s quite easy to implement a naive decoder from <code>[Value]</code> to <code>User</code> with a poor error message:</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb4-1" title="1"><span class="ot">decodeValues ::</span> [<span class="dt">Value</span>] <span class="ot">-&gt;</span> <span class="dt">Maybe</span> <span class="dt">User</span></a>
-<a class="sourceLine" id="cb4-2" title="2">decodeValues [<span class="dt">IntValue</span> age, <span class="dt">BoolValue</span> hask] <span class="fu">=</span> <span class="dt">Just</span> <span class="fu">$</span> <span class="dt">User</span> age hask</a>
-<a class="sourceLine" id="cb4-3" title="3">decodeValues _ <span class="fu">=</span> <span class="dt">Nothing</span></a></code></pre></div>
+<a class="sourceLine" id="cb4-2" title="2">decodeValues [<span class="dt">IntValue</span> age, <span class="dt">BoolValue</span> hask] <span class="ot">=</span> <span class="dt">Just</span> <span class="op">$</span> <span class="dt">User</span> age hask</a>
+<a class="sourceLine" id="cb4-3" title="3">decodeValues _ <span class="ot">=</span> <span class="dt">Nothing</span></a></code></pre></div>
 <p>This function is elementary and only uses basic pattern matching to convert a list of unstructured data to a custom Haskell data type. Sadly, the error message is completely non-informative. Ideally, <code>Maybe</code> should only be used when your function can fail because of a single reason. However, in our case there are multiple possible failure scenarios for the <code>decodeValues</code> function:</p>
 <ol type="1">
 <li>Given list is too small.</li>
@@ -133,18 +133,18 @@
 <p>The following sections of the blog post show a general solution to this problem with fine-grained error messages.</p>
 <h2 id="parsing-a-single-value">Parsing a single value<a href="#parsing-a-single-value" class="anchor">🔗</a></h2>
 <p>First of all, like any other good Haskeller, I am going to decompose this huge problem into a few smaller ones. In the previous section, we started from decoding whole list of values, but let’s now learn how to decode a single value. Before that, however, we need to think about the data type of the error message. To have a clear understanding of what’s wrong with a single value, we need to know what the received value was and what we expected it to be:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb5-1" title="1"><span class="kw">data</span> <span class="dt">SingleValueError</span> <span class="fu">=</span> <span class="dt">SingleValueError</span></a>
+<div class="sourceCode" id="cb5"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb5-1" title="1"><span class="kw">data</span> <span class="dt">SingleValueError</span> <span class="ot">=</span> <span class="dt">SingleValueError</span></a>
 <a class="sourceLine" id="cb5-2" title="2">    {<span class="ot"> singleValueErrorExpected ::</span> <span class="dt">Text</span></a>
 <a class="sourceLine" id="cb5-3" title="3">    ,<span class="ot"> singleValueErrorActual   ::</span> <span class="dt">Value</span></a>
 <a class="sourceLine" id="cb5-4" title="4">    }</a></code></pre></div>
 <p>With that, we can implement functions for decoding a single <code>Value</code>:</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb6-1" title="1"><span class="ot">valToBool ::</span> <span class="dt">Value</span> <span class="ot">-&gt;</span> <span class="dt">Either</span> <span class="dt">SingleValueError</span> <span class="dt">Bool</span></a>
-<a class="sourceLine" id="cb6-2" title="2">valToBool (<span class="dt">BoolValue</span> b) <span class="fu">=</span> <span class="dt">Right</span> b</a>
-<a class="sourceLine" id="cb6-3" title="3">valToBool v <span class="fu">=</span> <span class="dt">Left</span> <span class="fu">$</span> <span class="dt">SingleValueError</span> “<span class="dt">Bool</span>” v</a>
+<a class="sourceLine" id="cb6-2" title="2">valToBool (<span class="dt">BoolValue</span> b) <span class="ot">=</span> <span class="dt">Right</span> b</a>
+<a class="sourceLine" id="cb6-3" title="3">valToBool v <span class="ot">=</span> <span class="dt">Left</span> <span class="op">$</span> <span class="dt">SingleValueError</span> “<span class="dt">Bool</span>” v</a>
 <a class="sourceLine" id="cb6-4" title="4"></a>
 <a class="sourceLine" id="cb6-5" title="5"><span class="ot">valToInt ::</span> <span class="dt">Value</span> <span class="ot">-&gt;</span> <span class="dt">Either</span> <span class="dt">SingleValueError</span> <span class="dt">Int</span></a>
-<a class="sourceLine" id="cb6-6" title="6">valToInt (<span class="dt">IntValue</span> i) <span class="fu">=</span> <span class="dt">Right</span> i</a>
-<a class="sourceLine" id="cb6-7" title="7">valToInt v <span class="fu">=</span> <span class="dt">Left</span> <span class="fu">$</span> <span class="dt">SingleValueError</span> “<span class="dt">Int</span>” v</a></code></pre></div>
+<a class="sourceLine" id="cb6-6" title="6">valToInt (<span class="dt">IntValue</span> i) <span class="ot">=</span> <span class="dt">Right</span> i</a>
+<a class="sourceLine" id="cb6-7" title="7">valToInt v <span class="ot">=</span> <span class="dt">Left</span> <span class="op">$</span> <span class="dt">SingleValueError</span> “<span class="dt">Int</span>” v</a></code></pre></div>
 <blockquote>
 <p><strong>NOTE:</strong> we can remove some code duplication already at this stage! If you have a function like <code>typeName :: Typeable a =&gt; Text</code> (see <a href="http://hackage.haskell.org/package/relude-0.4.0/docs/Relude-Extra-Type.html#v:typeName">the implementation here</a>) and you derive prisms for the <code>Value</code> data type, you can implement a single generic <code>fromValue</code> function. But for the sake of simplicity, we won’t mind a bit of boilerplate code.</p>
 </blockquote>
@@ -152,9 +152,9 @@
 <h2 id="parsing-a-list-of-values-state">Parsing a list of values: State<a href="#parsing-a-list-of-values-state" class="anchor">🔗</a></h2>
 <p>Just like in the previous section, let’s start with creating the data type for our error messages:</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb7-1" title="1"><span class="kw">data</span> <span class="dt">ListValueError</span></a>
-<a class="sourceLine" id="cb7-2" title="2">    <span class="fu">=</span> <span class="dt">UnexpectedEndOfList</span></a>
-<a class="sourceLine" id="cb7-3" title="3">    <span class="fu">|</span> <span class="dt">ExpectedEndOfList</span> (<span class="dt">NonEmpty</span> <span class="dt">Value</span>)</a>
-<a class="sourceLine" id="cb7-4" title="4">    <span class="fu">|</span> <span class="dt">WrongValue</span> <span class="dt">SingleValueError</span></a></code></pre></div>
+<a class="sourceLine" id="cb7-2" title="2">    <span class="ot">=</span> <span class="dt">UnexpectedEndOfList</span></a>
+<a class="sourceLine" id="cb7-3" title="3">    <span class="op">|</span> <span class="dt">ExpectedEndOfList</span> (<span class="dt">NonEmpty</span> <span class="dt">Value</span>)</a>
+<a class="sourceLine" id="cb7-4" title="4">    <span class="op">|</span> <span class="dt">WrongValue</span> <span class="dt">SingleValueError</span></a></code></pre></div>
 <p>Let’s look closer at the constructors of this error messages data type:</p>
 <ol type="1">
 <li><code>UnexpectedEndOfList</code>: this error means that the list was too short.</li>
@@ -163,9 +163,9 @@
 </ol>
 <p>The idea of using the <a href="https://hackage.haskell.org/package/transformers-0.5.5.0/docs/Control-Monad-Trans-State-Strict.html"><code>State</code> monad</a> comes to mind after noticing the following: we can store the list of values in the state and in our stateful action we can decode the current head of the list and put the remaining list back to the state. Just as in basic <code>State</code> monad tutorials where a stack data structure is used as an example.</p>
 <p>So, initially we should create the data type for our state:</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb8-1" title="1"><span class="kw">newtype</span> <span class="dt">Values</span> <span class="fu">=</span> <span class="dt">Values</span> {<span class="ot"> unValues ::</span> [<span class="dt">Value</span>] }</a></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb8-1" title="1"><span class="kw">newtype</span> <span class="dt">Values</span> <span class="ot">=</span> <span class="dt">Values</span> {<span class="ot"> unValues ::</span> [<span class="dt">Value</span>] }</a></code></pre></div>
 <p>That was easy. Now we need to specialize the <code>State</code> monad with our type and give it some meaningful name. We can use type aliases but let’s be good Haskellers and create the <code>newtype</code> as a wrapper around the <code>State</code> monad:</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb9-1" title="1"><span class="kw">newtype</span> <span class="dt">Decoder</span> a <span class="fu">=</span> <span class="dt">Decoder</span></a>
+<div class="sourceCode" id="cb9"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb9-1" title="1"><span class="kw">newtype</span> <span class="dt">Decoder</span> a <span class="ot">=</span> <span class="dt">Decoder</span></a>
 <a class="sourceLine" id="cb9-2" title="2">    {<span class="ot"> runDecoder ::</span> <span class="dt">State</span> <span class="dt">Values</span> a</a>
 <a class="sourceLine" id="cb9-3" title="3">    } <span class="kw">deriving</span> (<span class="dt">Functor</span>, <span class="dt">Applicative</span>, <span class="dt">Monad</span>, <span class="dt">MonadState</span> <span class="dt">Values</span>)</a></code></pre></div>
 <p>Before writing the code itself, it makes sense to describe the logic behind the single value stateful decoder upfront:</p>
@@ -181,33 +181,33 @@
 <div class="sourceCode" id="cb10"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb10-1" title="1">value</a>
 <a class="sourceLine" id="cb10-2" title="2"><span class="ot">    ::</span> (<span class="dt">Value</span> <span class="ot">-&gt;</span> <span class="dt">Either</span> <span class="dt">SingleValueError</span> a)</a>
 <a class="sourceLine" id="cb10-3" title="3">    <span class="ot">-&gt;</span> <span class="dt">Decoder</span> (<span class="dt">Either</span> <span class="dt">ListValueError</span> a)</a>
-<a class="sourceLine" id="cb10-4" title="4">value valDecoder <span class="fu">=</span> gets unValues <span class="fu">&gt;&gt;=</span> \<span class="kw">case</span></a>
-<a class="sourceLine" id="cb10-5" title="5">    [] <span class="ot">-&gt;</span> <span class="fu">pure</span> <span class="fu">$</span> <span class="dt">Left</span> <span class="dt">UnexpectedEndOfList</span></a>
-<a class="sourceLine" id="cb10-6" title="6">    val<span class="fu">:</span>vals <span class="ot">-&gt;</span> <span class="kw">case</span> valDecoder val <span class="kw">of</span></a>
-<a class="sourceLine" id="cb10-7" title="7">        <span class="dt">Left</span> err <span class="ot">-&gt;</span> <span class="fu">pure</span> <span class="fu">$</span> <span class="dt">Left</span> <span class="dt">WrongValue</span> err</a>
-<a class="sourceLine" id="cb10-8" title="8">        <span class="dt">Right</span> a  <span class="ot">-&gt;</span> <span class="dt">Right</span> a <span class="fu">&lt;$</span> put (<span class="dt">Values</span> vals)</a></code></pre></div>
+<a class="sourceLine" id="cb10-4" title="4">value valDecoder <span class="ot">=</span> gets unValues <span class="op">&gt;&gt;=</span> \<span class="kw">case</span></a>
+<a class="sourceLine" id="cb10-5" title="5">    [] <span class="ot">-&gt;</span> <span class="fu">pure</span> <span class="op">$</span> <span class="dt">Left</span> <span class="dt">UnexpectedEndOfList</span></a>
+<a class="sourceLine" id="cb10-6" title="6">    val<span class="op">:</span>vals <span class="ot">-&gt;</span> <span class="kw">case</span> valDecoder val <span class="kw">of</span></a>
+<a class="sourceLine" id="cb10-7" title="7">        <span class="dt">Left</span> err <span class="ot">-&gt;</span> <span class="fu">pure</span> <span class="op">$</span> <span class="dt">Left</span> <span class="dt">WrongValue</span> err</a>
+<a class="sourceLine" id="cb10-8" title="8">        <span class="dt">Right</span> a  <span class="ot">-&gt;</span> <span class="dt">Right</span> a <span class="op">&lt;$</span> put (<span class="dt">Values</span> vals)</a></code></pre></div>
 <blockquote>
 <p><strong>Exercise:</strong> in our decoder for the field we don’t report the position of the <code>WrongField</code> error. However, it’s quite easy to patch the decoder to take this into consideration.</p>
 </blockquote>
 <p>We’re using <code>Either ListValueError</code> as the return type of our <code>value</code> decoder to report errors. But because of that, it’s not easy to compose different <code>value</code> decoders. This is how <code>Decoder</code> for <code>User</code> might look like:</p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb11-1" title="1"><span class="ot">user ::</span> <span class="dt">Decoder</span> (<span class="dt">Either</span> <span class="dt">ListValueError</span> <span class="dt">User</span>)</a>
-<a class="sourceLine" id="cb11-2" title="2">user <span class="fu">=</span> value valToInt <span class="fu">&gt;&gt;=</span> \<span class="kw">case</span></a>
-<a class="sourceLine" id="cb11-3" title="3">    <span class="dt">Left</span> err <span class="ot">-&gt;</span> <span class="fu">pure</span> <span class="fu">$</span> <span class="dt">Left</span> err</a>
-<a class="sourceLine" id="cb11-4" title="4">    <span class="dt">Right</span> age <span class="ot">-&gt;</span> value valToBool <span class="fu">&gt;&gt;=</span> \<span class="kw">case</span></a>
-<a class="sourceLine" id="cb11-5" title="5">        <span class="dt">Left</span> err <span class="ot">-&gt;</span> <span class="fu">pure</span> <span class="fu">$</span> <span class="dt">Left</span> err</a>
-<a class="sourceLine" id="cb11-6" title="6">        <span class="dt">Right</span> hask <span class="ot">-&gt;</span> <span class="fu">pure</span> <span class="fu">$</span> <span class="dt">Right</span> <span class="fu">$</span> <span class="dt">User</span> age hask</a></code></pre></div>
+<a class="sourceLine" id="cb11-2" title="2">user <span class="ot">=</span> value valToInt <span class="op">&gt;&gt;=</span> \<span class="kw">case</span></a>
+<a class="sourceLine" id="cb11-3" title="3">    <span class="dt">Left</span> err <span class="ot">-&gt;</span> <span class="fu">pure</span> <span class="op">$</span> <span class="dt">Left</span> err</a>
+<a class="sourceLine" id="cb11-4" title="4">    <span class="dt">Right</span> age <span class="ot">-&gt;</span> value valToBool <span class="op">&gt;&gt;=</span> \<span class="kw">case</span></a>
+<a class="sourceLine" id="cb11-5" title="5">        <span class="dt">Left</span> err <span class="ot">-&gt;</span> <span class="fu">pure</span> <span class="op">$</span> <span class="dt">Left</span> err</a>
+<a class="sourceLine" id="cb11-6" title="6">        <span class="dt">Right</span> hask <span class="ot">-&gt;</span> <span class="fu">pure</span> <span class="op">$</span> <span class="dt">Right</span> <span class="op">$</span> <span class="dt">User</span> age hask</a></code></pre></div>
 <p>In the last section, we are going to solve this particular problem: better composability of the value decoders.</p>
 <h2 id="parsing-a-list-of-values-statet-either">Parsing a list of values: StateT + Either<a href="#parsing-a-list-of-values-statet-either" class="anchor">🔗</a></h2>
 <p>You may notice that the pattern matching we performed over <code>Either</code> looks familiar. Indeed, it is the <code>Monad</code> instance for <code>Either</code>. We couldn’t use it, because we were already using the <code>State</code> monad. This is when monad transformers come in to save the day! In simple words, with monad transformers we can combine monadic effects of multiple monads so the <code>&gt;&gt;=</code> operator performs actions for every monad in our monad transformer state.</p>
 <p>We want to combine <code>State</code> and <code>Either</code> effects, but in this particular case, we should be cautious because the <code>State</code> monad transformer and the <code>Either</code> monad transformer are not commutative. Which means that <code>StateT s Either</code> is not the same as <code>EitherT (State s)</code>. Let’s look at this closely:</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb12-1" title="1"><span class="dt">StateT</span> s m a <span class="fu">~</span> s <span class="ot">-&gt;</span> m (a, s)</a>
-<a class="sourceLine" id="cb12-2" title="2"><span class="dt">EitherT</span> e m a <span class="fu">~</span> m (<span class="dt">Either</span> e a)</a>
+<div class="sourceCode" id="cb12"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb12-1" title="1"><span class="dt">StateT</span> s m a <span class="op">~</span> s <span class="ot">-&gt;</span> m (a, s)</a>
+<a class="sourceLine" id="cb12-2" title="2"><span class="dt">EitherT</span> e m a <span class="op">~</span> m (<span class="dt">Either</span> e a)</a>
 <a class="sourceLine" id="cb12-3" title="3"></a>
-<a class="sourceLine" id="cb12-4" title="4"><span class="dv">1</span><span class="fu">.</span> <span class="dt">StateT</span>  s (<span class="dt">Either</span> e) a <span class="fu">~</span>                        s <span class="ot">-&gt;</span> <span class="dt">Either</span> e (a, s)</a>
-<a class="sourceLine" id="cb12-5" title="5"><span class="dv">2</span><span class="fu">.</span> <span class="dt">EitherT</span> e (<span class="dt">State</span>  s) a <span class="fu">~</span> <span class="dt">State</span> s (<span class="dt">Either</span> e a) <span class="fu">~</span> s <span class="ot">-&gt;</span> (<span class="dt">Either</span> e a, s)</a></code></pre></div>
+<a class="sourceLine" id="cb12-4" title="4"><span class="dv">1</span><span class="op">.</span> <span class="dt">StateT</span>  s (<span class="dt">Either</span> e) a <span class="op">~</span>                        s <span class="ot">-&gt;</span> <span class="dt">Either</span> e (a, s)</a>
+<a class="sourceLine" id="cb12-5" title="5"><span class="dv">2</span><span class="op">.</span> <span class="dt">EitherT</span> e (<span class="dt">State</span>  s) a <span class="op">~</span> <span class="dt">State</span> s (<span class="dt">Either</span> e a) <span class="op">~</span> s <span class="ot">-&gt;</span> (<span class="dt">Either</span> e a, s)</a></code></pre></div>
 <p>Today, let’s pick the first option. The reason for this is to stop decoding as soon as we face an error. Only after we’ve managed to decode the raw values to our type successfully, we can inspect the remaining list of values in case we need to produce the <code>ExpectedEndOfList</code> error message.</p>
 <p>Let’s refactor our existing approach to this new version, and start with patching the type of the <code>Decoder</code> monad:</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb13-1" title="1"><span class="kw">newtype</span> <span class="dt">Decoder</span> a <span class="fu">=</span> <span class="dt">Decoder</span></a>
+<div class="sourceCode" id="cb13"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb13-1" title="1"><span class="kw">newtype</span> <span class="dt">Decoder</span> a <span class="ot">=</span> <span class="dt">Decoder</span></a>
 <a class="sourceLine" id="cb13-2" title="2">    {<span class="ot"> runDecoder ::</span> <span class="dt">StateT</span> <span class="dt">Values</span> (<span class="dt">Either</span> <span class="dt">ListValueError</span>) a</a>
 <a class="sourceLine" id="cb13-3" title="3">    } <span class="kw">deriving</span> ( <span class="dt">Functor</span>, <span class="dt">Applicative</span>, <span class="dt">Monad</span></a>
 <a class="sourceLine" id="cb13-4" title="4">               , <span class="dt">MonadState</span> <span class="dt">Values</span>, <span class="dt">MonadError</span> <span class="dt">ListValueError</span>)</a></code></pre></div>
@@ -215,34 +215,34 @@
 <div class="sourceCode" id="cb14"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb14-1" title="1">value</a>
 <a class="sourceLine" id="cb14-2" title="2"><span class="ot">    ::</span> (<span class="dt">Value</span> <span class="ot">-&gt;</span> <span class="dt">Either</span> <span class="dt">SingleValueError</span> a)</a>
 <a class="sourceLine" id="cb14-3" title="3">    <span class="ot">-&gt;</span> <span class="dt">Decoder</span> a</a>
-<a class="sourceLine" id="cb14-4" title="4">value valDecoder <span class="fu">=</span> gets unValues <span class="fu">&gt;&gt;=</span> \<span class="kw">case</span></a>
+<a class="sourceLine" id="cb14-4" title="4">value valDecoder <span class="ot">=</span> gets unValues <span class="op">&gt;&gt;=</span> \<span class="kw">case</span></a>
 <a class="sourceLine" id="cb14-5" title="5">    [] <span class="ot">-&gt;</span> throwError <span class="dt">UnexpectedEndOfList</span></a>
-<a class="sourceLine" id="cb14-6" title="6">    val<span class="fu">:</span>vals <span class="ot">-&gt;</span> <span class="kw">case</span> valDecoder val <span class="kw">of</span></a>
-<a class="sourceLine" id="cb14-7" title="7">        <span class="dt">Left</span> err <span class="ot">-&gt;</span> throwError <span class="fu">$</span> <span class="dt">WrongValue</span> err</a>
-<a class="sourceLine" id="cb14-8" title="8">        <span class="dt">Right</span> a  <span class="ot">-&gt;</span> a <span class="fu">&lt;$</span> put (<span class="dt">Values</span> vals)</a></code></pre></div>
+<a class="sourceLine" id="cb14-6" title="6">    val<span class="op">:</span>vals <span class="ot">-&gt;</span> <span class="kw">case</span> valDecoder val <span class="kw">of</span></a>
+<a class="sourceLine" id="cb14-7" title="7">        <span class="dt">Left</span> err <span class="ot">-&gt;</span> throwError <span class="op">$</span> <span class="dt">WrongValue</span> err</a>
+<a class="sourceLine" id="cb14-8" title="8">        <span class="dt">Right</span> a  <span class="ot">-&gt;</span> a <span class="op">&lt;$</span> put (<span class="dt">Values</span> vals)</a></code></pre></div>
 <p>Note how the code became much cleaner! Now it’s quite easy to implement the decoder for the <code>User</code> data type:</p>
 <div class="sourceCode" id="cb15"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb15-1" title="1"><span class="ot">user ::</span> <span class="dt">Decoder</span> <span class="dt">User</span></a>
-<a class="sourceLine" id="cb15-2" title="2">user <span class="fu">=</span> <span class="dt">User</span> <span class="fu">&lt;$&gt;</span> value valToInt <span class="fu">&lt;*&gt;</span> value valToBool</a></code></pre></div>
+<a class="sourceLine" id="cb15-2" title="2">user <span class="ot">=</span> <span class="dt">User</span> <span class="op">&lt;$&gt;</span> value valToInt <span class="op">&lt;*&gt;</span> value valToBool</a></code></pre></div>
 <p>And it’s also straightforward to decode the list of values with the given <code>Decoder</code>:</p>
 <div class="sourceCode" id="cb16"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb16-1" title="1"><span class="ot">decodeValues ::</span> [<span class="dt">Value</span>] <span class="ot">-&gt;</span> <span class="dt">Decoder</span> a <span class="ot">-&gt;</span> <span class="dt">Either</span> <span class="dt">ListValueError</span> a</a>
-<a class="sourceLine" id="cb16-2" title="2">decodeValues values decoder <span class="fu">=</span> <span class="kw">do</span>  <span class="co">-- do-notation for the Either monad</span></a>
+<a class="sourceLine" id="cb16-2" title="2">decodeValues values decoder <span class="ot">=</span> <span class="kw">do</span>  <span class="co">-- do-notation for the Either monad</span></a>
 <a class="sourceLine" id="cb16-3" title="3">    (a, finalState) <span class="ot">&lt;-</span> runStateT (runDecoder decoder) (<span class="dt">Values</span> values)</a>
 <a class="sourceLine" id="cb16-4" title="4">    <span class="kw">case</span> unValues finalState <span class="kw">of</span></a>
 <a class="sourceLine" id="cb16-5" title="5">        []       <span class="ot">-&gt;</span> <span class="fu">pure</span> a</a>
-<a class="sourceLine" id="cb16-6" title="6">        val<span class="fu">:</span>vals <span class="ot">-&gt;</span> <span class="dt">Left</span> <span class="fu">$</span> <span class="dt">ExpectedEndOfList</span> (val <span class="fu">:|</span> vals)</a></code></pre></div>
+<a class="sourceLine" id="cb16-6" title="6">        val<span class="op">:</span>vals <span class="ot">-&gt;</span> <span class="dt">Left</span> <span class="op">$</span> <span class="dt">ExpectedEndOfList</span> (val <span class="op">:|</span> vals)</a></code></pre></div>
 <p>And it works like a charm:</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb17-1" title="1">ghci<span class="fu">&gt;</span> decodeValues [] user</a>
+<div class="sourceCode" id="cb17"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb17-1" title="1">ghci<span class="op">&gt;</span> decodeValues [] user</a>
 <a class="sourceLine" id="cb17-2" title="2"><span class="dt">Left</span> <span class="dt">UnexpectedEndOfList</span></a>
 <a class="sourceLine" id="cb17-3" title="3"></a>
-<a class="sourceLine" id="cb17-4" title="4">ghci<span class="fu">&gt;</span> decodeValues [<span class="dt">IntValue</span> <span class="dv">42</span>, <span class="dt">BoolValue</span> <span class="dt">True</span>] user</a>
-<a class="sourceLine" id="cb17-5" title="5"><span class="dt">Right</span> (<span class="dt">User</span> {userAge <span class="fu">=</span> <span class="dv">42</span>, userIsHaskeller <span class="fu">=</span> <span class="dt">True</span>})</a>
+<a class="sourceLine" id="cb17-4" title="4">ghci<span class="op">&gt;</span> decodeValues [<span class="dt">IntValue</span> <span class="dv">42</span>, <span class="dt">BoolValue</span> <span class="dt">True</span>] user</a>
+<a class="sourceLine" id="cb17-5" title="5"><span class="dt">Right</span> (<span class="dt">User</span> {userAge <span class="ot">=</span> <span class="dv">42</span>, userIsHaskeller <span class="ot">=</span> <span class="dt">True</span>})</a>
 <a class="sourceLine" id="cb17-6" title="6"></a>
-<a class="sourceLine" id="cb17-7" title="7">ghci<span class="fu">&gt;</span> decodeValues [<span class="dt">BoolValue</span> <span class="dt">True</span>, <span class="dt">IntValue</span> <span class="dv">42</span>]  user</a>
+<a class="sourceLine" id="cb17-7" title="7">ghci<span class="op">&gt;</span> decodeValues [<span class="dt">BoolValue</span> <span class="dt">True</span>, <span class="dt">IntValue</span> <span class="dv">42</span>]  user</a>
 <a class="sourceLine" id="cb17-8" title="8"><span class="dt">Left</span> (<span class="dt">WrongValue</span> (<span class="dt">SingleValueError</span></a>
-<a class="sourceLine" id="cb17-9" title="9">    {valueErrorExpected <span class="fu">=</span> <span class="st">&quot;Int&quot;</span>, valueErrorActual <span class="fu">=</span> <span class="dt">BoolValue</span> <span class="dt">True</span>}))</a>
+<a class="sourceLine" id="cb17-9" title="9">    {valueErrorExpected <span class="ot">=</span> <span class="st">&quot;Int&quot;</span>, valueErrorActual <span class="ot">=</span> <span class="dt">BoolValue</span> <span class="dt">True</span>}))</a>
 <a class="sourceLine" id="cb17-10" title="10"></a>
-<a class="sourceLine" id="cb17-11" title="11">ghci<span class="fu">&gt;</span> decodeValues [<span class="dt">IntValue</span> <span class="dv">42</span>, <span class="dt">BoolValue</span> <span class="dt">True</span>, <span class="dt">BoolValue</span> <span class="dt">False</span>] user</a>
-<a class="sourceLine" id="cb17-12" title="12"><span class="dt">Left</span> (<span class="dt">ExpectedEndOfList</span> (<span class="dt">BoolValue</span> <span class="dt">False</span> <span class="fu">:|</span> []))</a></code></pre></div>
+<a class="sourceLine" id="cb17-11" title="11">ghci<span class="op">&gt;</span> decodeValues [<span class="dt">IntValue</span> <span class="dv">42</span>, <span class="dt">BoolValue</span> <span class="dt">True</span>, <span class="dt">BoolValue</span> <span class="dt">False</span>] user</a>
+<a class="sourceLine" id="cb17-12" title="12"><span class="dt">Left</span> (<span class="dt">ExpectedEndOfList</span> (<span class="dt">BoolValue</span> <span class="dt">False</span> <span class="op">:|</span> []))</a></code></pre></div>
 <blockquote>
 <p><strong>NOTE:</strong> In this blog post I’ve used a function-based approach for decoders. However, it’s also possible to use a typeclasses-based approach to avoid passing explicitly value conversion function for value decoder and <code>Decoder</code> action to <code>decodeValues</code> function.</p>
 </blockquote>

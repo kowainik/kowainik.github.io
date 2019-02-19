@@ -138,48 +138,48 @@
 <p>You can wonder, why we are not using <code>Haskell</code> for such purposes (though we love it so much ♥). The answer is that we don’t need <code>IO</code> capabilities for our problem; totality and safety of Dhall are enough here. Changing the configuration in Haskell requires to recompile whole program before generating config, but with Dhall there’s no such extra step. Not to mention the very nice string interpolation that Dhall has. Also, we would like to learn about new technologies, and this seems like an excellent opportunity to dive into Dhall.</p>
 <h2 id="implementation">Implementation<a href="#implementation" class="anchor">🔗</a></h2>
 <p>Basically, HLint file is just a list of different kind of rules. List in Dhall should consist of the elements of the same type (because Dhall is the typed configuration language), but as you’ve seen we need to use <code>warn</code>, <code>ignore</code>, <code>hint</code> and other rules. To unify different rule types with the same type we can create sum type in Dhall. Here how you do it (this is the <a href="https://github.com/kowainik/relude/blob/master/hlint/Rule.dhall"><code>hlint/Rule.dhall</code></a> file):</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb6-1" title="1"><span class="fu">&lt;</span> <span class="dt">Arguments</span> <span class="fu">:</span></a>
-<a class="sourceLine" id="cb6-2" title="2">    { arguments <span class="fu">:</span> <span class="dt">List</span> <span class="dt">Text</span> }</a>
-<a class="sourceLine" id="cb6-3" title="3"><span class="fu">|</span> <span class="dt">Ignore</span> <span class="fu">:</span></a>
-<a class="sourceLine" id="cb6-4" title="4">    { ignore <span class="fu">:</span> {name <span class="fu">:</span> <span class="dt">Text</span>} }</a>
-<a class="sourceLine" id="cb6-5" title="5"><span class="fu">|</span> <span class="dt">Warn</span> <span class="fu">:</span></a>
-<a class="sourceLine" id="cb6-6" title="6">    { warn <span class="fu">:</span></a>
-<a class="sourceLine" id="cb6-7" title="7">        { name <span class="fu">:</span> <span class="dt">Optional</span> <span class="dt">Text</span></a>
-<a class="sourceLine" id="cb6-8" title="8">        , lhs  <span class="fu">:</span> <span class="dt">Text</span></a>
-<a class="sourceLine" id="cb6-9" title="9">        , rhs  <span class="fu">:</span> <span class="dt">Text</span></a>
-<a class="sourceLine" id="cb6-10" title="10">        , note <span class="fu">:</span> <span class="dt">Optional</span> <span class="dt">Text</span></a>
+<div class="sourceCode" id="cb6"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb6-1" title="1"><span class="op">&lt;</span> <span class="dt">Arguments</span> <span class="op">:</span></a>
+<a class="sourceLine" id="cb6-2" title="2">    { arguments <span class="op">:</span> <span class="dt">List</span> <span class="dt">Text</span> }</a>
+<a class="sourceLine" id="cb6-3" title="3"><span class="op">|</span> <span class="dt">Ignore</span> <span class="op">:</span></a>
+<a class="sourceLine" id="cb6-4" title="4">    { ignore <span class="op">:</span> {name <span class="op">:</span> <span class="dt">Text</span>} }</a>
+<a class="sourceLine" id="cb6-5" title="5"><span class="op">|</span> <span class="dt">Warn</span> <span class="op">:</span></a>
+<a class="sourceLine" id="cb6-6" title="6">    { warn <span class="op">:</span></a>
+<a class="sourceLine" id="cb6-7" title="7">        { name <span class="op">:</span> <span class="dt">Optional</span> <span class="dt">Text</span></a>
+<a class="sourceLine" id="cb6-8" title="8">        , lhs  <span class="op">:</span> <span class="dt">Text</span></a>
+<a class="sourceLine" id="cb6-9" title="9">        , rhs  <span class="op">:</span> <span class="dt">Text</span></a>
+<a class="sourceLine" id="cb6-10" title="10">        , note <span class="op">:</span> <span class="dt">Optional</span> <span class="dt">Text</span></a>
 <a class="sourceLine" id="cb6-11" title="11">        }</a>
 <a class="sourceLine" id="cb6-12" title="12">    }</a>
-<a class="sourceLine" id="cb6-13" title="13"><span class="fu">|</span> <span class="dt">Hint</span> <span class="fu">:</span></a>
-<a class="sourceLine" id="cb6-14" title="14">    { hint <span class="fu">:</span></a>
-<a class="sourceLine" id="cb6-15" title="15">        { lhs  <span class="fu">:</span> <span class="dt">Text</span></a>
-<a class="sourceLine" id="cb6-16" title="16">        , rhs  <span class="fu">:</span> <span class="dt">Text</span></a>
-<a class="sourceLine" id="cb6-17" title="17">        , note <span class="fu">:</span> <span class="dt">Optional</span> <span class="dt">Text</span></a>
+<a class="sourceLine" id="cb6-13" title="13"><span class="op">|</span> <span class="dt">Hint</span> <span class="op">:</span></a>
+<a class="sourceLine" id="cb6-14" title="14">    { hint <span class="op">:</span></a>
+<a class="sourceLine" id="cb6-15" title="15">        { lhs  <span class="op">:</span> <span class="dt">Text</span></a>
+<a class="sourceLine" id="cb6-16" title="16">        , rhs  <span class="op">:</span> <span class="dt">Text</span></a>
+<a class="sourceLine" id="cb6-17" title="17">        , note <span class="op">:</span> <span class="dt">Optional</span> <span class="dt">Text</span></a>
 <a class="sourceLine" id="cb6-18" title="18">        }</a>
 <a class="sourceLine" id="cb6-19" title="19">    }</a>
-<a class="sourceLine" id="cb6-20" title="20"><span class="fu">&gt;</span></a></code></pre></div>
+<a class="sourceLine" id="cb6-20" title="20"><span class="op">&gt;</span></a></code></pre></div>
 <p>This type might look like this in <code>Haskell</code>:</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb7-1" title="1"><span class="kw">data</span> <span class="dt">Rule</span></a>
-<a class="sourceLine" id="cb7-2" title="2">    <span class="fu">=</span> <span class="dt">RuleArguments</span> <span class="dt">Arguments</span></a>
-<a class="sourceLine" id="cb7-3" title="3">    <span class="fu">|</span> <span class="dt">RuleIgnore</span> <span class="dt">Ignore</span></a>
-<a class="sourceLine" id="cb7-4" title="4">    <span class="fu">|</span> <span class="dt">RuleWarn</span> <span class="dt">Warn</span></a>
-<a class="sourceLine" id="cb7-5" title="5">    <span class="fu">|</span> <span class="dt">RuleHint</span> <span class="dt">Hint</span></a>
+<a class="sourceLine" id="cb7-2" title="2">    <span class="ot">=</span> <span class="dt">RuleArguments</span> <span class="dt">Arguments</span></a>
+<a class="sourceLine" id="cb7-3" title="3">    <span class="op">|</span> <span class="dt">RuleIgnore</span> <span class="dt">Ignore</span></a>
+<a class="sourceLine" id="cb7-4" title="4">    <span class="op">|</span> <span class="dt">RuleWarn</span> <span class="dt">Warn</span></a>
+<a class="sourceLine" id="cb7-5" title="5">    <span class="op">|</span> <span class="dt">RuleHint</span> <span class="dt">Hint</span></a>
 <a class="sourceLine" id="cb7-6" title="6"></a>
-<a class="sourceLine" id="cb7-7" title="7"><span class="kw">newtype</span> <span class="dt">Arguments</span> <span class="fu">=</span> <span class="dt">Args</span> {<span class="ot"> arguments ::</span> [<span class="dt">Text</span>] }</a>
+<a class="sourceLine" id="cb7-7" title="7"><span class="kw">newtype</span> <span class="dt">Arguments</span> <span class="ot">=</span> <span class="dt">Args</span> {<span class="ot"> arguments ::</span> [<span class="dt">Text</span>] }</a>
 <a class="sourceLine" id="cb7-8" title="8"></a>
-<a class="sourceLine" id="cb7-9" title="9"><span class="kw">newtype</span> <span class="dt">Ignore</span> <span class="fu">=</span> <span class="dt">Ignore</span> {<span class="ot"> ignore ::</span> <span class="dt">Name</span> }</a>
-<a class="sourceLine" id="cb7-10" title="10"><span class="kw">newtype</span> <span class="dt">Name</span> <span class="fu">=</span> <span class="dt">Name</span> {<span class="ot"> name ::</span> <span class="dt">Text</span> }</a>
+<a class="sourceLine" id="cb7-9" title="9"><span class="kw">newtype</span> <span class="dt">Ignore</span> <span class="ot">=</span> <span class="dt">Ignore</span> {<span class="ot"> ignore ::</span> <span class="dt">Name</span> }</a>
+<a class="sourceLine" id="cb7-10" title="10"><span class="kw">newtype</span> <span class="dt">Name</span> <span class="ot">=</span> <span class="dt">Name</span> {<span class="ot"> name ::</span> <span class="dt">Text</span> }</a>
 <a class="sourceLine" id="cb7-11" title="11"></a>
-<a class="sourceLine" id="cb7-12" title="12"><span class="kw">newtype</span> <span class="dt">Warn</span> <span class="fu">=</span> <span class="dt">Warn</span> {<span class="ot"> warn ::</span> <span class="dt">Wrn</span> }</a>
-<a class="sourceLine" id="cb7-13" title="13"><span class="kw">data</span> <span class="dt">Wrn</span> <span class="fu">=</span> <span class="dt">Wrn</span></a>
+<a class="sourceLine" id="cb7-12" title="12"><span class="kw">newtype</span> <span class="dt">Warn</span> <span class="ot">=</span> <span class="dt">Warn</span> {<span class="ot"> warn ::</span> <span class="dt">Wrn</span> }</a>
+<a class="sourceLine" id="cb7-13" title="13"><span class="kw">data</span> <span class="dt">Wrn</span> <span class="ot">=</span> <span class="dt">Wrn</span></a>
 <a class="sourceLine" id="cb7-14" title="14">    {<span class="ot"> name ::</span> <span class="dt">Maybe</span> <span class="dt">Text</span></a>
 <a class="sourceLine" id="cb7-15" title="15">    ,<span class="ot"> lhs  ::</span> <span class="dt">Text</span></a>
 <a class="sourceLine" id="cb7-16" title="16">    ,<span class="ot"> rhs  ::</span> <span class="dt">Text</span></a>
 <a class="sourceLine" id="cb7-17" title="17">    ,<span class="ot"> note ::</span> <span class="dt">Maybe</span> <span class="dt">Text</span></a>
 <a class="sourceLine" id="cb7-18" title="18">    }</a>
 <a class="sourceLine" id="cb7-19" title="19"></a>
-<a class="sourceLine" id="cb7-20" title="20"><span class="kw">newtype</span> <span class="dt">Hint</span> <span class="fu">=</span> <span class="dt">Hint</span> {<span class="ot"> hint ::</span> <span class="dt">Hnt</span> }</a>
-<a class="sourceLine" id="cb7-21" title="21"><span class="kw">data</span> <span class="dt">Hnt</span> <span class="fu">=</span></a>
+<a class="sourceLine" id="cb7-20" title="20"><span class="kw">newtype</span> <span class="dt">Hint</span> <span class="ot">=</span> <span class="dt">Hint</span> {<span class="ot"> hint ::</span> <span class="dt">Hnt</span> }</a>
+<a class="sourceLine" id="cb7-21" title="21"><span class="kw">data</span> <span class="dt">Hnt</span> <span class="ot">=</span></a>
 <a class="sourceLine" id="cb7-22" title="22">    {<span class="ot"> lhs  ::</span> <span class="dt">Text</span></a>
 <a class="sourceLine" id="cb7-23" title="23">    ,<span class="ot"> rhs  ::</span> <span class="dt">Text</span></a>
 <a class="sourceLine" id="cb7-24" title="24">    ,<span class="ot"> note ::</span> <span class="dt">Maybe</span> <span class="dt">Text</span></a>
@@ -187,32 +187,32 @@
 <p>Okay, once we’ve introduced the type, we can create functions for easy rules addition. I’m going to show the one for the reexport warnings. The rest can be found in <a href="https://github.com/kowainik/relude/blob/master/hlint/warn.dhall"><code>hlint/warn.dhall</code></a>.</p>
 <p>We need to implement a Dhall function that takes a function/type name and the module from which people can export it because they don’t know that it’s already in <code>relude</code> and I expect this function to output the HLint <code>warn</code> about this redundant import. Let’s try to do this. As Haskell analogue, we need function like <code>warnReexport :: Text -&gt; Text -&gt; Rule</code> (in our case the rule is <code>RuleWarn</code>).</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb8-1" title="1"><span class="co">-- import Rule type</span></a>
-<a class="sourceLine" id="cb8-2" title="2">   <span class="kw">let</span> <span class="dt">Rule</span> <span class="fu">=</span> <span class="fu">./</span>Rule.dhall</a>
+<a class="sourceLine" id="cb8-2" title="2">   <span class="kw">let</span> <span class="dt">Rule</span> <span class="ot">=</span> <span class="op">./</span>Rule.dhall</a>
 <a class="sourceLine" id="cb8-3" title="3"><span class="co">-- get all constructors of `Rule`, so we can refer to it as `rule.Warn` etc.</span></a>
-<a class="sourceLine" id="cb8-4" title="4"><span class="kw">in</span> <span class="kw">let</span> rule <span class="fu">=</span> constructors <span class="dt">Rule</span></a>
+<a class="sourceLine" id="cb8-4" title="4"><span class="kw">in</span> <span class="kw">let</span> rule <span class="ot">=</span> constructors <span class="dt">Rule</span></a>
 <a class="sourceLine" id="cb8-5" title="5"><span class="kw">in</span> <span class="kw">let</span> warnReexport</a>
-<a class="sourceLine" id="cb8-6" title="6">    <span class="fu">:</span> <span class="dt">Text</span> <span class="ot">-&gt;</span> <span class="dt">Text</span> <span class="ot">-&gt;</span> <span class="dt">Rule</span></a>
-<a class="sourceLine" id="cb8-7" title="7">    <span class="fu">=</span> \(f <span class="fu">:</span> <span class="dt">Text</span>) <span class="ot">-&gt;</span> \(<span class="fu">mod</span> <span class="fu">:</span> <span class="dt">Text</span>) <span class="ot">-&gt;</span></a>
+<a class="sourceLine" id="cb8-6" title="6">    <span class="op">:</span> <span class="dt">Text</span> <span class="ot">-&gt;</span> <span class="dt">Text</span> <span class="ot">-&gt;</span> <span class="dt">Rule</span></a>
+<a class="sourceLine" id="cb8-7" title="7">    <span class="ot">=</span> \(f <span class="op">:</span> <span class="dt">Text</span>) <span class="ot">-&gt;</span> \(<span class="fu">mod</span> <span class="op">:</span> <span class="dt">Text</span>) <span class="ot">-&gt;</span></a>
 <a class="sourceLine" id="cb8-8" title="8">        <span class="co">-- using our constructor to create the `Warn`</span></a>
-<a class="sourceLine" id="cb8-9" title="9">        rule<span class="fu">.</span><span class="dt">Warn</span></a>
-<a class="sourceLine" id="cb8-10" title="10">        { warn <span class="fu">=</span></a>
-<a class="sourceLine" id="cb8-11" title="11">            { name <span class="fu">=</span> <span class="dt">Some</span> <span class="st">&quot;Use '${f}' from Relude&quot;</span></a>
-<a class="sourceLine" id="cb8-12" title="12">            , lhs <span class="fu">=</span> <span class="st">&quot;${mod}.${f}&quot;</span></a>
-<a class="sourceLine" id="cb8-13" title="13">            , rhs <span class="fu">=</span> <span class="st">&quot;${f}&quot;</span></a>
-<a class="sourceLine" id="cb8-14" title="14">            , note <span class="fu">=</span> <span class="dt">Some</span> <span class="st">&quot;'${f}' is already exported from Relude&quot;</span></a>
+<a class="sourceLine" id="cb8-9" title="9">        rule<span class="op">.</span><span class="dt">Warn</span></a>
+<a class="sourceLine" id="cb8-10" title="10">        { warn <span class="ot">=</span></a>
+<a class="sourceLine" id="cb8-11" title="11">            { name <span class="ot">=</span> <span class="dt">Some</span> <span class="st">&quot;Use '${f}' from Relude&quot;</span></a>
+<a class="sourceLine" id="cb8-12" title="12">            , lhs <span class="ot">=</span> <span class="st">&quot;${mod}.${f}&quot;</span></a>
+<a class="sourceLine" id="cb8-13" title="13">            , rhs <span class="ot">=</span> <span class="st">&quot;${f}&quot;</span></a>
+<a class="sourceLine" id="cb8-14" title="14">            , note <span class="ot">=</span> <span class="dt">Some</span> <span class="st">&quot;'${f}' is already exported from Relude&quot;</span></a>
 <a class="sourceLine" id="cb8-15" title="15">            }</a>
 <a class="sourceLine" id="cb8-16" title="16">        }</a>
-<a class="sourceLine" id="cb8-17" title="17"><span class="kw">in</span> { warnReexport   <span class="fu">=</span> warnReexport</a>
-<a class="sourceLine" id="cb8-18" title="18">   , <span class="fu">...</span> <span class="co">-- here we have other functions</span></a>
+<a class="sourceLine" id="cb8-17" title="17"><span class="kw">in</span> { warnReexport   <span class="ot">=</span> warnReexport</a>
+<a class="sourceLine" id="cb8-18" title="18">   , <span class="op">...</span> <span class="co">-- here we have other functions</span></a>
 <a class="sourceLine" id="cb8-19" title="19">   }</a></code></pre></div>
 <p>And, the most important part is how actually to use this function. Lets look at <a href="https://github.com/kowainik/relude/blob/master/hlint/hlint.dhall"><code>hlint/hlint.dhall</code></a>.</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb9-1" title="1">   <span class="co">-- import functions from previous file</span></a>
-<a class="sourceLine" id="cb9-2" title="2">   <span class="kw">let</span> warn           <span class="fu">=</span> <span class="fu">./</span>warn<span class="fu">.</span>dhall</a>
+<a class="sourceLine" id="cb9-2" title="2">   <span class="kw">let</span> warn           <span class="ot">=</span> <span class="op">./</span>warn<span class="op">.</span>dhall</a>
 <a class="sourceLine" id="cb9-3" title="3">   <span class="co">-- reassign function</span></a>
-<a class="sourceLine" id="cb9-4" title="4"><span class="kw">in</span> <span class="kw">let</span> warnReexport   <span class="fu">=</span> warn<span class="fu">.</span>warnReexport</a>
+<a class="sourceLine" id="cb9-4" title="4"><span class="kw">in</span> <span class="kw">let</span> warnReexport   <span class="ot">=</span> warn<span class="op">.</span>warnReexport</a>
 <a class="sourceLine" id="cb9-5" title="5"><span class="kw">in</span> [ warnReexport <span class="st">&quot;ByteString&quot;</span> <span class="st">&quot;Data.ByteString&quot;</span></a>
 <a class="sourceLine" id="cb9-6" title="6">   , warnReexport <span class="st">&quot;Text&quot;</span> <span class="st">&quot;Data.Text&quot;</span></a>
-<a class="sourceLine" id="cb9-7" title="7">   <span class="fu">...</span></a>
+<a class="sourceLine" id="cb9-7" title="7">   <span class="op">...</span></a>
 <a class="sourceLine" id="cb9-8" title="8">   ]</a></code></pre></div>
 <p>And the same with all other rules, pretty easy.</p>
 <p>To generate <code>.hlint.yaml</code> from <code>hlint.dhall</code> you can run the following command (you need to have <a href="https://hackage.haskell.org/package/dhall-json"><code>dhall-json</code></a> installed):</p>

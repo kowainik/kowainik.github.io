@@ -57,7 +57,7 @@
                 <a class="btn btn-outline-dark btn-tag" href="https://github.com/kowainik/relude" data-icon="octicon-star" data-size="large" aria-label="Star Kowainik/relude on GitHub">Star Project</a>
                 <a class="fa-stack fa-2x" href="https://github.com/kowainik/relude/stargazers">
                     <i class="fa fa-star fa-stack-2x"></i>
-                    <i id="stars" class="fa fa-stack-1x fa-inverse main-font">110</i>
+                    <i id="stars" class="fa fa-stack-1x fa-inverse main-font">114</i>
                 </a>
                 <div class="author">Language: Haskell</div>
 
@@ -157,7 +157,7 @@ library
 <p>Disable the built-in prelude at the top of your file:</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb4-1" title="1"><span class="ot">{-# LANGUAGE NoImplicitPrelude #-}</span></a></code></pre></div>
 <p>Or directly in your project <code>.cabal</code> file, if you want to use in every module by default:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb5-1" title="1">default<span class="fu">-</span>extensions<span class="fu">:</span> <span class="dt">NoImplicitPrelude</span></a></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb5-1" title="1">default<span class="op">-</span>extensions<span class="op">:</span> <span class="dt">NoImplicitPrelude</span></a></code></pre></div>
 <p>Add <code>relude</code> as a dependency of your project. Then add the following import to your modules:</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb6-1" title="1"><span class="kw">import</span> <span class="dt">Relude</span></a></code></pre></div>
 <h2 id="difference-from-prelude">Difference from Prelude <a href="#structure-of-this-tutorial">↑</a><a href="#difference-from-prelude" class="anchor">🔗</a></h2>
@@ -240,11 +240,11 @@ library
 <a class="sourceLine" id="cb8-2" title="2">    <span class="dt">Nothing</span> <span class="ot">-&gt;</span> <span class="fu">return</span> ()</a>
 <a class="sourceLine" id="cb8-3" title="3">    <span class="dt">Just</span> x  <span class="ot">-&gt;</span> f x</a></code></pre></div>
 <p>After:</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb9-1" title="1">whenJust mbX <span class="fu">$</span> \x <span class="ot">-&gt;</span></a>
+<div class="sourceCode" id="cb9"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb9-1" title="1">whenJust mbX <span class="op">$</span> \x <span class="ot">-&gt;</span></a>
 <a class="sourceLine" id="cb9-2" title="2">    f x</a></code></pre></div></li>
 <li><p><code>for_</code> for loops. There’s also <code>forM_</code> but <code>for_</code> looks a bit nicer.</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb10-1" title="1">for_ [<span class="dv">1</span><span class="fu">..</span><span class="dv">10</span>] <span class="fu">$</span> \i <span class="ot">-&gt;</span> <span class="kw">do</span></a>
-<a class="sourceLine" id="cb10-2" title="2">    <span class="fu">...</span></a></code></pre></div></li>
+<div class="sourceCode" id="cb10"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb10-1" title="1">for_ [<span class="dv">1</span><span class="op">..</span><span class="dv">10</span>] <span class="op">$</span> \i <span class="ot">-&gt;</span> <span class="kw">do</span></a>
+<a class="sourceLine" id="cb10-2" title="2">    <span class="op">...</span></a></code></pre></div></li>
 <li><p><code>andM</code>, <code>allM</code>, <code>anyM</code>, <code>orM</code> are monadic version of corresponding functions from <code>base</code>.</p></li>
 <li>Conversions between <code>Either</code> and <code>Maybe</code> like <code>rightToMaybe</code> and <code>maybeToLeft</code> with clear semantic.</li>
 <li><code>using(Reader|State)[T]</code> functions as aliases for <code>flip run(Reader|State)[T]</code>.</li>
@@ -261,12 +261,12 @@ library
 <li><code>inverseMap :: (Bounded a, Enum a, Ord k) =&gt; (a -&gt; k) -&gt; k -&gt; Maybe a</code>: convert functions like <code>show</code> to parsers.</li>
 </ol></li>
 <li><p>Nice helpers to deal with <code>newtype</code>s in a more pleasant way:</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb11-1" title="1">ghci<span class="fu">&gt;</span> <span class="kw">newtype</span> <span class="dt">Foo</span> <span class="fu">=</span> <span class="dt">Foo</span> <span class="dt">Bool</span> <span class="kw">deriving</span> <span class="dt">Show</span></a>
-<a class="sourceLine" id="cb11-2" title="2">ghci<span class="fu">&gt;</span> under <span class="fu">not</span> (<span class="dt">Foo</span> <span class="dt">True</span>)</a>
+<div class="sourceCode" id="cb11"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb11-1" title="1">ghci<span class="op">&gt;</span> <span class="kw">newtype</span> <span class="dt">Foo</span> <span class="ot">=</span> <span class="dt">Foo</span> <span class="dt">Bool</span> <span class="kw">deriving</span> <span class="dt">Show</span></a>
+<a class="sourceLine" id="cb11-2" title="2">ghci<span class="op">&gt;</span> under <span class="fu">not</span> (<span class="dt">Foo</span> <span class="dt">True</span>)</a>
 <a class="sourceLine" id="cb11-3" title="3"><span class="dt">Foo</span> <span class="dt">False</span></a></code></pre></div></li>
 <li><p>Functions to operate with <code>CallStack</code>:</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb12-1" title="1"><span class="fu">&gt;&gt;&gt;</span><span class="ot"> foo ::</span> <span class="dt">HasCallStack</span> <span class="ot">=&gt;</span> <span class="dt">String</span>; foo <span class="fu">=</span> ownName</a>
-<a class="sourceLine" id="cb12-2" title="2"><span class="fu">&gt;&gt;&gt;</span> foo</a>
+<div class="sourceCode" id="cb12"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb12-1" title="1"><span class="op">&gt;&gt;&gt;</span><span class="ot"> foo ::</span> <span class="dt">HasCallStack</span> <span class="ot">=&gt;</span> <span class="dt">String</span>; foo <span class="ot">=</span> ownName</a>
+<a class="sourceLine" id="cb12-2" title="2"><span class="op">&gt;&gt;&gt;</span> foo</a>
 <a class="sourceLine" id="cb12-3" title="3"><span class="st">&quot;foo&quot;</span></a></code></pre></div></li>
 <li><code>Foldable1</code> typeclass that contains generalized interface for folding non-empty structures like <code>NonEmpty</code>.</li>
 <li><p><code>Validation</code> data type as an alternative to <code>Either</code> when you want to combine all errors.</p></li>

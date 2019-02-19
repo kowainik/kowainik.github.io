@@ -239,7 +239,7 @@ library
 <div class="sourceCode" id="cb8"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb8-1" title="1"><span class="kw">module</span> <span class="dt">Dummy</span> <span class="kw">where</span></a>
 <a class="sourceLine" id="cb8-2" title="2"></a>
 <a class="sourceLine" id="cb8-3" title="3"><span class="ot">inc ::</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Int</span></a>
-<a class="sourceLine" id="cb8-4" title="4">inc x <span class="fu">=</span> x <span class="fu">+</span> <span class="dv">1</span></a></code></pre></div>
+<a class="sourceLine" id="cb8-4" title="4">inc x <span class="ot">=</span> x <span class="op">+</span> <span class="dv">1</span></a></code></pre></div>
 <p>After that, let’s replace this line inside <code>cabal-example.cabal</code>:</p>
 <pre class="cabal"><code>  -- exposed-modules:</code></pre>
 <p>with:</p>
@@ -270,10 +270,10 @@ library
 <a class="sourceLine" id="cb14-3" title="3"><span class="kw">import</span> <span class="dt">System.Random</span> (randomRIO)</a>
 <a class="sourceLine" id="cb14-4" title="4"></a>
 <a class="sourceLine" id="cb14-5" title="5"><span class="ot">inc ::</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Int</span></a>
-<a class="sourceLine" id="cb14-6" title="6">inc x <span class="fu">=</span> x <span class="fu">+</span> <span class="dv">1</span></a>
+<a class="sourceLine" id="cb14-6" title="6">inc x <span class="ot">=</span> x <span class="op">+</span> <span class="dv">1</span></a>
 <a class="sourceLine" id="cb14-7" title="7"></a>
 <a class="sourceLine" id="cb14-8" title="8"><span class="ot">dice ::</span> <span class="dt">IO</span> <span class="dt">Int</span></a>
-<a class="sourceLine" id="cb14-9" title="9">dice <span class="fu">=</span> randomRIO (<span class="dv">1</span>, <span class="dv">6</span>)</a></code></pre></div>
+<a class="sourceLine" id="cb14-9" title="9">dice <span class="ot">=</span> randomRIO (<span class="dv">1</span>, <span class="dv">6</span>)</a></code></pre></div>
 <p>Run <code>cabal new-build</code> to ensure that everything builds.</p>
 <blockquote>
 <p><strong>NOTE:</strong> Usually there are multiple versions of a package with the same name. You may notice that version boundaries are specified for the <code>base</code> package in your <code>.cabal</code> file. If you have a lot of packages without explicit version boundaries, <code>cabal</code> might not be able to build your project, because it won’t know which versions of the packages to pick.</p>
@@ -282,15 +282,15 @@ library
 <p>Okay, we wrote some functions. So how about testing them? As mentioned earlier, <code>ghc</code> has an interactive interpreter. You can run it with the following command:</p>
 <pre class="shell"><code>$ cabal new-repl</code></pre>
 <p>And then you can evaluate the code we wrote in REPL:</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb16-1" title="1">ghci<span class="fu">&gt;</span> inc <span class="dv">64</span></a>
+<div class="sourceCode" id="cb16"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb16-1" title="1">ghci<span class="op">&gt;</span> inc <span class="dv">64</span></a>
 <a class="sourceLine" id="cb16-2" title="2"><span class="dv">65</span></a>
-<a class="sourceLine" id="cb16-3" title="3">ghci<span class="fu">&gt;</span> dice</a>
+<a class="sourceLine" id="cb16-3" title="3">ghci<span class="op">&gt;</span> dice</a>
 <a class="sourceLine" id="cb16-4" title="4"><span class="dv">2</span></a>
-<a class="sourceLine" id="cb16-5" title="5">ghci<span class="fu">&gt;</span> dice</a>
+<a class="sourceLine" id="cb16-5" title="5">ghci<span class="op">&gt;</span> dice</a>
 <a class="sourceLine" id="cb16-6" title="6"><span class="dv">1</span></a>
-<a class="sourceLine" id="cb16-7" title="7">ghci<span class="fu">&gt;</span> <span class="fu">:</span>q</a>
-<a class="sourceLine" id="cb16-8" title="8"><span class="dt">Leavning</span> <span class="dt">GHCi</span><span class="fu">.</span></a>
-<a class="sourceLine" id="cb16-9" title="9"><span class="fu">$</span></a></code></pre></div>
+<a class="sourceLine" id="cb16-7" title="7">ghci<span class="op">&gt;</span> <span class="op">:</span>q</a>
+<a class="sourceLine" id="cb16-8" title="8"><span class="dt">Leavning</span> <span class="dt">GHCi</span><span class="op">.</span></a>
+<a class="sourceLine" id="cb16-9" title="9"><span class="op">$</span></a></code></pre></div>
 <p>You probably won’t see the same exact numbers as output for the <code>dice</code> function. But there’s a <code>1/36</code> chance you will.</p>
 <h3 id="cabal-adding-executable">Cabal: adding executable<a href="#cabal-adding-executable" class="anchor">🔗</a></h3>
 <p>Evaluating functions in REPL is really fun! But usually programs are implemented to be used as executables later. As I mentioned earlier Haskell is a compiled language so you can have native binary. To do this you need to add <code>executable</code> to the <code>.cabal</code> file.</p>
@@ -298,10 +298,10 @@ library
 <p><strong>NOTE:</strong> Top-level sections like <code>library</code>, <code>executable</code> and others are called <em>stanzas</em> in the cabal format specification.</p>
 </blockquote>
 <p>Let’s introduce an executable stanza by adding the following lines at the end of our <code>.cabal</code> file:</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb17-1" title="1">executable my<span class="fu">-</span>exe</a>
-<a class="sourceLine" id="cb17-2" title="2">  main<span class="fu">-</span>is<span class="fu">:</span>             Main.hs</a>
-<a class="sourceLine" id="cb17-3" title="3">  build<span class="fu">-</span>depends<span class="fu">:</span>       base, cabal<span class="fu">-</span>example</a>
-<a class="sourceLine" id="cb17-4" title="4">  default<span class="fu">-</span>language<span class="fu">:</span>    <span class="dt">Haskell2010</span></a></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb17-1" title="1">executable my<span class="op">-</span>exe</a>
+<a class="sourceLine" id="cb17-2" title="2">  main<span class="op">-</span>is<span class="op">:</span>             Main.hs</a>
+<a class="sourceLine" id="cb17-3" title="3">  build<span class="op">-</span>depends<span class="op">:</span>       base, cabal<span class="op">-</span>example</a>
+<a class="sourceLine" id="cb17-4" title="4">  default<span class="op">-</span>language<span class="op">:</span>    <span class="dt">Haskell2010</span></a></code></pre></div>
 <blockquote>
 <p><strong>NOTE:</strong> We add <code>cabal-example</code> to <code>build-depends</code> to be able to use functions from our <code>library</code> stanza. No need to specify version bounds for <code>base</code> here since they are derived from the <code>cabal-example</code> dependency.</p>
 </blockquote>
@@ -311,7 +311,7 @@ library
 <a class="sourceLine" id="cb18-3" title="3"><span class="kw">import</span> <span class="dt">Dummy</span> (dice)</a>
 <a class="sourceLine" id="cb18-4" title="4"></a>
 <a class="sourceLine" id="cb18-5" title="5"><span class="ot">main ::</span> <span class="dt">IO</span> ()</a>
-<a class="sourceLine" id="cb18-6" title="6">main <span class="fu">=</span> <span class="kw">do</span></a>
+<a class="sourceLine" id="cb18-6" title="6">main <span class="ot">=</span> <span class="kw">do</span></a>
 <a class="sourceLine" id="cb18-7" title="7">  <span class="fu">putStrLn</span> <span class="st">&quot;777&quot;</span></a>
 <a class="sourceLine" id="cb18-8" title="8">  n <span class="ot">&lt;-</span> dice</a>
 <a class="sourceLine" id="cb18-9" title="9">  <span class="fu">print</span> n</a></code></pre></div>
@@ -378,7 +378,7 @@ stack-example/
 <p><code>stack</code> will automatically download the proper GHC version during your first build.</p>
 <h3 id="lts-resolver">LTS resolver<a href="#lts-resolver" class="anchor">🔗</a></h3>
 <p>One of the main differences between <code>stack</code> and <code>cabal</code> is how they determine the proper version for package dependencies. They both use the <code>Cabal</code> library to parse <code>.cabal</code> files. However, <code>stack</code> uses the notion of LTS resolver. In simple words: resolver is just a Hackage snapshot where packages can work with each other smoothly. You can check <code>stack.yaml</code> file to see which resolver you use. Look for a line like this one:</p>
-<div class="sourceCode" id="cb24"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb24-1" title="1">resolver<span class="fu">:</span> lts<span class="fu">-</span><span class="fl">13.2</span></a></code></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb24-1" title="1">resolver<span class="op">:</span> lts<span class="op">-</span><span class="fl">13.2</span></a></code></pre></div>
 <blockquote>
 <p><strong>NOTE:</strong> This is the only line in <code>stack.yaml</code> that is required for stack to work in most cases. The default <code>stack.yaml</code> file will contain a lot of redundant stuff. You can safely delete everything except this one line, unless you need some more advanced usage.</p>
 </blockquote>
