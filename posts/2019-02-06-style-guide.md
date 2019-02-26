@@ -206,8 +206,8 @@ map function (firstElement:remainingList) =
 ```
 
 For readability reasons, do not capitalize all letters when using an
-abbreviation as a part of a longer name. For example, write `HttpServer` instead
-of `HTTPServer`.
+abbreviation as a part of a longer name. For example, write `TomlException` instead
+of `TOMLException`.
 
 Unicode symbols are allowed only in modules that already use unicode symbols. If
 you create a unicode name, you should also create a non-unicode one as an alias.
@@ -484,6 +484,28 @@ data Foo
     | Baz Int Double Text
 ```
 
+### Strictness
+
+Fields of data type constructors should be strict. Specify strictness explicitly
+with `!`. This helps to avoid space leaks and gives you an error instead of a
+warning in case you forget to initialize some fields.
+
+```haskell
+-- + Good
+data Settings = Settings
+    { settingsHasTravis  :: !Bool
+    , settingsConfigPath :: !FilePath
+    , settingsRetryCount :: !Int
+    }
+
+-- - Bad
+data Settings = Settings
+    { settingsHasTravis  :: Bool
+    , settingsConfigPath :: FilePath
+    , settingsRetryCount :: Int
+    }
+```
+
 ### Deriving
 
 Type classes in the deriving section should always be surrounded by parentheses.
@@ -501,34 +523,6 @@ newtype Id a = Id { unId :: Int }
     deriving stock    (Generic)
     deriving newtype  (Eq, Ord, Show, Hashable)
     deriving anyclass (FromJSON, ToJSON)
-```
-
-Constructor fields should be strict, unless there is an explicit reason to make
-them lazy. This helps to avoid space leaks and gives you an error instead of a warning
-in case you forget to initialize some fields.
-
-```haskell
--- + Good
-data Point = Point
-    { pointX :: !Double  -- ^ X coordinate
-    , pointY :: !Double  -- ^ Y coordinate
-    }
-
--- - Bad
-data Point = Point
-    { pointX :: Double  -- ^ X coordinate
-    , pointY :: Double  -- ^ Y coordinate
-    }
-```
-
-Additionally, unpacking simple fields often improves performance and
-reduces memory usage:
-
-```haskell
-data Point = Point
-    { pointX :: {-# UNPACK #-} !Double  -- ^ X coordinate
-    , pointY :: {-# UNPACK #-} !Double  -- ^ Y coordinate
-    }
 ```
 
 ### Function declaration
@@ -704,10 +698,17 @@ avoid `let`. Instead, use `where`.
 
 Try to split code into separate modules.
 
-Avoid abusing point-free style. For example, this is hard to read:
+Avoid abusing point-free style. Sometimes code is clearer when **not** written
+in point-free style:
 
 ```haskell
-f = (g .) . h  -- :(
+-- + Good
+foo :: Int -> a -> Int
+foo n x = length $ replicate n x
+
+-- - Bad
+foo :: Int -> a -> Int
+foo = (length . ) . replicate
 ```
 
 Prefer `pure` over `return`.
@@ -726,4 +727,4 @@ Code should be compilable with the following ghc options without warnings:
 Enable `-fhide-source-paths` and `-freverse-errors` for cleaner compiler output.
 
 Use `-XApplicativeDo` in combination with `-XRecordWildCards` to prevent
-position-sensitive errors.
+position-sensitive errors where possible.

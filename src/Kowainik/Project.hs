@@ -20,12 +20,42 @@ projectId    = field "projectId"    $ pure . pId    . itemBody
 
 allProjects :: Compiler [Item Project]
 allProjects = traverse makeItem
-    [ Project "Summoner" "summoner" "Tool for creating completely configured production Haskell projects" "1"
-    , Project "Smuggler" "smuggler" "Smuggle all imports" "2"
-    , Project "Relude" "relude" "Reload your Prelude" "3"
-    , Project "Containers Backpack" "containers-backpack" "Backpack interface for containers" "4"
-    , Project "Idris Patricia" "idris-patricia" "Idris implementation of patricia tree" "5"
-    , Project "Typerep-map" "typerep-map" "Efficient implementation of Map with types as keys" "6"
+    [ Project
+        { pName  = "Summoner"
+        , pImage = "summoner"
+        , pDesc  = "Tool for creating completely configured production Haskell projects"
+        , pId    = "1"
+        }
+    , Project
+        { pName  = "Relude"
+        , pImage = "relude"
+        , pDesc  = "Reload your Prelude"
+        , pId    = "2"
+        }
+    , Project
+        { pName  = "Containers Backpack"
+        , pImage = "containers-backpack"
+        , pDesc  = "Backpack interface for containers"
+        , pId    = "3"
+        }
+    , Project
+        { pName  = "Smuggler"
+        , pImage = "smuggler"
+        , pDesc  = "Smuggle all imports"
+        , pId    = "4"
+        }
+    , Project
+        { pName  = "Tomland"
+        , pImage = "tomland"
+        , pDesc  = "Bidirectional TOML serialization"
+        , pId    = "5"
+        }
+    , Project
+        { pName  = "Typerep-map"
+        , pImage = "typerep-map"
+        , pDesc  = "Efficient implementation of Map with types as keys"
+        , pId    = "6"
+        }
     ]
 
 makeProjectContext :: Context a
