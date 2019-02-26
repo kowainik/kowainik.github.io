@@ -22,10 +22,10 @@
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:site" content="@kowainik" />
     <meta property="twitter:title" content="Kowainik - summoner" />
-    <meta name="twitter:description" content="🔮 🔧 Tool for scaffolding batteries-included production Haskell projects" />
+    <meta name="twitter:description" content="🔮 🔧 Tool for scaffolding batteries-included production-level Haskell projects" />
     <meta name="twitter:image:src" content="https://kowainik.github.io/images/logo-yellow.png" />
     <meta property="og:title" content="Kowainik - summoner" />
-    <meta property="og:description" content="🔮 🔧 Tool for scaffolding batteries-included production Haskell projects" />
+    <meta property="og:description" content="🔮 🔧 Tool for scaffolding batteries-included production-level Haskell projects" />
     <meta property="og:site_name" content="Kowainik" />
     <meta property="og:image" content="https://kowainik.github.io/images/logo-yellow.png" />
 
@@ -57,7 +57,7 @@
                 <a class="btn btn-outline-dark btn-tag" href="https://github.com/kowainik/summoner" data-icon="octicon-star" data-size="large" aria-label="Star Kowainik/summoner on GitHub">Star Project</a>
                 <a class="fa-stack fa-2x" href="https://github.com/kowainik/summoner/stargazers">
                     <i class="fa fa-star fa-stack-2x"></i>
-                    <i id="stars" class="fa fa-stack-1x fa-inverse main-font">245</i>
+                    <i id="stars" class="fa fa-stack-1x fa-inverse main-font">252</i>
                 </a>
                 <div class="author">Language: Haskell</div>
 
@@ -115,6 +115,7 @@
 <li><a href="#tui-">TUI</a></li>
 <li><a href="#cli-">CLI</a></li>
 </ul></li>
+<li><a href="#faq-">FAQ</a></li>
 <li><a href="#for-developers-">For Developers</a>
 <ul>
 <li><a href="#build-">Build</a></li>
@@ -341,71 +342,76 @@ cabal new-install summoner</code></pre>
 <td>Turn on <code>GitHub</code> integration by default?</td>
 </tr>
 <tr class="odd">
+<td><code>gitignore</code></td>
+<td>[Text]</td>
+<td>List of files you want added to the default <code>.gitignore</code>. (Ignored if <code>github = false</code>)</td>
+</tr>
+<tr class="even">
 <td><code>private</code></td>
 <td>Bool</td>
 <td>Create private repository by default? (Ignored if <code>github = false</code>)</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><code>travis</code></td>
 <td>Bool</td>
 <td>Turn on <code>Travis</code> integration by default? (Ignored if <code>github = false</code>)</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><code>appveyor</code></td>
 <td>Bool</td>
 <td>Turn on <code>AppVeyor</code> integration by default? (Ignored if <code>github = false</code>)</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><code>lib</code></td>
 <td>Bool</td>
 <td>Create <code>src</code> folder with simple <code>ProjectName.hs</code> file and library target?</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><code>exe</code></td>
 <td>Bool</td>
 <td>Create <code>app</code> folder with simple <code>Main.hs</code> file and executable target?</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><code>test</code></td>
 <td>Bool</td>
 <td>Create <code>test</code> folder with simple <code>Spec.hs</code> file and test target?</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><code>bench</code></td>
 <td>Bool</td>
 <td>Create <code>benchmark</code> folder with <code>Main.hs</code> file with <a href="https://hackage.haskell.org/package/gauge"><code>gauge</code></a> library usage example?</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><code>extensions</code></td>
 <td>[Text]</td>
 <td>List of the default extensions to add into <code>default-extensions</code> section in the <code>.cabal</code>.</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><code>warnings</code></td>
 <td>[Text]</td>
 <td>List of the default checks and warnings to add into <code>ghc-options</code> section in the <code>.cabal</code>.</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><code>stylish.*</code></td>
 <td>Text</td>
 <td><code>stylish.file</code> to provide the absolute file path OR <code>stylish.url</code> to download the <code>.stylish-haskell.yaml</code> file to use in the project.</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><code>contributing.*</code></td>
 <td>Text</td>
 <td><code>contributing.file</code> to provide the absolute file path OR <code>contributing.url</code> download OR <code>contribuint.link</code> to link the <code>CONTRIBUTING.md</code> file to use in the project.</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><code>[prelude]</code></td>
 <td></td>
 <td></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><code>package</code></td>
 <td>Text</td>
 <td>The package name of the custom prelude you’d like to use in the project (doesn’t work without <code>module</code> field).</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><code>module</code></td>
 <td>Text</td>
 <td>The module name of the custom prelude you’d like to use in the project (doesn’t work without <code>package</code> field).</td>
@@ -568,6 +574,21 @@ Available options:
 <p>In CLI mode of operation Summoner asks about every project setting. Most of the questions contain a default value, so you can press <kbd>Enter</kbd> to choose the default value. If some option is specified via a configuration file or CLI arguments, then the question is skipped and the predefined value is used.</p>
 <h4 id="cli-show-command">CLI show command <a href="#structure">↑</a><a href="#cli-show-command" class="anchor">🔗</a></h4>
 <p>These commands display the list of supported GHC versions, or Licenses. Also, when the license name is specified, the content of the License is outputted to the terminal.</p>
+<h2 id="faq">FAQ <a href="#structure">↑</a><a href="#faq" class="anchor">🔗</a></h2>
+<blockquote>
+<p>I want to use HTTPS remote for the created GitHub project, but it creates SSH one. How should I fix this?</p>
+</blockquote>
+<p>We are using <code>hub</code> tool to create the projects at GitHub. It uses SSH so that you would get the remote links in the following format:</p>
+<pre><code>git@github.com:user/repo.git</code></pre>
+<p>We can not change or configure this behaviour, but there are several workarounds in case you <em>need</em> to use HTTPS link for the remote.</p>
+<ol type="1">
+<li><p>Change the remote of the repository after its creation:</p>
+<pre><code>git remote set-url origin https://github.com/user/repo.git</code></pre></li>
+<li><p>Change <code>hub</code> configurations globally. Simply run the following command:</p>
+<pre class="shell"><code>git config --global hub.protocol https</code></pre></li>
+<li><p>Alternatively, change <code>hub</code> configurations for a single session:</p>
+<pre><code>export HUB_PROTOCOL=&quot;https&quot;</code></pre></li>
+</ol>
 <h2 id="for-developers">For Developers <a href="#structure">↑</a><a href="#for-developers" class="anchor">🔗</a></h2>
 <p>If you’d like to take part in the development processes, here are a few things to keep in mind:</p>
 <ul>

@@ -57,7 +57,7 @@
                 <a class="btn btn-outline-dark btn-tag" href="https://github.com/kowainik/hit-on" data-icon="octicon-star" data-size="large" aria-label="Star Kowainik/hit-on on GitHub">Star Project</a>
                 <a class="fa-stack fa-2x" href="https://github.com/kowainik/hit-on/stargazers">
                     <i class="fa fa-star fa-stack-2x"></i>
-                    <i id="stars" class="fa fa-stack-1x fa-inverse main-font">2</i>
+                    <i id="stars" class="fa fa-stack-1x fa-inverse main-font">3</i>
                 </a>
                 <div class="author">Language: Haskell</div>
 
@@ -138,6 +138,13 @@ mv hit-linux ~/.local/bin/hit</code></pre>
 <blockquote>
 <p>Here we assume that you work with <code>origin</code> remote with the main branch set to <code>master</code>.</p>
 </blockquote>
+<h3 id="hit-clone">hit clone<a href="#hit-clone" class="anchor">🔗</a></h3>
+<p>If you don’t have the repository locally, you need to clone it. With the <code>git</code> tool you would need to specify the full URL which you can get from the repository GitHub page.</p>
+<pre class="shell"><code>git clone git@github.com:username/project-name.git</code></pre>
+<p><code>hit</code> can simplify this process a bit. If you want to clone the project which is under your GitHub username you can write:</p>
+<pre class="shell"><code>hit clone my-project</code></pre>
+<p>If this is not your personal repository then you can use <code>clone</code> command in the following way:</p>
+<pre class="shell"><code>hit clone owner-name/project-name</code></pre>
 <h3 id="hit-hop">hit hop<a href="#hit-hop" class="anchor">🔗</a></h3>
 <p>When you want to start working on a new issue, you usually want to make sure you’re using the latest version of your project. As a <code>git</code> user you may use the following commands:</p>
 <pre class="shell"><code>git checkout master

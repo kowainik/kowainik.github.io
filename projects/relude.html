@@ -57,7 +57,7 @@
                 <a class="btn btn-outline-dark btn-tag" href="https://github.com/kowainik/relude" data-icon="octicon-star" data-size="large" aria-label="Star Kowainik/relude on GitHub">Star Project</a>
                 <a class="fa-stack fa-2x" href="https://github.com/kowainik/relude/stargazers">
                     <i class="fa fa-star fa-stack-2x"></i>
-                    <i id="stars" class="fa fa-stack-1x fa-inverse main-font">114</i>
+                    <i id="stars" class="fa fa-stack-1x fa-inverse main-font">119</i>
                 </a>
                 <div class="author">Language: Haskell</div>
 
@@ -76,7 +76,7 @@
 <p><code>relude</code> is a custom prelude, an alternative to default <code>Prelude</code>. <code>relude</code> tries to achieve the following goals:</p>
 <ol type="1">
 <li><strong>Avoid all</strong> <a href="https://www.reddit.com/r/haskell/comments/5n51u3/why_are_partial_functions_as_in_head_tail_bad/"><strong>partial functions</strong></a> (like <code>head :: [a] -&gt; a</code>). The types of partial functions lie about their behavior and usage of such functions can lead to the unexpected bugs. Though you can still use some unsafe functions from <code>Relude.Unsafe</code> module, but they are not exported by default.</li>
-<li><p><strong>Type-safety</strong>. We like to make invalid states unrepresantable. And if it’s possible to express this concept through the types then we will do it.</p>
+<li><p><strong>Type-safety</strong>. We like to make invalid states unrepresentable. And if it’s possible to express this concept through the types then we will do it.</p>
 <em>Example:</em> <code>haskell  whenNotNull :: Applicative f =&gt; [a] -&gt; (NonEmpty a -&gt; f ()) -&gt; f ()</code> instead of <code>haskell  whenNotNull :: Applicative f =&gt; [a] -&gt; ([a] -&gt; f ()) -&gt; f ()</code></li>
 <li><strong>Performance.</strong> Prefer <code>Text</code> over <a href="https://www.reddit.com/r/haskell/comments/29jw0s/whats_wrong_with_string/"><code>String</code></a>, use spaceleak-free functions (like our custom <code>sum</code> and <code>product</code>), introduce <code>{-# INLINE #-}</code> and <code>{-# SPECIALIZE #-}</code> pragmas where appropriate.</li>
 <li><strong>Minimalism</strong> (low number of dependencies). We don’t force users of <code>relude</code> to stick to some specific lens or text formatting or logging library.</li>

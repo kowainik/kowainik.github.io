@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+      <!-- Global site tag (gtag.js) - Google Analytics -->
+      <script async src="https://www.googletagmanager.com/gtag/js?id=UA-125893749-1"></script>
+      <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+
+          gtag('config', 'UA-125893749-1');
+          </script>
+    <title>shellmet</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Kowainik page">
+    <meta name="keywords" content="Haskell, Functional progarmming, FP">
+    <meta name="author" content="Kowainik" />
+
+    <!-- Twitter cards -->
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="@kowainik" />
+    <meta property="twitter:title" content="Kowainik - shellmet" />
+    <meta name="twitter:description" content="🐚 Out of the shell solution for scripting in Haskell" />
+    <meta name="twitter:image:src" content="https://kowainik.github.io/images/logo-yellow.png" />
+    <meta property="og:title" content="Kowainik - shellmet" />
+    <meta property="og:description" content="🐚 Out of the shell solution for scripting in Haskell" />
+    <meta property="og:site_name" content="Kowainik" />
+    <meta property="og:image" content="https://kowainik.github.io/images/logo-yellow.png" />
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon">
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.11.0/styles/dracula.min.css" />
+    <!-- Custom fonts for this template -->
+    <link href="../css/font-awesome.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+
+    <!-- Custom styles for this template -->
+    <link href="../css/default.css" rel="stylesheet">
+    <link href="../css/post.css" rel="stylesheet">
+  </head>
+
+  <body class="body-posts">
+
+      <!-- Header -->
+      <nav class="navbar navbar-inverse navbar-fixed-left leftmenu bg-primary text-secondary">
+            <div class="navbar-header">
+                <div class="postslogo"> <a class="navbar-brand" href="../"><img class="img-fluid mb-5 d-block mx-auto" src="../images/logo-tr.png" alt="Kowainik"></a></div>
+
+            </div>
+            <div class="coolFont">
+                <a class="btn btn-outline-dark btn-tag" href="https://github.com/kowainik/shellmet" data-icon="octicon-star" data-size="large" aria-label="Star Kowainik/shellmet on GitHub">Star Project</a>
+                <a class="fa-stack fa-2x" href="https://github.com/kowainik/shellmet/stargazers">
+                    <i class="fa fa-star fa-stack-2x"></i>
+                    <i id="stars" class="fa fa-stack-1x fa-inverse main-font">19</i>
+                </a>
+                <div class="author">Language: Haskell</div>
+
+                <div class="allposts">
+                    <h3><a href="../projects"> Projects =<< </a></h3>
+                </div>
+            </div>
+      </nav>
+      <div class="container info">
+          <h2 class="text-center text-uppercase text-secondary">shellmet</h2>
+          <div class="content">
+          <div class="row post">
+              <div class="col-12 post-body">
+              <p class="lead">
+                  <p><a href="https://travis-ci.org/kowainik/shellmet"><img src="https://secure.travis-ci.org/kowainik/shellmet.svg" alt="Build status" /></a> <a href="https://hackage.haskell.org/package/shellmet"><img src="https://img.shields.io/hackage/v/shellmet.svg" alt="Hackage" /></a> <a href="LICENSE"><img src="https://img.shields.io/badge/license-MPL--2.0-blue.svg" alt="MPL-2.0 license" /></a> <a href="http://stackage.org/lts/package/shellmet"><img src="http://stackage.org/package/shellmet/badge/lts" alt="Stackage Lts" /></a> <a href="http://stackage.org/nightly/package/shellmet"><img src="http://stackage.org/package/shellmet/badge/nightly" alt="Stackage Nightly" /></a></p>
+<p>Out of the shell solution for scripting in Haskell. Shellmet provides an easy and convenient way to call shell commands from Haskell programs.</p>
+<h2 id="usage-example">Usage example<a href="#usage-example" class="anchor">🔗</a></h2>
+<p>This README contains the usage example of the <code>shellmet</code> library. The example is runnable. You can build and execute with the following command:</p>
+<pre class="shell"><code>cabal new-run readme</code></pre>
+<h3 id="setting-up">Setting up<a href="#setting-up" class="anchor">🔗</a></h3>
+<p>Since this tutorial is written using Literate Haskell, first, let’s write all necessary pragmas and imports.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb2-1" title="1"><span class="ot">{-# LANGUAGE OverloadedStrings #-}</span></a>
+<a class="sourceLine" id="cb2-2" title="2"></a>
+<a class="sourceLine" id="cb2-3" title="3"><span class="kw">import</span> <span class="dt">Data.Semigroup</span> ((&lt;&gt;))</a>
+<a class="sourceLine" id="cb2-4" title="4"><span class="kw">import</span> <span class="dt">Shellmet</span> (($|))</a>
+<a class="sourceLine" id="cb2-5" title="5"></a>
+<a class="sourceLine" id="cb2-6" title="6"><span class="kw">import</span> <span class="kw">qualified</span> <span class="dt">Data.Text</span> <span class="kw">as</span> <span class="dt">T</span></a></code></pre></div>
+<h3 id="simple-scripting-example">Simple scripting example<a href="#simple-scripting-example" class="anchor">🔗</a></h3>
+<p>Below you can see how easy it is to interact with shell commands in Haskell:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb3-1" title="1"><span class="ot">main ::</span> <span class="dt">IO</span> ()</a>
+<a class="sourceLine" id="cb3-2" title="2">main <span class="ot">=</span> <span class="kw">do</span></a>
+<a class="sourceLine" id="cb3-3" title="3">    <span class="st">&quot;echo&quot;</span> [<span class="st">&quot;Starting shellmet readme...&quot;</span>]</a>
+<a class="sourceLine" id="cb3-4" title="4">    text <span class="ot">&lt;-</span> <span class="st">&quot;cat&quot;</span> <span class="op">$|</span> [<span class="st">&quot;README.md&quot;</span>]</a>
+<a class="sourceLine" id="cb3-5" title="5">    <span class="kw">let</span> cnt <span class="ot">=</span> T.pack <span class="op">$</span> <span class="fu">show</span> <span class="op">$</span> <span class="fu">length</span> <span class="op">$</span> T.lines text</a>
+<a class="sourceLine" id="cb3-6" title="6">    <span class="st">&quot;echo&quot;</span> [<span class="st">&quot;Number of lines in this README: &quot;</span> <span class="op">&lt;&gt;</span> cnt]</a></code></pre></div>
+<p>And the output is:</p>
+<pre><code>⚙  echo 'Starting shellmet readme...'
+Starting shellmet readme...
+⚙  echo 'Number of lines in this README: 54'
+Number of lines in this README: 54</code></pre>
+              </p>
+              </div>
+          </div>
+          </div>
+
+
+      </div>
+
+      <script src="../js/stars.js"></script>
+      <script>
+       shootingStars("kowainik/shellmet", function (stars) {
+           document.getElementById("stars").innerHTML = stars;
+       });
+      </script>
+
+
+      <!-- Bootstrap core JavaScript -->
+      <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"> </script>
+      <script src="../js/post.js"> </script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/haskell.min.js"></script>
+      <script>hljs.initHighlightingOnLoad()</script>
+      <script async defer src="https://buttons.github.io/buttons.js"></script>
+  </body>
+</html>
