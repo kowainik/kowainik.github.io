@@ -58,4 +58,4 @@ TAGS
 .DS_Store
 
 # for automatic creation
-projects/
+/projects/
