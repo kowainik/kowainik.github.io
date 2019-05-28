@@ -1,5 +1,0 @@
-resolver: lts-13.2
-
-extra-deps:
-  - hakyll-4.12.5.0
-  - lrucache-1.2.0.1  # needed for hakyll

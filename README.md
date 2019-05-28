@@ -1,7 +1,8 @@
 # kowainik.github.io
 
-Kowainik web page: kowainik.github.io
+Kowainik web page:
 
+* [kowainik.github.io](https://kowainik.github.io/)
 
 ## How to update this web page
 
@@ -30,6 +31,7 @@ In the `.md` file you should add next info in the following format:
 title: Some really meaningful title that will appear at the page
 author: Your Name
 tags: haskell, stack, cabal, build-tools, tutorial
+description: Some short description
 ---
 
 DO NOT COPY TITLE HERE!

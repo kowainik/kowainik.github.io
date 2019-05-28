@@ -7,10 +7,12 @@ import Hakyll (Compiler, Context, Identifier, Item (..), MonadMetadata, Pattern,
                defaultHakyllWriterOptions, field, fromCapture, functionField, getMetadata,
                getResourceString, getTags, hakyll, idRoute, listField, loadAll,
                loadAndApplyTemplate, lookupString, makeItem, match, pandocCompilerWithTransform,
-               recentFirst, relativizeUrls, renderPandocWith, route, setExtension, tagsRules,
-               templateBodyCompiler, (.||.))
+               recentFirst, relativizeUrls, renderPandocWith, route, saveSnapshot, setExtension,
+               tagsRules, templateBodyCompiler, (.||.))
+import Hakyll.Web.Feed (renderAtom, renderRss)
 import Text.Pandoc.Options (WriterOptions (..))
 
+import Kowainik.Feed (feedCompiler)
 import Kowainik.Project (makeProjectContext)
 import Kowainik.Readme (createProjectMds)
 import Kowainik.Social (makeSocialContext)
@@ -21,6 +23,7 @@ import qualified Data.Text as T
 import qualified Text.Pandoc as Pandoc
 import qualified Text.Pandoc.Walk as Pandoc.Walk
 
+{- HLINT ignore "Use traverseToSnd" -}
 
 main :: IO ()
 main = createProjectMds
@@ -61,6 +64,7 @@ mainHakyll team = hakyll $ do
             anchorsPandocCompiler
                 >>= loadAndApplyTemplate "templates/post.html" postTagsCtx
                 >>= loadAndApplyTemplate "templates/posts-default.html" postTagsCtx
+                >>= saveSnapshot "content"
                 >>= relativizeUrls
 
     -- All posts page
@@ -73,6 +77,8 @@ mainHakyll team = hakyll $ do
         let title = "Posts tagged \"" ++ tag ++ "\""
         compilePosts title "templates/tag.html" ptrn
 
+    feedCompiler "atom.xml" renderAtom
+    feedCompiler "rss.xml"  renderRss
 
     ----------------------------------------------------------------------------
     -- Project pages
