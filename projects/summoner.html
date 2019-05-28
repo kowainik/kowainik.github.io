@@ -57,7 +57,7 @@
                 <a class="btn btn-outline-dark btn-tag" href="https://github.com/kowainik/summoner" data-icon="octicon-star" data-size="large" aria-label="Star Kowainik/summoner on GitHub">Star Project</a>
                 <a class="fa-stack fa-2x" href="https://github.com/kowainik/summoner/stargazers">
                     <i class="fa fa-star fa-stack-2x"></i>
-                    <i id="stars" class="fa fa-stack-1x fa-inverse main-font">252</i>
+                    <i id="stars" class="fa fa-stack-1x fa-inverse main-font">309</i>
                 </a>
                 <div class="author">Language: Haskell</div>
 
@@ -72,12 +72,12 @@
           <div class="row post">
               <div class="col-12 post-body">
               <p class="lead">
-                  <p><img src="https://user-images.githubusercontent.com/8126674/44388234-320aac00-a55a-11e8-879d-5dca68512031.png" alt="wizard" /> <a href="http://travis-ci.org/kowainik/summoner"><img src="https://secure.travis-ci.org/kowainik/summoner.svg" alt="Build" /></a> <a href="https://ci.appveyor.com/project/kowainik/summoner"><img src="https://ci.appveyor.com/api/projects/status/github/kowainik/summoner?branch=master&amp;svg=true" alt="Windows build" /></a> <a href="https://hackage.haskell.org/package/summoner"><img src="https://img.shields.io/hackage/v/summoner.svg" alt="Hackage" /></a> <a href="https://github.com/kowainik/summoner/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-MPL--2.0-blue.svg" alt="MPL-2.0 license" /></a></p>
+                  <p><img src="https://user-images.githubusercontent.com/8126674/44388234-320aac00-a55a-11e8-879d-5dca68512031.png" alt="wizard" /> <a href="http://travis-ci.org/kowainik/summoner"><img src="https://img.shields.io/travis/kowainik/summoner.svg?logo=travis" alt="Build" /></a> <a href="https://ci.appveyor.com/project/kowainik/summoner"><img src="https://ci.appveyor.com/api/projects/status/github/kowainik/summoner?branch=master&amp;svg=true" alt="Windows build" /></a> <a href="https://hackage.haskell.org/package/summoner"><img src="https://img.shields.io/hackage/v/summoner.svg?logo=haskell" alt="Hackage" /></a> <a href="https://github.com/kowainik/summoner/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-MPL--2.0-blue.svg" alt="MPL-2.0 license" /></a></p>
 <blockquote>
 <p><em>So many of our dreams at first seem impossible, then they seem improbable, and then, when we summon the will, they soon become inevitable.</em></p>
 <p>Christopher Reeve</p>
 </blockquote>
-<p>Summoner is a tool for scaffolding fully configured batteries-included production Haskell projects.</p>
+<p>Summoner is a tool for scaffolding fully configured batteries-included production-level Haskell projects.</p>
 <p>Do you want to create a library that is to be uploaded to Hackage/Stackage, that builds with both Cabal and Stack and supports the latest three major GHC versions? Or you are building a production application which uses a custom prelude and has CI with Travis Linux and AppVeyors Windows checks? Summoner can help you do all that with minimal effort from you - it can even upload the project to GitHub if you wish!</p>
 <p>By the way, Summoner operates as either CLI or TUI application, so you can choose what you’re more comfortable with and install only the required one.</p>
 <h2 id="structure">Structure<a href="#structure" class="anchor">🔗</a></h2>
@@ -165,16 +165,17 @@
 <p>Below you can see highlighted features in different categories.</p>
 <h3 id="project">Project <a href="#structure">↑</a><a href="#project" class="anchor">🔗</a></h3>
 <ul>
-<li>Support for Cabal and Stack build tools.</li>
-<li>Ability to pick stanzas (library, executable, test-suite, benchmark).</li>
-<li>Option to include an alternative prelude, if desired. The project would then use <a href="http://hackage.haskell.org/package/Prelude"><code>base-noprelude</code> technique</a>, and the <code>Prelude</code> module would be added to the library target.</li>
-<li>Whole Hackage-upload checklist support.</li>
-<li>Support for multiple GHC versions, with thoughtful reflection on project meta, base versions (e.g. <code>base &gt;= 4.9 &amp;&amp; &lt; 4.12</code>), etc.</li>
-<li>Different license support: MIT, BSD2, BSD3, GPL-2, GPL-3, LGPL-2.1, LGPL-3, AGPL-3, Apache-2.0, MPL-2.0, None (All Rights Reserved license without file).</li>
-<li>Creation of the <code>CHANGELOG.md</code> file with <a href="https://pvp.haskell.org">PVP versioning policy</a>.</li>
-<li>Ability to include your <code>.stylish-haskell.yaml</code> file.</li>
+<li><p>Support for Cabal and Stack build tools.</p></li>
+<li><p>Ability to pick stanzas (library, executable, test-suite, benchmark).</p></li>
+<li><p>Option to include an alternative prelude, if desired. The project would then use <a href="http://hackage.haskell.org/package/Prelude"><code>base-noprelude</code> technique</a>, and the <code>Prelude</code> module would be added to the library target.</p></li>
+<li><p>Whole Hackage-upload checklist support.</p></li>
+<li><p>Support for multiple GHC versions, with thoughtful reflection on project meta, base versions (e.g. <code>base &gt;= 4.9 &amp;&amp; &lt; 4.12</code>), etc.</p></li>
+<li><p>Ability to create runnable Haskell scripts.</p></li>
+<li><p>Different license support: MIT, BSD2, BSD3, GPL-2, GPL-3, LGPL-2.1, LGPL-3, AGPL-3, Apache-2.0, MPL-2.0, None (All Rights Reserved license without file).</p></li>
+<li><p>Creation of the <code>CHANGELOG.md</code> file with <a href="https://pvp.haskell.org">PVP versioning policy</a>.</p></li>
+<li><p>Ability to include your <code>.stylish-haskell.yaml</code> file.</p></li>
 <li><p>Usage of the <code>ghc-options</code> field with sensible defaults.</p>
-<p>If warnings are not explicitly stated in the configuration file, then the following list of GHC flags is added to all stanzas:</p>
+<p>If <code>ghc-options</code> are not explicitly stated in the configuration file, then the following list of GHC flags is added to all stanzas:</p>
 <pre><code>-Wall
 -Wincomplete-uni-patterns
 -Wincomplete-record-updates
@@ -198,10 +199,11 @@
 <li>Formation of the <code>README</code> file with Hackage, Stackage and CI badges.</li>
 <li>Linking to the GitHub repository in the <code>.cabal</code> file.</li>
 <li>Ability to include your <code>CONTRIBUTING.md</code> file.</li>
+<li>Guessing user credentials from <code>.gitconfig</code>.</li>
 </ul>
 <h3 id="ci">CI <a href="#structure">↑</a><a href="#ci" class="anchor">🔗</a></h3>
 <ul>
-<li>Generation of the <code>.travis.yml</code> file that runs build and tests on CI under Linux.</li>
+<li>Generation of the <code>.travis.yml</code> file that runs build and tests on CI under Linux using <a href="https://chshersh.github.io/posts/2019-02-25-haskell-travis">Dead simple Haskell Travis Settings for Cabal and Stack</a>.</li>
 <li>Configuration matrix on CI to build with multiple GHC versions and various build tools.</li>
 <li><code>-Werror</code> is enabled on CI not to miss any warnings.</li>
 <li>Run HLint checks on CI.</li>
@@ -276,6 +278,7 @@ cabal new-install summoner</code></pre>
 <p>To start <code>summon</code>ing projects nothing additional is required. However, to tweak your settings further, you can use additional configuration settings. There are several options you can use to set particular configurations for new projects (in increasing order of priority):</p>
 <ol type="1">
 <li>Default configuration file (<code>~/.summoner.toml</code>).</li>
+<li>Fields <code>user.login</code>, <code>user.name</code> and <code>user.email</code> from <code>~/.gitconfig</code>.</li>
 <li>Explicitly specified configuration file by <code>--file FILENAME</code> option (used instead of the default one if specified).</li>
 <li>Options that are stated by CLI arguments.</li>
 <li>User input. It could be
@@ -334,7 +337,7 @@ cabal new-install summoner</code></pre>
 <tr class="odd">
 <td><code>ghcVersions</code></td>
 <td>[GHC]</td>
-<td><code>summoner</code> uses default <code>GHC-8.4.4</code>. However, additionally you can specify other versions. For each version <code>x.y.z</code> the <code>stack-x.y.z.yaml</code> will be created.</td>
+<td><code>summoner</code> uses default <code>GHC-8.6.4</code>. However, additionally you can specify other versions. For each version <code>x.y.z</code> the <code>stack-x.y.z.yaml</code> will be created.</td>
 </tr>
 <tr class="even">
 <td><code>github</code></td>
@@ -347,71 +350,76 @@ cabal new-install summoner</code></pre>
 <td>List of files you want added to the default <code>.gitignore</code>. (Ignored if <code>github = false</code>)</td>
 </tr>
 <tr class="even">
+<td><code>noUpload</code></td>
+<td>Bool</td>
+<td>Do not upload to GitHub, but create all GitHub related files if specified (Ignored if <code>github = false</code>)</td>
+</tr>
+<tr class="odd">
 <td><code>private</code></td>
 <td>Bool</td>
 <td>Create private repository by default? (Ignored if <code>github = false</code>)</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><code>travis</code></td>
 <td>Bool</td>
 <td>Turn on <code>Travis</code> integration by default? (Ignored if <code>github = false</code>)</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><code>appveyor</code></td>
 <td>Bool</td>
 <td>Turn on <code>AppVeyor</code> integration by default? (Ignored if <code>github = false</code>)</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><code>lib</code></td>
 <td>Bool</td>
 <td>Create <code>src</code> folder with simple <code>ProjectName.hs</code> file and library target?</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><code>exe</code></td>
 <td>Bool</td>
 <td>Create <code>app</code> folder with simple <code>Main.hs</code> file and executable target?</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><code>test</code></td>
 <td>Bool</td>
 <td>Create <code>test</code> folder with simple <code>Spec.hs</code> file and test target?</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><code>bench</code></td>
 <td>Bool</td>
 <td>Create <code>benchmark</code> folder with <code>Main.hs</code> file with <a href="https://hackage.haskell.org/package/gauge"><code>gauge</code></a> library usage example?</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><code>extensions</code></td>
 <td>[Text]</td>
 <td>List of the default extensions to add into <code>default-extensions</code> section in the <code>.cabal</code>.</td>
 </tr>
-<tr class="even">
-<td><code>warnings</code></td>
-<td>[Text]</td>
-<td>List of the default checks and warnings to add into <code>ghc-options</code> section in the <code>.cabal</code>.</td>
-</tr>
 <tr class="odd">
+<td><code>ghc-options</code></td>
+<td>[Text]</td>
+<td>List of the default GHC options to add into <code>ghc-options</code> section in the <code>.cabal</code>.</td>
+</tr>
+<tr class="even">
 <td><code>stylish.*</code></td>
 <td>Text</td>
 <td><code>stylish.file</code> to provide the absolute file path OR <code>stylish.url</code> to download the <code>.stylish-haskell.yaml</code> file to use in the project.</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><code>contributing.*</code></td>
 <td>Text</td>
 <td><code>contributing.file</code> to provide the absolute file path OR <code>contributing.url</code> download OR <code>contribuint.link</code> to link the <code>CONTRIBUTING.md</code> file to use in the project.</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><code>[prelude]</code></td>
 <td></td>
 <td></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><code>package</code></td>
 <td>Text</td>
 <td>The package name of the custom prelude you’d like to use in the project (doesn’t work without <code>module</code> field).</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><code>module</code></td>
 <td>Text</td>
 <td>The module name of the custom prelude you’d like to use in the project (doesn’t work without <code>package</code> field).</td>
@@ -427,6 +435,7 @@ cabal new-install summoner</code></pre>
 
 Available commands:
   new                      Create a new Haskell project
+  script                   Create a new Haskell script
   show                     Show available licenses or ghc versions
 
 Available global options:
@@ -474,6 +483,15 @@ Available command options:
   -e, --exec               Executable target
   -t, --test               Tests
   -b, --benchmark          Benchmarks</code></pre>
+<h4 id="summon-script-command"><strong>summon script</strong> command: <a href="#structure">↑</a><a href="#summon-script-command" class="anchor">🔗</a></h4>
+<pre><code>Usage:
+  summon script BUILD_TOOL [-g|--ghc GHC_VERSION] [-n|--name FILE_NAME]
+      Create a new Haskell script
+
+Available options:
+  -h,--help                Show this help text
+  -g,--ghc GHC_VERSION     Version of the compiler to be used for script
+  -n,--name FILE_NAME      Name of the script file</code></pre>
 <h4 id="summon-show-command"><strong>summon show</strong> command: <a href="#structure">↑</a><a href="#summon-show-command" class="anchor">🔗</a></h4>
 <pre><code>Usage:
   summon show COMMAND
@@ -567,11 +585,34 @@ Available options:
 </tbody>
 </table>
 <p>Note that the form should be valid in order to be able to go to the Confirm window. If there are some errors in the input, you could see details about these errors in the <code>Status</code> section of the form.</p>
+<h4 id="tui-script-command">TUI script command <a href="#structure">↑</a><a href="#tui-script-command" class="anchor">🔗</a></h4>
+<p>See <a href="#cli-script-command-">CLI description</a> of the <code>summon script</code> command.</p>
 <h4 id="tui-show-command">TUI show command <a href="#structure">↑</a><a href="#tui-show-command" class="anchor">🔗</a></h4>
 <p>These commands display the list of supported GHC versions or Licenses. Also, when the license name is specified the window with the scrollable content of the License text is shown.</p>
 <h3 id="cli">CLI <a href="#structure">↑</a><a href="#cli" class="anchor">🔗</a></h3>
 <h4 id="cli-new-command">CLI new command <a href="#structure">↑</a><a href="#cli-new-command" class="anchor">🔗</a></h4>
 <p>In CLI mode of operation Summoner asks about every project setting. Most of the questions contain a default value, so you can press <kbd>Enter</kbd> to choose the default value. If some option is specified via a configuration file or CLI arguments, then the question is skipped and the predefined value is used.</p>
+<h4 id="cli-script-command">CLI script command <a href="#structure">↑</a><a href="#cli-script-command" class="anchor">🔗</a></h4>
+<p>This command creates minimal <code>cabal</code> or <code>stack</code> script file which allows you to save some keystrokes and eliminates the need to remember magic words for scripts.</p>
+<p><strong>Cabal example:</strong> <code>summon script cabal -n Main.hs</code> generates executable file <code>Main.hs</code> with the following content:</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb24-1" title="1"><span class="pp">#!/usr/bin/env cabal</span></a>
+<a class="sourceLine" id="cb24-2" title="2"><span class="co">{- cabal:</span></a>
+<a class="sourceLine" id="cb24-3" title="3"><span class="co">build-depends:</span></a>
+<a class="sourceLine" id="cb24-4" title="4"><span class="co">  , base ^&gt;= 4.12.0.0</span></a>
+<a class="sourceLine" id="cb24-5" title="5"><span class="co">-}</span></a>
+<a class="sourceLine" id="cb24-6" title="6"></a>
+<a class="sourceLine" id="cb24-7" title="7"><span class="ot">main ::</span> <span class="dt">IO</span> ()</a>
+<a class="sourceLine" id="cb24-8" title="8">main <span class="ot">=</span> <span class="fu">putStrLn</span> <span class="st">&quot;Hello, World!&quot;</span></a></code></pre></div>
+<p><strong>Stack example:</strong> <code>summon script stack -n Main.hs</code> generates executable file <code>Main.hs</code> with the following content:</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb25-1" title="1"><span class="pp">#!/usr/bin/env stack</span></a>
+<a class="sourceLine" id="cb25-2" title="2"><span class="co">{- stack</span></a>
+<a class="sourceLine" id="cb25-3" title="3"><span class="co">  --resolver lts-13.16</span></a>
+<a class="sourceLine" id="cb25-4" title="4"><span class="co">  script</span></a>
+<a class="sourceLine" id="cb25-5" title="5"><span class="co">  --package base</span></a>
+<a class="sourceLine" id="cb25-6" title="6"><span class="co">-}</span></a>
+<a class="sourceLine" id="cb25-7" title="7"></a>
+<a class="sourceLine" id="cb25-8" title="8"><span class="ot">main ::</span> <span class="dt">IO</span> ()</a>
+<a class="sourceLine" id="cb25-9" title="9">main <span class="ot">=</span> <span class="fu">putStrLn</span> <span class="st">&quot;Hello, World!&quot;</span></a></code></pre></div>
 <h4 id="cli-show-command">CLI show command <a href="#structure">↑</a><a href="#cli-show-command" class="anchor">🔗</a></h4>
 <p>These commands display the list of supported GHC versions, or Licenses. Also, when the license name is specified, the content of the License is outputted to the terminal.</p>
 <h2 id="faq">FAQ <a href="#structure">↑</a><a href="#faq" class="anchor">🔗</a></h2>

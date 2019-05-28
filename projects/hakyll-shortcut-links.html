@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+      <!-- Global site tag (gtag.js) - Google Analytics -->
+      <script async src="https://www.googletagmanager.com/gtag/js?id=UA-125893749-1"></script>
+      <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+
+          gtag('config', 'UA-125893749-1');
+          </script>
+    <title>hakyll shortcut links</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Kowainik page">
+    <meta name="keywords" content="Haskell, Functional progarmming, FP">
+    <meta name="author" content="Kowainik" />
+
+    <!-- Twitter cards -->
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="@kowainik" />
+    <meta property="twitter:title" content="Kowainik - hakyll shortcut links" />
+    <meta name="twitter:description" content="✂️ Hakyll shortcut-links in markdown files" />
+    <meta name="twitter:image:src" content="https://kowainik.github.io/images/logo-yellow.png" />
+    <meta property="og:title" content="Kowainik - hakyll shortcut links" />
+    <meta property="og:description" content="✂️ Hakyll shortcut-links in markdown files" />
+    <meta property="og:site_name" content="Kowainik" />
+    <meta property="og:image" content="https://kowainik.github.io/images/logo-yellow.png" />
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon">
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.11.0/styles/dracula.min.css" />
+    <!-- Custom fonts for this template -->
+    <link href="../css/font-awesome.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+
+    <!-- Custom styles for this template -->
+    <link href="../css/default.css" rel="stylesheet">
+    <link href="../css/post.css" rel="stylesheet">
+  </head>
+
+  <body class="body-posts">
+
+      <!-- Header -->
+      <nav class="navbar navbar-inverse navbar-fixed-left leftmenu bg-primary text-secondary">
+            <div class="navbar-header">
+                <div class="postslogo"> <a class="navbar-brand" href="../"><img class="img-fluid mb-5 d-block mx-auto" src="../images/logo-tr.png" alt="Kowainik"></a></div>
+
+            </div>
+            <div class="coolFont">
+                <a class="btn btn-outline-dark btn-tag" href="https://github.com/kowainik/hakyll-shortcut-links" data-icon="octicon-star" data-size="large" aria-label="Star Kowainik/hakyll-shortcut-links on GitHub">Star Project</a>
+                <a class="fa-stack fa-2x" href="https://github.com/kowainik/hakyll-shortcut-links/stargazers">
+                    <i class="fa fa-star fa-stack-2x"></i>
+                    <i id="stars" class="fa fa-stack-1x fa-inverse main-font">6</i>
+                </a>
+                <div class="author">Language: Haskell</div>
+
+                <div class="allposts">
+                    <h3><a href="../projects"> Projects =<< </a></h3>
+                </div>
+            </div>
+      </nav>
+      <div class="container info">
+          <h2 class="text-center text-uppercase text-secondary">hakyll shortcut links</h2>
+          <div class="content">
+          <div class="row post">
+              <div class="col-12 post-body">
+              <p class="lead">
+                  <p><img src="https://user-images.githubusercontent.com/4276606/56942330-9bf93d80-6b4c-11e9-8286-3cb98eb0c94f.png" alt="scissors" /> <a href="https://hackage.haskell.org/package/hakyll-shortcut-links"><img src="https://img.shields.io/hackage/v/hakyll-shortcut-links.svg?logo=haskell" alt="Hackage" /></a> <a href="LICENSE"><img src="https://img.shields.io/badge/license-MPL--2.0-blue.svg" alt="MPL-2.0 license" /></a> <a href="https://travis-ci.org/kowainik/hakyll-shortcut-links"><img src="https://img.shields.io/travis/kowainik/hakyll-shortcut-links.svg?logo=travis" alt="Build status" /></a></p>
+<p>This library adds the support of the <a href="https://hackage.haskell.org/package/shortcut-links"><code>shortcut-links</code></a> library in the static website generator library — <a href="https://hackage.haskell.org/package/hakyll"><code>Hakyll</code></a>.</p>
+<p>That being said, it means that you can use shortcuts from <code>shortcut-links</code> library or custom ones in your markdown files which would be extended into complete URLs during the Hakyll site compilation process.</p>
+<p>Here is the example of how links could look like before expansion:</p>
+<pre><code>Here is going to be a link to the [hakyll-shortcut-links](@hackage) library on Hackage.
+And another link to the [GitHub sources](@github(kowainik):hakyll-shortcut-links).</code></pre>
+<p>which is going to be transformed into the ordinary links automatically by the library functions:</p>
+<pre><code>Here is going to be a link to the [hakyll-shortcut-links](http://hackage.haskell.org/package/hakyll-shortcut-links) library on Hackage.
+And another link to the [GitHub sources](https://github.com/kowainik/hakyll-shortcut-links).</code></pre>
+<p>For the full list of the supported shortcuts, you can check <a href="https://hackage.haskell.org/package/shortcut-links/docs/ShortcutLinks-All.html">ShortcutLinks.All module</a> of the <code>shortcut-links</code> library.</p>
+<h2 id="how-to-use-in-a-hakyll-project">How to use in a Hakyll project<a href="#how-to-use-in-a-hakyll-project" class="anchor">🔗</a></h2>
+<p>To use <code>hakyll-shortcut-links</code> in your ready Hakyll project, you would need to go through the following steps:</p>
+<h3 id="add-the-dependency">Add the dependency<a href="#add-the-dependency" class="anchor">🔗</a></h3>
+<p>Add <code>hakyll-shortcut-links</code> under the <code>build-depends</code> section in your <code>.cabal</code> file. If you use <code>Stack</code> build tool, you would need to add the library into <code>extra-deps</code> list in the <code>stack.yaml</code> file.</p>
+<h3 id="change-a-standard-pandoccompiler">Change a standard pandocCompiler<a href="#change-a-standard-pandoccompiler" class="anchor">🔗</a></h3>
+<p>Here we assume that you already have a Hakyll project. If not then you can use <a href="https://jaspervdj.be/hakyll/tutorials.html">these tutorials</a> to create one. Anyway, you would eventually have the code that uses <code>pandocCompiler</code> that could look like this function:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb3-1" title="1">compile <span class="op">$</span></a>
+<a class="sourceLine" id="cb3-2" title="2">    pandocCompiler <span class="op">&gt;&gt;=</span> loadAndApplyTemplate <span class="st">&quot;templates/post.html&quot;</span> postCtx</a></code></pre></div>
+<p>All you need to change is to use <code>allShortcutLinksCompiler</code> or <code>shortcutLinksCompiler</code> function from this library instead of the standard <code>pandocCompiler</code>:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb4-1" title="1"><span class="kw">import</span> <span class="dt">Hakyll.ShortcutLinks</span> (allShortcutLinksCompiler)</a>
+<a class="sourceLine" id="cb4-2" title="2"></a>
+<a class="sourceLine" id="cb4-3" title="3"><span class="op">...</span></a>
+<a class="sourceLine" id="cb4-4" title="4"></a>
+<a class="sourceLine" id="cb4-5" title="5">compile <span class="op">$</span></a>
+<a class="sourceLine" id="cb4-6" title="6">    allShortcutLinksCompiler <span class="op">&gt;&gt;=</span> loadAndApplyTemplate <span class="st">&quot;templates/post.html&quot;</span> postCtx</a></code></pre></div>
+<p>That’s all!</p>
+<p>There could be another situation. You could already have some custom Compiler function:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb5-1" title="1"><span class="co">-- | A pandoc compiler which makes all entries of &quot;42&quot; bold automatically.</span></a>
+<a class="sourceLine" id="cb5-2" title="2"><span class="ot">bold42Compiler ::</span> <span class="dt">Compiler</span> (<span class="dt">Item</span> <span class="dt">String</span>)</a>
+<a class="sourceLine" id="cb5-3" title="3">bold42Compiler <span class="ot">=</span> pandocCompilerWithTransform</a>
+<a class="sourceLine" id="cb5-4" title="4">    myHakyllReaderOptions</a>
+<a class="sourceLine" id="cb5-5" title="5">    myHakyllWriterOptions</a>
+<a class="sourceLine" id="cb5-6" title="6">    make42Bold</a></code></pre></div>
+<p>In this case, you can use the <code>applyAllShortcuts</code> function directly. All you need is to combine two transformations:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb6-1" title="1"><span class="ot">myCompiler ::</span> <span class="dt">Compiler</span> (<span class="dt">Item</span> <span class="dt">String</span>)</a>
+<a class="sourceLine" id="cb6-2" title="2">myCompiler <span class="ot">=</span> pandocCompilerWithTransformM</a>
+<a class="sourceLine" id="cb6-3" title="3">    myHakyllReaderOptions</a>
+<a class="sourceLine" id="cb6-4" title="4">    myHakyllWriterOptions</a>
+<a class="sourceLine" id="cb6-5" title="5">    (applyAllShortcuts <span class="op">.</span> make42Bold)</a></code></pre></div>
+<h3 id="use-shortcuts-in-your-docs">Use shortcuts in your docs<a href="#use-shortcuts-in-your-docs" class="anchor">🔗</a></h3>
+<p>The hardest part is done, now you can create links using the shortcuts, and the Hakyll is going to build full URLs for them. Happy coding!</p>
+<h3 id="example">Example<a href="#example" class="anchor">🔗</a></h3>
+<p>Here is an example of the pull request that introduces the <code>hakyll-shortcut-links</code> library into the scope:</p>
+<ul>
+<li><a href="https://github.com/vrom911/vrom911.github.io/pull/32">Some Hakyll website</a></li>
+</ul>
+<p>As you can see by the diff the only actual change needed for that was replacing <code>pandocCompiler</code> with <code>allShortcutLinksCompiler</code>.</p>
+<h2 id="acknowledgement">Acknowledgement<a href="#acknowledgement" class="anchor">🔗</a></h2>
+<p>Icons made by <a href="http://www.freepik.com">Freepik</a> from <a href="https://www.flaticon.com/">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/">CC 3.0 BY</a>.</p>
+              </p>
+              </div>
+          </div>
+          </div>
+
+
+      </div>
+
+      <script src="../js/stars.js"></script>
+      <script>
+       shootingStars("kowainik/hakyll-shortcut-links", function (stars) {
+           document.getElementById("stars").innerHTML = stars;
+       });
+      </script>
+
+
+      <!-- Bootstrap core JavaScript -->
+      <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"> </script>
+      <script src="../js/post.js"> </script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/haskell.min.js"></script>
+      <script>hljs.initHighlightingOnLoad()</script>
+      <script async defer src="https://buttons.github.io/buttons.js"></script>
+  </body>
+</html>

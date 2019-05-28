@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <title>Kowainik Blog</title>
+    <link href="https://kowainik.github.io/atom.xml" rel="self" />
+    <link href="https://kowainik.github.io" />
+    <id>https://kowainik.github.io/atom.xml</id>
+    <author>
+        <name>Kowainik</name>
+        <email>xrom.xkov@gmail.com</email>
+    </author>
+    <updated>2019-02-06T00:00:00Z</updated>
+    <entry>
+    <title>Haskell Style Guide</title>
+    <link href="https://kowainik.github.io/posts/2019-02-06-style-guide.html" />
+    <id>https://kowainik.github.io/posts/2019-02-06-style-guide.html</id>
+    <published>2019-02-06T00:00:00Z</published>
+    <updated>2019-02-06T00:00:00Z</updated>
+    <summary type="html"><![CDATA[Haskell Style guide used in Kowainik]]></summary>
+</entry>
+<entry>
+    <title>tomland: Bidirectional TOML serialization</title>
+    <link href="https://kowainik.github.io/posts/2019-01-14-tomland.html" />
+    <id>https://kowainik.github.io/posts/2019-01-14-tomland.html</id>
+    <published>2019-01-14T00:00:00Z</published>
+    <updated>2019-01-14T00:00:00Z</updated>
+    <summary type="html"><![CDATA[Architecture of the bidirectional serialization library with usage of profunctors, GADTs and Monad transformers]]></summary>
+</entry>
+<entry>
+    <title>State monad comes to help sequential pattern matching</title>
+    <link href="https://kowainik.github.io/posts/2018-11-18-state-pattern-matching.html" />
+    <id>https://kowainik.github.io/posts/2018-11-18-state-pattern-matching.html</id>
+    <published>2018-11-18T00:00:00Z</published>
+    <updated>2018-11-18T00:00:00Z</updated>
+    <summary type="html"><![CDATA[Combining Monad transformers and applicative functors for better error messages report]]></summary>
+</entry>
+<entry>
+    <title>Hacktoberfest 2018 Wrap-up</title>
+    <link href="https://kowainik.github.io/posts/2018-11-01-hacktoberfest-wrap-up.html" />
+    <id>https://kowainik.github.io/posts/2018-11-01-hacktoberfest-wrap-up.html</id>
+    <published>2018-11-01T00:00:00Z</published>
+    <updated>2018-11-01T00:00:00Z</updated>
+    <summary type="html"><![CDATA[Astonishing results of the Hacktoberfest 2018 in Kowainik]]></summary>
+</entry>
+<entry>
+    <title>Hacktoberfest 2018: Call for participation</title>
+    <link href="https://kowainik.github.io/posts/2018-10-01-hacktoberfest.html" />
+    <id>https://kowainik.github.io/posts/2018-10-01-hacktoberfest.html</id>
+    <published>2018-10-01T00:00:00Z</published>
+    <updated>2018-10-01T00:00:00Z</updated>
+    <summary type="html"><![CDATA[Join us in the Hacktoberfest 2018!]]></summary>
+</entry>
+<entry>
+    <title>co-log: Composable Contravariant Combinatorial Comonadic Configurable Convenient Logging</title>
+    <link href="https://kowainik.github.io/posts/2018-09-25-co-log.html" />
+    <id>https://kowainik.github.io/posts/2018-09-25-co-log.html</id>
+    <published>2018-09-25T00:00:00Z</published>
+    <updated>2018-09-25T00:00:00Z</updated>
+    <summary type="html"><![CDATA[Architecture of the modern logging library in Haskell]]></summary>
+</entry>
+<entry>
+    <title>Dhall to HLint: Using Dhall to generate HLint rules</title>
+    <link href="https://kowainik.github.io/posts/2018-09-09-dhall-to-hlint.html" />
+    <id>https://kowainik.github.io/posts/2018-09-09-dhall-to-hlint.html</id>
+    <published>2018-09-09T00:00:00Z</published>
+    <updated>2018-09-09T00:00:00Z</updated>
+    <summary type="html"><![CDATA[Creating custom HLint rules for alternative preludes with Dhall]]></summary>
+</entry>
+<entry>
+    <title>Picnic: put containers into a backpack</title>
+    <link href="https://kowainik.github.io/posts/2018-08-19-picnic-put-containers-into-a-backpack.html" />
+    <id>https://kowainik.github.io/posts/2018-08-19-picnic-put-containers-into-a-backpack.html</id>
+    <published>2018-08-19T00:00:00Z</published>
+    <updated>2018-08-19T00:00:00Z</updated>
+    <summary type="html"><![CDATA[The Backpack implementation of the uniform interface for containers]]></summary>
+</entry>
+<entry>
+    <title>typerep-map step by step</title>
+    <link href="https://kowainik.github.io/posts/2018-07-11-typerep-map-step-by-step.html" />
+    <id>https://kowainik.github.io/posts/2018-07-11-typerep-map-step-by-step.html</id>
+    <published>2018-07-11T00:00:00Z</published>
+    <updated>2018-07-11T00:00:00Z</updated>
+    <summary type="html"><![CDATA[Efficient implementation of Map with types as keys]]></summary>
+</entry>
+<entry>
+    <title>Haskell: Build Tools</title>
+    <link href="https://kowainik.github.io/posts/2018-06-21-haskell-build-tools.html" />
+    <id>https://kowainik.github.io/posts/2018-06-21-haskell-build-tools.html</id>
+    <published>2018-06-21T00:00:00Z</published>
+    <updated>2018-06-21T00:00:00Z</updated>
+    <summary type="html"><![CDATA[Description of the basic workflows with the main Haskell build tools]]></summary>
+</entry>
+
+</feed>
