@@ -23,6 +23,7 @@ import qualified Data.Text as T
 import qualified Text.Pandoc as Pandoc
 import qualified Text.Pandoc.Walk as Pandoc.Walk
 
+{- HLINT ignore "Use traverseToSnd" -}
 
 main :: IO ()
 main = createProjectMds
