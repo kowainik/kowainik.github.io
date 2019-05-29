@@ -116,10 +116,12 @@ hr.star-dark-pr:after {
 }
 
 .btn-social {
-    width: 3.25rem;
-    height: 3.25rem;
+    width: 2.25rem;
+    height: 2.25rem;
     font-size: 1.25rem;
-    line-height: 2rem;
+    line-height: 1rem;
+    padding-left: 0;
+    padding-right: 0;
 }
 
 .btn-social:hover, .btn-social:focus, .btn-social:active {

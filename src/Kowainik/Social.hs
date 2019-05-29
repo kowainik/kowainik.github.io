@@ -21,6 +21,7 @@ allSocials = traverse makeItem
     , Social "reddit"   "https://www.reddit.com/user/kowainik"
     , Social "linkedin" "https://www.linkedin.com/company/kowainik"
     , Social "telegram" "https://t.me/kowainik"
+    , Social "rss"      "/rss.xml"
     ]
 
 makeSocialContext :: Context a
