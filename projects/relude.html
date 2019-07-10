@@ -57,7 +57,7 @@
                 <a class="btn btn-outline-dark btn-tag" href="https://github.com/kowainik/relude" data-icon="octicon-star" data-size="large" aria-label="Star Kowainik/relude on GitHub">Star Project</a>
                 <a class="fa-stack fa-2x" href="https://github.com/kowainik/relude/stargazers">
                     <i class="fa fa-star fa-stack-2x"></i>
-                    <i id="stars" class="fa fa-stack-1x fa-inverse main-font">161</i>
+                    <i id="stars" class="fa fa-stack-1x fa-inverse main-font">183</i>
                 </a>
                 <div class="author">Language: Haskell</div>
 
@@ -72,30 +72,32 @@
           <div class="row post">
               <div class="col-12 post-body">
               <p class="lead">
-                  <p><img src="https://user-images.githubusercontent.com/4276606/44077619-d2abb39a-9fd6-11e8-9d9f-cc57a9d03fa0.png" alt="Relude: cyclone logo" /> <a href="http://travis-ci.org/kowainik/relude"><img src="https://img.shields.io/travis/kowainik/relude.svg?logo=travis" alt="Build" /></a> <a href="https://hackage.haskell.org/package/relude"><img src="https://img.shields.io/hackage/v/relude.svg?logo=haskell" alt="Hackage" /></a> <a href="http://stackage.org/lts/package/relude"><img src="http://stackage.org/package/relude/badge/lts" alt="Stackage LTS" /></a> <a href="http://stackage.org/nightly/package/relude"><img src="http://stackage.org/package/relude/badge/nightly" alt="Stackage Nightly" /></a> <a href="http://packdeps.haskellers.com/reverse/relude"><img src="https://img.shields.io/hackage-deps/v/relude.svg" alt="Hackage-Deps" /></a> <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT" /></a></p>
-<p><code>relude</code> is a custom prelude, an alternative to default <code>Prelude</code>. <code>relude</code> tries to achieve the following goals:</p>
+                  <p><img src="https://user-images.githubusercontent.com/4276606/44077619-d2abb39a-9fd6-11e8-9d9f-cc57a9d03fa0.png" alt="Relude: cyclone logo" /> <a href="http://travis-ci.org/kowainik/relude"><img src="https://img.shields.io/travis/kowainik/relude.svg?logo=travis" alt="Build" /></a> <a href="https://hackage.haskell.org/package/relude"><img src="https://img.shields.io/hackage/v/relude.svg?logo=haskell" alt="Hackage" /></a> <a href="http://stackage.org/lts/package/relude"><img src="http://stackage.org/package/relude/badge/lts" alt="Stackage LTS" /></a> <a href="http://stackage.org/nightly/package/relude"><img src="http://stackage.org/package/relude/badge/nightly" alt="Stackage Nightly" /></a> <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT" /></a></p>
+<p><strong><code>relude</code></strong> is an alternative prelude library. If you find the default <code>Prelude</code> unsatisfying, despite its advantages, consider using <code>relude</code> instead.</p>
+<p>Below you can find key design principles behind <code>relude</code>:</p>
 <ol type="1">
 <li><p><strong>Avoid all</strong> <a href="https://www.reddit.com/r/haskell/comments/5n51u3/why_are_partial_functions_as_in_head_tail_bad/"><strong>partial functions</strong></a> (like <code>head :: [a] -&gt; a</code>). The types of partial functions lie about their behavior and usage of such functions can lead to the unexpected bugs. Though you can still use some unsafe functions from <code>Relude.Unsafe</code> module, but they are not exported by default.</p></li>
-<li><p><strong>Type-safety</strong>. We like to make invalid states unrepresentable. And if it’s possible to express this concept through the types then we will do it.</p>
+<li><p><strong>Type-safety</strong>. We like to make invalid states unrepresentable. And if it’s possible to express this concept through the types then we do it.</p>
 <p><em>Example:</em> <code>haskell  whenNotNull :: Applicative f =&gt; [a] -&gt; (NonEmpty a -&gt; f ()) -&gt; f ()</code> instead of <code>haskell  whenNotNull :: Applicative f =&gt; [a] -&gt; ([a] -&gt; f ()) -&gt; f ()</code></p></li>
 <li><p><strong>Performance.</strong> Prefer <code>Text</code> over <a href="https://www.reddit.com/r/haskell/comments/29jw0s/whats_wrong_with_string/"><code>String</code></a>, use spaceleak-free functions (like our custom <code>sum</code> and <code>product</code>), introduce <code>{-# INLINE #-}</code> and <code>{-# SPECIALIZE #-}</code> pragmas where appropriate.</p></li>
-<li><p><strong>Minimalism</strong> (low number of dependencies). We don’t force users of <code>relude</code> to stick to some specific lens or text formatting or logging library.</p></li>
-<li><p><strong>Convenience</strong> (like lifted to <code>MonadIO</code> functions, more reexports). But we want to bring common types and functions (like <code>containers</code> and <code>bytestring</code>) into scope because they are used in almost every application anyways.</p></li>
+<li><p><strong>Minimalism</strong> (low number of dependencies). We don’t force users of <code>relude</code> to stick to some specific lens or text formatting or logging library. If possible, <code>relude</code> tries to depend only on boot libraies. <a href="relude-dependency-graph.pdf">Dependency graph</a> of <code>relude</code> can give you clearer picture.</p></li>
+<li><p><strong>Convenience</strong> (e.g lifted to <code>MonadIO</code> functions, more reexports). Despite minimalism, we want to bring common types and functions (like <code>containers</code> and <code>bytestring</code>) into scope because they are used in almost every application anyways.</p></li>
 <li><p><strong>Provide excellent documentation.</strong></p>
 <ul>
 <li>Tutorial</li>
 <li>Migration guide from <code>Prelude</code></li>
-<li>Haddock with examples for (almost) every function (all examples are tested with <a href="http://hackage.haskell.org/package/doctest"><code>doctest</code></a>)</li>
-<li>Documentation regarding <a href="(http://hackage.haskell.org/package/relude/docs/Relude.html)">internal module structure</a></li>
+<li>Haddock for every function with examples tested by <a href="http://hackage.haskell.org/package/doctest"><code>doctest</code></a></li>
+<li>Documentation on <a href="http://hackage.haskell.org/package/relude/docs/Relude.html">internal module structure</a></li>
 <li><code>relude</code>-specific <a href="http://hackage.haskell.org/package/hlint">HLint</a> rules: <a href=".hlint.yaml"><code>.hlint.yaml</code></a></li>
 </ul></li>
 <li><p><strong>User-friendliness.</strong> Ability to quickly migrate to <code>relude</code> if you’re familiar with the common libraries like <code>text</code> and <code>containers</code>.</p></li>
 <li><p><strong>Exploration.</strong> Experiment with new ideas and proposals without introducing breaking changes. <code>relude</code> uses the approach with <code>Extra.*</code> modules which are not exported by default so it’s quite easy to bring something new and let users decide to use it or not.</p></li>
 </ol>
-<p>This README contains introduction to <code>Relude</code> and a tutorial on how to use it.</p>
+<p>This README contains introduction to <code>relude</code> and a tutorial on how to use it.</p>
 <h2 id="structure-of-this-tutorial">Structure of this tutorial<a href="#structure-of-this-tutorial" class="anchor">🔗</a></h2>
 <p>This tutorial has several parts:</p>
 <ol type="1">
+<li><a href="#when-to-use-an-alternative-prelude-">When to use an alternative prelude?</a></li>
 <li><a href="#get-started-">Get started</a>
 <ul>
 <li><a href="#base-noprelude-">base-noprelude</a></li>
@@ -112,7 +114,31 @@
 </ul></li>
 <li><a href="#for-developers-">For developers</a></li>
 </ol>
-<p>This is neither a tutorial on <em>Haskell</em> nor tutorial on each function contained in <code>Relude</code>. For detailed documentation of every function together with examples and usage, see <a href="http://hackage.haskell.org/package/relude"><em>Haddock documentation</em></a>.</p>
+<p>This is neither a tutorial on <em>Haskell</em> nor tutorial on each function contained in <code>relude</code>. For detailed documentation of every function together with examples and usage, see <a href="http://hackage.haskell.org/package/relude"><em>Haddock documentation</em></a>.</p>
+<h2 id="when-to-use-an-alternative-prelude">When to use an alternative prelude? <a href="#structure-of-this-tutorial">↑</a><a href="#when-to-use-an-alternative-prelude" class="anchor">🔗</a></h2>
+<p>Module with the name <code>Prelude</code> is a module imported by default in every Haskell source file of your project. If you want to use some data types or functions which are not exposed by <code>Prelude</code>, you need to import them, adding necessary libraries to your project dependencies. Unlike ordinary libraries, alternative preludes provide different set of available by default functions and data types.</p>
+<p>Replacing default <code>Prelude</code> from <code>base</code> has the following disadvangates:</p>
+<ol type="1">
+<li>Increased threshold entrance: you need to learn different standard library.
+<ul>
+<li><code>relude</code> tries to lower this threshold as much as possible: excellent documentation, no custom abstractions, behavior is changed only for small subset of functions.</li>
+</ul></li>
+<li>Extra dependencies: adding more libraries to dependencies increases build times and maintenance burden.
+<ul>
+<li><code>relude</code> depends only on boot libraries (almost) which results in small build time, follows <a href="https://pvp.haskell.org/">PvP</a> and cares about backwards compatibility.</li>
+</ul></li>
+</ol>
+<p>However, using an alternative prelude, specifically <code>relude</code>, has the following <strong>advantages</strong>:</p>
+<ol type="1">
+<li>Increased code safety: no partial functions, no space-leak functions.</li>
+<li>Increased productivity: no need to import common functions and data types, more common idioms provided.</li>
+<li>Increased performance: some functions in <code>relude</code> are faster than in default <code>Prelude</code>.</li>
+</ol>
+<p>Our recommendations when to use <code>relude</code>:</p>
+<ol type="1">
+<li>When you develop application (e.g. CLI tool, web-app). In that case better productivity is more important than lower number dependencies.</li>
+<li>When writing a big framework. Some of them can be bigger than applications.</li>
+</ol>
 <h2 id="get-started">Get started <a href="#structure-of-this-tutorial">↑</a><a href="#get-started" class="anchor">🔗</a></h2>
 <p>If you want to start using <code>relude</code> in your project and explore it with the help of compiler, set everything up according to one of the instructions below.</p>
 <h3 id="base-noprelude">base-noprelude <a href="#structure-of-this-tutorial">↑</a><a href="#base-noprelude" class="anchor">🔗</a></h3>
@@ -121,11 +147,11 @@
 <li><p>Replace <code>base</code> dependency with corresponding version of <code>base-noprelude</code> in your <code>.cabal</code> file.</p></li>
 <li><p>Add a <code>relude</code> dependency to your <code>.cabal</code> file.</p></li>
 <li><p>Add the following <code>Prelude</code> module to your project (both to filesystem and to <code>exposed-modules</code>):</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb1-1" title="1"><span class="kw">module</span> <span class="dt">Prelude</span></a>
-<a class="sourceLine" id="cb1-2" title="2">       ( <span class="kw">module</span> <span class="dt">Relude</span></a>
-<a class="sourceLine" id="cb1-3" title="3">       ) <span class="kw">where</span></a>
-<a class="sourceLine" id="cb1-4" title="4"></a>
-<a class="sourceLine" id="cb1-5" title="5"><span class="kw">import</span> <span class="dt">Relude</span></a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">module</span> <span class="dt">Prelude</span></span>
+<span id="cb1-2"><a href="#cb1-2"></a>       ( <span class="kw">module</span> <span class="dt">Relude</span></span>
+<span id="cb1-3"><a href="#cb1-3"></a>       ) <span class="kw">where</span></span>
+<span id="cb1-4"><a href="#cb1-4"></a></span>
+<span id="cb1-5"><a href="#cb1-5"></a><span class="kw">import</span> <span class="dt">Relude</span></span></code></pre></div>
 <blockquote>
 <p><strong>NOTE:</strong> if you use <a href="https://github.com/kowainik/summoner"><code>summoner</code></a> to generate Haskell project, this tool can automatically create such structure for you when you specify custom prelude.</p>
 </blockquote></li>
@@ -155,43 +181,57 @@ library
                      , relude (Relude as Prelude, Relude.Extra.Enum)</code></pre>
 <h3 id="noimplicitprelude">NoImplicitPrelude <a href="#structure-of-this-tutorial">↑</a><a href="#noimplicitprelude" class="anchor">🔗</a></h3>
 <p>Disable the built-in prelude at the top of your file:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb4-1" title="1"><span class="ot">{-# LANGUAGE NoImplicitPrelude #-}</span></a></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb4-1"><a href="#cb4-1"></a><span class="ot">{-# LANGUAGE NoImplicitPrelude #-}</span></span></code></pre></div>
 <p>Or directly in your project <code>.cabal</code> file, if you want to use in every module by default:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb5-1" title="1">default<span class="op">-</span>extensions<span class="op">:</span> <span class="dt">NoImplicitPrelude</span></a></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb5-1"><a href="#cb5-1"></a>default<span class="op">-</span>extensions<span class="op">:</span> <span class="dt">NoImplicitPrelude</span></span></code></pre></div>
 <p>Add <code>relude</code> as a dependency of your project. Then add the following import to your modules:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb6-1" title="1"><span class="kw">import</span> <span class="dt">Relude</span></a></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb6-1"><a href="#cb6-1"></a><span class="kw">import</span> <span class="dt">Relude</span></span></code></pre></div>
 <h2 id="difference-from-prelude">Difference from Prelude <a href="#structure-of-this-tutorial">↑</a><a href="#difference-from-prelude" class="anchor">🔗</a></h2>
+<p>Main differences from <code>Prelude</code> can be grouped into the following categories:</p>
 <ul>
-<li><p><code>head</code>, <code>tail</code>, <code>last</code>, <code>init</code> work with <code>NonEmpty a</code> instead of <code>[a]</code>.</p></li>
-<li><p><code>undefined</code> triggers a compiler warning, because you probably don’t want to leave <code>undefined</code> in your code. Either use <code>throwIO</code>, <code>Except</code>, <code>error</code> or <code>bug</code>.</p></li>
-<li><p>Multiple sorting functions are available without imports:</p>
+<li>Changed behavior of common functions
 <ul>
-<li><code>sortBy :: (a -&gt; a -&gt; Ordering) -&gt; [a] -&gt; [a]</code>: sorts list using given custom comparator.</li>
-<li><code>sortWith :: Ord b =&gt; (a -&gt; b) -&gt; [a] -&gt; [a]</code>: sorts a list based on some property of its elements.</li>
-<li><code>sortOn :: Ord b =&gt; (a -&gt; b) -&gt; [a] -&gt; [a]</code>: just like <code>sortWith</code>, but more time-efficient if function is calculated slowly (though less space-efficient). So you should write <code>sortOn length</code> (would sort elements by length) but <code>sortWith fst</code> (would sort list of pairs by first element).</li>
+<li><code>head</code>, <code>tail</code>, <code>last</code>, <code>init</code> work with <code>NonEmpty a</code> instead of <code>[a]</code>.</li>
+<li><code>show</code> is polymorphic over return type.</li>
+<li>Functions <code>sum</code> and <code>product</code> are strict now, which makes them more efficient.</li>
+<li>You can’t call <code>elem</code> and <code>notElem</code> functions over <code>Set</code> and <code>HashSet</code>. These functions are forbidden for these two types because of the performance reasons.</li>
+<li><code>error</code> takes <code>Text</code></li>
+<li><code>undefined</code> triggers a compiler warning, because you probably don’t want to leave <code>undefined</code> in your code. Either use <code>throwIO</code>, <code>Except</code>, <code>error</code> or <code>bug</code>.</li>
 </ul></li>
-<li><p>Functions <code>sum</code> and <code>product</code> are strict now, which makes them more efficient.</p></li>
-<li><p>Since <code>show</code> doesn’t come from <code>Show</code> anymore, you need to export <code>Text.Show</code> module if you want to implement <code>Show</code> instance manually. This can be done like this:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb7-1" title="1"><span class="kw">import</span> <span class="kw">qualified</span> <span class="dt">Text.Show</span></a></code></pre></div></li>
-<li><p>You can’t call <code>elem</code> and <code>notElem</code> functions over <code>Set</code> and <code>HashSet</code>. These functions are forbidden for these two types because of the performance reasons.</p></li>
-<li><p><code>error</code> takes <code>Text</code>.</p></li>
-<li><p><code>lookup</code> for lists is not exported.</p></li>
+<li>Not reexported
+<ul>
+<li><code>read</code></li>
+<li><code>lookup</code> for lists</li>
+<li><code>log</code></li>
+</ul></li>
+<li>Completely new functions are brougth into scope
+<ul>
+<li>See <a href="#whats-new-">What’s new?</a> section for a detailed overview.</li>
+</ul></li>
+<li>New reexports
+<ul>
+<li>See <a href="#reexports-">Reexports</a> section for a detailed overview.</li>
+</ul></li>
 </ul>
 <h2 id="reexports">Reexports <a href="#structure-of-this-tutorial">↑</a><a href="#reexports" class="anchor">🔗</a></h2>
 <p><code>relude</code> reexports some parts of the following libraries:</p>
 <ul>
-<li><code>base</code></li>
-<li><code>containers</code></li>
-<li><code>unordered-containers</code></li>
-<li><code>text</code></li>
-<li><code>bytestring</code></li>
-<li><code>transformers</code></li>
-<li><code>mtl</code></li>
-<li><code>deepseq</code></li>
-<li><code>stm</code></li>
+<li><a href="http://hackage.haskell.org/package/base"><code>base</code></a></li>
+<li><a href="http://hackage.haskell.org/package/bytestring"><code>bytestring</code></a></li>
+<li><a href="http://hackage.haskell.org/package/containers"><code>containers</code></a></li>
+<li><a href="http://hackage.haskell.org/package/deepseq"><code>deepseq</code></a></li>
+<li><a href="http://hackage.haskell.org/package/hashable"><code>hashable</code></a></li>
+<li><a href="http://hackage.haskell.org/package/mtl"><code>mtl</code></a></li>
+<li><a href="http://hackage.haskell.org/package/stm"><code>stm</code></a></li>
+<li><a href="http://hackage.haskell.org/package/text"><code>text</code></a></li>
+<li><a href="http://hackage.haskell.org/package/transformers"><code>transformers</code></a></li>
+<li><a href="http://hackage.haskell.org/package/unordered-containers"><code>unordered-containers</code></a></li>
 </ul>
 <p>If you want to clean up imports after switching to <code>relude</code>, you can use <code>relude</code>-specific <a href=".hlint.yaml"><code>.hlint.yaml</code></a> configuration for this task.</p>
 <h3 id="base">base<a href="#base" class="anchor">🔗</a></h3>
+<p>Multiple sorting functions are available: + <code>sortBy :: (a -&gt; a -&gt; Ordering) -&gt; [a] -&gt; [a]</code>: sorts list using given custom comparator. + <code>sortWith :: Ord b =&gt; (a -&gt; b) -&gt; [a] -&gt; [a]</code>: sorts a list based on some property of its elements. + <code>sortOn :: Ord b =&gt; (a -&gt; b) -&gt; [a] -&gt; [a]</code>: just like <code>sortWith</code>, but more time-efficient if function is calculated slowly (though less space-efficient). So you should write <code>sortOn length</code> (would sort elements by length) but <code>sortWith fst</code> (would sort list of pairs by first element).</p>
+<p><code>readMaybe</code> and <code>readEither</code> are like <code>read</code> but total and give either <code>Maybe</code> or <code>Either</code> with parse error.</p>
+<p><code>(&amp;)</code> – reverse application. <code>x &amp; f &amp; g</code> instead of <code>g $ f $ x</code> is useful sometimes.</p>
 <p>Some generally useful modules from <code>base</code> package, like: <code>Control.Applicative</code>, <code>Data.Traversable</code>, <code>Data.Monoid</code>, <code>Data.List</code>, and lots of others.</p>
 <p><code>liftIO</code> and <code>MonadIO</code> are exported by default. A lot of <code>IO</code> functions are generalized to <code>MonadIO</code>.</p>
 <p><a href="http://hackage.haskell.org/package/base-4.9.1.0/docs/Data-Bifunctor.html"><code>Bifunctor</code></a> type class with useful instances is exported.</p>
@@ -230,27 +270,24 @@ library
 </ul></li>
 <li><p><code>uncons</code> splits a list at the first element.</p></li>
 <li><p><code>ordNub</code> and <code>sortNub</code> are <em>O(n log n)</em> versions of <code>nub</code> (which is quadratic) and <code>hashNub</code> and <code>unstableNub</code> are almost <em>O(n)</em> versions of <code>nub</code>.</p></li>
-<li><p><code>(&amp;)</code> – reverse application. <code>x &amp; f &amp; g</code> instead of <code>g $ f $ x</code> is useful sometimes.</p></li>
 <li><p><code>whenM</code>, <code>unlessM</code>, <code>ifM</code>, <code>guardM</code> are available and do what you expect them to do (e.g. <code>whenM (doesFileExist "foo")</code>).</p></li>
 <li><p>General fold functions:</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb8-1" title="1"><span class="ot">foldMapA ::</span> (<span class="dt">Monoid</span> b, <span class="dt">Applicative</span> m, <span class="dt">Foldable</span> f) <span class="ot">=&gt;</span> (a <span class="ot">-&gt;</span> m b) <span class="ot">-&gt;</span> f a <span class="ot">-&gt;</span> m b</a>
-<a class="sourceLine" id="cb8-2" title="2"><span class="ot">foldMapM ::</span> (<span class="dt">Monoid</span> b, <span class="dt">Monad</span> m, <span class="dt">Foldable</span> f) <span class="ot">=&gt;</span> (a <span class="ot">-&gt;</span> m b) <span class="ot">-&gt;</span> f a <span class="ot">-&gt;</span> m b</a></code></pre></div></li>
-<li><p><code>readMaybe</code> and <code>readEither</code> are like <code>read</code> but total and give either <code>Maybe</code> or <code>Either</code> with parse error.</p></li>
+<div class="sourceCode" id="cb7"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb7-1"><a href="#cb7-1"></a><span class="ot">foldMapA ::</span> (<span class="dt">Monoid</span> b, <span class="dt">Applicative</span> m, <span class="dt">Foldable</span> f) <span class="ot">=&gt;</span> (a <span class="ot">-&gt;</span> m b) <span class="ot">-&gt;</span> f a <span class="ot">-&gt;</span> m b</span>
+<span id="cb7-2"><a href="#cb7-2"></a><span class="ot">foldMapM ::</span> (<span class="dt">Monoid</span> b, <span class="dt">Monad</span> m, <span class="dt">Foldable</span> f) <span class="ot">=&gt;</span> (a <span class="ot">-&gt;</span> m b) <span class="ot">-&gt;</span> f a <span class="ot">-&gt;</span> m b</span></code></pre></div></li>
 <li><p><code>when(Just|Nothing|Left|Right|NotEmpty)[M][_]</code> let you conditionally execute something. Before:</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb9-1" title="1"><span class="kw">case</span> mbX <span class="kw">of</span></a>
-<a class="sourceLine" id="cb9-2" title="2">    <span class="dt">Nothing</span> <span class="ot">-&gt;</span> <span class="fu">return</span> ()</a>
-<a class="sourceLine" id="cb9-3" title="3">    <span class="dt">Just</span> x  <span class="ot">-&gt;</span> f x</a></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb8-1"><a href="#cb8-1"></a><span class="kw">case</span> mbX <span class="kw">of</span></span>
+<span id="cb8-2"><a href="#cb8-2"></a>    <span class="dt">Nothing</span> <span class="ot">-&gt;</span> <span class="fu">return</span> ()</span>
+<span id="cb8-3"><a href="#cb8-3"></a>    <span class="dt">Just</span> x  <span class="ot">-&gt;</span> f x</span></code></pre></div>
 <p>After:</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb10-1" title="1">whenJust mbX <span class="op">$</span> \x <span class="ot">-&gt;</span></a>
-<a class="sourceLine" id="cb10-2" title="2">    f x</a></code></pre></div></li>
+<div class="sourceCode" id="cb9"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb9-1"><a href="#cb9-1"></a>whenJust mbX <span class="op">$</span> \x <span class="ot">-&gt;</span></span>
+<span id="cb9-2"><a href="#cb9-2"></a>    f x</span></code></pre></div></li>
 <li><p><code>for_</code> for loops. There’s also <code>forM_</code> but <code>for_</code> looks a bit nicer.</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb11-1" title="1">for_ [<span class="dv">1</span><span class="op">..</span><span class="dv">10</span>] <span class="op">$</span> \i <span class="ot">-&gt;</span> <span class="kw">do</span></a>
-<a class="sourceLine" id="cb11-2" title="2">    <span class="op">...</span></a></code></pre></div></li>
+<div class="sourceCode" id="cb10"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb10-1"><a href="#cb10-1"></a>for_ [<span class="dv">1</span><span class="op">..</span><span class="dv">10</span>] <span class="op">$</span> \i <span class="ot">-&gt;</span> <span class="kw">do</span></span>
+<span id="cb10-2"><a href="#cb10-2"></a>    <span class="op">...</span></span></code></pre></div></li>
 <li><p><code>andM</code>, <code>allM</code>, <code>anyM</code>, <code>orM</code> are monadic version of corresponding functions from <code>base</code>.</p></li>
 <li><p>Conversions between <code>Either</code> and <code>Maybe</code> like <code>rightToMaybe</code> and <code>maybeToLeft</code> with clear semantic.</p></li>
 <li><p><code>using(Reader|State)[T]</code> functions as aliases for <code>flip run(Reader|State)[T]</code>.</p></li>
 <li><p><a href="src/Relude/Container/One.hs"><code>One</code> type class</a> for creating singleton containers. Even monomorhpic ones like <code>Text</code>.</p></li>
-<li><p><a href="src/Relude/Extra/Map.hs"><code>StaticMap</code> and <code>DynamicMap</code>type classes</a> as a general interface for <code>Map</code>-like data structures.</p></li>
 <li><p><code>evaluateWHNF</code> and <code>evaluateNF</code> functions as clearer and lifted aliases for <code>evaluate</code> and <code>evaluate . force</code>.</p></li>
 <li><p><code>MonadFail</code> instance for <code>Either</code>.</p></li>
 </ul>
@@ -262,15 +299,16 @@ library
 <li><code>inverseMap :: (Bounded a, Enum a, Ord k) =&gt; (a -&gt; k) -&gt; k -&gt; Maybe a</code>: convert functions like <code>show</code> to parsers.</li>
 </ol></li>
 <li><p>Nice helpers to deal with <code>newtype</code>s in a more pleasant way:</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb12-1" title="1">ghci<span class="op">&gt;</span> <span class="kw">newtype</span> <span class="dt">Foo</span> <span class="ot">=</span> <span class="dt">Foo</span> <span class="dt">Bool</span> <span class="kw">deriving</span> <span class="dt">Show</span></a>
-<a class="sourceLine" id="cb12-2" title="2">ghci<span class="op">&gt;</span> under <span class="fu">not</span> (<span class="dt">Foo</span> <span class="dt">True</span>)</a>
-<a class="sourceLine" id="cb12-3" title="3"><span class="dt">Foo</span> <span class="dt">False</span></a></code></pre></div></li>
+<div class="sourceCode" id="cb11"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb11-1"><a href="#cb11-1"></a>ghci<span class="op">&gt;</span> <span class="kw">newtype</span> <span class="dt">Foo</span> <span class="ot">=</span> <span class="dt">Foo</span> <span class="dt">Bool</span> <span class="kw">deriving</span> <span class="dt">Show</span></span>
+<span id="cb11-2"><a href="#cb11-2"></a>ghci<span class="op">&gt;</span> under <span class="fu">not</span> (<span class="dt">Foo</span> <span class="dt">True</span>)</span>
+<span id="cb11-3"><a href="#cb11-3"></a><span class="dt">Foo</span> <span class="dt">False</span></span></code></pre></div></li>
 <li><p>Functions to operate with <code>CallStack</code>:</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb13-1" title="1"><span class="op">&gt;&gt;&gt;</span><span class="ot"> foo ::</span> <span class="dt">HasCallStack</span> <span class="ot">=&gt;</span> <span class="dt">String</span>; foo <span class="ot">=</span> ownName</a>
-<a class="sourceLine" id="cb13-2" title="2"><span class="op">&gt;&gt;&gt;</span> foo</a>
-<a class="sourceLine" id="cb13-3" title="3"><span class="st">&quot;foo&quot;</span></a></code></pre></div></li>
+<div class="sourceCode" id="cb12"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb12-1"><a href="#cb12-1"></a><span class="op">&gt;&gt;&gt;</span><span class="ot"> foo ::</span> <span class="dt">HasCallStack</span> <span class="ot">=&gt;</span> <span class="dt">String</span>; foo <span class="ot">=</span> ownName</span>
+<span id="cb12-2"><a href="#cb12-2"></a><span class="op">&gt;&gt;&gt;</span> foo</span>
+<span id="cb12-3"><a href="#cb12-3"></a><span class="st">&quot;foo&quot;</span></span></code></pre></div></li>
 <li><p><code>Foldable1</code> typeclass that contains generalized interface for folding non-empty structures like <code>NonEmpty</code>.</p></li>
 <li><p><code>Validation</code> data type as an alternative to <code>Either</code> when you want to combine all errors.</p></li>
+<li><p><a href="src/Relude/Extra/Map.hs"><code>StaticMap</code> and <code>DynamicMap</code> type classes</a> as a general interface for <code>Map</code>-like data structures.</p></li>
 </ul>
 <p>Explore <code>Extra</code> modules: <a href="src/Relude/Extra/"><code>Relude.Extra</code></a></p>
 <h2 id="migration-guide">Migration guide <a href="#structure-of-this-tutorial">↑</a><a href="#migration-guide" class="anchor">🔗</a></h2>
@@ -317,6 +355,10 @@ library
 <li>Use <code>encodeUtf8/decodeUtf8</code> to convert to/from <code>ByteString</code>.</li>
 <li>Use <code>(putStr[Ln]|readFile|writeFile|appendFile)[Text|LText|BS|LBS]</code> functions.</li>
 </ul></li>
+<li>Since <code>show</code> doesn’t come from <code>Show</code> anymore, you need to export <code>Text.Show</code> module if you want to implement <code>Show</code> instance manually. This can be done like this:</li>
+</ol>
+<div class="sourceCode" id="cb13"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb13-1"><a href="#cb13-1"></a><span class="kw">import</span> <span class="kw">qualified</span> <span class="dt">Text.Show</span></span></code></pre></div>
+<ol start="7" type="1">
 <li>Run <code>hlint</code> using <code>.hlint.yaml</code> file from <code>relude</code> package to cleanup code and imports.</li>
 </ol>
 <h3 id="running-hlint-on-ci">Running HLint on CI<a href="#running-hlint-on-ci" class="anchor">🔗</a></h3>
@@ -327,8 +369,8 @@ library
 <li>Run <code>hlint</code> using this file.</li>
 </ol>
 <p>For the latest <code>relude</code> version, this can be achieved by executing the following two commands on your CI:</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode yaml"><code class="sourceCode yaml"><a class="sourceLine" id="cb14-1" title="1">curl https://raw.githubusercontent.com/kowainik/relude/55968311244690f5cc8b4484a37a63d988ea2ec4/.hlint.yaml -o .hlint-relude.yaml</a>
-<a class="sourceLine" id="cb14-2" title="2">curl -sSL https://raw.github.com/ndmitchell/neil/master/misc/travis.sh | sh -s -- hlint -h .hlint-relude.yaml .</a></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb14-1"><a href="#cb14-1"></a><span class="at">curl https://raw.githubusercontent.com/kowainik/relude/55968311244690f5cc8b4484a37a63d988ea2ec4/.hlint.yaml -o .hlint-relude.yaml</span></span>
+<span id="cb14-2"><a href="#cb14-2"></a><span class="at">curl -sSL https://raw.github.com/ndmitchell/neil/master/misc/travis.sh | sh -s -- hlint -h .hlint-relude.yaml .</span></span></code></pre></div>
 <p>See an example of this feature being used in <a href="https://github.com/kowainik/summoner/blob/b6c3ecb7cd9bc8d1451e2cc78cd020cd2e473564/.travis.yml#L58-L59">Summoner</a>.</p>
 <h2 id="comparison-with-other-alternative-preludes">Comparison with other alternative preludes <a href="#structure-of-this-tutorial">↑</a><a href="#comparison-with-other-alternative-preludes" class="anchor">🔗</a></h2>
 <p>There are quite a few libraries that can be used as alternative preludes in Haskell, let’s compare Relude with some of them.</p>

@@ -72,8 +72,13 @@
           <div class="row post">
               <div class="col-12 post-body">
               <p class="lead">
-                  <p><a href="https://hackage.haskell.org/package/membrain"><img src="https://img.shields.io/hackage/v/membrain.svg?logo=haskell" alt="Hackage" /></a> <a href="LICENSE"><img src="https://img.shields.io/badge/license-MPL--2.0-blue.svg" alt="MPL-2.0 license" /></a> <a href="http://stackage.org/lts/package/membrain"><img src="http://stackage.org/package/membrain/badge/lts" alt="Stackage Lts" /></a> <a href="http://stackage.org/nightly/package/membrain"><img src="http://stackage.org/package/membrain/badge/nightly" alt="Stackage Nightly" /></a> <a href="https://travis-ci.org/kowainik/membrain"><img src="https://img.shields.io/travis/kowainik/membrain.svg?logo=travis" alt="Build status" /></a></p>
-<p>Type-safe memory units</p>
+                  <p><a href="https://travis-ci.org/kowainik/membrain"><img src="https://img.shields.io/travis/kowainik/membrain.svg?logo=travis" alt="Build status" /></a> <a href="https://hackage.haskell.org/package/membrain"><img src="https://img.shields.io/hackage/v/membrain.svg?logo=haskell" alt="Hackage" /></a> <a href="http://stackage.org/lts/package/membrain"><img src="http://stackage.org/package/membrain/badge/lts" alt="Stackage Lts" /></a> <a href="http://stackage.org/nightly/package/membrain"><img src="http://stackage.org/package/membrain/badge/nightly" alt="Stackage Nightly" /></a> <a href="LICENSE"><img src="https://img.shields.io/badge/license-MPL--2.0-blue.svg" alt="MPL-2.0 license" /></a></p>
+<p>This package implements type-safe memory units. It’s build around the following data type:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">newtype</span> <span class="dt">Memory</span> (<span class="ot">mem ::</span> <span class="dt">Nat</span>) <span class="ot">=</span> <span class="dt">Memory</span></span>
+<span id="cb1-2"><a href="#cb1-2"></a>    {<span class="ot"> unMemory ::</span> <span class="dt">Natural</span></span>
+<span id="cb1-3"><a href="#cb1-3"></a>    }</span></code></pre></div>
+<p>This data type stores every memory internally as bits. However, unit multiplier is stored as type-level natural number. This approach allows to represent different units with low amount of boilerplate.</p>
+<p><code>membrain</code> implements various useful functions to work with <code>Memory</code>: smart constructors, conversion functions, pretty displaying, parsing, numeric functions, type-safe wrappers around functions from <code>base</code>.</p>
               </p>
               </div>
           </div>

@@ -57,7 +57,7 @@
                 <a class="btn btn-outline-dark btn-tag" href="https://github.com/kowainik/issue-wanted" data-icon="octicon-star" data-size="large" aria-label="Star Kowainik/issue-wanted on GitHub">Star Project</a>
                 <a class="fa-stack fa-2x" href="https://github.com/kowainik/issue-wanted/stargazers">
                     <i class="fa fa-star fa-stack-2x"></i>
-                    <i id="stars" class="fa fa-stack-1x fa-inverse main-font">13</i>
+                    <i id="stars" class="fa fa-stack-1x fa-inverse main-font">20</i>
                 </a>
                 <div class="author">Language: Haskell</div>
 
@@ -72,8 +72,43 @@
           <div class="row post">
               <div class="col-12 post-body">
               <p class="lead">
-                  <p><a href="https://hackage.haskell.org/package/issue-wanted"><img src="https://img.shields.io/hackage/v/issue-wanted.svg" alt="Hackage" /></a> <a href="https://travis-ci.org/kowainik/issue-wanted"><img src="https://secure.travis-ci.org/kowainik/issue-wanted.svg" alt="Build status" /></a> <a href="https://ci.appveyor.com/project/kowainik/issue-wanted"><img src="https://ci.appveyor.com/api/projects/status/github/kowainik/issue-wanted?branch=master&amp;svg=true" alt="Windows build status" /></a> <a href="https://github.com/kowainik/issue-wanted/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-MPL--2.0-blue.svg" alt="MPL-2.0 license" /></a></p>
+                  <p><a href="https://circleci.com/gh/kowainik/issue-wanted"><img src="https://circleci.com/gh/kowainik/issue-wanted.svg?style=svg" alt="CircleCI" /></a> <a href="https://hackage.haskell.org/package/issue-wanted"><img src="https://img.shields.io/hackage/v/issue-wanted.svg?logo=haskell" alt="Hackage" /></a> <a href="https://github.com/kowainik/issue-wanted/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-MPL--2.0-blue.svg" alt="MPL-2.0 license" /></a></p>
 <p><code>issue-wanted</code> is a web application focused on improving the open-source Haskell community by centralizing GitHub issues across many Haskell repositories into a single location. The goals of <code>issue-wanted</code> are to make it easier for programmers of all skill levels to find Haskell projects to contribute to, increase the number of contributions to open-source Haskell projects, and encourage more programmers to become a part of the Haskell community.</p>
+<h2 id="prerequisites-what-you-need-to-have-locally">Prerequisites (what you need to have locally)<a href="#prerequisites-what-you-need-to-have-locally" class="anchor">🔗</a></h2>
+<p>You will need to have the following installed on your system in order to build and test <code>issue-wanted</code>. Click on the links to learn how to install each one:</p>
+<ol type="1">
+<li><a href="https://www.haskell.org/ghcup/">ghc</a></li>
+<li><a href="https://www.haskell.org/cabal/">cabal</a> or <a href="https://docs.haskellstack.org/en/stable/README/">stack</a></li>
+<li><a href="https://docs.docker.com/v17.12/install/">docker</a></li>
+<li>libpq-dev (Run the command <code>sudo apt install libpq-dev</code> to install)</li>
+</ol>
+<p>With <code>docker</code> installed, open up a terminal (make sure your in the <code>issue-wanted</code> directory) and run the command <code>make postgres</code>. This will setup the database for you and you should be ready to go!</p>
+<p>Follow the instructions under <a href="https://github.com/kowainik/issue-wanted/tree/rashadg1030/81-Document-Postgres-setup#how-to-run-server"><code>How to run server</code></a> and test the endpoints to see if everything is set up correctly.</p>
+<p>Refer to issue <a href="https://github.com/kowainik/issue-wanted/issues/81">#81</a> if you’re still having trouble.</p>
+<h2 id="how-to-build">How to build<a href="#how-to-build" class="anchor">🔗</a></h2>
+<p>To build the project, open up a terminal in the base folder and run <code>stack build</code>.</p>
+<h2 id="how-to-run-server">How to run server<a href="#how-to-run-server" class="anchor">🔗</a></h2>
+<p>For testing the <code>issue-wanted</code> server follow these steps:</p>
+<ol type="1">
+<li><p>Open up the terminal in the base folder and run <code>stack build</code></p></li>
+<li><p>Run the command <code>stack exec issue-wanted</code></p></li>
+</ol>
+<p>The server will begin running at <code>http://localhost:8080/</code>.</p>
+<p>Issue-wanted endpoints available:</p>
+<ul>
+<li><p><code>http://localhost:8080/issues</code></p>
+<p>Returns all issues.</p></li>
+<li><p><code>http://localhost:8080/issues/:id</code></p>
+<p>Returns a single issue with the corresponding id.</p></li>
+<li><p><code>http://localhost:8080/issues?label=&lt;label name&gt;</code></p>
+<p>Returns a list of issues with the corresponding label.</p></li>
+</ul>
+<p>Tip: If you stop running the server and then try to restart it, you may need to run the command <code>fuser -n tcp -k 8080</code> to free the port.</p>
+<h2 id="how-to-run-automatic-tests-locally">How to run automatic tests locally<a href="#how-to-run-automatic-tests-locally" class="anchor">🔗</a></h2>
+<ol type="1">
+<li><p>In a separate terminal run <code>make postgres</code> (this command will run database in a Docker container)</p></li>
+<li><p>In the first terminal run <code>stack test</code> or <code>cabal new-test</code></p></li>
+</ol>
               </p>
               </div>
           </div>

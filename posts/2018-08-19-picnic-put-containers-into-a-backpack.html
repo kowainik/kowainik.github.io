@@ -110,51 +110,51 @@
 <li>It’s not easy to switch from one data type to another: we need to change package dependencies, imports, data type name and function names.</li>
 <li>We often want to write functions that can work for any <code>Map</code> or <code>Set</code> (consider benchmarks). Or like in the following example:</li>
 </ol>
-<div class="sourceCode" id="cb1"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb1-1" title="1"><span class="ot">{-# LANGUAGE ScopedTypeVariables #-}</span></a>
-<a class="sourceLine" id="cb1-2" title="2"></a>
-<a class="sourceLine" id="cb1-3" title="3"><span class="kw">import</span> <span class="dt">Data.Foldable</span> (foldl')</a>
-<a class="sourceLine" id="cb1-4" title="4"><span class="kw">import</span> <span class="dt">Data.List.NonEmpty</span> (<span class="dt">NonEmpty</span> (..), (&lt;|))</a>
-<a class="sourceLine" id="cb1-5" title="5"><span class="kw">import</span> <span class="dt">Data.Map</span> (<span class="dt">Map</span>)</a>
-<a class="sourceLine" id="cb1-6" title="6"><span class="kw">import</span> <span class="kw">qualified</span> <span class="dt">Data.Map</span> <span class="kw">as</span> <span class="dt">M</span></a>
-<a class="sourceLine" id="cb1-7" title="7"></a>
-<a class="sourceLine" id="cb1-8" title="8"><span class="ot">groupBy ::</span> <span class="kw">forall</span> k f a <span class="op">.</span> (<span class="dt">Foldable</span> f, <span class="dt">Ord</span> k)</a>
-<a class="sourceLine" id="cb1-9" title="9">        <span class="ot">=&gt;</span> (a <span class="ot">-&gt;</span> k) <span class="ot">-&gt;</span> f a <span class="ot">-&gt;</span> <span class="dt">Map</span> k (<span class="dt">NonEmpty</span> a)</a>
-<a class="sourceLine" id="cb1-10" title="10">groupBy f <span class="ot">=</span> foldl' mapGroup M.empty</a>
-<a class="sourceLine" id="cb1-11" title="11">  <span class="kw">where</span></a>
-<a class="sourceLine" id="cb1-12" title="12"><span class="ot">    mapGroup ::</span> <span class="dt">Map</span> k (<span class="dt">NonEmpty</span> a) <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> <span class="dt">Map</span> k (<span class="dt">NonEmpty</span> a)</a>
-<a class="sourceLine" id="cb1-13" title="13">    mapGroup m a <span class="ot">=</span></a>
-<a class="sourceLine" id="cb1-14" title="14">        <span class="kw">let</span><span class="ot"> val ::</span> <span class="dt">Maybe</span> (<span class="dt">NonEmpty</span> a) <span class="ot">-&gt;</span> <span class="dt">NonEmpty</span> a</a>
-<a class="sourceLine" id="cb1-15" title="15">            val <span class="dt">Nothing</span>   <span class="ot">=</span> a <span class="op">:|</span> []</a>
-<a class="sourceLine" id="cb1-16" title="16">            val (<span class="dt">Just</span> xs) <span class="ot">=</span> a <span class="op">&lt;|</span> xs</a>
-<a class="sourceLine" id="cb1-17" title="17">        <span class="kw">in</span> M.alter (<span class="dt">Just</span> <span class="op">.</span> val) (f a) m</a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb1-1"><a href="#cb1-1"></a><span class="ot">{-# LANGUAGE ScopedTypeVariables #-}</span></span>
+<span id="cb1-2"><a href="#cb1-2"></a></span>
+<span id="cb1-3"><a href="#cb1-3"></a><span class="kw">import</span> <span class="dt">Data.Foldable</span> (foldl')</span>
+<span id="cb1-4"><a href="#cb1-4"></a><span class="kw">import</span> <span class="dt">Data.List.NonEmpty</span> (<span class="dt">NonEmpty</span> (..), (&lt;|))</span>
+<span id="cb1-5"><a href="#cb1-5"></a><span class="kw">import</span> <span class="dt">Data.Map</span> (<span class="dt">Map</span>)</span>
+<span id="cb1-6"><a href="#cb1-6"></a><span class="kw">import</span> <span class="kw">qualified</span> <span class="dt">Data.Map</span> <span class="kw">as</span> <span class="dt">M</span></span>
+<span id="cb1-7"><a href="#cb1-7"></a></span>
+<span id="cb1-8"><a href="#cb1-8"></a><span class="ot">groupBy ::</span> <span class="kw">forall</span> k f a <span class="op">.</span> (<span class="dt">Foldable</span> f, <span class="dt">Ord</span> k)</span>
+<span id="cb1-9"><a href="#cb1-9"></a>        <span class="ot">=&gt;</span> (a <span class="ot">-&gt;</span> k) <span class="ot">-&gt;</span> f a <span class="ot">-&gt;</span> <span class="dt">Map</span> k (<span class="dt">NonEmpty</span> a)</span>
+<span id="cb1-10"><a href="#cb1-10"></a>groupBy f <span class="ot">=</span> foldl' mapGroup M.empty</span>
+<span id="cb1-11"><a href="#cb1-11"></a>  <span class="kw">where</span></span>
+<span id="cb1-12"><a href="#cb1-12"></a><span class="ot">    mapGroup ::</span> <span class="dt">Map</span> k (<span class="dt">NonEmpty</span> a) <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> <span class="dt">Map</span> k (<span class="dt">NonEmpty</span> a)</span>
+<span id="cb1-13"><a href="#cb1-13"></a>    mapGroup m a <span class="ot">=</span></span>
+<span id="cb1-14"><a href="#cb1-14"></a>        <span class="kw">let</span><span class="ot"> val ::</span> <span class="dt">Maybe</span> (<span class="dt">NonEmpty</span> a) <span class="ot">-&gt;</span> <span class="dt">NonEmpty</span> a</span>
+<span id="cb1-15"><a href="#cb1-15"></a>            val <span class="dt">Nothing</span>   <span class="ot">=</span> a <span class="op">:|</span> []</span>
+<span id="cb1-16"><a href="#cb1-16"></a>            val (<span class="dt">Just</span> xs) <span class="ot">=</span> a <span class="op">&lt;|</span> xs</span>
+<span id="cb1-17"><a href="#cb1-17"></a>        <span class="kw">in</span> M.alter (<span class="dt">Just</span> <span class="op">.</span> val) (f a) m</span></code></pre></div>
 <p>And here is an example of using this function:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb2-1" title="1">ghci<span class="op">&gt;</span> groupBy <span class="fu">even</span> [<span class="dv">1</span><span class="op">..</span><span class="dv">10</span>]</a>
-<a class="sourceLine" id="cb2-2" title="2">fromList [ (<span class="dt">False</span>,  <span class="dv">9</span> <span class="op">:|</span> [<span class="dv">7</span>,<span class="dv">5</span>,<span class="dv">3</span>,<span class="dv">1</span>])</a>
-<a class="sourceLine" id="cb2-3" title="3">         , (<span class="dt">True</span>,  <span class="dv">10</span> <span class="op">:|</span> [<span class="dv">8</span>,<span class="dv">6</span>,<span class="dv">4</span>,<span class="dv">2</span>])</a>
-<a class="sourceLine" id="cb2-4" title="4">         ]</a>
-<a class="sourceLine" id="cb2-5" title="5"></a>
-<a class="sourceLine" id="cb2-6" title="6">ghci<span class="op">&gt;</span> groupBy (<span class="ot">`mod`</span> <span class="dv">3</span>) [<span class="dv">1</span><span class="op">..</span><span class="dv">10</span>]</a>
-<a class="sourceLine" id="cb2-7" title="7">fromList [ (<span class="dv">0</span>,  <span class="dv">9</span> <span class="op">:|</span> [<span class="dv">6</span>,<span class="dv">3</span>])</a>
-<a class="sourceLine" id="cb2-8" title="8">         , (<span class="dv">1</span>, <span class="dv">10</span> <span class="op">:|</span> [<span class="dv">7</span>,<span class="dv">4</span>,<span class="dv">1</span>])</a>
-<a class="sourceLine" id="cb2-9" title="9">         , (<span class="dv">2</span>,  <span class="dv">8</span> <span class="op">:|</span> [<span class="dv">5</span>,<span class="dv">2</span>])</a>
-<a class="sourceLine" id="cb2-10" title="10">         ]</a></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb2-1"><a href="#cb2-1"></a>ghci<span class="op">&gt;</span> groupBy <span class="fu">even</span> [<span class="dv">1</span><span class="op">..</span><span class="dv">10</span>]</span>
+<span id="cb2-2"><a href="#cb2-2"></a>fromList [ (<span class="dt">False</span>,  <span class="dv">9</span> <span class="op">:|</span> [<span class="dv">7</span>,<span class="dv">5</span>,<span class="dv">3</span>,<span class="dv">1</span>])</span>
+<span id="cb2-3"><a href="#cb2-3"></a>         , (<span class="dt">True</span>,  <span class="dv">10</span> <span class="op">:|</span> [<span class="dv">8</span>,<span class="dv">6</span>,<span class="dv">4</span>,<span class="dv">2</span>])</span>
+<span id="cb2-4"><a href="#cb2-4"></a>         ]</span>
+<span id="cb2-5"><a href="#cb2-5"></a></span>
+<span id="cb2-6"><a href="#cb2-6"></a>ghci<span class="op">&gt;</span> groupBy (<span class="ot">`mod`</span> <span class="dv">3</span>) [<span class="dv">1</span><span class="op">..</span><span class="dv">10</span>]</span>
+<span id="cb2-7"><a href="#cb2-7"></a>fromList [ (<span class="dv">0</span>,  <span class="dv">9</span> <span class="op">:|</span> [<span class="dv">6</span>,<span class="dv">3</span>])</span>
+<span id="cb2-8"><a href="#cb2-8"></a>         , (<span class="dv">1</span>, <span class="dv">10</span> <span class="op">:|</span> [<span class="dv">7</span>,<span class="dv">4</span>,<span class="dv">1</span>])</span>
+<span id="cb2-9"><a href="#cb2-9"></a>         , (<span class="dv">2</span>,  <span class="dv">8</span> <span class="op">:|</span> [<span class="dv">5</span>,<span class="dv">2</span>])</span>
+<span id="cb2-10"><a href="#cb2-10"></a>         ]</span></code></pre></div>
 <p>It would be great if we could reuse this <code>groupBy</code> function with any <code>Map</code>-like data structure. Moreover, for most popular data types like <code>Map</code>, <code>HashMap</code>, or <code>IntMap</code>, we can’t really write a more efficient version. It would be more convenient to have all functions like <code>groupBy</code> implemented once and have the ability to choose a specialized implementation based on the needs of the program.</p>
 <p>To explore what people would think of such an interface <a href="https://twitter.com/vronnie911/status/1020701995164884992">we made a poll</a> recently. And it looks like people are apprehensive but interested about having a unified interface. From the feedback we received in the comments, Backpack looks like the most suitable solution for this problem at the moment. So we accepted the challenge and decided to try using Backpack. This blog post contains the detailed description of our results.</p>
 <h2 id="solution-with-typeclasses">Solution with typeclasses<a href="#solution-with-typeclasses" class="anchor">🔗</a></h2>
 <p>Backpack is a relatively new technology. However, people have been making attempts to implement a common interface for <code>Map</code>s long before that. One of the most famous examples is the <a href="http://hackage.haskell.org/package/mono-traversable-1.0.9.0/docs/Data-Containers.html"><code>mono-traversable</code></a> package. We tried to create an alternative solution in <a href="https://github.com/kowainik/relude"><code>relude</code></a>. To get an idea of how a typeclass-based solution might look like, you can take a look at this extract from <code>relude</code>:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb3-1" title="1"><span class="kw">class</span> <span class="dt">StaticMap</span> t <span class="kw">where</span></a>
-<a class="sourceLine" id="cb3-2" title="2">    <span class="kw">type</span> <span class="dt">Key</span><span class="ot"> t ::</span> <span class="dt">Type</span></a>
-<a class="sourceLine" id="cb3-3" title="3">    <span class="kw">type</span> <span class="dt">Val</span><span class="ot"> t ::</span> <span class="dt">Type</span></a>
-<a class="sourceLine" id="cb3-4" title="4"></a>
-<a class="sourceLine" id="cb3-5" title="5"><span class="ot">    size   ::</span> t <span class="ot">-&gt;</span> <span class="dt">Int</span></a>
-<a class="sourceLine" id="cb3-6" title="6"><span class="ot">    lookup ::</span> <span class="dt">Key</span> t <span class="ot">-&gt;</span> t <span class="ot">-&gt;</span> <span class="dt">Maybe</span> (<span class="dt">Val</span> t)</a>
-<a class="sourceLine" id="cb3-7" title="7"><span class="ot">    member ::</span> <span class="dt">Key</span> t <span class="ot">-&gt;</span> t <span class="ot">-&gt;</span> <span class="dt">Bool</span></a>
-<a class="sourceLine" id="cb3-8" title="8"></a>
-<a class="sourceLine" id="cb3-9" title="9"><span class="kw">class</span> <span class="dt">StaticMap</span> t <span class="ot">=&gt;</span> <span class="dt">DynamicMap</span> t <span class="kw">where</span></a>
-<a class="sourceLine" id="cb3-10" title="10"><span class="ot">    insert     ::</span> <span class="dt">Key</span> t <span class="ot">-&gt;</span> <span class="dt">Val</span> t <span class="ot">-&gt;</span> t <span class="ot">-&gt;</span> t</a>
-<a class="sourceLine" id="cb3-11" title="11"><span class="ot">    insertWith ::</span> (<span class="dt">Val</span> t <span class="ot">-&gt;</span> <span class="dt">Val</span> t <span class="ot">-&gt;</span> <span class="dt">Val</span> t) <span class="ot">-&gt;</span> <span class="dt">Key</span> t <span class="ot">-&gt;</span> <span class="dt">Val</span> t <span class="ot">-&gt;</span> t <span class="ot">-&gt;</span> t</a>
-<a class="sourceLine" id="cb3-12" title="12"><span class="ot">    delete     ::</span> <span class="dt">Key</span> t <span class="ot">-&gt;</span> t <span class="ot">-&gt;</span> t</a>
-<a class="sourceLine" id="cb3-13" title="13"><span class="ot">    alter      ::</span> (<span class="dt">Maybe</span> (<span class="dt">Val</span> t) <span class="ot">-&gt;</span> <span class="dt">Maybe</span> (<span class="dt">Val</span> t)) <span class="ot">-&gt;</span> <span class="dt">Key</span> t <span class="ot">-&gt;</span> t <span class="ot">-&gt;</span> t</a></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb3-1"><a href="#cb3-1"></a><span class="kw">class</span> <span class="dt">StaticMap</span> t <span class="kw">where</span></span>
+<span id="cb3-2"><a href="#cb3-2"></a>    <span class="kw">type</span> <span class="dt">Key</span><span class="ot"> t ::</span> <span class="dt">Type</span></span>
+<span id="cb3-3"><a href="#cb3-3"></a>    <span class="kw">type</span> <span class="dt">Val</span><span class="ot"> t ::</span> <span class="dt">Type</span></span>
+<span id="cb3-4"><a href="#cb3-4"></a></span>
+<span id="cb3-5"><a href="#cb3-5"></a><span class="ot">    size   ::</span> t <span class="ot">-&gt;</span> <span class="dt">Int</span></span>
+<span id="cb3-6"><a href="#cb3-6"></a><span class="ot">    lookup ::</span> <span class="dt">Key</span> t <span class="ot">-&gt;</span> t <span class="ot">-&gt;</span> <span class="dt">Maybe</span> (<span class="dt">Val</span> t)</span>
+<span id="cb3-7"><a href="#cb3-7"></a><span class="ot">    member ::</span> <span class="dt">Key</span> t <span class="ot">-&gt;</span> t <span class="ot">-&gt;</span> <span class="dt">Bool</span></span>
+<span id="cb3-8"><a href="#cb3-8"></a></span>
+<span id="cb3-9"><a href="#cb3-9"></a><span class="kw">class</span> <span class="dt">StaticMap</span> t <span class="ot">=&gt;</span> <span class="dt">DynamicMap</span> t <span class="kw">where</span></span>
+<span id="cb3-10"><a href="#cb3-10"></a><span class="ot">    insert     ::</span> <span class="dt">Key</span> t <span class="ot">-&gt;</span> <span class="dt">Val</span> t <span class="ot">-&gt;</span> t <span class="ot">-&gt;</span> t</span>
+<span id="cb3-11"><a href="#cb3-11"></a><span class="ot">    insertWith ::</span> (<span class="dt">Val</span> t <span class="ot">-&gt;</span> <span class="dt">Val</span> t <span class="ot">-&gt;</span> <span class="dt">Val</span> t) <span class="ot">-&gt;</span> <span class="dt">Key</span> t <span class="ot">-&gt;</span> <span class="dt">Val</span> t <span class="ot">-&gt;</span> t <span class="ot">-&gt;</span> t</span>
+<span id="cb3-12"><a href="#cb3-12"></a><span class="ot">    delete     ::</span> <span class="dt">Key</span> t <span class="ot">-&gt;</span> t <span class="ot">-&gt;</span> t</span>
+<span id="cb3-13"><a href="#cb3-13"></a><span class="ot">    alter      ::</span> (<span class="dt">Maybe</span> (<span class="dt">Val</span> t) <span class="ot">-&gt;</span> <span class="dt">Maybe</span> (<span class="dt">Val</span> t)) <span class="ot">-&gt;</span> <span class="dt">Key</span> t <span class="ot">-&gt;</span> t <span class="ot">-&gt;</span> t</span></code></pre></div>
 <p>The nice thing about the <code>StaticMap</code> typeclass is that it allows to generalize <code>Map</code> and <code>Set</code> with a single typeclass. <code>Set a</code> can be considered as a special case of <code>Map a ()</code> or <code>Map a a</code> where each value is equal to the corresponding key.</p>
 <blockquote>
 <p><strong>NOTE:</strong> The difficulties in unifying <code>Set</code> and <code>Map</code> arise with functions like <code>insert</code>, where the number of arguments is different. You can read this <a href="https://stackoverflow.com/questions/51462005/unified-interface-between-functions-of-different-number-of-arguments">StackOverflow question regarding possible solutions</a> to this problem. Still, it looks like there’s no completely satisfactory approach.</p>
@@ -189,20 +189,20 @@ library
   build-depends:       base
   default-language:    Haskell2010</code></pre>
 <p>Note that there’s no <code>exposed-modules</code> field in the <code>containers-sig.cabal</code> file. Instead, there’s a <code>signatures</code> field. Signatures are files with extension <code>.hsig</code>. Such files contain only an abstract description of an interface expressed through the type signatures (name <strong>signatures</strong> comes from the idea that modules can have signatures just like functions can have type signatures). Here’s is how the signature for <code>Map</code>s might look like:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb5-1" title="1">signature <span class="dt">Map</span></a>
-<a class="sourceLine" id="cb5-2" title="2">          ( <span class="dt">Map</span></a>
-<a class="sourceLine" id="cb5-3" title="3">          , <span class="dt">Key</span></a>
-<a class="sourceLine" id="cb5-4" title="4">          , empty</a>
-<a class="sourceLine" id="cb5-5" title="5">          , alter</a>
-<a class="sourceLine" id="cb5-6" title="6">          ) <span class="kw">where</span></a>
-<a class="sourceLine" id="cb5-7" title="7"></a>
-<a class="sourceLine" id="cb5-8" title="8"><span class="kw">data</span> <span class="dt">Map</span> k v</a>
-<a class="sourceLine" id="cb5-9" title="9"><span class="kw">class</span> <span class="dt">Key</span> k</a>
-<a class="sourceLine" id="cb5-10" title="10"></a>
-<a class="sourceLine" id="cb5-11" title="11"><span class="kw">instance</span> (<span class="dt">Show</span> k, <span class="dt">Show</span> v) <span class="ot">=&gt;</span> <span class="dt">Show</span> (<span class="dt">Map</span> k v)</a>
-<a class="sourceLine" id="cb5-12" title="12"></a>
-<a class="sourceLine" id="cb5-13" title="13"><span class="ot">empty ::</span> <span class="dt">Map</span> k v</a>
-<a class="sourceLine" id="cb5-14" title="14"><span class="ot">alter ::</span> <span class="dt">Key</span> k <span class="ot">=&gt;</span> (<span class="dt">Maybe</span> v <span class="ot">-&gt;</span> <span class="dt">Maybe</span> v) <span class="ot">-&gt;</span> k <span class="ot">-&gt;</span> <span class="dt">Map</span> k v <span class="ot">-&gt;</span> <span class="dt">Map</span> k v</a></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb5-1"><a href="#cb5-1"></a>signature <span class="dt">Map</span></span>
+<span id="cb5-2"><a href="#cb5-2"></a>          ( <span class="dt">Map</span></span>
+<span id="cb5-3"><a href="#cb5-3"></a>          , <span class="dt">Key</span></span>
+<span id="cb5-4"><a href="#cb5-4"></a>          , empty</span>
+<span id="cb5-5"><a href="#cb5-5"></a>          , alter</span>
+<span id="cb5-6"><a href="#cb5-6"></a>          ) <span class="kw">where</span></span>
+<span id="cb5-7"><a href="#cb5-7"></a></span>
+<span id="cb5-8"><a href="#cb5-8"></a><span class="kw">data</span> <span class="dt">Map</span> k v</span>
+<span id="cb5-9"><a href="#cb5-9"></a><span class="kw">class</span> <span class="dt">Key</span> k</span>
+<span id="cb5-10"><a href="#cb5-10"></a></span>
+<span id="cb5-11"><a href="#cb5-11"></a><span class="kw">instance</span> (<span class="dt">Show</span> k, <span class="dt">Show</span> v) <span class="ot">=&gt;</span> <span class="dt">Show</span> (<span class="dt">Map</span> k v)</span>
+<span id="cb5-12"><a href="#cb5-12"></a></span>
+<span id="cb5-13"><a href="#cb5-13"></a><span class="ot">empty ::</span> <span class="dt">Map</span> k v</span>
+<span id="cb5-14"><a href="#cb5-14"></a><span class="ot">alter ::</span> <span class="dt">Key</span> k <span class="ot">=&gt;</span> (<span class="dt">Maybe</span> v <span class="ot">-&gt;</span> <span class="dt">Maybe</span> v) <span class="ot">-&gt;</span> k <span class="ot">-&gt;</span> <span class="dt">Map</span> k v <span class="ot">-&gt;</span> <span class="dt">Map</span> k v</span></code></pre></div>
 <p>Unlike ordinary Haskell modules, a signature starts with the <code>signature</code> keyword instead of <code>module</code>. We declare the <code>Map</code> data type without a definition. The type is parametrized by two type variables: <code>k</code> for keys and <code>v</code> for values. Implementations of operations such as <code>lookup</code> or <code>insert</code> might need to perform various operations on keys (compare them, take their hashes, etc), so we also define a constraint on keys — <code>Key</code>. Signatures can also contain required instances for data types. And then we can put the names of functions with their types.</p>
 <blockquote>
 <p><strong>NOTE:</strong> The example above contains only one possible version of the signature for <code>Map</code>. In our case, we went with minimal required set of functions for our examples.</p>
@@ -221,75 +221,75 @@ library
                      , containers-sig
   default-language:    Haskell2010</code></pre>
 <p>And here is the implementation of <code>groupBy</code> that uses only the <code>containers-sig</code> package:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb7-1" title="1"><span class="ot">{-# LANGUAGE ScopedTypeVariables #-}</span></a>
-<a class="sourceLine" id="cb7-2" title="2"></a>
-<a class="sourceLine" id="cb7-3" title="3"><span class="kw">module</span> <span class="dt">Map.Contrib.Group</span></a>
-<a class="sourceLine" id="cb7-4" title="4">       ( groupBy</a>
-<a class="sourceLine" id="cb7-5" title="5">       ) <span class="kw">where</span></a>
-<a class="sourceLine" id="cb7-6" title="6"></a>
-<a class="sourceLine" id="cb7-7" title="7"><span class="kw">import</span> <span class="dt">Data.Foldable</span> (foldl')</a>
-<a class="sourceLine" id="cb7-8" title="8"><span class="kw">import</span> <span class="dt">Data.List.NonEmpty</span> (<span class="dt">NonEmpty</span> (..), (&lt;|))</a>
-<a class="sourceLine" id="cb7-9" title="9"></a>
-<a class="sourceLine" id="cb7-10" title="10"><span class="kw">import</span> <span class="dt">Map</span> (<span class="dt">Key</span>, <span class="dt">Map</span>)</a>
-<a class="sourceLine" id="cb7-11" title="11"><span class="kw">import</span> <span class="kw">qualified</span> <span class="dt">Map</span> <span class="kw">as</span> <span class="dt">M</span></a>
-<a class="sourceLine" id="cb7-12" title="12"></a>
-<a class="sourceLine" id="cb7-13" title="13"><span class="ot">groupBy ::</span> <span class="kw">forall</span> k f a <span class="op">.</span> (<span class="dt">Foldable</span> f, <span class="dt">Key</span> k)</a>
-<a class="sourceLine" id="cb7-14" title="14">        <span class="ot">=&gt;</span> (a <span class="ot">-&gt;</span> k) <span class="ot">-&gt;</span> f a <span class="ot">-&gt;</span> <span class="dt">Map</span> k (<span class="dt">NonEmpty</span> a)</a>
-<a class="sourceLine" id="cb7-15" title="15">groupBy f <span class="ot">=</span> foldl' mapGroup M.empty</a>
-<a class="sourceLine" id="cb7-16" title="16">  <span class="kw">where</span></a>
-<a class="sourceLine" id="cb7-17" title="17"><span class="ot">    mapGroup ::</span> <span class="dt">Map</span> k (<span class="dt">NonEmpty</span> a) <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> <span class="dt">Map</span> k (<span class="dt">NonEmpty</span> a)</a>
-<a class="sourceLine" id="cb7-18" title="18">    mapGroup m a <span class="ot">=</span></a>
-<a class="sourceLine" id="cb7-19" title="19">        <span class="kw">let</span><span class="ot"> val ::</span> <span class="dt">Maybe</span> (<span class="dt">NonEmpty</span> a) <span class="ot">-&gt;</span> <span class="dt">NonEmpty</span> a</a>
-<a class="sourceLine" id="cb7-20" title="20">            val <span class="dt">Nothing</span>   <span class="ot">=</span> a <span class="op">:|</span> []</a>
-<a class="sourceLine" id="cb7-21" title="21">            val (<span class="dt">Just</span> xs) <span class="ot">=</span> a <span class="op">&lt;|</span> xs</a>
-<a class="sourceLine" id="cb7-22" title="22">        <span class="kw">in</span> M.alter (<span class="dt">Just</span> <span class="op">.</span> val) (f a) m</a></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb7-1"><a href="#cb7-1"></a><span class="ot">{-# LANGUAGE ScopedTypeVariables #-}</span></span>
+<span id="cb7-2"><a href="#cb7-2"></a></span>
+<span id="cb7-3"><a href="#cb7-3"></a><span class="kw">module</span> <span class="dt">Map.Contrib.Group</span></span>
+<span id="cb7-4"><a href="#cb7-4"></a>       ( groupBy</span>
+<span id="cb7-5"><a href="#cb7-5"></a>       ) <span class="kw">where</span></span>
+<span id="cb7-6"><a href="#cb7-6"></a></span>
+<span id="cb7-7"><a href="#cb7-7"></a><span class="kw">import</span> <span class="dt">Data.Foldable</span> (foldl')</span>
+<span id="cb7-8"><a href="#cb7-8"></a><span class="kw">import</span> <span class="dt">Data.List.NonEmpty</span> (<span class="dt">NonEmpty</span> (..), (&lt;|))</span>
+<span id="cb7-9"><a href="#cb7-9"></a></span>
+<span id="cb7-10"><a href="#cb7-10"></a><span class="kw">import</span> <span class="dt">Map</span> (<span class="dt">Key</span>, <span class="dt">Map</span>)</span>
+<span id="cb7-11"><a href="#cb7-11"></a><span class="kw">import</span> <span class="kw">qualified</span> <span class="dt">Map</span> <span class="kw">as</span> <span class="dt">M</span></span>
+<span id="cb7-12"><a href="#cb7-12"></a></span>
+<span id="cb7-13"><a href="#cb7-13"></a><span class="ot">groupBy ::</span> <span class="kw">forall</span> k f a <span class="op">.</span> (<span class="dt">Foldable</span> f, <span class="dt">Key</span> k)</span>
+<span id="cb7-14"><a href="#cb7-14"></a>        <span class="ot">=&gt;</span> (a <span class="ot">-&gt;</span> k) <span class="ot">-&gt;</span> f a <span class="ot">-&gt;</span> <span class="dt">Map</span> k (<span class="dt">NonEmpty</span> a)</span>
+<span id="cb7-15"><a href="#cb7-15"></a>groupBy f <span class="ot">=</span> foldl' mapGroup M.empty</span>
+<span id="cb7-16"><a href="#cb7-16"></a>  <span class="kw">where</span></span>
+<span id="cb7-17"><a href="#cb7-17"></a><span class="ot">    mapGroup ::</span> <span class="dt">Map</span> k (<span class="dt">NonEmpty</span> a) <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> <span class="dt">Map</span> k (<span class="dt">NonEmpty</span> a)</span>
+<span id="cb7-18"><a href="#cb7-18"></a>    mapGroup m a <span class="ot">=</span></span>
+<span id="cb7-19"><a href="#cb7-19"></a>        <span class="kw">let</span><span class="ot"> val ::</span> <span class="dt">Maybe</span> (<span class="dt">NonEmpty</span> a) <span class="ot">-&gt;</span> <span class="dt">NonEmpty</span> a</span>
+<span id="cb7-20"><a href="#cb7-20"></a>            val <span class="dt">Nothing</span>   <span class="ot">=</span> a <span class="op">:|</span> []</span>
+<span id="cb7-21"><a href="#cb7-21"></a>            val (<span class="dt">Just</span> xs) <span class="ot">=</span> a <span class="op">&lt;|</span> xs</span>
+<span id="cb7-22"><a href="#cb7-22"></a>        <span class="kw">in</span> M.alter (<span class="dt">Just</span> <span class="op">.</span> val) (f a) m</span></code></pre></div>
 <blockquote>
 <p><strong>NOTE:</strong> You can see that the implementation is almost the same!</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode diff"><code class="sourceCode diff"><a class="sourceLine" id="cb8-1" title="1"><span class="kw">diff --git a/Map.hs b/containers-contrib/src/Map/Contrib/Group.hs</span></a>
-<a class="sourceLine" id="cb8-2" title="2">index 7b5e4e4..a47dea6 100644</a>
-<a class="sourceLine" id="cb8-3" title="3"><span class="dt">--- a/Map.hs</span></a>
-<a class="sourceLine" id="cb8-4" title="4"><span class="dt">+++ b/containers-contrib/src/Map/Contrib/Group.hs</span></a>
-<a class="sourceLine" id="cb8-5" title="5"><span class="dt">@@ -1,4 +1,4 @@</span></a>
-<a class="sourceLine" id="cb8-6" title="6"><span class="st">-groupBy :: forall k f a . (Foldable f, Ord k)</span></a>
-<a class="sourceLine" id="cb8-7" title="7"><span class="va">+groupBy :: forall k f a . (Foldable f, Key k)</span></a>
-<a class="sourceLine" id="cb8-8" title="8">         =&gt; (a -&gt; k) -&gt; f a -&gt; Map k (NonEmpty a)</a>
-<a class="sourceLine" id="cb8-9" title="9"> groupBy f = foldl' mapGroup M.empty</a>
-<a class="sourceLine" id="cb8-10" title="10">   where</a></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode diff"><code class="sourceCode diff"><span id="cb8-1"><a href="#cb8-1"></a><span class="kw">diff --git a/Map.hs b/containers-contrib/src/Map/Contrib/Group.hs</span></span>
+<span id="cb8-2"><a href="#cb8-2"></a>index 7b5e4e4..a47dea6 100644</span>
+<span id="cb8-3"><a href="#cb8-3"></a><span class="dt">--- a/Map.hs</span></span>
+<span id="cb8-4"><a href="#cb8-4"></a><span class="dt">+++ b/containers-contrib/src/Map/Contrib/Group.hs</span></span>
+<span id="cb8-5"><a href="#cb8-5"></a><span class="dt">@@ -1,4 +1,4 @@</span></span>
+<span id="cb8-6"><a href="#cb8-6"></a><span class="st">-groupBy :: forall k f a . (Foldable f, Ord k)</span></span>
+<span id="cb8-7"><a href="#cb8-7"></a><span class="va">+groupBy :: forall k f a . (Foldable f, Key k)</span></span>
+<span id="cb8-8"><a href="#cb8-8"></a>         =&gt; (a -&gt; k) -&gt; f a -&gt; Map k (NonEmpty a)</span>
+<span id="cb8-9"><a href="#cb8-9"></a> groupBy f = foldl' mapGroup M.empty</span>
+<span id="cb8-10"><a href="#cb8-10"></a>   where</span></code></pre></div>
 <p>It is still very simple Haskell: the type signatures are readable, no complicated features are used, no scary error messages, no performance overhead. For comparison, look at how <code>groupBy</code> is implemented for <code>DynamicMap</code> in <code>relude</code>:</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb9-1" title="1"><span class="ot">groupBy ::</span> <span class="kw">forall</span> f t a <span class="op">.</span> (<span class="dt">Foldable</span> f, <span class="dt">DynamicMap</span> t, <span class="dt">Val</span> t <span class="op">~</span> <span class="dt">NonEmpty</span> a, <span class="dt">Monoid</span> t)</a>
-<a class="sourceLine" id="cb9-2" title="2">        <span class="ot">=&gt;</span> (a <span class="ot">-&gt;</span> <span class="dt">Key</span> t) <span class="ot">-&gt;</span> f a <span class="ot">-&gt;</span> t</a>
-<a class="sourceLine" id="cb9-3" title="3">groupBy f <span class="ot">=</span> foldl’ mapGroup <span class="fu">mempty</span></a>
-<a class="sourceLine" id="cb9-4" title="4">  <span class="kw">where</span></a>
-<a class="sourceLine" id="cb9-5" title="5"><span class="ot">    mapGroup ::</span> t <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> t</a>
-<a class="sourceLine" id="cb9-6" title="6">    mapGroup m a <span class="ot">=</span></a>
-<a class="sourceLine" id="cb9-7" title="7">        <span class="kw">let</span><span class="ot"> val ::</span> <span class="dt">Maybe</span> (<span class="dt">NonEmpty</span> a) <span class="ot">-&gt;</span> <span class="dt">NonEmpty</span> a</a>
-<a class="sourceLine" id="cb9-8" title="8">            val <span class="dt">Nothing</span>   <span class="ot">=</span> x <span class="op">:|</span> []</a>
-<a class="sourceLine" id="cb9-9" title="9">            val (<span class="dt">Just</span> xs) <span class="ot">=</span> a <span class="op">&lt;|</span> xs</a>
-<a class="sourceLine" id="cb9-10" title="10">        <span class="kw">in</span> alter (<span class="dt">Just</span> <span class="op">.</span> val) (f x) m</a></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb9-1"><a href="#cb9-1"></a><span class="ot">groupBy ::</span> <span class="kw">forall</span> f t a <span class="op">.</span> (<span class="dt">Foldable</span> f, <span class="dt">DynamicMap</span> t, <span class="dt">Val</span> t <span class="op">~</span> <span class="dt">NonEmpty</span> a, <span class="dt">Monoid</span> t)</span>
+<span id="cb9-2"><a href="#cb9-2"></a>        <span class="ot">=&gt;</span> (a <span class="ot">-&gt;</span> <span class="dt">Key</span> t) <span class="ot">-&gt;</span> f a <span class="ot">-&gt;</span> t</span>
+<span id="cb9-3"><a href="#cb9-3"></a>groupBy f <span class="ot">=</span> foldl’ mapGroup <span class="fu">mempty</span></span>
+<span id="cb9-4"><a href="#cb9-4"></a>  <span class="kw">where</span></span>
+<span id="cb9-5"><a href="#cb9-5"></a><span class="ot">    mapGroup ::</span> t <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> t</span>
+<span id="cb9-6"><a href="#cb9-6"></a>    mapGroup m a <span class="ot">=</span></span>
+<span id="cb9-7"><a href="#cb9-7"></a>        <span class="kw">let</span><span class="ot"> val ::</span> <span class="dt">Maybe</span> (<span class="dt">NonEmpty</span> a) <span class="ot">-&gt;</span> <span class="dt">NonEmpty</span> a</span>
+<span id="cb9-8"><a href="#cb9-8"></a>            val <span class="dt">Nothing</span>   <span class="ot">=</span> x <span class="op">:|</span> []</span>
+<span id="cb9-9"><a href="#cb9-9"></a>            val (<span class="dt">Just</span> xs) <span class="ot">=</span> a <span class="op">&lt;|</span> xs</span>
+<span id="cb9-10"><a href="#cb9-10"></a>        <span class="kw">in</span> alter (<span class="dt">Just</span> <span class="op">.</span> val) (f x) m</span></code></pre></div>
 <p>The implementation is the same, but types are not as straightforward.</p>
 </blockquote>
 <p>However, from package management side there’s a huge difference between an ordinary package and a package that depends on some signature. You can’t use the <code>groupBy</code> function and see the result of its evaluation without a real implementation for signatures (though you can implement another function that works for any signature based on <code>groupBy</code>). So you might think of the <code>containers-contrib</code> package as a kind of <em>function</em> on the package level. Backpack basically allows to convert usual packages into functions.</p>
 <p>So <code>containers-contrib</code> is a function that takes a component like a library or an executable with an implementation of <code>containers-sig</code> and returns an ordinary package.</p>
 <p>Now, let’s proceed to writing down the real definitions behind our signatures. We are going to put the implementation of signatures into a separate package called <code>containers-ordered-strict</code>. We don’t need to depend on <code>containers-sig</code> package to do so. But we are aware of our signatures, so we are going to produce a <code>containers-sig</code>-compatible module. To implement this signature, we need to export all types and classes with the same names and kinds, and all functions with the same names and types from the module with the implementation. Our signature is very similar to <code>Map</code> from the <code>containers</code> package, so let’s implement it first:</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb10-1" title="1"><span class="ot">{-# LANGUAGE ConstraintKinds #-}</span></a>
-<a class="sourceLine" id="cb10-2" title="2"></a>
-<a class="sourceLine" id="cb10-3" title="3"><span class="kw">module</span> <span class="dt">Map.Ord</span></a>
-<a class="sourceLine" id="cb10-4" title="4">       ( <span class="dt">Map</span></a>
-<a class="sourceLine" id="cb10-5" title="5">       , <span class="dt">Key</span></a>
-<a class="sourceLine" id="cb10-6" title="6">       , empty</a>
-<a class="sourceLine" id="cb10-7" title="7">       , alter</a>
-<a class="sourceLine" id="cb10-8" title="8">       ) <span class="kw">where</span></a>
-<a class="sourceLine" id="cb10-9" title="9"></a>
-<a class="sourceLine" id="cb10-10" title="10"><span class="kw">import</span> <span class="kw">qualified</span> <span class="dt">Data.Map.Strict</span> <span class="kw">as</span> <span class="dt">M</span></a>
-<a class="sourceLine" id="cb10-11" title="11"></a>
-<a class="sourceLine" id="cb10-12" title="12"><span class="kw">type</span> <span class="dt">Map</span> <span class="ot">=</span> <span class="dt">M.Map</span></a>
-<a class="sourceLine" id="cb10-13" title="13"><span class="kw">type</span> <span class="dt">Key</span> <span class="ot">=</span> <span class="dt">Ord</span></a>
-<a class="sourceLine" id="cb10-14" title="14"></a>
-<a class="sourceLine" id="cb10-15" title="15"><span class="ot">empty ::</span> <span class="dt">Map</span> k v</a>
-<a class="sourceLine" id="cb10-16" title="16">empty <span class="ot">=</span> M.empty</a>
-<a class="sourceLine" id="cb10-17" title="17"></a>
-<a class="sourceLine" id="cb10-18" title="18"><span class="ot">alter ::</span> <span class="dt">Key</span> k <span class="ot">=&gt;</span> (<span class="dt">Maybe</span> v <span class="ot">-&gt;</span> <span class="dt">Maybe</span> v) <span class="ot">-&gt;</span> k <span class="ot">-&gt;</span> <span class="dt">Map</span> k v <span class="ot">-&gt;</span> <span class="dt">Map</span> k v</a>
-<a class="sourceLine" id="cb10-19" title="19">alter <span class="ot">=</span> M.alter</a></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb10-1"><a href="#cb10-1"></a><span class="ot">{-# LANGUAGE ConstraintKinds #-}</span></span>
+<span id="cb10-2"><a href="#cb10-2"></a></span>
+<span id="cb10-3"><a href="#cb10-3"></a><span class="kw">module</span> <span class="dt">Map.Ord</span></span>
+<span id="cb10-4"><a href="#cb10-4"></a>       ( <span class="dt">Map</span></span>
+<span id="cb10-5"><a href="#cb10-5"></a>       , <span class="dt">Key</span></span>
+<span id="cb10-6"><a href="#cb10-6"></a>       , empty</span>
+<span id="cb10-7"><a href="#cb10-7"></a>       , alter</span>
+<span id="cb10-8"><a href="#cb10-8"></a>       ) <span class="kw">where</span></span>
+<span id="cb10-9"><a href="#cb10-9"></a></span>
+<span id="cb10-10"><a href="#cb10-10"></a><span class="kw">import</span> <span class="kw">qualified</span> <span class="dt">Data.Map.Strict</span> <span class="kw">as</span> <span class="dt">M</span></span>
+<span id="cb10-11"><a href="#cb10-11"></a></span>
+<span id="cb10-12"><a href="#cb10-12"></a><span class="kw">type</span> <span class="dt">Map</span> <span class="ot">=</span> <span class="dt">M.Map</span></span>
+<span id="cb10-13"><a href="#cb10-13"></a><span class="kw">type</span> <span class="dt">Key</span> <span class="ot">=</span> <span class="dt">Ord</span></span>
+<span id="cb10-14"><a href="#cb10-14"></a></span>
+<span id="cb10-15"><a href="#cb10-15"></a><span class="ot">empty ::</span> <span class="dt">Map</span> k v</span>
+<span id="cb10-16"><a href="#cb10-16"></a>empty <span class="ot">=</span> M.empty</span>
+<span id="cb10-17"><a href="#cb10-17"></a></span>
+<span id="cb10-18"><a href="#cb10-18"></a><span class="ot">alter ::</span> <span class="dt">Key</span> k <span class="ot">=&gt;</span> (<span class="dt">Maybe</span> v <span class="ot">-&gt;</span> <span class="dt">Maybe</span> v) <span class="ot">-&gt;</span> k <span class="ot">-&gt;</span> <span class="dt">Map</span> k v <span class="ot">-&gt;</span> <span class="dt">Map</span> k v</span>
+<span id="cb10-19"><a href="#cb10-19"></a>alter <span class="ot">=</span> M.alter</span></code></pre></div>
 <p>It’s necessary to eta-reduce type-aliases because of the way Backpack works. There are some difficulties due to this limitation, but this will be covered later.</p>
 <p>There’s also one important thing in the cabal file for our <code>containers-ordered-strict</code> package. Let’s have a closer look at it:</p>
 <pre class="cabal"><code>cabal-version:       2.0
@@ -322,14 +322,14 @@ executable map-exe
   default-language:    Haskell2010</code></pre>
 <p>That’s all! Backpack will substitute the implementation of the <code>Map</code> signature from the <code>containers-ordered-strict</code> package. This is because we used <code>reexported-modules</code> field to give the <code>Map.Ord</code> module the same name as the signature, and there are no other modules named <code>Map</code> in the dependencies.</p>
 <p>Our final example looks like this:</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb13-1" title="1"><span class="kw">module</span> <span class="dt">Main</span> <span class="kw">where</span></a>
-<a class="sourceLine" id="cb13-2" title="2"></a>
-<a class="sourceLine" id="cb13-3" title="3"><span class="kw">import</span> <span class="dt">Map.Contrib.Group</span> (groupBy)</a>
-<a class="sourceLine" id="cb13-4" title="4"></a>
-<a class="sourceLine" id="cb13-5" title="5"><span class="ot">main ::</span> <span class="dt">IO</span> ()</a>
-<a class="sourceLine" id="cb13-6" title="6">main <span class="ot">=</span> <span class="kw">do</span></a>
-<a class="sourceLine" id="cb13-7" title="7">    <span class="fu">putStrLn</span> <span class="st">&quot;=== Map ===&quot;</span></a>
-<a class="sourceLine" id="cb13-8" title="8">    <span class="fu">print</span> <span class="op">$</span> groupBy (<span class="ot">`mod`</span> <span class="dv">2</span>) ([<span class="dv">1</span><span class="op">..</span><span class="dv">10</span>]<span class="ot"> ::</span> [<span class="dt">Int</span>])</a></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb13-1"><a href="#cb13-1"></a><span class="kw">module</span> <span class="dt">Main</span> <span class="kw">where</span></span>
+<span id="cb13-2"><a href="#cb13-2"></a></span>
+<span id="cb13-3"><a href="#cb13-3"></a><span class="kw">import</span> <span class="dt">Map.Contrib.Group</span> (groupBy)</span>
+<span id="cb13-4"><a href="#cb13-4"></a></span>
+<span id="cb13-5"><a href="#cb13-5"></a><span class="ot">main ::</span> <span class="dt">IO</span> ()</span>
+<span id="cb13-6"><a href="#cb13-6"></a>main <span class="ot">=</span> <span class="kw">do</span></span>
+<span id="cb13-7"><a href="#cb13-7"></a>    <span class="fu">putStrLn</span> <span class="st">&quot;=== Map ===&quot;</span></span>
+<span id="cb13-8"><a href="#cb13-8"></a>    <span class="fu">print</span> <span class="op">$</span> groupBy (<span class="ot">`mod`</span> <span class="dv">2</span>) ([<span class="dv">1</span><span class="op">..</span><span class="dv">10</span>]<span class="ot"> ::</span> [<span class="dt">Int</span>])</span></code></pre></div>
 <p>After compiling and running, it works like a charm!</p>
 <pre class="shell"><code>$ cabal new-exec map-exe
 === Map ===
@@ -340,46 +340,46 @@ fromList [(0,10 :| [8,6,4,2]),(1,9 :| [7,5,3,1])]</code></pre>
 <p><strong>NOTE:</strong> At this point, you might notice that Backpack requires to create many packages. And that’s true. We could put the implementation inside <code>containers-ordered-strict</code> under a different module name, but in our case we don’t want to have extra dependencies if the user is only interested in a single implementation. Also, it wouldn’t work well with <code>reexported-modules</code> approach since we can’t reexport two different modules under same name.</p>
 </blockquote>
 <p>The Cabal file for <code>containers-ordered-strict</code> is almost the same. And the implementation of the signature could look like this:</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb15-1" title="1"><span class="ot">{-# LANGUAGE ConstraintKinds #-}</span></a>
-<a class="sourceLine" id="cb15-2" title="2"></a>
-<a class="sourceLine" id="cb15-3" title="3"><span class="kw">module</span> <span class="dt">Map.Hash</span></a>
-<a class="sourceLine" id="cb15-4" title="4">       ( <span class="dt">Map</span></a>
-<a class="sourceLine" id="cb15-5" title="5">       , <span class="dt">Key</span></a>
-<a class="sourceLine" id="cb15-6" title="6">       , empty</a>
-<a class="sourceLine" id="cb15-7" title="7">       , alter</a>
-<a class="sourceLine" id="cb15-8" title="8">       ) <span class="kw">where</span></a>
-<a class="sourceLine" id="cb15-9" title="9"></a>
-<a class="sourceLine" id="cb15-10" title="10"><span class="kw">import</span> <span class="dt">Data.Hashable</span> (<span class="dt">Hashable</span>)</a>
-<a class="sourceLine" id="cb15-11" title="11"><span class="kw">import</span> <span class="kw">qualified</span> <span class="dt">Data.HashMap.Strict</span> <span class="kw">as</span> <span class="dt">M</span></a>
-<a class="sourceLine" id="cb15-12" title="12"></a>
-<a class="sourceLine" id="cb15-13" title="13"><span class="kw">type</span> <span class="dt">Map</span> <span class="ot">=</span> <span class="dt">M.HashMap</span></a>
-<a class="sourceLine" id="cb15-14" title="14"><span class="kw">type</span> <span class="dt">Key</span> a <span class="ot">=</span> (<span class="dt">Eq</span> a, <span class="dt">Hashable</span> a)</a>
-<a class="sourceLine" id="cb15-15" title="15"></a>
-<a class="sourceLine" id="cb15-16" title="16"><span class="ot">empty ::</span> <span class="dt">Map</span> k v</a>
-<a class="sourceLine" id="cb15-17" title="17">empty <span class="ot">=</span> M.empty</a>
-<a class="sourceLine" id="cb15-18" title="18"></a>
-<a class="sourceLine" id="cb15-19" title="19"><span class="ot">alter ::</span> <span class="dt">Key</span> k <span class="ot">=&gt;</span> (<span class="dt">Maybe</span> v <span class="ot">-&gt;</span> <span class="dt">Maybe</span> v) <span class="ot">-&gt;</span> k <span class="ot">-&gt;</span> <span class="dt">Map</span> k v <span class="ot">-&gt;</span> <span class="dt">Map</span> k v</a>
-<a class="sourceLine" id="cb15-20" title="20">alter <span class="ot">=</span> M.alter</a></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb15-1"><a href="#cb15-1"></a><span class="ot">{-# LANGUAGE ConstraintKinds #-}</span></span>
+<span id="cb15-2"><a href="#cb15-2"></a></span>
+<span id="cb15-3"><a href="#cb15-3"></a><span class="kw">module</span> <span class="dt">Map.Hash</span></span>
+<span id="cb15-4"><a href="#cb15-4"></a>       ( <span class="dt">Map</span></span>
+<span id="cb15-5"><a href="#cb15-5"></a>       , <span class="dt">Key</span></span>
+<span id="cb15-6"><a href="#cb15-6"></a>       , empty</span>
+<span id="cb15-7"><a href="#cb15-7"></a>       , alter</span>
+<span id="cb15-8"><a href="#cb15-8"></a>       ) <span class="kw">where</span></span>
+<span id="cb15-9"><a href="#cb15-9"></a></span>
+<span id="cb15-10"><a href="#cb15-10"></a><span class="kw">import</span> <span class="dt">Data.Hashable</span> (<span class="dt">Hashable</span>)</span>
+<span id="cb15-11"><a href="#cb15-11"></a><span class="kw">import</span> <span class="kw">qualified</span> <span class="dt">Data.HashMap.Strict</span> <span class="kw">as</span> <span class="dt">M</span></span>
+<span id="cb15-12"><a href="#cb15-12"></a></span>
+<span id="cb15-13"><a href="#cb15-13"></a><span class="kw">type</span> <span class="dt">Map</span> <span class="ot">=</span> <span class="dt">M.HashMap</span></span>
+<span id="cb15-14"><a href="#cb15-14"></a><span class="kw">type</span> <span class="dt">Key</span> a <span class="ot">=</span> (<span class="dt">Eq</span> a, <span class="dt">Hashable</span> a)</span>
+<span id="cb15-15"><a href="#cb15-15"></a></span>
+<span id="cb15-16"><a href="#cb15-16"></a><span class="ot">empty ::</span> <span class="dt">Map</span> k v</span>
+<span id="cb15-17"><a href="#cb15-17"></a>empty <span class="ot">=</span> M.empty</span>
+<span id="cb15-18"><a href="#cb15-18"></a></span>
+<span id="cb15-19"><a href="#cb15-19"></a><span class="ot">alter ::</span> <span class="dt">Key</span> k <span class="ot">=&gt;</span> (<span class="dt">Maybe</span> v <span class="ot">-&gt;</span> <span class="dt">Maybe</span> v) <span class="ot">-&gt;</span> k <span class="ot">-&gt;</span> <span class="dt">Map</span> k v <span class="ot">-&gt;</span> <span class="dt">Map</span> k v</span>
+<span id="cb15-20"><a href="#cb15-20"></a>alter <span class="ot">=</span> M.alter</span></code></pre></div>
 <p>However, this doesn’t compile with the following error:</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb16-1" title="1">   • <span class="dt">Type</span> constructor ‘<span class="dt">Key</span>’ has conflicting definitions <span class="kw">in</span> the <span class="kw">module</span></a>
-<a class="sourceLine" id="cb16-2" title="2">      <span class="fu">and</span> its hsig file</a>
-<a class="sourceLine" id="cb16-3" title="3">      <span class="dt">Main</span> <span class="kw">module</span><span class="op">:</span> <span class="kw">type</span> <span class="dt">Key</span> a <span class="ot">=</span></a>
-<a class="sourceLine" id="cb16-4" title="4">                     (ghc<span class="op">-</span>prim<span class="op">-</span><span class="fl">0.5</span><span class="op">.</span><span class="fl">2.0</span><span class="op">:</span><span class="dt">GHC.Classes.Eq</span> a,</a>
-<a class="sourceLine" id="cb16-5" title="5">                      hashable<span class="op">-</span><span class="fl">1.2</span><span class="op">.</span><span class="fl">7.0</span><span class="op">:</span><span class="dt">Data.Hashable.Class.Hashable</span> a)</a>
-<a class="sourceLine" id="cb16-6" title="6"><span class="ot">                     ::</span> <span class="dt">Constraint</span></a>
-<a class="sourceLine" id="cb16-7" title="7">      <span class="dt">Hsig</span> file<span class="op">:</span>  <span class="kw">class</span> <span class="dt">Key</span> k</a>
-<a class="sourceLine" id="cb16-8" title="8">      <span class="dt">Illegal</span> parameterized <span class="kw">type</span> synonym <span class="kw">in</span> implementation <span class="kw">of</span> abstract <span class="kw">data</span><span class="op">.</span></a>
-<a class="sourceLine" id="cb16-9" title="9">      (<span class="dt">Try</span> eta reducing your <span class="kw">type</span> synonym so that it is nullary<span class="op">.</span>)</a>
-<a class="sourceLine" id="cb16-10" title="10">    • while checking that containers<span class="op">-</span>unordered<span class="op">-</span>strict<span class="op">-</span><span class="fl">0.0</span><span class="op">.</span><span class="dv">0</span><span class="op">:</span><span class="dt">Map.Hash</span></a>
-<a class="sourceLine" id="cb16-11" title="11">      implements signature <span class="dt">Map</span> <span class="kw">in</span></a>
-<a class="sourceLine" id="cb16-12" title="12">      containers<span class="op">-</span>contrib<span class="op">-</span><span class="fl">0.0</span><span class="op">.</span><span class="dv">0</span>[<span class="dt">Map</span><span class="ot">=</span>containers<span class="op">-</span>unordered<span class="op">-</span>strict<span class="op">-</span><span class="fl">0.0</span><span class="op">.</span><span class="dv">0</span><span class="op">:</span><span class="dt">Map.Hash</span>]</a></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb16-1"><a href="#cb16-1"></a>   • <span class="dt">Type</span> constructor ‘<span class="dt">Key</span>’ has conflicting definitions <span class="kw">in</span> the <span class="kw">module</span></span>
+<span id="cb16-2"><a href="#cb16-2"></a>      <span class="fu">and</span> its hsig file</span>
+<span id="cb16-3"><a href="#cb16-3"></a>      <span class="dt">Main</span> <span class="kw">module</span><span class="op">:</span> <span class="kw">type</span> <span class="dt">Key</span> a <span class="ot">=</span></span>
+<span id="cb16-4"><a href="#cb16-4"></a>                     (ghc<span class="op">-</span>prim<span class="op">-</span><span class="fl">0.5</span><span class="op">.</span><span class="fl">2.0</span><span class="op">:</span><span class="dt">GHC.Classes.Eq</span> a,</span>
+<span id="cb16-5"><a href="#cb16-5"></a>                      hashable<span class="op">-</span><span class="fl">1.2</span><span class="op">.</span><span class="fl">7.0</span><span class="op">:</span><span class="dt">Data.Hashable.Class.Hashable</span> a)</span>
+<span id="cb16-6"><a href="#cb16-6"></a><span class="ot">                     ::</span> <span class="dt">Constraint</span></span>
+<span id="cb16-7"><a href="#cb16-7"></a>      <span class="dt">Hsig</span> file<span class="op">:</span>  <span class="kw">class</span> <span class="dt">Key</span> k</span>
+<span id="cb16-8"><a href="#cb16-8"></a>      <span class="dt">Illegal</span> parameterized <span class="kw">type</span> synonym <span class="kw">in</span> implementation <span class="kw">of</span> abstract <span class="kw">data</span><span class="op">.</span></span>
+<span id="cb16-9"><a href="#cb16-9"></a>      (<span class="dt">Try</span> eta reducing your <span class="kw">type</span> synonym so that it is nullary<span class="op">.</span>)</span>
+<span id="cb16-10"><a href="#cb16-10"></a>    • while checking that containers<span class="op">-</span>unordered<span class="op">-</span>strict<span class="op">-</span><span class="fl">0.0</span><span class="op">.</span><span class="dv">0</span><span class="op">:</span><span class="dt">Map.Hash</span></span>
+<span id="cb16-11"><a href="#cb16-11"></a>      implements signature <span class="dt">Map</span> <span class="kw">in</span></span>
+<span id="cb16-12"><a href="#cb16-12"></a>      containers<span class="op">-</span>contrib<span class="op">-</span><span class="fl">0.0</span><span class="op">.</span><span class="dv">0</span>[<span class="dt">Map</span><span class="ot">=</span>containers<span class="op">-</span>unordered<span class="op">-</span>strict<span class="op">-</span><span class="fl">0.0</span><span class="op">.</span><span class="dv">0</span><span class="op">:</span><span class="dt">Map.Hash</span>]</span></code></pre></div>
 <p>So, does it mean that we can’t use our type alias? Not really. To overcome this problem, we will use the following trick:</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb17-1" title="1"><span class="ot">{-# LANGUAGE FlexibleInstances    #-}</span></a>
-<a class="sourceLine" id="cb17-2" title="2"><span class="ot">{-# LANGUAGE MonoLocalBinds       #-}</span></a>
-<a class="sourceLine" id="cb17-3" title="3"><span class="ot">{-# LANGUAGE UndecidableInstances #-}</span></a>
-<a class="sourceLine" id="cb17-4" title="4"></a>
-<a class="sourceLine" id="cb17-5" title="5"><span class="kw">class</span> (<span class="dt">Eq</span> k, <span class="dt">Hashable</span> k) <span class="ot">=&gt;</span> <span class="dt">Key</span> k</a>
-<a class="sourceLine" id="cb17-6" title="6"><span class="kw">instance</span> (<span class="dt">Eq</span> k, <span class="dt">Hashable</span> k) <span class="ot">=&gt;</span> <span class="dt">Key</span> k</a></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb17-1"><a href="#cb17-1"></a><span class="ot">{-# LANGUAGE FlexibleInstances    #-}</span></span>
+<span id="cb17-2"><a href="#cb17-2"></a><span class="ot">{-# LANGUAGE MonoLocalBinds       #-}</span></span>
+<span id="cb17-3"><a href="#cb17-3"></a><span class="ot">{-# LANGUAGE UndecidableInstances #-}</span></span>
+<span id="cb17-4"><a href="#cb17-4"></a></span>
+<span id="cb17-5"><a href="#cb17-5"></a><span class="kw">class</span> (<span class="dt">Eq</span> k, <span class="dt">Hashable</span> k) <span class="ot">=&gt;</span> <span class="dt">Key</span> k</span>
+<span id="cb17-6"><a href="#cb17-6"></a><span class="kw">instance</span> (<span class="dt">Eq</span> k, <span class="dt">Hashable</span> k) <span class="ot">=&gt;</span> <span class="dt">Key</span> k</span></code></pre></div>
 <p>Since we can’t use type alias for <code>Key</code>, we need to create our own type class with <code>(Eq k, Hashable k)</code> constraint. And implement this type class for every type that has specified constraints.</p>
 <p>And now if we want to use our <code>HashMap</code> instead of <code>Map</code> in our example, we only need to replace these line in cabal file</p>
 <pre><code>    , containers-ordered-strict</code></pre>
@@ -408,44 +408,44 @@ executable map-exe
   default-language:    Haskell2010</code></pre>
 <p>This syntax allows to specify what module should be used as an implementation for a specific signature and under which name. The <code>as</code> part is essential because in case of multiple implementations we do need to have modules with different names.</p>
 <p>And our example will now look like this:</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb21-1" title="1"><span class="kw">module</span> <span class="dt">Main</span> <span class="kw">where</span></a>
-<a class="sourceLine" id="cb21-2" title="2"></a>
-<a class="sourceLine" id="cb21-3" title="3"><span class="kw">import</span> <span class="kw">qualified</span> <span class="dt">Map.Contrib.Group.Hash</span> <span class="kw">as</span> <span class="dt">HM</span> (groupBy)</a>
-<a class="sourceLine" id="cb21-4" title="4"><span class="kw">import</span> <span class="kw">qualified</span> <span class="dt">Map.Contrib.Group.Ord</span> <span class="kw">as</span> <span class="dt">M</span> (groupBy)</a>
-<a class="sourceLine" id="cb21-5" title="5"></a>
-<a class="sourceLine" id="cb21-6" title="6"><span class="ot">main ::</span> <span class="dt">IO</span> ()</a>
-<a class="sourceLine" id="cb21-7" title="7">main <span class="ot">=</span> <span class="kw">do</span></a>
-<a class="sourceLine" id="cb21-8" title="8">    <span class="fu">putStrLn</span> <span class="st">&quot;### Map ###&quot;</span></a>
-<a class="sourceLine" id="cb21-9" title="9">    <span class="fu">print</span> <span class="op">$</span> M.groupBy (<span class="ot">`mod`</span> <span class="dv">2</span>) ([<span class="dv">1</span><span class="op">..</span><span class="dv">10</span>]<span class="ot"> ::</span> [<span class="dt">Int</span>])</a>
-<a class="sourceLine" id="cb21-10" title="10">    <span class="fu">putStrLn</span> <span class="st">&quot;### HashMap ###&quot;</span></a>
-<a class="sourceLine" id="cb21-11" title="11">    <span class="fu">print</span> <span class="op">$</span> HM.groupBy (<span class="ot">`mod`</span> <span class="dv">2</span>) ([<span class="dv">1</span><span class="op">..</span><span class="dv">10</span>]<span class="ot"> ::</span> [<span class="dt">Int</span>])</a></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb21-1"><a href="#cb21-1"></a><span class="kw">module</span> <span class="dt">Main</span> <span class="kw">where</span></span>
+<span id="cb21-2"><a href="#cb21-2"></a></span>
+<span id="cb21-3"><a href="#cb21-3"></a><span class="kw">import</span> <span class="kw">qualified</span> <span class="dt">Map.Contrib.Group.Hash</span> <span class="kw">as</span> <span class="dt">HM</span> (groupBy)</span>
+<span id="cb21-4"><a href="#cb21-4"></a><span class="kw">import</span> <span class="kw">qualified</span> <span class="dt">Map.Contrib.Group.Ord</span> <span class="kw">as</span> <span class="dt">M</span> (groupBy)</span>
+<span id="cb21-5"><a href="#cb21-5"></a></span>
+<span id="cb21-6"><a href="#cb21-6"></a><span class="ot">main ::</span> <span class="dt">IO</span> ()</span>
+<span id="cb21-7"><a href="#cb21-7"></a>main <span class="ot">=</span> <span class="kw">do</span></span>
+<span id="cb21-8"><a href="#cb21-8"></a>    <span class="fu">putStrLn</span> <span class="st">&quot;### Map ###&quot;</span></span>
+<span id="cb21-9"><a href="#cb21-9"></a>    <span class="fu">print</span> <span class="op">$</span> M.groupBy (<span class="ot">`mod`</span> <span class="dv">2</span>) ([<span class="dv">1</span><span class="op">..</span><span class="dv">10</span>]<span class="ot"> ::</span> [<span class="dt">Int</span>])</span>
+<span id="cb21-10"><a href="#cb21-10"></a>    <span class="fu">putStrLn</span> <span class="st">&quot;### HashMap ###&quot;</span></span>
+<span id="cb21-11"><a href="#cb21-11"></a>    <span class="fu">print</span> <span class="op">$</span> HM.groupBy (<span class="ot">`mod`</span> <span class="dv">2</span>) ([<span class="dv">1</span><span class="op">..</span><span class="dv">10</span>]<span class="ot"> ::</span> [<span class="dt">Int</span>])</span></code></pre></div>
 <p>You can see that Backpack has the ability to use multiple implementations of a single interface. But they should be accessible under different namespaces.</p>
 <h3 id="intmap-from-containers">IntMap from containers<a href="#intmap-from-containers" class="anchor">🔗</a></h3>
 <p>Now, this data type is more difficult. First, keys don’t have constraint like <code>Ord</code>, they only have the specific monomorphic type <code>Int</code>. Second, <code>IntMap</code> data type has kind <code>Type</code> while <code>Map</code> from signature has kind <code>Type -&gt; Type</code>. But these problems are also solvable. To fix the issue with constraint, our <code>Key</code> constraint can be just type equality to <code>Int</code>. This can be achieved by partially applying type equality operator <code>(~)</code> to the <code>Int</code> type. Regarding different kinds: we can introduce our custom newtype with phantom type parameter. So the final solution looks like this:</p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb22-1" title="1"><span class="ot">{-# LANGUAGE DerivingStrategies         #-}</span></a>
-<a class="sourceLine" id="cb22-2" title="2"><span class="ot">{-# LANGUAGE FlexibleInstances          #-}</span></a>
-<a class="sourceLine" id="cb22-3" title="3"><span class="ot">{-# LANGUAGE GeneralizedNewtypeDeriving #-}</span></a>
-<a class="sourceLine" id="cb22-4" title="4"><span class="ot">{-# LANGUAGE TypeFamilies               #-}</span></a>
-<a class="sourceLine" id="cb22-5" title="5"></a>
-<a class="sourceLine" id="cb22-6" title="6"><span class="kw">module</span> <span class="dt">Map.Int</span></a>
-<a class="sourceLine" id="cb22-7" title="7">       ( <span class="dt">Map</span></a>
-<a class="sourceLine" id="cb22-8" title="8">       , <span class="dt">Key</span></a>
-<a class="sourceLine" id="cb22-9" title="9">       , empty</a>
-<a class="sourceLine" id="cb22-10" title="10">       , alter</a>
-<a class="sourceLine" id="cb22-11" title="11">       ) <span class="kw">where</span></a>
-<a class="sourceLine" id="cb22-12" title="12"></a>
-<a class="sourceLine" id="cb22-13" title="13"><span class="kw">import</span> <span class="kw">qualified</span> <span class="dt">Data.IntMap.Strict</span> <span class="kw">as</span> <span class="dt">M</span></a>
-<a class="sourceLine" id="cb22-14" title="14"></a>
-<a class="sourceLine" id="cb22-15" title="15"><span class="kw">newtype</span> <span class="dt">Map</span> k v <span class="ot">=</span> <span class="dt">IM</span> {<span class="ot"> unIM ::</span> <span class="dt">M.IntMap</span> v }</a>
-<a class="sourceLine" id="cb22-16" title="16">    <span class="kw">deriving</span> <span class="kw">newtype</span> (<span class="dt">Show</span>)</a>
-<a class="sourceLine" id="cb22-17" title="17"></a>
-<a class="sourceLine" id="cb22-18" title="18"><span class="kw">type</span> <span class="dt">Key</span> <span class="ot">=</span> (<span class="op">~</span>) <span class="dt">Int</span></a>
-<a class="sourceLine" id="cb22-19" title="19"></a>
-<a class="sourceLine" id="cb22-20" title="20"><span class="ot">empty ::</span> <span class="dt">Map</span> k v</a>
-<a class="sourceLine" id="cb22-21" title="21">empty <span class="ot">=</span> <span class="dt">IM</span> M.empty</a>
-<a class="sourceLine" id="cb22-22" title="22"></a>
-<a class="sourceLine" id="cb22-23" title="23"><span class="ot">alter ::</span> <span class="dt">Key</span> k <span class="ot">=&gt;</span> (<span class="dt">Maybe</span> v <span class="ot">-&gt;</span> <span class="dt">Maybe</span> v) <span class="ot">-&gt;</span> k <span class="ot">-&gt;</span> <span class="dt">Map</span> k v <span class="ot">-&gt;</span> <span class="dt">Map</span> k v</a>
-<a class="sourceLine" id="cb22-24" title="24">alter f k <span class="ot">=</span> <span class="dt">IM</span> <span class="op">.</span> M.alter f k <span class="op">.</span> unIM</a></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb22-1"><a href="#cb22-1"></a><span class="ot">{-# LANGUAGE DerivingStrategies         #-}</span></span>
+<span id="cb22-2"><a href="#cb22-2"></a><span class="ot">{-# LANGUAGE FlexibleInstances          #-}</span></span>
+<span id="cb22-3"><a href="#cb22-3"></a><span class="ot">{-# LANGUAGE GeneralizedNewtypeDeriving #-}</span></span>
+<span id="cb22-4"><a href="#cb22-4"></a><span class="ot">{-# LANGUAGE TypeFamilies               #-}</span></span>
+<span id="cb22-5"><a href="#cb22-5"></a></span>
+<span id="cb22-6"><a href="#cb22-6"></a><span class="kw">module</span> <span class="dt">Map.Int</span></span>
+<span id="cb22-7"><a href="#cb22-7"></a>       ( <span class="dt">Map</span></span>
+<span id="cb22-8"><a href="#cb22-8"></a>       , <span class="dt">Key</span></span>
+<span id="cb22-9"><a href="#cb22-9"></a>       , empty</span>
+<span id="cb22-10"><a href="#cb22-10"></a>       , alter</span>
+<span id="cb22-11"><a href="#cb22-11"></a>       ) <span class="kw">where</span></span>
+<span id="cb22-12"><a href="#cb22-12"></a></span>
+<span id="cb22-13"><a href="#cb22-13"></a><span class="kw">import</span> <span class="kw">qualified</span> <span class="dt">Data.IntMap.Strict</span> <span class="kw">as</span> <span class="dt">M</span></span>
+<span id="cb22-14"><a href="#cb22-14"></a></span>
+<span id="cb22-15"><a href="#cb22-15"></a><span class="kw">newtype</span> <span class="dt">Map</span> k v <span class="ot">=</span> <span class="dt">IM</span> {<span class="ot"> unIM ::</span> <span class="dt">M.IntMap</span> v }</span>
+<span id="cb22-16"><a href="#cb22-16"></a>    <span class="kw">deriving</span> <span class="kw">newtype</span> (<span class="dt">Show</span>)</span>
+<span id="cb22-17"><a href="#cb22-17"></a></span>
+<span id="cb22-18"><a href="#cb22-18"></a><span class="kw">type</span> <span class="dt">Key</span> <span class="ot">=</span> (<span class="op">~</span>) <span class="dt">Int</span></span>
+<span id="cb22-19"><a href="#cb22-19"></a></span>
+<span id="cb22-20"><a href="#cb22-20"></a><span class="ot">empty ::</span> <span class="dt">Map</span> k v</span>
+<span id="cb22-21"><a href="#cb22-21"></a>empty <span class="ot">=</span> <span class="dt">IM</span> M.empty</span>
+<span id="cb22-22"><a href="#cb22-22"></a></span>
+<span id="cb22-23"><a href="#cb22-23"></a><span class="ot">alter ::</span> <span class="dt">Key</span> k <span class="ot">=&gt;</span> (<span class="dt">Maybe</span> v <span class="ot">-&gt;</span> <span class="dt">Maybe</span> v) <span class="ot">-&gt;</span> k <span class="ot">-&gt;</span> <span class="dt">Map</span> k v <span class="ot">-&gt;</span> <span class="dt">Map</span> k v</span>
+<span id="cb22-24"><a href="#cb22-24"></a>alter f k <span class="ot">=</span> <span class="dt">IM</span> <span class="op">.</span> M.alter f k <span class="op">.</span> unIM</span></code></pre></div>
 <p>This solution is not perfect. And it’s still an open question how to make it better. Possible improvements are:</p>
 <ol type="1">
 <li>Figure out how to remove the <code>Key</code> constraint from functions like <code>toList</code> (such functions can know that <code>k</code> type variable is <code>Int</code> only when the constraint is in scope).</li>
