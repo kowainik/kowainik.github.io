@@ -113,11 +113,11 @@ With that, we can implement functions for decoding a single `Value`:
 ```haskell
 valToBool :: Value -> Either SingleValueError Bool
 valToBool (BoolValue b) = Right b
-valToBool v = Left $ SingleValueError “Bool” v
+valToBool v = Left $ SingleValueError "Bool" v
 
 valToInt :: Value -> Either SingleValueError Int
 valToInt (IntValue i) = Right i
-valToInt v = Left $ SingleValueError “Int” v
+valToInt v = Left $ SingleValueError "Int" v
 ```
 
 > **NOTE:** we can remove some code duplication already at this stage! If you
