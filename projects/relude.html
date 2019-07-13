@@ -57,7 +57,7 @@
                 <a class="btn btn-outline-dark btn-tag" href="https://github.com/kowainik/relude" data-icon="octicon-star" data-size="large" aria-label="Star Kowainik/relude on GitHub">Star Project</a>
                 <a class="fa-stack fa-2x" href="https://github.com/kowainik/relude/stargazers">
                     <i class="fa fa-star fa-stack-2x"></i>
-                    <i id="stars" class="fa fa-stack-1x fa-inverse main-font">183</i>
+                    <i id="stars" class="fa fa-stack-1x fa-inverse main-font">185</i>
                 </a>
                 <div class="author">Language: Haskell</div>
 
@@ -116,12 +116,12 @@
 </ol>
 <p>This is neither a tutorial on <em>Haskell</em> nor tutorial on each function contained in <code>relude</code>. For detailed documentation of every function together with examples and usage, see <a href="http://hackage.haskell.org/package/relude"><em>Haddock documentation</em></a>.</p>
 <h2 id="when-to-use-an-alternative-prelude">When to use an alternative prelude? <a href="#structure-of-this-tutorial">↑</a><a href="#when-to-use-an-alternative-prelude" class="anchor">🔗</a></h2>
-<p>Module with the name <code>Prelude</code> is a module imported by default in every Haskell source file of your project. If you want to use some data types or functions which are not exposed by <code>Prelude</code>, you need to import them, adding necessary libraries to your project dependencies. Unlike ordinary libraries, alternative preludes provide different set of available by default functions and data types.</p>
-<p>Replacing default <code>Prelude</code> from <code>base</code> has the following disadvangates:</p>
+<p>The module with the name <code>Prelude</code> is a module imported by default in every Haskell source file of your project. If you want to use some data types or functions which are not exposed by <code>Prelude</code>, you need to import them, adding necessary libraries to your project dependencies. Unlike ordinary libraries, alternative preludes provide different set of available by default functions and data types.</p>
+<p>Replacing default <code>Prelude</code> from <code>base</code> has the following disadvantages:</p>
 <ol type="1">
-<li>Increased threshold entrance: you need to learn different standard library.
+<li>Increased threshold entrance: you need to learn a different standard library.
 <ul>
-<li><code>relude</code> tries to lower this threshold as much as possible: excellent documentation, no custom abstractions, behavior is changed only for small subset of functions.</li>
+<li><code>relude</code> tries to lower this threshold as much as possible: excellent documentation, no custom abstractions, behavior is changed only for a small subset of functions.</li>
 </ul></li>
 <li>Extra dependencies: adding more libraries to dependencies increases build times and maintenance burden.
 <ul>
@@ -136,15 +136,15 @@
 </ol>
 <p>Our recommendations when to use <code>relude</code>:</p>
 <ol type="1">
-<li>When you develop application (e.g. CLI tool, web-app). In that case better productivity is more important than lower number dependencies.</li>
+<li>When you develop an application (e.g. CLI tool, web-app). In that case greater productivity is more important than a low number of dependencies.</li>
 <li>When writing a big framework. Some of them can be bigger than applications.</li>
 </ol>
 <h2 id="get-started">Get started <a href="#structure-of-this-tutorial">↑</a><a href="#get-started" class="anchor">🔗</a></h2>
-<p>If you want to start using <code>relude</code> in your project and explore it with the help of compiler, set everything up according to one of the instructions below.</p>
+<p>If you want to start using <code>relude</code> in your project and explore it with the help of the compiler, set everything up according to one of the instructions below.</p>
 <h3 id="base-noprelude">base-noprelude <a href="#structure-of-this-tutorial">↑</a><a href="#base-noprelude" class="anchor">🔗</a></h3>
 <p>This is the recommended way to use custom prelude. It requires you to perform the following steps:</p>
 <ol type="1">
-<li><p>Replace <code>base</code> dependency with corresponding version of <code>base-noprelude</code> in your <code>.cabal</code> file.</p></li>
+<li><p>Replace the <code>base</code> dependency with corresponding version of <code>base-noprelude</code> in your <code>.cabal</code> file.</p></li>
 <li><p>Add a <code>relude</code> dependency to your <code>.cabal</code> file.</p></li>
 <li><p>Add the following <code>Prelude</code> module to your project (both to filesystem and to <code>exposed-modules</code>):</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">module</span> <span class="dt">Prelude</span></span>
