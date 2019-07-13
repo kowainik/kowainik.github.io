@@ -10,7 +10,6 @@ import Network.HTTP.Types.Status (ok200)
 import System.Directory (createDirectoryIfMissing)
 import System.FilePath ((</>))
 
-import qualified Data.Text as T
 import qualified Data.Text.Lazy as LT
 import qualified Data.Text.Lazy.Encoding as T
 
@@ -70,7 +69,7 @@ createProjectMds = do
         ]
 
     toTitleName :: Text -> Text
-    toTitleName name = "\"" <> unwords (T.splitOn "-" name) <> "\""
+    toTitleName name = "\"" <> name <> "\""
 
 
 data GitHubProject = GitHubProject
