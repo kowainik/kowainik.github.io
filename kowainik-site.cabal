@@ -68,7 +68,8 @@ executable site
   import:              common-options
   main-is:             site.hs
 
-  build-depends:       hakyll
+  build-depends:       filepath
+                     , hakyll
                      , kowainik-site
                      , pandoc
                      , pandoc-types
