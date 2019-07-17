@@ -32,6 +32,7 @@ title: Some really meaningful title that will appear at the page
 author: Your Name
 tags: haskell, stack, cabal, build-tools, tutorial
 description: Some short description
+useShortName: yes
 ---
 
 DO NOT COPY TITLE HERE!

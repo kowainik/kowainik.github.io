@@ -3,13 +3,14 @@
 
 import Hakyll (Compiler, Context, Identifier, Item (..), MonadMetadata, Pattern, Rules,
                applyAsTemplate, buildTags, compile, compressCssCompiler, constField,
-               copyFileCompiler, create, dateField, defaultContext, defaultHakyllReaderOptions,
-               defaultHakyllWriterOptions, field, fromCapture, functionField, getMetadata,
-               getResourceString, getTags, hakyll, idRoute, listField, loadAll,
-               loadAndApplyTemplate, lookupString, makeItem, match, pandocCompilerWithTransform,
-               recentFirst, relativizeUrls, renderPandocWith, route, saveSnapshot, setExtension,
-               tagsRules, templateBodyCompiler, (.||.))
+               copyFileCompiler, create, customRoute, dateField, defaultContext,
+               defaultHakyllReaderOptions, defaultHakyllWriterOptions, field, fromCapture,
+               functionField, getMetadata, getResourceString, getTags, hakyll, idRoute, listField,
+               loadAll, loadAndApplyTemplate, lookupString, makeItem, match, metadataRoute,
+               pandocCompilerWithTransform, recentFirst, relativizeUrls, renderPandocWith, route,
+               saveSnapshot, setExtension, tagsRules, templateBodyCompiler, toFilePath, (.||.))
 import Hakyll.Web.Feed (renderAtom, renderRss)
+import System.FilePath (replaceExtension)
 import Text.Pandoc.Options (WriterOptions (..))
 
 import Kowainik.Feed (feedCompiler)
@@ -54,7 +55,14 @@ mainHakyll team = hakyll $ do
 
     -- Posts pages
     match "posts/*" $ do
-        route $ setExtension "html"
+        route $ metadataRoute $ \metadata -> case lookupString "useShortName" metadata of
+            Nothing -> setExtension "html"
+            Just _  -> customRoute
+                $ (`replaceExtension` "html")
+                . ("posts/" ++)
+                . drop 17
+                . toFilePath
+
         compile $ do
             i   <- getResourceString
             pandoc <- renderPandocWith defaultHakyllReaderOptions withToc i
@@ -70,6 +78,7 @@ mainHakyll team = hakyll $ do
     -- All posts page
     create ["posts.html"] $ compilePosts "Posts" "templates/posts.html" "posts/*"
 
+
     -- build up tags
     tags <- buildTags "posts/*" (fromCapture "tags/*.html")
 
@@ -79,6 +88,22 @@ mainHakyll team = hakyll $ do
 
     feedCompiler "atom.xml" renderAtom
     feedCompiler "rss.xml"  renderRss
+
+-- doesn't work ;(
+--
+--     -- Use short names redirects for the old posts
+--     createRedirects
+--         [ ("posts/build-tools.html",                "posts/2018-06-21-haskell-build-tools.md")
+--         , ("posts/typerep-map.html",                "posts/2018-07-11-typerep-map-step-by-step.md")
+--         , ("posts/backpack.html",                   "posts/2018-08-19-picnic-put-containers-into-a-backpack.md")
+--         , ("posts/dhall-to-hlint.html",             "posts/2018-09-09-dhall-to-hlint.md")
+--         , ("posts/co-log.html",                     "posts/2018-09-25-co-log.md")
+--         , ("posts/hacktoberfest-2018.html",         "posts/2018-10-01-hacktoberfest.md")
+--         , ("posts/hacktoberfest-2018-wrap-up.html", "posts/2018-11-01-hacktoberfest-wrap-up.md")
+--         , ("posts/state-pattern-matching.html",     "posts/2018-11-18-state-pattern-matching.md")
+--         , ("posts/tomland.html",                    "posts/2019-01-14-tomland.md")
+--         , ("posts/style-guide.html",                "posts/2019-02-06-style-guide.md")
+--         ]
 
     ----------------------------------------------------------------------------
     -- Project pages
