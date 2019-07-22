@@ -13,7 +13,7 @@ share the ideas, steps, issues, etc. in this blog post.
 
 If you want to skip all the funny parts, here is the link to the code itself:
 
- * [kowainik/typerep-map](https://github.com/kowainik/typerep-map)
+ * [kowainik/typerep-map](@github)
 
 ## What it’s all about
 

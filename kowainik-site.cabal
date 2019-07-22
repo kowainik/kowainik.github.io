@@ -70,6 +70,7 @@ executable site
 
   build-depends:       filepath
                      , hakyll
+                     , hakyll-shortcut-links ^>= 0.0.0.0
                      , kowainik-site
                      , pandoc
                      , pandoc-types
