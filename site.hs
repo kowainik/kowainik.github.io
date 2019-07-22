@@ -7,8 +7,9 @@ import Hakyll (Compiler, Context, Identifier, Item (..), MonadMetadata, Pattern,
                defaultHakyllReaderOptions, defaultHakyllWriterOptions, field, fromCapture,
                functionField, getMetadata, getResourceString, getTags, hakyll, idRoute, listField,
                loadAll, loadAndApplyTemplate, lookupString, makeItem, match, metadataRoute,
-               pandocCompilerWithTransform, recentFirst, relativizeUrls, renderPandocWith, route,
+               pandocCompilerWithTransformM, recentFirst, relativizeUrls, renderPandocWith, route,
                saveSnapshot, setExtension, tagsRules, templateBodyCompiler, toFilePath, (.||.))
+import Hakyll.ShortcutLinks (applyAllShortcuts)
 import Hakyll.Web.Feed (renderAtom, renderRss)
 import System.FilePath (replaceExtension)
 import Text.Pandoc.Options (WriterOptions (..))
@@ -69,7 +70,7 @@ mainHakyll team = hakyll $ do
             let toc = itemBody pandoc
             tgs <- getTags (itemIdentifier i)
             let postTagsCtx = postCtxWithTags tgs <> constField "toc" toc
-            anchorsPandocCompiler
+            customPandocCompiler
                 >>= loadAndApplyTemplate "templates/post.html" postTagsCtx
                 >>= loadAndApplyTemplate "templates/posts-default.html" postTagsCtx
                 >>= saveSnapshot "content"
@@ -110,7 +111,7 @@ mainHakyll team = hakyll $ do
     ----------------------------------------------------------------------------
     match "projects/*" $ do
         route $ setExtension "html"
-        compile $ anchorsPandocCompiler
+        compile $ customPandocCompiler
             >>= loadAndApplyTemplate "templates/readme.html" defaultContext
             >>= loadAndApplyTemplate "templates/posts-default.html" defaultContext
             >>= relativizeUrls
@@ -196,12 +197,14 @@ stripExtension = functionField "stripExtension" $ \args _ -> case args of
     [k] -> pure $ maybe k toString (T.stripSuffix ".html" $ toText k)
     _   -> error "relativizeUrl only needs a single argument"
 
--- | Our own pandoc compiler which adds anchors automatically.
-anchorsPandocCompiler :: Compiler (Item String)
-anchorsPandocCompiler = pandocCompilerWithTransform
+{- | Our own pandoc compiler which adds anchors automatically and uses
+@hakyll-shortcut-links@ library for shortcut transformations.
+-}
+customPandocCompiler :: Compiler (Item String)
+customPandocCompiler = pandocCompilerWithTransformM
     defaultHakyllReaderOptions
     defaultHakyllWriterOptions
-    addAnchors
+    (applyAllShortcuts . addAnchors)
 
 -- | Modifie a headers to add an extra anchor which links to the header.  This
 -- allows you to easily copy an anchor link to a header.
