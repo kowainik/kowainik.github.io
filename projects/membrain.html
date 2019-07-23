@@ -39,7 +39,7 @@
     <!-- Custom fonts for this template -->
     <link href="../css/font-awesome.css" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
-
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Lato" />
     <!-- Custom styles for this template -->
     <link href="../css/default.css" rel="stylesheet">
     <link href="../css/post.css" rel="stylesheet">
@@ -73,12 +73,33 @@
               <div class="col-12 post-body">
               <p class="lead">
                   <p><img src="https://user-images.githubusercontent.com/4276606/61223141-aa6bf400-a74e-11e9-876a-09e883ee5d5a.png" alt="memory-brain" /> <a href="https://travis-ci.org/kowainik/membrain"><img src="https://img.shields.io/travis/kowainik/membrain.svg?logo=travis" alt="Build status" /></a> <a href="https://hackage.haskell.org/package/membrain"><img src="https://img.shields.io/hackage/v/membrain.svg?logo=haskell" alt="Hackage" /></a> <a href="http://stackage.org/lts/package/membrain"><img src="http://stackage.org/package/membrain/badge/lts" alt="Stackage Lts" /></a> <a href="http://stackage.org/nightly/package/membrain"><img src="http://stackage.org/package/membrain/badge/nightly" alt="Stackage Nightly" /></a> <a href="LICENSE"><img src="https://img.shields.io/badge/license-MPL--2.0-blue.svg" alt="MPL-2.0 license" /></a></p>
-<p>This package implements type-safe memory units. It’s build around the following data type:</p>
+<blockquote>
+<p>“People think dreams aren’t real just because they aren’t made of matter, of particles. Dreams are real. But they are made of viewpoints, of images, of memories and puns and lost hopes.”</p>
+<p>― Neil Gaiman</p>
+</blockquote>
+<p>This package implements type-safe memory units. It pursues the following goals:</p>
+<ol type="1">
+<li>Focus on correctness.</li>
+<li>Low amount of boilerplate should be required to use the library.</li>
+</ol>
+<p>The ideas behind this package are described in the following blog post:</p>
+<ul>
+<li><a href="https://kowainik.github.io/posts/membrain">Insane in the Membrain</a></li>
+</ul>
+<p>The library is built around the following data type:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">newtype</span> <span class="dt">Memory</span> (<span class="ot">mem ::</span> <span class="dt">Nat</span>) <span class="ot">=</span> <span class="dt">Memory</span></span>
 <span id="cb1-2"><a href="#cb1-2"></a>    {<span class="ot"> unMemory ::</span> <span class="dt">Natural</span></span>
 <span id="cb1-3"><a href="#cb1-3"></a>    }</span></code></pre></div>
-<p>This data type stores every memory internally as bits. However, unit multiplier is stored as type-level natural number. This approach allows to represent different units with low amount of boilerplate.</p>
-<p><code>membrain</code> implements various useful functions to work with <code>Memory</code>: smart constructors, conversion functions, pretty displaying, parsing, numeric functions, type-safe wrappers around functions from <code>base</code>.</p>
+<p>This data type stores every memory internally as bits. However, unit multiplier is stored as type-level natural number. This approach allows to represent different units and implement instances for them with low amount of boilerplate.</p>
+<p><code>membrain</code> implements various useful functions to work with <code>Memory</code>:</p>
+<ol type="1">
+<li>Smart constructors.</li>
+<li>Conversion functions.</li>
+<li>Pretty displaying.</li>
+<li>Dependently-typed parsing.</li>
+<li>Numeric functions.</li>
+<li>Type-safe wrappers around functions from <code>base</code>.</li>
+</ol>
 <h2 id="acknowledgement">Acknowledgement<a href="#acknowledgement" class="anchor">🔗</a></h2>
 <p>Icons made by <a href="https://www.flaticon.com/authors/kiranshastry">Kiranshastry</a> from <a href="https://www.flaticon.com/">Flaticon</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/">CC 3.0 BY</a>.</p>
               </p>

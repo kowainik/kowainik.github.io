@@ -8,8 +8,16 @@
         <name>Kowainik</name>
         <email>xrom.xkov@gmail.com</email>
     </author>
-    <updated>2019-02-06T00:00:00Z</updated>
+    <updated>2019-07-23T00:00:00Z</updated>
     <entry>
+    <title>Insane in the Membrain</title>
+    <link href="https://kowainik.github.io/posts/membrain.html" />
+    <id>https://kowainik.github.io/posts/membrain.html</id>
+    <published>2019-07-23T00:00:00Z</published>
+    <updated>2019-07-23T00:00:00Z</updated>
+    <summary type="html"><![CDATA[Membrain is the Haskell library for type-safe memory units. This blog post provides details of the implementation and mentions type-level tricks.]]></summary>
+</entry>
+<entry>
     <title>Haskell Style Guide</title>
     <link href="https://kowainik.github.io/posts/2019-02-06-style-guide.html" />
     <id>https://kowainik.github.io/posts/2019-02-06-style-guide.html</id>
@@ -80,14 +88,6 @@
     <published>2018-07-11T00:00:00Z</published>
     <updated>2018-07-11T00:00:00Z</updated>
     <summary type="html"><![CDATA[Efficient implementation of Map with types as keys]]></summary>
-</entry>
-<entry>
-    <title>Haskell: Build Tools</title>
-    <link href="https://kowainik.github.io/posts/2018-06-21-haskell-build-tools.html" />
-    <id>https://kowainik.github.io/posts/2018-06-21-haskell-build-tools.html</id>
-    <published>2018-06-21T00:00:00Z</published>
-    <updated>2018-06-21T00:00:00Z</updated>
-    <summary type="html"><![CDATA[Description of the basic workflows with the main Haskell build tools]]></summary>
 </entry>
 
 </feed>

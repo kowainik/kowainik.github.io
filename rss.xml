@@ -7,8 +7,16 @@
         <description><![CDATA[We are writing about what we find fascinating or exciting. Our blog's aim is to share our knowledge about functional programming, distribute best-practices based on our extensive experience and tell about various topics from beginner-friendly introductions to advanced type-level tricks.]]></description>
         <atom:link href="https://kowainik.github.io/rss.xml" rel="self"
                    type="application/rss+xml" />
-        <lastBuildDate>Wed, 06 Feb 2019 00:00:00 UT</lastBuildDate>
+        <lastBuildDate>Tue, 23 Jul 2019 00:00:00 UT</lastBuildDate>
         <item>
+    <title>Insane in the Membrain</title>
+    <link>https://kowainik.github.io/posts/membrain.html</link>
+    <description><![CDATA[Membrain is the Haskell library for type-safe memory units. This blog post provides details of the implementation and mentions type-level tricks.]]></description>
+    <pubDate>Tue, 23 Jul 2019 00:00:00 UT</pubDate>
+    <guid>https://kowainik.github.io/posts/membrain.html</guid>
+    <dc:creator>Kowainik</dc:creator>
+</item>
+<item>
     <title>Haskell Style Guide</title>
     <link>https://kowainik.github.io/posts/2019-02-06-style-guide.html</link>
     <description><![CDATA[Haskell Style guide used in Kowainik]]></description>
@@ -78,14 +86,6 @@
     <description><![CDATA[Efficient implementation of Map with types as keys]]></description>
     <pubDate>Wed, 11 Jul 2018 00:00:00 UT</pubDate>
     <guid>https://kowainik.github.io/posts/2018-07-11-typerep-map-step-by-step.html</guid>
-    <dc:creator>Kowainik</dc:creator>
-</item>
-<item>
-    <title>Haskell: Build Tools</title>
-    <link>https://kowainik.github.io/posts/2018-06-21-haskell-build-tools.html</link>
-    <description><![CDATA[Description of the basic workflows with the main Haskell build tools]]></description>
-    <pubDate>Thu, 21 Jun 2018 00:00:00 UT</pubDate>
-    <guid>https://kowainik.github.io/posts/2018-06-21-haskell-build-tools.html</guid>
     <dc:creator>Kowainik</dc:creator>
 </item>
 

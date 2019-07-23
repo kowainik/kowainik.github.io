@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+      <!-- Global site tag (gtag.js) - Google Analytics -->
+      <script async src="https://www.googletagmanager.com/gtag/js?id=UA-125893749-1"></script>
+      <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+
+          gtag('config', 'UA-125893749-1');
+          </script>
+    <title>Insane in the Membrain</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Kowainik page">
+    <meta name="keywords" content="Haskell, Functional progarmming, FP">
+    <meta name="author" content="Kowainik" />
+
+    <!-- Twitter cards -->
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="@kowainik" />
+    <meta property="twitter:title" content="Kowainik - Insane in the Membrain" />
+    <meta name="twitter:description" content="Membrain is the Haskell library for type-safe memory units. This blog post provides details of the implementation and mentions type-level tricks." />
+    <meta name="twitter:image:src" content="https://kowainik.github.io/images/logo-yellow.png" />
+    <meta property="og:title" content="Kowainik - Insane in the Membrain" />
+    <meta property="og:description" content="Membrain is the Haskell library for type-safe memory units. This blog post provides details of the implementation and mentions type-level tricks." />
+    <meta property="og:site_name" content="Kowainik" />
+    <meta property="og:image" content="https://kowainik.github.io/images/logo-yellow.png" />
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon">
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.11.0/styles/dracula.min.css" />
+    <!-- Custom fonts for this template -->
+    <link href="../css/font-awesome.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Lato" />
+    <!-- Custom styles for this template -->
+    <link href="../css/default.css" rel="stylesheet">
+    <link href="../css/post.css" rel="stylesheet">
+  </head>
+
+  <body class="body-posts">
+
+          <!-- Header -->
+      <nav class="navbar navbar-inverse navbar-fixed-left leftmenu bg-primary text-secondary">
+            <div class="navbar-header">
+                <div class="postslogo"> <a class="navbar-brand" href="../"><img class="img-fluid" src="../images/logo-tr.png" alt="Kowainik"></a></div>
+            </div>
+            <div class="toc-zone">
+                <h6 class="coolFont">Contents</h6>
+                <div class="toc" id="main">
+                    <ul>
+<li><a href="#intro">Intro</a></li>
+<li><a href="#a-bit-of-history">A ‘bit’ of history</a></li>
+<li><a href="#implementation">Implementation</a><ul>
+<li><a href="#the-definition">The definition</a></li>
+<li><a href="#type-level-nats">Type-level Nats</a></li>
+<li><a href="#units-and-type-level-conversion">Units and Type-level conversion</a></li>
+<li><a href="#memory-units-exhibition">Memory units exhi’bit’ion</a></li>
+</ul></li>
+<li><a href="#bittersweet-testing">’Bit’tersweet Testing</a><ul>
+<li><a href="#type-level-testing">Type-level testing</a></li>
+<li><a href="#property-testing">Property testing</a></li>
+</ul></li>
+<li><a href="#inventing-your-own-mem">Inventing your own mem</a></li>
+<li><a href="#multiple-public-libraries-vs-orphan-instances">Multiple public libraries vs Orphan instances</a></li>
+<li><a href="#summary">Summary</a></li>
+</ul>
+                </div>
+            </div>
+            <div class="coolFont">
+                <div>Date: July 23, 2019</div>
+
+                <div class="author">Author: Veronika Romashkina</div>
+                <div class="row tag-block">
+                
+                <span class="tag-block"> <a class="btn btn-outline-dark btn-tag" href="../tags/haskell">haskell</a></span>
+                
+                <span class="tag-block"> <a class="btn btn-outline-dark btn-tag" href="../tags/library">library</a></span>
+                
+                </div>
+
+                <div class="allposts">
+                    <h3><a href="../posts"> Posts =<< </a></h3>
+                </div>
+            </div>
+      </nav>
+      <div class="container info">
+          <h2 class="text-center text-uppercase text-secondary">Insane in the Membrain</h2>
+          <div class="content">
+          <div class="row post">
+              <div class="col-12 post-body">
+              <p class="lead">
+                  <h2 id="intro">Intro<a href="#intro" class="anchor">🔗</a></h2>
+<p>This blog post is going to walk you through the <code>membrain</code> Haskell library, its purpose and implementation details. Here is the link to the source code:</p>
+<ul>
+<li><a href="https://github.com/kowainik/membrain">kowainik/membrain</a></li>
+</ul>
+<p>Since the package has such an extraordinary name I feel like we owe you an explanation on what the package is doing. <code>Membrain</code> is not about creating memes (though we have good ones 😏), it’s about a type-safe memory data type with units being on the type level, so all the computations are guaranteed to be trustworthy and some of them even performed during compile time. The Haskell type system has a lot of advanced features. However, they are not used often, and common patterns around them are not yet established. <code>Membrain</code> combines clever type-level tricks and the best-practices of package development and maintenance to provide smooth integration with the rest of the ecosystem.</p>
+<p>In order to be more useful for everybody, this blog post also offers a small tutorial on type-level operations along with the library description. If you are interested in any of this, we are going to start with a quick excursion to memory units in general so we are all on the same page and understand the problem we are trying to solve here.</p>
+<h2 id="a-bit-of-history">A ‘bit’ of history<a href="#a-bit-of-history" class="anchor">🔗</a></h2>
+<p>We use memory units in our day-to-day lives to measure information/data and needless to say, there are officially standardised units of measurements which are used ubiquitously. At the base of the memory measurement system that we are covering in the library, we have <strong>bit</strong> — a binary digit. We are using the binary model of memory representation accepted by most computers in the world.</p>
+<blockquote>
+<p><strong>Bit</strong> is a binary base for a logarithmic tower of memory units. Note, that we are not going to take into consideration systems with other bases as they are rarely used nowadays for data measurement.</p>
+</blockquote>
+<p>Usually we work with more than several bits. In order to ease this interaction, we can use measure prefixes to define huge amounts of bits concisely. But the story behind unit names is not that simple. There are two main naming conventions for prefixes: decimal and binary. The difference between them lies in the base of the multiplier. The standard range of prefixes are the multipliers of the powers of 10: kilo (<span class="math inline">10<sup>3</sup></span>), mega (<span class="math inline">10<sup>6</sup></span>), giga (<span class="math inline">10<sup>9</sup></span>), etc. However, as we are working with <strong>memory</strong> units, it is more conventional to work with the powers of 2 in the computer science world. For this exact reason, there exist the binary prefixes: kibi (<span class="math inline">2<sup>10</sup></span>), mebi (<span class="math inline">2<sup>20</sup></span>), gibi (<span class="math inline">2<sup>30</sup></span>), etc. Here is the table of supported units in the <code>membrain</code> library:</p>
+<p><strong>Table of units</strong></p>
+<table>
+<thead>
+<tr class="header">
+<th>Unit</th>
+<th>Symbol</th>
+<th>Multiplier</th>
+<th>Degree</th>
+<th>Number of Bits</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Bit</td>
+<td>b</td>
+<td>1</td>
+<td></td>
+<td>1</td>
+</tr>
+<tr class="even">
+<td>Nibble</td>
+<td>n</td>
+<td>4</td>
+<td></td>
+<td>4</td>
+</tr>
+<tr class="odd">
+<td>Byte</td>
+<td>B</td>
+<td>8</td>
+<td></td>
+<td>8</td>
+</tr>
+<tr class="even">
+<td>Kilobyte</td>
+<td>kB</td>
+<td>1000 * B</td>
+<td><span class="math inline">10<sup>3</sup></span></td>
+<td>8000</td>
+</tr>
+<tr class="odd">
+<td>Megabyte</td>
+<td>MB</td>
+<td>1000 * kB</td>
+<td><span class="math inline">10<sup>6</sup></span></td>
+<td>8000000</td>
+</tr>
+<tr class="even">
+<td>Gigabyte</td>
+<td>GB</td>
+<td>1000 * MB</td>
+<td><span class="math inline">10<sup>9</sup></span></td>
+<td>8000000000</td>
+</tr>
+<tr class="odd">
+<td>Terabyte</td>
+<td>TB</td>
+<td>1000 * GB</td>
+<td><span class="math inline">10<sup>12</sup></span></td>
+<td>8000000000000</td>
+</tr>
+<tr class="even">
+<td>Petabyte</td>
+<td>PB</td>
+<td>1000 * TB</td>
+<td><span class="math inline">10<sup>15</sup></span></td>
+<td>8000000000000000</td>
+</tr>
+<tr class="odd">
+<td>Exabyte</td>
+<td>EB</td>
+<td>1000 * PB</td>
+<td><span class="math inline">10<sup>18</sup></span></td>
+<td>8000000000000000000</td>
+</tr>
+<tr class="even">
+<td>Zettabyte</td>
+<td>ZB</td>
+<td>1000 * EB</td>
+<td><span class="math inline">10<sup>21</sup></span></td>
+<td>8000000000000000000000</td>
+</tr>
+<tr class="odd">
+<td>Yottabyte</td>
+<td>YB</td>
+<td>1000 * ZB</td>
+<td><span class="math inline">10<sup>24</sup></span></td>
+<td>8000000000000000000000000</td>
+</tr>
+<tr class="even">
+<td>Kibibyte</td>
+<td>KiB</td>
+<td>1024 * B</td>
+<td><span class="math inline">2<sup>10</sup></span></td>
+<td>8192</td>
+</tr>
+<tr class="odd">
+<td>Mebibyte</td>
+<td>MiB</td>
+<td>1024 * KiB</td>
+<td><span class="math inline">2<sup>20</sup></span></td>
+<td>8388608</td>
+</tr>
+<tr class="even">
+<td>Gibibyte</td>
+<td>GiB</td>
+<td>1024 * MiB</td>
+<td><span class="math inline">2<sup>30</sup></span></td>
+<td>8589934592</td>
+</tr>
+<tr class="odd">
+<td>Tebibyte</td>
+<td>TiB</td>
+<td>1024 * GiB</td>
+<td><span class="math inline">2<sup>40</sup></span></td>
+<td>8796093022208</td>
+</tr>
+<tr class="even">
+<td>Pebibyte</td>
+<td>PiB</td>
+<td>1024 * TiB</td>
+<td><span class="math inline">2<sup>50</sup></span></td>
+<td>9007199254740992</td>
+</tr>
+<tr class="odd">
+<td>Exbibyte</td>
+<td>EiB</td>
+<td>1024 * PiB</td>
+<td><span class="math inline">2<sup>60</sup></span></td>
+<td>9223372036854775808</td>
+</tr>
+<tr class="even">
+<td>Zebibyte</td>
+<td>ZiB</td>
+<td>1024 * EiB</td>
+<td><span class="math inline">2<sup>70</sup></span></td>
+<td>9444732965739290427392</td>
+</tr>
+<tr class="odd">
+<td>Yobibyte</td>
+<td>YiB</td>
+<td>1024 * ZiB</td>
+<td><span class="math inline">2<sup>80</sup></span></td>
+<td>9671406556917033397649408</td>
+</tr>
+</tbody>
+</table>
+<p>As you can see, memory units represent a complicated system, and this is why it is better to be more confident that you are doing safe computations with them.</p>
+<figure>
+<img src="https://user-images.githubusercontent.com/8126674/61353304-07c48a00-a8a2-11e9-99b7-e2704eda690a.jpg" alt /><figcaption>Memory Units confusion</figcaption>
+</figure>
+<h2 id="implementation">Implementation<a href="#implementation" class="anchor">🔗</a></h2>
+<p>Let’s move to the more technically exciting part — the implementation itself. The goal of the library is to ease the lives of people working with memory units. The intentions are:</p>
+<ul>
+<li>to make it easy to define different units without the fear of forgetting to multiply/divide them during the process, combine different units and safely convert between them.</li>
+<li>if some requirements for the code should be changed in the future users need to have guarantees that nothing is going to break with the code they wrote, or at least they want to be notified via compile time errors in such cases.</li>
+</ul>
+<p>In order to convince you and not to be unsubstantiated that using type-safe libraries would pay off for you, here is a motivating example of how easily you can mess up with different units.</p>
+<p><strong>Example</strong></p>
+<p>Let’s say we have the following data</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb1-1"><a href="#cb1-1"></a><span class="ot">file1 ::</span> <span class="dt">Int</span></span>
+<span id="cb1-2"><a href="#cb1-2"></a>file1 <span class="ot">=</span> <span class="dv">2</span>  <span class="co">-- in Gigabytes</span></span>
+<span id="cb1-3"><a href="#cb1-3"></a></span>
+<span id="cb1-4"><a href="#cb1-4"></a><span class="ot">file2 ::</span> <span class="dt">Int</span></span>
+<span id="cb1-5"><a href="#cb1-5"></a>file2 <span class="ot">=</span> <span class="dv">80</span>  <span class="co">-- in Bytes</span></span>
+<span id="cb1-6"><a href="#cb1-6"></a></span>
+<span id="cb1-7"><a href="#cb1-7"></a><span class="ot">memoryToAlloc ::</span> <span class="dt">Int</span></span>
+<span id="cb1-8"><a href="#cb1-8"></a>memoryToAlloc <span class="ot">=</span> file1 <span class="op">+</span> file2 <span class="co">-- FATALITY!</span></span></code></pre></div>
+<p>And it’s over. You allocated 82 gigabytes and probably ran out of memory.</p>
+<p>But how can you avoid such situations? Obviously, using just <code>type Memory = Int</code> for that is not an option as it fails in the described situation as well. And generally using type aliases is not the right thing to do in most of these cases. Usually wrapping the value in a <code>newtype</code> is a common pattern in Haskell. It is a safer approach but as there are a lot of memory units, introducing an individual newtype for every one and a function to compose them with each other is a lot of boilerplate. So, it also doesn’t satisfy the goals we are aiming for. That’s why in <code>membrain</code> we want to push this idea even further and represent all memory units with a single newtype in a safe and convenient way.</p>
+<p>Now, I hope you see the motivation behind the <code>membrain</code> library too. In order to bypass many crucial mistakes that could cost <a href="http://edition.cnn.com/TECH/space/9909/30/mars.metric.02/">lots of money</a> or even lives in especially important cases, we could use the Haskell type system to avoid this whole domain of errors.</p>
+<h3 id="the-definition">The definition<a href="#the-definition" class="anchor">🔗</a></h3>
+<figure>
+<img src="https://user-images.githubusercontent.com/8126674/61596495-1363d800-ac37-11e9-9c9b-ec4d09e924a0.png" alt /><figcaption>Memory definition galaxy brain meme</figcaption>
+</figure>
+<p>If we want to avoid runtime computations and manual supervision of units, we can delegate this job to the compiler. To do so we are using the following data type:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb2-1"><a href="#cb2-1"></a><span class="kw">newtype</span> <span class="dt">Memory</span> (<span class="ot">mem ::</span> <span class="dt">Nat</span>) <span class="ot">=</span> <span class="dt">Memory</span></span>
+<span id="cb2-2"><a href="#cb2-2"></a>    {<span class="ot"> unMemory ::</span> <span class="dt">Natural</span></span>
+<span id="cb2-3"><a href="#cb2-3"></a>    } <span class="kw">deriving</span> stock   (<span class="dt">Show</span>, <span class="dt">Read</span>, <span class="dt">Generic</span>)</span>
+<span id="cb2-4"><a href="#cb2-4"></a>      <span class="kw">deriving</span> <span class="kw">newtype</span> (<span class="dt">Eq</span>, <span class="dt">Ord</span>)</span></code></pre></div>
+<p>Where <code>mem</code> is the phantom parameter that is going to be used to control the unit multiplier in the expression. As you can see <code>mem</code> has a kind <a href="https://hackage.haskell.org/package/base-4.12.0.0/docs/GHC-TypeNats.html#t:Nat"><code>Nat</code></a> about which I’m going to talk more in the following section. We are storing <a href="https://hackage.haskell.org/package/base-4.12.0.0/docs/Numeric-Natural.html"><code>Natural</code></a> here for a reason. Internally, memory of any unit is represented as a number of bits. This not only helps to avoid dealing with division during compile time, but also gives us free-of-charge runtime computations! You can think of this approach in the following manner: as a user, you can explicitly specify the memory unit multiplier (Kilobyte, Gigabyte, etc.) and the amount you want, but we are actually storing everything in bits under the hood. The <code>Memory</code> data type constructor is not supposed to be used explicitly as it could cause the wrong situations because of this internal representation. Instead, we defined useful functions for you to construct memory values which are doing the conversion for you:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb3-1"><a href="#cb3-1"></a>λ<span class="op">&gt;</span> bit <span class="dv">1</span></span>
+<span id="cb3-2"><a href="#cb3-2"></a><span class="dt">Memory</span> {unMemory <span class="ot">=</span> <span class="dv">1</span>}</span>
+<span id="cb3-3"><a href="#cb3-3"></a></span>
+<span id="cb3-4"><a href="#cb3-4"></a>λ<span class="op">&gt;</span> bit <span class="dv">32</span></span>
+<span id="cb3-5"><a href="#cb3-5"></a><span class="dt">Memory</span> {unMemory <span class="ot">=</span> <span class="dv">32</span>}</span>
+<span id="cb3-6"><a href="#cb3-6"></a></span>
+<span id="cb3-7"><a href="#cb3-7"></a>λ<span class="op">&gt;</span> byte <span class="dv">1</span></span>
+<span id="cb3-8"><a href="#cb3-8"></a><span class="dt">Memory</span> {unMemory <span class="ot">=</span> <span class="dv">8</span>}</span></code></pre></div>
+<p>We denote the type of the unit we are using on the type level by specifying the multiplier (<code>Bit</code>, <code>Byte</code>, etc.), which is just a type-level natural number, and then simply specify the amount of needed memory.</p>
+<h3 id="type-level-nats">Type-level Nats<a href="#type-level-nats" class="anchor">🔗</a></h3>
+<p>For a better understanding of how we are storing different units we need to talk about <code>Nat</code>s a bit. GHC has built-in support for some type-level literals: strings and natural numbers. To access natural numbers predefined in the compiler one can utilise the <code>Nat</code> data type. <code>Nat</code> is used as a <strong>kind</strong> of the type-level natural numbers (<strong>kind</strong> is the type of a type). So, in plain Haskell you can have values <code>0, 1, 2, 3</code> of the <code>Int</code> type. But now you can have types <code>0, 1, 2, 3</code> of the <code>Nat</code> kind. However, you can’t have values of the type <code>3 :: Nat</code>. Type-level natural numbers exist only for compile time computations.</p>
+<p>To play with <code>Nat</code>, the corresponding data type can be found in the <a href="https://hackage.haskell.org/package/base-4.12.0.0/docs/GHC-TypeNats.html"><code>GHC.TypeNats</code></a> module along with other useful natural number related stuff. The data type itself is declared simply like this:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb4-1"><a href="#cb4-1"></a><span class="kw">data</span> <span class="dt">Nat</span></span></code></pre></div>
+<p>As you can see, it doesn’t have any constructors or anything and looks not very useful at first glance, but the ability to be used as a parameter at the type-level gives us a lot of opportunities as this natural number can be retrieved at runtime.</p>
+<p>Let’s explore the <code>Nat</code> kind in <code>ghci</code> for a better understanding:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb5-1"><a href="#cb5-1"></a>λ<span class="op">&gt;</span> <span class="op">:</span>set <span class="op">-</span><span class="dt">XDataKinds</span></span>
+<span id="cb5-2"><a href="#cb5-2"></a>λ<span class="op">&gt;</span> <span class="kw">import</span> <span class="dt">GHC.TypeNats</span></span>
+<span id="cb5-3"><a href="#cb5-3"></a>λ<span class="op">&gt;</span> <span class="op">:</span>kind <span class="dv">42</span></span>
+<span id="cb5-4"><a href="#cb5-4"></a><span class="dv">42</span><span class="ot"> ::</span> <span class="dt">Nat</span></span></code></pre></div>
+<p>The module even exports some type-level operators (type families), so you can write code like this:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb6-1"><a href="#cb6-1"></a>λ<span class="op">&gt;</span> <span class="op">:</span>set <span class="op">-</span><span class="dt">XTypeOperators</span></span>
+<span id="cb6-2"><a href="#cb6-2"></a>λ<span class="op">&gt;</span> <span class="op">:</span>kind<span class="op">!</span> <span class="dv">2</span> <span class="op">+</span> <span class="dv">2</span></span>
+<span id="cb6-3"><a href="#cb6-3"></a><span class="dv">2</span> <span class="op">+</span> <span class="dv">2</span><span class="ot"> ::</span> <span class="dt">Nat</span></span>
+<span id="cb6-4"><a href="#cb6-4"></a><span class="ot">=</span> <span class="dv">4</span></span></code></pre></div>
+<p>In addition to performing numeric operations with type-level natural numbers, GHC gives the ability to extract a runtime value from the compile time type-level natural. For this, you can use the <a href="https://hackage.haskell.org/package/base-4.12.0.0/docs/GHC-TypeNats.html#v:natVal"><code>natVal</code></a> function which returns the <code>Natural</code>:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb7-1"><a href="#cb7-1"></a><span class="co">-- to show the type after each command</span></span>
+<span id="cb7-2"><a href="#cb7-2"></a>λ<span class="op">&gt;</span> <span class="op">:</span>set <span class="op">+</span>t</span>
+<span id="cb7-3"><a href="#cb7-3"></a></span>
+<span id="cb7-4"><a href="#cb7-4"></a>λ<span class="op">&gt;</span> <span class="op">:</span>set <span class="op">-</span><span class="dt">XTypeApplications</span> <span class="op">-</span><span class="dt">XKindSignatures</span></span>
+<span id="cb7-5"><a href="#cb7-5"></a>λ<span class="op">&gt;</span> <span class="kw">import</span> <span class="dt">Data.Proxy</span></span>
+<span id="cb7-6"><a href="#cb7-6"></a>λ<span class="op">&gt;</span> natVal <span class="op">$</span> <span class="dt">Proxy</span> <span class="op">@</span><span class="dv">5</span></span>
+<span id="cb7-7"><a href="#cb7-7"></a><span class="dv">5</span></span>
+<span id="cb7-8"><a href="#cb7-8"></a><span class="ot">it ::</span> <span class="dt">GHC.Natural.Natural</span></span>
+<span id="cb7-9"><a href="#cb7-9"></a></span>
+<span id="cb7-10"><a href="#cb7-10"></a>λ<span class="op">&gt;</span>  natVal <span class="op">$</span> <span class="dt">Proxy</span> <span class="op">@</span>(<span class="dv">1</span> <span class="op">+</span> <span class="dv">5</span>)</span>
+<span id="cb7-11"><a href="#cb7-11"></a><span class="dv">6</span></span>
+<span id="cb7-12"><a href="#cb7-12"></a><span class="ot">it ::</span> <span class="dt">GHC.Natural.Natural</span></span></code></pre></div>
+<blockquote>
+<p><strong>Note:</strong> GHC uses <a href="https://hackage.haskell.org/package/base-4.12.0.0/docs/Data-Proxy.html#t:Proxy">Proxy</a> to pass type-level witnesses in runtime. However, in <code>membrain</code> we can leverage the <code>AllowAmbiguousTypes</code> extension to pass types explicitly as arguments. We even have a helper function for that:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb8-1"><a href="#cb8-1"></a><span class="ot">nat ::</span> <span class="kw">forall</span> (<span class="ot">mem ::</span> <span class="dt">Nat</span>) <span class="op">.</span> <span class="dt">KnownNat</span> mem <span class="ot">=&gt;</span> <span class="dt">Natural</span></span>
+<span id="cb8-2"><a href="#cb8-2"></a>nat <span class="ot">=</span> natVal (<span class="dt">Proxy</span> <span class="op">@</span>mem)</span>
+<span id="cb8-3"><a href="#cb8-3"></a></span>
+<span id="cb8-4"><a href="#cb8-4"></a>λ<span class="op">&gt;</span>  nat <span class="op">@</span>(<span class="dv">1</span> <span class="op">+</span> <span class="dv">5</span>)</span>
+<span id="cb8-5"><a href="#cb8-5"></a><span class="dv">6</span></span>
+<span id="cb8-6"><a href="#cb8-6"></a><span class="ot">it ::</span> <span class="dt">GHC.Natural.Natural</span></span></code></pre></div>
+</blockquote>
+<p>If you would like to read more about type-level literals, you can read <a href="https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/glasgow_exts.html#type-level-literals">this section</a> of the GHC user guide.</p>
+<p>We are heavily using <code>Nat</code> as the core building block of <code>membrain</code>. Check out the following section to learn how and why.</p>
+<h3 id="units-and-type-level-conversion">Units and Type-level conversion<a href="#units-and-type-level-conversion" class="anchor">🔗</a></h3>
+<p>Finally, now that we learned what a Nat is, I can say that memory units in our architecture are just type-level natural numbers. Here is the exact code we have:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb9-1"><a href="#cb9-1"></a><span class="kw">type</span> <span class="dt">Bit</span>       <span class="ot">=</span> <span class="dv">1</span></span>
+<span id="cb9-2"><a href="#cb9-2"></a><span class="kw">type</span> <span class="dt">Kilobyte</span>  <span class="ot">=</span> <span class="dv">1000</span> <span class="op">*</span> <span class="dt">Byte</span></span>
+<span id="cb9-3"><a href="#cb9-3"></a><span class="kw">type</span> <span class="dt">Megabyte</span>  <span class="ot">=</span> <span class="dv">1000</span> <span class="op">*</span> <span class="dt">Kilobyte</span></span>
+<span id="cb9-4"><a href="#cb9-4"></a><span class="op">...</span></span>
+<span id="cb9-5"><a href="#cb9-5"></a><span class="kw">type</span> <span class="dt">Kibibyte</span>  <span class="ot">=</span> <span class="dv">1024</span> <span class="op">*</span> <span class="dt">Byte</span></span>
+<span id="cb9-6"><a href="#cb9-6"></a><span class="kw">type</span> <span class="dt">Mebibyte</span>  <span class="ot">=</span> <span class="dv">1024</span> <span class="op">*</span> <span class="dt">Kibibyte</span></span>
+<span id="cb9-7"><a href="#cb9-7"></a><span class="op">...</span></span></code></pre></div>
+<blockquote>
+<p>Instead of writing computed <code>Nat</code>s we are using <a href="https://hackage.haskell.org/package/base-4.12.0.0/docs/GHC-TypeNats.html#t:-42-"><code>*</code></a> type family for type-level multiplication.</p>
+</blockquote>
+<p>These units are type-level multipliers. To construct term-level values of the <code>Memory</code> type, you can use the <code>memory</code> smart constructor. As I mentioned earlier, we store all <code>Memory</code> values as bits, so this function performs some additional computation to translate the number of units given by the user to bits. It is an easy operation due to the fact that we can get the multiplier from the type, as it has this information in type-level natural numbers (which is exactly the required unit multiplier). Here the <code>natVal</code> function comes to our assistance. It returns <code>Natural</code> by the given <code>Proxy</code> of <code>KnownNat</code>. As all of our units are <code>KnownNat</code>s, we come up with the following function to transform any unit to the number of bits:</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb10-1"><a href="#cb10-1"></a><span class="ot">memory ::</span> <span class="kw">forall</span> (<span class="ot">mem ::</span> <span class="dt">Nat</span>) <span class="op">.</span> <span class="dt">KnownNat</span> mem <span class="ot">=&gt;</span> <span class="dt">Natural</span> <span class="ot">-&gt;</span> <span class="dt">Memory</span> mem</span>
+<span id="cb10-2"><a href="#cb10-2"></a>memory <span class="ot">=</span> <span class="dt">Memory</span> <span class="op">.</span> (<span class="op">*</span> nat <span class="op">@</span>mem)</span></code></pre></div>
+<p>Using this general-purpose <code>memory</code> function we can implement smart constructors:</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb11-1"><a href="#cb11-1"></a><span class="ot">byte ::</span> <span class="dt">Natural</span> <span class="ot">-&gt;</span> <span class="dt">Memory</span> <span class="dt">Byte</span></span>
+<span id="cb11-2"><a href="#cb11-2"></a>byte <span class="ot">=</span> memory</span>
+<span id="cb11-3"><a href="#cb11-3"></a></span>
+<span id="cb11-4"><a href="#cb11-4"></a><span class="ot">kilobyte ::</span> <span class="dt">Natural</span> <span class="ot">-&gt;</span> <span class="dt">Memory</span> <span class="dt">Kilobyte</span></span>
+<span id="cb11-5"><a href="#cb11-5"></a>kilobyte <span class="ot">=</span> memory</span>
+<span id="cb11-6"><a href="#cb11-6"></a><span class="op">...</span></span></code></pre></div>
+<p>With these smart constructors in place the conversion function becomes as simple as possible. The <code>toMemory</code> function is for view-changing only, so it has zero cost at runtime. The implementation is:</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb12-1"><a href="#cb12-1"></a><span class="ot">toMemory ::</span> <span class="kw">forall</span> (<span class="ot">to ::</span> <span class="dt">Nat</span>) (<span class="ot">from ::</span> <span class="dt">Nat</span>) <span class="op">.</span> <span class="dt">Memory</span> from <span class="ot">-&gt;</span> <span class="dt">Memory</span> to</span>
+<span id="cb12-2"><a href="#cb12-2"></a>toMemory <span class="ot">=</span> coerce</span></code></pre></div>
+<blockquote>
+<p><strong>Note:</strong> type variables are written explicitly under <code>forall</code> and in this particular order because it’s crucial for library usability. It makes usages of the <code>toMemory</code> function more convenient. This is an interesting insight into how the order of type variables can improve the UX of modern Haskell libraries.</p>
+</blockquote>
+<p>Because the internal representation is not changed during this transformation.</p>
+<p>And it works:</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb13-1"><a href="#cb13-1"></a>λ<span class="op">&gt;</span> byte <span class="dv">42</span></span>
+<span id="cb13-2"><a href="#cb13-2"></a><span class="dt">Memory</span> {unMemory <span class="ot">=</span> <span class="dv">336</span>}</span>
+<span id="cb13-3"><a href="#cb13-3"></a></span>
+<span id="cb13-4"><a href="#cb13-4"></a>λ<span class="op">&gt;</span> toMemory <span class="op">@</span><span class="dt">Kilobyte</span> <span class="op">$</span> byte <span class="dv">42</span></span>
+<span id="cb13-5"><a href="#cb13-5"></a><span class="dt">Memory</span> {unMemory <span class="ot">=</span> <span class="dv">336</span>}</span>
+<span id="cb13-6"><a href="#cb13-6"></a></span>
+<span id="cb13-7"><a href="#cb13-7"></a>λ<span class="op">&gt;</span> showMemory <span class="op">$</span> toMemory <span class="op">@</span><span class="dt">Kilobyte</span> <span class="op">$</span> byte <span class="dv">42</span></span>
+<span id="cb13-8"><a href="#cb13-8"></a><span class="st">&quot;0.042kB&quot;</span></span>
+<span id="cb13-9"><a href="#cb13-9"></a></span>
+<span id="cb13-10"><a href="#cb13-10"></a>λ<span class="op">&gt;</span> showMemory <span class="op">$</span> byte <span class="dv">42</span></span>
+<span id="cb13-11"><a href="#cb13-11"></a><span class="st">&quot;42B&quot;</span></span></code></pre></div>
+<h3 id="memory-units-exhibition">Memory units exhi’bit’ion<a href="#memory-units-exhibition" class="anchor">🔗</a></h3>
+<p>In this section, I am going to explain how the pretty output is implemented in the library. The <code>Memory</code> data type has derived instances of the <code>Show</code> and <code>Read</code> typeclasses. Besides that, we also implemented the special functions <code>showMemory</code> and <code>readMemory</code> which have the same types but different implementations and goals. We don’t put the implementation of the custom printing/parsing functions into the corresponding standard instances themselves instead of using the deriving mechanism on purpose. There is an (mostly) unspoken rule around these typeclasses: the output of the <code>show</code> function should be valid Haskell code that can replace the shown value. We decided not to break this principle and have our pretty-printing functions with the human-readable output. Though we strictly preserve the roundtrip law of the Show/Read typeclasses — <code>read . show ≡ id</code> — with the custom implementation.</p>
+<p>Let’s look closer at the <code>showMemory</code> and <code>readMemory</code> functions.</p>
+<p>The <code>showMemory</code> function shows a <code>Memory</code> value as a decimal fraction, along with the unit suffix. It shows <code>Memory</code> losslessly when used with standardized units of measurement. The following mathematical law is used to display <code>Memory</code>:</p>
+<p>A decimal representation written with a repeating final <code>0</code> is supposed to terminate before these zeros. Instead of <code>1.585000…</code> one simply writes <code>1.585</code>. The decimal is also called a terminating decimal. Terminating decimals represent rational numbers of the form (k/<span class="math inline">2<sup><em>n</em></sup></span> <span class="math inline">5<sup><em>m</em></sup></span>). If you use different forms of units then the <code>show</code> function for <code>Memory</code> hangs.</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb14-1"><a href="#cb14-1"></a>λ<span class="op">&gt;</span> showMemory (<span class="dt">Memory</span> <span class="dv">22</span><span class="ot"> ::</span> <span class="dt">Memory</span> <span class="dt">Byte</span>)</span>
+<span id="cb14-2"><a href="#cb14-2"></a><span class="st">&quot;2.75B&quot;</span></span></code></pre></div>
+<p><code>readMemory</code> in turn is the inverse of <code>showMemory</code>. For safety, it returns a <code>Maybe</code> memory value instead of throwing runtime exceptions. The <code>readMemory</code> function uses the following information from type for parsing:</p>
+<ul>
+<li>unit text representation (<code>UnitSymbol</code> typeclass function) — to compare with the parsed unit name string,</li>
+<li>the multiplier — because we are storing bits internally so we would need to convert it before returning the resulting <code>Memory</code>.</li>
+</ul>
+<div class="sourceCode" id="cb15"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb15-1"><a href="#cb15-1"></a>λ<span class="op">&gt;</span> readMemory <span class="op">@</span><span class="dt">Byte</span> <span class="st">&quot;2.75B&quot;</span></span>
+<span id="cb15-2"><a href="#cb15-2"></a><span class="dt">Just</span> (<span class="dt">Memory</span> {unMemory <span class="ot">=</span> <span class="dv">22</span>})</span>
+<span id="cb15-3"><a href="#cb15-3"></a></span>
+<span id="cb15-4"><a href="#cb15-4"></a>λ<span class="op">&gt;</span> readMemory <span class="op">@</span><span class="dt">Bit</span> <span class="st">&quot;2.75B&quot;</span></span>
+<span id="cb15-5"><a href="#cb15-5"></a><span class="dt">Nothing</span></span></code></pre></div>
+<p>These two functions implement a reliable communication channel between compile time and runtime values.</p>
+<h2 id="bittersweet-testing">’Bit’tersweet Testing<a href="#bittersweet-testing" class="anchor">🔗</a></h2>
+<p>Even if we are heavily using the high-level capabilities of GHC to perform type-level computations, in order to have a strong foundation in this library that prevents a lot of ambiguous situations, we still think that testing is a crucial part of library or application development and maintenance. Existing tests already showed up to be really helpful and helped us find some inaccuracy during the development of this library.</p>
+<p>We have different types of testing:</p>
+<ol type="1">
+<li>Type-level testing (yes! They exist!) — to control some of the type-level magic.</li>
+<li>Doctests — to have documentation always up-to-date.</li>
+<li>Property testing — no need to say how important this one is.</li>
+<li>Unit testing — a sanity check.</li>
+</ol>
+<p>In the following subsections, let’s talk about the most interesting ones.</p>
+<h3 id="type-level-testing">Type-level testing<a href="#type-level-testing" class="anchor">🔗</a></h3>
+<figure>
+<img src="https://user-images.githubusercontent.com/8126674/61596217-4906c200-ac33-11e9-8b03-8ccac743c5a6.jpg" alt /><figcaption>Type-level testing power</figcaption>
+</figure>
+<p>As most of the library logic is taken upon types, it would be extremely useful to have tests on this level of computation. But how? The answer is the <a href="https://hackage.haskell.org/package/type-spec">type-spec</a> library. This package is created to write type-level unit tests. It provides a convenient EDSL for this purpose. In our case we are using it to add tests on our <code>UnitSymbol</code> instances I mention above. The cool thing is that you write your test cases at the type level as well.</p>
+<p>Just look at our use case. To be able to show the <code>Memory</code> value in the standardised format like <code>5kB</code>, we are using the <code>UnitSymbol</code> type family and a bunch of type instances for each unit. By design, every unit is the type alias of a corresponding type-level natural number. For instance, a kilobyte is defined as follows</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb16-1"><a href="#cb16-1"></a><span class="kw">type</span> <span class="dt">Kilobyte</span> <span class="ot">=</span> <span class="dv">1000</span> <span class="op">*</span> <span class="dt">Byte</span></span></code></pre></div>
+<p>But you can see that in the instances of <code>UnitSymbol</code> we are using <code>Nat</code>s instead.</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb17-1"><a href="#cb17-1"></a><span class="co">-- 8000 = 8 * 1000 Bit = Kilobyte</span></span>
+<span id="cb17-2"><a href="#cb17-2"></a><span class="kw">type</span> <span class="kw">instance</span> <span class="dt">UnitSymbol</span> <span class="dv">8000</span> <span class="ot">=</span> <span class="st">&quot;kB&quot;</span></span></code></pre></div>
+<p>This is because of the fact that GHC doesn’t allow having type family application as an argument of the instance declaration. If we try to define an instance for <code>Kilobyte</code> written above in the following form:</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb18-1"><a href="#cb18-1"></a><span class="kw">type</span> <span class="kw">instance</span> <span class="dt">UnitSymbol</span> <span class="dt">Kilobyte</span> <span class="ot">=</span> <span class="st">&quot;kB&quot;</span></span></code></pre></div>
+<p>it would fail at compile time with the following error:</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb19-1"><a href="#cb19-1"></a>src<span class="op">/</span><span class="dt">Membrain</span><span class="op">/</span>Units.hs<span class="op">:</span><span class="dv">110</span><span class="op">:</span><span class="dv">15</span><span class="op">:</span> <span class="fu">error</span><span class="op">:</span></span>
+<span id="cb19-2"><a href="#cb19-2"></a>    • <span class="dt">Illegal</span> <span class="kw">type</span> synonym <span class="kw">family</span> application <span class="kw">in</span> <span class="kw">instance</span><span class="op">:</span> <span class="dt">Kilobyte</span></span>
+<span id="cb19-3"><a href="#cb19-3"></a>    • <span class="dt">In</span> the <span class="kw">type</span> <span class="kw">instance</span> declaration for ‘<span class="dt">UnitSymbol</span>’</span>
+<span id="cb19-4"><a href="#cb19-4"></a>    <span class="op">|</span></span>
+<span id="cb19-5"><a href="#cb19-5"></a><span class="dv">110</span> <span class="op">|</span> <span class="kw">type</span> <span class="kw">instance</span> <span class="dt">UnitSymbol</span> <span class="dt">Kilobyte</span> <span class="ot">=</span> <span class="st">&quot;kB&quot;</span></span></code></pre></div>
+<p>In order to keep an eye on this inconvenience and to have these great natural numbers under control, we can get the help of type-level tests. So our tests should check that the unit specification symbols correspond to the correct units.</p>
+<p>The test is written in the following form:</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb20-1"><a href="#cb20-1"></a><span class="ot">unitSymbolTests ::</span></span>
+<span id="cb20-2"><a href="#cb20-2"></a>    <span class="st">&quot;UnitSymbol&quot;</span></span>
+<span id="cb20-3"><a href="#cb20-3"></a>    <span class="op">###</span></span>
+<span id="cb20-4"><a href="#cb20-4"></a></span>
+<span id="cb20-5"><a href="#cb20-5"></a>        <span class="st">&quot;Type-level UnitSymbol Tests&quot;</span></span>
+<span id="cb20-6"><a href="#cb20-6"></a>        <span class="op">~~~</span></span>
+<span id="cb20-7"><a href="#cb20-7"></a>            <span class="dt">It</span> <span class="st">&quot;Name Bit    = b&quot;</span> (<span class="dt">UnitSymbol</span> <span class="dt">Bit</span>    <span class="ot">`Is`</span> <span class="st">&quot;b&quot;</span>)</span>
+<span id="cb20-8"><a href="#cb20-8"></a>        <span class="op">-*-</span> <span class="dt">It</span> <span class="st">&quot;Name Nibble = n&quot;</span> (<span class="dt">UnitSymbol</span> <span class="dt">Nibble</span> <span class="ot">`Is`</span> <span class="st">&quot;n&quot;</span>)</span>
+<span id="cb20-9"><a href="#cb20-9"></a>unitSymbolTests <span class="ot">=</span> <span class="dt">Valid</span></span></code></pre></div>
+<p>It uses some fancy type-level operators from the <code>type-spec</code> library to make it work. The most interesting part for us, the place where the type-level unit test is specified is here: <code>UnitSymbol Bit 'Is' "b"</code>. It’s easy to understand that we are trying to check exactly what I was describing.</p>
+<h3 id="property-testing">Property testing<a href="#property-testing" class="anchor">🔗</a></h3>
+<p>We’ve implemented a number of helpful instances and functions for the <code>Memory</code> data type that should preserve some properties associated with them. For example, <code>Memory</code> has manual implementations of the <code>Semigroup</code> and <code>Monoid</code> classes. These typeclasses have associativity and neutrality laws associated with them. Also, we provide custom show and read functions for pretty output which also should satisfy the roundtrip property. We define property-based tests using the <a href="https://hackage.haskell.org/package/hedgehog">hedgehog</a> library.</p>
+<p>The idea of property-based testing is that you specify the property that should be preserved and provide the generators that would randomly create data to test against. One of the distinctive characteristics of property-based testing is that it covers the scope of all possible inputs. In our case, as we are testing the <code>Memory</code> data type, that would mean that the input data would have different types due to the phantom parameter. That is puzzling. We need a generator that can create different <code>Memory</code> values that can also be of a different type in the context of any function. But the type of the randomly generated <code>Memory</code> is defined at runtime by the generator. Currently, it is not possible to make the type depend on the runtime value. To achieve this we would need dependent types, however, this feature is not yet implemented in Haskell at the moment of writing this post. What we can do as a workaround is to create the following existential data type:</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb21-1"><a href="#cb21-1"></a><span class="kw">data</span> <span class="dt">AnyMemory</span></span>
+<span id="cb21-2"><a href="#cb21-2"></a>    <span class="ot">=</span> <span class="kw">forall</span> (<span class="ot">mem ::</span> <span class="dt">Nat</span>) <span class="op">.</span> (<span class="dt">KnownNat</span> mem, <span class="dt">KnownUnitSymbol</span> mem)</span>
+<span id="cb21-3"><a href="#cb21-3"></a>    <span class="ot">=&gt;</span> <span class="dt">MkAnyMemory</span> (<span class="dt">Memory</span> mem)</span></code></pre></div>
+<p>It is called existential because as you can see we have this <code>forall</code> in the right-most part of the function definition. This allows us to store a type-level natural number at runtime. You can think of the existential types as a trick to move type parameters from the definition site to the call site. Or, alternatively, you can think of it as moving type information from compile time to runtime. Such existential types are useful if you want to have collections of values of different types, or if you want the type to depend on some runtime value. However, this feature has its cost: you no longer have access to the type-level information at compile time, meaning you can inspect types only at runtime. Fortunately, this is a drawback we can accept to solve our problem.</p>
+<p>To summarize, we need to implement the following two things for generating <code>AnyMemory</code>:</p>
+<ol type="1">
+<li>Generate random Natural number.</li>
+<li>Randomly choose the unit and wrap it into the <code>MkAnyMemory</code> constructor.</li>
+</ol>
+<p>Here is how the generator looks like:</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb22-1"><a href="#cb22-1"></a><span class="ot">genAnyMemory ::</span> <span class="dt">MonadGen</span> m <span class="ot">=&gt;</span> m <span class="dt">AnyMemory</span></span>
+<span id="cb22-2"><a href="#cb22-2"></a>genAnyMemory <span class="ot">=</span> genNatural <span class="op">&gt;&gt;=</span> unitChooser</span>
+<span id="cb22-3"><a href="#cb22-3"></a></span>
+<span id="cb22-4"><a href="#cb22-4"></a><span class="co">-- | Returns random 'AnyMemory'.</span></span>
+<span id="cb22-5"><a href="#cb22-5"></a><span class="ot">unitChooser ::</span> (<span class="dt">MonadGen</span> m) <span class="ot">=&gt;</span> <span class="dt">Natural</span> <span class="ot">-&gt;</span> m <span class="dt">AnyMemory</span></span>
+<span id="cb22-6"><a href="#cb22-6"></a>unitChooser n <span class="ot">=</span> Gen.element</span>
+<span id="cb22-7"><a href="#cb22-7"></a>    [ <span class="dt">MkAnyMemory</span> (<span class="dt">Memory</span> <span class="op">@</span><span class="dt">Mem.Bit</span>       n)</span>
+<span id="cb22-8"><a href="#cb22-8"></a>    , <span class="dt">MkAnyMemory</span> (<span class="dt">Memory</span> <span class="op">@</span><span class="dt">Mem.Kilobyte</span>  n)</span>
+<span id="cb22-9"><a href="#cb22-9"></a>    <span class="op">...</span></span>
+<span id="cb22-10"><a href="#cb22-10"></a>    , <span class="dt">MkAnyMemory</span> (<span class="dt">Memory</span> <span class="op">@</span><span class="dt">Mem.Kilobyte</span>  n)</span>
+<span id="cb22-11"><a href="#cb22-11"></a>    <span class="op">...</span></span>
+<span id="cb22-12"><a href="#cb22-12"></a>    ]</span></code></pre></div>
+<p>And when we have the generator of the <code>AnyMemory</code> data type our property tests can be written in a simple readable way:</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb23-1"><a href="#cb23-1"></a><span class="ot">showReadLaw ::</span> <span class="dt">Property</span></span>
+<span id="cb23-2"><a href="#cb23-2"></a>showReadLaw <span class="ot">=</span> property <span class="op">$</span> <span class="kw">do</span></span>
+<span id="cb23-3"><a href="#cb23-3"></a>    <span class="dt">MkAnyMemory</span> mem <span class="ot">&lt;-</span> forAll genAnyMemory</span>
+<span id="cb23-4"><a href="#cb23-4"></a>    readMemory (showMemory mem) <span class="op">===</span> <span class="dt">Just</span> mem</span></code></pre></div>
+<p>By the way, the <code>AnyMemory</code> data type is exported in case any user would also need to solve such problems of having different memory units in their collections.</p>
+<h2 id="inventing-your-own-mem">Inventing your own mem<a href="#inventing-your-own-mem" class="anchor">🔗</a></h2>
+<p>Despite the fact that the library provides quite a large collection of supported memory units, the situations when you need to have another one are still possible (for example, a custom filesystem page size or very-very-very large data pieces of a brontobyte or a gegobyte). Don’t panic! The way of adding your own unit is quite straightforward and I am going to walk you through it.</p>
+<blockquote>
+<p><strong>Note:</strong> adding incorrect multipliers that could spoil some staff is the responsibility of the users. See <a href="#memory-units-exhibition">memory units exhibition section</a> for clarifications.</p>
+</blockquote>
+<blockquote>
+<p><strong>Note:</strong> the following code assumes that you enabled <code>DataKinds</code>, <code>TypeOperators</code> and <code>TypeFamilies</code> to work with type families.</p>
+</blockquote>
+<p>Let’s say, that we need to use a brontobyte a lot. So it makes sense to create a type. By the definition, a brontobyte contains <span class="math inline">10<sup>3</sup></span> yottabytes. Let’s write it down</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb24-1"><a href="#cb24-1"></a><span class="kw">type</span> <span class="dt">Brontobyte</span> <span class="ot">=</span> <span class="dv">8000000000000000000000000000</span></span></code></pre></div>
+<p>Alternatively, with the usage of the <code>*</code> type family from <code>GHC.TypeNats</code> you can write the following clean definition:</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb25-1"><a href="#cb25-1"></a><span class="kw">type</span> <span class="dt">Brontobyte</span> <span class="ot">=</span> <span class="dv">1000</span> <span class="op">*</span> <span class="dt">Yottabyte</span></span></code></pre></div>
+<p>Don’t forget to turn on the <code>NoStarIsType</code> extension.</p>
+<p>And the instance of <code>UnitSymbol</code> in order to have custom show and read functions. It is quite easy to write:</p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb26-1"><a href="#cb26-1"></a><span class="kw">type</span> <span class="kw">instance</span> <span class="dt">UnitSymbol</span> <span class="dv">8000000000000000000000000000</span> <span class="ot">=</span> <span class="st">&quot;bB&quot;</span></span></code></pre></div>
+<p>Also, the smart constructor is helpful indeed:</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb27-1"><a href="#cb27-1"></a><span class="ot">brontobyte ::</span> <span class="dt">Natural</span> <span class="ot">-&gt;</span> <span class="dt">Memory</span> <span class="dt">Brontobybte</span></span>
+<span id="cb27-2"><a href="#cb27-2"></a>brontobyte <span class="ot">=</span> memory</span>
+<span id="cb27-3"><a href="#cb27-3"></a><span class="ot">{-# INLINE brontobyte #-}</span></span></code></pre></div>
+<p>Aaand that’s all that is needed! We can check it in ghci now:</p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb28-1"><a href="#cb28-1"></a>λ<span class="op">&gt;</span> showMemory <span class="op">$</span> brontobyte <span class="dv">2</span></span>
+<span id="cb28-2"><a href="#cb28-2"></a><span class="st">&quot;2bB&quot;</span></span>
+<span id="cb28-3"><a href="#cb28-3"></a></span>
+<span id="cb28-4"><a href="#cb28-4"></a>λ<span class="op">&gt;</span> showMemory <span class="op">$</span> toMemory <span class="op">@</span><span class="dt">Bit</span> <span class="op">$</span> brontobyte <span class="dv">1</span></span>
+<span id="cb28-5"><a href="#cb28-5"></a><span class="st">&quot;8000000000000000000000000000b&quot;</span></span>
+<span id="cb28-6"><a href="#cb28-6"></a></span>
+<span id="cb28-7"><a href="#cb28-7"></a>λ<span class="op">&gt;</span> showMemory <span class="op">$</span> brontobyte <span class="dv">2</span> <span class="ot">`memoryPlus`</span> bit <span class="dv">5</span></span>
+<span id="cb28-8"><a href="#cb28-8"></a><span class="st">&quot;16000000000000000000000000005b&quot;</span></span></code></pre></div>
+<p>As you can see, the newly created type is fully composable with the existing interface and types.</p>
+<h2 id="multiple-public-libraries-vs-orphan-instances">Multiple public libraries vs Orphan instances<a href="#multiple-public-libraries-vs-orphan-instances" class="anchor">🔗</a></h2>
+<p>The <code>membrain</code> package depends only on the <code>base</code> library which makes it extremely lightweight. However, it would be more useful to users if the library could provide ways to work with JSON, TOML, CSV, SQL, binary serialisation and other formats. Unfortunately, implementation of the required functionality requires <code>membrain</code> to depend on many other packages. This is an awkward tradeoff between making a small package with the minimal interface or a heavy package with a lot of dependencies. The more dependencies you add, the longer the build times of the package and the higher the maintenance cost. And this is a common problem in Haskell when you want to implement a minimal data type or some basic typeclass.</p>
+<p>Moreover, some people may only need JSON serialisation. Why should they build CSV and SQL libraries for that? And what is worse, such encoding/decoding libraries are usually based on typeclasses which means that you need to use orphan instances if you don’t put those instances in the package with a data type or a typeclass. So what we want is a modular and scalable way to extend the capabilities of the package. By now in Haskell we have the following options to choose from to resolve this dilemma:</p>
+<ol type="1">
+<li>Don’t provide those instances. Let the users implement them if they need.</li>
+<li>Depend on all packages and provide all the instances.</li>
+<li>Use Cabal flags and CPP to disable/enable specific extension points. This solution is inconvenient to use because <a href="https://stackoverflow.com/questions/23523869/is-there-any-way-to-define-flags-for-cabal-dependencies">you can’t specify these flags in the <code>build-depends</code> section</a>.</li>
+<li>Put integration with each library into a separate package. Maintaining multiple packages around a single data type or typeclass is an extra headache.</li>
+</ol>
+<p>Fortunately, since Cabal-3.0 there is a better way to approach the problem — multiple public libraries. This feature allows creating and exposing multiple independent libraries from a single package. These libraries may later be used individually by any other projects.</p>
+<p>The main <code>library</code> stanza in <code>membrain</code> looks like this:</p>
+<pre class="cabal"><code>library
+  import:              common-options
+  exposed-modules:     Membrain
+                         Membrain.Base
+                         Membrain.Constructors
+                         Membrain.Memory
+                         Membrain.Units</code></pre>
+<p>Now, if we want to implement JSON instances from the <code>aeson</code> library, we can create a <code>Membrain.Aeson</code> module and put it into a separate public library:</p>
+<pre class="cabal"><code>library json
+  import:              common-options
+  exposed-modules:     Membrain.Aeson
+  build-depends:       aeson ^&gt;= 1.4</code></pre>
+<blockquote>
+<p><strong>Note:</strong> <code>membrain</code> also uses the <a href="https://www.haskell.org/cabal/users-guide/developing-packages.html#common-stanzas"><em>common stanzas</em></a> feature to remove metadata duplication between different stanzas in the <code>.cabal</code> file.</p>
+</blockquote>
+<p>The implementation of <code>FromJSON</code> and <code>ToJSON</code> instances from the <code>aeson</code> library goes into the <code>Membrain.Aeson</code> module. And if you want to use these instances in your package in addition to the main <code>Memory</code> type, you just need to add the <code>json</code> public library to your <code>build-depends</code> using the following syntax:</p>
+<pre class="cabal"><code>  build-depends:       membrain ^&gt;= 0.0.0.0
+                     , membrain:json</code></pre>
+<p>and then import the <code>Membrain.Aeson</code> module when you need it (you can even put this import in your custom local <code>Prelude</code> to automatically make this instance visible project-wide).</p>
+<p>The approach of using multiple public libraries has the following benefits in comparison with other existing solutions:</p>
+<ol type="1">
+<li>No need to maintain extra packages to support additional features.</li>
+<li>No CPP and compile time boolean flags involved.</li>
+<li>Additional features of the library are specified explicitly in the <code>.cabal</code> file, not in some other configuration file.</li>
+<li>Composition and modularity: you can depend only on those libraries that you need without having extra dependencies.</li>
+<li>All integrations with other libraries are in a single place which means that you can easily see what needs to be updated when you introduce breaking changes to the main library.</li>
+</ol>
+<p>This looks like a lovely solution to a long-pending problem.</p>
+<h2 id="summary">Summary<a href="#summary" class="anchor">🔗</a></h2>
+<p>This is <code>membrain</code> in a nutshell. To check out the full code and more tricks used in the package you can look into the sources:</p>
+<ul>
+<li><a href="https://github.com/kowainik/membrain">kowainik/membrain</a></li>
+</ul>
+<p>And here is a short recap of <code>membrain</code>’s features:</p>
+<ul>
+<li>The library provides a single data type <code>Memory</code> parameterized by the type-level memory units.</li>
+<li>Memory unit multipliers are stored as type-level natural numbers.</li>
+<li>Internally everything is stored as bits.</li>
+<li>All computations/conversions are done at compile time, so minimum boilerplate is required from users.</li>
+<li>The library provides its own version of <code>base</code> functions that work with memory units.</li>
+<li>The implemented interface is extensible externally.</li>
+<li>A multiple public libraries solution provides useful instances that help avoid redundant dependencies and orphan instances.</li>
+</ul>
+              </p>
+              </div>
+          </div>
+          </div>
+      </div>
+
+
+      <!-- Bootstrap core JavaScript -->
+      <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"> </script>
+      <script src="../js/post.js"> </script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/haskell.min.js"></script>
+      <script>hljs.initHighlightingOnLoad()</script>
+      <script async defer src="https://buttons.github.io/buttons.js"></script>
+  </body>
+</html>
