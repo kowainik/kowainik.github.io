@@ -20,15 +20,14 @@
 
 body {font-family: 'Lato';}
 .body-posts {font-family: 'Lato';}
-code, pre {font-family: 'Ubuntu Mono'; font-size:1.2rem;}
+code, pre {font-family: 'Ubuntu Mono' !important; font-size:1.2rem;}
 
 h1, h2, h3, h4, h5, h6 {
     font-weight: 700;
     font-family: 'Montserrat';
 }
 
-a {
-    color: #2C3E50;
+a { color: #2C3E50;
     text-decoration: none;
 }
 a:focus, a:hover, a:active {
@@ -170,9 +169,7 @@ hr.star-dark-pr:after {
     display: flex;
     align-items: center;
 }
-.p404-img {
-    max-height: 15vh;
-}
+.p404-img {max-height: 15vh;}
 
 /* Code */
 code {
