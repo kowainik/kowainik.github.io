@@ -67,9 +67,7 @@ pre, code {text-align: left;}
     margin: 7% 3%;
 }
 
-.coolFont {
-    font-family:'Noteworthy Light';font-weight:bold;font-size:1.1em;
-}
+.coolFont {font-family:'Noteworthy Light';font-weight:bold;font-size:1.1em;}
 
 pre.comment {
     font-family: 'Montserrat';
@@ -105,13 +103,7 @@ pre.comment {
     color: #26e4bb;
 }
 
-.post-body a img {
-    max-width: 80%;
-}
-
-.post-body img {
-    max-width: 80%;
-}
+.post-body a img, .post-body img {display: block; max-width: 80%; margin: auto;}
 
 .post blockquote {
     padding-left: 2%;
@@ -119,10 +111,14 @@ pre.comment {
 }
 
 .post table {
-    width: 80%;
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+    max-width: 90%;
     align: center;
+    margin: auto;
 }
-.post table, th, td {
+.post th, td {
     border: 2px solid #2C3E50;
 }
 .post th, td {
@@ -181,4 +177,6 @@ pre.comment {
 .active > a {color: #26e4bb !important;}
 
 a.anchor{color:#64328c;display:none;font-size:80%;margin-left:12px;text-decoration:none}
-h1:hover a.anchor,h2:hover a.anchor,h3:hover a.anchor{display:inline;color:#64328c}
+h1:hover a.anchor,h2:hover a.anchor,h3:hover a.anchor{display:inline;color:#64328c;}
+
+.post-body figcaption {text-align: center; font-style: italic; font-weight: lighter;}
