@@ -8,7 +8,8 @@ import Hakyll (Compiler, Context, Identifier, Item (..), MonadMetadata, Pattern,
                functionField, getMetadata, getResourceString, getTags, hakyll, idRoute, listField,
                loadAll, loadAndApplyTemplate, lookupString, makeItem, match, metadataRoute,
                pandocCompilerWithTransformM, recentFirst, relativizeUrls, renderPandocWith, route,
-               saveSnapshot, setExtension, tagsRules, templateBodyCompiler, toFilePath, (.||.))
+               saveSnapshot, setExtension, tagsRules, templateBodyCompiler, titleField, toFilePath,
+               (.||.))
 import Hakyll.ShortcutLinks (applyAllShortcuts)
 import Hakyll.Web.Feed (renderAtom, renderRss)
 import System.FilePath (replaceExtension)
@@ -77,7 +78,7 @@ mainHakyll team = hakyll $ do
                 >>= relativizeUrls
 
     -- All posts page
-    create ["posts.html"] $ compilePosts "Posts" "templates/posts.html" "posts/*"
+    create ["posts.html"] $ compilePosts "Blog Posts" "templates/posts.html" "posts/*"
 
 
     -- build up tags
@@ -145,7 +146,7 @@ compilePosts title page pat = do
         let ids = map itemIdentifier posts
         tagsList <- ordNub . concat <$> traverse getTags ids
         let ctx = postCtxWithTags tagsList
-               <> constField "title" title
+               <> titleField title
                <> constField "description" "Kowainik blog"
                <> listField "posts" postCtx (return posts)
                <> defaultContext
@@ -161,7 +162,7 @@ compileProjects title page pat = do
     compile $ do
         projects <- moreStarsFirst =<< loadAll pat
         let projectsCtx = stripExtension <> defaultContext
-        let ctx = constField "title" title
+        let ctx = titleField title
                <> constField "description" "Kowainik projects"
                <> listField "readmes" projectsCtx (pure projects)
                <> projectsCtx
