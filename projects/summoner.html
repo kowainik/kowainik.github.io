@@ -10,7 +10,7 @@
 
           gtag('config', 'UA-125893749-1');
           </script>
-    <title>summoner</title>
+    <title>summoner :: Kowainik</title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -57,7 +57,7 @@
                 <a class="btn btn-outline-dark btn-tag" href="https://github.com/kowainik/summoner" data-icon="octicon-star" data-size="large" aria-label="Star Kowainik/summoner on GitHub">Star Project</a>
                 <a class="fa-stack fa-2x" href="https://github.com/kowainik/summoner/stargazers">
                     <i class="fa fa-star fa-stack-2x"></i>
-                    <i id="stars" class="fa fa-stack-1x fa-inverse main-font">337</i>
+                    <i id="stars" class="fa fa-stack-1x fa-inverse main-font">355</i>
                 </a>
                 <div class="author">Language: Haskell</div>
 
@@ -646,20 +646,28 @@ Available options:
 <pre class="shell="><code>cabal new-build all</code></pre>
 <p>for Cabal and</p>
 <pre class="shell="><code>stack build</code></pre>
-<p>for Stack.</p>
+<p>for Stack and</p>
+<pre class="shell="><code>nix-build -A summoner     # To build the CLI only
+nix-build -A summoner-tui # To build the TUI</code></pre>
+<p>for Nix.</p>
 <h3 id="test">Test <a href="#structure">↑</a><a href="#test" class="anchor">🔗</a></h3>
 <p>Summoner uses the golden tests technique for assuring the correctness of the generated files. For this purpose, we have <a href="https://github.com/kowainik/summoner/tree/master/summoner-cli/test/golden">the <code>golden</code> folder</a> with two sample projects to test against.</p>
 <p>To actually run tests you need to run:</p>
 <pre class="shell"><code>cabal new-test all</code></pre>
-<p>or</p>
+<p>or, if using Stack,</p>
 <pre class="shell"><code>stack test</code></pre>
+<p>or, if using Nix,</p>
+<pre class="shell"><code>nix-shell --run 'cabal new-test all'</code></pre>
 <h3 id="run">Run <a href="#structure">↑</a><a href="#run" class="anchor">🔗</a></h3>
 <p>Building Summoner with the recommended method creates two executables: <code>summon</code> and <code>summon-tui</code>. To run the compiled executable you can use the following commands:</p>
 <pre class="shell"><code>cabal new-exec summon -- SOME_COMMAND
 cabal new-exec summon-tui -- SOME_COMMAND</code></pre>
-<p>or</p>
+<p>or, if using Stack,</p>
 <pre class="shell"><code>stack exec summon -- SOME_COMMAND
 stack exec summon-tui -- SOME_COMMAND</code></pre>
+<p>or, if using Nix,</p>
+<pre class="shell"><code>nix-shell --run 'cabal new-run summon -- SOME_COMMAND'
+nix-shell --run 'cabal new-run summon-tui -- SOME_COMMAND'</code></pre>
 <h2 id="changelog">Changelog <a href="#structure">↑</a><a href="#changelog" class="anchor">🔗</a></h2>
 <p>Each package has its own changelog:</p>
 <ul>

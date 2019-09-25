@@ -8,8 +8,16 @@
         <name>Kowainik</name>
         <email>xrom.xkov@gmail.com</email>
     </author>
-    <updated>2019-07-23T00:00:00Z</updated>
+    <updated>2019-09-25T00:00:00Z</updated>
     <entry>
+    <title>GSoC 2019 for mentors: Summertime Codeness</title>
+    <link href="https://kowainik.github.io/posts/gsoc2019.html" />
+    <id>https://kowainik.github.io/posts/gsoc2019.html</id>
+    <published>2019-09-25T00:00:00Z</published>
+    <updated>2019-09-25T00:00:00Z</updated>
+    <summary type="html"><![CDATA[Our Google Summer of Code journey as mentors for Issue Wanted project]]></summary>
+</entry>
+<entry>
     <title>Insane in the Membrain</title>
     <link href="https://kowainik.github.io/posts/membrain.html" />
     <id>https://kowainik.github.io/posts/membrain.html</id>
@@ -80,14 +88,6 @@
     <published>2018-08-19T00:00:00Z</published>
     <updated>2018-08-19T00:00:00Z</updated>
     <summary type="html"><![CDATA[The Backpack implementation of the uniform interface for containers]]></summary>
-</entry>
-<entry>
-    <title>typerep-map step by step</title>
-    <link href="https://kowainik.github.io/posts/2018-07-11-typerep-map-step-by-step.html" />
-    <id>https://kowainik.github.io/posts/2018-07-11-typerep-map-step-by-step.html</id>
-    <published>2018-07-11T00:00:00Z</published>
-    <updated>2018-07-11T00:00:00Z</updated>
-    <summary type="html"><![CDATA[Efficient implementation of Map with types as keys]]></summary>
 </entry>
 
 </feed>

@@ -10,7 +10,7 @@
 
           gtag('config', 'UA-125893749-1');
           </script>
-    <title>hintman</title>
+    <title>hintman :: Kowainik</title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -74,6 +74,37 @@
               <p class="lead">
                   <p><a href="https://hackage.haskell.org/package/hintman"><img src="https://img.shields.io/hackage/v/hintman.svg" alt="Hackage" /></a> <a href="LICENSE"><img src="https://img.shields.io/badge/license-MPL--2.0-blue.svg" alt="MPL-2.0 license" /></a> <a href="http://stackage.org/lts/package/hintman"><img src="http://stackage.org/package/hintman/badge/lts" alt="Stackage Lts" /></a> <a href="http://stackage.org/nightly/package/hintman"><img src="http://stackage.org/package/hintman/badge/nightly" alt="Stackage Nightly" /></a> <a href="https://travis-ci.org/kowainik/hintman"><img src="https://secure.travis-ci.org/kowainik/hintman.svg" alt="Build status" /></a></p>
 <p>GitHub application to suggest hints</p>
+<h2 id="how-to-test-github-application">How to test GitHub application?<a href="#how-to-test-github-application" class="anchor">🔗</a></h2>
+<h3 id="prerequisites">Prerequisites<a href="#prerequisites" class="anchor">🔗</a></h3>
+<ol type="1">
+<li><code>smee</code>:
+<ul>
+<li><code>npm install --global smee-client</code></li>
+</ul></li>
+<li><code>cabal</code> or <code>stack</code></li>
+</ol>
+<h3 id="how-to-run">How to run<a href="#how-to-run" class="anchor">🔗</a></h3>
+<ol type="1">
+<li>Run <code>smee</code> forwarder in a separate terminal window:
+<ul>
+<li><code>smee -u "https://smee.io/uTG0BCXnjq4DEff7" -p 8080</code></li>
+</ul></li>
+<li>Run <code>backend</code>:
+<ul>
+<li><code>KEY=&lt;SECRET_KEY&gt; PK_PATH=&lt;PATH_TO_PEM_FILE&gt; cabal new-run hintman -- -p 8080</code></li>
+</ul></li>
+<li>Open GitHub application and press <code>Configure</code> button to add it to your account:
+<ul>
+<li>https://github.com/apps/hint-man</li>
+</ul></li>
+<li>After adding access to your personal profile, choose <code>Select repositories</code> repository access and it this application to any of your repositories. After adding the repo to app and saving preferences, you should be able to see the following:
+<ul>
+<li>Incoming requests in the running backend</li>
+<li>Terminal with <code>smee</code> shows successfull status codes</li>
+<li>You can visit <code>smee</code> URL from above to see events there.</li>
+</ul></li>
+</ol>
+<p>Current backend just prints to terminal all incoming requests. GitHub app installation is one of those requests.</p>
               </p>
               </div>
           </div>

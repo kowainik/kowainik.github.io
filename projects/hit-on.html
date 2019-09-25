@@ -10,7 +10,7 @@
 
           gtag('config', 'UA-125893749-1');
           </script>
-    <title>hit-on</title>
+    <title>hit-on :: Kowainik</title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -57,7 +57,7 @@
                 <a class="btn btn-outline-dark btn-tag" href="https://github.com/kowainik/hit-on" data-icon="octicon-star" data-size="large" aria-label="Star Kowainik/hit-on on GitHub">Star Project</a>
                 <a class="fa-stack fa-2x" href="https://github.com/kowainik/hit-on/stargazers">
                     <i class="fa fa-star fa-stack-2x"></i>
-                    <i id="stars" class="fa fa-stack-1x fa-inverse main-font">29</i>
+                    <i id="stars" class="fa fa-stack-1x fa-inverse main-font">38</i>
                 </a>
                 <div class="author">Language: Haskell</div>
 
@@ -81,13 +81,26 @@
 <p><code>hit-on</code> provides the <code>hit</code> binary with a convenient command-line interface to improve the interaction with <a href="https://git-scm.com/"><code>git</code></a> in a compatible way with the described working methods. It saves time for people who use this workflow on a daily basis, helps beginners expand their insight of the core VCS processes and makes collaboration between team members easier during development.</p>
 <p>Here is an example of how you can see the list of issues and the issue description with <code>hit</code>:</p>
 <figure>
-<img src="https://user-images.githubusercontent.com/8126674/54478225-cae07c00-484a-11e9-86b3-c4c54e281274.png" alt /><figcaption>Screenshot from 2019-03-17 00-21-23</figcaption>
+<img src="https://user-images.githubusercontent.com/8126674/54478225-cae07c00-484a-11e9-86b3-c4c54e281274.png" alt /><figcaption>hit issue</figcaption>
+</figure>
+<p>Or how you can see pretty short stats about your changes:</p>
+<figure>
+<img src="https://user-images.githubusercontent.com/4276606/60981099-428d6600-a368-11e9-97aa-656a3dd38efa.png" alt /><figcaption>hit status example</figcaption>
 </figure>
 <h2 id="getting-started">Getting started<a href="#getting-started" class="anchor">🔗</a></h2>
 <h3 id="prerequisites">Prerequisites<a href="#prerequisites" class="anchor">🔗</a></h3>
 <p>To start using <code>hit</code> make sure that you have the following tools installed on your machine:</p>
 <ul>
 <li><a href="https://git-scm.com/"><code>git</code></a> — <code>hit</code> is a wrapper around <code>git</code></li>
+<li><strong>Optional:</strong> <code>diff-highlight</code> — for pretty output of the <code>hit diff</code> command
+<ul>
+<li><p>Linux installation instructions</p>
+<pre class="shell"><code>cd /usr/share/doc/git/contrib/diff-highlight/
+sudo make
+sudo chmod +x diff-highlight
+sudo ln -s diff-highlight /usr/local/bin/diff-highlight</code></pre></li>
+<li><p><a href="https://www.viget.com/articles/dress-up-your-git-diffs-with-word-level-highlights/">macOS installation instructions</a></p></li>
+</ul></li>
 </ul>
 <h3 id="installation">Installation<a href="#installation" class="anchor">🔗</a></h3>
 <p>There are several methods to install the <code>hit</code> tool. You can choose the one that you are most comfortable with.</p>
@@ -112,8 +125,10 @@ mv hit-linux ~/.local/bin/hit</code></pre>
 <li><p>Install the project with one of the build tools</p></li>
 </ol>
 <ul>
-<li><a href="https://www.haskell.org/cabal/users-guide/">Cabal</a> <code>shell     cabal new-install hit-on</code> <strong>Note:</strong> make sure you have <code>~/.cabal/bin</code> in your $PATH</li>
-<li><a href="https://docs.haskellstack.org/en/stable/README/">Stack</a> <code>shell     stack install hit-on</code></li>
+<li><p><a href="https://www.haskell.org/cabal/users-guide/">Cabal</a> <code>shell     cabal new-install hit-on</code> <strong>Note:</strong> make sure you have <code>~/.cabal/bin</code> in your $PATH</p></li>
+<li><p><a href="https://docs.haskellstack.org/en/stable/README/">Stack</a> <code>shell     stack install hit-on</code></p></li>
+<li><p><a href="https://nixos.org/nix/">Nix</a></p>
+<pre class="shell"><code>   nix-env -f . -i</code></pre></li>
 </ul>
 <ol start="4" type="1">
 <li><p>Make sure that <code>hit</code> is installed:</p>
@@ -126,10 +141,11 @@ mv hit-linux ~/.local/bin/hit</code></pre>
 <h3 id="setting-up">Setting up<a href="#setting-up" class="anchor">🔗</a></h3>
 <p>Follow the steps below to configure <code>hit</code> :</p>
 <ol type="1">
+<li>Enable autocompletion by calling the following command: <code>shell  source &lt;(hit --bash-completion-script `which hit`)</code> Add it your personal config file (like <code>~/.bashrc</code>) to enable automatically.</li>
 <li>Specify your GitHub login in the global <code>.gitconfig</code></li>
 </ol>
 <pre class="shell"><code>git config --global user.login &lt;your_login&gt;</code></pre>
-<ol start="2" type="1">
+<ol start="3" type="1">
 <li><strong>This step is only required if you want to use <code>hit</code> with private repositories</strong>.
 <ol type="1">
 <li><p><a href="https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line/">Create OAuth token on GitHub.</a> The following scopes for the token should be specified: <img src="https://user-images.githubusercontent.com/4276606/54476778-30793c00-483c-11e9-9625-a4f6ced40820.png" alt="Screenshot from 2019-03-16 22-34-57" /></p></li>
@@ -137,6 +153,89 @@ mv hit-linux ~/.local/bin/hit</code></pre>
 <li><p>Export token as an environment variable <code>shell  export GITHUB_TOKEN=&lt;paste_generated_token_here&gt;</code></p></li>
 </ol></li>
 </ol>
+<h2 id="commands">Commands<a href="#commands" class="anchor">🔗</a></h2>
+<table>
+<thead>
+<tr class="header">
+<th>Command</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>hop</td>
+<td>Switch to branch and sync it</td>
+</tr>
+<tr class="even">
+<td>fresh</td>
+<td>Rebase current branch on remote one</td>
+</tr>
+<tr class="odd">
+<td>new</td>
+<td>Create new branch from the current one</td>
+</tr>
+<tr class="even">
+<td>stash</td>
+<td>Stash all local changes</td>
+</tr>
+<tr class="odd">
+<td>unstash</td>
+<td>Unstash previously stashed changes</td>
+</tr>
+<tr class="even">
+<td>commit</td>
+<td>Commit all local changes and prepend issue number</td>
+</tr>
+<tr class="odd">
+<td>uncommit</td>
+<td>Reset to the previous commit saving the changes</td>
+</tr>
+<tr class="even">
+<td>fix</td>
+<td>Fix requested changes to the last commit</td>
+</tr>
+<tr class="odd">
+<td>amend</td>
+<td>Amend changes to the last commit and force push</td>
+</tr>
+<tr class="even">
+<td>issue</td>
+<td>Show the information about the issue</td>
+</tr>
+<tr class="odd">
+<td>push</td>
+<td>Push the current branch</td>
+</tr>
+<tr class="even">
+<td>sync</td>
+<td>Sync local branch with its remote</td>
+</tr>
+<tr class="odd">
+<td>resolve</td>
+<td>Switch to master, sync and delete the branch</td>
+</tr>
+<tr class="even">
+<td>clear</td>
+<td>Remove all local changes permanently</td>
+</tr>
+<tr class="odd">
+<td>current</td>
+<td>Show info about current branch and issue (if applicable)</td>
+</tr>
+<tr class="even">
+<td>status</td>
+<td>Show current branch and beautiful stats with COMMIT_HASH (by default HEAD)</td>
+</tr>
+<tr class="odd">
+<td>diff</td>
+<td>Display beautiful diff with COMMIT_HASH (by default HEAD)</td>
+</tr>
+<tr class="even">
+<td>clone</td>
+<td>Clone the repo. Use ‘reponame’ or ‘username/reponame’ formats</td>
+</tr>
+</tbody>
+</table>
 <h2 id="usage">Usage<a href="#usage" class="anchor">🔗</a></h2>
 <p>The best way to demonstrate the power of the <code>hit</code> tool on a day-to-day basis with our workflow is to go through the entire workflow step by step, solving an ordinary problem of the typical <a href="https://git-scm.com/"><code>git</code></a> user.</p>
 <blockquote>
@@ -165,6 +264,16 @@ git pull --rebase --prune</code></pre>
 <p><code>hit</code> allows you to accomplish this task in an easier manner:</p>
 <pre class="shell"><code>hit new 42</code></pre>
 <p>It uses the issue title to generate a short description.</p>
+<h3 id="hit-status">hit status<a href="#hit-status" class="anchor">🔗</a></h3>
+<p>Before commiting your changes, you may want to inspect short stats about your work. With <code>git</code> you usually call the following command:</p>
+<pre class="shell"><code>git status</code></pre>
+<p>However, the same <code>hit</code> command produces better output:</p>
+<pre class="shell"><code>hit status</code></pre>
+<figure>
+<img src="https://user-images.githubusercontent.com/4276606/60981099-428d6600-a368-11e9-97aa-656a3dd38efa.png" alt /><figcaption>hit status example</figcaption>
+</figure>
+<h3 id="hit-diff">hit diff<a href="#hit-diff" class="anchor">🔗</a></h3>
+<p>If you want to see detailed diff of your changes, use <code>hit diff</code> command. If you have <code>diff-hightlight</code> installed then <code>hit diff</code> outputs much nicer diffs.</p>
 <h3 id="hit-commit">hit commit<a href="#hit-commit" class="anchor">🔗</a></h3>
 <p>After finishing your work on that issue, you need to commit your changes. With <code>git</code> you would do the following:</p>
 <pre class="shell"><code>git add .
@@ -173,6 +282,9 @@ git commit -m &quot;[#42] Implement my feature
 Resolves #42&quot;</code></pre>
 <p>With <code>hit</code> you need only to specify the text of the commit to get the same result:</p>
 <pre class="shell"><code>hit commit &quot;Implement my feature&quot;</code></pre>
+<p>or even simplier:</p>
+<pre class="shell"><code>hit commit</code></pre>
+<p>And the commit name would be the title of the corresponding issue at GitHub (if you are currently in the branch named as described above).</p>
 <p>Note that you don’t need to keep in mind the current issue number. However, if you want to refresh the context about the issue, use the <code>hit current</code> command.</p>
 <h3 id="hit-push">hit push<a href="#hit-push" class="anchor">🔗</a></h3>
 <p>After committing your changes locally, you need to push them to the remote repository. It’s usually a good practice to push only the current branch.</p>
@@ -180,6 +292,10 @@ Resolves #42&quot;</code></pre>
 <pre class="shell"><code>git push -u origin my-login/42-short-desc</code></pre>
 <p><code>hit</code> allows you to save several keystrokes:</p>
 <pre class="shell"><code>hit push</code></pre>
+<blockquote>
+<p><strong>Note:</strong> <code>hit push</code> command can be combined with the <code>hit commit</code> command using <code>-p|push</code> flag in the latter command.</p>
+<pre class="shell"><code>hit commit --push</code></pre>
+</blockquote>
 <h3 id="hit-sync">hit sync<a href="#hit-sync" class="anchor">🔗</a></h3>
 <p>After opening the pull request, some of the reviewers suggested changes that you applied as commits to the remote branch via GitHub interface. Now you need to sync your local branch with the remote one.</p>
 <p>With <code>git</code> you can do the following:</p>

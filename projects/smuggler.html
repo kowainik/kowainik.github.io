@@ -10,7 +10,7 @@
 
           gtag('config', 'UA-125893749-1');
           </script>
-    <title>smuggler</title>
+    <title>smuggler :: Kowainik</title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -57,7 +57,7 @@
                 <a class="btn btn-outline-dark btn-tag" href="https://github.com/kowainik/smuggler" data-icon="octicon-star" data-size="large" aria-label="Star Kowainik/smuggler on GitHub">Star Project</a>
                 <a class="fa-stack fa-2x" href="https://github.com/kowainik/smuggler/stargazers">
                     <i class="fa fa-star fa-stack-2x"></i>
-                    <i id="stars" class="fa fa-stack-1x fa-inverse main-font">65</i>
+                    <i id="stars" class="fa fa-stack-1x fa-inverse main-font">66</i>
                 </a>
                 <div class="author">Language: Haskell</div>
 
@@ -81,20 +81,21 @@
 <h2 id="how-to-use">How to use<a href="#how-to-use" class="anchor">🔗</a></h2>
 <p>Add <code>smuggler</code> to the dependencies of your project. Then add the following compiler options:</p>
 <pre><code>-fplugin=Smuggler.Plugin</code></pre>
-<p>You can also use <code>smuggler</code> with <code>ghcid</code> to enable on-the-fly features:</p>
-<pre><code>ghcid --command='cabal new-repl --ghc-options=&quot;-fplugin=Smuggler.Plugin&quot;'</code></pre>
+<p>Lovely addition to this package is that it automatically supports on-the-fly feature if you use it with <code>ghcid</code>. Smuggler doesn’t perform file changes when there are no unused imports. So you can just run <code>ghcid</code> as usual:</p>
+<pre><code>ghcid --command='cabal repl'</code></pre>
 <h2 id="for-contributors">For contributors<a href="#for-contributors" class="anchor">🔗</a></h2>
 <p>Requirements:</p>
 <ul>
-<li><code>ghc-8.6.3</code></li>
+<li><code>ghc-8.6.5</code></li>
+<li><code>cabal &gt;= 3.0</code> or <code>stack &gt;= 2.0</code></li>
 </ul>
 <h3 id="cabal-how-to-build">Cabal: How to build?<a href="#cabal-how-to-build" class="anchor">🔗</a></h3>
-<pre class="shell"><code>$ cabal new-update
-$ cabal new-build</code></pre>
+<pre class="shell"><code>cabal update
+cabal build</code></pre>
 <h4 id="stack-how-to-build">Stack: How to build?<a href="#stack-how-to-build" class="anchor">🔗</a></h4>
-<pre class="shell"><code>$ stack build</code></pre>
+<pre class="shell"><code>stack build</code></pre>
 <h3 id="run-tests">Run tests<a href="#run-tests" class="anchor">🔗</a></h3>
-<pre class="shell"><code>$ cabal new-test --allow-newer</code></pre>
+<pre class="shell"><code>cabal test --enable-tests</code></pre>
               </p>
               </div>
           </div>

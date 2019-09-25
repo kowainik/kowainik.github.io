@@ -10,7 +10,7 @@
 
           gtag('config', 'UA-125893749-1');
           </script>
-    <title>shellmet</title>
+    <title>shellmet :: Kowainik</title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -57,7 +57,7 @@
                 <a class="btn btn-outline-dark btn-tag" href="https://github.com/kowainik/shellmet" data-icon="octicon-star" data-size="large" aria-label="Star Kowainik/shellmet on GitHub">Star Project</a>
                 <a class="fa-stack fa-2x" href="https://github.com/kowainik/shellmet/stargazers">
                     <i class="fa fa-star fa-stack-2x"></i>
-                    <i id="stars" class="fa fa-stack-1x fa-inverse main-font">31</i>
+                    <i id="stars" class="fa fa-stack-1x fa-inverse main-font">38</i>
                 </a>
                 <div class="author">Language: Haskell</div>
 
@@ -72,19 +72,18 @@
           <div class="row post">
               <div class="col-12 post-body">
               <p class="lead">
-                  <p><a href="https://travis-ci.org/kowainik/shellmet"><img src="https://img.shields.io/travis/kowainik/shellmet.svg?logo=travis" alt="Build status" /></a> <a href="https://hackage.haskell.org/package/shellmet"><img src="https://img.shields.io/hackage/v/shellmet.svg?logo=haskell" alt="Hackage" /></a> <a href="LICENSE"><img src="https://img.shields.io/badge/license-MPL--2.0-blue.svg" alt="MPL-2.0 license" /></a> <a href="http://stackage.org/lts/package/shellmet"><img src="http://stackage.org/package/shellmet/badge/lts" alt="Stackage Lts" /></a> <a href="http://stackage.org/nightly/package/shellmet"><img src="http://stackage.org/package/shellmet/badge/nightly" alt="Stackage Nightly" /></a></p>
+                  <p><a href="https://travis-ci.org/kowainik/shellmet"><img src="https://img.shields.io/travis/kowainik/shellmet.svg?logo=travis" alt="Build status" /></a> <a href="https://hackage.haskell.org/package/shellmet"><img src="https://img.shields.io/hackage/v/shellmet.svg?logo=haskell" alt="Hackage" /></a> <a href="http://stackage.org/lts/package/shellmet"><img src="http://stackage.org/package/shellmet/badge/lts" alt="Stackage Lts" /></a> <a href="http://stackage.org/nightly/package/shellmet"><img src="http://stackage.org/package/shellmet/badge/nightly" alt="Stackage Nightly" /></a> <a href="LICENSE"><img src="https://img.shields.io/badge/license-MPL--2.0-blue.svg" alt="MPL-2.0 license" /></a></p>
 <p>Out of the shell solution for scripting in Haskell. Shellmet provides an easy and convenient way to call shell commands from Haskell programs.</p>
 <h2 id="usage-example">Usage example<a href="#usage-example" class="anchor">🔗</a></h2>
 <p>This README contains the usage example of the <code>shellmet</code> library. The example is runnable. You can build and execute with the following command:</p>
-<pre class="shell"><code>cabal new-run readme</code></pre>
+<pre class="shell"><code>cabal run readme</code></pre>
 <h3 id="setting-up">Setting up<a href="#setting-up" class="anchor">🔗</a></h3>
 <p>Since this tutorial is written using Literate Haskell, first, let’s write all necessary pragmas and imports.</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb2-1"><a href="#cb2-1"></a><span class="ot">{-# LANGUAGE OverloadedStrings #-}</span></span>
 <span id="cb2-2"><a href="#cb2-2"></a></span>
-<span id="cb2-3"><a href="#cb2-3"></a><span class="kw">import</span> <span class="dt">Data.Semigroup</span> ((&lt;&gt;))</span>
-<span id="cb2-4"><a href="#cb2-4"></a><span class="kw">import</span> <span class="dt">Shellmet</span> (($|))</span>
-<span id="cb2-5"><a href="#cb2-5"></a></span>
-<span id="cb2-6"><a href="#cb2-6"></a><span class="kw">import</span> <span class="kw">qualified</span> <span class="dt">Data.Text</span> <span class="kw">as</span> <span class="dt">T</span></span></code></pre></div>
+<span id="cb2-3"><a href="#cb2-3"></a><span class="kw">import</span> <span class="dt">Shellmet</span> (($|))</span>
+<span id="cb2-4"><a href="#cb2-4"></a></span>
+<span id="cb2-5"><a href="#cb2-5"></a><span class="kw">import</span> <span class="kw">qualified</span> <span class="dt">Data.Text</span> <span class="kw">as</span> <span class="dt">T</span></span></code></pre></div>
 <h3 id="simple-scripting-example">Simple scripting example<a href="#simple-scripting-example" class="anchor">🔗</a></h3>
 <p>Below you can see how easy it is to interact with shell commands in Haskell:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb3-1"><a href="#cb3-1"></a><span class="ot">main ::</span> <span class="dt">IO</span> ()</span>
