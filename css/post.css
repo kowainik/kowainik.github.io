@@ -98,6 +98,12 @@ pre.comment {
     text-decoration: none;
 }
 
+.post-body h2 {
+    background-color: white !important;
+    background-image: url("/images/circles.png");
+    background-repeat: repeat;
+}
+
 .post-body a:focus, .post-body a:hover, .post-body a:active{
     text-decoration: none;
     color: #26e4bb;
