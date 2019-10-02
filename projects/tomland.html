@@ -57,7 +57,7 @@
                 <a class="btn btn-outline-dark btn-tag" href="https://github.com/kowainik/tomland" data-icon="octicon-star" data-size="large" aria-label="Star Kowainik/tomland on GitHub">Star Project</a>
                 <a class="fa-stack fa-2x" href="https://github.com/kowainik/tomland/stargazers">
                     <i class="fa fa-star fa-stack-2x"></i>
-                    <i id="stars" class="fa fa-stack-1x fa-inverse main-font">54</i>
+                    <i id="stars" class="fa fa-stack-1x fa-inverse main-font">57</i>
                 </a>
                 <div class="author">Language: Haskell</div>
 
@@ -116,9 +116,9 @@
 <span id="cb3-12"><a href="#cb3-12"></a>    }</span>
 <span id="cb3-13"><a href="#cb3-13"></a></span>
 <span id="cb3-14"><a href="#cb3-14"></a><span class="kw">data</span> <span class="dt">User</span></span>
-<span id="cb3-15"><a href="#cb3-15"></a>    <span class="ot">=</span> <span class="dt">Admin</span>  <span class="dt">Integer</span>  <span class="co">-- id of admin</span></span>
-<span id="cb3-16"><a href="#cb3-16"></a>    <span class="op">|</span> <span class="dt">Client</span> <span class="dt">Text</span>     <span class="co">-- name of the client</span></span>
-<span id="cb3-17"><a href="#cb3-17"></a>    <span class="kw">deriving</span> (<span class="dt">Show</span>)</span>
+<span id="cb3-15"><a href="#cb3-15"></a>    <span class="ot">=</span> <span class="dt">Admin</span>  <span class="op">!</span><span class="dt">Integer</span>  <span class="co">-- id of admin</span></span>
+<span id="cb3-16"><a href="#cb3-16"></a>    <span class="op">|</span> <span class="dt">Client</span> <span class="op">!</span><span class="dt">Text</span>     <span class="co">-- name of the client</span></span>
+<span id="cb3-17"><a href="#cb3-17"></a>    <span class="kw">deriving</span> stock (<span class="dt">Show</span>)</span>
 <span id="cb3-18"><a href="#cb3-18"></a></span>
 <span id="cb3-19"><a href="#cb3-19"></a><span class="kw">newtype</span> <span class="dt">Port</span> <span class="ot">=</span> <span class="dt">Port</span> <span class="dt">Int</span></span>
 <span id="cb3-20"><a href="#cb3-20"></a><span class="kw">newtype</span> <span class="dt">Host</span> <span class="ot">=</span> <span class="dt">Host</span> <span class="dt">Text</span></span></code></pre></div>

@@ -90,38 +90,38 @@
           <div class="row post">
               <div class="col-12 post-body">
               <p class="lead">
-                  <p>This short blog post covers the process of creating the <code>.hlint.yaml</code> file from the Dhall configuration.</p>
+                  <p>This short blog post covers the process of creating the <code>.hlint.yaml</code> file from the Dhall configuration. We are using <a href="https://hackage.haskell.org/package/-1.4.0">dhall-json-1.4.0</a> in all following code snippets.</p>
 <h2 id="motivation">Motivation<a href="#motivation" class="anchor">🔗</a></h2>
-<p>Let’s first figure out why one could need custom <a href="https://github.com/ndmitchell/hlint">HLint</a> rules. The default HLint settings mostly cover <code>base</code> library. However, nowadays many people are using alternative preludes. Having <code>.hlint.yaml</code> file specific to the prelude library can help to migrate to the alternative prelude and use it efficiently.</p>
-<p>Our Kowainik organisation is not an exception, and we also have our custom prelude – <a href="https://github.com/kowainik/relude"><code>relude</code></a>. We are working a lot to make it very friendly to those who are using it. <code>relude</code> functionality has a few differencies from what standard <code>Prelude</code> gives us, which means that not all out-of-the-box HLint rules are suitable for us. That’s why we need our own rules to provide more information about <code>relude</code> just by running <code>hlint</code> on your project that uses <code>relude</code> as a custom prelude. To show how helpful it could be I list use cases for custom HLint rules below.</p>
+<p>Let’s first figure out why one could need custom <a href="https://github.com/ndmitchell/hlint">HLint</a> rules. The default HLint settings mostly cover <code>base</code> library. However, nowadays, many people are using alternative preludes. Having <code>.hlint.yaml</code> file specific to the prelude library can help to migrate to the alternative prelude and use it more efficiently.</p>
+<p>In Kowainik, we also have our custom prelude – <a href="https://github.com/kowainik/relude"><code>relude</code></a>. <code>relude</code> persues lots of goals such as minimalism, convenience, user-friendliness, etc. We are working a lot to make it pleasant to those who are using it. <code>relude</code> functionality has a few differences from what standard <code>Prelude</code> gives us, which means that not all of the out-of-the-box HLint rules are suitable for us. That’s why we need our own rules to provide more information about <code>relude</code> just by running <code>hlint</code> on your project that uses <code>relude</code> as a custom prelude. To show how helpful it could be, I list some use cases for the custom HLint rules below.</p>
 <ul>
 <li><p><strong>Reexports</strong></p>
-<p><code>relude</code> brings common types and functions (from packages like <code>containers</code> and <code>bytestring</code>) into scope because they are used in almost every application. So we need a way to help somehow users to get rid of the redundant imports since <code>GHC</code> can’t warn about such imports. <code>hlint</code> lets us do it with the similar <code>warn</code> rule:</p>
+<p><code>relude</code> brings common types and functions (from packages like <code>containers</code> and <code>bytestring</code>) into the scope because they are used in almost every application. So we need a way to assist users in getting rid of the redundant imports since <code>GHC</code> can’t warn about such imports. <code>hlint</code> lets us do it with a <code>warn</code> rule. For example:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">-</span><span class="at"> </span><span class="fu">warn</span><span class="kw">:</span></span>
 <span id="cb1-2"><a href="#cb1-2"></a><span class="at">    </span><span class="fu">name</span><span class="kw">:</span><span class="at"> Use 'ByteString' from Relude</span></span>
 <span id="cb1-3"><a href="#cb1-3"></a><span class="at">    </span><span class="fu">lhs</span><span class="kw">:</span><span class="at"> Data.ByteString.ByteString</span></span>
 <span id="cb1-4"><a href="#cb1-4"></a><span class="at">    </span><span class="fu">rhs</span><span class="kw">:</span><span class="at"> ByteString</span></span>
-<span id="cb1-5"><a href="#cb1-5"></a><span class="at">    </span><span class="fu">note</span><span class="kw">:</span><span class="at"> ! '''ByteString'' is already exported from Relude'</span></span></code></pre></div></li>
+<span id="cb1-5"><a href="#cb1-5"></a><span class="at">    </span><span class="fu">note</span><span class="kw">:</span><span class="at"> </span><span class="st">'</span><span class="sc">''</span><span class="st">ByteString</span><span class="sc">''</span><span class="st"> is already exported from Relude'</span></span></code></pre></div></li>
 <li><p><strong>Lifted functions</strong></p>
-<p>In <code>relude</code> a lot of <code>IO</code> functions are lifted to <code>MonadIO</code> for the convenience. All such HLint suggestions have the following structure:</p>
+<p>In <code>relude</code> a lot of <code>IO</code> functions are lifted to <code>MonadIO</code> for the convenience. All similar HLint suggestions have the following structure:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb2-1"><a href="#cb2-1"></a><span class="kw">-</span><span class="at"> </span><span class="fu">warn</span><span class="kw">:</span></span>
-<span id="cb2-2"><a href="#cb2-2"></a><span class="at">    </span><span class="fu">name</span><span class="kw">:</span><span class="at"> ! '''liftIO'' is not needed'</span></span>
+<span id="cb2-2"><a href="#cb2-2"></a><span class="at">    </span><span class="fu">name</span><span class="kw">:</span><span class="at"> </span><span class="st">'</span><span class="sc">''</span><span class="st">liftIO</span><span class="sc">''</span><span class="st"> is not needed'</span></span>
 <span id="cb2-3"><a href="#cb2-3"></a><span class="at">    </span><span class="fu">lhs</span><span class="kw">:</span><span class="at"> liftIO (print x)</span></span>
 <span id="cb2-4"><a href="#cb2-4"></a><span class="at">    </span><span class="fu">rhs</span><span class="kw">:</span><span class="at"> print x</span></span>
 <span id="cb2-5"><a href="#cb2-5"></a><span class="at">    </span><span class="fu">note</span><span class="kw">:</span><span class="at"> If you import 'print' from Relude, it's already lifted</span></span></code></pre></div></li>
 <li><p><strong>Relude specific rules</strong></p>
-<p>We also would like to help to make the code more performant and pleasant to write. We have some functions with improved performance comparing to the <code>base</code> analogues. For example, with the following rule you can perform much faster nubbing:</p>
+<p>We also would like to encourage people to make the code more efficient and clear. In <code>relude</code> we introduced some functions with the improved performance comparing to the <code>base</code> analogues. For instance, with the following rule, you can perform much faster nubbing:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb3-1"><a href="#cb3-1"></a><span class="kw">-</span><span class="at"> </span><span class="fu">warn</span><span class="kw">:</span></span>
 <span id="cb3-2"><a href="#cb3-2"></a><span class="at">    </span><span class="fu">lhs</span><span class="kw">:</span><span class="at"> nub</span></span>
 <span id="cb3-3"><a href="#cb3-3"></a><span class="at">    </span><span class="fu">rhs</span><span class="kw">:</span><span class="at"> ordNub</span></span>
-<span id="cb3-4"><a href="#cb3-4"></a><span class="at">    </span><span class="fu">note</span><span class="kw">:</span><span class="at"> ! '''nub'' is O(n^2), ''ordNub'' is O(n log n)'</span></span></code></pre></div></li>
+<span id="cb3-4"><a href="#cb3-4"></a><span class="at">    </span><span class="fu">note</span><span class="kw">:</span><span class="at"> </span><span class="st">'</span><span class="sc">''</span><span class="st">nub</span><span class="sc">''</span><span class="st"> is O(n^2), </span><span class="sc">''</span><span class="st">ordNub</span><span class="sc">''</span><span class="st"> is O(n log n)'</span></span></code></pre></div></li>
 <li><p><strong>Ignoring</strong></p>
-<p>Also, as we are making the new and safer interface, not all <code>base</code> rules are suitable. Therefore we need to ignore some of them:</p>
+<p>Also, as we are constructing a renewed interface, not all <code>base</code> rules are suitable. Consequently, we need to ignore some of them:</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb4-1"><a href="#cb4-1"></a><span class="co"># `relude` doesn't export untotal `head`.</span></span>
 <span id="cb4-2"><a href="#cb4-2"></a><span class="kw">-</span><span class="at"> </span><span class="fu">ignore</span><span class="kw">:</span></span>
 <span id="cb4-3"><a href="#cb4-3"></a><span class="at">    </span><span class="fu">name</span><span class="kw">:</span><span class="at"> Use head</span></span></code></pre></div></li>
 <li><p><strong>Hints</strong></p>
-<p>Users might not want to perform all changes we suggest, so instead of <code>warn</code>s we can offer <code>hint</code>s</p>
+<p>Users might not want to perform all changes we suggest, so instead of <code>warn</code>s we can offer <code>hint</code>s on some less significant rules:</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb5-1"><a href="#cb5-1"></a><span class="kw">-</span><span class="at"> </span><span class="fu">hint</span><span class="kw">:</span></span>
 <span id="cb5-2"><a href="#cb5-2"></a><span class="at">    </span><span class="fu">lhs</span><span class="kw">:</span><span class="at"> (fmap and (sequence s))</span></span>
 <span id="cb5-3"><a href="#cb5-3"></a><span class="at">    </span><span class="fu">rhs</span><span class="kw">:</span><span class="at"> andM s</span></span>
@@ -135,9 +135,9 @@
 <p>Dhall is a programmable configuration language that is not Turing-complete. You can think of Dhall as: JSON + functions + types + imports</p>
 </blockquote>
 <p>This sounds like pretty much what we need.</p>
-<p>You can wonder, why we are not using <code>Haskell</code> for such purposes (though we love it so much ♥). The answer is that we don’t need <code>IO</code> capabilities for our problem; totality and safety of Dhall are enough here. Changing the configuration in Haskell requires to recompile whole program before generating config, but with Dhall there’s no such extra step. Not to mention the very nice string interpolation that Dhall has. Also, we would like to learn about new technologies, and this seems like an excellent opportunity to dive into Dhall.</p>
+<p>You may wonder why we are not using <code>Haskell</code> for such purposes (though we love it so much ♥). The answer is that we don’t need <code>IO</code> capabilities for our problem; totality and safety of Dhall are enough here. Changing the configuration in Haskell requires to recompile the whole program before generating config, but with Dhall there’s no such extra step. Not to mention fantastic string interpolation that Dhall has. Also, we wanted to familiarise ourselves with the new technologies, and this seemed like an excellent opportunity to dive into Dhall.</p>
 <h2 id="implementation">Implementation<a href="#implementation" class="anchor">🔗</a></h2>
-<p>Basically, HLint file is just a list of different kind of rules. List in Dhall should consist of the elements of the same type (because Dhall is the typed configuration language), but as you’ve seen we need to use <code>warn</code>, <code>ignore</code>, <code>hint</code> and other rules. To unify different rule types with the same type we can create sum type in Dhall. Here how you do it (this is the <a href="https://github.com/kowainik/relude/blob/master/hlint/Rule.dhall"><code>hlint/Rule.dhall</code></a> file):</p>
+<p>Basically, HLint file is just a list of different kind of rules. List in Dhall should consist of the elements of the same type (because Dhall is a typed configuration language), but, as you’ve seen, we need to use <code>warn</code>, <code>ignore</code>, <code>hint</code> and other rules. To unify different rule types with the same type, we can create a sum type in Dhall. Here how you do it (this is the <code>hlint/Rule.dhall</code>]<a href="https://github.com/kowainik/relude/blob/master/hlint/Rule.dhall">Rule</a> file):</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb6-1"><a href="#cb6-1"></a><span class="op">&lt;</span> <span class="dt">Arguments</span> <span class="op">:</span></span>
 <span id="cb6-2"><a href="#cb6-2"></a>    { arguments <span class="op">:</span> <span class="dt">List</span> <span class="dt">Text</span> }</span>
 <span id="cb6-3"><a href="#cb6-3"></a><span class="op">|</span> <span class="dt">Ignore</span> <span class="op">:</span></span>
@@ -165,60 +165,76 @@
 <span id="cb7-4"><a href="#cb7-4"></a>    <span class="op">|</span> <span class="dt">RuleWarn</span> <span class="dt">Warn</span></span>
 <span id="cb7-5"><a href="#cb7-5"></a>    <span class="op">|</span> <span class="dt">RuleHint</span> <span class="dt">Hint</span></span>
 <span id="cb7-6"><a href="#cb7-6"></a></span>
-<span id="cb7-7"><a href="#cb7-7"></a><span class="kw">newtype</span> <span class="dt">Arguments</span> <span class="ot">=</span> <span class="dt">Args</span> {<span class="ot"> arguments ::</span> [<span class="dt">Text</span>] }</span>
-<span id="cb7-8"><a href="#cb7-8"></a></span>
-<span id="cb7-9"><a href="#cb7-9"></a><span class="kw">newtype</span> <span class="dt">Ignore</span> <span class="ot">=</span> <span class="dt">Ignore</span> {<span class="ot"> ignore ::</span> <span class="dt">Name</span> }</span>
-<span id="cb7-10"><a href="#cb7-10"></a><span class="kw">newtype</span> <span class="dt">Name</span> <span class="ot">=</span> <span class="dt">Name</span> {<span class="ot"> name ::</span> <span class="dt">Text</span> }</span>
-<span id="cb7-11"><a href="#cb7-11"></a></span>
-<span id="cb7-12"><a href="#cb7-12"></a><span class="kw">newtype</span> <span class="dt">Warn</span> <span class="ot">=</span> <span class="dt">Warn</span> {<span class="ot"> warn ::</span> <span class="dt">Wrn</span> }</span>
-<span id="cb7-13"><a href="#cb7-13"></a><span class="kw">data</span> <span class="dt">Wrn</span> <span class="ot">=</span> <span class="dt">Wrn</span></span>
-<span id="cb7-14"><a href="#cb7-14"></a>    {<span class="ot"> name ::</span> <span class="dt">Maybe</span> <span class="dt">Text</span></span>
-<span id="cb7-15"><a href="#cb7-15"></a>    ,<span class="ot"> lhs  ::</span> <span class="dt">Text</span></span>
-<span id="cb7-16"><a href="#cb7-16"></a>    ,<span class="ot"> rhs  ::</span> <span class="dt">Text</span></span>
-<span id="cb7-17"><a href="#cb7-17"></a>    ,<span class="ot"> note ::</span> <span class="dt">Maybe</span> <span class="dt">Text</span></span>
-<span id="cb7-18"><a href="#cb7-18"></a>    }</span>
-<span id="cb7-19"><a href="#cb7-19"></a></span>
-<span id="cb7-20"><a href="#cb7-20"></a><span class="kw">newtype</span> <span class="dt">Hint</span> <span class="ot">=</span> <span class="dt">Hint</span> {<span class="ot"> hint ::</span> <span class="dt">Hnt</span> }</span>
-<span id="cb7-21"><a href="#cb7-21"></a><span class="kw">data</span> <span class="dt">Hnt</span> <span class="ot">=</span></span>
-<span id="cb7-22"><a href="#cb7-22"></a>    {<span class="ot"> lhs  ::</span> <span class="dt">Text</span></span>
-<span id="cb7-23"><a href="#cb7-23"></a>    ,<span class="ot"> rhs  ::</span> <span class="dt">Text</span></span>
-<span id="cb7-24"><a href="#cb7-24"></a>    ,<span class="ot"> note ::</span> <span class="dt">Maybe</span> <span class="dt">Text</span></span>
-<span id="cb7-25"><a href="#cb7-25"></a>    }</span></code></pre></div>
-<p>Okay, once we’ve introduced the type, we can create functions for easy rules addition. I’m going to show the one for the reexport warnings. The rest can be found in <a href="https://github.com/kowainik/relude/blob/master/hlint/warn.dhall"><code>hlint/warn.dhall</code></a>.</p>
-<p>We need to implement a Dhall function that takes a function/type name and the module from which people can export it because they don’t know that it’s already in <code>relude</code> and I expect this function to output the HLint <code>warn</code> about this redundant import. Let’s try to do this. As Haskell analogue, we need function like <code>warnReexport :: Text -&gt; Text -&gt; Rule</code> (in our case the rule is <code>RuleWarn</code>).</p>
+<span id="cb7-7"><a href="#cb7-7"></a><span class="kw">newtype</span> <span class="dt">Arguments</span> <span class="ot">=</span> <span class="dt">Args</span></span>
+<span id="cb7-8"><a href="#cb7-8"></a>    {<span class="ot"> arguments ::</span> [<span class="dt">Text</span>]</span>
+<span id="cb7-9"><a href="#cb7-9"></a>    }</span>
+<span id="cb7-10"><a href="#cb7-10"></a></span>
+<span id="cb7-11"><a href="#cb7-11"></a><span class="kw">newtype</span> <span class="dt">Ignore</span> <span class="ot">=</span> <span class="dt">Ignore</span></span>
+<span id="cb7-12"><a href="#cb7-12"></a>    {<span class="ot"> ignore ::</span> <span class="dt">Name</span></span>
+<span id="cb7-13"><a href="#cb7-13"></a>    }</span>
+<span id="cb7-14"><a href="#cb7-14"></a></span>
+<span id="cb7-15"><a href="#cb7-15"></a><span class="kw">newtype</span> <span class="dt">Name</span> <span class="ot">=</span> <span class="dt">Name</span></span>
+<span id="cb7-16"><a href="#cb7-16"></a>    {<span class="ot"> name ::</span> <span class="dt">Text</span></span>
+<span id="cb7-17"><a href="#cb7-17"></a>    }</span>
+<span id="cb7-18"><a href="#cb7-18"></a></span>
+<span id="cb7-19"><a href="#cb7-19"></a><span class="kw">newtype</span> <span class="dt">Warn</span> <span class="ot">=</span> <span class="dt">Warn</span></span>
+<span id="cb7-20"><a href="#cb7-20"></a>    {<span class="ot"> warn ::</span> <span class="dt">Wrn</span></span>
+<span id="cb7-21"><a href="#cb7-21"></a>    }</span>
+<span id="cb7-22"><a href="#cb7-22"></a></span>
+<span id="cb7-23"><a href="#cb7-23"></a><span class="kw">data</span> <span class="dt">Wrn</span> <span class="ot">=</span> <span class="dt">Wrn</span></span>
+<span id="cb7-24"><a href="#cb7-24"></a>    {<span class="ot"> name ::</span> <span class="dt">Maybe</span> <span class="dt">Text</span></span>
+<span id="cb7-25"><a href="#cb7-25"></a>    ,<span class="ot"> lhs  ::</span> <span class="dt">Text</span></span>
+<span id="cb7-26"><a href="#cb7-26"></a>    ,<span class="ot"> rhs  ::</span> <span class="dt">Text</span></span>
+<span id="cb7-27"><a href="#cb7-27"></a>    ,<span class="ot"> note ::</span> <span class="dt">Maybe</span> <span class="dt">Text</span></span>
+<span id="cb7-28"><a href="#cb7-28"></a>    }</span>
+<span id="cb7-29"><a href="#cb7-29"></a></span>
+<span id="cb7-30"><a href="#cb7-30"></a><span class="kw">newtype</span> <span class="dt">Hint</span> <span class="ot">=</span> <span class="dt">Hint</span></span>
+<span id="cb7-31"><a href="#cb7-31"></a>    {<span class="ot"> hint ::</span> <span class="dt">Hnt</span></span>
+<span id="cb7-32"><a href="#cb7-32"></a>    }</span>
+<span id="cb7-33"><a href="#cb7-33"></a></span>
+<span id="cb7-34"><a href="#cb7-34"></a><span class="kw">data</span> <span class="dt">Hnt</span> <span class="ot">=</span></span>
+<span id="cb7-35"><a href="#cb7-35"></a>    {<span class="ot"> lhs  ::</span> <span class="dt">Text</span></span>
+<span id="cb7-36"><a href="#cb7-36"></a>    ,<span class="ot"> rhs  ::</span> <span class="dt">Text</span></span>
+<span id="cb7-37"><a href="#cb7-37"></a>    ,<span class="ot"> note ::</span> <span class="dt">Maybe</span> <span class="dt">Text</span></span>
+<span id="cb7-38"><a href="#cb7-38"></a>    }</span></code></pre></div>
+<p>Since we’ve introduced the main <code>Rule</code> type, we should create functions for adding rules. I’m going to explain it on one example for the reexport warnings. The rest can be found in <a href="https://github.com/kowainik/relude/blob/master/hlint/warn.dhall"><code>hlint/warn.dhall</code></a>.</p>
+<p>We need to implement a Dhall function that takes a type name for which we are applying the rule and the module from which people can export it because they don’t know that it’s already in <code>relude</code>, and we expect this function to output the HLint warning about the redundant import.</p>
+<p>Let’s try to do this. Talking in Haskell syntax, we need a function like <code>warnReexport :: Text -&gt; Text -&gt; Rule</code> (in our case, the rule is <code>RuleWarn</code>). Let’s write the similar one in Dhall.</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb8-1"><a href="#cb8-1"></a><span class="co">-- import Rule type</span></span>
-<span id="cb8-2"><a href="#cb8-2"></a>   <span class="kw">let</span> <span class="dt">Rule</span> <span class="ot">=</span> <span class="op">./</span>Rule.dhall</span>
+<span id="cb8-2"><a href="#cb8-2"></a><span class="kw">let</span> <span class="dt">Rule</span> <span class="ot">=</span> <span class="op">./</span>Rule.dhall</span>
 <span id="cb8-3"><a href="#cb8-3"></a><span class="co">-- get all constructors of `Rule`, so we can refer to it as `rule.Warn` etc.</span></span>
-<span id="cb8-4"><a href="#cb8-4"></a><span class="kw">in</span> <span class="kw">let</span> rule <span class="ot">=</span> constructors <span class="dt">Rule</span></span>
-<span id="cb8-5"><a href="#cb8-5"></a><span class="kw">in</span> <span class="kw">let</span> warnReexport</span>
-<span id="cb8-6"><a href="#cb8-6"></a>    <span class="op">:</span> <span class="dt">Text</span> <span class="ot">-&gt;</span> <span class="dt">Text</span> <span class="ot">-&gt;</span> <span class="dt">Rule</span></span>
-<span id="cb8-7"><a href="#cb8-7"></a>    <span class="ot">=</span> \(f <span class="op">:</span> <span class="dt">Text</span>) <span class="ot">-&gt;</span> \(<span class="fu">mod</span> <span class="op">:</span> <span class="dt">Text</span>) <span class="ot">-&gt;</span></span>
-<span id="cb8-8"><a href="#cb8-8"></a>        <span class="co">-- using our constructor to create the `Warn`</span></span>
-<span id="cb8-9"><a href="#cb8-9"></a>        rule<span class="op">.</span><span class="dt">Warn</span></span>
-<span id="cb8-10"><a href="#cb8-10"></a>        { warn <span class="ot">=</span></span>
-<span id="cb8-11"><a href="#cb8-11"></a>            { name <span class="ot">=</span> <span class="dt">Some</span> <span class="st">&quot;Use '${f}' from Relude&quot;</span></span>
-<span id="cb8-12"><a href="#cb8-12"></a>            , lhs <span class="ot">=</span> <span class="st">&quot;${mod}.${f}&quot;</span></span>
-<span id="cb8-13"><a href="#cb8-13"></a>            , rhs <span class="ot">=</span> <span class="st">&quot;${f}&quot;</span></span>
-<span id="cb8-14"><a href="#cb8-14"></a>            , note <span class="ot">=</span> <span class="dt">Some</span> <span class="st">&quot;'${f}' is already exported from Relude&quot;</span></span>
-<span id="cb8-15"><a href="#cb8-15"></a>            }</span>
-<span id="cb8-16"><a href="#cb8-16"></a>        }</span>
-<span id="cb8-17"><a href="#cb8-17"></a><span class="kw">in</span> { warnReexport   <span class="ot">=</span> warnReexport</span>
-<span id="cb8-18"><a href="#cb8-18"></a>   , <span class="op">...</span> <span class="co">-- here we have other functions</span></span>
-<span id="cb8-19"><a href="#cb8-19"></a>   }</span></code></pre></div>
-<p>And, the most important part is how actually to use this function. Lets look at <a href="https://github.com/kowainik/relude/blob/master/hlint/hlint.dhall"><code>hlint/hlint.dhall</code></a>.</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb9-1"><a href="#cb9-1"></a>   <span class="co">-- import functions from previous file</span></span>
-<span id="cb9-2"><a href="#cb9-2"></a>   <span class="kw">let</span> warn           <span class="ot">=</span> <span class="op">./</span>warn<span class="op">.</span>dhall</span>
-<span id="cb9-3"><a href="#cb9-3"></a>   <span class="co">-- reassign function</span></span>
-<span id="cb9-4"><a href="#cb9-4"></a><span class="kw">in</span> <span class="kw">let</span> warnReexport   <span class="ot">=</span> warn<span class="op">.</span>warnReexport</span>
-<span id="cb9-5"><a href="#cb9-5"></a><span class="kw">in</span> [ warnReexport <span class="st">&quot;ByteString&quot;</span> <span class="st">&quot;Data.ByteString&quot;</span></span>
-<span id="cb9-6"><a href="#cb9-6"></a>   , warnReexport <span class="st">&quot;Text&quot;</span> <span class="st">&quot;Data.Text&quot;</span></span>
-<span id="cb9-7"><a href="#cb9-7"></a>   <span class="op">...</span></span>
-<span id="cb9-8"><a href="#cb9-8"></a>   ]</span></code></pre></div>
-<p>And the same with all other rules, pretty easy.</p>
-<p>To generate <code>.hlint.yaml</code> from <code>hlint.dhall</code> you can run the following command (you need to have <a href="https://hackage.haskell.org/package/dhall-json"><code>dhall-json</code></a> installed):</p>
+<span id="cb8-4"><a href="#cb8-4"></a><span class="kw">let</span> warnReexport</span>
+<span id="cb8-5"><a href="#cb8-5"></a>    <span class="op">:</span> <span class="dt">Text</span> <span class="ot">-&gt;</span> <span class="dt">Text</span> <span class="ot">-&gt;</span> <span class="dt">Rule</span></span>
+<span id="cb8-6"><a href="#cb8-6"></a>    <span class="ot">=</span> \(f <span class="op">:</span> <span class="dt">Text</span>) <span class="ot">-&gt;</span> \(<span class="fu">mod</span> <span class="op">:</span> <span class="dt">Text</span>) <span class="ot">-&gt;</span></span>
+<span id="cb8-7"><a href="#cb8-7"></a>        <span class="co">-- using our constructor to create the `Warn`</span></span>
+<span id="cb8-8"><a href="#cb8-8"></a>        <span class="dt">Rule.Warn</span></span>
+<span id="cb8-9"><a href="#cb8-9"></a>        { warn <span class="ot">=</span></span>
+<span id="cb8-10"><a href="#cb8-10"></a>            { name <span class="ot">=</span> <span class="dt">Some</span> <span class="st">&quot;Use '${f}' from Relude&quot;</span></span>
+<span id="cb8-11"><a href="#cb8-11"></a>            , lhs <span class="ot">=</span> <span class="st">&quot;${mod}.${f}&quot;</span></span>
+<span id="cb8-12"><a href="#cb8-12"></a>            , rhs <span class="ot">=</span> <span class="st">&quot;${f}&quot;</span></span>
+<span id="cb8-13"><a href="#cb8-13"></a>            , note <span class="ot">=</span> <span class="dt">Some</span> <span class="st">&quot;'${f}' is already exported from Relude&quot;</span></span>
+<span id="cb8-14"><a href="#cb8-14"></a>            }</span>
+<span id="cb8-15"><a href="#cb8-15"></a>        }</span>
+<span id="cb8-16"><a href="#cb8-16"></a><span class="kw">in</span></span>
+<span id="cb8-17"><a href="#cb8-17"></a>    { warnReexport <span class="ot">=</span> warnReexport</span>
+<span id="cb8-18"><a href="#cb8-18"></a>    , <span class="op">...</span> <span class="co">-- here we have other functions</span></span>
+<span id="cb8-19"><a href="#cb8-19"></a>    }</span></code></pre></div>
+<p>And, the most important part is how actually this function is used. Let’s look at <a href="https://github.com/kowainik/relude/blob/master/hlint/hlint.dhall"><code>hlint/hlint.dhall</code></a>.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb9-1"><a href="#cb9-1"></a><span class="co">-- import functions from previous file</span></span>
+<span id="cb9-2"><a href="#cb9-2"></a><span class="kw">let</span> warn           <span class="ot">=</span> <span class="op">./</span>warn<span class="op">.</span>dhall</span>
+<span id="cb9-3"><a href="#cb9-3"></a><span class="co">-- reassign function</span></span>
+<span id="cb9-4"><a href="#cb9-4"></a><span class="kw">let</span> warnReexport   <span class="ot">=</span> warn<span class="op">.</span>warnReexport</span>
+<span id="cb9-5"><a href="#cb9-5"></a><span class="kw">in</span></span>
+<span id="cb9-6"><a href="#cb9-6"></a>    [ warnReexport <span class="st">&quot;ByteString&quot;</span> <span class="st">&quot;Data.ByteString&quot;</span></span>
+<span id="cb9-7"><a href="#cb9-7"></a>    , warnReexport <span class="st">&quot;Text&quot;</span> <span class="st">&quot;Data.Text&quot;</span></span>
+<span id="cb9-8"><a href="#cb9-8"></a>    <span class="op">...</span></span>
+<span id="cb9-9"><a href="#cb9-9"></a>    ]</span></code></pre></div>
+<p>So with such rules, users would be getting a warning when they import <code>ByteString</code> from <code>Data.ByteString</code> module of <code>base</code> instead of omitting it in favour of the <code>relude</code> exports.</p>
+<p>And in such manner, we could create functions and build all other rules, pretty easy.</p>
+<p>Now, the only thing left is to generate <code>.hlint.yaml</code> from <code>hlint.dhall</code>. To do so, you can run the following command (you need to have <a href="https://hackage.haskell.org/package/dhall-json"><code>dhall-json</code></a> installed):</p>
 <pre class="shell"><code>$  dhall-to-yaml --omitNull &lt;&lt;&lt; './hlint/hlint.dhall' &gt; .hlint.yaml</code></pre>
 <h2 id="conclusion">Conclusion<a href="#conclusion" class="anchor">🔗</a></h2>
-<p>The process of creating <code>Dhall</code> modules was not very painful, so we can consider the experiment successful and we are going to maintain the <code>.hlint.yaml</code> using our <code>hlint.dhall</code> configuration. Now, adding additional rule <em>is just one line</em>, and it’s much easier to refactor configuration!</p>
+<p>The process of creating <code>Dhall</code> modules was not very painful, so we can consider the experiment successful, and we are going to maintain the <code>.hlint.yaml</code> using our <code>hlint.dhall</code> configuration. Now, adding additional rule <em>is just one line</em>, and it’s much easier to refactor configuration!</p>
 <p>Here is the table of file size comparison in different formats to show you how many keystrokes we managed to avoid.</p>
 <table>
 <thead>
@@ -231,8 +247,8 @@
 <tbody>
 <tr class="odd">
 <td>Lines</td>
-<td>2986</td>
-<td>883</td>
+<td>3086</td>
+<td>1019</td>
 </tr>
 </tbody>
 </table>

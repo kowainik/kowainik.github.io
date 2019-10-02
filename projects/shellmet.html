@@ -81,9 +81,10 @@
 <p>Since this tutorial is written using Literate Haskell, first, let’s write all necessary pragmas and imports.</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb2-1"><a href="#cb2-1"></a><span class="ot">{-# LANGUAGE OverloadedStrings #-}</span></span>
 <span id="cb2-2"><a href="#cb2-2"></a></span>
-<span id="cb2-3"><a href="#cb2-3"></a><span class="kw">import</span> <span class="dt">Shellmet</span> (($|))</span>
-<span id="cb2-4"><a href="#cb2-4"></a></span>
-<span id="cb2-5"><a href="#cb2-5"></a><span class="kw">import</span> <span class="kw">qualified</span> <span class="dt">Data.Text</span> <span class="kw">as</span> <span class="dt">T</span></span></code></pre></div>
+<span id="cb2-3"><a href="#cb2-3"></a><span class="kw">import</span> <span class="dt">Data.Semigroup</span> ((&lt;&gt;))</span>
+<span id="cb2-4"><a href="#cb2-4"></a><span class="kw">import</span> <span class="dt">Shellmet</span> (($|))</span>
+<span id="cb2-5"><a href="#cb2-5"></a></span>
+<span id="cb2-6"><a href="#cb2-6"></a><span class="kw">import</span> <span class="kw">qualified</span> <span class="dt">Data.Text</span> <span class="kw">as</span> <span class="dt">T</span></span></code></pre></div>
 <h3 id="simple-scripting-example">Simple scripting example<a href="#simple-scripting-example" class="anchor">🔗</a></h3>
 <p>Below you can see how easy it is to interact with shell commands in Haskell:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb3-1"><a href="#cb3-1"></a><span class="ot">main ::</span> <span class="dt">IO</span> ()</span>

@@ -73,7 +73,16 @@
               <div class="col-12 post-body">
               <p class="lead">
                   <p><a href="https://hackage.haskell.org/package/crocodealer"><img src="https://img.shields.io/hackage/v/crocodealer.svg?logo=haskell" alt="Hackage" /></a> <a href="LICENSE"><img src="https://img.shields.io/badge/license-MPL--2.0-blue.svg" alt="MPL-2.0 license" /></a> <a href="http://stackage.org/lts/package/crocodealer"><img src="http://stackage.org/package/crocodealer/badge/lts" alt="Stackage Lts" /></a> <a href="http://stackage.org/nightly/package/crocodealer"><img src="http://stackage.org/package/crocodealer/badge/nightly" alt="Stackage Nightly" /></a> <a href="https://travis-ci.org/kowainik/crocodealer"><img src="https://img.shields.io/travis/kowainik/crocodealer.svg?logo=travis" alt="Build status" /></a></p>
-<p>Manage GitHub organization files, labels, issues</p>
+<p>This tool helps managing multiple GitHub repos in the organization or personal accounts by automatically submitting file patches, label and issue updates.</p>
+<h2 id="motivation">Motivation<a href="#motivation" class="anchor">🔗</a></h2>
+<p>We have the <code>org</code> repository which contains different meta-templates like CONTRIBUTING guide or <code>stylish-haskell</code> configuration. If something changes (typos, format change), it would be much nicer to change in a single place (<code>org</code> repo) and then update all other repositories automatically. <code>crocodealer</code> is flexible enough, so other organizations or individual users can apply it to support their own workflows in similar manner.</p>
+<h2 id="features">Features<a href="#features" class="anchor">🔗</a></h2>
+<p>What this tool should do: update all repositories in batches. Typical workflows include:</p>
+<ol type="1">
+<li>Create/override same set of labels in all repositories. Same color, same name, same description. This helps with consistency.</li>
+<li>Propagate file updates.</li>
+<li>Run some checks over all repositories. For example, check whether they all have LICENSE, CONTRIBUTING, README files (etc.).</li>
+</ol>
               </p>
               </div>
           </div>
