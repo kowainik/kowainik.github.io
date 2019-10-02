@@ -40,7 +40,7 @@ how helpful it could be, I list some use cases for the custom HLint rules below.
       name: Use 'ByteString' from Relude
       lhs: Data.ByteString.ByteString
       rhs: ByteString
-      note: ! '''ByteString'' is already exported from Relude'
+      note: '''ByteString'' is already exported from Relude'
   ```
 
 * __Lifted functions__
@@ -50,7 +50,7 @@ how helpful it could be, I list some use cases for the custom HLint rules below.
 
   ```yaml
   - warn:
-      name: ! '''liftIO'' is not needed'
+      name: '''liftIO'' is not needed'
       lhs: liftIO (print x)
       rhs: print x
       note: If you import 'print' from Relude, it's already lifted
@@ -67,7 +67,7 @@ how helpful it could be, I list some use cases for the custom HLint rules below.
   - warn:
       lhs: nub
       rhs: ordNub
-      note: ! '''nub'' is O(n^2), ''ordNub'' is O(n log n)'
+      note: '''nub'' is O(n^2), ''ordNub'' is O(n log n)'
   ```
 
 * __Ignoring__
@@ -267,7 +267,7 @@ many keystrokes we managed to avoid.
 
 |          | __.hlint.yaml__ | __hlint.dhall__ |
 | -------- | --------------- | --------------- |
-| Lines    | 2986            | 883             |
+| Lines    | 3086            | 1019            |
 
 
 [relude]: https://github.com/kowainik/relude
