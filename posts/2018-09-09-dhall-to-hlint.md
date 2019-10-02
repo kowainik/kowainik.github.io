@@ -3,34 +3,37 @@ title: "Dhall to HLint: Using Dhall to generate HLint rules"
 author: Veronika Romashkina
 tags: haskell, hlint, dhall, prelude
 description: "Creating custom HLint rules for alternative preludes with Dhall"
+updated: 2019-10-02
 ---
 
 This short blog post covers the process of creating the `.hlint.yaml` file from
-the Dhall configuration.
+the Dhall configuration. We are using [dhall-json-1.4.0](@hackage:-1.4.0) in all following code
+snippets.
 
 ## Motivation
 
 Let's first figure out why one could need custom [HLint][hlint] rules. The
-default HLint settings mostly cover `base` library. However, nowadays many
+default HLint settings mostly cover `base` library. However, nowadays, many
 people are using alternative preludes. Having `.hlint.yaml` file specific to the
-prelude library can help to migrate to the alternative prelude and use it efficiently.
+prelude library can help to migrate to the alternative prelude and use it more
+efficiently.
 
-Our Kowainik organisation is not an exception, and we also have our custom
-prelude – [`relude`][relude]. We are working a lot to make it very friendly to
-those who are using it. `relude` functionality has a few differencies from what standard
-`Prelude` gives us, which means that not all out-of-the-box HLint rules are
-suitable for us. That's why we need our own rules to provide more information
-about `relude` just by running `hlint` on your project that uses `relude` as a
-custom prelude. To show how helpful it could be I list use cases for custom
-HLint rules below.
+In Kowainik, we also have our custom prelude – [`relude`][relude]. `relude`
+persues lots of goals such as minimalism, convenience, user-friendliness, etc.
+We are working a lot to make it pleasant to those who are using it. `relude`
+functionality has a few differences from what standard `Prelude` gives us, which
+means that not all of the out-of-the-box HLint rules are suitable for us. That's
+why we need our own rules to provide more information about `relude` just by
+running `hlint` on your project that uses `relude` as a custom prelude. To show
+how helpful it could be, I list some use cases for the custom HLint rules below.
 
 * __Reexports__
 
   `relude` brings common types and functions (from packages like `containers`
-  and `bytestring`) into scope because they are used in almost every
-  application. So we need a way to help somehow users to get rid of the
-  redundant imports since `GHC` can't warn about such imports. `hlint` lets us
-  do it with the similar `warn` rule:
+  and `bytestring`) into the scope because they are used in almost every
+  application. So we need a way to assist users in getting rid of the redundant
+  imports since `GHC` can't warn about such imports. `hlint` lets us do it with
+  a `warn` rule. For example:
 
   ```yaml
   - warn:
@@ -43,7 +46,7 @@ HLint rules below.
 * __Lifted functions__
 
   In `relude` a lot of `IO` functions are lifted to `MonadIO` for the convenience.
-  All such HLint suggestions have the following structure:
+  All similar HLint suggestions have the following structure:
 
   ```yaml
   - warn:
@@ -55,10 +58,10 @@ HLint rules below.
 
 * __Relude specific rules__
 
-  We also would like to help to make the code more performant and pleasant to
-  write. We have some functions with improved performance comparing to the
-  `base` analogues. For example, with the following rule you can perform much
-  faster nubbing:
+  We also would like to encourage people to make the code more efficient and
+  clear. In `relude` we introduced some functions with the improved performance
+  comparing to the `base` analogues. For instance, with the following rule, you
+  can perform much faster nubbing:
 
   ```yaml
   - warn:
@@ -69,8 +72,8 @@ HLint rules below.
 
 * __Ignoring__
 
-  Also, as we are making the new and safer interface, not all `base` rules are
-  suitable. Therefore we need to ignore some of them:
+  Also, as we are constructing a renewed interface, not all `base` rules are
+  suitable. Consequently, we need to ignore some of them:
 
   ```yaml
   # `relude` doesn't export untotal `head`.
@@ -79,7 +82,8 @@ HLint rules below.
   ```
 * __Hints__
 
-  Users might not want to perform all changes we suggest, so instead of `warn`s we can offer `hint`s
+  Users might not want to perform all changes we suggest, so instead of `warn`s
+  we can offer `hint`s on some less significant rules:
 
   ```yaml
   - hint:
@@ -102,22 +106,23 @@ As the tool that can help us with removing boilerplate, we have chosen [Dhall la
 
 This sounds like pretty much what we need.
 
-You can wonder, why we are not using `Haskell` for such purposes (though we love
+You may wonder why we are not using `Haskell` for such purposes (though we love
 it so much ♥). The answer is that we don't need `IO` capabilities for our
-problem; totality and safety of Dhall are enough here. Changing the configuration in
-Haskell requires to recompile whole program before generating config, but with
-Dhall there's no such extra step. Not to mention the very nice string
-interpolation that Dhall has. Also, we would like to learn about new
-technologies, and this seems like an excellent opportunity to dive into Dhall.
+problem; totality and safety of Dhall are enough here. Changing the
+configuration in Haskell requires to recompile the whole program before
+generating config, but with Dhall there's no such extra step. Not to mention
+fantastic string interpolation that Dhall has. Also, we wanted to familiarise
+ourselves with the new technologies, and this seemed like an excellent
+opportunity to dive into Dhall.
 
 ## Implementation
 
 Basically, HLint file is just a list of different kind of rules. List in Dhall
-should consist of the elements of the same type (because Dhall is the typed
-configuration language), but as you've seen we need to use `warn`, `ignore`,
-`hint` and other rules. To unify different rule types with the same type we can
-create sum type in Dhall. Here how you do it (this is the
-[`hlint/Rule.dhall`][Rule] file):
+should consist of the elements of the same type (because Dhall is a typed
+configuration language), but, as you've seen, we need to use `warn`, `ignore`,
+`hint` and other rules. To unify different rule types with the same type, we can
+create a sum type in Dhall. Here how you do it (this is the
+`hlint/Rule.dhall`][Rule] file):
 
 ```haskell
 < Arguments :
@@ -151,12 +156,22 @@ data Rule
     | RuleWarn Warn
     | RuleHint Hint
 
-newtype Arguments = Args { arguments :: [Text] }
+newtype Arguments = Args
+    { arguments :: [Text]
+    }
 
-newtype Ignore = Ignore { ignore :: Name }
-newtype Name = Name { name :: Text }
+newtype Ignore = Ignore
+    { ignore :: Name
+    }
 
-newtype Warn = Warn { warn :: Wrn }
+newtype Name = Name
+    { name :: Text
+    }
+
+newtype Warn = Warn
+    { warn :: Wrn
+    }
+
 data Wrn = Wrn
     { name :: Maybe Text
     , lhs  :: Text
@@ -164,7 +179,10 @@ data Wrn = Wrn
     , note :: Maybe Text
     }
 
-newtype Hint = Hint { hint :: Hnt }
+newtype Hint = Hint
+    { hint :: Hnt
+    }
+
 data Hnt =
     { lhs  :: Text
     , rhs  :: Text
@@ -172,26 +190,28 @@ data Hnt =
     }
 ```
 
-Okay, once we've introduced the type, we can create functions for easy rules
-addition. I'm going to show the one for the reexport warnings. The rest can be found in
-[`hlint/warn.dhall`][warn].
+Since we've introduced the main `Rule` type, we should create functions for
+adding rules. I'm going to explain it on one example for the reexport warnings.
+The rest can be found in [`hlint/warn.dhall`][warn].
 
-We need to implement a Dhall function that takes a function/type name and the
-module from which people can export it because they don't know that it's already
-in `relude` and I expect this function to output the HLint `warn` about this redundant
-import. Let's try to do this. As Haskell analogue, we need function like
-`warnReexport :: Text -> Text -> Rule` (in our case the rule is `RuleWarn`).
+We need to implement a Dhall function that takes a type name for which we are
+applying the rule and the module from which people can export it because they
+don't know that it's already in `relude`, and we expect this function to output
+the HLint warning about the redundant import.
+
+Let's try to do this. Talking in Haskell syntax, we need a function like
+`warnReexport :: Text -> Text -> Rule` (in our case, the rule is `RuleWarn`).
+Let's write the similar one in Dhall.
 
 ```haskell
 -- import Rule type
-   let Rule = ./Rule.dhall
+let Rule = ./Rule.dhall
 -- get all constructors of `Rule`, so we can refer to it as `rule.Warn` etc.
-in let rule = constructors Rule
-in let warnReexport
+let warnReexport
     : Text -> Text -> Rule
     = \(f : Text) -> \(mod : Text) ->
         -- using our constructor to create the `Warn`
-        rule.Warn
+        Rule.Warn
         { warn =
             { name = Some "Use '${f}' from Relude"
             , lhs = "${mod}.${f}"
@@ -199,28 +219,37 @@ in let warnReexport
             , note = Some "'${f}' is already exported from Relude"
             }
         }
-in { warnReexport   = warnReexport
-   , ... -- here we have other functions
-   }
+in
+    { warnReexport = warnReexport
+    , ... -- here we have other functions
+    }
 ```
 
-And, the most important part is how actually to use this function. Lets look at
-[`hlint/hlint.dhall`][hlint.dhall].
+And, the most important part is how actually this function is used. Let's
+look at [`hlint/hlint.dhall`][hlint.dhall].
 
 ```haskell
-   -- import functions from previous file
-   let warn           = ./warn.dhall
-   -- reassign function
-in let warnReexport   = warn.warnReexport
-in [ warnReexport "ByteString" "Data.ByteString"
-   , warnReexport "Text" "Data.Text"
-   ...
-   ]
+-- import functions from previous file
+let warn           = ./warn.dhall
+-- reassign function
+let warnReexport   = warn.warnReexport
+in
+    [ warnReexport "ByteString" "Data.ByteString"
+    , warnReexport "Text" "Data.Text"
+    ...
+    ]
 ```
- And the same with all other rules, pretty easy.
 
- To generate `.hlint.yaml` from `hlint.dhall` you can run the following command
- (you need to have [`dhall-json`][dhall-json] installed):
+So with such rules, users would be getting a warning when they import
+`ByteString` from `Data.ByteString` module of `base` instead of omitting it in
+favour of the `relude` exports.
+
+And in such manner, we could create functions and build all other rules,
+pretty easy.
+
+Now, the only thing left is to generate `.hlint.yaml` from `hlint.dhall`. To do
+so, you can run the following command (you need to have
+[`dhall-json`][dhall-json] installed):
 
  ```shell
  $  dhall-to-yaml --omitNull <<< './hlint/hlint.dhall' > .hlint.yaml
@@ -229,7 +258,7 @@ in [ warnReexport "ByteString" "Data.ByteString"
 ## Conclusion
 
 The process of creating `Dhall` modules was not very painful, so we can consider
-the experiment successful and we are going to maintain the `.hlint.yaml` using
+the experiment successful, and we are going to maintain the `.hlint.yaml` using
 our `hlint.dhall` configuration. Now, adding additional rule *is just one line*,
 and it's much easier to refactor configuration!
 
