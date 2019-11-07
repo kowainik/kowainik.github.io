@@ -6,23 +6,28 @@ module Kowainik.Social
 import Hakyll (Compiler, Context, Item, field, itemBody, listField, makeItem)
 
 data Social = Social
-    { sName :: String
-    , sLink :: String
+    { sName  :: !String
+    , sClass :: !String
+    , sLink  :: !String
     }
 
-socialName, socialLink :: Context Social
-socialName = field "socialName" $ pure . sName . itemBody
-socialLink = field "socialLink" $ pure . sLink . itemBody
+socialName, socialClass, socialLink :: Context Social
+socialName  = field "socialName"  $ pure . sName  . itemBody
+socialClass = field "socialClass" $ pure . sClass . itemBody
+socialLink  = field "socialLink"  $ pure . sLink  . itemBody
 
 allSocials :: Compiler [Item Social]
 allSocials = traverse makeItem
-    [ Social "twitter"  "https://twitter.com/kowainik"
-    , Social "github"   "https://github.com/kowainik"
-    , Social "reddit"   "https://www.reddit.com/user/kowainik"
-    , Social "linkedin" "https://www.linkedin.com/company/kowainik"
-    , Social "telegram" "https://t.me/kowainik"
-    , Social "rss"      "/rss.xml"
+    [ Social "twitter"  "fab" "https://twitter.com/kowainik"
+    , Social "github"   "fab" "https://github.com/kowainik"
+    , Social "reddit"   "fab" "https://www.reddit.com/user/kowainik"
+    , Social "linkedin" "fab" "https://www.linkedin.com/company/kowainik"
+    , Social "telegram" "fab" "https://t.me/kowainik"
+    , Social "rss"      "fas" "/rss.xml"
     ]
 
 makeSocialContext :: Context a
-makeSocialContext = listField "socials" (socialName <> socialLink) allSocials
+makeSocialContext = listField
+    "socials"
+    (socialName <> socialLink <> socialClass)
+    allSocials
