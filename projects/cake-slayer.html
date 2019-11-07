@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+      <!-- Global site tag (gtag.js) - Google Analytics -->
+      <script async src="https://www.googletagmanager.com/gtag/js?id=UA-125893749-1"></script>
+      <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+
+          gtag('config', 'UA-125893749-1');
+          </script>
+    <title>cake-slayer :: Kowainik</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Kowainik page">
+    <meta name="keywords" content="Haskell, Functional progarmming, FP">
+    <meta name="author" content="Kowainik" />
+
+    <!-- Twitter cards -->
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="@kowainik" />
+    <meta property="twitter:title" content="Kowainik - cake-slayer" />
+    <meta name="twitter:description" content=":cake: 🔪 Architecture of Haskel backend applications" />
+    <meta name="twitter:image:src" content="https://kowainik.github.io/images/logo-yellow.png" />
+    <meta property="og:title" content="Kowainik - cake-slayer" />
+    <meta property="og:description" content=":cake: 🔪 Architecture of Haskel backend applications" />
+    <meta property="og:site_name" content="Kowainik" />
+    <meta property="og:image" content="https://kowainik.github.io/images/logo-yellow.png" />
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon">
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.11.0/styles/dracula.min.css" />
+    <!-- Custom fonts for this template -->
+    <link href="../css/font-awesome.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Lato" />
+    <!-- Custom styles for this template -->
+    <link href="../css/default.css" rel="stylesheet">
+    <link href="../css/post.css" rel="stylesheet">
+  </head>
+
+  <body class="body-posts">
+
+      <!-- Header -->
+      <nav class="navbar navbar-inverse navbar-fixed-left leftmenu bg-primary text-secondary">
+            <div class="navbar-header">
+                <div class="postslogo"> <a class="navbar-brand" href="../"><img class="img-fluid mb-5 d-block mx-auto" src="../images/logo-tr.png" alt="Kowainik"></a></div>
+
+            </div>
+            <div class="coolFont">
+                <a class="btn btn-outline-dark btn-tag" href="https://github.com/kowainik/cake-slayer" data-icon="octicon-star" data-size="large" aria-label="Star Kowainik/cake-slayer on GitHub">Star Project</a>
+                <a class="fa-stack fa-2x" href="https://github.com/kowainik/cake-slayer/stargazers">
+                    <i class="fa fa-star fa-stack-2x"></i>
+                    <i id="stars" class="fa fa-stack-1x fa-inverse main-font">42</i>
+                </a>
+                <div class="author">Language: Haskell</div>
+
+                <div class="allposts">
+                    <h3><a href="../projects"> Projects =<< </a></h3>
+                </div>
+            </div>
+      </nav>
+      <div class="container info">
+          <h2 class="text-center text-uppercase text-secondary">cake-slayer</h2>
+          <div class="content">
+          <div class="row post">
+              <div class="col-12 post-body">
+              <p class="lead">
+                  <figure>
+<img src="https://user-images.githubusercontent.com/4276606/67370235-fc5cbb00-f582-11e9-9f45-09bf96ee6d0c.png" alt /><figcaption>logo</figcaption>
+</figure>
+<p><a href="https://travis-ci.org/Holmusk/cake-slayer"><img src="https://img.shields.io/travis/Holmusk/cake-slayer.svg?logo=travis" alt="Build status" /></a> <a href="https://hackage.haskell.org/package/cake-slayer"><img src="https://img.shields.io/hackage/v/cake-slayer.svg?logo=haskell" alt="Hackage" /></a> <a href="http://stackage.org/lts/package/cake-slayer"><img src="http://stackage.org/package/cake-slayer/badge/lts" alt="Stackage Lts" /></a> <a href="http://stackage.org/nightly/package/cake-slayer"><img src="http://stackage.org/package/cake-slayer/badge/nightly" alt="Stackage Nightly" /></a> <a href="LICENSE"><img src="https://img.shields.io/badge/license-MPL--2.0-blue.svg" alt="MPL-2.0 license" /></a></p>
+<p><code>cake-slayer</code> (do not confuse with <code>cakes-layer</code>) is a modern and batteries-included framework for creating backend in Haskell for web-applications. It allows you to scaffold working and extensible project in minutes.</p>
+<h2 id="overview">Overview<a href="#overview" class="anchor">🔗</a></h2>
+<p>The main goal of <code>cake-slayer</code> is to provide a backbone for your Haskell backend. Unlike many other Haskell libraries, <code>cake-slayer</code> doesn’t try to be as abstract as possible. It includes best-practices and makes some architecture decisions for you. On the one hand, your application should satisfy the requirements for using this framework. On the other hand, it takes care of a lot of stuff for you, so you don’t need to worry about everyday problems.</p>
+<p>A typical backend does the following:</p>
+<ul>
+<li>Communicates with the frontend (web, mobile) via some wire format (JSON, Protocol Buffers, etc.)</li>
+<li>Talks to the database</li>
+<li>Authenticates and authorizes users</li>
+<li>Has some background jobs</li>
+</ul>
+<p><code>cake-slayer</code> works exceptionally well if your application uses:</p>
+<ol type="1">
+<li>PostgreSQL as database.</li>
+<li>Elm on the frontend.</li>
+</ol>
+<p>The following Haskell packages have been chosen to provide the necessary functional:</p>
+<ul>
+<li><a href="https://hackage.haskell.org/package/postgresql-simple"><code>postgresql-simple</code></a>, <a href="https://hackage.haskell.org/package/postgresql-simple-named"><code>postgresql-simple-named</code></a>, <a href="https://hackage.haskell.org/package/postgresql-simple-migration"><code>postgresql-simple-migration</code></a>
+<ul>
+<li>For connecting and talking to the PostgreSQL database</li>
+</ul></li>
+<li><a href="http://hackage.haskell.org/package/servant"><code>servant</code></a>, <a href="http://hackage.haskell.org/package/servant-swagger"><code>servant-swagger</code></a>, <a href="http://hackage.haskell.org/package/swagger2"><code>swagger2</code></a>
+<ul>
+<li>A family of libraries for defining and documenting Rest API using type-level eDSL</li>
+</ul></li>
+<li><a href="http://hackage.haskell.org/package/elm-street"><code>elm-street</code></a>
+<ul>
+<li>The bridge between Elm and Haskell — generating Elm data types, JSON encoders and decoders from Haskell types automatically</li>
+</ul></li>
+<li><a href="http://hackage.haskell.org/package/jwt"><code>jwt</code></a>
+<ul>
+<li>User authentication via JWT</li>
+</ul></li>
+<li><a href="http://hackage.haskell.org/package/bcrypt"><code>bcrypt</code></a>
+<ul>
+<li>Secure password hashing</li>
+</ul></li>
+<li><a href="http://hackage.haskell.org/package/ekg"><code>ekg</code></a>, <a href="https://hackage.haskell.org/package/prometheus-client"><code>prometheus-client</code></a>
+<ul>
+<li>Application performance monitoring. &gt; <strong>NOTE:</strong> Using <code>prometheus-client</code> is optional</li>
+</ul></li>
+</ul>
+<p>Besides <code>cake-slayer</code> encourages (but doesn’t force) to use the following libraries:</p>
+<ul>
+<li><a href="https://hackage.haskell.org/package/relude"><code>relude</code></a>
+<ul>
+<li>Alternative standard library</li>
+</ul></li>
+<li><a href="https://hackage.haskell.org/package/co-log"><code>co-log</code></a>
+<ul>
+<li><a href="https://kowainik.github.io/posts/2018-09-25-co-log">Composable contravariant comonadic logging library</a></li>
+</ul></li>
+</ul>
+<h2 id="how-to-use">How to use?<a href="#how-to-use" class="anchor">🔗</a></h2>
+<p>The <code>cake-slayer</code> framework contains implementations of most common and useful functions. But at the same time, it provides enough flexibility to specify application-specific parts. To integrate <code>cake-slayer</code> smoothly into your project, you should perform the following steps:</p>
+<ol type="1">
+<li>Define a type of errors your application can throw. See <code>CakeSlayer.Error</code> module for details.</li>
+<li>Define a monad for your application by specializing the <code>App</code> monad from the <code>CakeSlayer.Monad</code> module.</li>
+<li>Derive or implement all necessary instances for your application monad. <code>cake-slayer</code> provides <code>MonadJwt</code> and <code>MonadTimed</code> effects with sensible default implementations for your convenience.</li>
+</ol>
+<p>And you’re good to go!</p>
+              </p>
+              </div>
+          </div>
+          </div>
+
+
+      </div>
+
+      <script src="../js/stars.js"></script>
+      <script>
+       shootingStars("kowainik/cake-slayer", function (stars) {
+           document.getElementById("stars").innerHTML = stars;
+       });
+      </script>
+
+
+      <!-- Bootstrap core JavaScript -->
+      <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"> </script>
+      <script src="../js/post.js"> </script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/haskell.min.js"></script>
+      <script>hljs.initHighlightingOnLoad()</script>
+      <script async defer src="https://buttons.github.io/buttons.js"></script>
+  </body>
+</html>

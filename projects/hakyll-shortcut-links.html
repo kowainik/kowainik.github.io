@@ -119,6 +119,47 @@ And another link to the [GitHub sources](https://github.com/kowainik/hakyll-shor
 <li><a href="https://github.com/vrom911/vrom911.github.io/pull/32">Some Hakyll website</a></li>
 </ul>
 <p>As you can see by the diff the only actual change needed for that was replacing <code>pandocCompiler</code> with <code>allShortcutLinksCompiler</code>.</p>
+<h4 id="examples-of-the-github-shortcut">Examples of the <code>@github</code> shortcut:<a href="#examples-of-the-github-shortcut" class="anchor">🔗</a></h4>
+<ul>
+<li><p>Link to a user :</p>
+<table>
+<thead>
+<tr class="header">
+<th>Shortcut</th>
+<th>Plain markdown</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>[foo](@github)</code></td>
+<td><code>[foo](https://github.com/foo)</code></td>
+</tr>
+<tr class="even">
+<td><code>[foo Github profile](@github(foo))</code></td>
+<td><code>[foo](https://github.com/foo)</code></td>
+</tr>
+</tbody>
+</table></li>
+<li><p>Link to a repository :</p>
+<table>
+<thead>
+<tr class="header">
+<th>Shortcut</th>
+<th>Plain markdown</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>[bar](@github:foo)</code></td>
+<td><code>[bar](https://github.com/foo/bar)</code></td>
+</tr>
+<tr class="even">
+<td><code>[Github Source](@github(foo):bar)</code></td>
+<td><code>[Github Source](https://github.com/foo/bar)</code></td>
+</tr>
+</tbody>
+</table></li>
+</ul>
 <h2 id="acknowledgement">Acknowledgement<a href="#acknowledgement" class="anchor">🔗</a></h2>
 <p>Icons made by <a href="http://www.freepik.com">Freepik</a> from <a href="https://www.flaticon.com/">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/">CC 3.0 BY</a>.</p>
               </p>

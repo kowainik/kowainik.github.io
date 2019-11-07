@@ -57,7 +57,7 @@
                 <a class="btn btn-outline-dark btn-tag" href="https://github.com/kowainik/tomland" data-icon="octicon-star" data-size="large" aria-label="Star Kowainik/tomland on GitHub">Star Project</a>
                 <a class="fa-stack fa-2x" href="https://github.com/kowainik/tomland/stargazers">
                     <i class="fa fa-star fa-stack-2x"></i>
-                    <i id="stars" class="fa fa-stack-1x fa-inverse main-font">57</i>
+                    <i id="stars" class="fa fa-stack-1x fa-inverse main-font">61</i>
                 </a>
                 <div class="author">Language: Haskell</div>
 
@@ -72,7 +72,7 @@
           <div class="row post">
               <div class="col-12 post-body">
               <p class="lead">
-                  <p><img src="https://user-images.githubusercontent.com/4276606/51088259-7a777000-176e-11e9-9d76-6be4023c0ac3.png" alt="palm" /> <a href="https://travis-ci.org/kowainik/tomland"><img src="https://img.shields.io/travis/kowainik/tomland.svg?logo=travis" alt="Build status" /></a> <a href="https://hackage.haskell.org/package/tomland"><img src="https://img.shields.io/hackage/v/tomland.svg?logo=haskell" alt="Hackage" /></a> <a href="http://stackage.org/lts/package/tomland"><img src="http://stackage.org/package/tomland/badge/lts" alt="Stackage LTS" /></a> <a href="http://stackage.org/nightly/package/tomland"><img src="http://stackage.org/package/tomland/badge/nightly" alt="Stackage Nightly" /></a> <a href="https://github.com/kowainik/tomland/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-MPL--2.0-blue.svg" alt="MPL-2.0 license" /></a></p>
+                  <p><img src="https://user-images.githubusercontent.com/4276606/51088259-7a777000-176e-11e9-9d76-6be4023c0ac3.png" alt="palm" /> <a href="https://github.com/kowainik/tomland/actions"><img src="https://github.com/kowainik/tomland/workflows/CI/badge.svg" alt="GitHub CI" /></a> <a href="https://travis-ci.org/kowainik/tomland"><img src="https://img.shields.io/travis/kowainik/tomland.svg?logo=travis" alt="Travis CI" /></a> <a href="https://ci.appveyor.com/project/kowainik/tomland"><img src="https://ci.appveyor.com/api/projects/status/github/kowainik/tomland?branch=master&amp;svg=true" alt="AppVeyor CI" /></a> <a href="https://hackage.haskell.org/package/tomland"><img src="https://img.shields.io/hackage/v/tomland.svg?logo=haskell" alt="Hackage" /></a> <a href="http://stackage.org/lts/package/tomland"><img src="http://stackage.org/package/tomland/badge/lts" alt="Stackage LTS" /></a> <a href="http://stackage.org/nightly/package/tomland"><img src="http://stackage.org/package/tomland/badge/nightly" alt="Stackage Nightly" /></a> <a href="https://github.com/kowainik/tomland/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-MPL--2.0-blue.svg" alt="MPL-2.0 license" /></a></p>
 <blockquote>
 <p>“A library is like an island in the middle of a vast sea of ignorance, particularly if the library is very tall and the surrounding area has been flooded.”</p>
 <p>― Lemony Snicket, Horseradish</p>
@@ -128,6 +128,8 @@
 <li>If you want to parse <code>newtype</code>s, use <code>Toml.diwrap</code> to wrap parsers for underlying <code>newtype</code> representation.</li>
 <li>For parsing nested data types, use <code>Toml.table</code>. But this requires to specify this data type as TOML table in <code>.toml</code> file.</li>
 <li>If you have lists of custom data types, use <code>Toml.list</code>. Such lists are represented as array of tables in TOML. If you have lists of primitive types like <code>Int</code>, <code>Bool</code>, <code>Double</code>, <code>Text</code> or time types, that you can use <code>Toml.arrayOf</code> and parse arrays of values.</li>
+<li>If you have sets of custom data types, use <code>Toml.set</code> or <code>Toml.HashSet</code>. Such sets are represented as array of tables in TOML.</li>
+<li>For parsing sum types, use <code>Toml.dimatch</code>. This requires writing matching functions for the constructors of the sum type.</li>
 <li><code>tomland</code> separates conversion between Haskell types and TOML values from matching values by keys. Converters between types and values have type <code>TomlBiMap</code> and are named with capital letter started with underscore. Main type for TOML codecs is called <code>TomlCodec</code>. To lift <code>TomlBiMap</code> to <code>TomlCodec</code> you need to use <code>Toml.match</code> function.</li>
 </ol>
 <div class="sourceCode" id="cb4"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb4-1"><a href="#cb4-1"></a><span class="ot">settingsCodec ::</span> <span class="dt">TomlCodec</span> <span class="dt">Settings</span></span>
@@ -166,7 +168,7 @@
 <span id="cb5-6"><a href="#cb5-6"></a>        <span class="dt">Left</span> err <span class="ot">-&gt;</span> <span class="fu">print</span> err</span>
 <span id="cb5-7"><a href="#cb5-7"></a>        <span class="dt">Right</span> settings <span class="ot">-&gt;</span> TIO.putStrLn <span class="op">$</span> Toml.encode settingsCodec settings</span></code></pre></div>
 <h2 id="benchmarks-and-comparison-with-other-libraries">Benchmarks and comparison with other libraries<a href="#benchmarks-and-comparison-with-other-libraries" class="anchor">🔗</a></h2>
-<p><code>tomland</code> is compared with other libraries. Since it uses 2-step approach with converting text to intermediate AST and only then decoding Haskell type from this AST, benchmarks are also implemented in a way to reflect this difference.</p>
+<p><code>tomland</code> is <a href="https://github.com/kowainik/toml-benchmarks">compared</a> with other libraries. Since it uses 2-step approach with converting text to intermediate AST and only then decoding Haskell type from this AST, benchmarks are also implemented in a way to reflect this difference.</p>
 <table>
 <thead>
 <tr class="header">

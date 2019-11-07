@@ -57,7 +57,7 @@
                 <a class="btn btn-outline-dark btn-tag" href="https://github.com/kowainik/summoner" data-icon="octicon-star" data-size="large" aria-label="Star Kowainik/summoner on GitHub">Star Project</a>
                 <a class="fa-stack fa-2x" href="https://github.com/kowainik/summoner/stargazers">
                     <i class="fa fa-star fa-stack-2x"></i>
-                    <i id="stars" class="fa fa-stack-1x fa-inverse main-font">354</i>
+                    <i id="stars" class="fa fa-stack-1x fa-inverse main-font">375</i>
                 </a>
                 <div class="author">Language: Haskell</div>
 
@@ -97,12 +97,14 @@
 <li><a href="#summon-tui-">Summon-TUI</a>
 <ul>
 <li><a href="#tui-download-binary-">TUI: download binary</a></li>
+<li><a href="#tui-from-scarf-">TUI: from Scarf</a></li>
 <li><a href="#tui-from-source-">TUI: from source</a></li>
 </ul></li>
 <li><a href="#summon-cli-">Summon-CLI</a>
 <ul>
 <li><a href="#cli-download-binary-">CLI: download binary</a></li>
 <li><a href="#cli-from-hackagestackage-">CLI: from Hackage/Stackage</a></li>
+<li><a href="#cli-from-scarf-">TUI: from Scarf</a></li>
 <li><a href="#cli-from-source-">CLI: from source</a></li>
 </ul></li>
 </ul></li>
@@ -221,6 +223,12 @@
 <li><a href="https://github.com/github/hub"><code>hub</code></a> – to upload the project to GitHub.</li>
 <li><a href="https://curl.haxx.se"><code>curl</code></a> – to download licenses.</li>
 </ul>
+<p>We also have minimal version requirements for build tools:</p>
+<ul>
+<li><a href="https://www.haskell.org/cabal/">Cabal &gt;= 2.0</a></li>
+<li><a href="http://haskellstack.org">Stack &gt;= 2.1</a></li>
+</ul>
+<p>However, it is always recommended to use the newest versions of build tools.</p>
 <h3 id="installation">Installation <a href="#structure">↑</a><a href="#installation" class="anchor">🔗</a></h3>
 <p>Summon contains two executables:</p>
 <ul>
@@ -237,13 +245,16 @@
 <p>After downloading binary, make it executable and copy it under convenient location, for example:</p>
 <pre class="shell"><code>chmod +x summon-cli-linux
 mv summon-cli-linux ~/.local/bin/summon</code></pre>
+<h5 id="tui-from-scarf">TUI: from Scarf <a href="#structure">↑</a><a href="#tui-from-scarf" class="anchor">🔗</a></h5>
+<p>Summoner binaries can be installed with <a href="https://scarf.sh">Scarf</a>.</p>
+<pre class="shell"><code>scarf install summoner</code></pre>
 <h5 id="tui-from-source">TUI: from source <a href="#structure">↑</a><a href="#tui-from-source" class="anchor">🔗</a></h5>
 <p>Fetch the repo using <code>cabal</code>:</p>
 <pre class="shell"><code>cabal get -s summoner</code></pre>
 <p>or clone the directory from GitHub:</p>
 <pre class="shell"><code>git clone https://github.com/kowainik/summoner.git</code></pre>
 <p>Step into the directory:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb7-1"><a href="#cb7-1"></a>cd summoner</span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb8-1"><a href="#cb8-1"></a>cd summoner</span></code></pre></div>
 <p>Build and install using <code>cabal</code>:</p>
 <pre class="shell"><code>cabal new-install summoner-tui:exe:summon-tui</code></pre>
 <p>Build and install using <code>stack</code>:</p>
@@ -260,13 +271,16 @@ mv summon-cli-linux ~/.local/bin/summon</code></pre>
 cabal new-install summoner</code></pre>
 <p>Using <code>stack</code>:</p>
 <pre class="shell"><code>stack install summoner</code></pre>
+<h5 id="cli-from-scarf">CLI: from Scarf <a href="#structure">↑</a><a href="#cli-from-scarf" class="anchor">🔗</a></h5>
+<p>Summoner binaries can be installed with <a href="https://scarf.sh">Scarf</a>.</p>
+<pre class="shell"><code>scarf install summoner</code></pre>
 <h5 id="cli-from-source">CLI: from source <a href="#structure">↑</a><a href="#cli-from-source" class="anchor">🔗</a></h5>
 <p>Fetch the repo using <code>cabal</code>:</p>
 <pre class="shell"><code>cabal get -s summoner</code></pre>
 <p>or clone the directory from GitHub:</p>
 <pre class="shell"><code>git clone https://github.com/kowainik/summoner.git</code></pre>
 <p>Step into the directory:</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb15-1"><a href="#cb15-1"></a>cd summoner</span></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb17-1"><a href="#cb17-1"></a>cd summoner</span></code></pre></div>
 <p>Build and install using <code>cabal</code>:</p>
 <pre class="shell"><code>cabal new-install summoner-cli:exe:summon</code></pre>
 <p>Build and install using <code>stack</code>:</p>
@@ -402,24 +416,29 @@ cabal new-install summoner</code></pre>
 <tr class="even">
 <td><code>stylish.*</code></td>
 <td>Text</td>
-<td><code>stylish.file</code> to provide the absolute file path OR <code>stylish.url</code> to download the <code>.stylish-haskell.yaml</code> file to use in the project.</td>
+<td><strong>DEPRECATED</strong> <code>stylish.file</code> to provide the absolute file path OR <code>stylish.url</code> to download the <code>.stylish-haskell.yaml</code> file to use in the project.</td>
 </tr>
 <tr class="odd">
 <td><code>contributing.*</code></td>
 <td>Text</td>
-<td><code>contributing.file</code> to provide the absolute file path OR <code>contributing.url</code> download OR <code>contribuint.link</code> to link the <code>CONTRIBUTING.md</code> file to use in the project.</td>
+<td><strong>DEPRECATED</strong> <code>contributing.file</code> to provide the absolute file path OR <code>contributing.url</code> download OR <code>contribuint.link</code> to link the <code>CONTRIBUTING.md</code> file to use in the project.</td>
 </tr>
 <tr class="even">
+<td><code>files</code></td>
+<td>Map FilePath Source</td>
+<td>Custom mapping of files to their sources. Represented as a list of inline tables in TOML in a format like <code>files = [ { path = "foo", url = "https://..." }, ... ]</code>. Supported file types: <code>url</code>, <code>file</code>, <code>raw</code>.</td>
+</tr>
+<tr class="odd">
 <td><code>[prelude]</code></td>
 <td></td>
 <td></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><code>package</code></td>
 <td>Text</td>
 <td>The package name of the custom prelude you’d like to use in the project (doesn’t work without <code>module</code> field).</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><code>module</code></td>
 <td>Text</td>
 <td>The module name of the custom prelude you’d like to use in the project (doesn’t work without <code>package</code> field).</td>
@@ -595,24 +614,24 @@ Available options:
 <h4 id="cli-script-command">CLI script command <a href="#structure">↑</a><a href="#cli-script-command" class="anchor">🔗</a></h4>
 <p>This command creates minimal <code>cabal</code> or <code>stack</code> script file which allows you to save some keystrokes and eliminates the need to remember magic words for scripts.</p>
 <p><strong>Cabal example:</strong> <code>summon script cabal -n Main.hs</code> generates executable file <code>Main.hs</code> with the following content:</p>
-<div class="sourceCode" id="cb24"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb24-1"><a href="#cb24-1"></a><span class="pp">#!/usr/bin/env cabal</span></span>
-<span id="cb24-2"><a href="#cb24-2"></a><span class="co">{- cabal:</span></span>
-<span id="cb24-3"><a href="#cb24-3"></a><span class="co">build-depends:</span></span>
-<span id="cb24-4"><a href="#cb24-4"></a><span class="co">  , base ^&gt;= 4.12.0.0</span></span>
-<span id="cb24-5"><a href="#cb24-5"></a><span class="co">-}</span></span>
-<span id="cb24-6"><a href="#cb24-6"></a></span>
-<span id="cb24-7"><a href="#cb24-7"></a><span class="ot">main ::</span> <span class="dt">IO</span> ()</span>
-<span id="cb24-8"><a href="#cb24-8"></a>main <span class="ot">=</span> <span class="fu">putStrLn</span> <span class="st">&quot;Hello, World!&quot;</span></span></code></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb26-1"><a href="#cb26-1"></a><span class="pp">#!/usr/bin/env cabal</span></span>
+<span id="cb26-2"><a href="#cb26-2"></a><span class="co">{- cabal:</span></span>
+<span id="cb26-3"><a href="#cb26-3"></a><span class="co">build-depends:</span></span>
+<span id="cb26-4"><a href="#cb26-4"></a><span class="co">  , base ^&gt;= 4.12.0.0</span></span>
+<span id="cb26-5"><a href="#cb26-5"></a><span class="co">-}</span></span>
+<span id="cb26-6"><a href="#cb26-6"></a></span>
+<span id="cb26-7"><a href="#cb26-7"></a><span class="ot">main ::</span> <span class="dt">IO</span> ()</span>
+<span id="cb26-8"><a href="#cb26-8"></a>main <span class="ot">=</span> <span class="fu">putStrLn</span> <span class="st">&quot;Hello, World!&quot;</span></span></code></pre></div>
 <p><strong>Stack example:</strong> <code>summon script stack -n Main.hs</code> generates executable file <code>Main.hs</code> with the following content:</p>
-<div class="sourceCode" id="cb25"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb25-1"><a href="#cb25-1"></a><span class="pp">#!/usr/bin/env stack</span></span>
-<span id="cb25-2"><a href="#cb25-2"></a><span class="co">{- stack</span></span>
-<span id="cb25-3"><a href="#cb25-3"></a><span class="co">  --resolver lts-13.16</span></span>
-<span id="cb25-4"><a href="#cb25-4"></a><span class="co">  script</span></span>
-<span id="cb25-5"><a href="#cb25-5"></a><span class="co">  --package base</span></span>
-<span id="cb25-6"><a href="#cb25-6"></a><span class="co">-}</span></span>
-<span id="cb25-7"><a href="#cb25-7"></a></span>
-<span id="cb25-8"><a href="#cb25-8"></a><span class="ot">main ::</span> <span class="dt">IO</span> ()</span>
-<span id="cb25-9"><a href="#cb25-9"></a>main <span class="ot">=</span> <span class="fu">putStrLn</span> <span class="st">&quot;Hello, World!&quot;</span></span></code></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb27-1"><a href="#cb27-1"></a><span class="pp">#!/usr/bin/env stack</span></span>
+<span id="cb27-2"><a href="#cb27-2"></a><span class="co">{- stack</span></span>
+<span id="cb27-3"><a href="#cb27-3"></a><span class="co">  --resolver lts-13.16</span></span>
+<span id="cb27-4"><a href="#cb27-4"></a><span class="co">  script</span></span>
+<span id="cb27-5"><a href="#cb27-5"></a><span class="co">  --package base</span></span>
+<span id="cb27-6"><a href="#cb27-6"></a><span class="co">-}</span></span>
+<span id="cb27-7"><a href="#cb27-7"></a></span>
+<span id="cb27-8"><a href="#cb27-8"></a><span class="ot">main ::</span> <span class="dt">IO</span> ()</span>
+<span id="cb27-9"><a href="#cb27-9"></a>main <span class="ot">=</span> <span class="fu">putStrLn</span> <span class="st">&quot;Hello, World!&quot;</span></span></code></pre></div>
 <h4 id="cli-show-command">CLI show command <a href="#structure">↑</a><a href="#cli-show-command" class="anchor">🔗</a></h4>
 <p>These commands display the list of supported GHC versions, or Licenses. Also, when the license name is specified, the content of the License is outputted to the terminal.</p>
 <h2 id="faq">FAQ <a href="#structure">↑</a><a href="#faq" class="anchor">🔗</a></h2>

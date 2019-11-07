@@ -72,39 +72,32 @@
           <div class="row post">
               <div class="col-12 post-body">
               <p class="lead">
-                  <p><a href="https://hackage.haskell.org/package/hintman"><img src="https://img.shields.io/hackage/v/hintman.svg" alt="Hackage" /></a> <a href="LICENSE"><img src="https://img.shields.io/badge/license-MPL--2.0-blue.svg" alt="MPL-2.0 license" /></a> <a href="http://stackage.org/lts/package/hintman"><img src="http://stackage.org/package/hintman/badge/lts" alt="Stackage Lts" /></a> <a href="http://stackage.org/nightly/package/hintman"><img src="http://stackage.org/package/hintman/badge/nightly" alt="Stackage Nightly" /></a> <a href="https://travis-ci.org/kowainik/hintman"><img src="https://secure.travis-ci.org/kowainik/hintman.svg" alt="Build status" /></a></p>
-<p>GitHub application to suggest hints</p>
-<h2 id="how-to-test-github-application">How to test GitHub application?<a href="#how-to-test-github-application" class="anchor">🔗</a></h2>
-<h3 id="prerequisites">Prerequisites<a href="#prerequisites" class="anchor">🔗</a></h3>
+                  <p><a href="https://github.com/apps/hint-man"><img src="https://img.shields.io/badge/GitHub-marketplace-yellow?logo=GitHub&amp;style=flat-square" alt="GitHub App" /></a> <a href="https://travis-ci.org/kowainik/hintman"><img src="https://secure.travis-ci.org/kowainik/hintman.svg" alt="Build status" /></a> <a href="LICENSE"><img src="https://img.shields.io/badge/license-MPL--2.0-blue.svg" alt="MPL-2.0 license" /></a></p>
+<p>Hintman is a GitHub application that automatically submits reviews to opened pull requests in your repositories with inline hints. It heavily makes the use of the <a href="https://github.blog/changelog/2018-10-16-suggested-changes/">GitHub suggestions</a> feature, so that all the hints could be applied in one click.</p>
+<p>⚠️ <strong>WARNING:</strong> Hintman is in early beta phase. ⚠️</p>
+<h2 id="references">References<a href="#references" class="anchor">🔗</a></h2>
+<p>Hintman is inspired by the <a href="https://en.wikipedia.org/wiki/Hitman_(franchise)">Hitman video game series</a>. The standard replies of Hintman are based on the quotes from the game. And the current avatar is the hint as well.</p>
+<h2 id="features">Features<a href="#features" class="anchor">🔗</a></h2>
+<p>Current set of features includes:</p>
+<ul>
+<li><em>Trailing spaces</em> removal via GitHub suggestion mechanism</li>
+<li><em>Trailing newlines</em> removal via GitHub suggestion mechanism</li>
+<li><code>[Haskell only]</code> Submitting inline <a href="https://github.com/ndmitchell/hlint">HLint</a> suggestions to Haskell source code files</li>
+</ul>
+<p>Stay tuned and watch for the updates!</p>
+<h2 id="motivation">Motivation<a href="#motivation" class="anchor">🔗</a></h2>
+<p>If you’re an open source maintainer, reviewing incoming pull requests from various contributors can be tedious. You want to ensure excellent code quality. But you don’t want to spend your time on things that can be automated. Hintman helps you with that! It submits inline suggestions to all open pull requests so you can apply them immediately.</p>
+<h2 id="installation">Installation<a href="#installation" class="anchor">🔗</a></h2>
+<p>To enable Hintman reviews, follow the link below and install it for all accounts and repositories where you would like it to use.</p>
+<ul>
+<li><a href="https://github.com/apps/hint-man">Hintman App</a></li>
+</ul>
+<h2 id="hintmans-review">Hintman’s review<a href="#hintmans-review" class="anchor">🔗</a></h2>
+<p>Based on the gathered feedback, there could be two states of the Hintman bot:</p>
 <ol type="1">
-<li><code>smee</code>:
-<ul>
-<li><code>npm install --global smee-client</code></li>
-</ul></li>
-<li><code>cabal</code> or <code>stack</code></li>
+<li>No hints were found for the pull request. In this case Hintman will <code>Approve</code> the PR and leave the “There is no place for me here… I will choose the truth I like.” comment. You would see the following: <img src="https://user-images.githubusercontent.com/8126674/67259322-3e63ff00-f4a6-11e9-8893-771dfbdefe76.png" alt="Hintman approve" /></li>
+<li>Hintman could appeal to some enhancements. Some of the supported by the app changes can be made. In this case, Hintman will <code>Comment</code> the PR and leave the “Do you know why your PR is still not approved? Because I chose not to approve it. But they will.” comment along with the hints as GitHub suggestions. You would see the following: <img src="https://user-images.githubusercontent.com/8126674/67259659-255c4d80-f4a8-11e9-8e2f-ec2d21af07cf.png" alt="Hintman not approves" /></li>
 </ol>
-<h3 id="how-to-run">How to run<a href="#how-to-run" class="anchor">🔗</a></h3>
-<ol type="1">
-<li>Run <code>smee</code> forwarder in a separate terminal window:
-<ul>
-<li><code>smee -u "https://smee.io/uTG0BCXnjq4DEff7" -p 8080</code></li>
-</ul></li>
-<li>Run <code>backend</code>:
-<ul>
-<li><code>KEY=&lt;SECRET_KEY&gt; PK_PATH=&lt;PATH_TO_PEM_FILE&gt; cabal new-run hintman -- -p 8080</code></li>
-</ul></li>
-<li>Open GitHub application and press <code>Configure</code> button to add it to your account:
-<ul>
-<li>https://github.com/apps/hint-man</li>
-</ul></li>
-<li>After adding access to your personal profile, choose <code>Select repositories</code> repository access and it this application to any of your repositories. After adding the repo to app and saving preferences, you should be able to see the following:
-<ul>
-<li>Incoming requests in the running backend</li>
-<li>Terminal with <code>smee</code> shows successfull status codes</li>
-<li>You can visit <code>smee</code> URL from above to see events there.</li>
-</ul></li>
-</ol>
-<p>Current backend just prints to terminal all incoming requests. GitHub app installation is one of those requests.</p>
               </p>
               </div>
           </div>
