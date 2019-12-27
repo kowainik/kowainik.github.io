@@ -1,0 +1,27 @@
+<div class="container info">
+    <h2 class="text-center text-uppercase text-secondary">Package Status</h2>
+    <hr class="star-dark mb-5">
+        <table>
+            <tr>
+                <th>Project</th>
+                <th>Hackage</th>
+                <th>Stackage</th>
+                <th>Stackage Nightly</th>
+                <th>Travis</th>
+                <th>Appveyor</th>
+                <th>Hackage Matrix</th>
+            </tr>
+            $for(readmes)$
+            <tr>
+                <td><a href="https://github.com/kowainik/$title$">$title$</a></td>
+                <td><a href="https://hackage.haskell.org/package/$title$"><img src="https://img.shields.io/hackage/v/$title$.svg?logo=haskell" alt="Hackage"></a></td>
+                <td><a href="http://stackage.org/lts/package/$title$"><img src="http://stackage.org/package/$title$/badge/lts" alt="Stackage LTS"></a></td>
+                <td><a href="http://stackage.org/nightly/package/$title$"><img src="http://stackage.org/package/$title$/badge/nightly" alt="Stackage Nightly"></a></td>
+                <td><a href="http://travis-ci.org/kowainik/$title$"><img src="https://img.shields.io/travis/kowainik/$title$.svg?logo=travis" alt="Travis"></a></td>
+                <td><a href="https://ci.appveyor.com/project/kowainik/$title$"><img src="https://ci.appveyor.com/api/projects/status/github/kowainik/$title$?branch=master&amp;svg=true" alt="AppVeyor"></a></td>
+                <td><a href="https://matrix.hackage.haskell.org/package/$title$"><img src="https://matrix.hackage.haskell.org/api/v2/packages/$title$/badge" alt="Hackage Matrix CI" style="max-width:100%;"></a></td>
+            </tr>
+            $endfor$
+
+        </table>
+</div>

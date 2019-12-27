@@ -120,6 +120,8 @@ mainHakyll team = hakyll $ do
     -- All projects page
     create ["projects.html"] $ compileProjects "Projects" "templates/readmes.html" "projects/*"
 
+    -- Projects status page
+    create ["status.html"] $ compileProjects "Status" "templates/status.html" "projects/*"
 
     -- Render the 404 page, we don't relativize URL's here.
     create ["404.html"] $ do
