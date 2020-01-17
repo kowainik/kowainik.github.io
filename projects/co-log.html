@@ -22,10 +22,10 @@
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:site" content="@kowainik" />
     <meta property="twitter:title" content="Kowainik - co-log" />
-    <meta name="twitter:description" content="📓 Composable contravariant combinatorial comonadic configurable convenient logging component" />
+    <meta name="twitter:description" content="📓 Flexible and configurable modern #Haskell logging framework" />
     <meta name="twitter:image:src" content="https://kowainik.github.io/images/logo-yellow.png" />
     <meta property="og:title" content="Kowainik - co-log" />
-    <meta property="og:description" content="📓 Composable contravariant combinatorial comonadic configurable convenient logging component" />
+    <meta property="og:description" content="📓 Flexible and configurable modern #Haskell logging framework" />
     <meta property="og:site_name" content="Kowainik" />
     <meta property="og:image" content="https://kowainik.github.io/images/logo-yellow.png" />
 
@@ -58,7 +58,7 @@
                 <a class="btn btn-outline-dark btn-tag" href="https://github.com/kowainik/co-log" data-icon="octicon-star" data-size="large" aria-label="Star Kowainik/co-log on GitHub">Star Project</a>
                 <a class="fa-stack fa-2x" href="https://github.com/kowainik/co-log/stargazers">
                     <i class="fa fa-star fa-stack-2x"></i>
-                    <i id="stars" class="fa fa-stack-1x fa-inverse main-font">123</i>
+                    <i id="stars" class="fa fa-stack-1x fa-inverse main-font">128</i>
                 </a>
                 <div class="author">Language: Haskell</div>
 
@@ -73,7 +73,7 @@
           <div class="row post">
               <div class="col-12 post-body">
               <p class="lead">
-                  <p><a href="https://github.com/kowainik/co-log/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-MPL--2.0-blue.svg" alt="MPL-2.0 license" /></a> <a href="https://travis-ci.org/kowainik/co-log"><img src="https://img.shields.io/travis/kowainik/co-log.svg?logo=travis" alt="Build status" /></a></p>
+                  <p><a href="https://travis-ci.org/kowainik/co-log"><img src="https://img.shields.io/travis/kowainik/co-log.svg?logo=travis" alt="Build status" /></a> <a href="https://ci.appveyor.com/project/kowainik/co-log"><img src="https://ci.appveyor.com/api/projects/status/github/kowainik/co-log?branch=master&amp;svg=true" alt="Windows build" /></a> <a href="https://github.com/kowainik/co-log/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-MPL--2.0-blue.svg" alt="MPL-2.0 license" /></a></p>
 <table>
 <colgroup>
 <col style="width: 9%" />
@@ -102,24 +102,31 @@
 </tr>
 </tbody>
 </table>
-<p><code>co-log</code> is a composable and configurable logging framework. The idea of the approach is described in the following blog post:</p>
+<p><code>co-log</code> is a composable and configurable logging framework. It combines all the benefits of Haskell idioms to provide a reasonable and convenient interface. Though it uses some advanced concepts in its core, we are striving to provide beginner-friendly API. The library also contains complete documentation with a lot of beginner-friendly examples, explanations and tutorials to guide users. The combination of pragmatic approach to logging and fundamental Haskell abstractions allows us to create highly composable and configurable logging framework.</p>
+<p>If you’re interested in how different Haskel typeclasses are used to implement core functions of <code>co-log</code>, you can read the following blog post which goes in detail about internal implementation specifics:</p>
 <ul>
 <li><a href="https://kowainik.github.io/posts/2018-09-25-co-log">co-log: Composable Contravariant Combinatorial Comonadic Configurable Convenient Logging</a></li>
 </ul>
-<p>The repository contains the following packages:</p>
+<p><code>co-log</code> is also modular on the level of packages. We care a lot about a low dependency footprint so you can build your logging only on top of the minimal required interface for your use-case. This repository contains the following packages:</p>
 <ul>
-<li><a href="co-log-core"><code>co-log-core</code></a>: lightweight package with basic data types and general idea.</li>
+<li><a href="co-log-core"><code>co-log-core</code></a>: lightweight package with basic data types and general idea which depends only on <code>base</code>.</li>
 <li><a href="co-log"><code>co-log</code></a>: taggless final implementation of logging library based on <code>co-log-core</code>.</li>
 <li><a href="co-log-polysemy"><code>co-log-polysemy</code></a>: implementation of logging library based on <code>co-log-core</code> and the <a href="http://hackage.haskell.org/package/polysemy"><code>polysemy</code></a> extensible effects library.</li>
 <li><a href="co-log-benchmark"><code>co-log-benchmark</code></a>: Benchmarks of the <code>co-log</code> library.</li>
 </ul>
-<p>See the following tutorial series about the library:</p>
+<p>To provide more user-friendly introduction to the library, we’ve created the tutorial series which introduces the main concepts behind <code>co-log</code> smoothly:</p>
 <ul>
 <li><a href="https://github.com/kowainik/co-log/blob/master/co-log/tutorials/1-intro/Intro.md">Intro: Using <code>LogAction</code></a></li>
 <li><a href="https://github.com/kowainik/co-log/blob/master/co-log/tutorials/2-custom/Custom.md">Using custom monad that stores <code>LogAction</code> inside its environment</a></li>
 </ul>
+<p><code>co-log</code> also cares about concurrent logging. For this purposes we have the <code>concurrent-playground</code> executable where we experiment with different multithreading scenarios to test the library behavior. You can find it here:</p>
+<ul>
+<li><a href="co-log/tutorials/Concurrent.hs">tutorials/Concurrent.hs</a></li>
+</ul>
 <h2 id="benchmarks">Benchmarks<a href="#benchmarks" class="anchor">🔗</a></h2>
 <p><code>co-log</code> is compared with basic functions like <code>putStrLn</code>. Since IO overhead is big enough, every benchmark dumps 10K messages to output. If benchmark name doesn’t contain <code>Message</code> then this benchmark simply dumps string <code>"message"</code> to output, otherwise it works with <code>Message</code> data type from the <code>co-log</code> library.</p>
+<p>To run benchmarks, use the following command:</p>
+<pre><code>cabal v2-run co-log-bench</code></pre>
 <table>
 <thead>
 <tr class="header">

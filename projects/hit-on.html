@@ -58,7 +58,7 @@
                 <a class="btn btn-outline-dark btn-tag" href="https://github.com/kowainik/hit-on" data-icon="octicon-star" data-size="large" aria-label="Star Kowainik/hit-on on GitHub">Star Project</a>
                 <a class="fa-stack fa-2x" href="https://github.com/kowainik/hit-on/stargazers">
                     <i class="fa fa-star fa-stack-2x"></i>
-                    <i id="stars" class="fa fa-stack-1x fa-inverse main-font">44</i>
+                    <i id="stars" class="fa fa-stack-1x fa-inverse main-font">48</i>
                 </a>
                 <div class="author">Language: Haskell</div>
 
@@ -235,6 +235,10 @@ mv hit-linux ~/.local/bin/hit</code></pre>
 <td>clone</td>
 <td>Clone the repo. Use ‘reponame’ or ‘username/reponame’ formats</td>
 </tr>
+<tr class="odd">
+<td>log</td>
+<td>Outputs the log of the current commit or COMMIT_HASH</td>
+</tr>
 </tbody>
 </table>
 <h2 id="usage">Usage<a href="#usage" class="anchor">🔗</a></h2>
@@ -333,6 +337,12 @@ git pull --rebase --prune
 git branch -D my-login/42-short-desc</code></pre>
 <p>With <code>hit</code> you can finish your work faster:</p>
 <pre class="shell"><code>hit resolve</code></pre>
+<h3 id="hit-log">hit log<a href="#hit-log" class="anchor">🔗</a></h3>
+<p>Hooray, your PR just got merged! It’s time to clean your local repository and start working on a new issue!</p>
+<p>With <code>git</code> you would do the following:</p>
+<pre class="shell"><code>git log --oneline --decorate [COMMIT_HASH]</code></pre>
+<p>With <code>hit</code> you can finish your work faster:</p>
+<pre class="shell"><code>hit log [COMMIT_HASH]</code></pre>
 <h2 id="acknowledgement">Acknowledgement<a href="#acknowledgement" class="anchor">🔗</a></h2>
 <p>Icons made by <a href="http://www.freepik.com">Freepik</a> from <a href="https://www.flaticon.com/">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/">CC 3.0 BY</a>.</p>
               </p>
