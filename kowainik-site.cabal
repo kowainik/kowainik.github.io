@@ -9,7 +9,7 @@ license:               MPL-2.0
 license-file:          LICENSE
 author:                Kowainik
 maintainer:            xrom.xkov@gmail.com
-copyright:             2018-2019 Kowainik
+copyright:             2018-2020 Kowainik
 category:              Web
 build-type:            Simple
 extra-doc-files:       README.md
