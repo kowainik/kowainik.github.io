@@ -7,8 +7,16 @@
         <description><![CDATA[We are writing about what we find fascinating or exciting. Our blog's aim is to share our knowledge about functional programming, distribute best-practices based on our extensive experience and tell about various topics from beginner-friendly introductions to advanced type-level tricks.]]></description>
         <atom:link href="https://kowainik.github.io/rss.xml" rel="self"
                    type="application/rss+xml" />
-        <lastBuildDate>Wed, 25 Sep 2019 00:00:00 UT</lastBuildDate>
+        <lastBuildDate>Wed, 29 Jan 2020 00:00:00 UT</lastBuildDate>
         <item>
+    <title>Policeman in da Bristol city</title>
+    <link>https://kowainik.github.io/posts/policeman-bristol.html</link>
+    <description><![CDATA[Bristol Haskell Hackathon 2020 project — Policeman — a tool for Haskell PVP version suggesting.]]></description>
+    <pubDate>Wed, 29 Jan 2020 00:00:00 UT</pubDate>
+    <guid>https://kowainik.github.io/posts/policeman-bristol.html</guid>
+    <dc:creator>Kowainik</dc:creator>
+</item>
+<item>
     <title>GSoC 2019 for mentors: Summertime Codeness</title>
     <link>https://kowainik.github.io/posts/gsoc2019.html</link>
     <description><![CDATA[Our Google Summer of Code journey as mentors for Issue Wanted project]]></description>
@@ -78,14 +86,6 @@
     <description><![CDATA[Creating custom HLint rules for alternative preludes with Dhall]]></description>
     <pubDate>Sun, 09 Sep 2018 00:00:00 UT</pubDate>
     <guid>https://kowainik.github.io/posts/2018-09-09-dhall-to-hlint.html</guid>
-    <dc:creator>Kowainik</dc:creator>
-</item>
-<item>
-    <title>Picnic: put containers into a backpack</title>
-    <link>https://kowainik.github.io/posts/2018-08-19-picnic-put-containers-into-a-backpack.html</link>
-    <description><![CDATA[The Backpack implementation of the uniform interface for containers]]></description>
-    <pubDate>Sun, 19 Aug 2018 00:00:00 UT</pubDate>
-    <guid>https://kowainik.github.io/posts/2018-08-19-picnic-put-containers-into-a-backpack.html</guid>
     <dc:creator>Kowainik</dc:creator>
 </item>
 

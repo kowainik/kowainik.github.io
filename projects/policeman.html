@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+      <!-- Global site tag (gtag.js) - Google Analytics -->
+      <script async src="https://www.googletagmanager.com/gtag/js?id=UA-125893749-1"></script>
+      <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+
+          gtag('config', 'UA-125893749-1');
+          </script>
+    <title>policeman :: Kowainik</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Kowainik page">
+    <meta name="keywords" content="Haskell, Functional progarmming, FP">
+    <meta name="author" content="Kowainik" />
+
+    <!-- Twitter cards -->
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="@kowainik" />
+    <meta property="twitter:title" content="Kowainik - policeman" />
+    <meta name="twitter:description" content="👮 Haskell PVP adviser" />
+    <meta name="twitter:image:src" content="https://kowainik.github.io/images/logo-yellow.png" />
+    <meta property="og:title" content="Kowainik - policeman" />
+    <meta property="og:description" content="👮 Haskell PVP adviser" />
+    <meta property="og:site_name" content="Kowainik" />
+    <meta property="og:image" content="https://kowainik.github.io/images/logo-yellow.png" />
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon">
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.11.0/styles/dracula.min.css" />
+    <!-- Fontawesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+    <!-- Custom fonts for this template -->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Lato" />
+    <!-- Custom styles for this template -->
+    <link href="../css/default.css" rel="stylesheet">
+    <link href="../css/post.css" rel="stylesheet">
+  </head>
+
+  <body class="body-posts">
+
+      <!-- Header -->
+      <nav class="navbar navbar-inverse navbar-fixed-left leftmenu bg-primary text-secondary">
+            <div class="navbar-header">
+                <div class="postslogo"> <a class="navbar-brand" href="../"><img class="img-fluid mb-5 d-block mx-auto" src="../images/logo-tr.png" alt="Kowainik"></a></div>
+
+            </div>
+            <div class="coolFont">
+                <a class="btn btn-outline-dark btn-tag" href="https://github.com/kowainik/policeman" data-icon="octicon-star" data-size="large" aria-label="Star Kowainik/policeman on GitHub">Star Project</a>
+                <a class="fa-stack fa-2x" href="https://github.com/kowainik/policeman/stargazers">
+                    <i class="fa fa-star fa-stack-2x"></i>
+                    <i id="stars" class="fa fa-stack-1x fa-inverse main-font">3</i>
+                </a>
+                <div class="author">Language: Haskell</div>
+
+                <div class="allposts">
+                    <h3><a href="../projects"> Projects =<< </a></h3>
+                </div>
+            </div>
+      </nav>
+      <div class="container info">
+          <h2 class="text-center text-uppercase text-secondary">policeman</h2>
+          <div class="content">
+          <div class="row post">
+              <div class="col-12 post-body">
+              <p class="lead">
+                  <figure>
+<img src="https://user-images.githubusercontent.com/4276606/73312656-262c1a80-4221-11ea-83c3-87b3973fa27f.png" alt /><figcaption>logo</figcaption>
+</figure>
+<p><a href="https://github.com/kowainik/policeman/actions"><img src="https://github.com/kowainik/policeman/workflows/CI/badge.svg" alt="GitHub CI" /></a> <a href="https://hackage.haskell.org/package/policeman"><img src="https://img.shields.io/hackage/v/policeman.svg?logo=haskell" alt="Hackage" /></a> <a href="LICENSE"><img src="https://img.shields.io/badge/license-MPL--2.0-blue.svg" alt="MPL-2.0 license" /></a></p>
+<p>👮 Policeman is the Kowainik’s <a href="https://mpickering.github.io/bristol2020.html">Bristol Haskell Hackathon</a> project.</p>
+<p>🏗 The current status is MVP, though it could already be used on ordinary cases.</p>
+<p><code>Policeman</code> assists to properly choose the next version number according to <a href>PVP</a> (Packaging Version Policy) for the Haskell packages based on the semantical changes to the interface.</p>
+<p>For a better understanding of the project basis and implementation details please refer to the following blog post:</p>
+<ul>
+<li><a href="https://kowainik.github.io/posts/policeman-bristol">Kowainik: Policeman in da city</a></li>
+</ul>
+<h2 id="prerequisites">Prerequisites<a href="#prerequisites" class="anchor">🔗</a></h2>
+<p>Policeman heavily uses some modern features of the Haskell compiler <a href="https://www.haskell.org/ghc/">GHC</a>. Therefore, in order to start using <code>Policeman</code> on the projects, you are required to have the following set:</p>
+<ul>
+<li>Global GHC version <code>8.8</code> and higher</li>
+<li>Support of GHC <code>8.8</code> and higher in your current project and the version you wish to compare to</li>
+<li><a href="https://www.haskell.org/cabal/">cabal</a> build tool version <code>3.0</code> or higher installed on your machine</li>
+</ul>
+<h2 id="installation">Installation<a href="#installation" class="anchor">🔗</a></h2>
+<p>The initial beta version of <code>Policeman</code> is already available on Hackage. To install it locally you need to execute the following commands:</p>
+<pre class="shell"><code>cabal update
+cabal install policeman</code></pre>
+<p>Alternatively, you can install the <code>Policeman</code> tool from the sources. For achieving that, you have a couple of options.</p>
+<p>First one is to fetch the repo using <code>cabal</code>:</p>
+<pre class="shell"><code>cabal get -s policeman</code></pre>
+<p>Or, you can clone the directory directly from GitHub:</p>
+<pre class="shell"><code>git clone https://github.com/kowainik/policeman.git</code></pre>
+<p>The next steps are identical in both option. You need to step into the directory:</p>
+<pre class="shell"><code>cd policeman</code></pre>
+<p>And finally, build and install the tool using <code>cabal</code>:</p>
+<pre class="shell"><code>cabal install policeman:exe:policeman</code></pre>
+<h2 id="how-to-use">How to use<a href="#how-to-use" class="anchor">🔗</a></h2>
+<p>By default, Policeman aims to compare your local version with the latest available Hackage version of the package. It grabs the information about your package automatically, so no need to provide that. That means that the simplest command looks like this:</p>
+<pre class="shell"><code>policeman</code></pre>
+<p>It will output the suggested new version (if applicable) based on your local changes compared to the Hackage version.</p>
+<p>Alternatively, you can provide the Hackage version you are willing to compare against. For that purpose, you can use <code>-p | --previous</code> option. For example:</p>
+<pre class="shell"><code>policeman --previous &quot;0.1.0.0&quot;</code></pre>
+<h2 id="acknowledgement">Acknowledgement<a href="#acknowledgement" class="anchor">🔗</a></h2>
+<p>Icons made by <a href="http://www.freepik.com">Freepik</a> from <a href="https://www.flaticon.com/">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/">CC 3.0 BY</a>.</p>
+              </p>
+              </div>
+          </div>
+          </div>
+
+
+      </div>
+
+      <script src="../js/stars.js"></script>
+      <script>
+       shootingStars("kowainik/policeman", function (stars) {
+           document.getElementById("stars").innerHTML = stars;
+       });
+      </script>
+
+
+      <!-- Bootstrap core JavaScript -->
+      <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"> </script>
+      <script src="../js/post.js"> </script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/haskell.min.js"></script>
+      <script>hljs.initHighlightingOnLoad()</script>
+      <script async defer src="https://buttons.github.io/buttons.js"></script>
+  </body>
+</html>
