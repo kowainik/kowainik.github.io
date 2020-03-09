@@ -1,5 +1,7 @@
 # kowainik.github.io
 
+[![GitHub CI](https://github.com/vrom911/vrom911.github.io/workflows/CI/badge.svg)](https://github.com/vrom911/vrom911.github.io/actions)
+
 Kowainik web page:
 
 * [kowainik.github.io](https://kowainik.github.io/)

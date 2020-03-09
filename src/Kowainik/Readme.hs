@@ -78,7 +78,7 @@ data GitHubProject = GitHubProject
     , ghpStars    :: Int
     , ghpIsFork   :: Bool
     , ghpDesc     :: Text
-    } deriving (Show)
+    } deriving stock (Show)
 
 instance FromJSON GitHubProject where
     parseJSON = withObject "GitHubProject" $ \o -> do
