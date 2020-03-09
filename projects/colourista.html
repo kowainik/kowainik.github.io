@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+      <!-- Global site tag (gtag.js) - Google Analytics -->
+      <script async src="https://www.googletagmanager.com/gtag/js?id=UA-125893749-1"></script>
+      <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+
+          gtag('config', 'UA-125893749-1');
+          </script>
+    <title>colourista :: Kowainik</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Kowainik page">
+    <meta name="keywords" content="Haskell, Functional progarmming, FP">
+    <meta name="author" content="Kowainik" />
+
+    <!-- Twitter cards -->
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="@kowainik" />
+    <meta property="twitter:title" content="Kowainik - colourista" />
+    <meta name="twitter:description" content="‎️‍🌈 Convenient interface for printing colourful messages" />
+    <meta name="twitter:image:src" content="https://kowainik.github.io/images/logo-yellow.png" />
+    <meta property="og:title" content="Kowainik - colourista" />
+    <meta property="og:description" content="‎️‍🌈 Convenient interface for printing colourful messages" />
+    <meta property="og:site_name" content="Kowainik" />
+    <meta property="og:image" content="https://kowainik.github.io/images/logo-yellow.png" />
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon">
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.11.0/styles/dracula.min.css" />
+    <!-- Fontawesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+    <!-- Custom fonts for this template -->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Lato" />
+    <!-- Custom styles for this template -->
+    <link href="../css/default.css" rel="stylesheet">
+    <link href="../css/post.css" rel="stylesheet">
+  </head>
+
+  <body class="body-posts">
+
+      <!-- Header -->
+      <nav class="navbar navbar-inverse navbar-fixed-left leftmenu bg-primary text-secondary">
+            <div class="navbar-header">
+                <div class="postslogo"> <a class="navbar-brand" href="../"><img class="img-fluid mb-5 d-block mx-auto" src="../images/logo-tr.png" alt="Kowainik"></a></div>
+
+            </div>
+            <div class="coolFont">
+                <a class="btn btn-outline-dark btn-tag" href="https://github.com/kowainik/colourista" data-icon="octicon-star" data-size="large" aria-label="Star Kowainik/colourista on GitHub">Star Project</a>
+                <a class="fa-stack fa-2x" href="https://github.com/kowainik/colourista/stargazers">
+                    <i class="fa fa-star fa-stack-2x"></i>
+                    <i id="stars" class="fa fa-stack-1x fa-inverse main-font">24</i>
+                </a>
+                <div class="author">Language: Haskell</div>
+
+                <div class="allposts">
+                    <h3><a href="../projects"> Projects =<< </a></h3>
+                </div>
+            </div>
+      </nav>
+      <div class="container info">
+          <h2 class="text-center text-uppercase text-secondary">colourista</h2>
+          <div class="content">
+          <div class="row post">
+              <div class="col-12 post-body">
+              <p class="lead">
+                  <figure>
+<img src="https://user-images.githubusercontent.com/4276606/74611761-e7d69c80-50f6-11ea-8065-c9da0371b9bf.png" alt /><figcaption>logo</figcaption>
+</figure>
+<p><a href="https://github.com/kowainik/colourista/actions"><img src="https://github.com/kowainik/colourista/workflows/CI/badge.svg" alt="GitHub CI" /></a> <a href="https://travis-ci.org/kowainik/colourista"><img src="https://img.shields.io/travis/kowainik/colourista.svg?logo=travis" alt="Build status" /></a> <a href="https://ci.appveyor.com/project/kowainik/colourista"><img src="https://ci.appveyor.com/api/projects/status/github/kowainik/colourista?branch=master&amp;svg=true" alt="Windows build status" /></a> <a href="https://hackage.haskell.org/package/colourista"><img src="https://img.shields.io/hackage/v/colourista.svg?logo=haskell" alt="Hackage" /></a> <a href="http://stackage.org/lts/package/colourista"><img src="http://stackage.org/package/colourista/badge/lts" alt="Stackage Lts" /></a> <a href="http://stackage.org/nightly/package/colourista"><img src="http://stackage.org/package/colourista/badge/nightly" alt="Stackage Nightly" /></a> <a href="LICENSE"><img src="https://img.shields.io/badge/license-MPL--2.0-blue.svg" alt="MPL-2.0 license" /></a></p>
+<blockquote>
+<p>«The best colour in the whole world is the one that looks good on you.»</p>
+<p>— Coco Chanel</p>
+</blockquote>
+<p><code>colourista</code> is the library that provides a convenient interface for printing colourful messages to the terminal. It is based on <a href="https://hackage.haskell.org/package/ansi-terminal"><code>ansi-terminal</code></a>, however, in contradistinction to this Haskell library, <code>colourista</code> is a high-level wrapper focused on easily achieved output modification without low-level setup.</p>
+<h2 id="interface">Interface<a href="#interface" class="anchor">🔗</a></h2>
+<p>The two main functions that <code>colourista</code> provides are:</p>
+<ul>
+<li><code>formatWith</code> — the function that formats pure output by applying provided formatting codes. It works with polymorphic strings.</li>
+<li><code>formattedMessage</code> — the function that outputs the formatted output directly into the terminal (working in <code>IO</code> with <code>Text</code>).</li>
+</ul>
+<p>The library also provides a set of different pure and impure helpers for the colouring and emphasis.</p>
+<h2 id="example">Example<a href="#example" class="anchor">🔗</a></h2>
+<figure>
+<img src="https://user-images.githubusercontent.com/8126674/74609327-0a5dbb00-50e1-11ea-8c4b-2db4ab5b42a2.png" alt /><figcaption>output</figcaption>
+</figure>
+<h2 id="how-to-use">How to use<a href="#how-to-use" class="anchor">🔗</a></h2>
+<p><code>colourista</code> is compatible with the latest GHC compiler versions starting from <code>8.2.2</code>.</p>
+<p>In order to start using <code>colourista</code> in your project, you will need to set it up with the three easy steps:</p>
+<ol type="1">
+<li><p>Add the dependency on <code>colorista</code> in your project’s <code>.cabal</code> file. For this, you should modify the <code>build-depends</code> section by adding the name of this library. After the adjustment, this section could look like this:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb1-1"><a href="#cb1-1"></a>build<span class="op">-</span>depends<span class="op">:</span> base <span class="op">^&gt;=</span> <span class="fl">4.14</span></span>
+<span id="cb1-2"><a href="#cb1-2"></a>             , colourista <span class="op">^&gt;=</span> <span class="fl">0.0</span></span></code></pre></div></li>
+<li><p>In the module where you wish to use the colourful output with <code>colourista</code>, you should add the import:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb2-1"><a href="#cb2-1"></a><span class="kw">import</span> <span class="dt">Colourista</span> (successMessage)</span></code></pre></div></li>
+<li><p>Now you can use the functions from the library:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb3-1"><a href="#cb3-1"></a><span class="ot">main ::</span> <span class="dt">IO</span> ()</span>
+<span id="cb3-2"><a href="#cb3-2"></a>main <span class="ot">=</span> successMessage <span class="st">&quot;All set up!&quot;</span></span></code></pre></div></li>
+</ol>
+<h2 id="acknowledgement">Acknowledgement<a href="#acknowledgement" class="anchor">🔗</a></h2>
+<p>Icons made by <a href="http://www.freepik.com">Freepik</a> from <a href="https://www.flaticon.com/">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/">CC 3.0 BY</a>.</p>
+              </p>
+              </div>
+          </div>
+          </div>
+
+
+      </div>
+
+      <script src="../js/stars.js"></script>
+      <script>
+       shootingStars("kowainik/colourista", function (stars) {
+           document.getElementById("stars").innerHTML = stars;
+       });
+      </script>
+
+
+      <!-- Bootstrap core JavaScript -->
+      <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"> </script>
+      <script src="../js/post.js"> </script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/haskell.min.js"></script>
+      <script>hljs.initHighlightingOnLoad()</script>
+      <script async defer src="https://buttons.github.io/buttons.js"></script>
+  </body>
+</html>

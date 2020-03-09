@@ -58,7 +58,7 @@
                 <a class="btn btn-outline-dark btn-tag" href="https://github.com/kowainik/hit-on" data-icon="octicon-star" data-size="large" aria-label="Star Kowainik/hit-on on GitHub">Star Project</a>
                 <a class="fa-stack fa-2x" href="https://github.com/kowainik/hit-on/stargazers">
                     <i class="fa fa-star fa-stack-2x"></i>
-                    <i id="stars" class="fa fa-stack-1x fa-inverse main-font">48</i>
+                    <i id="stars" class="fa fa-stack-1x fa-inverse main-font">53</i>
                 </a>
                 <div class="author">Language: Haskell</div>
 
@@ -73,7 +73,12 @@
           <div class="row post">
               <div class="col-12 post-body">
               <p class="lead">
-                  <p><img src="https://user-images.githubusercontent.com/4276606/53816638-d86e4a00-3f9e-11e9-83ab-74032363292f.png" alt="hit-on logo" /> <a href="https://travis-ci.org/kowainik/hit-on"><img src="https://img.shields.io/travis/kowainik/hit-on.svg?logo=travis" alt="Build status" /></a> <a href="https://hackage.haskell.org/package/hit-on"><img src="https://img.shields.io/hackage/v/hit-on.svg?logo=haskell" alt="Hackage" /></a> <a href="http://stackage.org/lts/package/hit-on"><img src="http://stackage.org/package/hit-on/badge/lts" alt="Stackage Lts" /></a> <a href="http://stackage.org/nightly/package/hit-on"><img src="http://stackage.org/package/hit-on/badge/nightly" alt="Stackage Nightly" /></a> <a href="LICENSE"><img src="https://img.shields.io/badge/license-MPL--2.0-blue.svg" alt="MPL-2.0 license" /></a></p>
+                  <figure>
+<img src="https://user-images.githubusercontent.com/4276606/53816638-d86e4a00-3f9e-11e9-83ab-74032363292f.png" alt /><figcaption>hit-on logo</figcaption>
+</figure>
+<p><a href="https://github.com/kowainik/hit-on/actions"><img src="https://github.com/kowainik/hit-on/workflows/CI/badge.svg" alt="GitHub CI" /></a> <a href="https://travis-ci.org/kowainik/hit-on"><img src="https://img.shields.io/travis/kowainik/hit-on.svg?logo=travis" alt="Build status" /></a></p>
+<p><a href="https://hackage.haskell.org/package/hit-on"><img src="https://img.shields.io/hackage/v/hit-on.svg?logo=haskell" alt="Hackage" /></a> <a href="http://stackage.org/lts/package/hit-on"><img src="http://stackage.org/package/hit-on/badge/lts" alt="Stackage Lts" /></a> <a href="http://stackage.org/nightly/package/hit-on"><img src="http://stackage.org/package/hit-on/badge/nightly" alt="Stackage Nightly" /></a></p>
+<p><a href="LICENSE"><img src="https://img.shields.io/badge/license-MPL--2.0-blue.svg" alt="MPL-2.0 license" /></a></p>
 <p><strong>Kowainik Git Workflow Helper Tool.</strong></p>
 <p>You can find the description of the workflow here:</p>
 <ul>
@@ -126,10 +131,8 @@ mv hit-linux ~/.local/bin/hit</code></pre>
 <li><p>Install the project with one of the build tools</p></li>
 </ol>
 <ul>
-<li><p><a href="https://www.haskell.org/cabal/users-guide/">Cabal</a> <code>shell     cabal new-install hit-on</code> <strong>Note:</strong> make sure you have <code>~/.cabal/bin</code> in your $PATH</p></li>
-<li><p><a href="https://docs.haskellstack.org/en/stable/README/">Stack</a> <code>shell     stack install hit-on</code></p></li>
-<li><p><a href="https://nixos.org/nix/">Nix</a></p>
-<pre class="shell"><code>   nix-env -f . -i</code></pre></li>
+<li><a href="https://www.haskell.org/cabal/users-guide/">Cabal</a> <code>shell         cabal new-install hit-on</code> <strong>Note:</strong> make sure you have <code>~/.cabal/bin</code> in your $PATH</li>
+<li><a href="https://docs.haskellstack.org/en/stable/README/">Stack</a> <code>shell         stack install hit-on</code></li>
 </ul>
 <ol start="4" type="1">
 <li><p>Make sure that <code>hit</code> is installed:</p>
@@ -142,7 +145,7 @@ mv hit-linux ~/.local/bin/hit</code></pre>
 <h3 id="setting-up">Setting up<a href="#setting-up" class="anchor">🔗</a></h3>
 <p>Follow the steps below to configure <code>hit</code> :</p>
 <ol type="1">
-<li>Enable autocompletion by calling the following command: <code>shell  source &lt;(hit --bash-completion-script `which hit`)</code> Add it your personal config file (like <code>~/.bashrc</code>) to enable automatically.</li>
+<li>Enable autocompletion by calling the following command: <code>shell     source &lt;(hit --bash-completion-script `which hit`)</code> Add it your personal config file (like <code>~/.bashrc</code>) to enable automatically.</li>
 <li>Specify your GitHub login in the global <code>.gitconfig</code></li>
 </ol>
 <pre class="shell"><code>git config --global user.login &lt;your_login&gt;</code></pre>
@@ -151,7 +154,7 @@ mv hit-linux ~/.local/bin/hit</code></pre>
 <ol type="1">
 <li><p><a href="https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line/">Create OAuth token on GitHub.</a> The following scopes for the token should be specified: <img src="https://user-images.githubusercontent.com/4276606/54476778-30793c00-483c-11e9-9625-a4f6ced40820.png" alt="Screenshot from 2019-03-16 22-34-57" /></p></li>
 <li><p>Copy the generated token.</p></li>
-<li><p>Export token as an environment variable <code>shell  export GITHUB_TOKEN=&lt;paste_generated_token_here&gt;</code></p></li>
+<li><p>Export token as an environment variable <code>shell      export GITHUB_TOKEN=&lt;paste_generated_token_here&gt;</code></p></li>
 </ol></li>
 </ol>
 <h2 id="commands">Commands<a href="#commands" class="anchor">🔗</a></h2>
