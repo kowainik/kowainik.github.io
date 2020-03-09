@@ -27,7 +27,8 @@ import Kowainik.Project (makeProjectContext)
 import Kowainik.Readme (createProjectMds)
 import Kowainik.Social (makeSocialContext)
 import Kowainik.StyleGuide (syncStyleGuide)
-import Kowainik.Team (TeamMember, makeTeamContext, parseTeam)
+import Kowainik.Team (TeamMember, makeCoreTeamContext, makeTeamContext, makeVolunteersContext,
+                      parseTeam)
 
 import qualified Data.Text as T
 import qualified Text.Pandoc as Pandoc
@@ -37,11 +38,12 @@ import qualified Text.Pandoc.Walk as Pandoc.Walk
 runKowainik :: IO ()
 runKowainik = createProjectMds
     >> syncStyleGuide
-    >> parseTeam "team.json"
-    >>= mainHakyll
+    >> parseTeam "core.json" >>= \coreTeam
+    -> parseTeam "team.json" >>= \team
+    -> mainHakyll coreTeam team
 
-mainHakyll :: [TeamMember] -> IO ()
-mainHakyll team = hakyll $ do
+mainHakyll :: [TeamMember] -> [TeamMember] -> IO ()
+mainHakyll coreTeam team = hakyll $ do
     match ("images/**" .||. "fonts/**" .||. "js/*"  .||. "favicon.ico") $ do
         route   idRoute
         compile copyFileCompiler
@@ -54,7 +56,12 @@ mainHakyll team = hakyll $ do
     create ["index.html"] $ do
         route idRoute
         compile $ do
-            let ctx = makeProjectContext <> makeSocialContext <> makeTeamContext team <> defaultContext
+            let ctx = makeProjectContext
+                   <> makeSocialContext
+                   <> makeCoreTeamContext coreTeam
+                   <> makeVolunteersContext team
+                   <> makeTeamContext "team" (coreTeam <> team)
+                   <> defaultContext
             makeItem ""
                 >>= applyAsTemplate ctx
                 >>= loadAndApplyTemplate "templates/team.html" ctx

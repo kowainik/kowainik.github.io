@@ -3,6 +3,8 @@
 module Kowainik.Team
        ( TeamMember (..)
        , makeTeamContext
+       , makeCoreTeamContext
+       , makeVolunteersContext
        , parseTeam
        ) where
 
@@ -41,8 +43,14 @@ memberImage = field "memberImage" $ pure . tmImage . itemBody
 memberAbout = field "memberAbout" $ pure . tmAbout . itemBody
 memberId    = field "memberId"    $ pure . tmId    . itemBody
 
-makeTeamContext :: [TeamMember] -> Context a
-makeTeamContext = listField "team"
+makeVolunteersContext :: [TeamMember] -> Context a
+makeVolunteersContext = makeTeamContext "volunteers"
+
+makeCoreTeamContext :: [TeamMember] -> Context a
+makeCoreTeamContext = makeTeamContext "coreTeam"
+
+makeTeamContext :: String -> [TeamMember] -> Context a
+makeTeamContext txt = listField txt
     ( memberName  <> memberNick
    <> memberImage <> memberAbout
    <> memberId    <> memberWho )

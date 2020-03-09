@@ -1,15 +1,5 @@
 [
-    { "name": "Dmitrii Kovanikov"
-    , "nick": "chshersh"
-    , "who": "Haskell Adept"
-    , "about": "Haskell Adept, Functional Programming enthusiast. I like to discover elegant solutions for sophisticated software problems by squeezing maximum from the Haskell programming language. I enjoy discussions about programming languages design. Before founding Kowainik organization, I had experience in full-stack web-applications development with Haskell, Elm and PostgreSQL. Also, I was <a href='https://github.com/jagajaga/FP-Course-ITMO' target=_blank >teaching Haskell</a> to the students at the ITMO University."
-    }
-,   { "name": "Veronika Romashkina"
-    , "nick": "vrom911"
-    , "who": "Haskell Devotee"
-    , "about": "I'm a functional programming enthusiast who puts effort into the growth of the Haskell open source community. I'm genuinely passionate about Haskell and have experience working as a full-stack developer using Haskell, Elm, Python, HTML/CSS, PostgreSQL, MySQL and others. I enjoy exploring new topics and never stop learning and improving my skills."
-    }
-,   { "name": "Kahlil Abreu"
+    { "name": "Kahlil Abreu"
     , "nick": "kahlil29"
     , "who": "Haskell Developer"
     , "about": "Haskell Developer / Software Engineer who loves to experiment, question, understand and learn."
@@ -19,5 +9,4 @@
     , "who": "Haskell Developer"
     , "about": "I am happy to program in Haskell, devoting much time to it. I do not leave issues until they are solved. I continuously learn and dig into the heart of things. Some of my hobbies are live coding and generative art."
     }
-
 ]
