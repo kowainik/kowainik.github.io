@@ -1,6 +1,12 @@
 {-# LANGUAGE TupleSections    #-}
 {-# LANGUAGE TypeApplications #-}
 
+{- HLINT ignore "Use traverseToSnd" -}
+
+module Kowainik
+    ( runKowainik
+    ) where
+
 import Hakyll (Compiler, Context, Identifier, Item (..), MonadMetadata, Pattern, Rules,
                applyAsTemplate, buildTags, compile, compressCssCompiler, constField,
                copyFileCompiler, create, customRoute, dateField, defaultContext,
@@ -9,11 +15,12 @@ import Hakyll (Compiler, Context, Identifier, Item (..), MonadMetadata, Pattern,
                loadAll, loadAndApplyTemplate, lookupString, makeItem, match, metadataRoute,
                pandocCompilerWithTransformM, recentFirst, relativizeUrls, renderPandocWith, route,
                saveSnapshot, setExtension, tagsRules, templateBodyCompiler, titleField, toFilePath,
-               (.||.))
+               unsafeCompiler, (.||.))
 import Hakyll.ShortcutLinks (applyAllShortcuts)
 import Hakyll.Web.Feed (renderAtom, renderRss)
 import System.FilePath (replaceExtension)
 import Text.Pandoc.Options (WriterOptions (..))
+import Text.Pandoc.Templates (compileTemplate)
 
 import Kowainik.Feed (feedCompiler)
 import Kowainik.Project (makeProjectContext)
@@ -26,10 +33,9 @@ import qualified Data.Text as T
 import qualified Text.Pandoc as Pandoc
 import qualified Text.Pandoc.Walk as Pandoc.Walk
 
-{- HLINT ignore "Use traverseToSnd" -}
 
-main :: IO ()
-main = createProjectMds
+runKowainik :: IO ()
+runKowainik = createProjectMds
     >> syncStyleGuide
     >> parseTeam "team.json"
     >>= mainHakyll
@@ -67,7 +73,8 @@ mainHakyll team = hakyll $ do
 
         compile $ do
             i   <- getResourceString
-            pandoc <- renderPandocWith defaultHakyllReaderOptions withToc i
+            tocWriter <- unsafeCompiler withToc
+            pandoc <- renderPandocWith defaultHakyllReaderOptions tocWriter i
             let toc = itemBody pandoc
             tgs <- getTags (itemIdentifier i)
             let postTagsCtx = postCtxWithTags tgs <> constField "toc" toc
@@ -131,12 +138,14 @@ mainHakyll team = hakyll $ do
     match "templates/*" $ compile templateBodyCompiler
 
 -- | Compose TOC from the markdown.
-withToc :: WriterOptions
-withToc = defaultHakyllWriterOptions
-    { writerTableOfContents = True
-    , writerTOCDepth = 4
-    , writerTemplate = Just "$toc$"
-    }
+withToc :: IO WriterOptions
+withToc = compileTemplate "myToc.txt" "$toc$" >>= \case
+    Left err -> error $ toText err
+    Right template -> pure $ defaultHakyllWriterOptions
+        { writerTableOfContents = True
+        , writerTOCDepth = 4
+        , writerTemplate = Just template
+        }
 
 compilePosts :: String -> Identifier -> Pattern -> Rules ()
 compilePosts title page pat = do
@@ -216,7 +225,7 @@ addAnchors =
     addAnchor :: Pandoc.Block -> Pandoc.Block
     addAnchor (Pandoc.Header level attr@(id_, _, _) content) =
         Pandoc.Header level attr $ content ++
-            [Pandoc.Link ("", ["anchor"], []) [Pandoc.Str "🔗"] ('#' : id_, "")]
+            [Pandoc.Link ("", ["anchor"], []) [Pandoc.Str "🔗"] ("#" <> id_, "")]
     addAnchor block = block
 
 -- Context to used for posts

@@ -1,5 +1,3 @@
 packages: .
 
 constraints: hakyll -checkExternal
-
-with-compiler: ghc-8.6.5
