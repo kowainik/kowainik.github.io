@@ -20,8 +20,11 @@ source-repository head
   location:            https://github.com/kowainik/kowainik.github.io.git
 
 common common-options
-  build-depends:       base-noprelude ^>= 4.13.0.0
+  build-depends:       base ^>= 4.13.0.0
                      , relude ^>= 0.6.0.0
+
+  mixins:              base hiding (Prelude)
+                     , relude (Relude as Prelude)
 
   ghc-options:         -Wall
                        -Wincomplete-uni-patterns
@@ -55,7 +58,6 @@ library
                          Kowainik.Social
                          Kowainik.StyleGuide
                          Kowainik.Team
-                       Prelude
 
   build-depends:       aeson
                      , bytestring

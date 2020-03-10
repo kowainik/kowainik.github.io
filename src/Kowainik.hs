@@ -27,7 +27,7 @@ import Kowainik.Project (makeProjectContext)
 import Kowainik.Readme (createProjectMds)
 import Kowainik.Social (makeSocialContext)
 import Kowainik.StyleGuide (syncStyleGuide)
-import Kowainik.Team (TeamMember, makeCoreTeamContext, makeTeamContext, makeVolunteersContext,
+import Kowainik.Team (TeamMember, makeCreatorsContext, makeTeamContext, makeVolunteersContext,
                       parseTeam)
 
 import qualified Data.Text as T
@@ -38,12 +38,12 @@ import qualified Text.Pandoc.Walk as Pandoc.Walk
 runKowainik :: IO ()
 runKowainik = createProjectMds
     >> syncStyleGuide
-    >> parseTeam "core.json" >>= \coreTeam
-    -> parseTeam "team.json" >>= \team
-    -> mainHakyll coreTeam team
+    >> parseTeam "team/creators.json" >>= \creators
+    -> parseTeam "team/volunteers.json" >>= \volunteers
+    -> mainHakyll creators volunteers
 
 mainHakyll :: [TeamMember] -> [TeamMember] -> IO ()
-mainHakyll coreTeam team = hakyll $ do
+mainHakyll creators volunteers = hakyll $ do
     match ("images/**" .||. "fonts/**" .||. "js/*"  .||. "favicon.ico") $ do
         route   idRoute
         compile copyFileCompiler
@@ -58,9 +58,9 @@ mainHakyll coreTeam team = hakyll $ do
         compile $ do
             let ctx = makeProjectContext
                    <> makeSocialContext
-                   <> makeCoreTeamContext coreTeam
-                   <> makeVolunteersContext team
-                   <> makeTeamContext "team" (coreTeam <> team)
+                   <> makeCreatorsContext creators
+                   <> makeVolunteersContext volunteers
+                   <> makeTeamContext "team" (creators <> volunteers)
                    <> defaultContext
             makeItem ""
                 >>= applyAsTemplate ctx
