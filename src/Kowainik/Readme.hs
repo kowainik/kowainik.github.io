@@ -17,22 +17,23 @@ import qualified Data.Text.Lazy.Encoding as T
 createProjectMds :: IO ()
 createProjectMds = do
     manager <- newTlsManager
-    request <- parseRequest "http://api.github.com/users/kowainik/repos"
-    let requestAccept = request
-           { requestHeaders =
-             [ ("Accept", "application/vnd.github.v3+json")
-             , ("User-Agent", "kowainik")
-             ]
-           }
-    response <- httpLbs requestAccept manager
+    for_ [1..5 :: Int] $ \i -> do
+        request <- parseRequest $ "http://api.github.com/users/kowainik/repos?page=" <> show i
+        let requestAccept = request
+               { requestHeaders =
+                 [ ("Accept", "application/vnd.github.v3+json")
+                 , ("User-Agent", "kowainik")
+                 ]
+               }
+        response <- httpLbs requestAccept manager
 
-    if responseStatus response == ok200 then do
-        let ghProjects = ghProjectsWithoutThis response
+        if responseStatus response == ok200 then do
+            let ghProjects = ghProjectsWithoutThis response
 
-        createDirectoryIfMissing True "projects"
-        for_ ghProjects $ makeReadmeMD manager
+            createDirectoryIfMissing True "projects"
+            for_ ghProjects $ makeReadmeMD manager
 
-    else error "Status code is not ok"
+        else error "Status code is not ok"
   where
     -- | Projects without this one.
     ghProjectsWithoutThis :: Response LByteString -> [GitHubProject]
