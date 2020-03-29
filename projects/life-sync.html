@@ -96,10 +96,24 @@
 <li>SSH access to Github configured</li>
 </ul>
 <h2 id="installation">Installation<a href="#installation" class="anchor">🔗</a></h2>
+<p>There are several ways to install <code>life</code> on your machine. Here are detailed instructions on different approaches.</p>
+<h3 id="from-hackagestackage">From Hackage/Stackage<a href="#from-hackagestackage" class="anchor">🔗</a></h3>
 <p>Install with one simple command:</p>
 <pre class="shell"><code>$ cabal install life-sync</code></pre>
 <p>or</p>
-<pre class="shell"><code>$ stack install life-sync-1.0</code></pre>
+<pre class="shell"><code>$ stack install life-sync</code></pre>
+<h3 id="homebrew">Homebrew<a href="#homebrew" class="anchor">🔗</a></h3>
+<p>If you are on MacOS, you can get <code>life-sync</code> using <a href="https://brew.sh/">Homebrew</a> Kowainik’s Tap.</p>
+<p>You need to run the following commands for that:</p>
+<pre class="shell"><code>$ brew tap kowainik/tap
+$ brew install life-sync</code></pre>
+<h3 id="ubuntu">Ubuntu<a href="#ubuntu" class="anchor">🔗</a></h3>
+<p>If you are on Ubuntu, you can get <code>life-sync</code> from Kowainik’s PPA.</p>
+<p>You need to run the following commands for that:</p>
+<pre class="shell"><code>$ sudo add-apt-repository ppa:kowainik/life-sync
+$ sudo apt update
+$ sudo apt install life-sync</code></pre>
+<h3 id="setup">Setup<a href="#setup" class="anchor">🔗</a></h3>
 <p>You can turn on bash auto-completion by running the following command:</p>
 <pre><code>$ source &lt;(life --bash-completion-script `which life`)</code></pre>
 <h2 id="usage">Usage<a href="#usage" class="anchor">🔗</a></h2>

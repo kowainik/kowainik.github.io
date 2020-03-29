@@ -58,7 +58,7 @@
                 <a class="btn btn-outline-dark btn-tag" href="https://github.com/kowainik/colourista" data-icon="octicon-star" data-size="large" aria-label="Star Kowainik/colourista on GitHub">Star Project</a>
                 <a class="fa-stack fa-2x" href="https://github.com/kowainik/colourista/stargazers">
                     <i class="fa fa-star fa-stack-2x"></i>
-                    <i id="stars" class="fa fa-stack-1x fa-inverse main-font">24</i>
+                    <i id="stars" class="fa fa-stack-1x fa-inverse main-font">26</i>
                 </a>
                 <div class="author">Language: Haskell</div>
 
@@ -104,8 +104,18 @@
 <div class="sourceCode" id="cb2"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb2-1"><a href="#cb2-1"></a><span class="kw">import</span> <span class="dt">Colourista</span> (successMessage)</span></code></pre></div></li>
 <li><p>Now you can use the functions from the library:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb3-1"><a href="#cb3-1"></a><span class="ot">main ::</span> <span class="dt">IO</span> ()</span>
-<span id="cb3-2"><a href="#cb3-2"></a>main <span class="ot">=</span> successMessage <span class="st">&quot;All set up!&quot;</span></span></code></pre></div></li>
+<span id="cb3-2"><a href="#cb3-2"></a>main <span class="ot">=</span> successMessage <span class="st">&quot;All set up!&quot;</span></span></code></pre></div>
+<h3 id="usage-with-stack">Usage with Stack<a href="#usage-with-stack" class="anchor">🔗</a></h3></li>
 </ol>
+<p>If <code>colourista</code> is not available on your current Stackage resolver yet, fear not! You can still use it from Hackage by adding the following to the <code>extra-deps</code> section of your <code>stack.yaml</code> file:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb4-1"><a href="#cb4-1"></a><span class="fu">extra-deps</span><span class="kw">:</span></span>
+<span id="cb4-2"><a href="#cb4-2"></a><span class="at">  </span><span class="kw">-</span><span class="at"> colourista-0.0.0.0</span></span>
+<span id="cb4-3"><a href="#cb4-3"></a><span class="at">  </span><span class="kw">-</span><span class="at"> ansi-terminal-0.10</span></span></code></pre></div>
+<p>Then you can add it as a dependency in your <code>package.yaml</code> file as usual:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb5-1"><a href="#cb5-1"></a><span class="fu">library</span><span class="kw">:</span></span>
+<span id="cb5-2"><a href="#cb5-2"></a><span class="at">  </span><span class="fu">dependencies</span><span class="kw">:</span></span>
+<span id="cb5-3"><a href="#cb5-3"></a><span class="at">    </span><span class="kw">-</span><span class="at"> colourista</span></span></code></pre></div>
+<p>Great!</p>
 <h2 id="acknowledgement">Acknowledgement<a href="#acknowledgement" class="anchor">🔗</a></h2>
 <p>Icons made by <a href="http://www.freepik.com">Freepik</a> from <a href="https://www.flaticon.com/">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/">CC 3.0 BY</a>.</p>
               </p>

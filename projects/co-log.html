@@ -58,7 +58,7 @@
                 <a class="btn btn-outline-dark btn-tag" href="https://github.com/kowainik/co-log" data-icon="octicon-star" data-size="large" aria-label="Star Kowainik/co-log on GitHub">Star Project</a>
                 <a class="fa-stack fa-2x" href="https://github.com/kowainik/co-log/stargazers">
                     <i class="fa fa-star fa-stack-2x"></i>
-                    <i id="stars" class="fa fa-stack-1x fa-inverse main-font">144</i>
+                    <i id="stars" class="fa fa-stack-1x fa-inverse main-font">150</i>
                 </a>
                 <div class="author">Language: Haskell</div>
 
@@ -102,8 +102,8 @@
 </tr>
 </tbody>
 </table>
-<p><code>co-log</code> is a composable and configurable logging framework. It combines all the benefits of Haskell idioms to provide a reasonable and convenient interface. Though it uses some advanced concepts in its core, we are striving to provide beginner-friendly API. The library also contains complete documentation with a lot of beginner-friendly examples, explanations and tutorials to guide users. The combination of pragmatic approach to logging and fundamental Haskell abstractions allows us to create highly composable and configurable logging framework.</p>
-<p>If you’re interested in how different Haskel typeclasses are used to implement core functions of <code>co-log</code>, you can read the following blog post which goes in detail about internal implementation specifics:</p>
+<p><code>co-log</code> is a composable and configurable logging framework. It combines all the benefits of Haskell idioms to provide a reasonable and convenient interface. Though it uses some advanced concepts in its core, we are striving to provide beginner-friendly API. The library also contains complete documentation with a lot of beginner-friendly examples, explanations and tutorials to guide users. The combination of a pragmatic approach to logging and fundamental Haskell abstractions allows us to create a highly composable and configurable logging framework.</p>
+<p>If you’re interested in how different Haskell typeclasses are used to implement core functions of <code>co-log</code>, you can read the following blog post which goes into detail about internal implementation specifics:</p>
 <ul>
 <li><a href="https://kowainik.github.io/posts/2018-09-25-co-log">co-log: Composable Contravariant Combinatorial Comonadic Configurable Convenient Logging</a></li>
 </ul>
@@ -112,19 +112,19 @@
 <li><a href="co-log-core"><code>co-log-core</code></a>: lightweight package with basic data types and general idea which depends only on <code>base</code>.</li>
 <li><a href="co-log"><code>co-log</code></a>: taggless final implementation of logging library based on <code>co-log-core</code>.</li>
 <li><a href="co-log-polysemy"><code>co-log-polysemy</code></a>: implementation of logging library based on <code>co-log-core</code> and the <a href="http://hackage.haskell.org/package/polysemy"><code>polysemy</code></a> extensible effects library.</li>
-<li><a href="co-log-benchmark"><code>co-log-benchmark</code></a>: Benchmarks of the <code>co-log</code> library.</li>
+<li><a href="co-log-benchmark"><code>co-log-benchmark</code></a>: benchmarks of the <code>co-log</code> library.</li>
 </ul>
-<p>To provide more user-friendly introduction to the library, we’ve created the tutorial series which introduces the main concepts behind <code>co-log</code> smoothly:</p>
+<p>To provide a more user-friendly introduction to the library, we’ve created the tutorial series which introduces the main concepts behind <code>co-log</code> smoothly:</p>
 <ul>
 <li><a href="https://github.com/kowainik/co-log/blob/master/co-log/tutorials/1-intro/Intro.md">Intro: Using <code>LogAction</code></a></li>
 <li><a href="https://github.com/kowainik/co-log/blob/master/co-log/tutorials/2-custom/Custom.md">Using custom monad that stores <code>LogAction</code> inside its environment</a></li>
 </ul>
-<p><code>co-log</code> also cares about concurrent logging. For this purposes we have the <code>concurrent-playground</code> executable where we experiment with different multithreading scenarios to test the library behavior. You can find it here:</p>
+<p><code>co-log</code> also cares about concurrent logging. For this purpose we have the <code>concurrent-playground</code> executable where we experiment with different multithreading scenarios to test the library’s behavior. You can find it here:</p>
 <ul>
 <li><a href="co-log/tutorials/Concurrent.hs">tutorials/Concurrent.hs</a></li>
 </ul>
 <h2 id="benchmarks">Benchmarks<a href="#benchmarks" class="anchor">🔗</a></h2>
-<p><code>co-log</code> is compared with basic functions like <code>putStrLn</code>. Since IO overhead is big enough, every benchmark dumps 10K messages to output. If benchmark name doesn’t contain <code>Message</code> then this benchmark simply dumps string <code>"message"</code> to output, otherwise it works with <code>Message</code> data type from the <code>co-log</code> library.</p>
+<p><code>co-log</code> is compared with basic functions like <code>putStrLn</code>. Since IO overhead is big enough, every benchmark dumps 10K messages to output. If a benchmark’s name doesn’t contain <code>Message</code> then this benchmark simply dumps the string <code>"message"</code> to output, otherwise it works with the <code>Message</code> data type from the <code>co-log</code> library.</p>
 <p>To run benchmarks, use the following command:</p>
 <pre><code>cabal v2-run co-log-bench</code></pre>
 <table>
