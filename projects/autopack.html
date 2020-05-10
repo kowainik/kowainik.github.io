@@ -58,7 +58,7 @@
                 <a class="btn btn-outline-dark btn-tag" href="https://github.com/kowainik/autopack" data-icon="octicon-star" data-size="large" aria-label="Star Kowainik/autopack on GitHub">Star Project</a>
                 <a class="fa-stack fa-2x" href="https://github.com/kowainik/autopack/stargazers">
                     <i class="fa fa-star fa-stack-2x"></i>
-                    <i id="stars" class="fa fa-stack-1x fa-inverse main-font">22</i>
+                    <i id="stars" class="fa fa-stack-1x fa-inverse main-font">23</i>
                 </a>
                 <div class="author">Language: Haskell</div>
 
@@ -85,29 +85,29 @@
 <p>For now, all you need to keep in mind to use <code>autopack</code>:</p>
 <ul>
 <li>It uses <a href="https://www.haskell.org/cabal/users-guide/developing-packages.html#pkg-field-hs-source-dirs"><code>hs-source-dirs</code></a> field to establish where to look up for modules.</li>
-<li>It can work only with <code>.hs</code> extension at the moment.</li>
+<li>It can work only with <code>.hs</code> and <code>.hsc</code> extensions at the moment.</li>
 <li>It adds all discovered modules into <a href="https://www.haskell.org/cabal/users-guide/developing-packages.html#pkg-field-library-exposed-modules"><code>exposed-modules</code></a> of the library stanza.</li>
 <li>If there are already some modules in the <code>exposed-modules</code>, <code>autopack</code> will concatenate lists.</li>
 </ul>
 <h2 id="how-to-use-autopack">How to use <code>autopack</code><a href="#how-to-use-autopack" class="anchor">🔗</a></h2>
 <p>First, make sure that you are using the Cabal version at least <code>2.0</code> in your <code>.cabal</code> file. For example:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb1-1"><a href="#cb1-1"></a>cabal<span class="op">-</span>version<span class="op">:</span>       <span class="fl">2.4</span></span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true"></a>cabal<span class="op">-</span>version<span class="op">:</span>       <span class="fl">2.4</span></span></code></pre></div>
 <p>Now you need to change the <a href="https://www.haskell.org/cabal/users-guide/developing-packages.html#pkg-field-build-type"><code>build-type</code></a> field in your <code>package_name.cabal</code> file to <code>Custom</code> instead of the default <code>Simple</code>:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb2-1"><a href="#cb2-1"></a>build<span class="op">-</span><span class="kw">type</span><span class="op">:</span>    <span class="dt">Custom</span></span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true"></a>build<span class="op">-</span><span class="kw">type</span><span class="op">:</span>    <span class="dt">Custom</span></span></code></pre></div>
 <p>Then you have to add <code>custom-setup</code> section before you defining your library stanza. It should have the <code>autopack</code> dependency so you can use it in your <code>Setup</code>:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb3-1"><a href="#cb3-1"></a>custom<span class="op">-</span>setup</span>
-<span id="cb3-2"><a href="#cb3-2"></a>    setup<span class="op">-</span>depends<span class="op">:</span> base</span>
-<span id="cb3-3"><a href="#cb3-3"></a>                 , autopack</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true"></a>custom<span class="op">-</span>setup</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true"></a>    setup<span class="op">-</span>depends<span class="op">:</span> base</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true"></a>                 , autopack</span></code></pre></div>
 <p>And the final preparation. You should add the <code>Setup.hs</code> module (or replace the default one) in the root directory of the package with the following content:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb4-1"><a href="#cb4-1"></a><span class="kw">import</span> <span class="dt">Autopack</span> (defaultMainAutoModules)</span>
-<span id="cb4-2"><a href="#cb4-2"></a></span>
-<span id="cb4-3"><a href="#cb4-3"></a></span>
-<span id="cb4-4"><a href="#cb4-4"></a><span class="ot">main ::</span> <span class="dt">IO</span> ()</span>
-<span id="cb4-5"><a href="#cb4-5"></a>main <span class="ot">=</span> defaultMainAutoModules</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true"></a><span class="kw">import</span> <span class="dt">Autopack</span> (defaultMainAutoModules)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true"></a><span class="ot">main ::</span> <span class="dt">IO</span> ()</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true"></a>main <span class="ot">=</span> defaultMainAutoModules</span></code></pre></div>
 <p>You are all set up now!</p>
 <p>You can remove <code>exposed-module</code> field from your <code>.cabal</code> file completely, and <code>autopack</code> will discover all the <code>.hs</code> modules in your folders for you during the build.</p>
 <h2 id="alternatives">Alternatives<a href="#alternatives" class="anchor">🔗</a></h2>
-<p>As <code>Cabal</code> does not currently provide the feature of automatic modules discovery, there are some workarounds for this process. One of them is this library — <code>autopack</code> that uses <code>Cabal</code>’s Setup feature to discover all modules during the pre-build stage of <code>Cabal</code>. Another tool that provides it out-of-the-box is <a href="https://github.com/sol/hpack"><code>hpack</code></a>. It is the wrapper on <code>Cabal</code> syntax via <code>YAML</code> where there is no need to write modules explicitly. They are added to the <code>exposed-modules</code> field of the <code>.cabal</code> file during the YAML to <code>.cabal</code> step of the tool work process.</p>
+<p>As <code>Cabal</code> does not currently provide the feature of automatic modules discovery, there are some workarounds for this process. One of them is this library — <code>autopack</code> that uses <code>Cabal</code>’s Setup feature to discover all modules during the pre-build stage of <code>Cabal</code>. Another tool that provides it out-of-the-box is <a href="https://github.com/sol/hpack"><code>hpack</code></a>. It is the wrapper on <code>Cabal</code> syntax via <code>YAML</code> where there is no need to write modules explicitly. They are added to the <code>exposed-modules</code> field of the <code>.cabal</code> file during the YAML to <code>.cabal</code> step of the tool work process. You may also be interested in <a href="https://hackage.haskell.org/package/cabal-fmt"><code>cabal-fmt</code></a> – a non-official <code>.cabal</code> files formatter than can optionally expand source directories during formatting.</p>
 <h2 id="acknowledgement">Acknowledgement<a href="#acknowledgement" class="anchor">🔗</a></h2>
 <p>Icons made by <a href="http://www.freepik.com">Freepik</a> from <a href="https://www.flaticon.com/">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/">CC 3.0 BY</a>.</p>
               </p>

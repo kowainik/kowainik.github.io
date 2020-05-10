@@ -22,10 +22,10 @@
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:site" content="@kowainik" />
     <meta property="twitter:title" content="Kowainik - stan" />
-    <meta name="twitter:description" content="Haskell static analyser" />
+    <meta name="twitter:description" content="🧪⚗️ Haskell STatic ANalyser" />
     <meta name="twitter:image:src" content="https://kowainik.github.io/images/logo-yellow.png" />
     <meta property="og:title" content="Kowainik - stan" />
-    <meta property="og:description" content="Haskell static analyser" />
+    <meta property="og:description" content="🧪⚗️ Haskell STatic ANalyser" />
     <meta property="og:site_name" content="Kowainik" />
     <meta property="og:image" content="https://kowainik.github.io/images/logo-yellow.png" />
 
@@ -58,7 +58,7 @@
                 <a class="btn btn-outline-dark btn-tag" href="https://github.com/kowainik/stan" data-icon="octicon-star" data-size="large" aria-label="Star Kowainik/stan on GitHub">Star Project</a>
                 <a class="fa-stack fa-2x" href="https://github.com/kowainik/stan/stargazers">
                     <i class="fa fa-star fa-stack-2x"></i>
-                    <i id="stars" class="fa fa-stack-1x fa-inverse main-font">4</i>
+                    <i id="stars" class="fa fa-stack-1x fa-inverse main-font">13</i>
                 </a>
                 <div class="author">Language: Haskell</div>
 
@@ -73,8 +73,19 @@
           <div class="row post">
               <div class="col-12 post-body">
               <p class="lead">
-                  <p><a href="https://hackage.haskell.org/package/stan"><img src="https://img.shields.io/hackage/v/stan.svg" alt="Hackage" /></a> <a href="https://github.com/kowainik/stan/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-MPL--2.0-blue.svg" alt="MPL-2.0 license" /></a> <a href="https://travis-ci.org/kowainik/stan"><img src="https://secure.travis-ci.org/kowainik/stan.svg" alt="Build status" /></a></p>
+                  <p><a href="https://github.com/kowainik/stan/actions"><img src="https://github.com/kowainik/stan/workflows/CI/badge.svg" alt="GitHub CI" /></a> <a href="https://hackage.haskell.org/package/stan"><img src="https://img.shields.io/hackage/v/stan.svg" alt="Hackage" /></a> <a href="https://github.com/kowainik/stan/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-MPL--2.0-blue.svg" alt="MPL-2.0 license" /></a></p>
 <p>Haskell static analyser</p>
+<h2 id="usage">Usage<a href="#usage" class="anchor">🔗</a></h2>
+<p>Stan is working with the <code>.hie</code> files to analyse Haskell projects. Therefore, Stan requires to have generated <code>hie</code> files provided by the users. Fortunately, it is straightforward to satisfy this necessity. You can build the project with special GHC options:</p>
+<pre class="shell"><code>$ cabal v2-build \
+  --ghc-options=-fwrite-ide-info \
+  --ghc-options=-hiedir=.hie</code></pre>
+<p>Or you can also add these options to your project’s <code>.cabal</code> file, so you will always have up to date <code>.hie</code> files:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true"></a>    ghc<span class="op">-</span>options<span class="op">:</span>       <span class="op">-</span>fwrite<span class="op">-</span>ide<span class="op">-</span>info</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true"></a>                       <span class="op">-</span>hiedir<span class="op">=.</span>hie</span></code></pre></div>
+<blockquote>
+<p><em>Note:</em> here we recommend to generate the <code>hie</code> files into <code>.hie/</code> folder. As it is the recommendation only, you can specify your own folder as well. But then you will need to run <code>stan</code> using the <code>--hiedir</code> option with the specified path to your <code>hie</code> folder.</p>
+</blockquote>
               </p>
               </div>
           </div>

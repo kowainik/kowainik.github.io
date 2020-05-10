@@ -151,9 +151,9 @@
 <p>This section introduces the fundamental piece in the <code>co-log</code> design: the <code>LogAction</code> data type.</p>
 <h3 id="data-type">Data type<a href="#data-type" class="anchor">🔗</a></h3>
 <p>The main piece of the <code>co-log</code> logging library is the following structure:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">newtype</span> <span class="dt">LogAction</span> m msg <span class="ot">=</span> <span class="dt">LogAction</span></span>
-<span id="cb1-2"><a href="#cb1-2"></a>    {<span class="ot"> unLogAction ::</span> msg <span class="ot">-&gt;</span> m ()</span>
-<span id="cb1-3"><a href="#cb1-3"></a>    }</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true"></a><span class="kw">newtype</span> <span class="dt">LogAction</span> m msg <span class="ot">=</span> <span class="dt">LogAction</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true"></a>    {<span class="ot"> unLogAction ::</span> msg <span class="ot">-&gt;</span> m ()</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true"></a>    }</span></code></pre></div>
 <p>This is a wrapper around a simple function. It has two type variables:</p>
 <ul>
 <li><code>m</code>: monad in which the logging is happening</li>
@@ -161,8 +161,8 @@
 </ul>
 <p><code>LogAction</code> specifies the type of message you want to log and the context in which you want to perform the logging. So you can tune and configure your action (or, even better: create a compound action by combining smaller pieces) and use it later.</p>
 <p>Here is an example of a very straightforward action:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb2-1"><a href="#cb2-1"></a><span class="ot">logStringStdout ::</span> <span class="dt">LogAction</span> <span class="dt">IO</span> <span class="dt">String</span></span>
-<span id="cb2-2"><a href="#cb2-2"></a>logStringStdout <span class="ot">=</span> <span class="dt">LogAction</span> <span class="fu">putStrLn</span></span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true"></a><span class="ot">logStringStdout ::</span> <span class="dt">LogAction</span> <span class="dt">IO</span> <span class="dt">String</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true"></a>logStringStdout <span class="ot">=</span> <span class="dt">LogAction</span> <span class="fu">putStrLn</span></span></code></pre></div>
 <blockquote>
 <p><strong>NOTE:</strong> For simplicity purposes this blog post uses <code>String</code> data type for logging. In practice, it’s better to use <code>Text</code> or <code>ByteString</code> data types instead of <code>String</code> as they provide better performance. Even better, you can use Backpack and implement a general interface around <a href="https://github.com/haskell-backpack/backpack-str">backpack-str</a> package.</p>
 </blockquote>
@@ -179,77 +179,77 @@
 </ul>
 <p>Every solution has its own advantages and drawbacks. That’s why the <code>LogAction</code> data type is in the <code>co-log-core</code> package: so it’s possible to experiment with different approaches and use the main concepts of the <code>co-log</code> library without bringing extra dependencies to your project.</p>
 <p>The simplest solution is to pass <code>LogAction</code> explicitly as an argument to every function where you need logging. The <code>co-log-core</code> library has this helpful combinator:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb3-1"><a href="#cb3-1"></a>infix <span class="dv">5</span> <span class="op">&lt;&amp;</span></span>
-<span id="cb3-2"><a href="#cb3-2"></a><span class="ot">(&lt;&amp;) ::</span> <span class="dt">LogAction</span> m msg <span class="ot">-&gt;</span> msg <span class="ot">-&gt;</span> m ()</span>
-<span id="cb3-3"><a href="#cb3-3"></a>(<span class="op">&lt;&amp;</span>) <span class="ot">=</span> coerce</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true"></a>infix <span class="dv">5</span> <span class="op">&lt;&amp;</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true"></a><span class="ot">(&lt;&amp;) ::</span> <span class="dt">LogAction</span> m msg <span class="ot">-&gt;</span> msg <span class="ot">-&gt;</span> m ()</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true"></a>(<span class="op">&lt;&amp;</span>) <span class="ot">=</span> coerce</span></code></pre></div>
 <p>So you can pass messages to actions using this operator:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb4-1"><a href="#cb4-1"></a>ghci<span class="op">&gt;</span> logStringStdout <span class="op">&lt;&amp;</span> <span class="st">&quot;Foo&quot;</span></span>
-<span id="cb4-2"><a href="#cb4-2"></a><span class="dt">Foo</span></span>
-<span id="cb4-3"><a href="#cb4-3"></a>ghci<span class="op">&gt;</span> logStringStdout <span class="op">&lt;&amp;</span> <span class="st">&quot;Hello&quot;</span> <span class="op">&gt;&gt;</span> logStringStdout <span class="op">&lt;&amp;</span> <span class="st">&quot;World!&quot;</span></span>
-<span id="cb4-4"><a href="#cb4-4"></a><span class="dt">Hello</span></span>
-<span id="cb4-5"><a href="#cb4-5"></a><span class="dt">World</span><span class="op">!</span></span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true"></a>ghci<span class="op">&gt;</span> logStringStdout <span class="op">&lt;&amp;</span> <span class="st">&quot;Foo&quot;</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true"></a><span class="dt">Foo</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true"></a>ghci<span class="op">&gt;</span> logStringStdout <span class="op">&lt;&amp;</span> <span class="st">&quot;Hello&quot;</span> <span class="op">&gt;&gt;</span> logStringStdout <span class="op">&lt;&amp;</span> <span class="st">&quot;World!&quot;</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true"></a><span class="dt">Hello</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true"></a><span class="dt">World</span><span class="op">!</span></span></code></pre></div>
 <p>In the remaining part of the blog post I’m going to use the following approach supported by <code>co-log</code>.</p>
 <p>First, let’s introduce a newtype wrapper around <code>ReaderT</code> that stores <code>LogAction</code> in its own environment:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb5-1"><a href="#cb5-1"></a><span class="kw">newtype</span> <span class="dt">LoggerT</span> msg m a <span class="ot">=</span> <span class="dt">LoggerT</span></span>
-<span id="cb5-2"><a href="#cb5-2"></a>    {<span class="ot"> runLoggerT ::</span> <span class="dt">ReaderT</span> (<span class="dt">LogAction</span> (<span class="dt">LoggerT</span> msg m) msg) m a</span>
-<span id="cb5-3"><a href="#cb5-3"></a>    } <span class="kw">deriving</span> ( <span class="dt">Functor</span>, <span class="dt">Applicative</span>, <span class="dt">Monad</span>, <span class="dt">MonadIO</span></span>
-<span id="cb5-4"><a href="#cb5-4"></a>               , <span class="dt">MonadReader</span> (<span class="dt">LogAction</span> (<span class="dt">LoggerT</span> msg m) msg)</span>
-<span id="cb5-5"><a href="#cb5-5"></a>               )</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true"></a><span class="kw">newtype</span> <span class="dt">LoggerT</span> msg m a <span class="ot">=</span> <span class="dt">LoggerT</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true"></a>    {<span class="ot"> runLoggerT ::</span> <span class="dt">ReaderT</span> (<span class="dt">LogAction</span> (<span class="dt">LoggerT</span> msg m) msg) m a</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true"></a>    } <span class="kw">deriving</span> ( <span class="dt">Functor</span>, <span class="dt">Applicative</span>, <span class="dt">Monad</span>, <span class="dt">MonadIO</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true"></a>               , <span class="dt">MonadReader</span> (<span class="dt">LogAction</span> (<span class="dt">LoggerT</span> msg m) msg)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true"></a>               )</span></code></pre></div>
 <p>This data type looks scary but the idea is simple: it just stores <code>LogAction m msg</code> in the <code>ReaderT</code> environment.</p>
 <p>The <code>co-log-core</code> package also has its own <code>lens</code>-like <code>HasLog</code> typeclass that allows to get and set <code>LogAction</code> in your environment (so you can just add <code>LogAction</code> to your <code>ReaderT</code> context instead of using <code>LoggerT</code> monad transformer):</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb6-1"><a href="#cb6-1"></a><span class="kw">class</span> <span class="dt">HasLog</span> env msg m <span class="kw">where</span></span>
-<span id="cb6-2"><a href="#cb6-2"></a><span class="ot">    getLogAction ::</span> env <span class="ot">-&gt;</span> <span class="dt">LogAction</span> m msg</span>
-<span id="cb6-3"><a href="#cb6-3"></a><span class="ot">    setLogAction ::</span> <span class="dt">LogAction</span> m msg <span class="ot">-&gt;</span> env <span class="ot">-&gt;</span> env</span>
-<span id="cb6-4"><a href="#cb6-4"></a></span>
-<span id="cb6-5"><a href="#cb6-5"></a><span class="kw">instance</span> <span class="dt">HasLog</span> (<span class="dt">LogAction</span> m msg) msg m <span class="kw">where</span></span>
-<span id="cb6-6"><a href="#cb6-6"></a>    getLogAction <span class="ot">=</span> <span class="fu">id</span></span>
-<span id="cb6-7"><a href="#cb6-7"></a>    setLogAction <span class="ot">=</span> <span class="fu">const</span></span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true"></a><span class="kw">class</span> <span class="dt">HasLog</span> env msg m <span class="kw">where</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true"></a><span class="ot">    getLogAction ::</span> env <span class="ot">-&gt;</span> <span class="dt">LogAction</span> m msg</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true"></a><span class="ot">    setLogAction ::</span> <span class="dt">LogAction</span> m msg <span class="ot">-&gt;</span> env <span class="ot">-&gt;</span> env</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true"></a></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true"></a><span class="kw">instance</span> <span class="dt">HasLog</span> (<span class="dt">LogAction</span> m msg) msg m <span class="kw">where</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true"></a>    getLogAction <span class="ot">=</span> <span class="fu">id</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true"></a>    setLogAction <span class="ot">=</span> <span class="fu">const</span></span></code></pre></div>
 <p>Now we can write a function that logs messages using <code>LogAction</code> from the context:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb7-1"><a href="#cb7-1"></a><span class="kw">type</span> <span class="dt">WithLog</span> env msg m <span class="ot">=</span> (<span class="dt">MonadReader</span> env m, <span class="dt">HasLog</span> env msg m)</span>
-<span id="cb7-2"><a href="#cb7-2"></a></span>
-<span id="cb7-3"><a href="#cb7-3"></a><span class="ot">logMsg ::</span> <span class="kw">forall</span> msg env m <span class="op">.</span> <span class="dt">WithLog</span> env msg m <span class="ot">=&gt;</span> msg <span class="ot">-&gt;</span> m ()</span>
-<span id="cb7-4"><a href="#cb7-4"></a>logMsg msg <span class="ot">=</span> <span class="kw">do</span></span>
-<span id="cb7-5"><a href="#cb7-5"></a>    <span class="dt">LogAction</span> <span class="fu">log</span> <span class="ot">&lt;-</span> asks getLogAction</span>
-<span id="cb7-6"><a href="#cb7-6"></a>    <span class="fu">log</span> msg</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true"></a><span class="kw">type</span> <span class="dt">WithLog</span> env msg m <span class="ot">=</span> (<span class="dt">MonadReader</span> env m, <span class="dt">HasLog</span> env msg m)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true"></a><span class="ot">logMsg ::</span> <span class="kw">forall</span> msg env m <span class="op">.</span> <span class="dt">WithLog</span> env msg m <span class="ot">=&gt;</span> msg <span class="ot">-&gt;</span> m ()</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true"></a>logMsg msg <span class="ot">=</span> <span class="kw">do</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true"></a>    <span class="dt">LogAction</span> <span class="fu">log</span> <span class="ot">&lt;-</span> asks getLogAction</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true"></a>    <span class="fu">log</span> msg</span></code></pre></div>
 <p>We now need some way to execute actions with logging:</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb8-1"><a href="#cb8-1"></a><span class="ot">usingLoggerT ::</span> <span class="dt">Monad</span> m <span class="ot">=&gt;</span> <span class="dt">LogAction</span> m msg <span class="ot">-&gt;</span> <span class="dt">LoggerT</span> msg m a <span class="ot">-&gt;</span> m a</span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true"></a><span class="ot">usingLoggerT ::</span> <span class="dt">Monad</span> m <span class="ot">=&gt;</span> <span class="dt">LogAction</span> m msg <span class="ot">-&gt;</span> <span class="dt">LoggerT</span> msg m a <span class="ot">-&gt;</span> m a</span></code></pre></div>
 <p>After implementing <code>usingLoggerT</code> we can now play with our logging framework.</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb9-1"><a href="#cb9-1"></a><span class="ot">example ::</span> <span class="dt">WithLog</span> env <span class="dt">String</span> m <span class="ot">=&gt;</span> m ()</span>
-<span id="cb9-2"><a href="#cb9-2"></a>example <span class="ot">=</span> <span class="kw">do</span></span>
-<span id="cb9-3"><a href="#cb9-3"></a>    logMsg <span class="st">&quot;Starting application...&quot;</span></span>
-<span id="cb9-4"><a href="#cb9-4"></a>    logMsg <span class="st">&quot;Finishing application...&quot;</span></span>
-<span id="cb9-5"><a href="#cb9-5"></a></span>
-<span id="cb9-6"><a href="#cb9-6"></a><span class="ot">main ::</span> <span class="dt">IO</span> ()</span>
-<span id="cb9-7"><a href="#cb9-7"></a>main <span class="ot">=</span> usingLoggerT logStringStdout example</span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true"></a><span class="ot">example ::</span> <span class="dt">WithLog</span> env <span class="dt">String</span> m <span class="ot">=&gt;</span> m ()</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true"></a>example <span class="ot">=</span> <span class="kw">do</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true"></a>    logMsg <span class="st">&quot;Starting application...&quot;</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true"></a>    logMsg <span class="st">&quot;Finishing application...&quot;</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true"></a></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true"></a><span class="ot">main ::</span> <span class="dt">IO</span> ()</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true"></a>main <span class="ot">=</span> usingLoggerT logStringStdout example</span></code></pre></div>
 <p>And the output is exactly what we expected:</p>
 <pre class="shell"><code>Starting application...
 Finishing application...</code></pre>
 <h2 id="composable">Composable<a href="#composable" class="anchor">🔗</a></h2>
 <h3 id="semigroup">Semigroup<a href="#semigroup" class="anchor">🔗</a></h3>
 <p>Let’s see how to make our <code>LogAction</code> composable. Currently, we have only one action that prints <code>String</code> to <code>stdout</code>. What if we also want to print the same <code>String</code> to <code>stderr</code> in addition? Or to some file? Of course, we can create a separate <code>LogAction</code> that does just that:</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb11-1"><a href="#cb11-1"></a><span class="ot">logStringBoth ::</span> <span class="dt">LogAction</span> <span class="dt">IO</span> <span class="dt">String</span></span>
-<span id="cb11-2"><a href="#cb11-2"></a>logStringBoth <span class="ot">=</span> <span class="dt">LogAction</span> <span class="op">$</span> \msg <span class="ot">-&gt;</span> <span class="kw">do</span></span>
-<span id="cb11-3"><a href="#cb11-3"></a>    <span class="fu">putStrLn</span> msg</span>
-<span id="cb11-4"><a href="#cb11-4"></a>    hPutStrLn stderr msg</span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true"></a><span class="ot">logStringBoth ::</span> <span class="dt">LogAction</span> <span class="dt">IO</span> <span class="dt">String</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true"></a>logStringBoth <span class="ot">=</span> <span class="dt">LogAction</span> <span class="op">$</span> \msg <span class="ot">-&gt;</span> <span class="kw">do</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true"></a>    <span class="fu">putStrLn</span> msg</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true"></a>    hPutStrLn stderr msg</span></code></pre></div>
 <p>We start to notice a pattern: we often want to perform multiple actions over a single message. This is where <a href="https://hackage.haskell.org/package/base-4.11.1.0/docs/Prelude.html#t:Semigroup"><code>Semigroup</code></a> comes in:</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb12-1"><a href="#cb12-1"></a><span class="kw">instance</span> <span class="dt">Applicative</span> m <span class="ot">=&gt;</span> <span class="dt">Semigroup</span> (<span class="dt">LogAction</span> m a) <span class="kw">where</span></span>
-<span id="cb12-2"><a href="#cb12-2"></a><span class="ot">    (&lt;&gt;) ::</span> <span class="dt">LogAction</span> m a <span class="ot">-&gt;</span> <span class="dt">LogAction</span> m a <span class="ot">-&gt;</span> <span class="dt">LogAction</span> m a</span>
-<span id="cb12-3"><a href="#cb12-3"></a>    <span class="dt">LogAction</span> action1 <span class="op">&lt;&gt;</span> <span class="dt">LogAction</span> action2 <span class="ot">=</span></span>
-<span id="cb12-4"><a href="#cb12-4"></a>        <span class="dt">LogAction</span> <span class="op">$</span> \a <span class="ot">-&gt;</span> action1 a <span class="op">*&gt;</span> action2 a</span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true"></a><span class="kw">instance</span> <span class="dt">Applicative</span> m <span class="ot">=&gt;</span> <span class="dt">Semigroup</span> (<span class="dt">LogAction</span> m a) <span class="kw">where</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true"></a><span class="ot">    (&lt;&gt;) ::</span> <span class="dt">LogAction</span> m a <span class="ot">-&gt;</span> <span class="dt">LogAction</span> m a <span class="ot">-&gt;</span> <span class="dt">LogAction</span> m a</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true"></a>    <span class="dt">LogAction</span> action1 <span class="op">&lt;&gt;</span> <span class="dt">LogAction</span> action2 <span class="ot">=</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true"></a>        <span class="dt">LogAction</span> <span class="op">$</span> \a <span class="ot">-&gt;</span> action1 a <span class="op">*&gt;</span> action2 a</span></code></pre></div>
 <p>So instead of manually specifying what we want to do on every message, we can create our <code>LogAction</code> by combining different smaller and independent pieces.</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb13-1"><a href="#cb13-1"></a><span class="ot">logStringStdout ::</span> <span class="dt">LogAction</span> <span class="dt">IO</span> <span class="dt">String</span></span>
-<span id="cb13-2"><a href="#cb13-2"></a>logStringStdout <span class="ot">=</span> <span class="dt">LogAction</span> <span class="fu">putStrLn</span></span>
-<span id="cb13-3"><a href="#cb13-3"></a></span>
-<span id="cb13-4"><a href="#cb13-4"></a><span class="ot">logStringStderr ::</span> <span class="dt">LogAction</span> <span class="dt">IO</span> <span class="dt">String</span></span>
-<span id="cb13-5"><a href="#cb13-5"></a>logStringStderr <span class="ot">=</span> <span class="dt">LogAction</span> <span class="op">$</span> hPutStrLn stderr</span>
-<span id="cb13-6"><a href="#cb13-6"></a></span>
-<span id="cb13-7"><a href="#cb13-7"></a><span class="ot">logStringBoth ::</span> <span class="dt">LogAction</span> <span class="dt">IO</span> <span class="dt">String</span></span>
-<span id="cb13-8"><a href="#cb13-8"></a>logStringBoth <span class="ot">=</span> logStringStdout <span class="op">&lt;&gt;</span> logStringStderr</span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true"></a><span class="ot">logStringStdout ::</span> <span class="dt">LogAction</span> <span class="dt">IO</span> <span class="dt">String</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true"></a>logStringStdout <span class="ot">=</span> <span class="dt">LogAction</span> <span class="fu">putStrLn</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true"></a></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true"></a><span class="ot">logStringStderr ::</span> <span class="dt">LogAction</span> <span class="dt">IO</span> <span class="dt">String</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true"></a>logStringStderr <span class="ot">=</span> <span class="dt">LogAction</span> <span class="op">$</span> hPutStrLn stderr</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true"></a></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true"></a><span class="ot">logStringBoth ::</span> <span class="dt">LogAction</span> <span class="dt">IO</span> <span class="dt">String</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true"></a>logStringBoth <span class="ot">=</span> logStringStdout <span class="op">&lt;&gt;</span> logStringStderr</span></code></pre></div>
 <h3 id="monoid">Monoid<a href="#monoid" class="anchor">🔗</a></h3>
 <p>The <a href="https://hackage.haskell.org/package/base-4.11.1.0/docs/Prelude.html#t:Monoid"><code>Monoid</code></a> instance is even simpler:</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb14-1"><a href="#cb14-1"></a><span class="kw">instance</span> <span class="dt">Applicative</span> m <span class="ot">=&gt;</span> <span class="dt">Monoid</span> (<span class="dt">LogAction</span> m a) <span class="kw">where</span></span>
-<span id="cb14-2"><a href="#cb14-2"></a><span class="ot">    mempty ::</span> <span class="dt">LogAction</span> m a</span>
-<span id="cb14-3"><a href="#cb14-3"></a>    <span class="fu">mempty</span> <span class="ot">=</span> <span class="dt">LogAction</span> <span class="op">$</span> \_ <span class="ot">-&gt;</span> <span class="fu">pure</span> ()</span></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true"></a><span class="kw">instance</span> <span class="dt">Applicative</span> m <span class="ot">=&gt;</span> <span class="dt">Monoid</span> (<span class="dt">LogAction</span> m a) <span class="kw">where</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true"></a><span class="ot">    mempty ::</span> <span class="dt">LogAction</span> m a</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true"></a>    <span class="fu">mempty</span> <span class="ot">=</span> <span class="dt">LogAction</span> <span class="op">$</span> \_ <span class="ot">-&gt;</span> <span class="fu">pure</span> ()</span></code></pre></div>
 <p>It adds the empty <code>LogAction</code> that does nothing to the <code>Semigroup</code> instance. It’s quite straightforward to show that the above instances satisfy associativity and neutrality laws. The nice thing about the <code>Monoid</code> instance is the ability to disable logging. Usually, logging libraries provide some extra transformer with a name like <code>NoLoggingT</code> which you can put on top of your monad transformer tower to disable logging. But with a <code>Monoid</code> instance for <code>LogAction</code> you can just pass <code>mempty</code> as your logging action and that’s all. This approach also works quite well if you want to disable logging only in some specific piece of your code.</p>
 <h2 id="contravariant-functors">Contravariant functors<a href="#contravariant-functors" class="anchor">🔗</a></h2>
 <p>This section covers the contravariant family of typeclasses regarding <code>LogAction</code>. The typeclasses themselves are implemented in the <a href="https://hackage.haskell.org/package/contravariant"><code>contravariant</code></a> package. This section assumes some basic knowledge for Contravariant functors, if you’re not familiar with them, I strongly recommend watching the following talk by George Wilson:</p>
@@ -259,158 +259,158 @@ Finishing application...</code></pre>
 <h3 id="contravariant">Contravariant<a href="#contravariant" class="anchor">🔗</a></h3>
 <h4 id="contramap">contramap<a href="#contramap" class="anchor">🔗</a></h4>
 <p>Let’s first have a look at <code>Contravariant</code> typeclass and its instance for <code>LogAction</code>:</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb15-1"><a href="#cb15-1"></a><span class="kw">class</span> <span class="dt">Contravariant</span> f <span class="kw">where</span></span>
-<span id="cb15-2"><a href="#cb15-2"></a><span class="ot">    contramap ::</span> (a <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> f b <span class="ot">-&gt;</span> f a</span>
-<span id="cb15-3"><a href="#cb15-3"></a></span>
-<span id="cb15-4"><a href="#cb15-4"></a><span class="kw">instance</span> <span class="dt">Contravariant</span> (<span class="dt">LogAction</span> m) <span class="kw">where</span></span>
-<span id="cb15-5"><a href="#cb15-5"></a><span class="ot">    contramap ::</span> (a <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> <span class="dt">LogAction</span> m b <span class="ot">-&gt;</span> <span class="dt">LogAction</span> m a</span>
-<span id="cb15-6"><a href="#cb15-6"></a>    contramap f (<span class="dt">LogAction</span> action) <span class="ot">=</span> <span class="dt">LogAction</span> (action <span class="op">.</span> f)</span></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true"></a><span class="kw">class</span> <span class="dt">Contravariant</span> f <span class="kw">where</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true"></a><span class="ot">    contramap ::</span> (a <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> f b <span class="ot">-&gt;</span> f a</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true"></a></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true"></a><span class="kw">instance</span> <span class="dt">Contravariant</span> (<span class="dt">LogAction</span> m) <span class="kw">where</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true"></a><span class="ot">    contramap ::</span> (a <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> <span class="dt">LogAction</span> m b <span class="ot">-&gt;</span> <span class="dt">LogAction</span> m a</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true"></a>    contramap f (<span class="dt">LogAction</span> action) <span class="ot">=</span> <span class="dt">LogAction</span> (action <span class="op">.</span> f)</span></code></pre></div>
 <p>Here is how you can think of this instance: if you know how to log messages of type <code>b</code> and you know how to convert messages of type <code>a</code> to type <code>b</code>, then you also know how to log messages of type <code>a</code>. You just need to convert the <code>a</code> message to <code>b</code> and pass it to your action.</p>
 <p>Here is an example of how it can be useful. Let’s say that instead of just logging <code>String</code>, you want to log a more complex <code>Message</code> data type:</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb16-1"><a href="#cb16-1"></a><span class="kw">data</span> <span class="dt">Severity</span> <span class="ot">=</span> <span class="dt">Debug</span> <span class="op">|</span> <span class="dt">Info</span> <span class="op">|</span> <span class="dt">Warning</span> <span class="op">|</span> <span class="dt">Error</span></span>
-<span id="cb16-2"><a href="#cb16-2"></a>    <span class="kw">deriving</span> (<span class="dt">Eq</span>, <span class="dt">Ord</span>, <span class="dt">Show</span>)</span>
-<span id="cb16-3"><a href="#cb16-3"></a></span>
-<span id="cb16-4"><a href="#cb16-4"></a><span class="kw">data</span> <span class="dt">Message</span> <span class="ot">=</span> <span class="dt">Message</span></span>
-<span id="cb16-5"><a href="#cb16-5"></a>    {<span class="ot"> messageSeverity ::</span> <span class="dt">Severity</span></span>
-<span id="cb16-6"><a href="#cb16-6"></a>    ,<span class="ot"> messageText     ::</span> <span class="dt">String</span></span>
-<span id="cb16-7"><a href="#cb16-7"></a>    }</span></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true"></a><span class="kw">data</span> <span class="dt">Severity</span> <span class="ot">=</span> <span class="dt">Debug</span> <span class="op">|</span> <span class="dt">Info</span> <span class="op">|</span> <span class="dt">Warning</span> <span class="op">|</span> <span class="dt">Error</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true"></a>    <span class="kw">deriving</span> (<span class="dt">Eq</span>, <span class="dt">Ord</span>, <span class="dt">Show</span>)</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true"></a></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true"></a><span class="kw">data</span> <span class="dt">Message</span> <span class="ot">=</span> <span class="dt">Message</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true"></a>    {<span class="ot"> messageSeverity ::</span> <span class="dt">Severity</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true"></a>    ,<span class="ot"> messageText     ::</span> <span class="dt">String</span></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true"></a>    }</span></code></pre></div>
 <p>But you only have <code>LogAction</code> that prints <code>String</code>. This is no longer a problem! You can write the formatting function:</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb17-1"><a href="#cb17-1"></a><span class="ot">fmtMessage ::</span> <span class="dt">Message</span> <span class="ot">-&gt;</span> <span class="dt">String</span></span>
-<span id="cb17-2"><a href="#cb17-2"></a>fmtMessage (<span class="dt">Message</span> sev txt) <span class="ot">=</span> <span class="st">&quot;[&quot;</span> <span class="op">++</span> <span class="fu">show</span> sev <span class="op">++</span> <span class="st">&quot;] &quot;</span> <span class="op">++</span> txt</span></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true"></a><span class="ot">fmtMessage ::</span> <span class="dt">Message</span> <span class="ot">-&gt;</span> <span class="dt">String</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true"></a>fmtMessage (<span class="dt">Message</span> sev txt) <span class="ot">=</span> <span class="st">&quot;[&quot;</span> <span class="op">++</span> <span class="fu">show</span> sev <span class="op">++</span> <span class="st">&quot;] &quot;</span> <span class="op">++</span> txt</span></code></pre></div>
 <p>And then you can use <code>contramap</code> to log messages instead of <code>String</code>.</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb18-1"><a href="#cb18-1"></a><span class="fu">log</span><span class="ot"> ::</span> <span class="dt">WithLog</span> env <span class="dt">Message</span> m <span class="ot">=&gt;</span> <span class="dt">Severity</span> <span class="ot">-&gt;</span> <span class="dt">String</span> <span class="ot">-&gt;</span> m ()</span>
-<span id="cb18-2"><a href="#cb18-2"></a><span class="fu">log</span> sev txt <span class="ot">=</span> logMsg (<span class="dt">Message</span> sev txt)</span>
-<span id="cb18-3"><a href="#cb18-3"></a></span>
-<span id="cb18-4"><a href="#cb18-4"></a><span class="ot">example ::</span> <span class="dt">WithLog</span> env <span class="dt">Message</span> m <span class="ot">=&gt;</span> m ()</span>
-<span id="cb18-5"><a href="#cb18-5"></a>example <span class="ot">=</span> <span class="kw">do</span></span>
-<span id="cb18-6"><a href="#cb18-6"></a>    <span class="fu">log</span> <span class="dt">Debug</span> <span class="st">&quot;Starting application...&quot;</span></span>
-<span id="cb18-7"><a href="#cb18-7"></a>    <span class="fu">log</span> <span class="dt">Info</span>  <span class="st">&quot;Finishing application...&quot;</span></span>
-<span id="cb18-8"><a href="#cb18-8"></a></span>
-<span id="cb18-9"><a href="#cb18-9"></a><span class="ot">main ::</span> <span class="dt">IO</span> ()</span>
-<span id="cb18-10"><a href="#cb18-10"></a>main <span class="ot">=</span> usingLoggerT (contramap fmtMessage logStringStdout) example</span></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true"></a><span class="fu">log</span><span class="ot"> ::</span> <span class="dt">WithLog</span> env <span class="dt">Message</span> m <span class="ot">=&gt;</span> <span class="dt">Severity</span> <span class="ot">-&gt;</span> <span class="dt">String</span> <span class="ot">-&gt;</span> m ()</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true"></a><span class="fu">log</span> sev txt <span class="ot">=</span> logMsg (<span class="dt">Message</span> sev txt)</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true"></a></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true"></a><span class="ot">example ::</span> <span class="dt">WithLog</span> env <span class="dt">Message</span> m <span class="ot">=&gt;</span> m ()</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true"></a>example <span class="ot">=</span> <span class="kw">do</span></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true"></a>    <span class="fu">log</span> <span class="dt">Debug</span> <span class="st">&quot;Starting application...&quot;</span></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true"></a>    <span class="fu">log</span> <span class="dt">Info</span>  <span class="st">&quot;Finishing application...&quot;</span></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true"></a></span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true"></a><span class="ot">main ::</span> <span class="dt">IO</span> ()</span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true"></a>main <span class="ot">=</span> usingLoggerT (contramap fmtMessage logStringStdout) example</span></code></pre></div>
 <p>The output is the following:</p>
 <pre class="shell"><code>[Debug] Starting application...
 [Info] Finishing application...</code></pre>
 <p>The problem of showing the output is handled separately from the problem of providing the input to the loggers. If you want to format the output in a different way (as JSON for example) you can just switch the formatting function to a different one.</p>
 <h4 id="cfilter">cfilter<a href="#cfilter" class="anchor">🔗</a></h4>
 <p>Okay, now we would like to discard any <code>Debug</code> messages from the output. It’s easy to do after writing a contravariant filter function:</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb20-1"><a href="#cb20-1"></a><span class="ot">cfilter ::</span> <span class="dt">Applicative</span> m <span class="ot">=&gt;</span> (msg <span class="ot">-&gt;</span> <span class="dt">Bool</span>) <span class="ot">-&gt;</span> <span class="dt">LogAction</span> m msg <span class="ot">-&gt;</span> <span class="dt">LogAction</span> m msg</span>
-<span id="cb20-2"><a href="#cb20-2"></a>cfilter p (<span class="dt">LogAction</span> action) <span class="ot">=</span> <span class="dt">LogAction</span> <span class="op">$</span> \a <span class="ot">-&gt;</span> when (p a) (action a)</span></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true"></a><span class="ot">cfilter ::</span> <span class="dt">Applicative</span> m <span class="ot">=&gt;</span> (msg <span class="ot">-&gt;</span> <span class="dt">Bool</span>) <span class="ot">-&gt;</span> <span class="dt">LogAction</span> m msg <span class="ot">-&gt;</span> <span class="dt">LogAction</span> m msg</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true"></a>cfilter p (<span class="dt">LogAction</span> action) <span class="ot">=</span> <span class="dt">LogAction</span> <span class="op">$</span> \a <span class="ot">-&gt;</span> when (p a) (action a)</span></code></pre></div>
 <p>Now you can filter out all the <code>Debug</code> messages in the following way:</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb21-1"><a href="#cb21-1"></a><span class="ot">main ::</span> <span class="dt">IO</span> ()</span>
-<span id="cb21-2"><a href="#cb21-2"></a>main <span class="ot">=</span> usingLoggerT</span>
-<span id="cb21-3"><a href="#cb21-3"></a>    ( cfilter (\(<span class="dt">Message</span> sev _) <span class="ot">-&gt;</span> sev <span class="op">&gt;</span> <span class="dt">Debug</span>)</span>
-<span id="cb21-4"><a href="#cb21-4"></a>    <span class="op">$</span> contramap fmtMessage logStringStdout</span>
-<span id="cb21-5"><a href="#cb21-5"></a>    )</span>
-<span id="cb21-6"><a href="#cb21-6"></a>    example</span></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true"></a><span class="ot">main ::</span> <span class="dt">IO</span> ()</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true"></a>main <span class="ot">=</span> usingLoggerT</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true"></a>    ( cfilter (\(<span class="dt">Message</span> sev _) <span class="ot">-&gt;</span> sev <span class="op">&gt;</span> <span class="dt">Debug</span>)</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true"></a>    <span class="op">$</span> contramap fmtMessage logStringStdout</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true"></a>    )</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true"></a>    example</span></code></pre></div>
 <h4 id="cmapm">cmapM<a href="#cmapm" class="anchor">🔗</a></h4>
 <p>There’s even more! We’re not satisfied with printing only <code>Severity</code> of the message. We would like to print the timestamp of the logging message as well. This is very useful for further log analysis. But with <code>contramap</code> we can’t do that because taking the current time is an impure function. So let’s implement <code>cmapM</code> function and see how it helps:</p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb22-1"><a href="#cb22-1"></a><span class="ot">cmapM ::</span> <span class="dt">Monad</span> m <span class="ot">=&gt;</span> (a <span class="ot">-&gt;</span> m b) <span class="ot">-&gt;</span> <span class="dt">LogAction</span> m b <span class="ot">-&gt;</span> <span class="dt">LogAction</span> m a</span>
-<span id="cb22-2"><a href="#cb22-2"></a>cmapM f (<span class="dt">LogAction</span> action) <span class="ot">=</span> <span class="dt">LogAction</span> (f <span class="op">&gt;=&gt;</span> action)</span></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true"></a><span class="ot">cmapM ::</span> <span class="dt">Monad</span> m <span class="ot">=&gt;</span> (a <span class="ot">-&gt;</span> m b) <span class="ot">-&gt;</span> <span class="dt">LogAction</span> m b <span class="ot">-&gt;</span> <span class="dt">LogAction</span> m a</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true"></a>cmapM f (<span class="dt">LogAction</span> action) <span class="ot">=</span> <span class="dt">LogAction</span> (f <span class="op">&gt;=&gt;</span> action)</span></code></pre></div>
 <p>Look at how similar it is to <code>contramap</code>:</p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb23-1"><a href="#cb23-1"></a>contramap f (<span class="dt">LogAction</span> action) <span class="ot">=</span> <span class="dt">LogAction</span> (action  <span class="op">.</span>  f)</span>
-<span id="cb23-2"><a href="#cb23-2"></a>cmapM     f (<span class="dt">LogAction</span> action) <span class="ot">=</span> <span class="dt">LogAction</span> (action <span class="op">&lt;=&lt;</span> f)</span></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true"></a>contramap f (<span class="dt">LogAction</span> action) <span class="ot">=</span> <span class="dt">LogAction</span> (action  <span class="op">.</span>  f)</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true"></a>cmapM     f (<span class="dt">LogAction</span> action) <span class="ot">=</span> <span class="dt">LogAction</span> (action <span class="op">&lt;=&lt;</span> f)</span></code></pre></div>
 <p>Now we can extend our <code>Message</code> data to <code>RichMesssage</code> that also stores <code>UTCTime</code> in it.</p>
-<div class="sourceCode" id="cb24"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb24-1"><a href="#cb24-1"></a><span class="kw">data</span> <span class="dt">RichMessage</span> <span class="ot">=</span> <span class="dt">RichMessage</span></span>
-<span id="cb24-2"><a href="#cb24-2"></a>    {<span class="ot"> richMessageMsg  ::</span> <span class="dt">Message</span></span>
-<span id="cb24-3"><a href="#cb24-3"></a>    ,<span class="ot"> richMessageTime ::</span> <span class="dt">UTCTime</span></span>
-<span id="cb24-4"><a href="#cb24-4"></a>    }</span>
-<span id="cb24-5"><a href="#cb24-5"></a></span>
-<span id="cb24-6"><a href="#cb24-6"></a><span class="ot">makeRich ::</span> <span class="dt">LogAction</span> <span class="dt">IO</span> <span class="dt">RichMessage</span> <span class="ot">-&gt;</span> <span class="dt">LogAction</span> <span class="dt">IO</span> <span class="dt">Message</span></span>
-<span id="cb24-7"><a href="#cb24-7"></a>makeRich <span class="ot">=</span> cmapM toRichMessage</span>
-<span id="cb24-8"><a href="#cb24-8"></a>  <span class="kw">where</span></span>
-<span id="cb24-9"><a href="#cb24-9"></a><span class="ot">    toRichMessage ::</span> <span class="dt">Message</span> <span class="ot">-&gt;</span> <span class="dt">IO</span> <span class="dt">RichMessage</span></span>
-<span id="cb24-10"><a href="#cb24-10"></a>    toRichMessage msg <span class="ot">=</span> <span class="kw">do</span></span>
-<span id="cb24-11"><a href="#cb24-11"></a>        time <span class="ot">&lt;-</span> getCurrentTime</span>
-<span id="cb24-12"><a href="#cb24-12"></a>        <span class="fu">pure</span> <span class="op">$</span> <span class="dt">RichMessage</span> msg time</span></code></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true"></a><span class="kw">data</span> <span class="dt">RichMessage</span> <span class="ot">=</span> <span class="dt">RichMessage</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true"></a>    {<span class="ot"> richMessageMsg  ::</span> <span class="dt">Message</span></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true"></a>    ,<span class="ot"> richMessageTime ::</span> <span class="dt">UTCTime</span></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true"></a>    }</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true"></a></span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true"></a><span class="ot">makeRich ::</span> <span class="dt">LogAction</span> <span class="dt">IO</span> <span class="dt">RichMessage</span> <span class="ot">-&gt;</span> <span class="dt">LogAction</span> <span class="dt">IO</span> <span class="dt">Message</span></span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true"></a>makeRich <span class="ot">=</span> cmapM toRichMessage</span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true"></a>  <span class="kw">where</span></span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true"></a><span class="ot">    toRichMessage ::</span> <span class="dt">Message</span> <span class="ot">-&gt;</span> <span class="dt">IO</span> <span class="dt">RichMessage</span></span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true"></a>    toRichMessage msg <span class="ot">=</span> <span class="kw">do</span></span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true"></a>        time <span class="ot">&lt;-</span> getCurrentTime</span>
+<span id="cb24-12"><a href="#cb24-12" aria-hidden="true"></a>        <span class="fu">pure</span> <span class="op">$</span> <span class="dt">RichMessage</span> msg time</span></code></pre></div>
 <p>After writing the formatting function for <code>RichMessage</code> we can enjoy an automatically appended timestamp to every message!</p>
-<div class="sourceCode" id="cb25"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb25-1"><a href="#cb25-1"></a><span class="ot">main ::</span> <span class="dt">IO</span> ()</span>
-<span id="cb25-2"><a href="#cb25-2"></a>main <span class="ot">=</span> usingLoggerT</span>
-<span id="cb25-3"><a href="#cb25-3"></a>    (makeRich <span class="op">$</span> contramap fmtRichMessage logStringStdout)</span>
-<span id="cb25-4"><a href="#cb25-4"></a>    example</span></code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true"></a><span class="ot">main ::</span> <span class="dt">IO</span> ()</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true"></a>main <span class="ot">=</span> usingLoggerT</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true"></a>    (makeRich <span class="op">$</span> contramap fmtRichMessage logStringStdout)</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true"></a>    example</span></code></pre></div>
 <p>And now we have a more verbose output:</p>
 <pre class="shell"><code>[Info] [11:54:31.809 13 Sep 2018 UTC] Finishing application...</code></pre>
 <h3 id="divisible">Divisible<a href="#divisible" class="anchor">🔗</a></h3>
 <p>The Functor-Applicative-Alternative family of typeclasses is well-known to most Haskellers. But there are similar typeclasses for contravariant data types. Specifically, Contravariant-Divisible-Decidable. Let’s look at the <code>Divisible</code> typeclass definition and its instance for <code>LogAction</code>:</p>
-<div class="sourceCode" id="cb27"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb27-1"><a href="#cb27-1"></a><span class="kw">class</span> <span class="dt">Contravariant</span> f <span class="ot">=&gt;</span> <span class="dt">Divisible</span> f <span class="kw">where</span></span>
-<span id="cb27-2"><a href="#cb27-2"></a><span class="ot">    conquer ::</span> f a</span>
-<span id="cb27-3"><a href="#cb27-3"></a><span class="ot">    divide  ::</span> (a <span class="ot">-&gt;</span> (b, c)) <span class="ot">-&gt;</span> f b <span class="ot">-&gt;</span> f c <span class="ot">-&gt;</span> f a</span>
-<span id="cb27-4"><a href="#cb27-4"></a></span>
-<span id="cb27-5"><a href="#cb27-5"></a><span class="kw">instance</span> (<span class="dt">Applicative</span> m) <span class="ot">=&gt;</span> <span class="dt">Divisible</span> (<span class="dt">LogAction</span> m) <span class="kw">where</span></span>
-<span id="cb27-6"><a href="#cb27-6"></a><span class="ot">    conquer ::</span> <span class="dt">LogAction</span> m a</span>
-<span id="cb27-7"><a href="#cb27-7"></a>    conquer <span class="ot">=</span> <span class="fu">mempty</span></span>
-<span id="cb27-8"><a href="#cb27-8"></a></span>
-<span id="cb27-9"><a href="#cb27-9"></a><span class="ot">    divide ::</span> (a <span class="ot">-&gt;</span> (b, c)) <span class="ot">-&gt;</span> <span class="dt">LogAction</span> m b <span class="ot">-&gt;</span> <span class="dt">LogAction</span> m c <span class="ot">-&gt;</span> <span class="dt">LogAction</span> m a</span>
-<span id="cb27-10"><a href="#cb27-10"></a>    divide f (<span class="dt">LogAction</span> actionB) (<span class="dt">LogAction</span> actionC) <span class="ot">=</span></span>
-<span id="cb27-11"><a href="#cb27-11"></a>        <span class="dt">LogAction</span> <span class="op">$</span> \(f <span class="ot">-&gt;</span> (b, c)) <span class="ot">-&gt;</span> actionB b <span class="op">*&gt;</span> actionC c</span></code></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true"></a><span class="kw">class</span> <span class="dt">Contravariant</span> f <span class="ot">=&gt;</span> <span class="dt">Divisible</span> f <span class="kw">where</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true"></a><span class="ot">    conquer ::</span> f a</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true"></a><span class="ot">    divide  ::</span> (a <span class="ot">-&gt;</span> (b, c)) <span class="ot">-&gt;</span> f b <span class="ot">-&gt;</span> f c <span class="ot">-&gt;</span> f a</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true"></a></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true"></a><span class="kw">instance</span> (<span class="dt">Applicative</span> m) <span class="ot">=&gt;</span> <span class="dt">Divisible</span> (<span class="dt">LogAction</span> m) <span class="kw">where</span></span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true"></a><span class="ot">    conquer ::</span> <span class="dt">LogAction</span> m a</span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true"></a>    conquer <span class="ot">=</span> <span class="fu">mempty</span></span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true"></a></span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true"></a><span class="ot">    divide ::</span> (a <span class="ot">-&gt;</span> (b, c)) <span class="ot">-&gt;</span> <span class="dt">LogAction</span> m b <span class="ot">-&gt;</span> <span class="dt">LogAction</span> m c <span class="ot">-&gt;</span> <span class="dt">LogAction</span> m a</span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true"></a>    divide f (<span class="dt">LogAction</span> actionB) (<span class="dt">LogAction</span> actionC) <span class="ot">=</span></span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true"></a>        <span class="dt">LogAction</span> <span class="op">$</span> \(f <span class="ot">-&gt;</span> (b, c)) <span class="ot">-&gt;</span> actionB b <span class="op">*&gt;</span> actionC c</span></code></pre></div>
 <p>What this instance means is that if you know how to split some complex data structure into smaller pieces and if you know how to log each piece independently, you can now log the whole data structure.</p>
 <h3 id="decidable">Decidable<a href="#decidable" class="anchor">🔗</a></h3>
 <p><code>Decidable</code> is similar to <code>Alternative</code> but for the Contravariant family of functors.</p>
-<div class="sourceCode" id="cb28"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb28-1"><a href="#cb28-1"></a><span class="kw">import</span> <span class="dt">Data.Void</span> (<span class="dt">Void</span>, absurd)</span>
-<span id="cb28-2"><a href="#cb28-2"></a></span>
-<span id="cb28-3"><a href="#cb28-3"></a><span class="kw">class</span> <span class="dt">Divisible</span> f <span class="ot">=&gt;</span> <span class="dt">Decidable</span> f <span class="kw">where</span></span>
-<span id="cb28-4"><a href="#cb28-4"></a><span class="ot">  lose   ::</span> (a <span class="ot">-&gt;</span> <span class="dt">Void</span>) <span class="ot">-&gt;</span> f a</span>
-<span id="cb28-5"><a href="#cb28-5"></a><span class="ot">  choose ::</span> (a <span class="ot">-&gt;</span> <span class="dt">Either</span> b c) <span class="ot">-&gt;</span> f b <span class="ot">-&gt;</span> f c <span class="ot">-&gt;</span> f a</span>
-<span id="cb28-6"><a href="#cb28-6"></a></span>
-<span id="cb28-7"><a href="#cb28-7"></a><span class="kw">instance</span> (<span class="dt">Applicative</span> m) <span class="ot">=&gt;</span> <span class="dt">Decidable</span> (<span class="dt">LogAction</span> m) <span class="kw">where</span></span>
-<span id="cb28-8"><a href="#cb28-8"></a><span class="ot">    lose ::</span> (a <span class="ot">-&gt;</span> <span class="dt">Void</span>) <span class="ot">-&gt;</span> <span class="dt">LogAction</span> m a</span>
-<span id="cb28-9"><a href="#cb28-9"></a>    lose f <span class="ot">=</span> <span class="dt">LogAction</span> (absurd <span class="op">.</span> f)</span>
-<span id="cb28-10"><a href="#cb28-10"></a></span>
-<span id="cb28-11"><a href="#cb28-11"></a><span class="ot">    choose ::</span> (a <span class="ot">-&gt;</span> <span class="dt">Either</span> b c) <span class="ot">-&gt;</span> <span class="dt">LogAction</span> m b <span class="ot">-&gt;</span> <span class="dt">LogAction</span> m c <span class="ot">-&gt;</span> <span class="dt">LogAction</span> m a</span>
-<span id="cb28-12"><a href="#cb28-12"></a>    choose f (<span class="dt">LogAction</span> actionB) (<span class="dt">LogAction</span> actionC) <span class="ot">=</span></span>
-<span id="cb28-13"><a href="#cb28-13"></a>        <span class="dt">LogAction</span> (<span class="fu">either</span> actionB actionC <span class="op">.</span> f)</span></code></pre></div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true"></a><span class="kw">import</span> <span class="dt">Data.Void</span> (<span class="dt">Void</span>, absurd)</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true"></a></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true"></a><span class="kw">class</span> <span class="dt">Divisible</span> f <span class="ot">=&gt;</span> <span class="dt">Decidable</span> f <span class="kw">where</span></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true"></a><span class="ot">  lose   ::</span> (a <span class="ot">-&gt;</span> <span class="dt">Void</span>) <span class="ot">-&gt;</span> f a</span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true"></a><span class="ot">  choose ::</span> (a <span class="ot">-&gt;</span> <span class="dt">Either</span> b c) <span class="ot">-&gt;</span> f b <span class="ot">-&gt;</span> f c <span class="ot">-&gt;</span> f a</span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true"></a></span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true"></a><span class="kw">instance</span> (<span class="dt">Applicative</span> m) <span class="ot">=&gt;</span> <span class="dt">Decidable</span> (<span class="dt">LogAction</span> m) <span class="kw">where</span></span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true"></a><span class="ot">    lose ::</span> (a <span class="ot">-&gt;</span> <span class="dt">Void</span>) <span class="ot">-&gt;</span> <span class="dt">LogAction</span> m a</span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true"></a>    lose f <span class="ot">=</span> <span class="dt">LogAction</span> (absurd <span class="op">.</span> f)</span>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true"></a></span>
+<span id="cb28-11"><a href="#cb28-11" aria-hidden="true"></a><span class="ot">    choose ::</span> (a <span class="ot">-&gt;</span> <span class="dt">Either</span> b c) <span class="ot">-&gt;</span> <span class="dt">LogAction</span> m b <span class="ot">-&gt;</span> <span class="dt">LogAction</span> m c <span class="ot">-&gt;</span> <span class="dt">LogAction</span> m a</span>
+<span id="cb28-12"><a href="#cb28-12" aria-hidden="true"></a>    choose f (<span class="dt">LogAction</span> actionB) (<span class="dt">LogAction</span> actionC) <span class="ot">=</span></span>
+<span id="cb28-13"><a href="#cb28-13" aria-hidden="true"></a>        <span class="dt">LogAction</span> (<span class="fu">either</span> actionB actionC <span class="op">.</span> f)</span></code></pre></div>
 <p>The meaning of the <code>Decidable</code> instance for <code>LogAction</code> is that you can look at your logging message and decide what exactly you want to log. And if you know how to log every decision independently, you then can log the message.</p>
 <h2 id="combinators">Combinators<a href="#combinators" class="anchor">🔗</a></h2>
 <p>Using the above instances and combinators from the <code>co-log</code> library, we can now have a combinatorial logging library.</p>
 <p>Let’s first introduce the data types we want to log:</p>
-<div class="sourceCode" id="cb29"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb29-1"><a href="#cb29-1"></a><span class="kw">data</span> <span class="dt">Engine</span> <span class="ot">=</span> <span class="dt">Pistons</span> <span class="dt">Int</span> <span class="op">|</span> <span class="dt">Rocket</span></span>
-<span id="cb29-2"><a href="#cb29-2"></a></span>
-<span id="cb29-3"><a href="#cb29-3"></a><span class="kw">data</span> <span class="dt">Car</span> <span class="ot">=</span> <span class="dt">Car</span></span>
-<span id="cb29-4"><a href="#cb29-4"></a>    {<span class="ot"> carMake   ::</span> <span class="dt">String</span></span>
-<span id="cb29-5"><a href="#cb29-5"></a>    ,<span class="ot"> carModel  ::</span> <span class="dt">String</span></span>
-<span id="cb29-6"><a href="#cb29-6"></a>    ,<span class="ot"> carEngine ::</span> <span class="dt">Engine</span></span>
-<span id="cb29-7"><a href="#cb29-7"></a>    }</span></code></pre></div>
+<div class="sourceCode" id="cb29"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true"></a><span class="kw">data</span> <span class="dt">Engine</span> <span class="ot">=</span> <span class="dt">Pistons</span> <span class="dt">Int</span> <span class="op">|</span> <span class="dt">Rocket</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true"></a></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true"></a><span class="kw">data</span> <span class="dt">Car</span> <span class="ot">=</span> <span class="dt">Car</span></span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true"></a>    {<span class="ot"> carMake   ::</span> <span class="dt">String</span></span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true"></a>    ,<span class="ot"> carModel  ::</span> <span class="dt">String</span></span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true"></a>    ,<span class="ot"> carEngine ::</span> <span class="dt">Engine</span></span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true"></a>    }</span></code></pre></div>
 <p>We also need couple helper functions in order to use the contravariant combinators:</p>
-<div class="sourceCode" id="cb30"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb30-1"><a href="#cb30-1"></a><span class="ot">engineToEither ::</span> <span class="dt">Engine</span> <span class="ot">-&gt;</span> <span class="dt">Either</span> <span class="dt">Int</span> ()</span>
-<span id="cb30-2"><a href="#cb30-2"></a>engineToEither e <span class="ot">=</span> <span class="kw">case</span> e <span class="kw">of</span></span>
-<span id="cb30-3"><a href="#cb30-3"></a>    <span class="dt">Pistons</span> i <span class="ot">-&gt;</span> <span class="dt">Left</span> i</span>
-<span id="cb30-4"><a href="#cb30-4"></a>    <span class="dt">Rocket</span>    <span class="ot">-&gt;</span> <span class="dt">Right</span> ()</span>
-<span id="cb30-5"><a href="#cb30-5"></a></span>
-<span id="cb30-6"><a href="#cb30-6"></a><span class="ot">carToTuple ::</span> <span class="dt">Car</span> <span class="ot">-&gt;</span> (<span class="dt">String</span>, (<span class="dt">String</span>, <span class="dt">Engine</span>))</span>
-<span id="cb30-7"><a href="#cb30-7"></a>carToTuple (<span class="dt">Car</span> make model engine) <span class="ot">=</span> (make, (model, engine))</span></code></pre></div>
+<div class="sourceCode" id="cb30"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true"></a><span class="ot">engineToEither ::</span> <span class="dt">Engine</span> <span class="ot">-&gt;</span> <span class="dt">Either</span> <span class="dt">Int</span> ()</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true"></a>engineToEither e <span class="ot">=</span> <span class="kw">case</span> e <span class="kw">of</span></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true"></a>    <span class="dt">Pistons</span> i <span class="ot">-&gt;</span> <span class="dt">Left</span> i</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true"></a>    <span class="dt">Rocket</span>    <span class="ot">-&gt;</span> <span class="dt">Right</span> ()</span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true"></a></span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true"></a><span class="ot">carToTuple ::</span> <span class="dt">Car</span> <span class="ot">-&gt;</span> (<span class="dt">String</span>, (<span class="dt">String</span>, <span class="dt">Engine</span>))</span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true"></a>carToTuple (<span class="dt">Car</span> make model engine) <span class="ot">=</span> (make, (model, engine))</span></code></pre></div>
 <p>Then we’re going to introduce some basic logging actions:</p>
-<div class="sourceCode" id="cb31"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb31-1"><a href="#cb31-1"></a><span class="ot">stringL ::</span> <span class="dt">LogAction</span> <span class="dt">IO</span> <span class="dt">String</span></span>
-<span id="cb31-2"><a href="#cb31-2"></a>stringL <span class="ot">=</span> logStringStdout</span>
-<span id="cb31-3"><a href="#cb31-3"></a></span>
-<span id="cb31-4"><a href="#cb31-4"></a><span class="co">-- Combinator that allows to log any showable value</span></span>
-<span id="cb31-5"><a href="#cb31-5"></a><span class="ot">showL ::</span> <span class="dt">Show</span> a <span class="ot">=&gt;</span> <span class="dt">LogAction</span> <span class="dt">IO</span> a</span>
-<span id="cb31-6"><a href="#cb31-6"></a>showL <span class="ot">=</span> cmap <span class="fu">show</span> stringL</span>
-<span id="cb31-7"><a href="#cb31-7"></a></span>
-<span id="cb31-8"><a href="#cb31-8"></a><span class="co">-- Returns a log action that logs a given string ignoring its input.</span></span>
-<span id="cb31-9"><a href="#cb31-9"></a><span class="ot">constL ::</span> <span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">LogAction</span> <span class="dt">IO</span> a</span>
-<span id="cb31-10"><a href="#cb31-10"></a>constL s <span class="ot">=</span> s <span class="op">&gt;$</span> stringL</span>
-<span id="cb31-11"><a href="#cb31-11"></a></span>
-<span id="cb31-12"><a href="#cb31-12"></a><span class="ot">intL ::</span> <span class="dt">LogAction</span> <span class="dt">IO</span> <span class="dt">Int</span></span>
-<span id="cb31-13"><a href="#cb31-13"></a>intL <span class="ot">=</span> showL</span></code></pre></div>
+<div class="sourceCode" id="cb31"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true"></a><span class="ot">stringL ::</span> <span class="dt">LogAction</span> <span class="dt">IO</span> <span class="dt">String</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true"></a>stringL <span class="ot">=</span> logStringStdout</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true"></a></span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true"></a><span class="co">-- Combinator that allows to log any showable value</span></span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true"></a><span class="ot">showL ::</span> <span class="dt">Show</span> a <span class="ot">=&gt;</span> <span class="dt">LogAction</span> <span class="dt">IO</span> a</span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true"></a>showL <span class="ot">=</span> cmap <span class="fu">show</span> stringL</span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true"></a></span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true"></a><span class="co">-- Returns a log action that logs a given string ignoring its input.</span></span>
+<span id="cb31-9"><a href="#cb31-9" aria-hidden="true"></a><span class="ot">constL ::</span> <span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">LogAction</span> <span class="dt">IO</span> a</span>
+<span id="cb31-10"><a href="#cb31-10" aria-hidden="true"></a>constL s <span class="ot">=</span> s <span class="op">&gt;$</span> stringL</span>
+<span id="cb31-11"><a href="#cb31-11" aria-hidden="true"></a></span>
+<span id="cb31-12"><a href="#cb31-12" aria-hidden="true"></a><span class="ot">intL ::</span> <span class="dt">LogAction</span> <span class="dt">IO</span> <span class="dt">Int</span></span>
+<span id="cb31-13"><a href="#cb31-13" aria-hidden="true"></a>intL <span class="ot">=</span> showL</span></code></pre></div>
 <p>And then, we can add combinators:</p>
-<div class="sourceCode" id="cb32"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb32-1"><a href="#cb32-1"></a><span class="ot">(&gt;$&lt;) ::</span> <span class="dt">Contravariant</span> f <span class="ot">=&gt;</span> (b <span class="ot">-&gt;</span> a) <span class="ot">-&gt;</span> f a <span class="ot">-&gt;</span> f b</span>
-<span id="cb32-2"><a href="#cb32-2"></a><span class="ot">(&gt;*&lt;) ::</span> <span class="dt">Divisible</span>     f <span class="ot">=&gt;</span> f a <span class="ot">-&gt;</span> f b <span class="ot">-&gt;</span> f (a, b)</span>
-<span id="cb32-3"><a href="#cb32-3"></a><span class="ot">(&gt;|&lt;) ::</span> <span class="dt">Decidable</span>     f <span class="ot">=&gt;</span> f a <span class="ot">-&gt;</span> f b <span class="ot">-&gt;</span> f (<span class="dt">Either</span> a b)</span>
-<span id="cb32-4"><a href="#cb32-4"></a><span class="ot">(&gt;*)  ::</span> <span class="dt">Divisible</span>     f <span class="ot">=&gt;</span> f a <span class="ot">-&gt;</span> f () <span class="ot">-&gt;</span> f a</span>
-<span id="cb32-5"><a href="#cb32-5"></a><span class="ot">(*&lt;)  ::</span> <span class="dt">Divisible</span>     f <span class="ot">=&gt;</span> f () <span class="ot">-&gt;</span> f a <span class="ot">-&gt;</span> f a</span></code></pre></div>
+<div class="sourceCode" id="cb32"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true"></a><span class="ot">(&gt;$&lt;) ::</span> <span class="dt">Contravariant</span> f <span class="ot">=&gt;</span> (b <span class="ot">-&gt;</span> a) <span class="ot">-&gt;</span> f a <span class="ot">-&gt;</span> f b</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true"></a><span class="ot">(&gt;*&lt;) ::</span> <span class="dt">Divisible</span>     f <span class="ot">=&gt;</span> f a <span class="ot">-&gt;</span> f b <span class="ot">-&gt;</span> f (a, b)</span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true"></a><span class="ot">(&gt;|&lt;) ::</span> <span class="dt">Decidable</span>     f <span class="ot">=&gt;</span> f a <span class="ot">-&gt;</span> f b <span class="ot">-&gt;</span> f (<span class="dt">Either</span> a b)</span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true"></a><span class="ot">(&gt;*)  ::</span> <span class="dt">Divisible</span>     f <span class="ot">=&gt;</span> f a <span class="ot">-&gt;</span> f () <span class="ot">-&gt;</span> f a</span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true"></a><span class="ot">(*&lt;)  ::</span> <span class="dt">Divisible</span>     f <span class="ot">=&gt;</span> f () <span class="ot">-&gt;</span> f a <span class="ot">-&gt;</span> f a</span></code></pre></div>
 <p>So we can log our <code>Car</code> data type in the following way:</p>
-<div class="sourceCode" id="cb33"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb33-1"><a href="#cb33-1"></a><span class="co">-- log action that logs a single car module</span></span>
-<span id="cb33-2"><a href="#cb33-2"></a><span class="ot">carL ::</span> <span class="dt">LogAction</span> <span class="dt">IO</span> <span class="dt">Car</span></span>
-<span id="cb33-3"><a href="#cb33-3"></a>carL <span class="ot">=</span> carToTuple</span>
-<span id="cb33-4"><a href="#cb33-4"></a>    <span class="op">&gt;$&lt;</span> (constL <span class="st">&quot;Logging make...&quot;</span> <span class="op">*&lt;</span> stringL <span class="op">&gt;*</span> constL <span class="st">&quot;Finished logging make...&quot;</span>)</span>
-<span id="cb33-5"><a href="#cb33-5"></a>    <span class="op">&gt;*&lt;</span> (constL <span class="st">&quot;Logging model..&quot;</span> <span class="op">*&lt;</span> stringL <span class="op">&gt;*</span> constL <span class="st">&quot;Finished logging model...&quot;</span>)</span>
-<span id="cb33-6"><a href="#cb33-6"></a>    <span class="op">&gt;*&lt;</span> ( engineToEither</span>
-<span id="cb33-7"><a href="#cb33-7"></a>      <span class="op">&gt;$&lt;</span> constL <span class="st">&quot;Logging pistons...&quot;</span> <span class="op">*&lt;</span> intL</span>
-<span id="cb33-8"><a href="#cb33-8"></a>      <span class="op">&gt;|&lt;</span> constL <span class="st">&quot;Logging rocket...&quot;</span></span>
-<span id="cb33-9"><a href="#cb33-9"></a>        )</span>
-<span id="cb33-10"><a href="#cb33-10"></a></span>
-<span id="cb33-11"><a href="#cb33-11"></a><span class="ot">main ::</span> <span class="dt">IO</span> ()</span>
-<span id="cb33-12"><a href="#cb33-12"></a>main <span class="ot">=</span> usingLoggerT carL <span class="op">$</span> logMsg <span class="op">$</span> <span class="dt">Car</span> <span class="st">&quot;Toyota&quot;</span> <span class="st">&quot;Corolla&quot;</span> (<span class="dt">Pistons</span> <span class="dv">4</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb33"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true"></a><span class="co">-- log action that logs a single car module</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true"></a><span class="ot">carL ::</span> <span class="dt">LogAction</span> <span class="dt">IO</span> <span class="dt">Car</span></span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true"></a>carL <span class="ot">=</span> carToTuple</span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true"></a>    <span class="op">&gt;$&lt;</span> (constL <span class="st">&quot;Logging make...&quot;</span> <span class="op">*&lt;</span> stringL <span class="op">&gt;*</span> constL <span class="st">&quot;Finished logging make...&quot;</span>)</span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true"></a>    <span class="op">&gt;*&lt;</span> (constL <span class="st">&quot;Logging model..&quot;</span> <span class="op">*&lt;</span> stringL <span class="op">&gt;*</span> constL <span class="st">&quot;Finished logging model...&quot;</span>)</span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true"></a>    <span class="op">&gt;*&lt;</span> ( engineToEither</span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true"></a>      <span class="op">&gt;$&lt;</span> constL <span class="st">&quot;Logging pistons...&quot;</span> <span class="op">*&lt;</span> intL</span>
+<span id="cb33-8"><a href="#cb33-8" aria-hidden="true"></a>      <span class="op">&gt;|&lt;</span> constL <span class="st">&quot;Logging rocket...&quot;</span></span>
+<span id="cb33-9"><a href="#cb33-9" aria-hidden="true"></a>        )</span>
+<span id="cb33-10"><a href="#cb33-10" aria-hidden="true"></a></span>
+<span id="cb33-11"><a href="#cb33-11" aria-hidden="true"></a><span class="ot">main ::</span> <span class="dt">IO</span> ()</span>
+<span id="cb33-12"><a href="#cb33-12" aria-hidden="true"></a>main <span class="ot">=</span> usingLoggerT carL <span class="op">$</span> logMsg <span class="op">$</span> <span class="dt">Car</span> <span class="st">&quot;Toyota&quot;</span> <span class="st">&quot;Corolla&quot;</span> (<span class="dt">Pistons</span> <span class="dv">4</span>)</span></code></pre></div>
 <p>And the output is:</p>
 <pre class="shell"><code>Logging make...
 Toyota
@@ -423,51 +423,51 @@ Logging pistons...
 <p>This example might look not so convincing. But the approach becomes more useful when you want to log sophisticated data structures as it allows you to divide the message into smaller pieces and decide what to log.</p>
 <h2 id="comonads">Comonads<a href="#comonads" class="anchor">🔗</a></h2>
 <p>Now, let’s talk about one of the most interesting parts of the <code>co-log</code> library. There is the <code>Comonad</code> typeclass which is dual to <code>Monad</code>. It’s implemented in the <a href="http://hackage.haskell.org/package/comonad"><code>comonad</code> package</a>:</p>
-<div class="sourceCode" id="cb35"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb35-1"><a href="#cb35-1"></a><span class="kw">class</span> <span class="dt">Functor</span> w <span class="ot">=&gt;</span> <span class="dt">Comonad</span> w <span class="kw">where</span></span>
-<span id="cb35-2"><a href="#cb35-2"></a><span class="ot">    extract ::</span> w a <span class="ot">-&gt;</span> a</span>
-<span id="cb35-3"><a href="#cb35-3"></a><span class="ot">    extend  ::</span> (w a <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> w a <span class="ot">-&gt;</span> w b</span></code></pre></div>
+<div class="sourceCode" id="cb35"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true"></a><span class="kw">class</span> <span class="dt">Functor</span> w <span class="ot">=&gt;</span> <span class="dt">Comonad</span> w <span class="kw">where</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true"></a><span class="ot">    extract ::</span> w a <span class="ot">-&gt;</span> a</span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true"></a><span class="ot">    extend  ::</span> (w a <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> w a <span class="ot">-&gt;</span> w b</span></code></pre></div>
 <p>And there’s a <code>Comonad</code> instance for the <code>Traced</code> data type:</p>
-<div class="sourceCode" id="cb36"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb36-1"><a href="#cb36-1"></a><span class="kw">newtype</span> <span class="dt">Traced</span> m a <span class="ot">=</span> <span class="dt">Traced</span> {<span class="ot"> runTraced ::</span> m <span class="ot">-&gt;</span> a }</span>
-<span id="cb36-2"><a href="#cb36-2"></a></span>
-<span id="cb36-3"><a href="#cb36-3"></a><span class="kw">instance</span> <span class="dt">Monoid</span> m <span class="ot">=&gt;</span> <span class="dt">Comonad</span> (<span class="dt">Traced</span> m) <span class="kw">where</span></span>
-<span id="cb36-4"><a href="#cb36-4"></a><span class="ot">    extract ::</span> <span class="dt">Traced</span> m a <span class="ot">-&gt;</span> a</span>
-<span id="cb36-5"><a href="#cb36-5"></a>    extract (<span class="dt">Traced</span> ma) <span class="ot">=</span> ma <span class="fu">mempty</span></span>
-<span id="cb36-6"><a href="#cb36-6"></a></span>
-<span id="cb36-7"><a href="#cb36-7"></a><span class="ot">    extend ::</span> (<span class="dt">Traced</span> m a <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> <span class="dt">Traced</span> m a <span class="ot">-&gt;</span> <span class="dt">Traced</span> m b</span>
-<span id="cb36-8"><a href="#cb36-8"></a>    extend f (<span class="dt">Traced</span> ma) <span class="ot">=</span> <span class="dt">Traced</span> <span class="op">$</span> \m <span class="ot">-&gt;</span> f <span class="op">$</span> <span class="dt">Traced</span> <span class="op">$</span> \m' <span class="ot">-&gt;</span> ma (m <span class="op">&lt;&gt;</span> m')</span></code></pre></div>
+<div class="sourceCode" id="cb36"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true"></a><span class="kw">newtype</span> <span class="dt">Traced</span> m a <span class="ot">=</span> <span class="dt">Traced</span> {<span class="ot"> runTraced ::</span> m <span class="ot">-&gt;</span> a }</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true"></a></span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true"></a><span class="kw">instance</span> <span class="dt">Monoid</span> m <span class="ot">=&gt;</span> <span class="dt">Comonad</span> (<span class="dt">Traced</span> m) <span class="kw">where</span></span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true"></a><span class="ot">    extract ::</span> <span class="dt">Traced</span> m a <span class="ot">-&gt;</span> a</span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true"></a>    extract (<span class="dt">Traced</span> ma) <span class="ot">=</span> ma <span class="fu">mempty</span></span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true"></a></span>
+<span id="cb36-7"><a href="#cb36-7" aria-hidden="true"></a><span class="ot">    extend ::</span> (<span class="dt">Traced</span> m a <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> <span class="dt">Traced</span> m a <span class="ot">-&gt;</span> <span class="dt">Traced</span> m b</span>
+<span id="cb36-8"><a href="#cb36-8" aria-hidden="true"></a>    extend f (<span class="dt">Traced</span> ma) <span class="ot">=</span> <span class="dt">Traced</span> <span class="op">$</span> \m <span class="ot">-&gt;</span> f <span class="op">$</span> <span class="dt">Traced</span> <span class="op">$</span> \m' <span class="ot">-&gt;</span> ma (m <span class="op">&lt;&gt;</span> m')</span></code></pre></div>
 <p>If you look closely at <code>Traced</code> data type, you might recognise similarities with <code>LogAction</code>. Indeed, <code>LogAction</code> can be defined as a special case of the <code>Traced</code> data type.</p>
-<div class="sourceCode" id="cb37"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb37-1"><a href="#cb37-1"></a><span class="kw">type</span> <span class="dt">LogAction</span> m msg <span class="ot">=</span> <span class="dt">Traced</span> msg (m ())</span></code></pre></div>
+<div class="sourceCode" id="cb37"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true"></a><span class="kw">type</span> <span class="dt">LogAction</span> m msg <span class="ot">=</span> <span class="dt">Traced</span> msg (m ())</span></code></pre></div>
 <p>Since <code>LogAction</code> is just a special case of the <code>Traced</code> comonad, we can implement the <code>extract</code> and <code>extend</code> functions for <code>LogAction</code>.</p>
-<div class="sourceCode" id="cb38"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb38-1"><a href="#cb38-1"></a><span class="ot">extract ::</span> <span class="dt">Monoid</span> msg <span class="ot">=&gt;</span> <span class="dt">LogAction</span> m msg <span class="ot">-&gt;</span> m ()</span>
-<span id="cb38-2"><a href="#cb38-2"></a>extract (<span class="dt">LogAction</span> action) <span class="ot">=</span> action <span class="fu">mempty</span></span>
-<span id="cb38-3"><a href="#cb38-3"></a></span>
-<span id="cb38-4"><a href="#cb38-4"></a>extend</span>
-<span id="cb38-5"><a href="#cb38-5"></a><span class="ot">    ::</span> <span class="dt">Semigroup</span> msg</span>
-<span id="cb38-6"><a href="#cb38-6"></a>    <span class="ot">=&gt;</span> (<span class="dt">LogAction</span> m msg <span class="ot">-&gt;</span> m ())</span>
-<span id="cb38-7"><a href="#cb38-7"></a>    <span class="ot">-&gt;</span> <span class="dt">LogAction</span> m msg</span>
-<span id="cb38-8"><a href="#cb38-8"></a>    <span class="ot">-&gt;</span> <span class="dt">LogAction</span> m msg</span>
-<span id="cb38-9"><a href="#cb38-9"></a>extend f (<span class="dt">LogAction</span> action) <span class="ot">=</span></span>
-<span id="cb38-10"><a href="#cb38-10"></a>    <span class="dt">LogAction</span> <span class="op">$</span> \m <span class="ot">-&gt;</span> f <span class="op">$</span> <span class="dt">LogAction</span> <span class="op">$</span> \m' <span class="ot">-&gt;</span> action (m <span class="op">&lt;&gt;</span> m')</span></code></pre></div>
+<div class="sourceCode" id="cb38"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true"></a><span class="ot">extract ::</span> <span class="dt">Monoid</span> msg <span class="ot">=&gt;</span> <span class="dt">LogAction</span> m msg <span class="ot">-&gt;</span> m ()</span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true"></a>extract (<span class="dt">LogAction</span> action) <span class="ot">=</span> action <span class="fu">mempty</span></span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true"></a></span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true"></a>extend</span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true"></a><span class="ot">    ::</span> <span class="dt">Semigroup</span> msg</span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true"></a>    <span class="ot">=&gt;</span> (<span class="dt">LogAction</span> m msg <span class="ot">-&gt;</span> m ())</span>
+<span id="cb38-7"><a href="#cb38-7" aria-hidden="true"></a>    <span class="ot">-&gt;</span> <span class="dt">LogAction</span> m msg</span>
+<span id="cb38-8"><a href="#cb38-8" aria-hidden="true"></a>    <span class="ot">-&gt;</span> <span class="dt">LogAction</span> m msg</span>
+<span id="cb38-9"><a href="#cb38-9" aria-hidden="true"></a>extend f (<span class="dt">LogAction</span> action) <span class="ot">=</span></span>
+<span id="cb38-10"><a href="#cb38-10" aria-hidden="true"></a>    <span class="dt">LogAction</span> <span class="op">$</span> \m <span class="ot">-&gt;</span> f <span class="op">$</span> <span class="dt">LogAction</span> <span class="op">$</span> \m' <span class="ot">-&gt;</span> action (m <span class="op">&lt;&gt;</span> m')</span></code></pre></div>
 <p>Unfortunately, we can’t implement the <code>Comonad</code> instance for <code>LogAction</code> due to the interface mismatch. It would be possible only if <code>LogAction</code> was defined as a specialized version of the <code>Traced</code> comonad. However, by doing so we would lose other useful properties of defining <code>LogAction</code> as a separate newtype. However, we can still use the comonadic aspect of the <code>LogAction</code> structure. Here is a couple of simple examples of <code>LogAction</code> comonad usage:</p>
-<div class="sourceCode" id="cb39"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb39-1"><a href="#cb39-1"></a>ghci<span class="op">&gt;</span> logToStdout <span class="ot">=</span> <span class="dt">LogAction</span> <span class="fu">putStrLn</span></span>
-<span id="cb39-2"><a href="#cb39-2"></a>ghci<span class="op">&gt;</span> f (<span class="dt">LogAction</span> l) <span class="ot">=</span> l <span class="st">&quot;.f1&quot;</span> <span class="op">*&gt;</span> l <span class="st">&quot;.f2&quot;</span></span>
-<span id="cb39-3"><a href="#cb39-3"></a>ghci<span class="op">&gt;</span> g (<span class="dt">LogAction</span> l) <span class="ot">=</span> l <span class="st">&quot;.g&quot;</span></span>
-<span id="cb39-4"><a href="#cb39-4"></a>ghci<span class="op">&gt;</span> unLogAction logToStdout <span class="st">&quot;foo&quot;</span></span>
-<span id="cb39-5"><a href="#cb39-5"></a>foo</span>
-<span id="cb39-6"><a href="#cb39-6"></a>ghci<span class="op">&gt;</span> unLogAction (extend f logToStdout) <span class="st">&quot;foo&quot;</span></span>
-<span id="cb39-7"><a href="#cb39-7"></a>foo<span class="op">.</span>f1</span>
-<span id="cb39-8"><a href="#cb39-8"></a>foo<span class="op">.</span>f2</span>
-<span id="cb39-9"><a href="#cb39-9"></a>ghci<span class="op">&gt;</span> unLogAction (extend g <span class="op">$</span> extend f logToStdout) <span class="st">&quot;foo&quot;</span></span>
-<span id="cb39-10"><a href="#cb39-10"></a>foo<span class="op">.</span>g<span class="op">.</span>f1</span>
-<span id="cb39-11"><a href="#cb39-11"></a>foo<span class="op">.</span>g<span class="op">.</span>f2</span></code></pre></div>
+<div class="sourceCode" id="cb39"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true"></a>ghci<span class="op">&gt;</span> logToStdout <span class="ot">=</span> <span class="dt">LogAction</span> <span class="fu">putStrLn</span></span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true"></a>ghci<span class="op">&gt;</span> f (<span class="dt">LogAction</span> l) <span class="ot">=</span> l <span class="st">&quot;.f1&quot;</span> <span class="op">*&gt;</span> l <span class="st">&quot;.f2&quot;</span></span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true"></a>ghci<span class="op">&gt;</span> g (<span class="dt">LogAction</span> l) <span class="ot">=</span> l <span class="st">&quot;.g&quot;</span></span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true"></a>ghci<span class="op">&gt;</span> unLogAction logToStdout <span class="st">&quot;foo&quot;</span></span>
+<span id="cb39-5"><a href="#cb39-5" aria-hidden="true"></a>foo</span>
+<span id="cb39-6"><a href="#cb39-6" aria-hidden="true"></a>ghci<span class="op">&gt;</span> unLogAction (extend f logToStdout) <span class="st">&quot;foo&quot;</span></span>
+<span id="cb39-7"><a href="#cb39-7" aria-hidden="true"></a>foo<span class="op">.</span>f1</span>
+<span id="cb39-8"><a href="#cb39-8" aria-hidden="true"></a>foo<span class="op">.</span>f2</span>
+<span id="cb39-9"><a href="#cb39-9" aria-hidden="true"></a>ghci<span class="op">&gt;</span> unLogAction (extend g <span class="op">$</span> extend f logToStdout) <span class="st">&quot;foo&quot;</span></span>
+<span id="cb39-10"><a href="#cb39-10" aria-hidden="true"></a>foo<span class="op">.</span>g<span class="op">.</span>f1</span>
+<span id="cb39-11"><a href="#cb39-11" aria-hidden="true"></a>foo<span class="op">.</span>g<span class="op">.</span>f2</span></code></pre></div>
 <p>What this comonadic aspect of the interface means is that you can extend the existing <code>LogAction</code> by passing an additional payload to every message. This only works if your message is a <code>Semigroup</code> (or <code>Monoid</code>) and preferably a commutative <code>Semigroup</code> (or <code>Monoid</code>). For example, <code>Map String String</code>. If you log key-value pairs, you might want to add additional entries depending on the local context. Turns out this is extremely useful for structured logging: if you log JSON values, you might want to add extra keys or tags or values for specific functions and here is where the comonadic interface becomes helpful.</p>
 <h2 id="configurable-convenient">Configurable &amp; Convenient<a href="#configurable-convenient" class="anchor">🔗</a></h2>
 <p>This section covers how dependent map, type-level programming and the <a href="https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/glasgow_exts.html#overloaded-labels"><code>-XOverloadedLabels</code> language extension</a> are used to implement a flexible and extensible interface for logging configuration.</p>
 <p>Earlier I’ve introduced the <code>RichMessage</code> data type that allows to extend a simple <code>Message</code> with the result of an IO action:</p>
-<div class="sourceCode" id="cb40"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb40-1"><a href="#cb40-1"></a><span class="kw">data</span> <span class="dt">RichMessage</span> <span class="ot">=</span> <span class="dt">RichMessage</span></span>
-<span id="cb40-2"><a href="#cb40-2"></a>    {<span class="ot"> richMessageMsg  ::</span> <span class="dt">Message</span></span>
-<span id="cb40-3"><a href="#cb40-3"></a>    ,<span class="ot"> richMessageTime ::</span> <span class="dt">UTCTime</span></span>
-<span id="cb40-4"><a href="#cb40-4"></a>    }</span></code></pre></div>
+<div class="sourceCode" id="cb40"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true"></a><span class="kw">data</span> <span class="dt">RichMessage</span> <span class="ot">=</span> <span class="dt">RichMessage</span></span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true"></a>    {<span class="ot"> richMessageMsg  ::</span> <span class="dt">Message</span></span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true"></a>    ,<span class="ot"> richMessageTime ::</span> <span class="dt">UTCTime</span></span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true"></a>    }</span></code></pre></div>
 <p>Currently, it stores only the timestamp of the logged message. But in real life we might want to display more information on every logging message:</p>
 <ul>
 <li>Id of the current thread</li>
@@ -485,34 +485,34 @@ Logging pistons...
 </ul>
 <p>We can build extensible records on top of the <code>typerep-map</code>, and I’m going to explain how it’s done in <code>co-log</code>.</p>
 <p>First, let’s introduce a type family that maps arbitrary string tags to types.</p>
-<div class="sourceCode" id="cb41"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb41-1"><a href="#cb41-1"></a><span class="kw">type</span> <span class="kw">family</span> <span class="dt">FieldType</span> (<span class="ot">fieldName ::</span> <span class="dt">Symbol</span>)<span class="ot"> ::</span> <span class="dt">Type</span></span>
-<span id="cb41-2"><a href="#cb41-2"></a><span class="kw">type</span> <span class="kw">instance</span> <span class="dt">FieldType</span> <span class="st">&quot;threadId&quot;</span> <span class="ot">=</span> <span class="dt">ThreadId</span></span>
-<span id="cb41-3"><a href="#cb41-3"></a><span class="kw">type</span> <span class="kw">instance</span> <span class="dt">FieldType</span> <span class="st">&quot;utcTime&quot;</span>  <span class="ot">=</span> <span class="dt">UTCTime</span></span></code></pre></div>
+<div class="sourceCode" id="cb41"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true"></a><span class="kw">type</span> <span class="kw">family</span> <span class="dt">FieldType</span> (<span class="ot">fieldName ::</span> <span class="dt">Symbol</span>)<span class="ot"> ::</span> <span class="dt">Type</span></span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true"></a><span class="kw">type</span> <span class="kw">instance</span> <span class="dt">FieldType</span> <span class="st">&quot;threadId&quot;</span> <span class="ot">=</span> <span class="dt">ThreadId</span></span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true"></a><span class="kw">type</span> <span class="kw">instance</span> <span class="dt">FieldType</span> <span class="st">&quot;utcTime&quot;</span>  <span class="ot">=</span> <span class="dt">UTCTime</span></span></code></pre></div>
 <p>The type family is open, so users can extend it with anything they want.</p>
 <p>Now let’s introduce a data type that stores values of type <code>FieldType</code> inside some monad.</p>
-<div class="sourceCode" id="cb42"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb42-1"><a href="#cb42-1"></a><span class="kw">newtype</span> <span class="dt">MessageField</span> (<span class="ot">m ::</span> <span class="dt">Type</span> <span class="ot">-&gt;</span> <span class="dt">Type</span>) (<span class="ot">fieldName ::</span> <span class="dt">Symbol</span>) <span class="ot">=</span> <span class="dt">MessageField</span></span>
-<span id="cb42-2"><a href="#cb42-2"></a>    {<span class="ot"> unMesssageField ::</span> m (<span class="dt">FieldType</span> fieldName)</span>
-<span id="cb42-3"><a href="#cb42-3"></a>    }</span></code></pre></div>
+<div class="sourceCode" id="cb42"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true"></a><span class="kw">newtype</span> <span class="dt">MessageField</span> (<span class="ot">m ::</span> <span class="dt">Type</span> <span class="ot">-&gt;</span> <span class="dt">Type</span>) (<span class="ot">fieldName ::</span> <span class="dt">Symbol</span>) <span class="ot">=</span> <span class="dt">MessageField</span></span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true"></a>    {<span class="ot"> unMesssageField ::</span> m (<span class="dt">FieldType</span> fieldName)</span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true"></a>    }</span></code></pre></div>
 <p>We can now parametrize <code>TypeRepMap</code> with <code>MessageField</code>:</p>
-<div class="sourceCode" id="cb43"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb43-1"><a href="#cb43-1"></a><span class="kw">type</span> <span class="dt">FieldMap</span> (<span class="ot">m ::</span> <span class="dt">Type</span> <span class="ot">-&gt;</span> <span class="dt">Type</span>) <span class="ot">=</span> <span class="dt">TypeRepMap</span> (<span class="dt">MessageField</span> m)</span></code></pre></div>
+<div class="sourceCode" id="cb43"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true"></a><span class="kw">type</span> <span class="dt">FieldMap</span> (<span class="ot">m ::</span> <span class="dt">Type</span> <span class="ot">-&gt;</span> <span class="dt">Type</span>) <span class="ot">=</span> <span class="dt">TypeRepMap</span> (<span class="dt">MessageField</span> m)</span></code></pre></div>
 <p>So <code>FieldMap</code> is a mapping from type level string to runtime value inside some monad <code>m</code>, where the type of the runtime value is defined by the value of the type-level string.</p>
 <p>There is <a href="http://hackage.haskell.org/package/typerep-map-0.3.0/docs/Data-TypeRepMap.html#t:WrapTypeable">an existential wrapper</a> in the <code>typerep-map</code> library that allows to create <code>TypeRepMap</code> from a list due to <a href="http://hackage.haskell.org/package/typerep-map-0.3.0/docs/Data-TypeRepMap.html#t:TypeRepMap"><code>IsList</code> instance</a>:</p>
-<div class="sourceCode" id="cb44"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb44-1"><a href="#cb44-1"></a><span class="ot">defaultFieldMap ::</span> <span class="dt">MonadIO</span> m <span class="ot">=&gt;</span> <span class="dt">FieldMap</span> m</span>
-<span id="cb44-2"><a href="#cb44-2"></a>defaultFieldMap <span class="ot">=</span> fromList</span>
-<span id="cb44-3"><a href="#cb44-3"></a>    [ <span class="dt">WrapTypeable</span> <span class="op">$</span> <span class="dt">MessageField</span> <span class="op">@</span>_ <span class="op">@</span><span class="st">&quot;threadId&quot;</span> (liftIO myThreadId)</span>
-<span id="cb44-4"><a href="#cb44-4"></a>    , <span class="dt">WrapTypeable</span> <span class="op">$</span> <span class="dt">MessageField</span> <span class="op">@</span>_ <span class="op">@</span><span class="st">&quot;utcTime&quot;</span>  (liftIO getCurrentTime)</span>
-<span id="cb44-5"><a href="#cb44-5"></a>    ]</span></code></pre></div>
+<div class="sourceCode" id="cb44"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true"></a><span class="ot">defaultFieldMap ::</span> <span class="dt">MonadIO</span> m <span class="ot">=&gt;</span> <span class="dt">FieldMap</span> m</span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true"></a>defaultFieldMap <span class="ot">=</span> fromList</span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true"></a>    [ <span class="dt">WrapTypeable</span> <span class="op">$</span> <span class="dt">MessageField</span> <span class="op">@</span>_ <span class="op">@</span><span class="st">&quot;threadId&quot;</span> (liftIO myThreadId)</span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true"></a>    , <span class="dt">WrapTypeable</span> <span class="op">$</span> <span class="dt">MessageField</span> <span class="op">@</span>_ <span class="op">@</span><span class="st">&quot;utcTime&quot;</span>  (liftIO getCurrentTime)</span>
+<span id="cb44-5"><a href="#cb44-5" aria-hidden="true"></a>    ]</span></code></pre></div>
 <p>Now we can extract monadic actions that return us values by doing <code>lookup @"threadId"</code>. Since it’s just a map, you can configure the output by putting additional actions in the map with the <code>insert</code> function or by removing some actions with the <code>delete</code> function. You only need to implement the formatting function for your <code>FieldMap</code> or use the default one from the <code>co-log</code> library.</p>
 <p>But that’s not all. There’s the <a href="https://hackage.haskell.org/package/base-4.12.0.0/docs/GHC-OverloadedLabels.html"><code>OverloadedLabels</code> extension</a> since GHC 8.0.1 that allows us to specify such <code>FieldMap</code>s in a more convenient way. After writing the following instance:</p>
-<div class="sourceCode" id="cb45"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb45-1"><a href="#cb45-1"></a><span class="kw">instance</span> (<span class="dt">KnownSymbol</span> fieldName, a <span class="op">~</span> m (<span class="dt">FieldType</span> fieldName))</span>
-<span id="cb45-2"><a href="#cb45-2"></a>      <span class="ot">=&gt;</span> <span class="dt">IsLabel</span> fieldName (a <span class="ot">-&gt;</span> <span class="dt">WrapTypeable</span> (<span class="dt">MessageField</span> m)) <span class="kw">where</span></span>
-<span id="cb45-3"><a href="#cb45-3"></a>    fromLabel field <span class="ot">=</span> <span class="dt">WrapTypeable</span> <span class="op">$</span> <span class="dt">MessageField</span> <span class="op">@</span>_ <span class="op">@</span>fieldName field</span></code></pre></div>
+<div class="sourceCode" id="cb45"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true"></a><span class="kw">instance</span> (<span class="dt">KnownSymbol</span> fieldName, a <span class="op">~</span> m (<span class="dt">FieldType</span> fieldName))</span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true"></a>      <span class="ot">=&gt;</span> <span class="dt">IsLabel</span> fieldName (a <span class="ot">-&gt;</span> <span class="dt">WrapTypeable</span> (<span class="dt">MessageField</span> m)) <span class="kw">where</span></span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true"></a>    fromLabel field <span class="ot">=</span> <span class="dt">WrapTypeable</span> <span class="op">$</span> <span class="dt">MessageField</span> <span class="op">@</span>_ <span class="op">@</span>fieldName field</span></code></pre></div>
 <p>The <code>OveloadedLabels</code> extension allows to write <code>#foo</code> instead of <code>fromLabel @"foo"</code>. So, by having the above instance for the function we can pass arguments to labels. We’re now able to define <code>defaultFieldMap</code> in a more concise way:</p>
-<div class="sourceCode" id="cb46"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb46-1"><a href="#cb46-1"></a><span class="ot">defaultFieldMap ::</span> <span class="dt">MonadIO</span> m <span class="ot">=&gt;</span> <span class="dt">FieldMap</span> m</span>
-<span id="cb46-2"><a href="#cb46-2"></a>defaultFieldMap <span class="ot">=</span> fromList</span>
-<span id="cb46-3"><a href="#cb46-3"></a>    [ <span class="op">#</span>threadId (liftIO myThreadId)</span>
-<span id="cb46-4"><a href="#cb46-4"></a>    , <span class="op">#</span>utcTime  (liftIO getCurrentTime)</span>
-<span id="cb46-5"><a href="#cb46-5"></a>    ]</span></code></pre></div>
+<div class="sourceCode" id="cb46"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true"></a><span class="ot">defaultFieldMap ::</span> <span class="dt">MonadIO</span> m <span class="ot">=&gt;</span> <span class="dt">FieldMap</span> m</span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true"></a>defaultFieldMap <span class="ot">=</span> fromList</span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true"></a>    [ <span class="op">#</span>threadId (liftIO myThreadId)</span>
+<span id="cb46-4"><a href="#cb46-4" aria-hidden="true"></a>    , <span class="op">#</span>utcTime  (liftIO getCurrentTime)</span>
+<span id="cb46-5"><a href="#cb46-5" aria-hidden="true"></a>    ]</span></code></pre></div>
 <p>Here is how the output looks like with <code>ThreadId</code> and without it, for example from the library’s playground:</p>
 <figure>
 <img src="https://user-images.githubusercontent.com/4276606/45888166-fcbedb80-bdef-11e8-9a02-0e08cf30b6ab.png" alt /><figcaption>Logging example</figcaption>

@@ -89,29 +89,29 @@ And another link to the [GitHub sources](https://github.com/kowainik/hakyll-shor
 <p>Add <code>hakyll-shortcut-links</code> under the <code>build-depends</code> section in your <code>.cabal</code> file. If you use <code>Stack</code> build tool, you would need to add the library into <code>extra-deps</code> list in the <code>stack.yaml</code> file.</p>
 <h3 id="change-a-standard-pandoccompiler">Change a standard pandocCompiler<a href="#change-a-standard-pandoccompiler" class="anchor">🔗</a></h3>
 <p>Here we assume that you already have a Hakyll project. If not then you can use <a href="https://jaspervdj.be/hakyll/tutorials.html">these tutorials</a> to create one. Anyway, you would eventually have the code that uses <code>pandocCompiler</code> that could look like this function:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb3-1"><a href="#cb3-1"></a>compile <span class="op">$</span></span>
-<span id="cb3-2"><a href="#cb3-2"></a>    pandocCompiler <span class="op">&gt;&gt;=</span> loadAndApplyTemplate <span class="st">&quot;templates/post.html&quot;</span> postCtx</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true"></a>compile <span class="op">$</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true"></a>    pandocCompiler <span class="op">&gt;&gt;=</span> loadAndApplyTemplate <span class="st">&quot;templates/post.html&quot;</span> postCtx</span></code></pre></div>
 <p>All you need to change is to use <code>allShortcutLinksCompiler</code> or <code>shortcutLinksCompiler</code> function from this library instead of the standard <code>pandocCompiler</code>:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb4-1"><a href="#cb4-1"></a><span class="kw">import</span> <span class="dt">Hakyll.ShortcutLinks</span> (allShortcutLinksCompiler)</span>
-<span id="cb4-2"><a href="#cb4-2"></a></span>
-<span id="cb4-3"><a href="#cb4-3"></a><span class="op">...</span></span>
-<span id="cb4-4"><a href="#cb4-4"></a></span>
-<span id="cb4-5"><a href="#cb4-5"></a>compile <span class="op">$</span></span>
-<span id="cb4-6"><a href="#cb4-6"></a>    allShortcutLinksCompiler <span class="op">&gt;&gt;=</span> loadAndApplyTemplate <span class="st">&quot;templates/post.html&quot;</span> postCtx</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true"></a><span class="kw">import</span> <span class="dt">Hakyll.ShortcutLinks</span> (allShortcutLinksCompiler)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true"></a><span class="op">...</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true"></a></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true"></a>compile <span class="op">$</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true"></a>    allShortcutLinksCompiler <span class="op">&gt;&gt;=</span> loadAndApplyTemplate <span class="st">&quot;templates/post.html&quot;</span> postCtx</span></code></pre></div>
 <p>That’s all!</p>
 <p>There could be another situation. You could already have some custom Compiler function:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb5-1"><a href="#cb5-1"></a><span class="co">-- | A pandoc compiler which makes all entries of &quot;42&quot; bold automatically.</span></span>
-<span id="cb5-2"><a href="#cb5-2"></a><span class="ot">bold42Compiler ::</span> <span class="dt">Compiler</span> (<span class="dt">Item</span> <span class="dt">String</span>)</span>
-<span id="cb5-3"><a href="#cb5-3"></a>bold42Compiler <span class="ot">=</span> pandocCompilerWithTransform</span>
-<span id="cb5-4"><a href="#cb5-4"></a>    myHakyllReaderOptions</span>
-<span id="cb5-5"><a href="#cb5-5"></a>    myHakyllWriterOptions</span>
-<span id="cb5-6"><a href="#cb5-6"></a>    make42Bold</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true"></a><span class="co">-- | A pandoc compiler which makes all entries of &quot;42&quot; bold automatically.</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true"></a><span class="ot">bold42Compiler ::</span> <span class="dt">Compiler</span> (<span class="dt">Item</span> <span class="dt">String</span>)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true"></a>bold42Compiler <span class="ot">=</span> pandocCompilerWithTransform</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true"></a>    myHakyllReaderOptions</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true"></a>    myHakyllWriterOptions</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true"></a>    make42Bold</span></code></pre></div>
 <p>In this case, you can use the <code>applyAllShortcuts</code> function directly. All you need is to combine two transformations:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb6-1"><a href="#cb6-1"></a><span class="ot">myCompiler ::</span> <span class="dt">Compiler</span> (<span class="dt">Item</span> <span class="dt">String</span>)</span>
-<span id="cb6-2"><a href="#cb6-2"></a>myCompiler <span class="ot">=</span> pandocCompilerWithTransformM</span>
-<span id="cb6-3"><a href="#cb6-3"></a>    myHakyllReaderOptions</span>
-<span id="cb6-4"><a href="#cb6-4"></a>    myHakyllWriterOptions</span>
-<span id="cb6-5"><a href="#cb6-5"></a>    (applyAllShortcuts <span class="op">.</span> make42Bold)</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true"></a><span class="ot">myCompiler ::</span> <span class="dt">Compiler</span> (<span class="dt">Item</span> <span class="dt">String</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true"></a>myCompiler <span class="ot">=</span> pandocCompilerWithTransformM</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true"></a>    myHakyllReaderOptions</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true"></a>    myHakyllWriterOptions</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true"></a>    (applyAllShortcuts <span class="op">.</span> make42Bold)</span></code></pre></div>
 <h3 id="use-shortcuts-in-your-docs">Use shortcuts in your docs<a href="#use-shortcuts-in-your-docs" class="anchor">🔗</a></h3>
 <p>The hardest part is done, now you can create links using the shortcuts, and the Hakyll is going to build full URLs for them. Happy coding!</p>
 <h3 id="example">Example<a href="#example" class="anchor">🔗</a></h3>

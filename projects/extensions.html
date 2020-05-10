@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+      <!-- Global site tag (gtag.js) - Google Analytics -->
+      <script async src="https://www.googletagmanager.com/gtag/js?id=UA-125893749-1"></script>
+      <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+
+          gtag('config', 'UA-125893749-1');
+          </script>
+    <title>extensions :: Kowainik</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Kowainik page">
+    <meta name="keywords" content="Haskell, Functional progarmming, FP">
+    <meta name="author" content="Kowainik" />
+
+    <!-- Twitter cards -->
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="@kowainik" />
+    <meta property="twitter:title" content="Kowainik - extensions" />
+    <meta name="twitter:description" content="👅 Parse Haskell Language Extensions" />
+    <meta name="twitter:image:src" content="https://kowainik.github.io/images/logo-yellow.png" />
+    <meta property="og:title" content="Kowainik - extensions" />
+    <meta property="og:description" content="👅 Parse Haskell Language Extensions" />
+    <meta property="og:site_name" content="Kowainik" />
+    <meta property="og:image" content="https://kowainik.github.io/images/logo-yellow.png" />
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon">
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.11.0/styles/dracula.min.css" />
+    <!-- Fontawesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+    <!-- Custom fonts for this template -->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Lato" />
+    <!-- Custom styles for this template -->
+    <link href="../css/default.css" rel="stylesheet">
+    <link href="../css/post.css" rel="stylesheet">
+  </head>
+
+  <body class="body-posts">
+
+      <!-- Header -->
+      <nav class="navbar navbar-inverse navbar-fixed-left leftmenu bg-primary text-secondary">
+            <div class="navbar-header">
+                <div class="postslogo"> <a class="navbar-brand" href="../"><img class="img-fluid mb-5 d-block mx-auto" src="../images/logo-tr.png" alt="Kowainik"></a></div>
+
+            </div>
+            <div class="coolFont">
+                <a class="btn btn-outline-dark btn-tag" href="https://github.com/kowainik/extensions" data-icon="octicon-star" data-size="large" aria-label="Star Kowainik/extensions on GitHub">Star Project</a>
+                <a class="fa-stack fa-2x" href="https://github.com/kowainik/extensions/stargazers">
+                    <i class="fa fa-star fa-stack-2x"></i>
+                    <i id="stars" class="fa fa-stack-1x fa-inverse main-font">28</i>
+                </a>
+                <div class="author">Language: Haskell</div>
+
+                <div class="allposts">
+                    <h3><a href="../projects"> Projects =<< </a></h3>
+                </div>
+            </div>
+      </nav>
+      <div class="container info">
+          <h2 class="text-center text-uppercase text-secondary">extensions</h2>
+          <div class="content">
+          <div class="row post">
+              <div class="col-12 post-body">
+              <p class="lead">
+                  <figure>
+<img src="https://user-images.githubusercontent.com/8126674/80925339-f09a4e80-8d86-11ea-81f4-fd1a6f50cd6b.png" alt /><figcaption>Logo</figcaption>
+</figure>
+<p><a href="https://github.com/kowainik/extensions/actions"><img src="https://github.com/kowainik/extensions/workflows/CI/badge.svg" alt="GitHub CI" /></a> <a href="https://hackage.haskell.org/package/extensions"><img src="https://img.shields.io/hackage/v/extensions.svg?logo=haskell" alt="Hackage" /></a> <a href="LICENSE"><img src="https://img.shields.io/badge/license-MPL--2.0-blue.svg" alt="MPL-2.0 license" /></a></p>
+<p>Library and CLI tool to parse Haskell <code>{-# LANGUAGE #-}</code> extensions in source files, extract <code>default-extensions</code> from <code>.cabal</code> files and combine together <code>default-extensions</code> and per-module extensions.</p>
+<h2 id="goals">Goals<a href="#goals" class="anchor">🔗</a></h2>
+<p>The <code>extensions</code> library provides a lighweight way to get Haskell LANGUAGE pragmas for Haskell modules. It has the following goals:</p>
+<ol type="1">
+<li>Be <strong>lightweight</strong>. Dependency footprint is extremely small, and using <code>extensions</code> either as a library or as a tool is straightforward.</li>
+<li>Support both <code>default-extensions</code> in <strong>Cabal</strong> and <code>{-# LANGUAGE #-}</code> pragmas in <strong>Haskell</strong> modules.</li>
+<li>Should work on common and real cases. <code>extensions</code> strives to support as many valid syntactic constructions as possible, but it may not work on every possible combination of CPP, comments and pragmas, where GHC would work. We encouragle you to <a href="https://github.com/kowainik/extensions/issues/new">open issue</a> if you encounter any failures when using <code>extensions</code>.</li>
+</ol>
+<h2 id="how-to-use">How to use<a href="#how-to-use" class="anchor">🔗</a></h2>
+<p>You can use <code>extensions</code> either as a library or as a CLI tool.</p>
+<h3 id="library">Library<a href="#library" class="anchor">🔗</a></h3>
+<h4 id="usage-with-cabal">Usage with Cabal<a href="#usage-with-cabal" class="anchor">🔗</a></h4>
+<p><code>extensions</code> is compatible with the latest GHC compiler versions starting from <code>8.8.3</code>.</p>
+<p>In order to start using <code>extensions</code> in your project, you will need to set it up with the three easy steps:</p>
+<ol type="1">
+<li><p>Add the dependency on <code>extensions</code> in your project’s <code>.cabal</code> file. For this, you should modify the <code>build-depends</code> section by adding the name of this library. After the adjustment, this section could look like this:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true"></a>build<span class="op">-</span>depends<span class="op">:</span> base <span class="op">^&gt;=</span> <span class="fl">4.14</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true"></a>             , extensions <span class="op">^&gt;=</span> <span class="fl">0.0</span></span></code></pre></div></li>
+<li><p>In the module where you wish to extract extensions, you should add the import:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true"></a><span class="kw">import</span> <span class="dt">Extensions</span> (getPackageExtensions)</span></code></pre></div></li>
+<li><p>Now you can use the types and functions from the library:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true"></a><span class="ot">main ::</span> <span class="dt">IO</span> ()</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true"></a>main <span class="ot">=</span> getPackageExtensions <span class="st">&quot;extensions.cabal&quot;</span> <span class="op">&gt;&gt;=</span> <span class="fu">print</span></span></code></pre></div></li>
+</ol>
+<h4 id="usage-with-stack">Usage with Stack<a href="#usage-with-stack" class="anchor">🔗</a></h4>
+<p>If <code>extensions</code> is not available on your current Stackage resolver yet, fear not! You can still use it from Hackage by adding the following to the <code>extra-deps</code> section of your <code>stack.yaml</code> file:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true"></a><span class="fu">extra-deps</span><span class="kw">:</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true"></a><span class="at">  </span><span class="kw">-</span><span class="at"> extensions-0.0.0.0</span></span></code></pre></div>
+<h3 id="cli-tool">CLI tool<a href="#cli-tool" class="anchor">🔗</a></h3>
+<p>To use <code>extensions</code> as a CLI tool, you need to install it either with Cabal</p>
+<pre><code>cabal install extensions</code></pre>
+<p>or Stack</p>
+<pre><code>stack install extensions</code></pre>
+<p>The tool can be used to inspect language extensions in your Haskell project. Some common usages of the tool:</p>
+<ol type="1">
+<li>Get all extensions in all modules, combined with <code>default-extensions</code> from the <code>.cabal</code> file. <img src="https://user-images.githubusercontent.com/4276606/80870176-b0f73800-8c9c-11ea-8ffc-dda2d4940d1e.png" alt="All extensions" /></li>
+<li>Get all extensions for a specific module, combined with Cabal extensions. <img src="https://user-images.githubusercontent.com/4276606/80870175-b05ea180-8c9c-11ea-9f48-cac7ff854b9c.png" alt="Module extensions" /></li>
+<li>Get extensions defined only in a module. <img src="https://user-images.githubusercontent.com/4276606/80870173-afc60b00-8c9c-11ea-9d74-cf92ed0c3940.png" alt="Only module" /></li>
+</ol>
+<h2 id="alternatives">Alternatives<a href="#alternatives" class="anchor">🔗</a></h2>
+<p>Alternatively, you can extract Haskell Language extensions using the following ways:</p>
+<ol type="1">
+<li>Using <code>ghc</code> as a library. This approach ties you to a specific GHC version and requires more effort to support multiple GHCs. Also, GHC API is more complicated than <code>extensions</code> API (especially if you want to handle <code>CPP</code>). And even with <code>CPP</code> handling from <code>ghc</code> you won’t be able to get all extensions defined in a module. However, this approach allows you to fully reproduce GHC behaviour.</li>
+<li>Using <code>ghc-lib-parser</code>. Same as the previous approach, but does not tie you to a specific GHC version. However, <code>ghc-lib-parser</code> is rather big dependency.</li>
+<li>Using the <code>haskell-src-exts</code> library. This library parses Haskell source files, but it’s not actively maintained anymore and doesn’t support <code>CPP</code>.</li>
+</ol>
+              </p>
+              </div>
+          </div>
+          </div>
+
+
+      </div>
+
+      <script src="../js/stars.js"></script>
+      <script>
+       shootingStars("kowainik/extensions", function (stars) {
+           document.getElementById("stars").innerHTML = stars;
+       });
+      </script>
+
+
+      <!-- Bootstrap core JavaScript -->
+      <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"> </script>
+      <script src="../js/post.js"> </script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/haskell.min.js"></script>
+      <script>hljs.initHighlightingOnLoad()</script>
+      <script async defer src="https://buttons.github.io/buttons.js"></script>
+  </body>
+</html>

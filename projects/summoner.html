@@ -58,7 +58,7 @@
                 <a class="btn btn-outline-dark btn-tag" href="https://github.com/kowainik/summoner" data-icon="octicon-star" data-size="large" aria-label="Star Kowainik/summoner on GitHub">Star Project</a>
                 <a class="fa-stack fa-2x" href="https://github.com/kowainik/summoner/stargazers">
                     <i class="fa fa-star fa-stack-2x"></i>
-                    <i id="stars" class="fa fa-stack-1x fa-inverse main-font">424</i>
+                    <i id="stars" class="fa fa-stack-1x fa-inverse main-font">466</i>
                 </a>
                 <div class="author">Language: Haskell</div>
 
@@ -135,7 +135,7 @@
 <p><a href="https://asciinema.org/a/314375"><img src="https://asciinema.org/a/314375.png" alt="TUI demo" /></a></p>
 <h3 id="cli-demo">CLI demo <a href="#structure">↑</a><a href="#cli-demo" class="anchor">🔗</a></h3>
 <p><a href="https://asciinema.org/a/314374"><img src="https://asciinema.org/a/314374.png" alt="CLI demo" /></a></p>
-<h3 id="examples">Examples<a href="#examples" class="anchor">🔗</a></h3>
+<h3 id="examples">Examples <a href="#structure">↑</a><a href="#examples" class="anchor">🔗</a></h3>
 <p>You can also see complete examples in the following folder:</p>
 <ul>
 <li><a href="https://github.com/kowainik/summoner/tree/master/summoner-cli/examples/"><code>summon-cli/examples/</code>: Examples of scaffolded projects</a></li>
@@ -265,9 +265,8 @@
 mv summon-cli-linux ~/.local/bin/summon</code></pre>
 <h5 id="tui-homebrew">TUI: Homebrew <a href="#structure">↑</a><a href="#tui-homebrew" class="anchor">🔗</a></h5>
 <p>If you are on MacOS, you can get Summoner using Homebrew Kowainik’s Tap.</p>
-<p>You need to run the following commands for that:</p>
-<pre class="shell"><code>$ brew tap kowainik/tap
-$ brew install summoner-tui</code></pre>
+<p>You need to run the following command for that:</p>
+<pre class="shell"><code>$ brew install kowainik/tap/summoner-tui</code></pre>
 <h5 id="tui-ubuntu">TUI: Ubuntu <a href="#structure">↑</a><a href="#tui-ubuntu" class="anchor">🔗</a></h5>
 <p>If you are on Ubuntu, you can get Summoner from Kowainik’s PPA.</p>
 <p>You need to run the following commands for that:</p>
@@ -286,7 +285,7 @@ cabal v2-install summoner-tui</code></pre>
 <p>or clone the directory from GitHub:</p>
 <pre class="shell"><code>git clone https://github.com/kowainik/summoner.git</code></pre>
 <p>Step into the directory:</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb11-1"><a href="#cb11-1"></a>cd summoner</span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true"></a>cd summoner</span></code></pre></div>
 <p>Build and install using <code>cabal</code>:</p>
 <pre class="shell"><code>cabal v2-install summoner-tui:exe:summon-tui</code></pre>
 <p>Build and install using <code>stack</code>:</p>
@@ -299,9 +298,8 @@ cabal v2-install summoner-tui</code></pre>
 mv summon-cli-linux ~/.local/bin/summon</code></pre>
 <h5 id="cli-homebrew">CLI: Homebrew <a href="#structure">↑</a><a href="#cli-homebrew" class="anchor">🔗</a></h5>
 <p>If you are on MacOS, you can get Summoner using Homebrew Kowainik’s Tap.</p>
-<p>You need to run the following commands for that:</p>
-<pre class="shell"><code>$ brew tap kowainik/tap
-$ brew install summoner-cli</code></pre>
+<p>You need to run the following command for that:</p>
+<pre class="shell"><code>$ brew install kowainik/tap/summoner-cli</code></pre>
 <h5 id="cli-ubuntu">CLI: Ubuntu <a href="#structure">↑</a><a href="#cli-ubuntu" class="anchor">🔗</a></h5>
 <p>If you are on Ubuntu, you can get Summoner from Kowainik’s PPA.</p>
 <p>You need to run the following commands for that:</p>
@@ -320,7 +318,7 @@ cabal v2-install summoner</code></pre>
 <p>or clone the directory from GitHub:</p>
 <pre class="shell"><code>git clone https://github.com/kowainik/summoner.git</code></pre>
 <p>Step into the directory:</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb21-1"><a href="#cb21-1"></a>cd summoner</span></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true"></a>cd summoner</span></code></pre></div>
 <p>Build and install using <code>cabal</code>:</p>
 <pre class="shell"><code>cabal v2-install summoner-cli:exe:summon</code></pre>
 <p>Build and install using <code>stack</code>:</p>
@@ -664,24 +662,24 @@ summon config --file ~/.summoner-demo.toml</code></pre>
 <h4 id="cli-script-command">CLI script command <a href="#structure">↑</a><a href="#cli-script-command" class="anchor">🔗</a></h4>
 <p>This command creates minimal <code>cabal</code> or <code>stack</code> script file which allows you to save some keystrokes and eliminates the need to remember magic words for scripts.</p>
 <p><strong>Cabal example:</strong> <code>summon script cabal -n Main.hs</code> generates executable file <code>Main.hs</code> with the following content:</p>
-<div class="sourceCode" id="cb32"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb32-1"><a href="#cb32-1"></a><span class="pp">#!/usr/bin/env cabal</span></span>
-<span id="cb32-2"><a href="#cb32-2"></a><span class="co">{- cabal:</span></span>
-<span id="cb32-3"><a href="#cb32-3"></a><span class="co">build-depends:</span></span>
-<span id="cb32-4"><a href="#cb32-4"></a><span class="co">  , base ^&gt;= 4.13.0.0</span></span>
-<span id="cb32-5"><a href="#cb32-5"></a><span class="co">-}</span></span>
-<span id="cb32-6"><a href="#cb32-6"></a></span>
-<span id="cb32-7"><a href="#cb32-7"></a><span class="ot">main ::</span> <span class="dt">IO</span> ()</span>
-<span id="cb32-8"><a href="#cb32-8"></a>main <span class="ot">=</span> <span class="fu">putStrLn</span> <span class="st">&quot;Hello, World!&quot;</span></span></code></pre></div>
+<div class="sourceCode" id="cb32"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true"></a><span class="pp">#!/usr/bin/env cabal</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true"></a><span class="co">{- cabal:</span></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true"></a><span class="co">build-depends:</span></span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true"></a><span class="co">  , base ^&gt;= 4.13.0.0</span></span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true"></a><span class="co">-}</span></span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true"></a></span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true"></a><span class="ot">main ::</span> <span class="dt">IO</span> ()</span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true"></a>main <span class="ot">=</span> <span class="fu">putStrLn</span> <span class="st">&quot;Hello, World!&quot;</span></span></code></pre></div>
 <p><strong>Stack example:</strong> <code>summon script stack -n Main.hs</code> generates executable file <code>Main.hs</code> with the following content:</p>
-<div class="sourceCode" id="cb33"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb33-1"><a href="#cb33-1"></a><span class="pp">#!/usr/bin/env stack</span></span>
-<span id="cb33-2"><a href="#cb33-2"></a><span class="co">{- stack</span></span>
-<span id="cb33-3"><a href="#cb33-3"></a><span class="co">  --resolver lts-15.5</span></span>
-<span id="cb33-4"><a href="#cb33-4"></a><span class="co">  script</span></span>
-<span id="cb33-5"><a href="#cb33-5"></a><span class="co">  --package base</span></span>
-<span id="cb33-6"><a href="#cb33-6"></a><span class="co">-}</span></span>
-<span id="cb33-7"><a href="#cb33-7"></a></span>
-<span id="cb33-8"><a href="#cb33-8"></a><span class="ot">main ::</span> <span class="dt">IO</span> ()</span>
-<span id="cb33-9"><a href="#cb33-9"></a>main <span class="ot">=</span> <span class="fu">putStrLn</span> <span class="st">&quot;Hello, World!&quot;</span></span></code></pre></div>
+<div class="sourceCode" id="cb33"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true"></a><span class="pp">#!/usr/bin/env stack</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true"></a><span class="co">{- stack</span></span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true"></a><span class="co">  --resolver lts-15.5</span></span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true"></a><span class="co">  script</span></span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true"></a><span class="co">  --package base</span></span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true"></a><span class="co">-}</span></span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true"></a></span>
+<span id="cb33-8"><a href="#cb33-8" aria-hidden="true"></a><span class="ot">main ::</span> <span class="dt">IO</span> ()</span>
+<span id="cb33-9"><a href="#cb33-9" aria-hidden="true"></a>main <span class="ot">=</span> <span class="fu">putStrLn</span> <span class="st">&quot;Hello, World!&quot;</span></span></code></pre></div>
 <h4 id="cli-show-command">CLI show command <a href="#structure">↑</a><a href="#cli-show-command" class="anchor">🔗</a></h4>
 <p>These commands display the list of supported GHC versions, or Licenses. Also, when the license name is specified, the content of the License is outputted to the terminal.</p>
 <h2 id="faq">FAQ <a href="#structure">↑</a><a href="#faq" class="anchor">🔗</a></h2>

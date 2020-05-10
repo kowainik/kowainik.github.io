@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+      <!-- Global site tag (gtag.js) - Google Analytics -->
+      <script async src="https://www.googletagmanager.com/gtag/js?id=UA-125893749-1"></script>
+      <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+
+          gtag('config', 'UA-125893749-1');
+          </script>
+    <title>Extensions :: Kowainik</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Kowainik page">
+    <meta name="keywords" content="Haskell, Functional progarmming, FP">
+    <meta name="author" content="Kowainik" />
+
+    <!-- Twitter cards -->
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="@kowainik" />
+    <meta property="twitter:title" content="Kowainik - Extensions" />
+    <meta name="twitter:description" content="Non-boring Extensions in Haskell" />
+    <meta name="twitter:image:src" content="https://kowainik.github.io/images/logo-yellow.png" />
+    <meta property="og:title" content="Kowainik - Extensions" />
+    <meta property="og:description" content="Non-boring Extensions in Haskell" />
+    <meta property="og:site_name" content="Kowainik" />
+    <meta property="og:image" content="https://kowainik.github.io/images/logo-yellow.png" />
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon">
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.11.0/styles/dracula.min.css" />
+    <!-- Fontawesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+    <!-- Custom fonts for this template -->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Lato" />
+    <!-- Custom styles for this template -->
+    <link href="../css/default.css" rel="stylesheet">
+    <link href="../css/post.css" rel="stylesheet">
+  </head>
+
+  <body class="body-posts">
+
+          <!-- Header -->
+      <nav class="navbar navbar-inverse navbar-fixed-left leftmenu bg-primary text-secondary">
+            <div class="navbar-header">
+                <div class="postslogo"> <a class="navbar-brand" href="../"><img class="img-fluid" src="../images/logo-tr.png" alt="Kowainik"></a></div>
+            </div>
+            <div class="toc-zone">
+                <h6 class="coolFont">Contents</h6>
+                <div class="toc" id="main">
+                    <ul>
+<li><a href="#extension-what-is-that">Extension: what is that?</a></li>
+<li><a href="#more-insights-about-extensions">More insights about extensions</a></li>
+<li><a href="#ordinary-extensions">Ordinary Extensions</a>
+<ul>
+<li><a href="#how-to-use">How to use</a>
+<ul>
+<li><a href="#cabal-default-extensions-per-stanza">Cabal ‘default-extensions’ per stanza</a></li>
+<li><a href="#per-module-language-pragmas">Per module LANGUAGE pragmas</a></li>
+<li><a href="#command-line-pragma-invoking">Command-line pragma invoking</a></li>
+<li><a href="#evil-options_ghc">Evil OPTIONS_GHC</a></li>
+</ul></li>
+<li><a href="#one-string-to-rule-them-all">One string to rule them all?</a></li>
+</ul></li>
+<li><a href="#haskell-language-standard-extensions">Haskell Language Standard Extensions</a>
+<ul>
+<li><a href="#what-is-inside">What is inside?</a></li>
+<li><a href="#particularity">Particularity</a></li>
+<li><a href="#language-extensions-usage">Language Extensions Usage</a></li>
+</ul></li>
+<li><a href="#safe-haskell-extensions">Safe Haskell Extensions</a>
+<ul>
+<li><a href="#specialty">Specialty</a></li>
+<li><a href="#enabling-safehaskell">Enabling SafeHaskell</a></li>
+</ul></li>
+<li><a href="#extension-resolution-flow">Extension Resolution Flow</a></li>
+<li><a href="#stranger-things">Stranger things</a></li>
+<li><a href="#difficulties-in-having-give-me-extensions-per-module-tool">Difficulties in having ‘give me extensions per module’ tool</a></li>
+<li><a href="#our-solution-extensions-library">Our solution – ‘extensions’ library</a>
+<ul>
+<li><a href="#cabal-part">Cabal part</a></li>
+<li><a href="#module-part">Module part</a></li>
+<li><a href="#cli">CLI</a></li>
+</ul></li>
+<li><a href="#conclusion">Conclusion</a></li>
+<li><a href="#reading-shelf">Reading shelf</a></li>
+<li><a href="#memes-shelf">Memes shelf</a></li>
+</ul>
+                </div>
+            </div>
+            <div class="coolFont">
+                <div>Date: May 10, 2020</div>
+
+                <div class="author">Author: Veronika Romashkina</div>
+                <div class="row tag-block">
+                
+                <span class="tag-block"> <a class="btn btn-outline-dark btn-tag" href="../tags/haskell">haskell</a></span>
+                
+                <span class="tag-block"> <a class="btn btn-outline-dark btn-tag" href="../tags/tool">tool</a></span>
+                
+                <span class="tag-block"> <a class="btn btn-outline-dark btn-tag" href="../tags/GHC">GHC</a></span>
+                
+                <span class="tag-block"> <a class="btn btn-outline-dark btn-tag" href="../tags/cabal">cabal</a></span>
+                
+                </div>
+
+                <div class="allposts">
+                    <h3><a href="../posts"> Posts =<< </a></h3>
+                </div>
+            </div>
+      </nav>
+      <div class="container info">
+          <h2 class="text-center text-uppercase text-secondary">Extensions</h2>
+          <div class="content">
+          <div class="row post">
+              <div class="col-12 post-body">
+              <p class="lead">
+                  <p>Recently, while working on some Haskell projects I desperately needed to get the list of all extensions used in a particular module. Quite a common wish, if you ask me, how hard could that be? But I was quite surprised that I can’t easily extract this information from simply processing a single file: there’s no existing tool to inspect modules in a required way, straightforward grep usage is not sufficient, even <a href="https://www.haskell.org/ghc/blog/20190626-HIEFiles.html"><code>.hie</code> files</a> (compile-time info produced by the compiler) don’t help me! So I’ve spent quite some time investigating the root of the issue and, to be honest, I discovered quite interesting information on the topic, which I decided to share in a blog post for everyone’s curiosity.</p>
+<p>The write up provides the rough description of Extensions Technique in the Haskell compiler, therefore, is suitable for everyone even without any prior knowledge of that term. However, the main focus is going to be on the overall concept and some internal details rather than the highlight of any particular extensions. I am not the Haskell compiler guru, so all the provided information is based on the <del>googling</del> research made, some prior knowledge and understanding that I had. If you would like to read more about other aspects of the topic, I linked some interesting and useful resources for further reading.</p>
+<h2 id="extension-what-is-that">Extension: what is that?<a href="#extension-what-is-that" class="anchor">🔗</a></h2>
+<p>Haskell is an extremely powerful yet constantly developing language. And this is one of the main advantages of it. The research in the programming languages area is still ongoing, and Haskell users are quite lucky to get to test the newest features without feeling that the language design is unstable or immature. This is only feasible due to the standard mechanism used to introduce new features to the Haskell compiler, specifically to the most popular one – Glasgow Haskell Compiler (aka <strong>GHC</strong>). The mechanism is called <em>extensions</em>.</p>
+<p>Extensions are the opt-in solution for enabling non-standard features supported by the compiler, meaning, you need to explicitly ask the compiler to use the feature if you want to play with it. It is completely fine if you don’t request any add-ons from the compiler. However, it is okay to use any extensions you need, extensions are not some unsteady or experimental feature. And it is even possible to bring <strong>ALL</strong> extensions in scope, however, this doesn’t sound like a good idea. Even though the extensions should not conflict with each other by design, some of them severely impact the way you write code. So you’d better think more carefully about what you are bringing in.</p>
+<p>Extensions are convenient and necessary for the full-strength development, but if they are so important who gets to decide on what is coming in the next compiler version? Usually, the life cycle of a potential extension looks like this:</p>
+<ol type="1">
+<li>Some person (let’s call her Alice) comes up with some interesting idea of what she wants to do with the language but with horror realises that it is currently not possible (or hard and hacky) to achieve with the current stack of instruments of the compiler. As this is something new, it could be done through the Extensions approach.</li>
+<li>Alice then writes a document describing what changes she would like to see, what the new extension should do, how it interacts with the existing features, and why it is beneficial for the language. All that should be done with respect to the existing rules of <a href="https://github.com/ghc-proposals/ghc-proposals">ghc-proposals</a>.</li>
+<li>After the long and thoughtful process <a href="https://github.com/ghc-proposals/ghc-proposals#who-is-the-committee">the GHC committee</a> could give a positive or negative verdict according to a lot of factors.</li>
+<li>Let’s say that the proposal is approved, then it is a matter of implementers time availability when (in what compiler release) this new extension will come to life. By the way, an implementer could be any person, including the proposal authors but not necessarily them, so watch closely for coming proposals, and, if you feel like it, indicate your will to implement something yourself, this is completely free!</li>
+</ol>
+<h2 id="more-insights-about-extensions">More insights about extensions<a href="#more-insights-about-extensions" class="anchor">🔗</a></h2>
+<p>Extensions sound fun, but you think that you don’t need and don’t use them, though is this so? Let’s figure out the kinds of extensions and the ways extensions are used in code, and see if you can write code without a single usage of them.</p>
+<p>There are (at least) three types of extensions with their own twist, meaning and the application area. Each of them is being processed differently as well and have different effects on the work of your program. Here is the extensions classification:</p>
+<ul>
+<li>(Ordinary) Extensions
+<ul>
+<li>Enabled</li>
+<li>Disabled</li>
+</ul></li>
+<li>Haskell Language Standard Extensions</li>
+<li>Safe Haskell Extensions</li>
+</ul>
+<p>I am going to tell more about each group later on. Meanwhile, if you are curious about how you can learn about particular extensions and what they do, I would suggest reading the official <a href="https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/glasgow_exts.html">GHC documentation</a> on that topic. In the reading shelf section at the end of this post, I provide some more interesting blog posts on extensions in a more non-official and (some) in a beginner-friendly format.</p>
+<h2 id="ordinary-extensions">Ordinary Extensions<a href="#ordinary-extensions" class="anchor">🔗</a></h2>
+<p>This type of extensions is the most commonly used one. Usually, when we talk about extensions we mean this group as it is where fresh extensions are added and it is the progressive section of the GHC. Such gorgeous stars as <a href="https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/glasgow_exts.html#extension-StarIsType"><code>StarIsType</code></a>, <a href="https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/glasgow_exts.html#extension-ScopedTypeVariables"><code>ScopedTypeVariables</code></a>, <a href="https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/glasgow_exts.html#deriving-strategies"><code>DerivingStrategies</code></a> and many others belong to this group.</p>
+<p>Each extension has its twin villain brother. It always starts with the <code>No</code> word followed by the name of the original (hero) extension. The villain superpower is to disable the extension in the scope if it is present. However, the <code>No</code> extension is completely harmless if the original extension is not in scope.</p>
+<p>These extensions are represented in GHC by the <a href="https://hackage.haskell.org/package/ghc-boot-th-8.10.1/docs/GHC-LanguageExtensions-Type.html#t:Extension"><code>Extension</code></a> data type which is the representation of the <em>“enabled”</em> extensions only. This means that to express enabled VS disabled extensions you need another data type and additional parsing functions. The <a href="https://downloads.haskell.org/~ghc/8.10.1/docs/html/libraries/ghc-8.10.1/DynFlags.html#t:DynFlags"><code>DynFlags</code> type</a> (huge data type that stores all flags for a GHC session) contains the <code>OnOff Extensions</code> field that could help with extracting extensions from a module, still, GHC doesn’t expose this type and it is used only internally.</p>
+<h3 id="how-to-use">How to use<a href="#how-to-use" class="anchor">🔗</a></h3>
+<p>Okay, now you may have lots of questions like:</p>
+<ul>
+<li>how do I add the extensions that I absolutely love to every single module of my package?</li>
+<li>or how do I add the extensions which I love (but a bit less) in the particular stanza (like library or tests section) of my package?</li>
+<li>or even how do I add the extensions that seem, ahem, <del>scary</del> interesting to only one module of my package?</li>
+</ul>
+<p>To cover those questions, let’s move to the next part of this post where I describe how extensions are specified for your package and how they affect your modules compilation rules in each case.</p>
+<h4 id="cabal-default-extensions-per-stanza">Cabal ‘default-extensions’ per stanza<a href="#cabal-default-extensions-per-stanza" class="anchor">🔗</a></h4>
+<p>Haskell build tools allow you to specify extensions you want to enable (or disable) for more than one module at a time, specifically for the whole stanza. In your <code>.cabal</code> file you can set the <a href="https://cabal.readthedocs.io/en/latest/cabal-package.html?highlight=default-language#pkg-field-default-extensions"><code>default-extensions</code></a> or <a href="https://cabal.readthedocs.io/en/latest/cabal-package.html?highlight=default-language#pkg-field-other-extensions"><code>other-extensions</code></a> (don’t @ me) properties to the list of extensions you want to be applied to every module in the corresponding stanza.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true"></a>library</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true"></a><span class="op">...</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true"></a>  default<span class="op">-</span>extensions<span class="op">:</span>   <span class="dt">DerivingStrategies</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true"></a>                        <span class="dt">TypeApplications</span></span></code></pre></div>
+<p>The nice thing about this approach is that both <code>default-extensions</code> and <code>other-extensions</code> are so-called build-information fields, which by Cabal rules means that they can be used in <a href="https://vrom911.github.io/blog/common-stanzas">common stanza</a>. So you can easily add particular extensions to EVERY module of your project without much boilerplate. See the example below:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true"></a>common common<span class="op">-</span>extensions</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true"></a>  default<span class="op">-</span>extensions<span class="op">:</span>   <span class="dt">DerivingStrategies</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true"></a>                        <span class="dt">TypeApplications</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true"></a>library</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true"></a>  <span class="kw">import</span>: common-extensions</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true"></a>  <span class="op">...</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true"></a></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true"></a>executable my<span class="op">-</span>exe</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true"></a>  <span class="kw">import</span>: common-extensions</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true"></a>  <span class="op">...</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true"></a></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true"></a>test<span class="op">-</span>suite my<span class="op">-</span>test</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true"></a>  <span class="kw">import</span>: common-extensions</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true"></a>  <span class="op">...</span></span></code></pre></div>
+<h4 id="per-module-language-pragmas">Per module LANGUAGE pragmas<a href="#per-module-language-pragmas" class="anchor">🔗</a></h4>
+<p>If you want to configure some extensions on module-level there is a way to tell the compiler about your intention. There is a type of instructions to the compiler you can write in order for GHC to understand you. Such instructions are called <strong>pragmas</strong>. Luckily for us, there exists a special type of pragmas — <a href="https://ghc.gitlab.haskell.org/ghc/doc/users_guide/exts/pragmas.html#language-pragma"><code>LANGUAGE</code> pragmas</a> — and I am going to talk only about this kind in here as it is designed for extensions.</p>
+<p>There are a few rules to use these pragmas.</p>
+<ul>
+<li>Each pragma should start with <code>{-#</code> followed by keyword <code>LANGUAGE</code> and closed by <code>#-}</code>.</li>
+<li>Language pragma is a file-Header pragma: it should be the first thing in the module ⇒that means that they should go strictly before the <code>module</code> keyword, <code>import</code> keyword or the first function.</li>
+<li>You can specify any number of pragmas in the file.</li>
+<li>Comments won’t affect the precedence.</li>
+<li>Each pragma could include one or more comma-separated extensions.</li>
+</ul>
+<p>For example, your file header can look like this:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true"></a><span class="co">-- Here come extensions</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true"></a><span class="ot">{-# LANGUAGE ScopedTypeVariables , TypeApplications #-}</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true"></a><span class="co">{- Absolutely</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true"></a><span class="co">   necessary</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true"></a><span class="co">-}</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true"></a><span class="ot">{-# LANGUAGE DerivingStrategies #-}</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true"></a></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true"></a><span class="co">{- | Module blah blah documentation</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true"></a><span class="co">-}</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true"></a></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true"></a><span class="kw">module</span> <span class="op">...</span></span></code></pre></div>
+<h4 id="command-line-pragma-invoking">Command-line pragma invoking<a href="#command-line-pragma-invoking" class="anchor">🔗</a></h4>
+<p>If that is not sufficient for you, you can go full bad-ass mode and specify extensions to enable/disable through the command-line options! It is called <a href="https://ghc.gitlab.haskell.org/ghc/doc/users_guide/flags.html#language-options">language options</a> and the syntax is straightforward. Add <code>-X</code> before the name of the extensions and feed it to the ghc invoking command.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true"></a><span class="ot">{-# LANGUAGE Extension #-}</span> ≡ <span class="op">-</span><span class="dt">XExtension</span></span></code></pre></div>
+<p>Saying that it means that you can directly apply these options through the command line arguments, or you can also use Cabal’s <code>ghc-options</code> field for that.</p>
+<p>Options is a particularly good way to enable extensions in <a href="https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/ghci.html">GHCi</a>. You can apply the same rule for the extensions name as the option in GHC, and add the command <code>:set</code> before, to actually enable/disable extension:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true"></a>ghci<span class="op">&gt;</span> <span class="op">:</span>set <span class="op">-</span><span class="dt">XDerivingStrategies</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true"></a>ghci<span class="op">&gt;</span> <span class="op">...</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true"></a>ghci<span class="op">&gt;</span> <span class="op">:</span>set <span class="op">-</span><span class="dt">XNoDerivingStrategies</span></span></code></pre></div>
+<p>And also you can use <code>:unset</code> GHCi command to disable the extension as well</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true"></a>ghci<span class="op">&gt;</span> <span class="op">:</span>set <span class="op">-</span><span class="dt">XDerivingStrategies</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true"></a>ghci<span class="op">&gt;</span> <span class="op">...</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true"></a>ghci<span class="op">&gt;</span> <span class="op">:</span>unset <span class="op">-</span><span class="dt">XDerivingStrategies</span></span></code></pre></div>
+<h4 id="evil-options_ghc">Evil OPTIONS_GHC<a href="#evil-options_ghc" class="anchor">🔗</a></h4>
+<p>As you see from the previous section all extensions are just the GHC options as a matter of fact. That actually means that they can be in another type of pragma — <a href="https://ghc.gitlab.haskell.org/ghc/doc/users_guide/exts/pragmas.html#options-ghc-pragma">OPTIONS_GHC</a>.</p>
+<p>The same rules of pragmas are applied to them, except the keyword is <code>OPTIONS_GHC</code> instead of <code>LANGUAGE</code>, and you should specify GHC flags, not extensions:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true"></a><span class="ot">{-# LANGUAGE DerivingStrategies #-}</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true"></a><span class="co">-- is the same as</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true"></a><span class="ot">{-# OPTIONS_GHC -XDerivingStrategies #-}</span></span></code></pre></div>
+<p>HOWEVER! NOTE! CAUTION! DANGER! Do NOT do that, please. This is considered to be an antipattern and it is not recommended to use in this way. It is suggested to use <code>LANGUAGE</code> pragmas instead where possible (unless you want to piss everybody off).</p>
+<h3 id="one-string-to-rule-them-all">One string to rule them all?<a href="#one-string-to-rule-them-all" class="anchor">🔗</a></h3>
+<p>Even though the title is so tempting, there is no way currently to turn on all the extensions at once. Even though there was once a GHC flag that could activate a hell of the extensions — <a href="https://ghc.gitlab.haskell.org/ghc/doc/users_guide/exts/control.html#ghc-flag--fglasgow-exts">-fglasgow-exts</a>. But GHC developers are moving away from the idea to enable batches of things and are encouraging more thoughtful and granular extensions usage.</p>
+<h2 id="haskell-language-standard-extensions">Haskell Language Standard Extensions<a href="#haskell-language-standard-extensions" class="anchor">🔗</a></h2>
+<p>As the Haskell language develops rapidly, for example, a lot of extensions were added to the compiler features, some of them are crucial for the smooth work with Haskell as we know it. Haskell went through several milestones during development. Such milestones lead to the Language Standard Reports, where a lot of Haskell specific stuff was determined. At the moment of writing this post, there are two such reports: <a href="https://www.haskell.org/onlinereport">Haskell98</a> and <a href="https://www.haskell.org/onlinereport/haskell2010">Haskell2010</a>.</p>
+<p>As the report’s purpose is to standardise the language, extensions could not just pass by. There exist the corresponding standards of extensions which outgrew into another kind of extensions — Haskell Language Standard Extensions.</p>
+<blockquote>
+<p>GHC documentation on extensions says that the default extensions are specified in the reports respectfully, however, I can not provide links to that as I didn’t find this particular information in the report. What I found →</p>
+<ul>
+<li><p>Haskell98 report doesn’t contain information about default extensions</p></li>
+<li><p>Haskell2010 has this information, but the set of extensions defined in the report is different from the set of extensions in GHC</p></li>
+<li><p>Reports don’t mention, what extensions should be enabled if no language is specified</p>
+<ul>
+<li><a href="https://www.haskell.org/onlinereport/pragmas.html">Haskell98 Pragmas section</a></li>
+<li><a href="https://www.haskell.org/onlinereport/haskell2010/haskellch12.html#x19-19100012.3">Haskell2010 Extensions section</a></li>
+</ul></li>
+</ul>
+</blockquote>
+<p>Haskell Language Extensions include the following extensions:</p>
+<ul>
+<li><a href="https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/glasgow_exts.html#extension-Haskell98"><code>Haskell98</code></a></li>
+<li><a href="https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/glasgow_exts.html#extension-Haskell2010"><code>Haskell2010</code></a></li>
+</ul>
+<p>In point of fact, this type of the extensions just provides the alias for the bunch of ordinary extensions that would be turned on with the one of Haskell Language Standard Extension.</p>
+<h3 id="what-is-inside">What is inside?<a href="#what-is-inside" class="anchor">🔗</a></h3>
+<p>Let’s reveal what is inside each of the Haskell Language Extension.</p>
+<p><strong>Haskell98</strong>:</p>
+<ul>
+<li><a href="https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/glasgow_exts.html?highlight=typefamilies#extension-NoImplicitPrelude"><code>ImplicitPrelude</code></a></li>
+<li><a href="https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/glasgow_exts.html?highlight=typefamilies#extension-StarIsType"><code>StarIsType</code></a></li>
+<li><a href="https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/glasgow_exts.html?highlight=typefamilies#extension-CUSKs"><code>CUSKs</code></a></li>
+<li><a href="https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/glasgow_exts.html?highlight=typefamilies#extension-NoMonomorphismRestriction"><code>MonomorphismRestriction</code></a></li>
+<li><a href="https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/glasgow_exts.html?highlight=typefamilies#extension-NPlusKPatterns"><code>NPlusKPatterns</code></a></li>
+<li><a href="https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/glasgow_exts.html?highlight=typefamilies#extension-DatatypeContexts"><code>DatatypeContexts</code></a></li>
+<li><a href="https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/glasgow_exts.html?highlight=typefamilies#extension-NoTraditionalRecordSyntax"><code>TraditionalRecordSyntax</code></a></li>
+<li><a href="https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/bugs.html#extension-NondecreasingIndentation"><code>NondecreasingIndentation</code></a></li>
+</ul>
+<p><strong>Haskell2010</strong>:</p>
+<ul>
+<li><a href="https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/glasgow_exts.html?highlight=typefamilies#extension-NoImplicitPrelude"><code>ImplicitPrelude</code></a></li>
+<li><a href="https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/glasgow_exts.html?highlight=typefamilies#extension-StarIsType"><code>StarIsType</code></a></li>
+<li><a href="https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/glasgow_exts.html?highlight=typefamilies#extension-CUSKs"><code>CUSKs</code></a></li>
+<li><a href="https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/glasgow_exts.html?highlight=typefamilies#extension-NoMonomorphismRestriction"><code>MonomorphismRestriction</code></a></li>
+<li><a href="https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/glasgow_exts.html?highlight=typefamilies#extension-DatatypeContexts"><code>DatatypeContexts</code></a></li>
+<li><a href="https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/glasgow_exts.html?highlight=typefamilies#extension-NoTraditionalRecordSyntax"><code>TraditionalRecordSyntax</code></a></li>
+<li><a href="https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/glasgow_exts.html?highlight=typefamilies#extension-EmptyDataDecls"><code>EmptyDataDecls</code></a></li>
+<li><a href="https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/glasgow_exts.html?highlight=typefamilies#extension-NoPatternGuards"><code>ForeignFunctionInterface</code></a></li>
+<li><a href="https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/glasgow_exts.html?highlight=typefamilies#extension-NoPatternGuards"><code>PatternGuards</code></a></li>
+<li><code>DoAndIfThenElse</code></li>
+<li><code>RelaxedPolyRec</code></li>
+</ul>
+<p><strong>Default</strong> — if no Haskell Language is specified in any way (see the next section) it doesn’t mean that there will not be any extensions enabled for you. Actually the following list of extensions is there exactly for such situations (see also <a href="http://www.haskell.org/pipermail/haskell-prime/2011-January/003335.html">this note</a>):</p>
+<ul>
+<li><strong>Haskell2010</strong> <strong>-</strong> <a href="https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/glasgow_exts.html?highlight=typefamilies#extension-DatatypeContexts"><code>DatatypeContexts</code></a> <strong>+</strong> <a href="https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/bugs.html#extension-NondecreasingIndentation"><code>NondecreasingIndentation</code></a></li>
+</ul>
+<p>So in order to start with the blank list with zero extensions, you should explicitly turn some stuff off first, do keep this in mind.</p>
+<h3 id="particularity">Particularity<a href="#particularity" class="anchor">🔗</a></h3>
+<p>As it is already seen Haskell Language Standard Extensions are special and not like the others in terms of what they mean, give and how they work. But as promised it is not the only difference.</p>
+<p>Canonically, a single Haskell Language extension should be specified for the whole project, but this is, of course, not an obligation, rather a polite wish. For your convenience, there are <code>default-language</code> and <code>other-language</code> (don’t @ me) fields in the cabal file, where you can specify one of the Language extensions you fancy. And same as for <code>default-extensions</code> fields, you can put <code>default-language</code> under your common stanza.</p>
+<p>You can skip explicit language specification, if you want to use the default list of extensions I uncovered before, however building with cabal then will give you the following warning, in case you don’t find warnings irritating and can live with that:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true"></a><span class="dt">Warning</span><span class="op">:</span> <span class="dt">Packages</span> using 'cabal<span class="op">-</span>version<span class="op">:</span> <span class="op">&gt;=</span> <span class="fl">1.10</span>' must specify the</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true"></a>'default<span class="op">-</span>language' field for each component (e<span class="op">.</span>g<span class="op">.</span> <span class="dt">Haskell98</span> <span class="fu">or</span> <span class="dt">Haskell2010</span>)<span class="op">.</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true"></a><span class="dt">If</span> a component uses different languages <span class="kw">in</span> different modules <span class="kw">then</span> list the</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true"></a>other ones <span class="kw">in</span> the 'other<span class="op">-</span>languages' field<span class="op">.</span></span></code></pre></div>
+<h3 id="language-extensions-usage">Language Extensions Usage<a href="#language-extensions-usage" class="anchor">🔗</a></h3>
+<p>In addition to the dedicated <code>default-language</code> field in the <code>.cabal</code> file, you can use any of the mentioned methods in the <a href="#how-to-use">“Usage” section</a> of ordinary extensions to specify the language. As a quick reminder, it could be:</p>
+<ul>
+<li>Cabal <code>default-extensions</code> field</li>
+<li>LANGUAGE Pragma</li>
+<li>CLI GHC option</li>
+<li>OPTIONS_GHC pragma</li>
+</ul>
+<p>For the visual example of how it all interacts with each other, let’s make a small experiment.</p>
+<p>In the Haskell file, let’s put the following data type:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true"></a><span class="kw">data</span> <span class="dt">EmptyType</span></span></code></pre></div>
+<p>I choose to define a data type without constructors, as it requires the <a href="https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/glasgow_exts.html?highlight=typefamilies#extension-EmptyDataDecls"><code>EmptyDataDecls</code></a> extension, which is included into <code>Haskell2010</code> and the default list when no Language is specified but is not present in <code>Haskell98</code>.</p>
+<p>Let’s try to compile our file without any options or LANGUAGE pragmas:</p>
+<pre class="shell"><code>$ ghc LanguageExtensions.hs
+[1 of 1] Compiling Main             ( LanguageExtensions.hs, LanguageExtensions.o )
+Linking LanguageExtensions …</code></pre>
+<p>It works! We know that it should work as it takes up the default extensions which contain the one that we need.</p>
+<p>Let’s now use the GHC option to specify the Language extension we want without changing the file:</p>
+<pre class="shell"><code>$ ghc LanguageExtensions.hs -XHaskell98
+[1 of 1] Compiling Main  ( LanguageExtensions.hs, LanguageExtensions.o ) [flags changed]
+
+LanguageExtensions.hs:1:1: error:
+    • ‘EmptyData’ has no constructors (EmptyDataDecls permits this)
+    • In the data declaration for ‘EmptyData’
+  |
+1 | data EmptyData
+  | ^^^^^^^^^^^^^^</code></pre>
+<p>Just as expected. This file shouldn’t work without manually enabling <code>EmptyDataDecls</code> with the <code>Haskell98</code> language.</p>
+<p>This one should work like a charm:</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true"></a><span class="ot">{-# LANGUAGE Haskell98      #-}</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true"></a><span class="ot">{-# LANGUAGE EmptyDataDecls #-}</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true"></a></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true"></a><span class="kw">data</span> <span class="dt">EmptyType</span></span></code></pre></div>
+<p>Let’s add more spice. I modified the file to look like this at the moment:</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true"></a><span class="ot">{-# LANGUAGE Haskell2010 #-}</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true"></a></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true"></a><span class="kw">data</span> <span class="dt">EmptyType</span></span></code></pre></div>
+<p>And I am trying to compile it with the same options:</p>
+<pre class="shell"><code>$ ghc LanguageExtensions.hs -XHaskell98
+[1 of 1] Compiling Main             ( LanguageExtensions.hs, LanguageExtensions.o )
+Linking LanguageExtensions ...</code></pre>
+<p>And it is successful, which also makes sense as the order of the Language extensions matters, and the latest one should take over, and, in this case, it is <code>Haskell2010</code>.</p>
+<h2 id="safe-haskell-extensions">Safe Haskell Extensions<a href="#safe-haskell-extensions" class="anchor">🔗</a></h2>
+<blockquote>
+<p>Though Haskell is predominantly type-safe, implementations contain a few loopholes through which code can bypass typing and module encapsulation. This paper presents Safe Haskell, a language extension that closes these loopholes. Safe Haskell makes it possible to confine and safely execute untrusted, possibly malicious code. By strictly enforcing types, Safe Haskell allows a variety of different policies from API sandboxing to information-flow control to be implemented easily as monads. Safe Haskell is aimed to be as unobtrusive as possible. It enforces properties that programmers tend to meet already by convention. We describe the design of Safe Haskell and an implementation (currently shipping with GHC) that infers safety for code that lies in a safe subset of the language. We use Safe Haskell to implement an online Haskell interpreter that can securely execute arbitrary untrusted code with no overhead. The use of Safe Haskell greatly simplifies this task and allows the use of a large body of existing code and tools.</p>
+</blockquote>
+<p>Safe Haskell is the family of compiler extensions that are created to bring some guarantees about the code.</p>
+<p>You have probably noticed the <strong>“Safe Haskell”</strong> field in the documentation pages of your favourite packages on Hackage and was a bit worried, why the safety field is determined as <strong>“None”</strong> in the most type-safe language?</p>
+<figure>
+<img src="https://user-images.githubusercontent.com/4276606/81501498-98a4a000-92d0-11ea-9108-24f6cc18ceb4.png" alt /><figcaption>Safe Haskell: None</figcaption>
+</figure>
+<p>Don’t worry about that, probably it is not what you think it is. It just means that the <code>SafeHaskell</code> extension is not determined by the maintainers for this particular module.</p>
+<p>Let’s get deeper into this. There are three extensions coming with SafeHaskell:</p>
+<ul>
+<li><a href="https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/safe_haskell.html#extension-Safe"><code>Safe</code></a></li>
+<li><a href="https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/safe_haskell.html#extension-Trustworthy"><code>Trustworthy</code></a></li>
+<li><a href="https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/safe_haskell.html#extension-Unsafe"><code>Unsafe</code></a></li>
+<li><code>None</code></li>
+</ul>
+<h3 id="specialty">Specialty<a href="#specialty" class="anchor">🔗</a></h3>
+<p>As you can see, <code>SafeHaskell</code> extensions do have a very different semantic meaning. Moreover, there are much more differences that make them into a separate group of extensions. Let’s talk a bit about them now.</p>
+<ul>
+<li>There are no <code>No</code> extensions and there’s no way to disable such extensions using some other language pragma.</li>
+<li>Therefore, you can’t <code>:unset</code> <code>SafeHaskell</code> extensions in GHCi as there is no villain twin with <code>No</code> prefix for it. So basically, no way to unspecify <code>SafeHaskell</code> extensions or respecify it if you already set it once.</li>
+<li>These extensions are mutually exclusive and there can’t be more than one type of <code>SafeHaskell</code> extension enabled in the module. This leads to compile error, which is caught at the preprocessing stage.</li>
+<li>In GHC, <code>SafeHaskell</code> extensions are not part of the <code>Extensions</code> data type and are moved into the separate <code>SafeHaskellMode</code> type.</li>
+<li><code>DynFlag</code> stores the <code>safeInfer</code> and <code>safeInferred</code> boolean flags to judge about code <em>safety</em> in terms of <code>SafeHaskell</code> for the current module and for modules depending on it.</li>
+<li><code>None</code> can not be specified manually. It is just the default value for the <code>SafeHaskell</code> if no extension is specified explicitly.</li>
+<li><code>Trustworthy</code> doesn’t give any guarantees, it is more like a backdoor in <code>SafeHaskell</code> to tell GHC that the module is actually safe which, frankly speaking, is not always the case.</li>
+<li><code>SafeHaskell</code> doesn’t allow usage of some particular extensions, so GHC won’t compile modules that disregard these rules. See the <code>SafeHaskell</code> documentation for more concrete rules on that.</li>
+</ul>
+<h3 id="enabling-safehaskell">Enabling SafeHaskell<a href="#enabling-safehaskell" class="anchor">🔗</a></h3>
+<p>Safe Haskell extensions can be used the same way as ordinary extensions, with regard to its specialties. You can not disable these extensions and you can not specify more that one per module.</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true"></a>λ<span class="op">:</span> <span class="op">:</span>set <span class="op">-</span><span class="dt">XSafe</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true"></a>λ<span class="op">:</span> <span class="op">:</span>set <span class="op">-</span><span class="dt">XTrustworthy</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true"></a>ghc<span class="op">:</span> <span class="op">&lt;</span>no location info<span class="op">&gt;:</span> <span class="dt">Incompatible</span> <span class="dt">Safe</span> <span class="dt">Haskell</span> flags<span class="op">!</span> (<span class="dt">Safe</span>, <span class="dt">Trustworthy</span>)</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true"></a><span class="dt">Usage</span><span class="op">:</span> <span class="dt">For</span> basic information, try the <span class="ot">`--help' option.</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true"></a><span class="ot">λ: :set -XNoSafe</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true"></a><span class="ot">Some flags have not been recognized: -XNoSafe</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true"></a><span class="ot">λ: :unset -XSafe</span></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true"></a><span class="ot">Some flags have not been recognized: -XNoSafe</span></span></code></pre></div>
+<p>Besides all valid ways to specify SafeHaskell flags there are also special flags and options that are related only to SafeHaskell. I won’t provide a detailed description, you can check the documentation for particularly interesting ones for you:</p>
+<ul>
+<li><a href="https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/safe_haskell.html#ghc-flag--fno-safe-haskell"><code>-fno-safe-haskell</code></a></li>
+<li><a href="https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/safe_haskell.html#ghc-flag--Wsafe"><code>-Wsafe</code></a></li>
+<li><a href="https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/safe_haskell.html?highlight=wno%20safe#ghc-flag--Wtrustworthy-safe"><code>-Wno-safe</code></a></li>
+<li><a href="https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/safe_haskell.html#ghc-flag--Wtrustworthy-safe"><code>-Wtrustworthy-safe</code></a></li>
+<li><a href="https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/safe_haskell.html#ghc-flag--Wunsafe"><code>-Wunsafe</code></a></li>
+<li><a href="https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/safe_haskell.html#ghc-flag--Wunsafe"><code>-Wno-unsafe</code></a></li>
+<li><a href="https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/safe_haskell.html#ghc-flag--distrust%20%E2%9F%A8pkg%E2%9F%A9"><code>-distrust ⟨pkg⟩</code></a></li>
+<li><a href="https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/safe_haskell.html#ghc-flag--distrust-all-packages"><code>-distrust-all-packages</code></a></li>
+<li><a href="https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/safe_haskell.html#ghc-flag--fpackage-trust"><code>-fpackage-trust</code></a></li>
+<li><a href="https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/safe_haskell.html#ghc-flag--trust%20%E2%9F%A8pkg%E2%9F%A9"><code>-trust ⟨pkg⟩</code></a></li>
+</ul>
+<h2 id="extension-resolution-flow">Extension Resolution Flow<a href="#extension-resolution-flow" class="anchor">🔗</a></h2>
+<p>Now when we know about all the ways where and how you can specify desired extensions, you may wonder, how these completely different approaches interact with each other? Let’s break it down then. Here is the high-level description of how extensions are being interpreted for each module in the project:</p>
+<ul>
+<li>Cabal gets Haskell standard (if applicable) that could be specified in the <code>default-language</code> or <code>other-languages</code> fields of the cabal file</li>
+<li>Cabal gets <code>default-extensions</code> (<code>other-extensions</code>) from the corresponding stanza of the <code>.cabal</code> file</li>
+<li>Cabal transmits all gathered extensions as CLI options to the GHC for compiling the file</li>
+<li>GHC analyses GHC flags to get <code>SafeHaskell</code>, and Haskell Language extensions as the special types of extensions</li>
+<li>GHC gets the list of extensions from the <code>LANGUAGE</code> pragma(s) of the module</li>
+<li>GHC parses extensions to get the list of Enabled/Disabled extensions preserving order</li>
+<li>GHC decides on the list of default extensions depending on the received information about Haskell Language Standard used</li>
+<li>GHC merges all extensions strictly by the order of appearance</li>
+</ul>
+<p>The merge algorithm is simple enough:</p>
+<ul>
+<li>Start with the list of default standard extensions</li>
+<li>If you get the <code>Enabled</code> extension, add it to the final list (if not exist already)</li>
+<li>If you get the <code>Disabled</code> extensions, then delete corresponding <code>Enabled</code> extension from the list (if exist); otherwise do nothing</li>
+</ul>
+<p>To decide on the Haskell Language Standard extension the following algorithm could be used:</p>
+<ul>
+<li>If no extensions for this is specified, use nothing (GHC will use the default in that case)</li>
+<li>If only one of <code>Haskell98</code> or <code>Haskell2020</code> is specified, then use it</li>
+<li>If several extensions of such type are specified, use the latest one (in order of appearance)</li>
+</ul>
+<p>For <code>SafeHaskell</code> extensions, it is a bit more tedious, as these extensions conflict with each other, and may also conflict with some other enabled extensions as well. Each Haskell module could only have 1 type of enabled extensions. You can skip its definition in your file, but you can’t say <code>{-# LANGUAGE None #-}</code> even though <code>None</code> is a valid state of <code>SafeHaskell</code> status.</p>
+<h2 id="stranger-things">Stranger things<a href="#stranger-things" class="anchor">🔗</a></h2>
+<p>Going through the all of the extension materials and source code for each of the components involved I discovered a few amusing facts, that I didn’t know about, or had the wrong understanding, so here are some of them for your pleasure:</p>
+<ul>
+<li><p><strong>Cabal has its own Extensions data type</strong> that is not aligned with the GHC’s one. It makes sense to me now, but I expected Cabal to share the Extensions type with GHC. In reality, cabal potentially supports more compilers, and its job is just to parse all specified extensions, give them to the compiler as it is and leave the check to the latter.</p></li>
+<li><p><strong>CPP vs Cpp</strong>: The correct way to spell the C-preprocessor extension is <code>CPP</code>. and this is how the constructor in the Cabal extensions type is called. However, the GHC constructor to represent this extension is called <code>Cpp</code>. For some reasons, casing for this particular extension is different.</p></li>
+<li><p><strong>Safe Haskell Extensions are not part of the GHC Extensions data type</strong>, but are included in the Cabal Extensions type.</p></li>
+<li><p><strong>Haskell Language Extensions are neither part of the Cabal Extensions data type nor the GHC extensions type</strong>, but you can put them in the <code>default-extensions</code> field instead of <code>default-language</code> in the <code>.cabal</code> file and it will be recognized properly. (I really don’t know how it works)</p></li>
+<li><p>But if you put another <strong>random unknown extension</strong>, like <code>DependentTypes</code> into <code>default-extensions</code>, Cabal won’t be able to find the plan to build your package:</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true"></a><span class="op">$</span> cabal build lib<span class="op">:</span>extensions</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true"></a><span class="dt">Resolving</span> dependencies<span class="op">...</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true"></a>cabal<span class="op">:</span> <span class="dt">Could</span> <span class="fu">not</span> resolve dependencies<span class="op">:</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true"></a>[__0] next goal<span class="op">:</span> extensions (user goal)</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true"></a>[__0] rejecting<span class="op">:</span> extensions<span class="op">-</span><span class="fl">0.0</span><span class="op">.</span><span class="fl">0.0</span> (conflict<span class="op">:</span> requires <span class="dt">DependentTypes</span>)</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true"></a>[__0] <span class="fu">fail</span> (backjumping, conflict set<span class="op">:</span> extensions)</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true"></a><span class="dt">After</span> searching the rest <span class="kw">of</span> the dependency tree exhaustively, these were the</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true"></a>goals <span class="dt">I've</span> had most trouble fulfilling<span class="op">:</span> extensions</span></code></pre></div></li>
+<li><p><strong>Rank2Types doesn’t exist!</strong> It is just a synonym you can use to write that you want to turn on <code>RankNTypes</code>, and I actually never had mercy on the compiler (as I thought) by giving them lower requirements where I was sure that higher was not required (everywhere basically).</p></li>
+<li><p><strong>Generaliz(s)ed newtype deriving</strong> — this is also just a parsing type alias, and there is only one true (sorry, British English adepts) extension — <code>GeneralizedNewtypeDeriving</code></p></li>
+<li><p><strong><code>NamedFieldPuns</code></strong>. It is the <code>RecordPuns</code> constructor in the GHC Extensions type, and actually, you can use <code>RecordPuns</code> in both Cabal and GHC and it will work as <code>NamedFieldPuns</code> but with a deprecation warning.</p></li>
+<li><p><strong><code>PolymorphicComponents</code></strong> is the Cabal synonym of <code>RankNTypes</code> as well.</p></li>
+</ul>
+<h2 id="difficulties-in-having-give-me-extensions-per-module-tool">Difficulties in having ‘give me extensions per module’ tool<a href="#difficulties-in-having-give-me-extensions-per-module-tool" class="anchor">🔗</a></h2>
+<p>If you are still not convinced that extensions are not that straightforward, here is the summary of the main difficulties that one could face on their way to answer any question about extensions in the module.</p>
+<ul>
+<li>There are LOTS of ways to specialise the extensions for the module.</li>
+<li>Some of the ways are through the CLI arguments which complicate tool work.</li>
+<li>To retrieve information from CLI and other places you need to be able to work with GHC API which is
+<ol type="a">
+<li>Complicated</li>
+<li>Not 100% documented</li>
+<li>Heavy</li>
+</ol></li>
+<li>Cabal has its own interface, types and functions to get the information about extensions. Cabal’s API is also not the most straightforward.</li>
+<li>To get extensions only local to that file you can’t reuse any GHC parsing functions because information about extensions is not stored in AST.</li>
+<li>Things like CPP won’t let you see all the possible extensions in the module if you use GHC API</li>
+<li>And much more small difficulties on the way for an average Haskell developer.</li>
+</ul>
+<h2 id="our-solution-extensions-library">Our solution – ‘extensions’ library<a href="#our-solution-extensions-library" class="anchor">🔗</a></h2>
+<p>The previous paragraph was pretty depressing if you want to just get all extensions declared in your modules without depending and making not-easy tricks on GHC API to give it all to you. Especially sad, if you don’t want to compile the whole project to get into some internal information that GHC keeps. Yes, I know that feeling. That is why we together with <a href="https://kodimensional.dev/">Dmitrii</a> started an experimental project for a swift and easy way to give that information to users. Check out what we achieved:</p>
+<ul>
+<li><a href="https://github.com/kowainik/extensions">kowainik/extensions</a></li>
+</ul>
+<p>Answering the main question, I can happily say that the library works for the most common cases. But let’s look into it deeper.</p>
+<p>This library provides functions and data types to work with all described kinds of Haskell extensions. Furthermore, we split the library API in such a way that you can get information coming from cabal side and module-specific information separately, which allows you to perform more flexible analysis depending on your needs.</p>
+<h4 id="cabal-part">Cabal part<a href="#cabal-part" class="anchor">🔗</a></h4>
+<p>For parsing Cabal files we are using <a href="https://hackage.haskell.org/package/Cabal">Cabal</a>, the library itself. It has all functions to get the <code>Extensions</code> for each stanza and our task was to extract that information carefully and structure it in the most efficient way.</p>
+<p>One of the challenging tasks was to traverse the whole Cabal AST properly to get all modules from all places in each stanza. But the most interesting issue was to match the Cabal and GHC extensions type, which, as I mentioned before, was a tricky part. The function that converts between different extension types has more than 100 cases, and some of them are not straightforward, because some extensions have different names, some are deprecated, some comes from another compiler, some are supported only in the latest GHC version, and so on.</p>
+<h4 id="module-part">Module part<a href="#module-part" class="anchor">🔗</a></h4>
+<p>The module retrieval part is implemented through the custom parser. But in order to be able to write one, we needed to understand all the possible syntax allowances, which we did, and I tell you what, this is some complicated stuff.</p>
+<figure>
+<img src="https://user-images.githubusercontent.com/4276606/81501432-46fc1580-92d0-11ea-952e-8b218bb49601.jpg" alt /><figcaption>Pragmas Syntax</figcaption>
+</figure>
+<p>Our goal is to support all most common cases, which includes <code>CPP</code> handling, as it is quite a widely used technique. And this adds some more complexity to the parser. Still, I think, it is a great value for a not too big cost.</p>
+<p>And to understand some of the variety that can be in the header section of your file (if you thought that there is nothing complicated there) just look at this weave of comments, pragmas and <code>CPP</code>s together:</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true"></a><span class="ot">{-# LANGUAGE</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true"></a><span class="ot">-- is this weird?</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true"></a><span class="ot">   {- is it? -} ScopedTypeVariables {- let me think -}</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true"></a><span class="ot">#if __GLASGOW_HASKELL__ &lt; 810</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true"></a><span class="ot">  {- or is't it?.. -}</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true"></a><span class="ot">  TypeApplications,</span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true"></a><span class="ot">  {- Oh boy, this is one complicated</span></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true"></a><span class="ot">      language pragma!</span></span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true"></a><span class="ot">  -}</span></span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true"></a><span class="ot">#else</span></span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true"></a><span class="ot">  -- this is fine though</span></span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true"></a><span class="ot">      -- I said, this is fine</span></span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true"></a><span class="ot">           LambdaCase</span></span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true"></a><span class="ot">#endif</span></span>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true"></a><span class="ot">-- innocent comment at the end&quot;</span></span>
+<span id="cb17-16"><a href="#cb17-16" aria-hidden="true"></a><span class="ot">#-}</span></span>
+<span id="cb17-17"><a href="#cb17-17" aria-hidden="true"></a><span class="co">{- We can also always use strategies -}</span></span>
+<span id="cb17-18"><a href="#cb17-18" aria-hidden="true"></a><span class="co">{- This -}</span> <span class="ot">{-# {- is -} LANGUAGE {- pragma for -} DerivingStrategies {- extension -} #-}</span> <span class="co">{- ! -}</span></span>
+<span id="cb17-19"><a href="#cb17-19" aria-hidden="true"></a></span>
+<span id="cb17-20"><a href="#cb17-20" aria-hidden="true"></a><span class="ot">{-# OPTIONS_GHC</span></span>
+<span id="cb17-21"><a href="#cb17-21" aria-hidden="true"></a><span class="ot">    -freverse-errors</span></span>
+<span id="cb17-22"><a href="#cb17-22" aria-hidden="true"></a><span class="ot">  #-}</span></span>
+<span id="cb17-23"><a href="#cb17-23" aria-hidden="true"></a><span class="ot">{-#                        LANGUAGE</span></span>
+<span id="cb17-24"><a href="#cb17-24" aria-hidden="true"></a><span class="ot">  DerivingVia</span></span>
+<span id="cb17-25"><a href="#cb17-25" aria-hidden="true"></a><span class="ot">                   ,</span></span>
+<span id="cb17-26"><a href="#cb17-26" aria-hidden="true"></a><span class="ot">   {- ( ͡° ͜ʖ ͡°) -} Trustworthy</span></span>
+<span id="cb17-27"><a href="#cb17-27" aria-hidden="true"></a><span class="ot">  #-}</span></span></code></pre></div>
+<h3 id="cli">CLI<a href="#cli" class="anchor">🔗</a></h3>
+<p>Based on that interface we also created a CLI tool, that you can install already, to check extensions of your packages and modules. It is quite easy to use and doesn’t require any additional knowledge of Haskell Extensions mechanism.</p>
+<p>You should definitely give <code>extensions</code> a try, especially if you seek how to get out of the following situations:</p>
+<ol type="1">
+<li>Get all extensions in all modules, combined with default-extensions from the .cabal file.</li>
+<li>Get all extensions for a specific module, combined with Cabal extensions.</li>
+<li>Get extensions defined only in a module.</li>
+<li>Get extensions only from Cabal file.</li>
+</ol>
+<p>All this information is provided in <a href="https://github.com/kowainik/extensions#extensions">README</a> as well for better user experience. You can follow the installation instructions and start playing with <code>extensions</code> right now.</p>
+<h2 id="conclusion">Conclusion<a href="#conclusion" class="anchor">🔗</a></h2>
+<p>This post doesn’t have an aim to offend anybody, or any tool. It is just my observations on the overall experience on the immersion into the Extension topic. Yes, the experience is not ideal, some documentation is not obvious and you constantly need to check internal and sources of lots of things to understand the ideas better. But I hope that this post could help somebody to understand where to find any info they need on the topic. Or it could help to clarify things for more people (for example, by improving the higher level docs). And, of course, showcases how to create a solution to a particular problem.</p>
+<p>That’s all, folks.</p>
+<h2 id="reading-shelf">Reading shelf<a href="#reading-shelf" class="anchor">🔗</a></h2>
+<ul>
+<li><a href="https://hackage.haskell.org/package/extensions">Hackage: <code>extensions</code></a></li>
+<li><a href="https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/glasgow_exts.html">GHC User Guide: Language Options</a></li>
+<li><a href="https://ghc.gitlab.haskell.org/ghc/doc/users_guide/exts/intro.html">GHC Language Extensions</a></li>
+<li><a href="https://wiki.haskell.org/Language_extensions">Haskell Wiki: Language extensions</a></li>
+<li><a href="https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/safe_haskell.html">GHC User Guide: Safe Hakell</a></li>
+<li><a href="https://wiki.haskell.org/Safe_Haskell">Haskell Wiki: Safe Haskell</a></li>
+<li><a href="https://typeclasses.com/extensions-intro">TypeClasses: Introduction to GHC language extensions</a></li>
+<li><a href="https://ocharles.org.uk/pages/2014-12-01-24-days-of-ghc-extensions.html">24 Days of GHC Extensions</a></li>
+<li><a href="https://limperg.de/ghc-extensions/">A guide to GHC’s Extensions</a></li>
+<li><a href="https://www.schoolofhaskell.com/school/to-infinity-and-beyond/pick-of-the-week/guide-to-ghc-extensions/language-standards">School of Haskell: Language Standards</a></li>
+<li><a href="https://simonmar.github.io/bib/papers/safe-haskell.pdf">Safe Haskell paper</a></li>
+<li><a href="https://books.google.co.uk/books?id=rIVcDgAAQBAJ&amp;pg=PA233&amp;lpg=PA233&amp;dq=cabal+safe+unsafe+trustworthy&amp;source=bl&amp;ots=coVtmCo_7d&amp;sig=ACfU3U2BIYic7oivXf15hZdr3dZASCL28A&amp;hl=en&amp;sa=X&amp;ved=2ahUKEwjz6aHZjYnpAhWlURUIHeqsCHMQ6AEwAHoECAsQAQ#v=onepage&amp;q=cabal%20safe%20unsafe%20trustworthy&amp;f=false">Haskell High Performance Programming: Enforcing type-safety using Safe Haskell</a></li>
+<li><a href="https://ghc.gitlab.haskell.org/ghc/doc/libraries/Cabal-3.3.0.0/Language-Haskell-Extension.html">Cabal Language Extensions</a></li>
+</ul>
+<h2 id="memes-shelf">Memes shelf<a href="#memes-shelf" class="anchor">🔗</a></h2>
+<p><img src="https://user-images.githubusercontent.com/4276606/81500658-8ffd9b00-92cb-11ea-87a2-5fabdde67a7c.jpg" alt="Rank*Types" /> <img src="https://user-images.githubusercontent.com/4276606/81500838-ad7f3480-92cc-11ea-80f2-b84daaff9586.jpg" alt="GHC" /> <img src="https://user-images.githubusercontent.com/4276606/81501428-45325200-92d0-11ea-8783-6fd9c8e1f1bf.jpg" alt="Puns" /> <img src="https://user-images.githubusercontent.com/4276606/81501431-46637f00-92d0-11ea-94bb-8c7d45ae2080.jpg" alt="Rank*Types" /> <img src="https://user-images.githubusercontent.com/4276606/81501434-46fc1580-92d0-11ea-8183-aa7939faa76b.jpg" alt="Safe-Trustworthy" /></p>
+              </p>
+              </div>
+          </div>
+          </div>
+      </div>
+
+
+      <!-- Bootstrap core JavaScript -->
+      <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"> </script>
+      <script src="../js/post.js"> </script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/haskell.min.js"></script>
+      <script>hljs.initHighlightingOnLoad()</script>
+      <script async defer src="https://buttons.github.io/buttons.js"></script>
+  </body>
+</html>

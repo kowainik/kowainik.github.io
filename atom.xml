@@ -8,8 +8,16 @@
         <name>Kowainik</name>
         <email>xrom.xkov@gmail.com</email>
     </author>
-    <updated>2020-01-29T00:00:00Z</updated>
+    <updated>2020-05-10T00:00:00Z</updated>
     <entry>
+    <title>Extensions</title>
+    <link href="https://kowainik.github.io/posts/extensions.html" />
+    <id>https://kowainik.github.io/posts/extensions.html</id>
+    <published>2020-05-10T00:00:00Z</published>
+    <updated>2020-05-10T00:00:00Z</updated>
+    <summary type="html"><![CDATA[Non-boring Extensions in Haskell]]></summary>
+</entry>
+<entry>
     <title>Policeman in da Bristol city</title>
     <link href="https://kowainik.github.io/posts/policeman-bristol.html" />
     <id>https://kowainik.github.io/posts/policeman-bristol.html</id>
@@ -80,14 +88,6 @@
     <published>2018-09-25T00:00:00Z</published>
     <updated>2018-09-25T00:00:00Z</updated>
     <summary type="html"><![CDATA[Architecture of the modern logging library in Haskell]]></summary>
-</entry>
-<entry>
-    <title>Dhall to HLint: Using Dhall to generate HLint rules</title>
-    <link href="https://kowainik.github.io/posts/2018-09-09-dhall-to-hlint.html" />
-    <id>https://kowainik.github.io/posts/2018-09-09-dhall-to-hlint.html</id>
-    <published>2018-09-09T00:00:00Z</published>
-    <updated>2019-10-02</updated>
-    <summary type="html"><![CDATA[Creating custom HLint rules for alternative preludes with Dhall]]></summary>
 </entry>
 
 </feed>

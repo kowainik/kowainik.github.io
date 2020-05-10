@@ -111,15 +111,15 @@
               <p class="lead">
                   <p><code>tomland</code> is a bidirectional TOML parsing and pretty-printing library. “Bidirectional” here means that the library allows the user to specify in one place how to convert Haskell data types to TOML format and how to parse TOML configurations to custom user types. This approach allows eliminating one layer of bugs, specifically, when you update your data type and only one part of the conversion (for example, parser) but accidentally forget to update the other one (printer). With the bidirectional approach implemented in <code>tomland</code> there’s no chance of you overlooking anything.</p>
 <p>Here is just a quick look at how those bidirectional parsers look like in code:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">data</span> <span class="dt">User</span> <span class="ot">=</span> <span class="dt">User</span></span>
-<span id="cb1-2"><a href="#cb1-2"></a>    {<span class="ot"> userName ::</span> <span class="dt">Text</span></span>
-<span id="cb1-3"><a href="#cb1-3"></a>    ,<span class="ot"> userAge  ::</span> <span class="dt">Int</span></span>
-<span id="cb1-4"><a href="#cb1-4"></a>    }</span>
-<span id="cb1-5"><a href="#cb1-5"></a></span>
-<span id="cb1-6"><a href="#cb1-6"></a><span class="ot">userCodec ::</span> <span class="dt">TomlCodec</span> <span class="dt">User</span></span>
-<span id="cb1-7"><a href="#cb1-7"></a>userCodec <span class="ot">=</span> <span class="dt">User</span></span>
-<span id="cb1-8"><a href="#cb1-8"></a>    <span class="op">&lt;$&gt;</span> Toml.text <span class="st">&quot;name&quot;</span> <span class="op">.=</span> userName</span>
-<span id="cb1-9"><a href="#cb1-9"></a>    <span class="op">&lt;*&gt;</span> Toml.int  <span class="st">&quot;age&quot;</span>  <span class="op">.=</span> userAge</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true"></a><span class="kw">data</span> <span class="dt">User</span> <span class="ot">=</span> <span class="dt">User</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true"></a>    {<span class="ot"> userName ::</span> <span class="dt">Text</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true"></a>    ,<span class="ot"> userAge  ::</span> <span class="dt">Int</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true"></a>    }</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true"></a><span class="ot">userCodec ::</span> <span class="dt">TomlCodec</span> <span class="dt">User</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true"></a>userCodec <span class="ot">=</span> <span class="dt">User</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true"></a>    <span class="op">&lt;$&gt;</span> Toml.text <span class="st">&quot;name&quot;</span> <span class="op">.=</span> userName</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true"></a>    <span class="op">&lt;*&gt;</span> Toml.int  <span class="st">&quot;age&quot;</span>  <span class="op">.=</span> userAge</span></code></pre></div>
 <p>You can see a bigger example in the repository README:</p>
 <ul>
 <li><a href="https://github.com/kowainik/tomland">kowainik/tomland</a></li>
@@ -167,20 +167,20 @@
 <li>Type check a simple ADT to a GADT.</li>
 </ol>
 <p>TOML has several primitive types, but let’s just consider <code>Integer</code>, <code>Text</code> and <code>Array</code> for simplicity. Here is how an ADT for untyped representation of TOML values looks like:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb2-1"><a href="#cb2-1"></a><span class="kw">data</span> <span class="dt">UValue</span></span>
-<span id="cb2-2"><a href="#cb2-2"></a>    <span class="ot">=</span> <span class="dt">UInteger</span> <span class="dt">Integer</span></span>
-<span id="cb2-3"><a href="#cb2-3"></a>    <span class="op">|</span> <span class="dt">UText</span> <span class="dt">Text</span></span>
-<span id="cb2-4"><a href="#cb2-4"></a>    <span class="op">|</span> <span class="dt">UArray</span> [<span class="dt">UValue</span>]</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true"></a><span class="kw">data</span> <span class="dt">UValue</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true"></a>    <span class="ot">=</span> <span class="dt">UInteger</span> <span class="dt">Integer</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true"></a>    <span class="op">|</span> <span class="dt">UText</span> <span class="dt">Text</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true"></a>    <span class="op">|</span> <span class="dt">UArray</span> [<span class="dt">UValue</span>]</span></code></pre></div>
 <p>And here is a GADT version of this data type, that guarantees that all the elements of the array have the same type (it uses extensions <code>-XDataKinds</code> and <code>-XGADTs</code>):</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb3-1"><a href="#cb3-1"></a><span class="kw">data</span> <span class="dt">TValue</span> <span class="ot">=</span> <span class="dt">TInteger</span> <span class="op">|</span> <span class="dt">TText</span> <span class="op">|</span> <span class="dt">TArray</span></span>
-<span id="cb3-2"><a href="#cb3-2"></a></span>
-<span id="cb3-3"><a href="#cb3-3"></a><span class="kw">data</span> <span class="dt">Value</span> (<span class="ot">t ::</span> <span class="dt">TValue</span>) <span class="kw">where</span></span>
-<span id="cb3-4"><a href="#cb3-4"></a>    <span class="dt">Integer</span><span class="ot"> ::</span> <span class="dt">Integer</span>   <span class="ot">-&gt;</span> <span class="dt">Value</span> <span class="dt">'TInteger</span></span>
-<span id="cb3-5"><a href="#cb3-5"></a>    <span class="dt">Text</span><span class="ot">    ::</span> <span class="dt">Text</span>      <span class="ot">-&gt;</span> <span class="dt">Value</span> <span class="dt">'TText</span></span>
-<span id="cb3-6"><a href="#cb3-6"></a>    <span class="dt">Array</span><span class="ot">   ::</span> [<span class="dt">Value</span> t] <span class="ot">-&gt;</span> <span class="dt">Value</span> <span class="dt">'TArray</span></span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true"></a><span class="kw">data</span> <span class="dt">TValue</span> <span class="ot">=</span> <span class="dt">TInteger</span> <span class="op">|</span> <span class="dt">TText</span> <span class="op">|</span> <span class="dt">TArray</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true"></a><span class="kw">data</span> <span class="dt">Value</span> (<span class="ot">t ::</span> <span class="dt">TValue</span>) <span class="kw">where</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true"></a>    <span class="dt">Integer</span><span class="ot"> ::</span> <span class="dt">Integer</span>   <span class="ot">-&gt;</span> <span class="dt">Value</span> <span class="dt">'TInteger</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true"></a>    <span class="dt">Text</span><span class="ot">    ::</span> <span class="dt">Text</span>      <span class="ot">-&gt;</span> <span class="dt">Value</span> <span class="dt">'TText</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true"></a>    <span class="dt">Array</span><span class="ot">   ::</span> [<span class="dt">Value</span> t] <span class="ot">-&gt;</span> <span class="dt">Value</span> <span class="dt">'TArray</span></span></code></pre></div>
 <p>Let’s assume that we have already implemented a parser for <code>UValue</code> (instead of assuming you can also look <a href="https://github.com/kowainik/tomland/tree/master/src/Toml/Parser">at the real code</a>). Now we need to convert <code>UValue</code> to <code>Value</code>. But it’s not that simple: (1) this operation can fail and (2) at compile-time we don’t know the type of the resulted <code>Value</code>.</p>
 <p>To overcome the second challenge, we need to introduce an existential wrapper around <code>Value</code>.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb4-1"><a href="#cb4-1"></a><span class="kw">data</span> <span class="dt">AnyValue</span> <span class="ot">=</span> <span class="kw">forall</span> (<span class="ot">t ::</span> <span class="dt">TValue</span>) <span class="op">.</span> <span class="dt">AnyValue</span> (<span class="dt">Value</span> t)</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true"></a><span class="kw">data</span> <span class="dt">AnyValue</span> <span class="ot">=</span> <span class="kw">forall</span> (<span class="ot">t ::</span> <span class="dt">TValue</span>) <span class="op">.</span> <span class="dt">AnyValue</span> (<span class="dt">Value</span> t)</span></code></pre></div>
 <blockquote>
 <p><strong>NOTE</strong>: you can’t return <code>Value t</code> from the function but you can return <code>AnyValue</code> since the type variable <code>t</code> is hidden inside the <code>AnyValue</code> constructor.</p>
 </blockquote>
@@ -190,43 +190,43 @@
 <li>If the list is not empty then we assume that the type of the first element is the expected type of the whole array. So we just need to check every element of the list against this first element and ensure that all of them have the same type. But this needs to be done carefully in order to convince GHC that we checked everything properly.</li>
 </ol>
 <p>First, let’s implement the <code>sameValue</code> function that checks whether two <code>Value</code>s have the same type. Here we’re going to use <a href="https://hackage.haskell.org/package/base-4.12.0.0/docs/Data-Type-Equality.html#t::-126-:">propositional equality</a> which is implemented in the following way:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb5-1"><a href="#cb5-1"></a><span class="kw">data</span> a <span class="op">:~:</span> b <span class="kw">where</span></span>
-<span id="cb5-2"><a href="#cb5-2"></a>    <span class="dt">Refl</span><span class="ot"> ::</span> a <span class="op">:~:</span> a</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true"></a><span class="kw">data</span> a <span class="op">:~:</span> b <span class="kw">where</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true"></a>    <span class="dt">Refl</span><span class="ot"> ::</span> a <span class="op">:~:</span> a</span></code></pre></div>
 <p>And here is <code>sameValue</code>:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb6-1"><a href="#cb6-1"></a><span class="kw">data</span> <span class="dt">TypeMismatchError</span> <span class="ot">=</span> <span class="dt">TypeMismatchError</span></span>
-<span id="cb6-2"><a href="#cb6-2"></a>  {<span class="ot"> typeExpected ::</span> <span class="dt">TValue</span></span>
-<span id="cb6-3"><a href="#cb6-3"></a>  ,<span class="ot"> typeActual   ::</span> <span class="dt">TValue</span></span>
-<span id="cb6-4"><a href="#cb6-4"></a>  }</span>
-<span id="cb6-5"><a href="#cb6-5"></a></span>
-<span id="cb6-6"><a href="#cb6-6"></a><span class="ot">valueType ::</span> <span class="dt">Value</span> t <span class="ot">-&gt;</span> <span class="dt">TValue</span></span>
-<span id="cb6-7"><a href="#cb6-7"></a>valueType (<span class="dt">Integer</span> _) <span class="ot">=</span> <span class="dt">TInteger</span></span>
-<span id="cb6-8"><a href="#cb6-8"></a>valueType (<span class="dt">Text</span> _)    <span class="ot">=</span> <span class="dt">TText</span></span>
-<span id="cb6-9"><a href="#cb6-9"></a>valueType (<span class="dt">Array</span> _)   <span class="ot">=</span> <span class="dt">TArray</span></span>
-<span id="cb6-10"><a href="#cb6-10"></a></span>
-<span id="cb6-11"><a href="#cb6-11"></a><span class="ot">sameValue ::</span> <span class="dt">Value</span> a <span class="ot">-&gt;</span> <span class="dt">Value</span> b <span class="ot">-&gt;</span> <span class="dt">Either</span> <span class="dt">TypeMismatchError</span> (a <span class="op">:~:</span> b)</span>
-<span id="cb6-12"><a href="#cb6-12"></a>sameValue <span class="dt">Integer</span>{} <span class="dt">Integer</span>{} <span class="ot">=</span> <span class="dt">Right</span> <span class="dt">Refl</span></span>
-<span id="cb6-13"><a href="#cb6-13"></a>sameValue <span class="dt">Text</span>{}    <span class="dt">Text</span>{}    <span class="ot">=</span> <span class="dt">Right</span> <span class="dt">Refl</span></span>
-<span id="cb6-14"><a href="#cb6-14"></a>sameValue <span class="dt">Array</span>{}   <span class="dt">Array</span>{}   <span class="ot">=</span> <span class="dt">Right</span> <span class="dt">Refl</span></span>
-<span id="cb6-15"><a href="#cb6-15"></a>sameValue l         r         <span class="ot">=</span> <span class="dt">Left</span> <span class="op">$</span> <span class="dt">TypeMismatchError</span></span>
-<span id="cb6-16"><a href="#cb6-16"></a>                                         { typeExpected <span class="ot">=</span> valueType l</span>
-<span id="cb6-17"><a href="#cb6-17"></a>                                         , typeActual   <span class="ot">=</span> valueType r</span>
-<span id="cb6-18"><a href="#cb6-18"></a>                                         }</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true"></a><span class="kw">data</span> <span class="dt">TypeMismatchError</span> <span class="ot">=</span> <span class="dt">TypeMismatchError</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true"></a>  {<span class="ot"> typeExpected ::</span> <span class="dt">TValue</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true"></a>  ,<span class="ot"> typeActual   ::</span> <span class="dt">TValue</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true"></a>  }</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true"></a></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true"></a><span class="ot">valueType ::</span> <span class="dt">Value</span> t <span class="ot">-&gt;</span> <span class="dt">TValue</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true"></a>valueType (<span class="dt">Integer</span> _) <span class="ot">=</span> <span class="dt">TInteger</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true"></a>valueType (<span class="dt">Text</span> _)    <span class="ot">=</span> <span class="dt">TText</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true"></a>valueType (<span class="dt">Array</span> _)   <span class="ot">=</span> <span class="dt">TArray</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true"></a></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true"></a><span class="ot">sameValue ::</span> <span class="dt">Value</span> a <span class="ot">-&gt;</span> <span class="dt">Value</span> b <span class="ot">-&gt;</span> <span class="dt">Either</span> <span class="dt">TypeMismatchError</span> (a <span class="op">:~:</span> b)</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true"></a>sameValue <span class="dt">Integer</span>{} <span class="dt">Integer</span>{} <span class="ot">=</span> <span class="dt">Right</span> <span class="dt">Refl</span></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true"></a>sameValue <span class="dt">Text</span>{}    <span class="dt">Text</span>{}    <span class="ot">=</span> <span class="dt">Right</span> <span class="dt">Refl</span></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true"></a>sameValue <span class="dt">Array</span>{}   <span class="dt">Array</span>{}   <span class="ot">=</span> <span class="dt">Right</span> <span class="dt">Refl</span></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true"></a>sameValue l         r         <span class="ot">=</span> <span class="dt">Left</span> <span class="op">$</span> <span class="dt">TypeMismatchError</span></span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true"></a>                                         { typeExpected <span class="ot">=</span> valueType l</span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true"></a>                                         , typeActual   <span class="ot">=</span> valueType r</span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true"></a>                                         }</span></code></pre></div>
 <p>Now we’re ready to implement a proper simple type checking algorithm!</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb7-1"><a href="#cb7-1"></a><span class="ot">typeCheck ::</span> <span class="dt">UValue</span> <span class="ot">-&gt;</span> <span class="dt">Either</span> <span class="dt">TypeMismatchError</span> <span class="dt">AnyValue</span></span>
-<span id="cb7-2"><a href="#cb7-2"></a>typeCheck (<span class="dt">UInteger</span> n) <span class="ot">=</span> <span class="dt">Right</span> <span class="op">$</span> <span class="dt">AnyValue</span> <span class="op">$</span> <span class="dt">Integer</span> n</span>
-<span id="cb7-3"><a href="#cb7-3"></a>typeCheck (<span class="dt">UText</span> s)    <span class="ot">=</span> <span class="dt">Right</span> <span class="op">$</span> <span class="dt">AnyValue</span> <span class="op">$</span> <span class="dt">Text</span> s</span>
-<span id="cb7-4"><a href="#cb7-4"></a>typeCheck (<span class="dt">UArray</span> a)   <span class="ot">=</span> <span class="kw">case</span> a <span class="kw">of</span></span>
-<span id="cb7-5"><a href="#cb7-5"></a>    []   <span class="ot">-&gt;</span> <span class="dt">Right</span> <span class="op">$</span> <span class="dt">AnyValue</span> <span class="op">$</span> <span class="dt">Array</span> []  <span class="co">-- empty list is valid array</span></span>
-<span id="cb7-6"><a href="#cb7-6"></a>    x<span class="op">:</span>xs <span class="ot">-&gt;</span> <span class="kw">do</span></span>
-<span id="cb7-7"><a href="#cb7-7"></a>        <span class="dt">AnyValue</span> v <span class="ot">&lt;-</span> typeCheck x  <span class="co">-- type check first element of array</span></span>
-<span id="cb7-8"><a href="#cb7-8"></a>        <span class="dt">AnyValue</span> <span class="op">.</span> <span class="dt">Array</span> <span class="op">&lt;$&gt;</span> checkElem v xs  <span class="co">-- check `xs` against `v`</span></span>
-<span id="cb7-9"><a href="#cb7-9"></a>  <span class="kw">where</span></span>
-<span id="cb7-10"><a href="#cb7-10"></a><span class="ot">    checkElem ::</span> <span class="dt">Value</span> t <span class="ot">-&gt;</span> [<span class="dt">UValue</span>] <span class="ot">-&gt;</span> <span class="dt">Either</span> <span class="dt">TypeMismatchError</span> [<span class="dt">Value</span> t]</span>
-<span id="cb7-11"><a href="#cb7-11"></a>    checkElem v []     <span class="ot">=</span> <span class="dt">Right</span> [v]  <span class="co">-- no values = no problems</span></span>
-<span id="cb7-12"><a href="#cb7-12"></a>    checkElem v (x<span class="op">:</span>xs) <span class="ot">=</span> <span class="kw">do</span></span>
-<span id="cb7-13"><a href="#cb7-13"></a>        <span class="dt">AnyValue</span> vx <span class="ot">&lt;-</span> typeCheck x</span>
-<span id="cb7-14"><a href="#cb7-14"></a>        <span class="dt">Refl</span> <span class="ot">&lt;-</span> sameValue v vx</span>
-<span id="cb7-15"><a href="#cb7-15"></a>        (v <span class="op">:</span>) <span class="op">&lt;$&gt;</span> checkElem vx xs</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true"></a><span class="ot">typeCheck ::</span> <span class="dt">UValue</span> <span class="ot">-&gt;</span> <span class="dt">Either</span> <span class="dt">TypeMismatchError</span> <span class="dt">AnyValue</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true"></a>typeCheck (<span class="dt">UInteger</span> n) <span class="ot">=</span> <span class="dt">Right</span> <span class="op">$</span> <span class="dt">AnyValue</span> <span class="op">$</span> <span class="dt">Integer</span> n</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true"></a>typeCheck (<span class="dt">UText</span> s)    <span class="ot">=</span> <span class="dt">Right</span> <span class="op">$</span> <span class="dt">AnyValue</span> <span class="op">$</span> <span class="dt">Text</span> s</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true"></a>typeCheck (<span class="dt">UArray</span> a)   <span class="ot">=</span> <span class="kw">case</span> a <span class="kw">of</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true"></a>    []   <span class="ot">-&gt;</span> <span class="dt">Right</span> <span class="op">$</span> <span class="dt">AnyValue</span> <span class="op">$</span> <span class="dt">Array</span> []  <span class="co">-- empty list is valid array</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true"></a>    x<span class="op">:</span>xs <span class="ot">-&gt;</span> <span class="kw">do</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true"></a>        <span class="dt">AnyValue</span> v <span class="ot">&lt;-</span> typeCheck x  <span class="co">-- type check first element of array</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true"></a>        <span class="dt">AnyValue</span> <span class="op">.</span> <span class="dt">Array</span> <span class="op">&lt;$&gt;</span> checkElem v xs  <span class="co">-- check `xs` against `v`</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true"></a>  <span class="kw">where</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true"></a><span class="ot">    checkElem ::</span> <span class="dt">Value</span> t <span class="ot">-&gt;</span> [<span class="dt">UValue</span>] <span class="ot">-&gt;</span> <span class="dt">Either</span> <span class="dt">TypeMismatchError</span> [<span class="dt">Value</span> t]</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true"></a>    checkElem v []     <span class="ot">=</span> <span class="dt">Right</span> [v]  <span class="co">-- no values = no problems</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true"></a>    checkElem v (x<span class="op">:</span>xs) <span class="ot">=</span> <span class="kw">do</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true"></a>        <span class="dt">AnyValue</span> vx <span class="ot">&lt;-</span> typeCheck x</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true"></a>        <span class="dt">Refl</span> <span class="ot">&lt;-</span> sameValue v vx</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true"></a>        (v <span class="op">:</span>) <span class="op">&lt;$&gt;</span> checkElem vx xs</span></code></pre></div>
 <p>In order to convince GHC that the elements of the array have the same type, we pattern match on <code>Refl</code>. After this pattern matching GHC can see the type equality between the given element and the head of the list. That’s why we can put them in the same list.</p>
 <h3 id="prefix-tree">Prefix tree<a href="#prefix-tree" class="anchor">🔗</a></h3>
 <p>We managed to deal only with values. But in TOML, values are assigned to textual keys. Here is an example of this:</p>
@@ -234,8 +234,8 @@
 server.host  = &quot;best-haskell-blog.com&quot;
 server.ports = [8080, 8081, 9080, 9081]</code></pre>
 <p>Here <code>server.ports</code> is a key and its corresponding value is an array of integers. Keys are represented in the following way in <code>tomland</code>:</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb9-1"><a href="#cb9-1"></a><span class="kw">newtype</span> <span class="dt">Piece</span> <span class="ot">=</span> <span class="dt">Piece</span> {<span class="ot"> unPiece ::</span> <span class="dt">Text</span> }</span>
-<span id="cb9-2"><a href="#cb9-2"></a><span class="kw">newtype</span> <span class="dt">Key</span> <span class="ot">=</span> <span class="dt">Key</span> {<span class="ot"> unKey ::</span> <span class="dt">NonEmpty</span> <span class="dt">Piece</span> }</span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true"></a><span class="kw">newtype</span> <span class="dt">Piece</span> <span class="ot">=</span> <span class="dt">Piece</span> {<span class="ot"> unPiece ::</span> <span class="dt">Text</span> }</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true"></a><span class="kw">newtype</span> <span class="dt">Key</span> <span class="ot">=</span> <span class="dt">Key</span> {<span class="ot"> unKey ::</span> <span class="dt">NonEmpty</span> <span class="dt">Piece</span> }</span></code></pre></div>
 <p>Keys in TOML are dot-separated words. If some keys share a common prefix, they semantically belong to the same object (though you don’t have to follow this rule, it helps readability a lot). TOML also has tables that help to visually separate parts of the static configuration. Here is an example of tables and nested tables:</p>
 <pre class="toml"><code>[server]
     [server.production]
@@ -247,28 +247,28 @@ server.ports = [8080, 8081, 9080, 9081]</code></pre>
         host  = &quot;okayish-haskell-blog.com&quot;
         ports = [9080, 9081]</code></pre>
 <p>To represent this structure nicely we need some prefix tree. There are several libraries on Hackage that implement very decent prefix trees but unfortunately, none of them fit our use-case. So we decided to implement our own data structure. It has the following shape (using two mutually recursive data structures):</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb11-1"><a href="#cb11-1"></a><span class="kw">type</span> <span class="dt">Prefix</span> <span class="ot">=</span> <span class="dt">Key</span></span>
-<span id="cb11-2"><a href="#cb11-2"></a></span>
-<span id="cb11-3"><a href="#cb11-3"></a><span class="kw">type</span> <span class="dt">PrefixMap</span> a <span class="ot">=</span> <span class="dt">HashMap</span> <span class="dt">Piece</span> (<span class="dt">PrefixTree</span> a)</span>
-<span id="cb11-4"><a href="#cb11-4"></a></span>
-<span id="cb11-5"><a href="#cb11-5"></a><span class="kw">data</span> <span class="dt">PrefixTree</span> a</span>
-<span id="cb11-6"><a href="#cb11-6"></a>    <span class="ot">=</span> <span class="dt">Leaf</span> <span class="dt">Key</span> a</span>
-<span id="cb11-7"><a href="#cb11-7"></a>    <span class="op">|</span> <span class="dt">Branch</span> <span class="dt">Prefix</span> (<span class="dt">Maybe</span> a) (<span class="dt">PrefixMap</span> a)</span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true"></a><span class="kw">type</span> <span class="dt">Prefix</span> <span class="ot">=</span> <span class="dt">Key</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true"></a></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true"></a><span class="kw">type</span> <span class="dt">PrefixMap</span> a <span class="ot">=</span> <span class="dt">HashMap</span> <span class="dt">Piece</span> (<span class="dt">PrefixTree</span> a)</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true"></a></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true"></a><span class="kw">data</span> <span class="dt">PrefixTree</span> a</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true"></a>    <span class="ot">=</span> <span class="dt">Leaf</span> <span class="dt">Key</span> a</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true"></a>    <span class="op">|</span> <span class="dt">Branch</span> <span class="dt">Prefix</span> (<span class="dt">Maybe</span> a) (<span class="dt">PrefixMap</span> a)</span></code></pre></div>
 <p>When we want to insert a new key into <code>PrefixTree</code>, we need to split the given key and the key inside the current tree node into <code>common</code> and <code>remaining</code> parts and then split the current node properly. The result of the routine that finds key prefixes is captured by the following data type:</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb12-1"><a href="#cb12-1"></a><span class="kw">data</span> <span class="dt">KeysDiff</span></span>
-<span id="cb12-2"><a href="#cb12-2"></a>    <span class="ot">=</span> <span class="dt">Equal</span>      <span class="co">-- ^ Keys are equal.</span></span>
-<span id="cb12-3"><a href="#cb12-3"></a>    <span class="op">|</span> <span class="dt">NoPrefix</span>   <span class="co">-- ^ Keys don't have any common part.</span></span>
-<span id="cb12-4"><a href="#cb12-4"></a>    <span class="op">|</span> <span class="dt">FstIsPref</span>  <span class="co">-- ^ The first key is the prefix of the second one.</span></span>
-<span id="cb12-5"><a href="#cb12-5"></a>        <span class="op">!</span><span class="dt">Key</span>     <span class="co">-- ^ Rest of the second key.</span></span>
-<span id="cb12-6"><a href="#cb12-6"></a>    <span class="op">|</span> <span class="dt">SndIsPref</span>  <span class="co">-- ^ The second key is the prefix of the first one.</span></span>
-<span id="cb12-7"><a href="#cb12-7"></a>        <span class="op">!</span><span class="dt">Key</span>     <span class="co">-- ^ Rest of the first key.</span></span>
-<span id="cb12-8"><a href="#cb12-8"></a>    <span class="op">|</span> <span class="dt">Diff</span>       <span class="co">-- ^ Keys have a common prefix.</span></span>
-<span id="cb12-9"><a href="#cb12-9"></a>        <span class="op">!</span><span class="dt">Key</span>     <span class="co">-- ^ Common prefix.</span></span>
-<span id="cb12-10"><a href="#cb12-10"></a>        <span class="op">!</span><span class="dt">Key</span>     <span class="co">-- ^ Rest of the first key.</span></span>
-<span id="cb12-11"><a href="#cb12-11"></a>        <span class="op">!</span><span class="dt">Key</span>     <span class="co">-- ^ Rest of the second key.</span></span>
-<span id="cb12-12"><a href="#cb12-12"></a></span>
-<span id="cb12-13"><a href="#cb12-13"></a><span class="co">-- | Takes two keys and returns their difference.</span></span>
-<span id="cb12-14"><a href="#cb12-14"></a><span class="ot">keysDiff ::</span> <span class="dt">Key</span> <span class="ot">-&gt;</span> <span class="dt">Key</span> <span class="ot">-&gt;</span> <span class="dt">KeysDiff</span></span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true"></a><span class="kw">data</span> <span class="dt">KeysDiff</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true"></a>    <span class="ot">=</span> <span class="dt">Equal</span>      <span class="co">-- ^ Keys are equal.</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true"></a>    <span class="op">|</span> <span class="dt">NoPrefix</span>   <span class="co">-- ^ Keys don't have any common part.</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true"></a>    <span class="op">|</span> <span class="dt">FstIsPref</span>  <span class="co">-- ^ The first key is the prefix of the second one.</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true"></a>        <span class="op">!</span><span class="dt">Key</span>     <span class="co">-- ^ Rest of the second key.</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true"></a>    <span class="op">|</span> <span class="dt">SndIsPref</span>  <span class="co">-- ^ The second key is the prefix of the first one.</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true"></a>        <span class="op">!</span><span class="dt">Key</span>     <span class="co">-- ^ Rest of the first key.</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true"></a>    <span class="op">|</span> <span class="dt">Diff</span>       <span class="co">-- ^ Keys have a common prefix.</span></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true"></a>        <span class="op">!</span><span class="dt">Key</span>     <span class="co">-- ^ Common prefix.</span></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true"></a>        <span class="op">!</span><span class="dt">Key</span>     <span class="co">-- ^ Rest of the first key.</span></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true"></a>        <span class="op">!</span><span class="dt">Key</span>     <span class="co">-- ^ Rest of the second key.</span></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true"></a></span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true"></a><span class="co">-- | Takes two keys and returns their difference.</span></span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true"></a><span class="ot">keysDiff ::</span> <span class="dt">Key</span> <span class="ot">-&gt;</span> <span class="dt">Key</span> <span class="ot">-&gt;</span> <span class="dt">KeysDiff</span></span></code></pre></div>
 <p>Every TOML configuration stores the following items:</p>
 <ol type="1">
 <li>Top-level keys.</li>
@@ -276,19 +276,19 @@ server.ports = [8080, 8081, 9080, 9081]</code></pre>
 <li>Zero or more array of tables.</li>
 </ol>
 <p>The structure of TOML is recursive. So every table and array of tables has the same structure. That’s why a TOML AST is represented in the following way:</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb13-1"><a href="#cb13-1"></a><span class="kw">data</span> <span class="dt">TOML</span> <span class="ot">=</span> <span class="dt">TOML</span></span>
-<span id="cb13-2"><a href="#cb13-2"></a>    {<span class="ot"> tomlPairs       ::</span> <span class="dt">HashMap</span> <span class="dt">Key</span> <span class="dt">AnyValue</span></span>
-<span id="cb13-3"><a href="#cb13-3"></a>    ,<span class="ot"> tomlTables      ::</span> <span class="dt">PrefixMap</span> <span class="dt">TOML</span></span>
-<span id="cb13-4"><a href="#cb13-4"></a>    ,<span class="ot"> tomlTableArrays ::</span> <span class="dt">HashMap</span> <span class="dt">Key</span> (<span class="dt">NonEmpty</span> <span class="dt">TOML</span>)</span>
-<span id="cb13-5"><a href="#cb13-5"></a>    }</span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true"></a><span class="kw">data</span> <span class="dt">TOML</span> <span class="ot">=</span> <span class="dt">TOML</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true"></a>    {<span class="ot"> tomlPairs       ::</span> <span class="dt">HashMap</span> <span class="dt">Key</span> <span class="dt">AnyValue</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true"></a>    ,<span class="ot"> tomlTables      ::</span> <span class="dt">PrefixMap</span> <span class="dt">TOML</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true"></a>    ,<span class="ot"> tomlTableArrays ::</span> <span class="dt">HashMap</span> <span class="dt">Key</span> (<span class="dt">NonEmpty</span> <span class="dt">TOML</span>)</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true"></a>    }</span></code></pre></div>
 <p>That’s all regarding TOML AST! The following sections of this tutorial cover the bidirectional conversion aspect of the library.</p>
 <h2 id="tagged-partial-bidirectional-isomorphism">Tagged partial bidirectional isomorphism<a href="#tagged-partial-bidirectional-isomorphism" class="anchor">🔗</a></h2>
 <p>First, we need to learn how to switch between basic Haskell types and <code>AnyValue</code> in both directions. Converting from <code>Text</code> to <code>AnyValue</code> is pretty simple. Just apply the<code>Text</code> constructor of <code>Value</code> and then wrap into <code>AnyValue</code>. However, conversion from <code>AnyValue</code> to <code>Text</code> may fail because there might be a different constructor. It turns out that conversion to <code>AnyValue</code> may also fail. Consider <code>ByteString</code>: in order to convert <code>ByteString</code> to <code>AnyValue</code> you first need to convert it to <code>Text</code> and this operation may fail. Alternatively, you can convert <code>ByteString</code> to the array of integers.</p>
 <p>You can see now that we need a way to convert types in both directions. Just like isomorphisms, with the only difference that the conversion in both directions may fail. Thus it’s partial. And we also want to report good error messages to our users. So this is actually <em>tagged partial bidirectional isomorphism</em>. In <code>tomland</code> this concept is captured by the following data type with a much shorter name:</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb14-1"><a href="#cb14-1"></a><span class="kw">data</span> <span class="dt">BiMap</span> e a b <span class="ot">=</span> <span class="dt">BiMap</span></span>
-<span id="cb14-2"><a href="#cb14-2"></a>    {<span class="ot"> forward  ::</span> a <span class="ot">-&gt;</span> <span class="dt">Either</span> e b</span>
-<span id="cb14-3"><a href="#cb14-3"></a>    ,<span class="ot"> backward ::</span> b <span class="ot">-&gt;</span> <span class="dt">Either</span> e a</span>
-<span id="cb14-4"><a href="#cb14-4"></a>    }</span></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true"></a><span class="kw">data</span> <span class="dt">BiMap</span> e a b <span class="ot">=</span> <span class="dt">BiMap</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true"></a>    {<span class="ot"> forward  ::</span> a <span class="ot">-&gt;</span> <span class="dt">Either</span> e b</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true"></a>    ,<span class="ot"> backward ::</span> b <span class="ot">-&gt;</span> <span class="dt">Either</span> e a</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true"></a>    }</span></code></pre></div>
 <p>If we look at types as sets of values then <code>BiMap</code> can be represented by the following graph:</p>
 <figure>
 <img src="https://user-images.githubusercontent.com/4276606/50770531-b6a36000-1298-11e9-9528-caae87951d2a.png" alt /><figcaption>BiMap illustration</figcaption>
@@ -296,34 +296,34 @@ server.ports = [8080, 8081, 9080, 9081]</code></pre>
 <p>Type parameters <code>a</code> and <code>b</code> represent the values between which we’re converting. And <code>e</code> is the type of error.</p>
 <blockquote>
 <p><strong>NOTE:</strong> In <code>tomland</code> <code>BiMap</code> is specialized to the following error type:</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb15-1"><a href="#cb15-1"></a><span class="kw">data</span> <span class="dt">TomlBiMapError</span></span>
-<span id="cb15-2"><a href="#cb15-2"></a>    <span class="ot">=</span> <span class="dt">WrongConstructor</span> <span class="dt">Text</span> <span class="dt">Text</span>  <span class="co">-- expected vs. actual</span></span>
-<span id="cb15-3"><a href="#cb15-3"></a>    <span class="op">|</span> <span class="dt">WrongValue</span> <span class="dt">MatchError</span></span>
-<span id="cb15-4"><a href="#cb15-4"></a>    <span class="op">|</span> <span class="dt">ArbitraryError</span> <span class="dt">Text</span></span>
-<span id="cb15-5"><a href="#cb15-5"></a></span>
-<span id="cb15-6"><a href="#cb15-6"></a><span class="kw">type</span> <span class="dt">TomlBiMap</span> <span class="ot">=</span> <span class="dt">BiMap</span> <span class="dt">TomlBiMapError</span></span></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true"></a><span class="kw">data</span> <span class="dt">TomlBiMapError</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true"></a>    <span class="ot">=</span> <span class="dt">WrongConstructor</span> <span class="dt">Text</span> <span class="dt">Text</span>  <span class="co">-- expected vs. actual</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true"></a>    <span class="op">|</span> <span class="dt">WrongValue</span> <span class="dt">MatchError</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true"></a>    <span class="op">|</span> <span class="dt">ArbitraryError</span> <span class="dt">Text</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true"></a></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true"></a><span class="kw">type</span> <span class="dt">TomlBiMap</span> <span class="ot">=</span> <span class="dt">BiMap</span> <span class="dt">TomlBiMapError</span></span></code></pre></div>
 </blockquote>
 <p>When we want to write a bidirectional mapping between <code>Text</code> and <code>AnyValue</code> we need to provide two functions. If we want to do the same for <code>ByteString</code> and <code>AnyValue</code> we can implement two similar functions But you may notice that the logic for the <code>Text</code> converter is a subset of the logic for the <code>ByteString</code> one.</p>
 <p>It turns out that <code>BiMap</code> composes very nicely! And we need to write only <code>BiMap</code> between <code>ByteString</code> and <code>Text</code> and compose it with <code>BiMap</code> between <code>Text</code> and <code>AnyValue</code>. This is possible thanks to the following <a href="https://hackage.haskell.org/package/base-4.12.0.0/docs/Control-Category.html"><code>Category</code></a> instance for <code>BiMap</code> because <code>BiMap</code> forms category. <code>Category</code> allows us to compose objects of the type <code>Type -&gt; Type -&gt; Type</code>, but for that, you need to implement the composition operator and the identity object which is a neutral element for composition.</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb16-1"><a href="#cb16-1"></a><span class="kw">instance</span> <span class="dt">Category</span> (<span class="dt">BiMap</span> e) <span class="kw">where</span></span>
-<span id="cb16-2"><a href="#cb16-2"></a><span class="ot">    id ::</span> <span class="dt">BiMap</span> e a a</span>
-<span id="cb16-3"><a href="#cb16-3"></a>    <span class="fu">id</span> <span class="ot">=</span> <span class="dt">BiMap</span> <span class="dt">Right</span> <span class="dt">Right</span></span>
-<span id="cb16-4"><a href="#cb16-4"></a></span>
-<span id="cb16-5"><a href="#cb16-5"></a><span class="ot">    (.) ::</span> <span class="dt">BiMap</span> e b c <span class="ot">-&gt;</span> <span class="dt">BiMap</span> e a b <span class="ot">-&gt;</span> <span class="dt">BiMap</span> e a c</span>
-<span id="cb16-6"><a href="#cb16-6"></a>    bc <span class="op">.</span> ab <span class="ot">=</span> <span class="dt">BiMap</span></span>
-<span id="cb16-7"><a href="#cb16-7"></a>        { forward  <span class="ot">=</span>  forward ab <span class="op">&gt;=&gt;</span>  forward bc</span>
-<span id="cb16-8"><a href="#cb16-8"></a>        , backward <span class="ot">=</span> backward bc <span class="op">&gt;=&gt;</span> backward ab</span>
-<span id="cb16-9"><a href="#cb16-9"></a>        }</span></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true"></a><span class="kw">instance</span> <span class="dt">Category</span> (<span class="dt">BiMap</span> e) <span class="kw">where</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true"></a><span class="ot">    id ::</span> <span class="dt">BiMap</span> e a a</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true"></a>    <span class="fu">id</span> <span class="ot">=</span> <span class="dt">BiMap</span> <span class="dt">Right</span> <span class="dt">Right</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true"></a></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true"></a><span class="ot">    (.) ::</span> <span class="dt">BiMap</span> e b c <span class="ot">-&gt;</span> <span class="dt">BiMap</span> e a b <span class="ot">-&gt;</span> <span class="dt">BiMap</span> e a c</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true"></a>    bc <span class="op">.</span> ab <span class="ot">=</span> <span class="dt">BiMap</span></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true"></a>        { forward  <span class="ot">=</span>  forward ab <span class="op">&gt;=&gt;</span>  forward bc</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true"></a>        , backward <span class="ot">=</span> backward bc <span class="op">&gt;=&gt;</span> backward ab</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true"></a>        }</span></code></pre></div>
 <p>This instance can be described clearly by the following picture:</p>
 <figure>
 <img src="https://user-images.githubusercontent.com/4276606/50771234-13a01580-129b-11e9-93da-6c5dd0f7f160.png" alt /><figcaption>Category composition illustration</figcaption>
 </figure>
 <p>It’s not convenient to use the dot-operator from <code>Control.Category</code> to compose <code>BiMap</code>s because this operator is already specialized to arrow <code>(-&gt;)</code> in <code>Prelude</code>. But we still can use the ‘&gt;&gt;&gt;’ and ‘&lt;&lt;&lt;’ operators for composing objects and this is quite nice!</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb17-1"><a href="#cb17-1"></a><span class="ot">_ByteStringText ::</span> <span class="dt">TomlBiMap</span> <span class="dt">ByteString</span> <span class="dt">Text</span></span>
-<span id="cb17-2"><a href="#cb17-2"></a><span class="ot">_Text           ::</span> <span class="dt">TomlBiMap</span> <span class="dt">Text</span>       <span class="dt">AnyValue</span></span>
-<span id="cb17-3"><a href="#cb17-3"></a></span>
-<span id="cb17-4"><a href="#cb17-4"></a><span class="ot">_ByteString     ::</span> <span class="dt">TomlBiMap</span> <span class="dt">ByteString</span> <span class="dt">AnyValue</span></span>
-<span id="cb17-5"><a href="#cb17-5"></a>_ByteString <span class="ot">=</span> _ByteStringText <span class="op">&gt;&gt;&gt;</span> _Text</span></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true"></a><span class="ot">_ByteStringText ::</span> <span class="dt">TomlBiMap</span> <span class="dt">ByteString</span> <span class="dt">Text</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true"></a><span class="ot">_Text           ::</span> <span class="dt">TomlBiMap</span> <span class="dt">Text</span>       <span class="dt">AnyValue</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true"></a></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true"></a><span class="ot">_ByteString     ::</span> <span class="dt">TomlBiMap</span> <span class="dt">ByteString</span> <span class="dt">AnyValue</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true"></a>_ByteString <span class="ot">=</span> _ByteStringText <span class="op">&gt;&gt;&gt;</span> _Text</span></code></pre></div>
 <p><code>tomland</code> implements a lot of <code>BiMap</code> combinators out-of-the-box for you so you should be able to avoid writing your own mini-tomland inside your application if you want to use it on common data structures.</p>
 <h2 id="codec">Codec<a href="#codec" class="anchor">🔗</a></h2>
 <p>As of now, we are converting between primitive types and TOML values. But usually, in Haskell, we work with a lot of custom data types, including both, product and sum types. This section covers how to compose different <code>BiMap</code>s into a single bidirectional converter for a Haskell data type.</p>
@@ -339,10 +339,10 @@ server.ports = [8080, 8081, 9080, 9081]</code></pre>
 <p><code>tomland</code> uses the same idea but different connecting pieces and expands this approach to support sum types, not only record types.</p>
 <h3 id="monadic-profunctors">Monadic profunctors<a href="#monadic-profunctors" class="anchor">🔗</a></h3>
 <p>Here is the core <code>Codec</code> type for bidirectional conversion:</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb18-1"><a href="#cb18-1"></a><span class="kw">data</span> <span class="dt">Codec</span> r w c a <span class="ot">=</span> <span class="dt">Codec</span></span>
-<span id="cb18-2"><a href="#cb18-2"></a>    {<span class="ot"> codecRead  ::</span> r a</span>
-<span id="cb18-3"><a href="#cb18-3"></a>    ,<span class="ot"> codecWrite ::</span> c <span class="ot">-&gt;</span> w a</span>
-<span id="cb18-4"><a href="#cb18-4"></a>    }</span></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true"></a><span class="kw">data</span> <span class="dt">Codec</span> r w c a <span class="ot">=</span> <span class="dt">Codec</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true"></a>    {<span class="ot"> codecRead  ::</span> r a</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true"></a>    ,<span class="ot"> codecWrite ::</span> c <span class="ot">-&gt;</span> w a</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true"></a>    }</span></code></pre></div>
 <p>It looks scary but I will try to explain its meaning.</p>
 <ul>
 <li><code>r</code> is usually some <code>Reader</code> monad. It stores an intermediate AST representation inside the context which we’re going to query to fetch pieces of our big custom user type.</li>
@@ -359,152 +359,152 @@ server.ports = [8080, 8081, 9080, 9081]</code></pre>
 </blockquote>
 <p>The type of <code>codecWrite</code> semantically should be equivalent to <code>a -&gt; w ()</code>: we take a value of our type <code>a</code>, change the context, and ignore the result. But if we do so, we’re not able to implement a desirable, convenient interface.</p>
 <p>Another way to look at <code>Codec</code>: it is just a special case of <a href="https://hackage.haskell.org/package/base-4.12.0.0/docs/Data-Functor-Product.html">Product</a> monad. Here is a quick reminder of what the <code>Product</code> data type is:</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb19-1"><a href="#cb19-1"></a><span class="kw">data</span> <span class="dt">Product</span> f g a <span class="ot">=</span> <span class="dt">Pair</span> (f a) (g a)</span>
-<span id="cb19-2"><a href="#cb19-2"></a></span>
-<span id="cb19-3"><a href="#cb19-3"></a><span class="kw">instance</span> (<span class="dt">Monad</span> f, <span class="dt">Monad</span> g) <span class="ot">=&gt;</span> <span class="dt">Monad</span> (<span class="dt">Product</span> f g) <span class="kw">where</span></span>
-<span id="cb19-4"><a href="#cb19-4"></a>    <span class="dt">Pair</span> m n <span class="op">&gt;&gt;=</span> f <span class="ot">=</span> <span class="dt">Pair</span> (m <span class="op">&gt;&gt;=</span> fstP <span class="op">.</span> f) (n <span class="op">&gt;&gt;=</span> sndP <span class="op">.</span> f)</span>
-<span id="cb19-5"><a href="#cb19-5"></a>      <span class="kw">where</span></span>
-<span id="cb19-6"><a href="#cb19-6"></a>        fstP (<span class="dt">Pair</span> a _) <span class="ot">=</span> a</span>
-<span id="cb19-7"><a href="#cb19-7"></a>        sndP (<span class="dt">Pair</span> _ b) <span class="ot">=</span> b</span></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true"></a><span class="kw">data</span> <span class="dt">Product</span> f g a <span class="ot">=</span> <span class="dt">Pair</span> (f a) (g a)</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true"></a></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true"></a><span class="kw">instance</span> (<span class="dt">Monad</span> f, <span class="dt">Monad</span> g) <span class="ot">=&gt;</span> <span class="dt">Monad</span> (<span class="dt">Product</span> f g) <span class="kw">where</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true"></a>    <span class="dt">Pair</span> m n <span class="op">&gt;&gt;=</span> f <span class="ot">=</span> <span class="dt">Pair</span> (m <span class="op">&gt;&gt;=</span> fstP <span class="op">.</span> f) (n <span class="op">&gt;&gt;=</span> sndP <span class="op">.</span> f)</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true"></a>      <span class="kw">where</span></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true"></a>        fstP (<span class="dt">Pair</span> a _) <span class="ot">=</span> a</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true"></a>        sndP (<span class="dt">Pair</span> _ b) <span class="ot">=</span> b</span></code></pre></div>
 <p>So <code>Codec</code> is semantically equivalent to the following <code>Product</code> specialization:</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb20-1"><a href="#cb20-1"></a><span class="kw">type</span> <span class="dt">Codec</span> r w c a <span class="ot">=</span> <span class="dt">Product</span> r (<span class="dt">ReaderT</span> c w) a</span></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true"></a><span class="kw">type</span> <span class="dt">Codec</span> r w c a <span class="ot">=</span> <span class="dt">Product</span> r (<span class="dt">ReaderT</span> c w) a</span></code></pre></div>
 <p><code>Product</code> stores two monadic actions and performs operations over them in parallel. So at one step of <code>&gt;&gt;=</code> it changes both monads. But the changes are parallel and independent. This means that you can describe two monadic actions in a single place, but later you can choose to work with only one of them.</p>
 <p>It’s an interesting (and not that difficult) exercise to implement the <code>Functor</code>, <code>Applicative</code>, and <code>Monad</code> instances for <code>Codec</code>. So let’s look closer at <code>dimap</code> from profunctor part:</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb21-1"><a href="#cb21-1"></a>dimap</span>
-<span id="cb21-2"><a href="#cb21-2"></a><span class="ot">    ::</span> (<span class="dt">Functor</span> r, <span class="dt">Functor</span> w)</span>
-<span id="cb21-3"><a href="#cb21-3"></a>    <span class="ot">=&gt;</span> (c <span class="ot">-&gt;</span> d)       <span class="co">-- ^ Mapper for consumer</span></span>
-<span id="cb21-4"><a href="#cb21-4"></a>    <span class="ot">-&gt;</span> (a <span class="ot">-&gt;</span> b)       <span class="co">-- ^ Mapper for producer</span></span>
-<span id="cb21-5"><a href="#cb21-5"></a>    <span class="ot">-&gt;</span> <span class="dt">Codec</span> r w d a  <span class="co">-- ^ Source 'Codec' object</span></span>
-<span id="cb21-6"><a href="#cb21-6"></a>    <span class="ot">-&gt;</span> <span class="dt">Codec</span> r w c b  <span class="co">-- ^ Target ‘Codec’ object</span></span>
-<span id="cb21-7"><a href="#cb21-7"></a>dimap f g codec <span class="ot">=</span> <span class="dt">Codec</span></span>
-<span id="cb21-8"><a href="#cb21-8"></a>  { codecRead  <span class="ot">=</span> g <span class="op">&lt;$&gt;</span> codecRead codec</span>
-<span id="cb21-9"><a href="#cb21-9"></a>  , codecWrite <span class="ot">=</span> <span class="fu">fmap</span> g <span class="op">.</span> codecWrite codec <span class="op">.</span> f</span>
-<span id="cb21-10"><a href="#cb21-10"></a>  }</span></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true"></a>dimap</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true"></a><span class="ot">    ::</span> (<span class="dt">Functor</span> r, <span class="dt">Functor</span> w)</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true"></a>    <span class="ot">=&gt;</span> (c <span class="ot">-&gt;</span> d)       <span class="co">-- ^ Mapper for consumer</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true"></a>    <span class="ot">-&gt;</span> (a <span class="ot">-&gt;</span> b)       <span class="co">-- ^ Mapper for producer</span></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true"></a>    <span class="ot">-&gt;</span> <span class="dt">Codec</span> r w d a  <span class="co">-- ^ Source 'Codec' object</span></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true"></a>    <span class="ot">-&gt;</span> <span class="dt">Codec</span> r w c b  <span class="co">-- ^ Target ‘Codec’ object</span></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true"></a>dimap f g codec <span class="ot">=</span> <span class="dt">Codec</span></span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true"></a>  { codecRead  <span class="ot">=</span> g <span class="op">&lt;$&gt;</span> codecRead codec</span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true"></a>  , codecWrite <span class="ot">=</span> <span class="fu">fmap</span> g <span class="op">.</span> codecWrite codec <span class="op">.</span> f</span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true"></a>  }</span></code></pre></div>
 <p>In real life we’re going to substitute <code>a</code> in place of <code>c</code>:</p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb22-1"><a href="#cb22-1"></a><span class="kw">type</span> <span class="dt">BiCodec</span> r w a <span class="ot">=</span> <span class="dt">Codec</span> r w a a</span></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true"></a><span class="kw">type</span> <span class="dt">BiCodec</span> r w a <span class="ot">=</span> <span class="dt">Codec</span> r w a a</span></code></pre></div>
 <p>So, a simpler version of <code>dimap</code> for <code>BiCodec</code> looks like this:</p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb23-1"><a href="#cb23-1"></a>dimap</span>
-<span id="cb23-2"><a href="#cb23-2"></a><span class="ot">    ::</span> (<span class="dt">Functor</span> r, <span class="dt">Functor</span> w)</span>
-<span id="cb23-3"><a href="#cb23-3"></a>    <span class="ot">=&gt;</span> (b <span class="ot">-&gt;</span> a)</span>
-<span id="cb23-4"><a href="#cb23-4"></a>    <span class="ot">-&gt;</span> (a <span class="ot">-&gt;</span> b)</span>
-<span id="cb23-5"><a href="#cb23-5"></a>    <span class="ot">-&gt;</span> <span class="dt">BiCodec</span> r w a</span>
-<span id="cb23-6"><a href="#cb23-6"></a>    <span class="ot">-&gt;</span> <span class="dt">BiCodec</span> r w b</span>
-<span id="cb23-7"><a href="#cb23-7"></a>dimap f g codec <span class="ot">=</span> <span class="dt">Codec</span></span>
-<span id="cb23-8"><a href="#cb23-8"></a>  { codecRead  <span class="ot">=</span> g <span class="op">&lt;$&gt;</span> codecRead codec</span>
-<span id="cb23-9"><a href="#cb23-9"></a>  , codecWrite <span class="ot">=</span> <span class="fu">fmap</span> g <span class="op">.</span> codecWrite codec <span class="op">.</span> f</span>
-<span id="cb23-10"><a href="#cb23-10"></a>  }</span></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true"></a>dimap</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true"></a><span class="ot">    ::</span> (<span class="dt">Functor</span> r, <span class="dt">Functor</span> w)</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true"></a>    <span class="ot">=&gt;</span> (b <span class="ot">-&gt;</span> a)</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true"></a>    <span class="ot">-&gt;</span> (a <span class="ot">-&gt;</span> b)</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true"></a>    <span class="ot">-&gt;</span> <span class="dt">BiCodec</span> r w a</span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true"></a>    <span class="ot">-&gt;</span> <span class="dt">BiCodec</span> r w b</span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true"></a>dimap f g codec <span class="ot">=</span> <span class="dt">Codec</span></span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true"></a>  { codecRead  <span class="ot">=</span> g <span class="op">&lt;$&gt;</span> codecRead codec</span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true"></a>  , codecWrite <span class="ot">=</span> <span class="fu">fmap</span> g <span class="op">.</span> codecWrite codec <span class="op">.</span> f</span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true"></a>  }</span></code></pre></div>
 <p>Now the idea behind <code>Profunctor</code> becomes much clearer! If we have a bidirectional converter for a value of type <code>a</code> and we have two pure functions to convert from <code>a</code> to <code>b</code> and vice versa we can have a bidirectional converter for <code>b</code>.</p>
 <p>There’s only a single important piece left: a convenient operator to compose different <code>Codec</code>s:</p>
-<div class="sourceCode" id="cb24"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb24-1"><a href="#cb24-1"></a><span class="kw">infixl</span> <span class="dv">5</span> <span class="op">.=</span></span>
-<span id="cb24-2"><a href="#cb24-2"></a><span class="ot">(.=) ::</span> <span class="dt">Codec</span> r w field a <span class="ot">-&gt;</span> (object <span class="ot">-&gt;</span> field) <span class="ot">-&gt;</span> <span class="dt">Codec</span> r w object a</span>
-<span id="cb24-3"><a href="#cb24-3"></a>codec <span class="op">.=</span> getter <span class="ot">=</span> codec { codecWrite <span class="ot">=</span> codecWrite codec <span class="op">.</span> getter }</span></code></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true"></a><span class="kw">infixl</span> <span class="dv">5</span> <span class="op">.=</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true"></a><span class="ot">(.=) ::</span> <span class="dt">Codec</span> r w field a <span class="ot">-&gt;</span> (object <span class="ot">-&gt;</span> field) <span class="ot">-&gt;</span> <span class="dt">Codec</span> r w object a</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true"></a>codec <span class="op">.=</span> getter <span class="ot">=</span> codec { codecWrite <span class="ot">=</span> codecWrite codec <span class="op">.</span> getter }</span></code></pre></div>
 <p>An attentive reader may notice that the <code>(.=)</code> operator is <a href="https://hackage.haskell.org/package/profunctors-5.3/docs/Data-Profunctor.html#v:lmap">lmap</a> from <code>Profunctor</code> typeclass.</p>
 <h3 id="toml-codec">TOML codec<a href="#toml-codec" class="anchor">🔗</a></h3>
 <p>We covered only general data types but it’s beneficial for our understanding to see how it is specialized to write bidirectional codecs for TOML:</p>
-<div class="sourceCode" id="cb25"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb25-1"><a href="#cb25-1"></a><span class="kw">type</span> <span class="dt">Env</span> <span class="ot">=</span> <span class="dt">ExceptT</span> <span class="dt">DecodeException</span> (<span class="dt">Reader</span> <span class="dt">TOML</span>)</span>
-<span id="cb25-2"><a href="#cb25-2"></a><span class="kw">type</span> <span class="dt">St</span> <span class="ot">=</span> <span class="dt">MaybeT</span> (<span class="dt">State</span> <span class="dt">TOML</span>)</span>
-<span id="cb25-3"><a href="#cb25-3"></a><span class="kw">type</span> <span class="dt">TomlCodec</span> <span class="ot">=</span> <span class="dt">BiCodec</span> <span class="dt">Env</span> <span class="dt">St</span></span></code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true"></a><span class="kw">type</span> <span class="dt">Env</span> <span class="ot">=</span> <span class="dt">ExceptT</span> <span class="dt">DecodeException</span> (<span class="dt">Reader</span> <span class="dt">TOML</span>)</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true"></a><span class="kw">type</span> <span class="dt">St</span> <span class="ot">=</span> <span class="dt">MaybeT</span> (<span class="dt">State</span> <span class="dt">TOML</span>)</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true"></a><span class="kw">type</span> <span class="dt">TomlCodec</span> <span class="ot">=</span> <span class="dt">BiCodec</span> <span class="dt">Env</span> <span class="dt">St</span></span></code></pre></div>
 <p>Our <code>r</code> variable stores a a TOML AST inside the context and can return an error. So <code>r a</code> in <code>Codec</code> specializes to:</p>
-<div class="sourceCode" id="cb26"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb26-1"><a href="#cb26-1"></a>codecRead <span class="op">@</span><span class="ot">tomland ::</span> <span class="dt">TOML</span> <span class="ot">-&gt;</span> <span class="dt">Either</span> <span class="dt">DecodeException</span> a</span></code></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true"></a>codecRead <span class="op">@</span><span class="ot">tomland ::</span> <span class="dt">TOML</span> <span class="ot">-&gt;</span> <span class="dt">Either</span> <span class="dt">DecodeException</span> a</span></code></pre></div>
 <p>And <code>St</code> stores produced TOML in context. All monadic actions will insert keys inside this AST and later it can be converted to just <code>Text</code>. So it’s equivalent to the following type:</p>
-<div class="sourceCode" id="cb27"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb27-1"><a href="#cb27-1"></a>codecWrite <span class="op">@</span><span class="ot">tomland ::</span> a <span class="ot">-&gt;</span> <span class="dt">TOML</span> <span class="ot">-&gt;</span> (<span class="dt">Maybe</span> a, <span class="dt">TOML</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true"></a>codecWrite <span class="op">@</span><span class="ot">tomland ::</span> a <span class="ot">-&gt;</span> <span class="dt">TOML</span> <span class="ot">-&gt;</span> (<span class="dt">Maybe</span> a, <span class="dt">TOML</span>)</span></code></pre></div>
 <blockquote>
 <p><strong>NOTE:</strong> <code>TOML</code> data type from <code>tomland</code> implements <code>Semigroup</code> and <code>Monoid</code> instances, so we could use <code>Writer</code> monad instead of <code>State</code>. But it’s <a href="https://blog.infinitenegativeutility.com/2016/7/writer-monads-and-space-leaks">more efficient to use <code>State</code></a>.</p>
 </blockquote>
 <p>Now we need a function that can lift <code>TomlBiMap</code> to <code>TomlCodec</code>. But this function requires a key. It will lookup <code>TOML</code> AST to find <code>AnyValue</code> under given <code>Key</code> and then it will try to convert <code>AnyValue</code> according to the given <code>BiMap</code>. This function is simply called <code>match</code> in <code>tomland</code>:</p>
-<div class="sourceCode" id="cb28"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb28-1"><a href="#cb28-1"></a><span class="ot">match ::</span> <span class="dt">TomlBiMap</span> a <span class="dt">AnyValue</span> <span class="ot">-&gt;</span> <span class="dt">Key</span> <span class="ot">-&gt;</span> <span class="dt">TomlCodec</span> a</span></code></pre></div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true"></a><span class="ot">match ::</span> <span class="dt">TomlBiMap</span> a <span class="dt">AnyValue</span> <span class="ot">-&gt;</span> <span class="dt">Key</span> <span class="ot">-&gt;</span> <span class="dt">TomlCodec</span> a</span></code></pre></div>
 <p>Now we can write helper functions to make the interface easier to work with:</p>
-<div class="sourceCode" id="cb29"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb29-1"><a href="#cb29-1"></a><span class="ot">integer ::</span> <span class="dt">Key</span> <span class="ot">-&gt;</span> <span class="dt">TomlCodec</span> <span class="dt">Integer</span></span>
-<span id="cb29-2"><a href="#cb29-2"></a>integer <span class="ot">=</span> match _Integer</span>
-<span id="cb29-3"><a href="#cb29-3"></a></span>
-<span id="cb29-4"><a href="#cb29-4"></a><span class="ot">text ::</span> <span class="dt">Key</span> <span class="ot">-&gt;</span> <span class="dt">TomlCodec</span> <span class="dt">Text</span></span>
-<span id="cb29-5"><a href="#cb29-5"></a>text <span class="ot">=</span> match _Text</span>
-<span id="cb29-6"><a href="#cb29-6"></a></span>
-<span id="cb29-7"><a href="#cb29-7"></a><span class="ot">arrayOf ::</span> <span class="dt">TomlBiMap</span> a <span class="dt">AnyValue</span> <span class="ot">-&gt;</span> <span class="dt">Key</span> <span class="ot">-&gt;</span> <span class="dt">TomlCodec</span> [a]</span>
-<span id="cb29-8"><a href="#cb29-8"></a>arrayOf <span class="ot">=</span> match <span class="op">.</span> _Array</span></code></pre></div>
+<div class="sourceCode" id="cb29"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true"></a><span class="ot">integer ::</span> <span class="dt">Key</span> <span class="ot">-&gt;</span> <span class="dt">TomlCodec</span> <span class="dt">Integer</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true"></a>integer <span class="ot">=</span> match _Integer</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true"></a></span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true"></a><span class="ot">text ::</span> <span class="dt">Key</span> <span class="ot">-&gt;</span> <span class="dt">TomlCodec</span> <span class="dt">Text</span></span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true"></a>text <span class="ot">=</span> match _Text</span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true"></a></span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true"></a><span class="ot">arrayOf ::</span> <span class="dt">TomlBiMap</span> a <span class="dt">AnyValue</span> <span class="ot">-&gt;</span> <span class="dt">Key</span> <span class="ot">-&gt;</span> <span class="dt">TomlCodec</span> [a]</span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true"></a>arrayOf <span class="ot">=</span> match <span class="op">.</span> _Array</span></code></pre></div>
 <p>Note how we managed to decompose the problem of finding a value under a key and converting this value to Haskell type into two separate problems. <code>BiMap</code> takes care of all errors during conversion between types and doesn’t know anything about TOML and keys. And <code>match</code> doesn’t know what value we’re working with (because of parametric polymorphism), all it does is, it just looks up the required key inside the map and handles the two resulting cases: when the key is found and when it is not. For pretty-printing, <code>match</code> inserts the value under the given key.</p>
 <p>Tables in TOML can be used to represent codecs for nested data structures. Remember the example with the <code>production</code> and <code>staging</code> TOML servers? Here is how the<code>Codec</code> for this data type looks like:</p>
-<div class="sourceCode" id="cb30"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb30-1"><a href="#cb30-1"></a><span class="kw">data</span> <span class="dt">Settings</span> <span class="ot">=</span> <span class="dt">Settings</span></span>
-<span id="cb30-2"><a href="#cb30-2"></a>    {<span class="ot"> settingsId    ::</span> <span class="dt">Int</span></span>
-<span id="cb30-3"><a href="#cb30-3"></a>    ,<span class="ot"> settingsHost  ::</span> <span class="dt">Text</span></span>
-<span id="cb30-4"><a href="#cb30-4"></a>    ,<span class="ot"> settingsPorts ::</span> [<span class="dt">Int</span>]</span>
-<span id="cb30-5"><a href="#cb30-5"></a>    }</span>
-<span id="cb30-6"><a href="#cb30-6"></a></span>
-<span id="cb30-7"><a href="#cb30-7"></a><span class="ot">settingsCodec ::</span> <span class="dt">TomlCodec</span> <span class="dt">Settings</span></span>
-<span id="cb30-8"><a href="#cb30-8"></a>settingsCodec <span class="ot">=</span> <span class="dt">Settings</span></span>
-<span id="cb30-9"><a href="#cb30-9"></a>    <span class="op">&lt;$&gt;</span> Toml.int               <span class="st">&quot;id&quot;</span>    <span class="op">.=</span> settingsId</span>
-<span id="cb30-10"><a href="#cb30-10"></a>    <span class="op">&lt;*&gt;</span> Toml.text              <span class="st">&quot;host&quot;</span>  <span class="op">.=</span> settingsHost</span>
-<span id="cb30-11"><a href="#cb30-11"></a>    <span class="op">&lt;*&gt;</span> Toml.arrayOf Toml._Int <span class="st">&quot;ports&quot;</span> <span class="op">.=</span> settingsPorts</span>
-<span id="cb30-12"><a href="#cb30-12"></a></span>
-<span id="cb30-13"><a href="#cb30-13"></a><span class="kw">data</span> <span class="dt">ServerConfig</span> <span class="ot">=</span> <span class="dt">ServerConfig</span></span>
-<span id="cb30-14"><a href="#cb30-14"></a>    {<span class="ot"> serverConfigProduction ::</span> <span class="dt">Settings</span></span>
-<span id="cb30-15"><a href="#cb30-15"></a>    ,<span class="ot"> serverConfigStaging    ::</span> <span class="dt">Settings</span></span>
-<span id="cb30-16"><a href="#cb30-16"></a>    }</span>
-<span id="cb30-17"><a href="#cb30-17"></a></span>
-<span id="cb30-18"><a href="#cb30-18"></a><span class="ot">serverConfigCodec ::</span> <span class="dt">TomlCodec</span> <span class="dt">ServerConfig</span></span>
-<span id="cb30-19"><a href="#cb30-19"></a>serverConfigCodec <span class="ot">=</span> <span class="fu">flip</span> Toml.table <span class="st">&quot;server&quot;</span> <span class="op">$</span> <span class="dt">ServerConfig</span></span>
-<span id="cb30-20"><a href="#cb30-20"></a>    <span class="op">&lt;$&gt;</span> Toml.table settingsCodec <span class="st">&quot;production&quot;</span> <span class="op">.=</span> settingsProduction</span>
-<span id="cb30-21"><a href="#cb30-21"></a>    <span class="op">&lt;*&gt;</span> Toml.table settingsCodec <span class="st">&quot;staging&quot;</span>    <span class="op">.=</span> settingsStaging</span></code></pre></div>
+<div class="sourceCode" id="cb30"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true"></a><span class="kw">data</span> <span class="dt">Settings</span> <span class="ot">=</span> <span class="dt">Settings</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true"></a>    {<span class="ot"> settingsId    ::</span> <span class="dt">Int</span></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true"></a>    ,<span class="ot"> settingsHost  ::</span> <span class="dt">Text</span></span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true"></a>    ,<span class="ot"> settingsPorts ::</span> [<span class="dt">Int</span>]</span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true"></a>    }</span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true"></a></span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true"></a><span class="ot">settingsCodec ::</span> <span class="dt">TomlCodec</span> <span class="dt">Settings</span></span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true"></a>settingsCodec <span class="ot">=</span> <span class="dt">Settings</span></span>
+<span id="cb30-9"><a href="#cb30-9" aria-hidden="true"></a>    <span class="op">&lt;$&gt;</span> Toml.int               <span class="st">&quot;id&quot;</span>    <span class="op">.=</span> settingsId</span>
+<span id="cb30-10"><a href="#cb30-10" aria-hidden="true"></a>    <span class="op">&lt;*&gt;</span> Toml.text              <span class="st">&quot;host&quot;</span>  <span class="op">.=</span> settingsHost</span>
+<span id="cb30-11"><a href="#cb30-11" aria-hidden="true"></a>    <span class="op">&lt;*&gt;</span> Toml.arrayOf Toml._Int <span class="st">&quot;ports&quot;</span> <span class="op">.=</span> settingsPorts</span>
+<span id="cb30-12"><a href="#cb30-12" aria-hidden="true"></a></span>
+<span id="cb30-13"><a href="#cb30-13" aria-hidden="true"></a><span class="kw">data</span> <span class="dt">ServerConfig</span> <span class="ot">=</span> <span class="dt">ServerConfig</span></span>
+<span id="cb30-14"><a href="#cb30-14" aria-hidden="true"></a>    {<span class="ot"> serverConfigProduction ::</span> <span class="dt">Settings</span></span>
+<span id="cb30-15"><a href="#cb30-15" aria-hidden="true"></a>    ,<span class="ot"> serverConfigStaging    ::</span> <span class="dt">Settings</span></span>
+<span id="cb30-16"><a href="#cb30-16" aria-hidden="true"></a>    }</span>
+<span id="cb30-17"><a href="#cb30-17" aria-hidden="true"></a></span>
+<span id="cb30-18"><a href="#cb30-18" aria-hidden="true"></a><span class="ot">serverConfigCodec ::</span> <span class="dt">TomlCodec</span> <span class="dt">ServerConfig</span></span>
+<span id="cb30-19"><a href="#cb30-19" aria-hidden="true"></a>serverConfigCodec <span class="ot">=</span> <span class="fu">flip</span> Toml.table <span class="st">&quot;server&quot;</span> <span class="op">$</span> <span class="dt">ServerConfig</span></span>
+<span id="cb30-20"><a href="#cb30-20" aria-hidden="true"></a>    <span class="op">&lt;$&gt;</span> Toml.table settingsCodec <span class="st">&quot;production&quot;</span> <span class="op">.=</span> settingsProduction</span>
+<span id="cb30-21"><a href="#cb30-21" aria-hidden="true"></a>    <span class="op">&lt;*&gt;</span> Toml.table settingsCodec <span class="st">&quot;staging&quot;</span>    <span class="op">.=</span> settingsStaging</span></code></pre></div>
 <p>You may notice that most of the time we’re using <code>Applicative</code> instance of <code>Codec</code>, despite the fact that this approach is called <em>monadic profunctors</em>. But, it turns out that applicative functors are more convenient here. Though, of course, you can have a lot of fun with the <code>Monad</code> instance as well. For example, configuration can contain a field with a key name like <code>spec-version</code> and the value of this field determines how this particular configuration should be parsed.</p>
 <p>And here are a couple of examples with possible error messages:</p>
-<div class="sourceCode" id="cb31"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb31-1"><a href="#cb31-1"></a>ghci<span class="op">&gt;</span> showRes <span class="ot">=</span> <span class="fu">either</span> <span class="fu">print</span> <span class="fu">print</span></span>
-<span id="cb31-2"><a href="#cb31-2"></a></span>
-<span id="cb31-3"><a href="#cb31-3"></a>ghci<span class="op">&gt;</span> showRes <span class="op">$</span> decode (arrayOf _Int <span class="st">&quot;a&quot;</span>) <span class="st">&quot;a = [2, 'foo']&quot;</span></span>
-<span id="cb31-4"><a href="#cb31-4"></a>tomland decode <span class="fu">error</span><span class="op">:</span>  <span class="dt">Parse</span> <span class="fu">error</span> during conversion from <span class="dt">TOML</span> to custom user <span class="kw">type</span><span class="op">:</span></span>
-<span id="cb31-5"><a href="#cb31-5"></a>  <span class="dv">1</span><span class="op">:</span><span class="dv">9</span><span class="op">:</span></span>
-<span id="cb31-6"><a href="#cb31-6"></a>  <span class="op">|</span></span>
-<span id="cb31-7"><a href="#cb31-7"></a><span class="dv">1</span> <span class="op">|</span> a <span class="ot">=</span> [<span class="dv">2</span>, 'foo']</span>
-<span id="cb31-8"><a href="#cb31-8"></a>  <span class="op">|</span>         <span class="op">^</span></span>
-<span id="cb31-9"><a href="#cb31-9"></a>unexpected <span class="ch">'''</span></span>
-<span id="cb31-10"><a href="#cb31-10"></a>expecting <span class="ch">','</span>, <span class="ch">']'</span>, <span class="fu">or</span> integer</span>
-<span id="cb31-11"><a href="#cb31-11"></a></span>
-<span id="cb31-12"><a href="#cb31-12"></a>ghci<span class="op">&gt;</span> showRes <span class="op">$</span> decode (arrayOf _Int <span class="st">&quot;b&quot;</span>) <span class="st">&quot;a = [2, 3]&quot;</span></span>
-<span id="cb31-13"><a href="#cb31-13"></a>tomland decode <span class="fu">error</span><span class="op">:</span>  <span class="dt">Key</span> b is <span class="fu">not</span> found</span>
-<span id="cb31-14"><a href="#cb31-14"></a></span>
-<span id="cb31-15"><a href="#cb31-15"></a>ghci<span class="op">&gt;</span> showRes <span class="op">$</span> decode (arrayOf _Int <span class="st">&quot;a&quot;</span>) <span class="st">&quot;a = [2, 3]&quot;</span></span>
-<span id="cb31-16"><a href="#cb31-16"></a>[<span class="dv">2</span>,<span class="dv">3</span>]</span>
-<span id="cb31-17"><a href="#cb31-17"></a></span>
-<span id="cb31-18"><a href="#cb31-18"></a>ghci<span class="op">&gt;</span> showRes <span class="op">$</span> decode (arrayOf _Int <span class="st">&quot;a&quot;</span>) <span class="st">&quot;a = ['foo', 'bar']&quot;</span></span>
-<span id="cb31-19"><a href="#cb31-19"></a>tomland decode <span class="fu">error</span><span class="op">:</span>  <span class="dt">Invalid</span> constructor</span>
-<span id="cb31-20"><a href="#cb31-20"></a>  <span class="op">*</span> <span class="dt">Expected</span><span class="op">:</span> <span class="dt">TInteger</span></span>
-<span id="cb31-21"><a href="#cb31-21"></a>  <span class="op">*</span> <span class="dt">Actual</span><span class="op">:</span>   <span class="dt">Text</span> <span class="st">&quot;foo&quot;</span></span></code></pre></div>
+<div class="sourceCode" id="cb31"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true"></a>ghci<span class="op">&gt;</span> showRes <span class="ot">=</span> <span class="fu">either</span> <span class="fu">print</span> <span class="fu">print</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true"></a></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true"></a>ghci<span class="op">&gt;</span> showRes <span class="op">$</span> decode (arrayOf _Int <span class="st">&quot;a&quot;</span>) <span class="st">&quot;a = [2, 'foo']&quot;</span></span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true"></a>tomland decode <span class="fu">error</span><span class="op">:</span>  <span class="dt">Parse</span> <span class="fu">error</span> during conversion from <span class="dt">TOML</span> to custom user <span class="kw">type</span><span class="op">:</span></span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true"></a>  <span class="dv">1</span><span class="op">:</span><span class="dv">9</span><span class="op">:</span></span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true"></a>  <span class="op">|</span></span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true"></a><span class="dv">1</span> <span class="op">|</span> a <span class="ot">=</span> [<span class="dv">2</span>, 'foo']</span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true"></a>  <span class="op">|</span>         <span class="op">^</span></span>
+<span id="cb31-9"><a href="#cb31-9" aria-hidden="true"></a>unexpected <span class="ch">'''</span></span>
+<span id="cb31-10"><a href="#cb31-10" aria-hidden="true"></a>expecting <span class="ch">','</span>, <span class="ch">']'</span>, <span class="fu">or</span> integer</span>
+<span id="cb31-11"><a href="#cb31-11" aria-hidden="true"></a></span>
+<span id="cb31-12"><a href="#cb31-12" aria-hidden="true"></a>ghci<span class="op">&gt;</span> showRes <span class="op">$</span> decode (arrayOf _Int <span class="st">&quot;b&quot;</span>) <span class="st">&quot;a = [2, 3]&quot;</span></span>
+<span id="cb31-13"><a href="#cb31-13" aria-hidden="true"></a>tomland decode <span class="fu">error</span><span class="op">:</span>  <span class="dt">Key</span> b is <span class="fu">not</span> found</span>
+<span id="cb31-14"><a href="#cb31-14" aria-hidden="true"></a></span>
+<span id="cb31-15"><a href="#cb31-15" aria-hidden="true"></a>ghci<span class="op">&gt;</span> showRes <span class="op">$</span> decode (arrayOf _Int <span class="st">&quot;a&quot;</span>) <span class="st">&quot;a = [2, 3]&quot;</span></span>
+<span id="cb31-16"><a href="#cb31-16" aria-hidden="true"></a>[<span class="dv">2</span>,<span class="dv">3</span>]</span>
+<span id="cb31-17"><a href="#cb31-17" aria-hidden="true"></a></span>
+<span id="cb31-18"><a href="#cb31-18" aria-hidden="true"></a>ghci<span class="op">&gt;</span> showRes <span class="op">$</span> decode (arrayOf _Int <span class="st">&quot;a&quot;</span>) <span class="st">&quot;a = ['foo', 'bar']&quot;</span></span>
+<span id="cb31-19"><a href="#cb31-19" aria-hidden="true"></a>tomland decode <span class="fu">error</span><span class="op">:</span>  <span class="dt">Invalid</span> constructor</span>
+<span id="cb31-20"><a href="#cb31-20" aria-hidden="true"></a>  <span class="op">*</span> <span class="dt">Expected</span><span class="op">:</span> <span class="dt">TInteger</span></span>
+<span id="cb31-21"><a href="#cb31-21" aria-hidden="true"></a>  <span class="op">*</span> <span class="dt">Actual</span><span class="op">:</span>   <span class="dt">Text</span> <span class="st">&quot;foo&quot;</span></span></code></pre></div>
 <h2 id="edsl">EDSL<a href="#edsl" class="anchor">🔗</a></h2>
 <p>As an additional flavour, <code>tomland</code> has the implementation of EDSL for specifying TOML objects. The implementation is very short.</p>
-<div class="sourceCode" id="cb32"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb32-1"><a href="#cb32-1"></a><span class="kw">type</span> <span class="dt">TDSL</span> <span class="ot">=</span> <span class="dt">State</span> <span class="dt">TOML</span> ()</span>
-<span id="cb32-2"><a href="#cb32-2"></a></span>
-<span id="cb32-3"><a href="#cb32-3"></a><span class="ot">mkToml ::</span> <span class="dt">TDSL</span> <span class="ot">-&gt;</span> <span class="dt">TOML</span></span>
-<span id="cb32-4"><a href="#cb32-4"></a>mkToml env <span class="ot">=</span> execState env <span class="fu">mempty</span></span>
-<span id="cb32-5"><a href="#cb32-5"></a></span>
-<span id="cb32-6"><a href="#cb32-6"></a><span class="ot">(=:) ::</span> <span class="dt">Key</span> <span class="ot">-&gt;</span> <span class="dt">Value</span> a <span class="ot">-&gt;</span> <span class="dt">TDSL</span></span>
-<span id="cb32-7"><a href="#cb32-7"></a>(<span class="op">=:</span>) k v <span class="ot">=</span> modify <span class="op">$</span> insertKeyVal k v</span>
-<span id="cb32-8"><a href="#cb32-8"></a></span>
-<span id="cb32-9"><a href="#cb32-9"></a><span class="ot">table ::</span> <span class="dt">Key</span> <span class="ot">-&gt;</span> <span class="dt">TDSL</span> <span class="ot">-&gt;</span> <span class="dt">TDSL</span></span>
-<span id="cb32-10"><a href="#cb32-10"></a>table k <span class="ot">=</span> modify <span class="op">.</span> insertTable k <span class="op">.</span> mkToml</span></code></pre></div>
+<div class="sourceCode" id="cb32"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true"></a><span class="kw">type</span> <span class="dt">TDSL</span> <span class="ot">=</span> <span class="dt">State</span> <span class="dt">TOML</span> ()</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true"></a></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true"></a><span class="ot">mkToml ::</span> <span class="dt">TDSL</span> <span class="ot">-&gt;</span> <span class="dt">TOML</span></span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true"></a>mkToml env <span class="ot">=</span> execState env <span class="fu">mempty</span></span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true"></a></span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true"></a><span class="ot">(=:) ::</span> <span class="dt">Key</span> <span class="ot">-&gt;</span> <span class="dt">Value</span> a <span class="ot">-&gt;</span> <span class="dt">TDSL</span></span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true"></a>(<span class="op">=:</span>) k v <span class="ot">=</span> modify <span class="op">$</span> insertKeyVal k v</span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true"></a></span>
+<span id="cb32-9"><a href="#cb32-9" aria-hidden="true"></a><span class="ot">table ::</span> <span class="dt">Key</span> <span class="ot">-&gt;</span> <span class="dt">TDSL</span> <span class="ot">-&gt;</span> <span class="dt">TDSL</span></span>
+<span id="cb32-10"><a href="#cb32-10" aria-hidden="true"></a>table k <span class="ot">=</span> modify <span class="op">.</span> insertTable k <span class="op">.</span> mkToml</span></code></pre></div>
 <p>However, we need a couple of extra instances to make the API more convenient to work with. Due to the fact that our <code>Value</code> is a GADT, we can implement type-safe instances for sum types!</p>
-<div class="sourceCode" id="cb33"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb33-1"><a href="#cb33-1"></a><span class="kw">instance</span> (t <span class="op">~</span> <span class="dt">'TInteger</span>) <span class="ot">=&gt;</span> <span class="dt">Num</span> (<span class="dt">Value</span> t) <span class="kw">where</span></span>
-<span id="cb33-2"><a href="#cb33-2"></a>    (<span class="dt">Integer</span> a) <span class="op">+</span> (<span class="dt">Integer</span> b) <span class="ot">=</span> <span class="dt">Integer</span> <span class="op">$</span> a <span class="op">+</span> b</span>
-<span id="cb33-3"><a href="#cb33-3"></a>    (<span class="dt">Integer</span> a) <span class="op">*</span> (<span class="dt">Integer</span> b) <span class="ot">=</span> <span class="dt">Integer</span> <span class="op">$</span> a <span class="op">*</span> b</span>
-<span id="cb33-4"><a href="#cb33-4"></a>    <span class="fu">abs</span> (<span class="dt">Integer</span> a) <span class="ot">=</span> <span class="dt">Integer</span> (<span class="fu">abs</span> a)</span>
-<span id="cb33-5"><a href="#cb33-5"></a>    <span class="fu">signum</span> (<span class="dt">Integer</span> a) <span class="ot">=</span> <span class="dt">Integer</span> (<span class="fu">signum</span> a)</span>
-<span id="cb33-6"><a href="#cb33-6"></a>    <span class="fu">fromInteger</span> <span class="ot">=</span> <span class="dt">Integer</span></span>
-<span id="cb33-7"><a href="#cb33-7"></a>    <span class="fu">negate</span> (<span class="dt">Integer</span> a) <span class="ot">=</span> <span class="dt">Integer</span> (<span class="fu">negate</span> a)</span>
-<span id="cb33-8"><a href="#cb33-8"></a></span>
-<span id="cb33-9"><a href="#cb33-9"></a><span class="kw">instance</span> (t <span class="op">~</span> <span class="dt">'TText</span>) <span class="ot">=&gt;</span> <span class="dt">IsString</span> (<span class="dt">Value</span> t) <span class="kw">where</span></span>
-<span id="cb33-10"><a href="#cb33-10"></a>    fromString <span class="ot">=</span> <span class="dt">Text</span> <span class="op">.</span> fromString <span class="op">@</span><span class="dt">Text</span></span></code></pre></div>
+<div class="sourceCode" id="cb33"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true"></a><span class="kw">instance</span> (t <span class="op">~</span> <span class="dt">'TInteger</span>) <span class="ot">=&gt;</span> <span class="dt">Num</span> (<span class="dt">Value</span> t) <span class="kw">where</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true"></a>    (<span class="dt">Integer</span> a) <span class="op">+</span> (<span class="dt">Integer</span> b) <span class="ot">=</span> <span class="dt">Integer</span> <span class="op">$</span> a <span class="op">+</span> b</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true"></a>    (<span class="dt">Integer</span> a) <span class="op">*</span> (<span class="dt">Integer</span> b) <span class="ot">=</span> <span class="dt">Integer</span> <span class="op">$</span> a <span class="op">*</span> b</span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true"></a>    <span class="fu">abs</span> (<span class="dt">Integer</span> a) <span class="ot">=</span> <span class="dt">Integer</span> (<span class="fu">abs</span> a)</span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true"></a>    <span class="fu">signum</span> (<span class="dt">Integer</span> a) <span class="ot">=</span> <span class="dt">Integer</span> (<span class="fu">signum</span> a)</span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true"></a>    <span class="fu">fromInteger</span> <span class="ot">=</span> <span class="dt">Integer</span></span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true"></a>    <span class="fu">negate</span> (<span class="dt">Integer</span> a) <span class="ot">=</span> <span class="dt">Integer</span> (<span class="fu">negate</span> a)</span>
+<span id="cb33-8"><a href="#cb33-8" aria-hidden="true"></a></span>
+<span id="cb33-9"><a href="#cb33-9" aria-hidden="true"></a><span class="kw">instance</span> (t <span class="op">~</span> <span class="dt">'TText</span>) <span class="ot">=&gt;</span> <span class="dt">IsString</span> (<span class="dt">Value</span> t) <span class="kw">where</span></span>
+<span id="cb33-10"><a href="#cb33-10" aria-hidden="true"></a>    fromString <span class="ot">=</span> <span class="dt">Text</span> <span class="op">.</span> fromString <span class="op">@</span><span class="dt">Text</span></span></code></pre></div>
 <blockquote>
 <p><strong>NOTE:</strong> Here we’re using <a href="https://chrisdone.com/posts/haskell-constraint-trick"><em>type equality constraint trick</em></a> in order to provide better type inference.</p>
 </blockquote>
 <p>With these tools we’re able to specify TOML files in a safer way:</p>
-<div class="sourceCode" id="cb34"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb34-1"><a href="#cb34-1"></a><span class="ot">serverToml ::</span> <span class="dt">TOML</span></span>
-<span id="cb34-2"><a href="#cb34-2"></a>serverToml <span class="ot">=</span> table <span class="st">&quot;server&quot;</span> <span class="op">$</span> <span class="kw">do</span></span>
-<span id="cb34-3"><a href="#cb34-3"></a>    table <span class="st">&quot;production&quot;</span> <span class="op">$</span> <span class="kw">do</span></span>
-<span id="cb34-4"><a href="#cb34-4"></a>        <span class="st">&quot;id&quot;</span>    <span class="op">=:</span> <span class="dv">42</span></span>
-<span id="cb34-5"><a href="#cb34-5"></a>        <span class="st">&quot;host&quot;</span>  <span class="op">=:</span> <span class="st">&quot;best-haskell-blog.com&quot;</span></span>
-<span id="cb34-6"><a href="#cb34-6"></a>        <span class="st">&quot;ports&quot;</span> <span class="op">=:</span> <span class="dt">Array</span> [<span class="dv">8080</span>, <span class="dv">8081</span>]</span>
-<span id="cb34-7"><a href="#cb34-7"></a>    table <span class="st">&quot;staging&quot;</span> <span class="op">$</span> <span class="kw">do</span></span>
-<span id="cb34-8"><a href="#cb34-8"></a>        <span class="st">&quot;id&quot;</span>    <span class="op">=:</span> <span class="dv">777</span></span>
-<span id="cb34-9"><a href="#cb34-9"></a>        <span class="st">&quot;host&quot;</span>  <span class="op">=:</span> <span class="st">&quot;okayish-haskell-blog.com&quot;</span></span>
-<span id="cb34-10"><a href="#cb34-10"></a>        <span class="st">&quot;ports&quot;</span> <span class="op">=:</span> <span class="dt">Array</span> [<span class="dv">9080</span>, <span class="dv">9081</span>]</span></code></pre></div>
+<div class="sourceCode" id="cb34"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true"></a><span class="ot">serverToml ::</span> <span class="dt">TOML</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true"></a>serverToml <span class="ot">=</span> table <span class="st">&quot;server&quot;</span> <span class="op">$</span> <span class="kw">do</span></span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true"></a>    table <span class="st">&quot;production&quot;</span> <span class="op">$</span> <span class="kw">do</span></span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true"></a>        <span class="st">&quot;id&quot;</span>    <span class="op">=:</span> <span class="dv">42</span></span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true"></a>        <span class="st">&quot;host&quot;</span>  <span class="op">=:</span> <span class="st">&quot;best-haskell-blog.com&quot;</span></span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true"></a>        <span class="st">&quot;ports&quot;</span> <span class="op">=:</span> <span class="dt">Array</span> [<span class="dv">8080</span>, <span class="dv">8081</span>]</span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true"></a>    table <span class="st">&quot;staging&quot;</span> <span class="op">$</span> <span class="kw">do</span></span>
+<span id="cb34-8"><a href="#cb34-8" aria-hidden="true"></a>        <span class="st">&quot;id&quot;</span>    <span class="op">=:</span> <span class="dv">777</span></span>
+<span id="cb34-9"><a href="#cb34-9" aria-hidden="true"></a>        <span class="st">&quot;host&quot;</span>  <span class="op">=:</span> <span class="st">&quot;okayish-haskell-blog.com&quot;</span></span>
+<span id="cb34-10"><a href="#cb34-10" aria-hidden="true"></a>        <span class="st">&quot;ports&quot;</span> <span class="op">=:</span> <span class="dt">Array</span> [<span class="dv">9080</span>, <span class="dv">9081</span>]</span></code></pre></div>
 <p>This is very useful for testing when you want to test conversion but you don’t want to deal with parsing. With EDSL you can create a TOML AST which is guaranteed to be correct and safe by the construction.</p>
 <h2 id="tests">Tests<a href="#tests" class="anchor">🔗</a></h2>
 <p>You may notice that <code>tomland</code> was written with the help of a lot of heavy tools. But types don’t substitute tests, so we have <strong>A LOT</strong> of them. I will shortly describe what we test in <code>tomland</code> to assure you that we care very much about the correctness of this library. <code>tomland</code> is already used in production and in commercial projects so it’s necessary to have reliable tests.</p>

@@ -58,7 +58,7 @@
                 <a class="btn btn-outline-dark btn-tag" href="https://github.com/kowainik/membrain" data-icon="octicon-star" data-size="large" aria-label="Star Kowainik/membrain on GitHub">Star Project</a>
                 <a class="fa-stack fa-2x" href="https://github.com/kowainik/membrain/stargazers">
                     <i class="fa fa-star fa-stack-2x"></i>
-                    <i id="stars" class="fa fa-stack-1x fa-inverse main-font">50</i>
+                    <i id="stars" class="fa fa-stack-1x fa-inverse main-font">51</i>
                 </a>
                 <div class="author">Language: Haskell</div>
 
@@ -88,9 +88,9 @@
 <li><a href="https://kowainik.github.io/posts/membrain">Insane in the Membrain</a></li>
 </ul>
 <p>The library is built around the following data type:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">newtype</span> <span class="dt">Memory</span> (<span class="ot">mem ::</span> <span class="dt">Nat</span>) <span class="ot">=</span> <span class="dt">Memory</span></span>
-<span id="cb1-2"><a href="#cb1-2"></a>    {<span class="ot"> unMemory ::</span> <span class="dt">Natural</span></span>
-<span id="cb1-3"><a href="#cb1-3"></a>    }</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true"></a><span class="kw">newtype</span> <span class="dt">Memory</span> (<span class="ot">mem ::</span> <span class="dt">Nat</span>) <span class="ot">=</span> <span class="dt">Memory</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true"></a>    {<span class="ot"> unMemory ::</span> <span class="dt">Natural</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true"></a>    }</span></code></pre></div>
 <p>This data type stores every memory internally as bits. However, unit multiplier is stored as type-level natural number. This approach allows to represent different units and implement instances for them with low amount of boilerplate.</p>
 <p><code>membrain</code> implements various useful functions to work with <code>Memory</code>:</p>
 <ol type="1">

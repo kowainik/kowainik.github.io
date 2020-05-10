@@ -58,7 +58,7 @@
                 <a class="btn btn-outline-dark btn-tag" href="https://github.com/kowainik/typerep-map" data-icon="octicon-star" data-size="large" aria-label="Star Kowainik/typerep-map on GitHub">Star Project</a>
                 <a class="fa-stack fa-2x" href="https://github.com/kowainik/typerep-map/stargazers">
                     <i class="fa fa-star fa-stack-2x"></i>
-                    <i id="stars" class="fa fa-stack-1x fa-inverse main-font">52</i>
+                    <i id="stars" class="fa fa-stack-1x fa-inverse main-font">65</i>
                 </a>
                 <div class="author">Language: Haskell</div>
 
@@ -73,38 +73,44 @@
           <div class="row post">
               <div class="col-12 post-body">
               <p class="lead">
-                  <p><img src="https://user-images.githubusercontent.com/8126674/44323413-788dd700-a484-11e8-842e-f224cfaa4206.png" alt="electricity" /> <a href="https://travis-ci.org/kowainik/typerep-map"><img src="https://img.shields.io/travis/kowainik/typerep-map.svg?logo=travis" alt="Build status" /></a> <a href="https://hackage.haskell.org/package/typerep-map"><img src="https://img.shields.io/hackage/v/typerep-map.svg?logo=haskell" alt="Hackage" /></a> <a href="http://stackage.org/lts/package/typerep-map"><img src="http://stackage.org/package/typerep-map/badge/lts" alt="Stackage LTS" /></a> <a href="http://stackage.org/nightly/package/typerep-map"><img src="http://stackage.org/package/typerep-map/badge/nightly" alt="Stackage Nightly" /></a> <a href="https://github.com/vrom911/typerep-map/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="MIT license" /></a></p>
+                  <figure>
+<img src="https://user-images.githubusercontent.com/8126674/44323413-788dd700-a484-11e8-842e-f224cfaa4206.png" alt /><figcaption>logo</figcaption>
+</figure>
+<p><a href="https://github.com/kowainik/typerep-map/actions"><img src="https://github.com/kowainik/typerep-map/workflows/CI/badge.svg" alt="GitHub CI" /></a> <a href="https://travis-ci.org/kowainik/typerep-map"><img src="https://img.shields.io/travis/kowainik/typerep-map.svg?logo=travis" alt="Build status" /></a> <a href="https://ci.appveyor.com/project/kowainik/typerep-map"><img src="https://ci.appveyor.com/api/projects/status/github/kowainik/typerep-map?branch=master&amp;svg=true" alt="Windows build status" /></a> <a href="https://hackage.haskell.org/package/typerep-map"><img src="https://img.shields.io/hackage/v/typerep-map.svg?logo=haskell" alt="Hackage" /></a> <a href="http://stackage.org/lts/package/typerep-map"><img src="http://stackage.org/package/typerep-map/badge/lts" alt="Stackage LTS" /></a> <a href="http://stackage.org/nightly/package/typerep-map"><img src="http://stackage.org/package/typerep-map/badge/nightly" alt="Stackage Nightly" /></a> <a href="LICENSE"><img src="https://img.shields.io/badge/license-MPL--2.0-blue.svg" alt="MPL-2.0 license" /></a></p>
 <p><code>typerep-map</code> introduces <code>TMap</code> and <code>TypeRepMap</code> — data structures like <a href="http://hackage.haskell.org/package/containers-0.6.0.1/docs/Data-Map-Lazy.html#t:Map"><code>Map</code></a>, but where types serve as keys, and values have the types specified in the corresponding key spots.</p>
-<p>For the more details on the implementation see <a href="https://kowainik.github.io/posts/2018-07-11-typerep-map-step-by-step">this blog post</a>.</p>
+<p>For the more details on the implementation see the following blog post:</p>
+<ul>
+<li><a href="https://kowainik.github.io/posts/2018-07-11-typerep-map-step-by-step">typerep-map step by step</a></li>
+</ul>
 <h2 id="usage-example">Usage example<a href="#usage-example" class="anchor">🔗</a></h2>
-<div class="sourceCode" id="cb1"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb1-1"><a href="#cb1-1"></a>ghci<span class="op">&gt;</span> <span class="kw">import</span> <span class="dt">Data.TMap</span></span>
-<span id="cb1-2"><a href="#cb1-2"></a></span>
-<span id="cb1-3"><a href="#cb1-3"></a>ghci<span class="op">&gt;</span> tm <span class="ot">=</span> insert <span class="dt">True</span> <span class="op">$</span> one (<span class="dv">42</span><span class="ot"> ::</span> <span class="dt">Int</span>)</span>
-<span id="cb1-4"><a href="#cb1-4"></a></span>
-<span id="cb1-5"><a href="#cb1-5"></a>ghci<span class="op">&gt;</span> size tm</span>
-<span id="cb1-6"><a href="#cb1-6"></a><span class="dv">2</span></span>
-<span id="cb1-7"><a href="#cb1-7"></a></span>
-<span id="cb1-8"><a href="#cb1-8"></a>ghci<span class="op">&gt;</span> res <span class="ot">=</span> <span class="fu">lookup</span> tm</span>
-<span id="cb1-9"><a href="#cb1-9"></a></span>
-<span id="cb1-10"><a href="#cb1-10"></a>ghci<span class="op">&gt;</span><span class="ot"> res ::</span> <span class="dt">Maybe</span> <span class="dt">Int</span></span>
-<span id="cb1-11"><a href="#cb1-11"></a><span class="dt">Just</span> <span class="dv">42</span></span>
-<span id="cb1-12"><a href="#cb1-12"></a></span>
-<span id="cb1-13"><a href="#cb1-13"></a>ghci<span class="op">&gt;</span><span class="ot"> res ::</span> <span class="dt">Maybe</span> <span class="dt">Bool</span></span>
-<span id="cb1-14"><a href="#cb1-14"></a><span class="dt">Just</span> <span class="dt">True</span></span>
-<span id="cb1-15"><a href="#cb1-15"></a></span>
-<span id="cb1-16"><a href="#cb1-16"></a>ghci<span class="op">&gt;</span><span class="ot"> res ::</span> <span class="dt">Maybe</span> <span class="dt">String</span></span>
-<span id="cb1-17"><a href="#cb1-17"></a><span class="dt">Nothing</span></span>
-<span id="cb1-18"><a href="#cb1-18"></a></span>
-<span id="cb1-19"><a href="#cb1-19"></a>ghci<span class="op">&gt;</span> <span class="fu">lookup</span> (insert <span class="st">&quot;hello&quot;</span> tm)<span class="ot"> ::</span> <span class="dt">Maybe</span> <span class="dt">String</span></span>
-<span id="cb1-20"><a href="#cb1-20"></a><span class="dt">Just</span> <span class="st">&quot;hello&quot;</span></span>
-<span id="cb1-21"><a href="#cb1-21"></a></span>
-<span id="cb1-22"><a href="#cb1-22"></a>ghci<span class="op">&gt;</span> member <span class="op">@</span><span class="dt">Int</span> tm</span>
-<span id="cb1-23"><a href="#cb1-23"></a><span class="dt">True</span></span>
-<span id="cb1-24"><a href="#cb1-24"></a></span>
-<span id="cb1-25"><a href="#cb1-25"></a>ghci<span class="op">&gt;</span> tm' <span class="ot">=</span> delete <span class="op">@</span><span class="dt">Int</span> tm</span>
-<span id="cb1-26"><a href="#cb1-26"></a></span>
-<span id="cb1-27"><a href="#cb1-27"></a>ghci<span class="op">&gt;</span> member <span class="op">@</span><span class="dt">Int</span> tm'</span>
-<span id="cb1-28"><a href="#cb1-28"></a><span class="dt">False</span></span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true"></a>ghci<span class="op">&gt;</span> <span class="kw">import</span> <span class="dt">Data.TMap</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true"></a>ghci<span class="op">&gt;</span> tm <span class="ot">=</span> insert <span class="dt">True</span> <span class="op">$</span> one (<span class="dv">42</span><span class="ot"> ::</span> <span class="dt">Int</span>)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true"></a>ghci<span class="op">&gt;</span> size tm</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true"></a><span class="dv">2</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true"></a>ghci<span class="op">&gt;</span> res <span class="ot">=</span> <span class="fu">lookup</span> tm</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true"></a></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true"></a>ghci<span class="op">&gt;</span><span class="ot"> res ::</span> <span class="dt">Maybe</span> <span class="dt">Int</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true"></a><span class="dt">Just</span> <span class="dv">42</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true"></a></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true"></a>ghci<span class="op">&gt;</span><span class="ot"> res ::</span> <span class="dt">Maybe</span> <span class="dt">Bool</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true"></a><span class="dt">Just</span> <span class="dt">True</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true"></a></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true"></a>ghci<span class="op">&gt;</span><span class="ot"> res ::</span> <span class="dt">Maybe</span> <span class="dt">String</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true"></a><span class="dt">Nothing</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true"></a></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true"></a>ghci<span class="op">&gt;</span> <span class="fu">lookup</span> (insert <span class="st">&quot;hello&quot;</span> tm)<span class="ot"> ::</span> <span class="dt">Maybe</span> <span class="dt">String</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true"></a><span class="dt">Just</span> <span class="st">&quot;hello&quot;</span></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true"></a></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true"></a>ghci<span class="op">&gt;</span> member <span class="op">@</span><span class="dt">Int</span> tm</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true"></a><span class="dt">True</span></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true"></a></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true"></a>ghci<span class="op">&gt;</span> tm' <span class="ot">=</span> delete <span class="op">@</span><span class="dt">Int</span> tm</span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true"></a></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true"></a>ghci<span class="op">&gt;</span> member <span class="op">@</span><span class="dt">Int</span> tm'</span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true"></a><span class="dt">False</span></span></code></pre></div>
 <h2 id="benchmarks">Benchmarks<a href="#benchmarks" class="anchor">🔗</a></h2>
 <p>Tables below contain comparision with <code>DMap TypeRep</code> of ten <code>lookup</code> operations on structure with size <code>10^4</code>:</p>
 <table>
@@ -113,6 +119,8 @@
 <th></th>
 <th>ghc-8.2.2</th>
 <th>ghc-8.4.3</th>
+<th>ghc-8.8.3</th>
+<th>ghc-8.10.1</th>
 </tr>
 </thead>
 <tbody>
@@ -120,11 +128,15 @@
 <td><code>DMap TypeRep</code></td>
 <td>517.5 ns</td>
 <td>779.9 ns</td>
+<td>1.559 μs</td>
+<td>1.786 μs</td>
 </tr>
 <tr class="even">
 <td><code>typerep-map</code></td>
 <td>205.3 ns</td>
 <td>187.2 ns</td>
+<td>190.1 ns</td>
+<td>169.1 ns</td>
 </tr>
 </tbody>
 </table>

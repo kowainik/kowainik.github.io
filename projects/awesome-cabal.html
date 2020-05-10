@@ -58,7 +58,7 @@
                 <a class="btn btn-outline-dark btn-tag" href="https://github.com/kowainik/awesome-cabal" data-icon="octicon-star" data-size="large" aria-label="Star Kowainik/awesome-cabal on GitHub">Star Project</a>
                 <a class="fa-stack fa-2x" href="https://github.com/kowainik/awesome-cabal/stargazers">
                     <i class="fa fa-star fa-stack-2x"></i>
-                    <i id="stars" class="fa fa-stack-1x fa-inverse main-font">58</i>
+                    <i id="stars" class="fa fa-stack-1x fa-inverse main-font">59</i>
                 </a>
                 <div class="author">Language: Docs</div>
 
@@ -107,7 +107,7 @@
 <h2 id="installation">Installation<a href="#installation" class="anchor">🔗</a></h2>
 <p><em>There are various means of installing <code>Cabal</code>. Depending on your operating system and prefered method, you can choose a suitable way to do that.</em></p>
 <ul>
-<li><a href="https://www.haskell.org/ghcup/"><code>ghcup</code></a>: Haskell toolchain installer for <strong>Linux</strong> and <strong>macOS</strong>. Use <code>ghcup install-cabal</code> command to install Cabal. Refer to the <a href="https://gitlab.haskell.org/haskell/ghcup">documentation</a> for more details.</li>
+<li><a href="https://www.haskell.org/ghcup/"><code>ghcup</code></a>: Haskell toolchain installer for <strong>Linux</strong> and <strong>macOS</strong>. Use <code>ghcup install-cabal</code> command to install Cabal. Refer to the <a href="https://gitlab.haskell.org/haskell/ghcup-hs">documentation</a> for more details.</li>
 <li><a href="https://launchpad.net/~hvr/+archive/ubuntu/ghc">HVR ppa</a>: PPA for <strong>Ubuntu</strong> that includes releases of <code>Cabal</code>.</li>
 <li><a href="https://hub.zhox.com/posts/introducing-haskell-dev/">Windows setup</a>: The easiest way to setup a Haskell environment on <strong>Windows</strong> using <a href="https://chocolatey.org/">Chocolatey</a>.</li>
 <li><a href="https://www.haskell.org/cabal/download.html">Download binary</a>: Install <code>Cabal</code> on <strong>all</strong> operating systems from sources or by downloading the binary.</li>
@@ -123,6 +123,7 @@
 <h2 id="introduction">Introduction<a href="#introduction" class="anchor">🔗</a></h2>
 <p><em>Write-ups and examples that could help to get into <code>Cabal</code> and start using it.</em></p>
 <ul>
+<li><a href="https://cabal.readthedocs.io/en/latest/getting-started.html">Getting started with Haskell and Cabal</a></li>
 <li><a href="https://www.haskell.org/cabal/users-guide/intro.html">Intoduction</a>: Official documentation’s introduction.</li>
 <li><a href="https://kowainik.github.io/posts/2018-06-21-haskell-build-tools">Haskell build tools (by Kowainik)</a>: Description of the basic workflows with the main Haskell build tools. You can go straight to the <a href="https://kowainik.github.io/posts/2018-06-21-haskell-build-tools#cabal">Cabal section of the post</a>.</li>
 <li><a href="https://haskell-at-work.com/episodes/2018-05-13-introduction-to-cabal.html">Introduction to Cabal (video)</a>: In this video Haskell at Work explores the basics of Cabal including the family of <code>new-</code> commands.</li>
@@ -152,7 +153,7 @@
 <li><a href="https://fgaz.me/posts/2019-11-14-cabal-multiple-libraries/">Multiple Libraries</a>: Blog post about Cabal’s multiple libraries feature.</li>
 <li><a href="https://qnikst.github.io/posts/2018-05-02-cabal-foreign-library.html">Foreign libraries</a>: Blog post about Cabal’s foreign libraries feature.</li>
 <li><a href="https://github.com/pdlla/haskell-ffi-cabal-foreign-library-examples">Foreign libraries example</a>: Example usage of foreign libraries.</li>
-<li><a href="https://cabal.readthedocs.io/en/latest/nix-local-build.html#specifying-packages-from-remote-version-control-locations">source-repository-package</a>: Specifying packages from remote version control locations (e.g. how to use GitHub dependencies in the Cabal packages).</li>
+<li><a href="https://cabal.readthedocs.io/en/latest/cabal-project.html#specifying-packages-from-remote-version-control-locations">source-repository-package</a>: Specifying packages from remote version control locations (e.g. how to use GitHub dependencies in the Cabal packages).</li>
 <li><a href="https://medium.com/@danidiaz/cabal-gen-bounds-630f6de716d9">cabal gen-bounds</a>: A command to generate lower and upper bounds for dependencies in the <code>.cabal</code> file.</li>
 <li><a href="https://hackage.haskell.org/package/cabal-bounds"><code>cabal-bounds</code></a>: A command line program for managing the bounds/versions of the dependencies in a cabal file.</li>
 <li><a href="https://hackage.haskell.org/package/cabal-cargs"><code>cabal-cargs</code></a>: A command line program for extracting compiler arguments from a cabal file.</li>
@@ -217,7 +218,6 @@
 <ul>
 <li><a href="https://hackage.haskell.org/package/cabalgraph"><code>cabalgraph</code></a>: Generate pretty graphs of module trees from <code>.cabal</code> files.</li>
 <li><a href="https://hackage.haskell.org/package/cabal-progdeps"><code>cabal-progdeps</code></a>: Show dependencies of program being built in current directory.</li>
-<li><a href="https://github.com/haskell-hvr/packunused"><code>packunused</code></a>: Tool for detecting redundant Cabal package dependencies that uses <code>-ddump-minimal-imports</code> GHC flag.</li>
 <li><a href="https://github.com/ocharles/weeder"><code>weeder</code></a>: Tool for detecting redundant Cabal package dependencies that uses <code>.hie</code> files introduced in GHC-8.8.</li>
 <li><a href="https://hackage.haskell.org/package/packdeps"><code>packdeps</code></a>: A library and command line tool for checking if the upper bounds in your Cabal package’s dependency list excludes the newest package available.</li>
 <li><a href="https://hackage.haskell.org/package/jailbreak-cabal"><code>jailbreak-cabal</code></a>: Strip version restrictions from build dependencies in the <code>.cabal</code> files.</li>
