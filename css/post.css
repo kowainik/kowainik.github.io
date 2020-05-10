@@ -104,10 +104,13 @@ pre.comment {
     background-repeat: repeat;
 }
 
-.post-body a:focus, .post-body a:hover, .post-body a:active{
+.post-body a:focus, .post-body a:hover, .post-body a:active,
+.post-body a:focus code, .post-body a:hover code, .post-body a:active code{
     text-decoration: none;
     color: #26e4bb;
 }
+
+.post-body a code {text-decoration: underline;}
 
 .post-body a img, .post-body img {display: block; max-width: 80%; margin: auto;}
 
