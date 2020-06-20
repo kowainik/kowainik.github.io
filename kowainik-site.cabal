@@ -52,11 +52,11 @@ library
   import:              common-options
   hs-source-dirs:      src
   exposed-modules:     Kowainik
+                         Kowainik.Download
                          Kowainik.Feed
                          Kowainik.Project
                          Kowainik.Readme
                          Kowainik.Social
-                         Kowainik.StyleGuide
                          Kowainik.Team
 
   build-depends:       aeson
