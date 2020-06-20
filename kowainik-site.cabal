@@ -13,7 +13,7 @@ copyright:             2018-2020 Kowainik
 category:              Web
 build-type:            Simple
 extra-doc-files:       README.md
-tested-with:           GHC == 8.8.2
+tested-with:           GHC == 8.8.3
 
 source-repository head
   type:                git
@@ -52,11 +52,11 @@ library
   import:              common-options
   hs-source-dirs:      src
   exposed-modules:     Kowainik
+                         Kowainik.Download
                          Kowainik.Feed
                          Kowainik.Project
                          Kowainik.Readme
                          Kowainik.Social
-                         Kowainik.StyleGuide
                          Kowainik.Team
 
   build-depends:       aeson

@@ -22,11 +22,11 @@ import System.FilePath (replaceExtension)
 import Text.Pandoc.Options (WriterOptions (..))
 import Text.Pandoc.Templates (compileTemplate)
 
+import Kowainik.Download (getStanReport, syncStyleGuide)
 import Kowainik.Feed (feedCompiler)
 import Kowainik.Project (makeProjectContext)
 import Kowainik.Readme (createProjectMds)
 import Kowainik.Social (makeSocialContext)
-import Kowainik.StyleGuide (syncStyleGuide)
 import Kowainik.Team (TeamMember, makeCreatorsContext, makeTeamContext, makeVolunteersContext,
                       parseTeam)
 
@@ -40,10 +40,11 @@ runKowainik = createProjectMds
     >> syncStyleGuide
     >> parseTeam "team/creators.json" >>= \creators
     -> parseTeam "team/volunteers.json" >>= \volunteers
-    -> mainHakyll creators volunteers
+    -> getStanReport >>= \report
+    -> mainHakyll creators volunteers report
 
-mainHakyll :: [TeamMember] -> [TeamMember] -> IO ()
-mainHakyll creators volunteers = hakyll $ do
+mainHakyll :: [TeamMember] -> [TeamMember] -> String -> IO ()
+mainHakyll creators volunteers report = hakyll $ do
     match ("images/**" .||. "fonts/**" .||. "js/*"  .||. "favicon.ico") $ do
         route   idRoute
         compile copyFileCompiler
@@ -67,6 +68,11 @@ mainHakyll creators volunteers = hakyll $ do
                 >>= loadAndApplyTemplate "templates/team.html" ctx
                 >>= loadAndApplyTemplate "templates/main.html" ctx
                 >>= relativizeUrls
+
+    -- Stan report page
+    create ["projects/stan/report.html"] $ do
+        route idRoute
+        compile (makeItem report >>= relativizeUrls)
 
     -- Posts pages
     match "posts/*" $ do
