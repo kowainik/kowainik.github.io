@@ -73,8 +73,35 @@
           <div class="row post">
               <div class="col-12 post-body">
               <p class="lead">
-                  <p><a href="https://travis-ci.org/kowainik/toml-benchmarks"><img src="https://img.shields.io/travis/kowainik/toml-benchmarks.svg?logo=travis" alt="Build status" /></a> <a href="https://hackage.haskell.org/package/toml-benchmarks"><img src="https://img.shields.io/hackage/v/toml-benchmarks.svg?logo=haskell" alt="Hackage" /></a> <a href="LICENSE"><img src="https://img.shields.io/badge/license-MPL--2.0-blue.svg" alt="MPL-2.0 license" /></a></p>
-<p>Benchmarks for Haskell TOML decoding and encoding libraries</p>
+                  <p><a href="https://github.com/kowainik/toml-benchmarks/actions"><img src="https://github.com/kowainik/toml-benchmarks/workflows/CI/badge.svg" alt="GitHub CI" /></a> <a href="LICENSE"><img src="https://img.shields.io/badge/license-MPL--2.0-blue.svg" alt="MPL-2.0 license" /></a></p>
+<p>Benchmarks for Haskell TOML decoding and encoding libraries.</p>
+<p>Results with GHC-8.8.3:</p>
+<table>
+<thead>
+<tr class="header">
+<th>Library</th>
+<th>decode :: Text -&gt; Haskell</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>tomland</code></td>
+<td><code>370.5 μs</code></td>
+</tr>
+<tr class="even">
+<td><code>htoml</code></td>
+<td><code>1.150 ms</code></td>
+</tr>
+<tr class="odd">
+<td><code>htoml-megaparsec</code></td>
+<td><code>561.5 μs</code></td>
+</tr>
+<tr class="even">
+<td><code>toml-parser</code></td>
+<td><code>194.1 μs</code></td>
+</tr>
+</tbody>
+</table>
               </p>
               </div>
           </div>

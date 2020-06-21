@@ -58,7 +58,7 @@
                 <a class="btn btn-outline-dark btn-tag" href="https://github.com/kowainik/relude" data-icon="octicon-star" data-size="large" aria-label="Star Kowainik/relude on GitHub">Star Project</a>
                 <a class="fa-stack fa-2x" href="https://github.com/kowainik/relude/stargazers">
                     <i class="fa fa-star fa-stack-2x"></i>
-                    <i id="stars" class="fa fa-stack-1x fa-inverse main-font">322</i>
+                    <i id="stars" class="fa fa-stack-1x fa-inverse main-font">335</i>
                 </a>
                 <div class="author">Language: Haskell</div>
 
@@ -486,7 +486,7 @@ library
 <li>Run <code>hlint</code> using this file.</li>
 </ol>
 <p>For the latest <code>relude</code> version, this can be achieved by executing the following two commands on your CI:</p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true"></a><span class="at">curl https://raw.githubusercontent.com/kowainik/relude/v0.6.0.0/.hlint.yaml -o .hlint-relude.yaml</span></span>
+<div class="sourceCode" id="cb23"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true"></a><span class="at">curl https://raw.githubusercontent.com/kowainik/relude/v0.7.0.0/.hlint.yaml -o .hlint-relude.yaml</span></span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true"></a><span class="at">curl -sSL https://raw.github.com/ndmitchell/neil/master/misc/travis.sh | sh -s -- hlint -h .hlint-relude.yaml .</span></span></code></pre></div>
 <p>See an example of this feature described in the following blog post about Travis CI settings:</p>
 <ul>
@@ -521,13 +521,20 @@ library
 <pre class="shell"><code>$ cabal v2-install dhall-json</code></pre>
 <p>Dhall 16.0.0 is required, so make sure that the previous command installed <code>dhall-json</code> &gt;= 1.6.4.</p>
 <p>To generate <code>hlint</code> file:</p>
-<pre class="shell"><code>$ dhall-to-yaml --omitNull &lt;&lt;&lt; './hlint/hlint.dhall' &gt; .hlint.yaml</code></pre>
+<pre class="shell"><code>$ dhall-to-yaml &lt;&lt;&lt; './hlint/hlint.dhall' &gt; .hlint.yaml</code></pre>
 <p>Check that you have generated valid <code>.hlint.yaml</code> file without parse errors:</p>
 <pre class="shell"><code>$ hlint test/Spec.hs</code></pre>
 <p>See our blog post where we describe the details of the implementation for this solution:</p>
 <ul>
 <li><a href="https://kowainik.github.io/posts/2018-09-09-dhall-to-hlint">Dhall To HLint</a></li>
 </ul>
+<h3 id="producing-dependency-graph">Producing dependency graph<a href="#producing-dependency-graph" class="anchor">🔗</a></h3>
+<p>Install <code>cabal-plan</code> first:</p>
+<pre class="shell"><code>$ cabal v2-install cabal-plan
+$ cabal-plan --version
+cabal-plan 0.6.2.0</code></pre>
+<p>Then draw the graph only for the library dependencies:</p>
+<pre class="shell"><code>cabal-plan dot --root lib:relude | dot -Tpng -o relude-dependency-graph.png</code></pre>
               </p>
               </div>
           </div>

@@ -58,7 +58,7 @@
                 <a class="btn btn-outline-dark btn-tag" href="https://github.com/kowainik/tomland" data-icon="octicon-star" data-size="large" aria-label="Star Kowainik/tomland on GitHub">Star Project</a>
                 <a class="fa-stack fa-2x" href="https://github.com/kowainik/tomland/stargazers">
                     <i class="fa fa-star fa-stack-2x"></i>
-                    <i id="stars" class="fa fa-stack-1x fa-inverse main-font">79</i>
+                    <i id="stars" class="fa fa-stack-1x fa-inverse main-font">83</i>
                 </a>
                 <div class="author">Language: Haskell</div>
 
@@ -79,17 +79,18 @@
 <p><a href="https://github.com/kowainik/tomland/actions"><img src="https://github.com/kowainik/tomland/workflows/CI/badge.svg" alt="GitHub CI" /></a> <a href="https://ci.appveyor.com/project/kowainik/tomland"><img src="https://ci.appveyor.com/api/projects/status/github/kowainik/tomland?branch=master&amp;svg=true" alt="AppVeyor CI" /></a> <a href="https://hackage.haskell.org/package/tomland"><img src="https://img.shields.io/hackage/v/tomland.svg?logo=haskell" alt="Hackage" /></a> <a href="http://stackage.org/lts/package/tomland"><img src="http://stackage.org/package/tomland/badge/lts" alt="Stackage LTS" /></a> <a href="http://stackage.org/nightly/package/tomland"><img src="http://stackage.org/package/tomland/badge/nightly" alt="Stackage Nightly" /></a> <a href="https://github.com/kowainik/tomland/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-MPL--2.0-blue.svg" alt="MPL-2.0 license" /></a></p>
 <blockquote>
 <p>“A library is like an island in the middle of a vast sea of ignorance, particularly if the library is very tall and the surrounding area has been flooded.”</p>
+</blockquote>
+<blockquote>
 <p>― Lemony Snicket, Horseradish</p>
 </blockquote>
-<p>Bidirectional TOML serialization. The following blog post has more details about library design:</p>
+<p><code>tomland</code> is a Haskell library for <em>Bidirectional TOML Serialization</em>. It provides the composable interface for implementing <a href="https://github.com/toml-lang/toml">TOML</a> codecs. If you want to use TOML as a configuration for your tool or application, you can use <code>tomland</code> to easily convert in both ways between textual TOML representation and Haskell types.</p>
+<p>✍️ <code>tomland</code> supports <a href="https://github.com/toml-lang/toml/wiki#v050-compliant">TOML spec version 0.5.0</a>.</p>
+<p>The following blog post has more details about the library design and internal implementation details:</p>
 <ul>
-<li><a href="https://kowainik.github.io/posts/2019-01-14-tomland"><code>tomland</code>: Bidirectional TOML serialization</a></li>
+<li><a href="https://kowainik.github.io/posts/2019-01-14-tomland"><code>tomland</code>: Bidirectional TOML Serialization</a></li>
 </ul>
 <p>This README contains a basic usage example of the <code>tomland</code> library. All code below can be compiled and run with the following command:</p>
-<pre><code>cabal new-run readme</code></pre>
-<blockquote>
-<p><code>tomland</code> supports TOML spec version 0.5.0.</p>
-</blockquote>
+<pre><code>cabal run readme</code></pre>
 <h2 id="preamble-imports-and-language-extensions">Preamble: imports and language extensions<a href="#preamble-imports-and-language-extensions" class="anchor">🔗</a></h2>
 <p>Since this is a literate haskell file, we need to specify all our language extensions and imports up front.</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true"></a><span class="ot">{-# OPTIONS -Wno-unused-top-binds #-}</span></span>
@@ -98,83 +99,117 @@
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true"></a><span class="ot">{-# LANGUAGE OverloadedStrings #-}</span></span>
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true"></a></span>
 <span id="cb2-6"><a href="#cb2-6" aria-hidden="true"></a><span class="kw">import</span> <span class="dt">Control.Applicative</span> ((&lt;|&gt;))</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true"></a><span class="kw">import</span> <span class="dt">Control.Category</span> ((&gt;&gt;&gt;))</span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true"></a><span class="kw">import</span> <span class="dt">Data.Text</span> (<span class="dt">Text</span>)</span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true"></a><span class="kw">import</span> <span class="dt">Toml</span> (<span class="dt">TomlBiMap</span>, <span class="dt">TomlCodec</span>, (.=))</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true"></a><span class="kw">import</span> <span class="dt">Data.Text</span> (<span class="dt">Text</span>)</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true"></a><span class="kw">import</span> <span class="dt">Data.Time</span> (<span class="dt">Day</span>)</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true"></a><span class="kw">import</span> <span class="dt">Toml</span> (<span class="dt">TomlCodec</span>, (.=))</span>
 <span id="cb2-10"><a href="#cb2-10" aria-hidden="true"></a></span>
 <span id="cb2-11"><a href="#cb2-11" aria-hidden="true"></a><span class="kw">import</span> <span class="kw">qualified</span> <span class="dt">Data.Text.IO</span> <span class="kw">as</span> <span class="dt">TIO</span></span>
 <span id="cb2-12"><a href="#cb2-12" aria-hidden="true"></a><span class="kw">import</span> <span class="kw">qualified</span> <span class="dt">Toml</span></span></code></pre></div>
-<p><code>tomland</code> is mostly designed for qualified imports and intended to be imported as follows:</p>
+<p><code>tomland</code> is designed for qualified imports and intended to be imported as follows:</p>
 <p><code>haskell ignore import Toml (TomlCodec, (.=))  -- add 'TomlBiMap' and 'Key' here optionally import qualified Toml</code></p>
 <h2 id="data-type-parsing-and-printing">Data type: parsing and printing<a href="#data-type-parsing-and-printing" class="anchor">🔗</a></h2>
-<p>We’re going to parse TOML configuration from <a href="examples/readme.toml"><code>examples/readme.toml</code></a> file.</p>
-<p>This static configuration is captured by the following Haskell data type:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true"></a><span class="kw">data</span> <span class="dt">Settings</span> <span class="ot">=</span> <span class="dt">Settings</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true"></a>    {<span class="ot"> settingsPort        ::</span> <span class="op">!</span><span class="dt">Port</span></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true"></a>    ,<span class="ot"> settingsDescription ::</span> <span class="op">!</span><span class="dt">Text</span></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true"></a>    ,<span class="ot"> settingsCodes       ::</span> [<span class="dt">Int</span>]</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true"></a>    ,<span class="ot"> settingsMail        ::</span> <span class="op">!</span><span class="dt">Mail</span></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true"></a>    ,<span class="ot"> settingsUsers       ::</span> <span class="op">!</span>[<span class="dt">User</span>]</span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true"></a>    }</span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true"></a></span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true"></a><span class="kw">data</span> <span class="dt">Mail</span> <span class="ot">=</span> <span class="dt">Mail</span></span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true"></a>    {<span class="ot"> mailHost           ::</span> <span class="op">!</span><span class="dt">Host</span></span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true"></a>    ,<span class="ot"> mailSendIfInactive ::</span> <span class="op">!</span><span class="dt">Bool</span></span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true"></a>    }</span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true"></a></span>
-<span id="cb3-14"><a href="#cb3-14" aria-hidden="true"></a><span class="kw">data</span> <span class="dt">User</span></span>
-<span id="cb3-15"><a href="#cb3-15" aria-hidden="true"></a>    <span class="ot">=</span> <span class="dt">Admin</span>  <span class="op">!</span><span class="dt">Integer</span>  <span class="co">-- id of admin</span></span>
-<span id="cb3-16"><a href="#cb3-16" aria-hidden="true"></a>    <span class="op">|</span> <span class="dt">Client</span> <span class="op">!</span><span class="dt">Text</span>     <span class="co">-- name of the client</span></span>
-<span id="cb3-17"><a href="#cb3-17" aria-hidden="true"></a>    <span class="kw">deriving</span> stock (<span class="dt">Show</span>)</span>
-<span id="cb3-18"><a href="#cb3-18" aria-hidden="true"></a></span>
-<span id="cb3-19"><a href="#cb3-19" aria-hidden="true"></a><span class="kw">newtype</span> <span class="dt">Port</span> <span class="ot">=</span> <span class="dt">Port</span> <span class="dt">Int</span></span>
-<span id="cb3-20"><a href="#cb3-20" aria-hidden="true"></a><span class="kw">newtype</span> <span class="dt">Host</span> <span class="ot">=</span> <span class="dt">Host</span> <span class="dt">Text</span></span></code></pre></div>
-<p>Using <code>tomland</code> library, you can write bidirectional converters for these types using the following guidelines and helper functions:</p>
+<p>We’re going to parse TOML configuration from <a href="examples/readme.toml"><code>examples/readme.toml</code></a> file. The configuration contains the following description of our data:</p>
+<pre class="toml"><code>server.port        = 8080
+server.codes       = [ 5, 10, 42 ]
+server.description = &quot;&quot;&quot;
+This is production server.
+Don't touch it!
+&quot;&quot;&quot;
+
+[mail]
+    host = &quot;smtp.gmail.com&quot;
+    send-if-inactive = false
+
+[[user]]
+   guestId = 42
+
+[[user]]
+   guestId = 114
+
+[[user]]
+    login = &quot;Foo Bar&quot;
+    createdAt = 2020-05-19</code></pre>
+<p>The above static configuration describes <code>Settings</code> for some server. It has several top-level fields, a table with the name <code>mail</code> and an array of tables with the name <code>user</code> that stores list of different types of users.</p>
+<p>We can model such TOML using the following Haskell data types:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true"></a><span class="kw">data</span> <span class="dt">Settings</span> <span class="ot">=</span> <span class="dt">Settings</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true"></a>    {<span class="ot"> settingsPort        ::</span> <span class="op">!</span><span class="dt">Port</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true"></a>    ,<span class="ot"> settingsDescription ::</span> <span class="op">!</span><span class="dt">Text</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true"></a>    ,<span class="ot"> settingsCodes       ::</span> [<span class="dt">Int</span>]</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true"></a>    ,<span class="ot"> settingsMail        ::</span> <span class="op">!</span><span class="dt">Mail</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true"></a>    ,<span class="ot"> settingsUsers       ::</span> <span class="op">!</span>[<span class="dt">User</span>]</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true"></a>    }</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true"></a></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true"></a><span class="kw">data</span> <span class="dt">Mail</span> <span class="ot">=</span> <span class="dt">Mail</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true"></a>    {<span class="ot"> mailHost           ::</span> <span class="op">!</span><span class="dt">Host</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true"></a>    ,<span class="ot"> mailSendIfInactive ::</span> <span class="op">!</span><span class="dt">Bool</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true"></a>    }</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true"></a></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true"></a><span class="kw">data</span> <span class="dt">User</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true"></a>    <span class="ot">=</span> <span class="dt">Guest</span> <span class="op">!</span><span class="dt">Integer</span>  <span class="co">-- id of guest</span></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true"></a>    <span class="op">|</span> <span class="dt">Registered</span> <span class="op">!</span><span class="dt">RegisteredUser</span>  <span class="co">-- login and createdAt of registered user</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true"></a></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true"></a><span class="kw">data</span> <span class="dt">RegisteredUser</span> <span class="ot">=</span> <span class="dt">RegisteredUser</span></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true"></a>    {<span class="ot"> registeredUserLogin     ::</span> <span class="op">!</span><span class="dt">Text</span></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true"></a>    ,<span class="ot"> registeredUserCreatedAt ::</span> <span class="op">!</span><span class="dt">Day</span></span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true"></a>    }</span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true"></a></span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true"></a><span class="kw">newtype</span> <span class="dt">Port</span> <span class="ot">=</span> <span class="dt">Port</span> <span class="dt">Int</span></span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true"></a><span class="kw">newtype</span> <span class="dt">Host</span> <span class="ot">=</span> <span class="dt">Host</span> <span class="dt">Text</span></span></code></pre></div>
+<p>Using the <code>tomland</code> library, you can write bidirectional converters for these types with the following guidelines and helper functions:</p>
 <ol type="1">
-<li>If your fields are some simple basic types like <code>Int</code> or <code>Text</code> you can just use standard codecs like <code>Toml.int</code> and <code>Toml.text</code>.</li>
+<li>If your fields are some simple primitive types like <code>Int</code> or <code>Text</code> you can just use standard codecs like <code>Toml.int</code> and <code>Toml.text</code>.</li>
 <li>If you want to parse <code>newtype</code>s, use <code>Toml.diwrap</code> to wrap parsers for underlying <code>newtype</code> representation.</li>
-<li>For parsing nested data types, use <code>Toml.table</code>. But this requires to specify this data type as TOML table in <code>.toml</code> file.</li>
-<li>If you have lists of custom data types, use <code>Toml.list</code>. Such lists are represented as array of tables in TOML. If you have lists of primitive types like <code>Int</code>, <code>Bool</code>, <code>Double</code>, <code>Text</code> or time types, that you can use <code>Toml.arrayOf</code> and parse arrays of values.</li>
+<li>For parsing nested data types, use <code>Toml.table</code>. But it requires to specify this data type as TOML table in the <code>.toml</code> file.</li>
+<li>If you have lists of custom data types, use <code>Toml.list</code>. Such lists are represented as <em>array of tables</em> in TOML. If you have lists of the primitive types like <code>Int</code>, <code>Bool</code>, <code>Double</code>, <code>Text</code> or time types, that you can use <code>Toml.arrayOf</code> and parse arrays of values.</li>
 <li>If you have sets of custom data types, use <code>Toml.set</code> or <code>Toml.HashSet</code>. Such sets are represented as array of tables in TOML.</li>
 <li>For parsing sum types, use <code>Toml.dimatch</code>. This requires writing matching functions for the constructors of the sum type.</li>
 <li><code>tomland</code> separates conversion between Haskell types and TOML values from matching values by keys. Converters between types and values have type <code>TomlBiMap</code> and are named with capital letter started with underscore. Main type for TOML codecs is called <code>TomlCodec</code>. To lift <code>TomlBiMap</code> to <code>TomlCodec</code> you need to use <code>Toml.match</code> function.</li>
 </ol>
-<div class="sourceCode" id="cb4"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true"></a><span class="ot">settingsCodec ::</span> <span class="dt">TomlCodec</span> <span class="dt">Settings</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true"></a>settingsCodec <span class="ot">=</span> <span class="dt">Settings</span></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true"></a>    <span class="op">&lt;$&gt;</span> Toml.diwrap (Toml.int  <span class="st">&quot;server.port&quot;</span>)       <span class="op">.=</span> settingsPort</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true"></a>    <span class="op">&lt;*&gt;</span> Toml.text              <span class="st">&quot;server.description&quot;</span> <span class="op">.=</span> settingsDescription</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true"></a>    <span class="op">&lt;*&gt;</span> Toml.arrayOf Toml._Int <span class="st">&quot;server.codes&quot;</span>       <span class="op">.=</span> settingsCodes</span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true"></a>    <span class="op">&lt;*&gt;</span> Toml.table mailCodec   <span class="st">&quot;mail&quot;</span>               <span class="op">.=</span> settingsMail</span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true"></a>    <span class="op">&lt;*&gt;</span> Toml.list  userCodec   <span class="st">&quot;user&quot;</span>               <span class="op">.=</span> settingsUsers</span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true"></a></span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true"></a><span class="ot">mailCodec ::</span> <span class="dt">TomlCodec</span> <span class="dt">Mail</span></span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true"></a>mailCodec <span class="ot">=</span> <span class="dt">Mail</span></span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true"></a>    <span class="op">&lt;$&gt;</span> Toml.diwrap (Toml.text <span class="st">&quot;host&quot;</span>) <span class="op">.=</span> mailHost</span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true"></a>    <span class="op">&lt;*&gt;</span> Toml.bool <span class="st">&quot;send-if-inactive&quot;</span>   <span class="op">.=</span> mailSendIfInactive</span>
-<span id="cb4-13"><a href="#cb4-13" aria-hidden="true"></a></span>
-<span id="cb4-14"><a href="#cb4-14" aria-hidden="true"></a><span class="ot">_Admin ::</span> <span class="dt">TomlBiMap</span> <span class="dt">User</span> <span class="dt">Integer</span></span>
-<span id="cb4-15"><a href="#cb4-15" aria-hidden="true"></a>_Admin <span class="ot">=</span> Toml.prism <span class="dt">Admin</span> <span class="op">$</span> \<span class="kw">case</span></span>
-<span id="cb4-16"><a href="#cb4-16" aria-hidden="true"></a>    <span class="dt">Admin</span> i <span class="ot">-&gt;</span> <span class="dt">Right</span> i</span>
-<span id="cb4-17"><a href="#cb4-17" aria-hidden="true"></a>    other   <span class="ot">-&gt;</span> Toml.wrongConstructor <span class="st">&quot;Admin&quot;</span> other</span>
-<span id="cb4-18"><a href="#cb4-18" aria-hidden="true"></a></span>
-<span id="cb4-19"><a href="#cb4-19" aria-hidden="true"></a><span class="ot">_Client ::</span> <span class="dt">TomlBiMap</span> <span class="dt">User</span> <span class="dt">Text</span></span>
-<span id="cb4-20"><a href="#cb4-20" aria-hidden="true"></a>_Client <span class="ot">=</span> Toml.prism <span class="dt">Client</span> <span class="op">$</span> \<span class="kw">case</span></span>
-<span id="cb4-21"><a href="#cb4-21" aria-hidden="true"></a>    <span class="dt">Client</span> n <span class="ot">-&gt;</span> <span class="dt">Right</span> n</span>
-<span id="cb4-22"><a href="#cb4-22" aria-hidden="true"></a>    other    <span class="ot">-&gt;</span> Toml.wrongConstructor <span class="st">&quot;Client&quot;</span> other</span>
-<span id="cb4-23"><a href="#cb4-23" aria-hidden="true"></a></span>
-<span id="cb4-24"><a href="#cb4-24" aria-hidden="true"></a><span class="ot">userCodec ::</span> <span class="dt">TomlCodec</span> <span class="dt">User</span></span>
-<span id="cb4-25"><a href="#cb4-25" aria-hidden="true"></a>userCodec <span class="ot">=</span></span>
-<span id="cb4-26"><a href="#cb4-26" aria-hidden="true"></a>        Toml.match (_Admin <span class="op">&gt;&gt;&gt;</span> Toml._Integer) <span class="st">&quot;id&quot;</span></span>
-<span id="cb4-27"><a href="#cb4-27" aria-hidden="true"></a>    <span class="op">&lt;|&gt;</span> Toml.match (_Client <span class="op">&gt;&gt;&gt;</span> Toml._Text) <span class="st">&quot;name&quot;</span></span></code></pre></div>
-<p>And now we’re ready to parse our TOML and print the result back to see whether everything is okay.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true"></a><span class="ot">main ::</span> <span class="dt">IO</span> ()</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true"></a>main <span class="ot">=</span> <span class="kw">do</span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true"></a>    tomlRes <span class="ot">&lt;-</span> Toml.decodeFileEither settingsCodec <span class="st">&quot;examples/readme.toml&quot;</span></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true"></a>    <span class="kw">case</span> tomlRes <span class="kw">of</span></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true"></a>        <span class="dt">Left</span> err <span class="ot">-&gt;</span> <span class="fu">print</span> err</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true"></a>        <span class="dt">Right</span> settings <span class="ot">-&gt;</span> TIO.putStrLn <span class="op">$</span> Toml.encode settingsCodec settings</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true"></a><span class="ot">settingsCodec ::</span> <span class="dt">TomlCodec</span> <span class="dt">Settings</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true"></a>settingsCodec <span class="ot">=</span> <span class="dt">Settings</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true"></a>    <span class="op">&lt;$&gt;</span> Toml.diwrap (Toml.int  <span class="st">&quot;server.port&quot;</span>)       <span class="op">.=</span> settingsPort</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true"></a>    <span class="op">&lt;*&gt;</span> Toml.text              <span class="st">&quot;server.description&quot;</span> <span class="op">.=</span> settingsDescription</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true"></a>    <span class="op">&lt;*&gt;</span> Toml.arrayOf Toml._Int <span class="st">&quot;server.codes&quot;</span>       <span class="op">.=</span> settingsCodes</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true"></a>    <span class="op">&lt;*&gt;</span> Toml.table mailCodec   <span class="st">&quot;mail&quot;</span>               <span class="op">.=</span> settingsMail</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true"></a>    <span class="op">&lt;*&gt;</span> Toml.list  userCodec   <span class="st">&quot;user&quot;</span>               <span class="op">.=</span> settingsUsers</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true"></a></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true"></a><span class="ot">mailCodec ::</span> <span class="dt">TomlCodec</span> <span class="dt">Mail</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true"></a>mailCodec <span class="ot">=</span> <span class="dt">Mail</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true"></a>    <span class="op">&lt;$&gt;</span> Toml.diwrap (Toml.text <span class="st">&quot;host&quot;</span>) <span class="op">.=</span> mailHost</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true"></a>    <span class="op">&lt;*&gt;</span> Toml.bool <span class="st">&quot;send-if-inactive&quot;</span>   <span class="op">.=</span> mailSendIfInactive</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true"></a></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true"></a><span class="ot">matchGuest ::</span> <span class="dt">User</span> <span class="ot">-&gt;</span> <span class="dt">Maybe</span> <span class="dt">Integer</span></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true"></a>matchGuest <span class="ot">=</span> \<span class="kw">case</span></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true"></a>   <span class="dt">Guest</span> i <span class="ot">-&gt;</span> <span class="dt">Just</span> i</span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true"></a>   _ <span class="ot">-&gt;</span> <span class="dt">Nothing</span></span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true"></a></span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true"></a><span class="ot">matchRegistered ::</span> <span class="dt">User</span> <span class="ot">-&gt;</span> <span class="dt">Maybe</span> <span class="dt">RegisteredUser</span></span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true"></a>matchRegistered <span class="ot">=</span> \<span class="kw">case</span></span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true"></a>   <span class="dt">Registered</span> u <span class="ot">-&gt;</span> <span class="dt">Just</span> u</span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true"></a>   _ <span class="ot">-&gt;</span> <span class="dt">Nothing</span></span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true"></a></span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true"></a><span class="ot">userCodec ::</span> <span class="dt">TomlCodec</span> <span class="dt">User</span></span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true"></a>userCodec <span class="ot">=</span></span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true"></a>        Toml.dimatch matchGuest      <span class="dt">Guest</span>      (Toml.integer <span class="st">&quot;guestId&quot;</span>)</span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true"></a>    <span class="op">&lt;|&gt;</span> Toml.dimatch matchRegistered <span class="dt">Registered</span> registeredUserCodec</span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true"></a></span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true"></a><span class="ot">registeredUserCodec ::</span> <span class="dt">TomlCodec</span> <span class="dt">RegisteredUser</span></span>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true"></a>registeredUserCodec <span class="ot">=</span> <span class="dt">RegisteredUser</span></span>
+<span id="cb5-31"><a href="#cb5-31" aria-hidden="true"></a>    <span class="op">&lt;$&gt;</span> Toml.text <span class="st">&quot;login&quot;</span>     <span class="op">.=</span> registeredUserLogin</span>
+<span id="cb5-32"><a href="#cb5-32" aria-hidden="true"></a>    <span class="op">&lt;*&gt;</span> Toml.day  <span class="st">&quot;createdAt&quot;</span> <span class="op">.=</span> registeredUserCreatedAt</span></code></pre></div>
+<p>And now we are ready to parse our TOML and print the result back to see whether everything is okay.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true"></a><span class="ot">main ::</span> <span class="dt">IO</span> ()</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true"></a>main <span class="ot">=</span> <span class="kw">do</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true"></a>    tomlRes <span class="ot">&lt;-</span> Toml.decodeFileEither settingsCodec <span class="st">&quot;examples/readme.toml&quot;</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true"></a>    <span class="kw">case</span> tomlRes <span class="kw">of</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true"></a>        <span class="dt">Left</span> errs      <span class="ot">-&gt;</span> TIO.putStrLn <span class="op">$</span> Toml.prettyTomlDecodeErrors errs</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true"></a>        <span class="dt">Right</span> settings <span class="ot">-&gt;</span> TIO.putStrLn <span class="op">$</span> Toml.encode settingsCodec settings</span></code></pre></div>
 <h2 id="benchmarks-and-comparison-with-other-libraries">Benchmarks and comparison with other libraries<a href="#benchmarks-and-comparison-with-other-libraries" class="anchor">🔗</a></h2>
-<p><code>tomland</code> is <a href="https://github.com/kowainik/toml-benchmarks">compared</a> with other libraries. Since it uses 2-step approach with converting text to intermediate AST and only then decoding Haskell type from this AST, benchmarks are also implemented in a way to reflect this difference.</p>
+<p>You can find benchmarks of the <code>tomland</code> library in the following repository:</p>
+<ul>
+<li><a href="https://github.com/kowainik/toml-benchmarks">kowainik/toml-benchmarks</a></li>
+</ul>
+<p>Since <code>tomland</code> uses 2-step approach with converting text to intermediate AST and only then decoding Haskell type from this AST, benchmarks are also implemented in a way to reflect this difference.</p>
 <table>
 <thead>
 <tr class="header">
@@ -206,13 +241,13 @@
 </tr>
 </tbody>
 </table>
-<p>You may see that <code>tomland</code> is not the fastest one (though still very fast). But performance hasn’t been optimized so far and:</p>
+<p>In addition to the above numbers, <code>tomland</code> has several features that make it unique:</p>
 <ol type="1">
-<li><code>toml-parser</code> doesn’t support the array of tables and because of that it’s hardly possible to specify the list of custom data types in TOML with this library.</li>
-<li><code>tomland</code> supports latest TOML spec while <code>htoml</code> and <code>htoml-megaparsec</code> don’t have support for all types, values and formats.</li>
-<li><code>tomland</code> is the only library that has pretty-printing.</li>
-<li><code>toml-parser</code> doesn’t have ways to convert TOML AST to custom Haskell types and <code>htoml*</code> libraries use typeclasses-based approach via <code>aeson</code> library.</li>
-<li><code>tomland</code> is bidirectional :slightly_smiling_face:</li>
+<li><code>tomland</code> is the only Haskell library that has pretty-printing.</li>
+<li><code>tomland</code> is compatible with the latest TOML spec while other libraries are not.</li>
+<li><code>tomland</code> is bidirectional, which means that your encoding and decoding are consistent with each other by construction.</li>
+<li><code>tomland</code> provides abilities for <code>Generic</code> and <code>DerivingVia</code> deriving out-of-the-box.</li>
+<li>Despite being the fastest, <code>toml-parser</code> doesn’t support the array of tables and because of that it’s hardly possible to specify the list of custom data types in TOML with this library. In addition, <code>toml-parser</code> doesn’t have ways to convert TOML AST to custom Haskell types and <code>htoml*</code> libraries use typeclasses-based approach via <code>aeson</code> library.</li>
 </ol>
 <h2 id="acknowledgement">Acknowledgement<a href="#acknowledgement" class="anchor">🔗</a></h2>
 <p>Icons made by <a href="http://www.freepik.com">Freepik</a> from <a href="https://www.flaticon.com/">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/">CC 3.0 BY</a>.</p>

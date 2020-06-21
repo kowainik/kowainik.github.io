@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+      <!-- Global site tag (gtag.js) - Google Analytics -->
+      <script async src="https://www.googletagmanager.com/gtag/js?id=UA-125893749-1"></script>
+      <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+
+          gtag('config', 'UA-125893749-1');
+          </script>
+    <title>slist :: Kowainik</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Kowainik page">
+    <meta name="keywords" content="Haskell, Functional progarmming, FP">
+    <meta name="author" content="Kowainik" />
+
+    <!-- Twitter cards -->
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="@kowainik" />
+    <meta property="twitter:title" content="Kowainik - slist" />
+    <meta name="twitter:description" content="♾️ Sized list" />
+    <meta name="twitter:image:src" content="https://kowainik.github.io/images/logo-yellow.png" />
+    <meta property="og:title" content="Kowainik - slist" />
+    <meta property="og:description" content="♾️ Sized list" />
+    <meta property="og:site_name" content="Kowainik" />
+    <meta property="og:image" content="https://kowainik.github.io/images/logo-yellow.png" />
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon">
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.11.0/styles/dracula.min.css" />
+    <!-- Fontawesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+    <!-- Custom fonts for this template -->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Lato" />
+    <!-- Custom styles for this template -->
+    <link href="../css/default.css" rel="stylesheet">
+    <link href="../css/post.css" rel="stylesheet">
+  </head>
+
+  <body class="body-posts">
+
+      <!-- Header -->
+      <nav class="navbar navbar-inverse navbar-fixed-left leftmenu bg-primary text-secondary">
+            <div class="navbar-header">
+                <div class="postslogo"> <a class="navbar-brand" href="../"><img class="img-fluid mb-5 d-block mx-auto" src="../images/logo-tr.png" alt="Kowainik"></a></div>
+
+            </div>
+            <div class="coolFont">
+                <a class="btn btn-outline-dark btn-tag" href="https://github.com/kowainik/slist" data-icon="octicon-star" data-size="large" aria-label="Star Kowainik/slist on GitHub">Star Project</a>
+                <a class="fa-stack fa-2x" href="https://github.com/kowainik/slist/stargazers">
+                    <i class="fa fa-star fa-stack-2x"></i>
+                    <i id="stars" class="fa fa-stack-1x fa-inverse main-font">44</i>
+                </a>
+                <div class="author">Language: Haskell</div>
+
+                <div class="allposts">
+                    <h3><a href="../projects"> Projects =<< </a></h3>
+                </div>
+            </div>
+      </nav>
+      <div class="container info">
+          <h2 class="text-center text-uppercase text-secondary">slist</h2>
+          <div class="content">
+          <div class="row post">
+              <div class="col-12 post-body">
+              <p class="lead">
+                  <p><a href="https://github.com/kowainik/slist/actions"><img src="https://github.com/kowainik/slist/workflows/CI/badge.svg" alt="GitHub CI" /></a> <a href="https://travis-ci.org/kowainik/slist"><img src="https://img.shields.io/travis/kowainik/slist.svg?logo=travis" alt="Build status" /></a> <a href="https://hackage.haskell.org/package/slist"><img src="https://img.shields.io/hackage/v/slist.svg?logo=haskell" alt="Hackage" /></a> <a href="http://stackage.org/lts/package/slist"><img src="http://stackage.org/package/slist/badge/lts" alt="Stackage LTS" /></a> <a href="http://stackage.org/nightly/package/slist"><img src="http://stackage.org/package/slist/badge/nightly" alt="Stackage Nightly" /></a> <a href="LICENSE"><img src="https://img.shields.io/badge/license-MPL--2.0-blue.svg" alt="MPL-2.0 license" /></a></p>
+<p>This package introduces sized list data type — <code>Slist</code>. The data type has the following shape:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true"></a><span class="kw">data</span> <span class="dt">Slist</span> a <span class="ot">=</span> <span class="dt">Slist</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true"></a>    {<span class="ot"> sList ::</span> [a]</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true"></a>    ,<span class="ot"> sSize ::</span> <span class="dt">Size</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true"></a>    }</span></code></pre></div>
+<p>As you can see that along with the familiar list, it contains <code>Size</code> field that represents the size of the structure. Slists can be finite or infinite, and this is expressed with <code>Size</code>.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true"></a><span class="kw">data</span> <span class="dt">Size</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true"></a>    <span class="ot">=</span> <span class="dt">Size</span> <span class="dt">Int</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true"></a>    <span class="op">|</span> <span class="dt">Infinity</span></span></code></pre></div>
+<p>This representation of the list gives some additional advantages. Getting the length of the list is the “free” operation (runs in <code>O(1)</code>). This property helps to improve the performance for a bunch of functions like <code>take</code>, <code>drop</code>, <code>at</code>, etc. But also it doesn’t actually add any overhead on the existing functions.</p>
+<p>Also, this allows to write a number of safe functions like <code>safeReverse</code>, <code>safeHead</code>, <code>safeLast</code>, <code>safeIsSuffixOf</code>, etc.</p>
+<h2 id="comparison">Comparison<a href="#comparison" class="anchor">🔗</a></h2>
+<p>Check out the comparison table between lists and slists performance.</p>
+<table>
+<colgroup>
+<col style="width: 13%" />
+<col style="width: 24%" />
+<col style="width: 20%" />
+<col style="width: 28%" />
+<col style="width: 12%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function</th>
+<th>list (finite)</th>
+<th>list (infinite)</th>
+<th>Slist (finite)</th>
+<th>Slist (infinite)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>length</code></td>
+<td><code>O(n)</code></td>
+<td>&lt;<em>hangs</em>&gt;</td>
+<td><code>O(1)</code></td>
+<td><code>O(1)</code></td>
+</tr>
+<tr class="even">
+<td><code>safeLast</code></td>
+<td><code>O(n)</code></td>
+<td>&lt;<em>hangs</em>&gt;</td>
+<td><code>O(n)</code></td>
+<td><code>O(1)</code></td>
+</tr>
+<tr class="odd">
+<td><code>init</code></td>
+<td><code>O(n)</code></td>
+<td>&lt;<em>works infinitely</em>&gt;</td>
+<td><code>O(n)</code></td>
+<td><code>O(1)</code></td>
+</tr>
+<tr class="even">
+<td><code>take</code></td>
+<td><code>O(min i n)</code></td>
+<td><code>O(i)</code></td>
+<td><code>0 &lt; i &lt; n</code>: <code>O(i)</code>; otherwise: <code>O(1)</code></td>
+<td><code>O(i)</code></td>
+</tr>
+<tr class="odd">
+<td><code>at</code></td>
+<td><code>O(min i n)</code> (run-time exception)</td>
+<td><code>O(i)</code> (run-time exception)</td>
+<td><code>0 &lt; i &lt; n</code>: <code>O(i)</code>; otherwise: <code>O(1)</code></td>
+<td><code>O(i)</code></td>
+</tr>
+<tr class="even">
+<td><code>safeStripPrefix</code></td>
+<td><code>O(m)</code></td>
+<td><code>O(m)</code> (can hang)</td>
+<td><code>O(m)</code></td>
+<td><code>O(m)</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="potential-usage-cases">Potential usage cases<a href="#potential-usage-cases" class="anchor">🔗</a></h2>
+<ul>
+<li>When you ask the length of the list too frequently.</li>
+<li>When you need to convert to data structures that require to know the list size in advance for allocating an array of the elements. <em>Example:</em> <a href="https://hackage.haskell.org/package/vector">Vector data structure</a>.</li>
+<li>When you need to serialised lists.</li>
+<li>When you need to control the behaviour depending on the finiteness of the list.</li>
+<li>When you need a more efficient or safe implementation of some functions.</li>
+</ul>
+              </p>
+              </div>
+          </div>
+          </div>
+
+
+      </div>
+
+      <script src="../js/stars.js"></script>
+      <script>
+       shootingStars("kowainik/slist", function (stars) {
+           document.getElementById("stars").innerHTML = stars;
+       });
+      </script>
+
+
+      <!-- Bootstrap core JavaScript -->
+      <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"> </script>
+      <script src="../js/post.js"> </script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/haskell.min.js"></script>
+      <script>hljs.initHighlightingOnLoad()</script>
+      <script async defer src="https://buttons.github.io/buttons.js"></script>
+  </body>
+</html>

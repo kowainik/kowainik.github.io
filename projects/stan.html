@@ -22,10 +22,10 @@
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:site" content="@kowainik" />
     <meta property="twitter:title" content="Kowainik - stan" />
-    <meta name="twitter:description" content="🧪⚗️ Haskell STatic ANalyser" />
+    <meta name="twitter:description" content="🕵️ Haskell STatic ANalyser" />
     <meta name="twitter:image:src" content="https://kowainik.github.io/images/logo-yellow.png" />
     <meta property="og:title" content="Kowainik - stan" />
-    <meta property="og:description" content="🧪⚗️ Haskell STatic ANalyser" />
+    <meta property="og:description" content="🕵️ Haskell STatic ANalyser" />
     <meta property="og:site_name" content="Kowainik" />
     <meta property="og:image" content="https://kowainik.github.io/images/logo-yellow.png" />
 
@@ -58,7 +58,7 @@
                 <a class="btn btn-outline-dark btn-tag" href="https://github.com/kowainik/stan" data-icon="octicon-star" data-size="large" aria-label="Star Kowainik/stan on GitHub">Star Project</a>
                 <a class="fa-stack fa-2x" href="https://github.com/kowainik/stan/stargazers">
                     <i class="fa fa-star fa-stack-2x"></i>
-                    <i id="stars" class="fa fa-stack-1x fa-inverse main-font">16</i>
+                    <i id="stars" class="fa fa-stack-1x fa-inverse main-font">34</i>
                 </a>
                 <div class="author">Language: Haskell</div>
 
@@ -73,19 +73,269 @@
           <div class="row post">
               <div class="col-12 post-body">
               <p class="lead">
-                  <p><a href="https://github.com/kowainik/stan/actions"><img src="https://github.com/kowainik/stan/workflows/CI/badge.svg" alt="GitHub CI" /></a> <a href="https://hackage.haskell.org/package/stan"><img src="https://img.shields.io/hackage/v/stan.svg" alt="Hackage" /></a> <a href="https://github.com/kowainik/stan/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-MPL--2.0-blue.svg" alt="MPL-2.0 license" /></a></p>
-<p>Haskell static analyser</p>
-<h2 id="usage">Usage<a href="#usage" class="anchor">🔗</a></h2>
-<p>Stan is working with the <code>.hie</code> files to analyse Haskell projects. Therefore, Stan requires to have generated <code>hie</code> files provided by the users. Fortunately, it is straightforward to satisfy this necessity. You can build the project with special GHC options:</p>
-<pre class="shell"><code>$ cabal v2-build \
-  --ghc-options=-fwrite-ide-info \
-  --ghc-options=-hiedir=.hie</code></pre>
-<p>Or you can also add these options to your project’s <code>.cabal</code> file, so you will always have up to date <code>.hie</code> files:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true"></a>    ghc<span class="op">-</span>options<span class="op">:</span>       <span class="op">-</span>fwrite<span class="op">-</span>ide<span class="op">-</span>info</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true"></a>                       <span class="op">-</span>hiedir<span class="op">=.</span>hie</span></code></pre></div>
+                  <p align="center">
+<img alt="Stan Logo" src="https://user-images.githubusercontent.com/8126674/83521583-59383080-a4d7-11ea-8d9e-33be4677ecb3.png" width="300px" height="300px/">
+</p>
+<p><a href="https://github.com/kowainik/stan/actions"><img src="https://github.com/kowainik/stan/workflows/CI/badge.svg" alt="GitHub CI" /></a> <a href="https://hackage.haskell.org/package/stan"><img src="https://img.shields.io/hackage/v/stan.svg" alt="Hackage" /></a> <a href="https://github.com/kowainik/stan/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-MPL--2.0-blue.svg" alt="MPL-2.0 license" /></a></p>
+<p>Stan is a Haskell <strong>ST</strong>atic <strong>AN</strong>alysis tool.</p>
 <blockquote>
-<p><em>Note:</em> here we recommend to generate the <code>hie</code> files into <code>.hie/</code> folder. As it is the recommendation only, you can specify your own folder as well. But then you will need to run <code>stan</code> using the <code>--hiedir</code> option with the specified path to your <code>hie</code> folder.</p>
+<p>⚠️ Note: Stan is in the beta phase. The API is the subject to be changed if required by our needs ⚠️</p>
 </blockquote>
+<h2 id="table-of-contents">Table of Contents<a href="#table-of-contents" class="anchor">🔗</a></h2>
+<ul>
+<li><a href="#what-this-tool-is-about">What this tool is about</a></li>
+<li><a href="#goals">Goals</a></li>
+<li><a href="#features">Features</a></li>
+<li><a href="#how-it-works">How it works</a></li>
+<li><a href="#installation-instructions">Installation instructions</a>
+<ul>
+<li><a href="#using-cabal">Using Cabal</a></li>
+<li><a href="#using-stack">Using Stack</a></li>
+</ul></li>
+<li><a href="#usage-instructions">Usage instructions</a>
+<ul>
+<li><a href="#general-configuration-info">General configuration info</a></li>
+<li><a href="#toml-configurations">TOML configurations</a></li>
+<li><a href="#command-line-interface">Command-line Interface</a>
+<ul>
+<li><a href="#main-command">Main command</a></li>
+<li><a href="#inspections">Inspections</a></li>
+<li><a href="#converting-between-toml-and-cli-configurations">Converting between TOML and CLI configurations</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#links-to-wiki">Links to Wiki</a></li>
+</ul>
+<h2 id="what-this-tool-is-about">What this tool is about<a href="#what-this-tool-is-about" class="anchor">🔗</a></h2>
+<p><a href="#table-of-contents">[Back to the Table of Contents] ↑</a></p>
+<p>Stan is a command-line tool for analysing Haskell projects and outputting discovered vulnerabilities in a helpful way with possible solutions for detected problems. Stan is searching for not only performance or error-prone code pieces, but it also can help with establishing and applying best-practices from the whole Haskell ecosystem.</p>
+<p>Although Haskell is a statically typed language, not all properties can be encoded in types. Even though GHC is quite a powerful compiler, it tries to be library-agnostic and provide only language-specific suggestions, while Stan uses the knowledge about the current state of the ecosystem and commonly used libraries.</p>
+<p>You will find Stan helpful if you enjoy writing in Haskell, but want more guarantees from your code, not provided by the Haskell type system or GHC.</p>
+<h2 id="goals">Goals<a href="#goals" class="anchor">🔗</a></h2>
+<p><a href="#table-of-contents">[Back to the Table of Contents] ↑</a></p>
+<p>Stan design and implementation is driven by the following goals:</p>
+<ul>
+<li>Catch common vulnerabilities, anti-patterns, performance issues</li>
+<li>Provide meaningful insights on the projects generally</li>
+<li>Point out potential bugs and weak points in the programs flow for users, so they can carefully evaluate each problem with the code</li>
+<li>Help beginners to learn best practices in an easy and informative way</li>
+<li>Generate the report that can be used as a proof of code quality</li>
+<li>Create best in the class and flexible enough interface for usage (including e.g. opt-in and opt-out inspections)</li>
+</ul>
+<h2 id="features">Features<a href="#features" class="anchor">🔗</a></h2>
+<p><a href="#table-of-contents">[Back to the Table of Contents] ↑</a></p>
+<p>Stan is a configurable CLI tool. Besides the main feature of analysing Haskell projects statically, Stan has a list of features that make it unique, easy to use and flexible to configure:</p>
+<ul>
+<li>Pretty analysis results, including both HTML and terminal reports</li>
+<li>Suggestions and possible solutions for fixing the existing problems</li>
+<li>Analysing not only Haskell source code, but also information from the <code>.cabal</code> files</li>
+<li>Flexible runtime configuration via <a href="https://github.com/toml-lang/toml">TOML</a> and CLI</li>
+</ul>
+<p>You can see an example of Stan HTML report hosted online here:</p>
+<ul>
+<li><a href="https://kowainik.github.io/projects/stan/report">Stan Report Example</a></li>
+</ul>
+<p>The below example of the terminal output gives you the understanding of what sorts of analysis you can expect from Stan:</p>
+<figure>
+<img src="https://user-images.githubusercontent.com/4276606/85208720-89326100-b32a-11ea-94fd-4aa149626b74.png" alt /><figcaption>Stan terminal example</figcaption>
+</figure>
+<h2 id="how-it-works">How it works<a href="#how-it-works" class="anchor">🔗</a></h2>
+<p><a href="#table-of-contents">[Back to the Table of Contents] ↑</a></p>
+<p>Stan analysis is based on the <a href="https://gitlab.haskell.org/ghc/ghc/-/wikis/hie-files">HIE files</a> — compile-time information about Haskell source code gathered and recorded by GHC. The HIE files contain the Haskell AST, detailed information about each identifier and types of all expressions and sub-expressions. GHC does a huge amount of work when compiling the Haskell projects, and Stan takes advantage of this feature to avoid duplicating the work and focus more on the unique features.</p>
+<p>To analyse HIE files easily, we developed an eDSL for defining AST and Type patterns based on the <a href="http://okmij.org/ftp/tagless-final/course/lecture.pdf"><em>final taggless</em></a> approach. Stan algorithm traverses HIE AST for each HIE file in the project, and matches every AST node with the given pattern to find potential vulnerabilities in the code.</p>
+<p>Each Stan analysis check is represented by the <strong>inspection</strong> with the unique ID. Each inspection has a name, description, <strong>severity</strong>, list of <strong>categories</strong>, pattern for matching relevant parts of source code and possible solutions to the problem.</p>
+<p>When an inspection is casted on the project, it produces zero or more <strong>observations</strong> — vulnerabilities in the specific parts of the code. You can think of an <em>observation</em> as a pair of an inspection and a piece of source code where this inspection was triggered. Each observation is assigned an unique stable ID depending on the source location, so you can refer to them later or ignore.</p>
+<p>You can disable inspections or enable them only in particular modules using <strong>check</strong> — rules for controlling which inspections to run and where. Each check has a <strong>type</strong> (<code>include</code> or <code>exclude</code>), <strong>filter</strong> (by inspection id, category, severity, etc.) and <strong>scope</strong> (file, directory, everything). Checks can be specified using either TOML of CLI interfaces. By default, Stan analyses all source files using all implemented inspections.</p>
+<p>If you want to understand Stan terminology better, refer to the glossary:</p>
+<ul>
+<li><a href="https://github.com/kowainik/stan/wiki/Glossary">Stan Wiki page: Glossary</a></li>
+</ul>
+<h2 id="installation-instructions">Installation instructions<a href="#installation-instructions" class="anchor">🔗</a></h2>
+<p><a href="#table-of-contents">[Back to the Table of Contents] ↑</a></p>
+<p>Stan takes advantage of the <a href="http://hackage.haskell.org/package/ghc">GHC API</a> to provide its analysis. Because of this, Stan and the analysed project need to be built with the same GHC version (for more details see <a href="https://github.com/kowainik/stan/issues/178">#178</a>). That is why the easiest and most robust way to install Stan is to build it from sources on your machine.</p>
+<blockquote>
+<p><strong>Note:</strong> Stan is compatible with the GHC versions ⩾ 8.8</p>
+</blockquote>
+<h3 id="using-cabal">Using Cabal<a href="#using-cabal" class="anchor">🔗</a></h3>
+<p><a href="#table-of-contents">[Back to the Table of Contents] ↑</a></p>
+<p>Below are the steps to install Stan using the Cabal build tool.</p>
+<blockquote>
+<p>You need to have <a href="https://www.haskell.org/cabal/">Cabal ⩾ 2.4</a></p>
+</blockquote>
+<p>First, you need to clone the repository:</p>
+<pre class="shell"><code>$ git clone https://github.com/kowainik/stan.git
+$ cd stan</code></pre>
+<p>Then, you need to build it using Cabal:</p>
+<pre class="shell"><code>$ cabal v2-build exe:stan</code></pre>
+<p>Finally, you can copy the resulting executable under the desired location (that should be under the PATH environment variable), like so:</p>
+<pre class="shell"><code>$ cp dist-newstyle/build/x86_64-linux/ghc-8.8.3/stan-0.0.0.0/x/stan/build/stan/stan ~/.local/bin/stan</code></pre>
+<blockquote>
+<p>The path to the executable will be outputted as the last line of the previous command.</p>
+</blockquote>
+<h3 id="using-stack">Using Stack<a href="#using-stack" class="anchor">🔗</a></h3>
+<p><a href="#table-of-contents">[Back to the Table of Contents] ↑</a></p>
+<p>Below are the steps to install Stan using the Stack build tool.</p>
+<blockquote>
+<p>You need to have <a href="http://haskellstack.org">Stack ⩾ 2.1.3</a></p>
+</blockquote>
+<p>First, you need to clone the repository.</p>
+<pre class="shell"><code>$ git clone https://github.com/kowainik/stan.git
+$ cd stan</code></pre>
+<p>Then, you need to build it using Stack:</p>
+<pre class="shell"><code>$ stack build</code></pre>
+<p>Finally, you can copy the resulting executable under the desired location (that should be under the PATH environment variable), like so:</p>
+<pre class="shell"><code>$ cp &quot;$(stack path --local-install-root)/bin/stan&quot; ~/.local/bin/stan</code></pre>
+<h2 id="usage-instructions">Usage instructions<a href="#usage-instructions" class="anchor">🔗</a></h2>
+<p><a href="#table-of-contents">[Back to the Table of Contents] ↑</a></p>
+<p>Stan works with the <a href="https://gitlab.haskell.org/ghc/ghc/-/wikis/hie-files">HIE files</a> to analyse Haskell projects. Therefore, Stan requires users to generate HIE files in advance. Fortunately, it is straightforward to satisfy this necessity. To produce HIE files, add the following GHC options in your project’s <code>.cabal</code> file to each stanza you want to analyse:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true"></a>    ghc<span class="op">-</span>options<span class="op">:</span>       <span class="op">-</span>fwrite<span class="op">-</span>ide<span class="op">-</span>info</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true"></a>                       <span class="op">-</span>hiedir<span class="op">=.</span>hie</span></code></pre></div>
+<blockquote>
+<p><em>Recommendation</em>: you can use the <a href="https://vrom911.github.io/blog/common-stanzas">common stanzas</a> feature to write the above options only once and enable them in each stanza easily.</p>
+</blockquote>
+<blockquote>
+<p><em>Note:</em> here we recommend generating the HIE files into <code>.hie/</code> folder. As it is the recommendation only, you can specify your own folder as well. But then you will need to run <code>stan</code> using the <code>--hiedir</code> option with the specified path to your <code>hie</code> folder.</p>
+</blockquote>
+<p>After creating HIE files, you can just run Stan on the project:</p>
+<pre class="shell"><code>$ stan</code></pre>
+<p>to see all found vulnerabilities in your terminal.</p>
+<p>If you want to see a more detailed information in a more structured way, you can generate an HTML report (to the <code>stan.html</code> file) using the following command:</p>
+<pre class="shell"><code>$ stan report</code></pre>
+<p>Stan strives to implement the convenient interface, so you can use the tool without configuring a lot in advance. However, the tool also provides various ways to set it up in the way to be the most efficient with your particular use case.</p>
+<h3 id="general-configuration-info">General configuration info<a href="#general-configuration-info" class="anchor">🔗</a></h3>
+<p><a href="#table-of-contents">[Back to the Table of Contents] ↑</a></p>
+<p>Stan’s work can be configured from the multiple sources (in increasing order of priority):</p>
+<ol type="1">
+<li>Default settings (hard-coded in the library — includes <strong>no</strong> custom settings)</li>
+<li>Environment variables</li>
+<li><a href="https://github.com/toml-lang/toml">TOML</a> file configuration</li>
+<li>CLI arguments</li>
+</ol>
+<p>Stan runtime settings have many parts, and each of them can come from different configuration sources. If some option is specified through multiple sources, the most prioritized one will be used. In addition, Stan helps to understand its own configuration, so it outputs detailed information about each part of the config, what configuration settings were used and how they were set.</p>
+<figure>
+<img src="https://user-images.githubusercontent.com/4276606/85208889-bb908e00-b32b-11ea-8256-c576a33cbf38.png" alt /><figcaption>Configuration explanation</figcaption>
+</figure>
+<h3 id="toml-configurations">TOML configurations<a href="#toml-configurations" class="anchor">🔗</a></h3>
+<p><a href="#table-of-contents">[Back to the Table of Contents] ↑</a></p>
+<p>Stan supports <a href="https://github.com/toml-lang/toml">TOML</a> runtime configuration in order to customize the work of the tool based on the user’s individual requirements. You can use the TOML configuration to disable some inspections, enable them only in particular Haskell modules, ignore some observations or completely remove some files from the analysis.</p>
+<p>See Haddock documentation for explanation of how the TOML configuration works and examples of the different use cases.</p>
+<p>In case you have a number of TOML files locally, the following rules describe how Stan decides which TOML configuration file to use:</p>
+<ul>
+<li>By default, Stan tries to read settings from the local <code>.stan.toml</code> file in the current directory. So, if you want to adjust the default Stan settings with some custom rules, create a <code>.stan.toml</code> file in the root of your Haskell project.</li>
+<li>If the local <code>.stan.toml</code> file is not found, Stan tries to read the global <code>~/.stan.toml</code> file. Having a global Stan configuration can be convenient, if you work on several projects and want to have the same custom settings by default for all of them.</li>
+<li>If you don’t have any of the default configuration files, it is still okay. Stan will use its own default hard-coded settings.</li>
+<li>You can specify a path to a specific configuration file using the <code>--config-file</code> option. This custom file will be used in addition to the default TOML config.</li>
+<li>If you don’t want to use the default TOML configuration, pass the <code>--no-default</code> flag or use the <code>STAN_USE_DEFAULT_CONFIG=False</code> environment variable.</li>
+</ul>
+<h3 id="command-line-interface">Command-line Interface<a href="#command-line-interface" class="anchor">🔗</a></h3>
+<p><a href="#table-of-contents">[Back to the Table of Contents] ↑</a></p>
+<p>This section describes what is possible to achieve with the Stan CLI. If you have already installed the analyser, you can use</p>
+<pre class="shell"><code>$ stan --help</code></pre>
+<p>to get the short information of all possible commands and options in your terminal.</p>
+<h4 id="main-command">Main command<a href="#main-command" class="anchor">🔗</a></h4>
+<p><a href="#table-of-contents">[Back to the Table of Contents] ↑</a></p>
+<p>The main command is the one that actually would analyse the Haskell codebase. There are plenty of configurations and options you can tune for each run (similarly to the TOML configurations):</p>
+<ul>
+<li>Specify the <a href="https://gitlab.haskell.org/ghc/ghc/-/wikis/hie-files">HIE files</a> folder (will use <code>.hie/</code> otherwise)</li>
+<li>Specify <code>.cabal</code> files of your project (will lookup automatically otherwise)</li>
+<li>Turn on/off the usage of the default <code>.stan.toml</code> configuration file</li>
+<li>Specify the <a href="https://github.com/toml-lang/toml">TOML</a> configuration file to use (will be used additionally to default TOML file if applicable)</li>
+<li>Filter in or out specific files, directories, inspections, categories or severities</li>
+<li>Generate the HTML report file</li>
+<li>Set up the output verbosity</li>
+</ul>
+<p>More precisely the commands and options are described in here:</p>
+<pre><code>stan
+    [REPORT]
+    [   CHECKs {[TYPE option] [FILTER option] [SCOPE option]}
+      | REMOVEs {SCOPE option}
+      | IGNOREs {ID option}
+    ]
+    [--hiedir=DIR_PATH]
+    [--cabal-file-path=FILE_PATHs]
+    [--config-file=FILE_PATH]
+    [--no-default]
+    [-s|--short]
+    [--hide-solution]
+    [-h|--help]
+    [-v|--version]
+
+Description:
+  CHECKs           Command to Specify the list of checks
+  REMOVEs          Command to Specify scope to be removed
+  IGNOREs          Command to Specify the list of what needs to be ignored
+  REPORT           Command to generate an HTML Report
+  --hiedir=DIR_PATH        Relative path to the directory with HIE
+                           files (default: .hie)
+  --cabal-file-path=FILE_PATHs
+                           Relative path to the .cabal file (can specify many of this option)
+  --config-file=FILE_PATH  Relative path to the .toml configurations file
+  --no-default             Ignore local .stan.toml configuration file
+  -s,--short               Hide verbose output information for observations
+  --hide-solution          Hide verbose solution information for observations
+  -h,--help                Show this help text
+  -v,--version             Show Stan's version
+
+Sub-commands options:
+
+
+  TYPE:
+    --include                Include check
+    --exclude                Exclude check
+  FILTER:
+    --id=INSPECTION_ID       Inspection ID to be used
+    --severity=SEVERITY      Inspection Severity to exclude or include
+    --category=CATEGORY      Inspection Category to exclude or include
+    --filter-all             Exclude or include ALL inspections
+  SCOPE:
+    --file=FILE_PATH         File to exclude or include
+    --directory=DIRECTORY_PATH
+                           Directory to exclude or include
+    --scope-all              Apply check to all files</code></pre>
+<p>For example, if you want to run Stan analysis only on a single file, you can use the following command:</p>
+<pre class="shell"><code>$ stan check --exclude --filter-all --scope-all \
+       check --include --filter-all --file=src/Stan/Example.hs</code></pre>
+<h4 id="inspections">Inspections<a href="#inspections" class="anchor">🔗</a></h4>
+<p><a href="#table-of-contents">[Back to the Table of Contents] ↑</a></p>
+<p>You can find the list of all available inspections with description and additional information on our <a href="https://github.com/kowainik/stan/wiki/All-Inspections">dedicated wiki page</a>. However, with the tool you can get this information easily by using the <code>inspection</code> command. Optionally, you can see details of a particular inspection by typing the corresponding inspection ID alongside. You can see more robust description of the command here:</p>
+<pre><code>inspection – Show all Inspections
+
+Usage:
+  stan inspection [INSPECTION_ID]
+
+Available options:
+  INSPECTION_ID            Show specific Inspection information
+  -h,--help                Show this help text</code></pre>
+<h4 id="converting-between-toml-and-cli-configurations">Converting between TOML and CLI configurations<a href="#converting-between-toml-and-cli-configurations" class="anchor">🔗</a></h4>
+<p><a href="#table-of-contents">[Back to the Table of Contents] ↑</a></p>
+<p>It is usually convenient to have a proper configuration file that suits your project, which you can reuse each run of the Stan.</p>
+<p>But sometimes you need to quickly run the tool with the same settings on another machine where having such files is not possible. Or you want to send the reproducible command, that anyone could execute and get the identical results. For these purposes, we have a special command that allows you to do so:</p>
+<pre><code>toml-to-cli – Convert TOML configuration file into stan CLI command
+
+Usage:
+    stan toml-to-cli [--config-file=FILE_PATH]
+
+Available options:
+  --config-file=FILE_PATH  Relative path to the .toml configurations file
+  -h,--help                Show this help text</code></pre>
+<p>And for convenience you are able to use the reversed command –– <code>cli-to-toml</code>.</p>
+<pre><code>cli-to-toml – Convert CLI arguments into stan TOML configuration
+
+Usage:
+    stan cli-to-toml
+      [--config-file=FILE_PATH]
+      [   CHECKs {[TYPE option] [FILTER option] [SCOPE option]}
+        | REMOVEs {SCOPE option}
+        | IGNOREs {ID option}
+      ]</code></pre>
+<h2 id="links-to-wiki">Links to Wiki<a href="#links-to-wiki" class="anchor">🔗</a></h2>
+<p><a href="#table-of-contents">[Back to the Table of Contents] ↑</a></p>
+<ul>
+<li><a href="https://github.com/kowainik/stan/wiki/Glossary">Glossary</a></li>
+<li><a href="https://github.com/kowainik/stan/wiki/All-Inspections">All inspections</a></li>
+<li><a href="https://github.com/kowainik/stan/wiki/Development">For developers</a></li>
+<li><a href="https://github.com/kowainik/stan/wiki/Useful-links">Useful links</a></li>
+<li><a href="https://github.com/kowainik/stan/wiki/GHC-Backlog">GHC issues backlog</a></li>
+</ul>
               </p>
               </div>
           </div>
