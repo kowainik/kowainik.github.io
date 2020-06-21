@@ -4,23 +4,23 @@ name: CI
 on:
   pull_request:
   push:
-    branches: [master]
+    branches: [develop]
 
 jobs:
   build:
     name: ghc ${{ matrix.ghc }}
-    runs-on: ubuntu-16.04
+    runs-on: ubuntu-latest
     strategy:
       matrix:
-        cabal: ["3.0"]
+        cabal: ["3.2"]
         ghc:
           - "8.8.3"
 
     steps:
     - uses: actions/checkout@v2
-      if: github.event.action == 'opened' || github.event.action == 'synchronize' || github.event.ref == 'refs/heads/master'
+      if: github.event.action == 'opened' || github.event.action == 'synchronize' || github.event.ref == 'refs/heads/develop'
 
-    - uses: actions/setup-haskell@v1
+    - uses: actions/setup-haskell@v1.1.1
       name: Setup Haskell
       with:
         ghc-version: ${{ matrix.ghc }}
