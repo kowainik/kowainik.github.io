@@ -107,7 +107,7 @@ pre.comment {
 .post-body a:focus, .post-body a:hover, .post-body a:active,
 .post-body a:focus code, .post-body a:hover code, .post-body a:active code{
     text-decoration: none;
-    color: #26e4bb;
+    color: #26e4bb !important;
 }
 
 .post-body a code {text-decoration: underline;}

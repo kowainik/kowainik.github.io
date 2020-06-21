@@ -175,8 +175,8 @@ hr.star-dark-pr:after {
 /* Code */
 code {
     padding: 0% 0.5%;
-    color:#2C3E50 !important;
-    background-color:#FAFFC3 !important;
+    color:#FAFFC3 !important;
+    background-color:#2C3E50 !important;
 }
 
 pre > code {background-color: #2C3E50 !important; color: #fff !important; }
