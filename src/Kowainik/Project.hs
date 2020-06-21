@@ -5,11 +5,12 @@ module Kowainik.Project
 
 import Hakyll (Compiler, Context, Item, field, itemBody, listField, makeItem)
 
+
 data Project = Project
-    { pName  :: String
-    , pImage :: String
-    , pDesc  :: String
-    , pId    :: String
+    { pName  :: !String
+    , pImage :: !String
+    , pDesc  :: !String
+    , pId    :: !String
     }
 
 projectName, projectImage, projectDesc, projectId :: Context Project
@@ -21,27 +22,27 @@ projectId    = field "projectId"    $ pure . pId    . itemBody
 allProjects :: Compiler [Item Project]
 allProjects = traverse makeItem
     [ Project
+        { pName  = "Stan"
+        , pImage = "stan"
+        , pDesc  = "Haskell Static Analyser tool"
+        , pId    = "1"
+        }
+    , Project
         { pName  = "Summoner"
         , pImage = "summoner"
         , pDesc  = "Tool for creating completely configured production Haskell projects"
-        , pId    = "1"
+        , pId    = "2"
         }
     , Project
         { pName  = "Relude"
         , pImage = "relude"
         , pDesc  = "Reload your Prelude"
-        , pId    = "2"
-        }
-    , Project
-        { pName  = "Containers Backpack"
-        , pImage = "containers-backpack"
-        , pDesc  = "Backpack interface for containers"
         , pId    = "3"
         }
     , Project
-        { pName  = "Smuggler"
-        , pImage = "smuggler"
-        , pDesc  = "Smuggle all imports"
+        { pName  = "Co-Log"
+        , pImage = "co-log"
+        , pDesc  = "Flexible and configurable modern Haskell logging framework"
         , pId    = "4"
         }
     , Project
@@ -51,10 +52,28 @@ allProjects = traverse makeItem
         , pId    = "5"
         }
     , Project
-        { pName  = "Typerep-map"
-        , pImage = "typerep-map"
-        , pDesc  = "Efficient implementation of Map with types as keys"
+        { pName  = "Validation Selective"
+        , pImage = "validation-selective"
+        , pDesc  = "Lightweight pure validation based on Applicative and Selective functors"
         , pId    = "6"
+        }
+    , Project
+        { pName  = "Policeman"
+        , pImage = "policeman"
+        , pDesc  = "Haskell PVP adviser"
+        , pId    = "7"
+        }
+    , Project
+        { pName  = "Extensions"
+        , pImage = "extensions"
+        , pDesc  = "Parse Haskell Language Extensions"
+        , pId    = "8"
+        }
+    , Project
+        { pName  = "Colourista"
+        , pImage = "colourista"
+        , pDesc  = "Convenient interface for printing colourful messages"
+        , pId    = "9"
         }
     ]
 
