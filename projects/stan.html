@@ -103,6 +103,7 @@
 <li><a href="#converting-between-toml-and-cli-configurations">Converting between TOML and CLI configurations</a></li>
 </ul></li>
 </ul></li>
+<li><a href="#roadmap">Roadmap</a></li>
 <li><a href="#links-to-wiki">Links to Wiki</a></li>
 </ul>
 <h2 id="what-this-tool-is-about">What this tool is about<a href="#what-this-tool-is-about" class="anchor">🔗</a></h2>
@@ -217,7 +218,7 @@ $ cd stan</code></pre>
 <h3 id="toml-configurations">TOML configurations<a href="#toml-configurations" class="anchor">🔗</a></h3>
 <p><a href="#table-of-contents">[Back to the Table of Contents] ↑</a></p>
 <p>Stan supports <a href="https://github.com/toml-lang/toml">TOML</a> runtime configuration in order to customize the work of the tool based on the user’s individual requirements. You can use the TOML configuration to disable some inspections, enable them only in particular Haskell modules, ignore some observations or completely remove some files from the analysis.</p>
-<p>See Haddock documentation for explanation of how the TOML configuration works and examples of the different use cases.</p>
+<p>See <a href="http://hackage.haskell.org/package/stan-0.0.0.0/docs/Stan-Config.html#g:5">Haddock documentation</a> for explanation of how the TOML configuration works and examples of the different use cases.</p>
 <p>In case you have a number of TOML files locally, the following rules describe how Stan decides which TOML configuration file to use:</p>
 <ul>
 <li>By default, Stan tries to read settings from the local <code>.stan.toml</code> file in the current directory. So, if you want to adjust the default Stan settings with some custom rules, create a <code>.stan.toml</code> file in the root of your Haskell project.</li>
@@ -327,6 +328,20 @@ Usage:
         | REMOVEs {SCOPE option}
         | IGNOREs {ID option}
       ]</code></pre>
+<h2 id="roadmap">Roadmap<a href="#roadmap" class="anchor">🔗</a></h2>
+<p><a href="#table-of-contents">[Back to the Table of Contents] ↑</a></p>
+<p>Our plan for the nearest future:</p>
+<ul class="task-list">
+<li><input type="checkbox" disabled />
+Opt-in inspections</li>
+<li><input type="checkbox" disabled />
+Custom users’ inspections</li>
+<li><input type="checkbox" disabled />
+More inspections on potential bugs and performance</li>
+<li><input type="checkbox" disabled />
+Single-pass traverse on AST</li>
+</ul>
+<p>We have much more ideas to work on. See more detailed plan in the dedicated <a href="https://github.com/kowainik/stan/projects/1">GitHub Project page</a>.</p>
 <h2 id="links-to-wiki">Links to Wiki<a href="#links-to-wiki" class="anchor">🔗</a></h2>
 <p><a href="#table-of-contents">[Back to the Table of Contents] ↑</a></p>
 <ul>

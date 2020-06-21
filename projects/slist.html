@@ -74,6 +74,9 @@
               <div class="col-12 post-body">
               <p class="lead">
                   <p><a href="https://github.com/kowainik/slist/actions"><img src="https://github.com/kowainik/slist/workflows/CI/badge.svg" alt="GitHub CI" /></a> <a href="https://travis-ci.org/kowainik/slist"><img src="https://img.shields.io/travis/kowainik/slist.svg?logo=travis" alt="Build status" /></a> <a href="https://hackage.haskell.org/package/slist"><img src="https://img.shields.io/hackage/v/slist.svg?logo=haskell" alt="Hackage" /></a> <a href="http://stackage.org/lts/package/slist"><img src="http://stackage.org/package/slist/badge/lts" alt="Stackage LTS" /></a> <a href="http://stackage.org/nightly/package/slist"><img src="http://stackage.org/package/slist/badge/nightly" alt="Stackage Nightly" /></a> <a href="LICENSE"><img src="https://img.shields.io/badge/license-MPL--2.0-blue.svg" alt="MPL-2.0 license" /></a></p>
+<blockquote>
+<p>⚠️ Caution: this is a very opinionated library. There is no intention to replace the standard list data type. We are aware of every design decision we made for this package, and we are taking responsibility for that design. If you find it inappropriate, please, consider to use another library instead, that would fulfil your requirements.</p>
+</blockquote>
 <p>This package introduces sized list data type — <code>Slist</code>. The data type has the following shape:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true"></a><span class="kw">data</span> <span class="dt">Slist</span> a <span class="ot">=</span> <span class="dt">Slist</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true"></a>    {<span class="ot"> sList ::</span> [a]</span>
@@ -83,6 +86,9 @@
 <div class="sourceCode" id="cb2"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true"></a><span class="kw">data</span> <span class="dt">Size</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true"></a>    <span class="ot">=</span> <span class="dt">Size</span> <span class="dt">Int</span></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true"></a>    <span class="op">|</span> <span class="dt">Infinity</span></span></code></pre></div>
+<blockquote>
+<p>⚠️ Caution: <code>Int</code> is used for the size by design. We had to make some trade-offs to provide the better (as we think) interface for users. For more details on the choice, see the Haddock documentation for the <code>Size</code> data type.</p>
+</blockquote>
 <p>This representation of the list gives some additional advantages. Getting the length of the list is the “free” operation (runs in <code>O(1)</code>). This property helps to improve the performance for a bunch of functions like <code>take</code>, <code>drop</code>, <code>at</code>, etc. But also it doesn’t actually add any overhead on the existing functions.</p>
 <p>Also, this allows to write a number of safe functions like <code>safeReverse</code>, <code>safeHead</code>, <code>safeLast</code>, <code>safeIsSuffixOf</code>, etc.</p>
 <h2 id="comparison">Comparison<a href="#comparison" class="anchor">🔗</a></h2>
@@ -151,9 +157,9 @@
 </table>
 <h2 id="potential-usage-cases">Potential usage cases<a href="#potential-usage-cases" class="anchor">🔗</a></h2>
 <ul>
-<li>When you ask the length of the list too frequently.</li>
+<li>When you ask the size of the list too frequently.</li>
 <li>When you need to convert to data structures that require to know the list size in advance for allocating an array of the elements. <em>Example:</em> <a href="https://hackage.haskell.org/package/vector">Vector data structure</a>.</li>
-<li>When you need to serialised lists.</li>
+<li>When you need to serialise lists.</li>
 <li>When you need to control the behaviour depending on the finiteness of the list.</li>
 <li>When you need a more efficient or safe implementation of some functions.</li>
 </ul>
