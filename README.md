@@ -49,3 +49,16 @@ Here comes the body of the post itself
 ...
 
 ```
+
+## How to update a blog posts
+
+If you want to add some modification to the blog post, don't forge to add/modify
+`updated` field in the blog post meta information header, e.g.:
+
+```
+---
+title: Some title
+...
+updated: "December 13, 2016"
+---
+```
