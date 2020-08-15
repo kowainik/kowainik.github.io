@@ -204,3 +204,24 @@ h1:hover a.anchor,h2:hover a.anchor,h3:hover a.anchor{display:inline;color:#6432
     background: #ffffff 5px top/2.5em no-repeat;
     background-image: url(/images/solution.png);
 }
+.pattern {
+    padding: 1% 2%; margin: 2% 0;
+}
+.pattern-header:first-child, .pattern-body:nth-child(2) {
+    border-top: 2px solid #26e4bb;
+}
+.pattern-header, .pattern-body {
+    border-bottom: 2px solid #26e4bb;
+    border-left: 2px solid #26e4bb;
+}
+.pattern-body {
+    border-right: 2px solid #26e4bb;
+}
+.pattern-header {
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-align: left;
+    padding: 0;
+    text-align: center;
+    overflow-wrap: break-word;
+}

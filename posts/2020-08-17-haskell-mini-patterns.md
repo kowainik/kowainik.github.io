@@ -40,11 +40,49 @@ proposed task.
 
 ## Newtype
 
-Pattern: Newtype
-Description: Lightweight data wrapper.
-When to use: When using the same primitive type (`Int`, `Text`, etc.) to represent semantically different entities (name, title, description, etc.).
-Benefits: 1. Improves maintainability. 2. Increases code readability. 3. Enables writing custom instances. 4. Allows reusing instance definitions with [DerivingVia](https://downloads.haskell.org/ghc/latest/docs/html/users_guide/glasgow_exts.html#deriving-via)
-Cost: 1. Additional wrapping and unwrapping. 2. Deriving boilerplate is required to duplicate existing behaviour of the underlying type.
+:::: {.pattern .row}
+::: {.pattern-header .bg-primary .col-3}
+Pattern
+:::
+::: {.pattern-body .col-9}
+Newtype
+:::
+
+::: {.pattern-header .bg-primary .col-3}
+Description
+:::
+::: {.pattern-body .col-9}
+Lightweight data wrapper.
+:::
+
+::: {.pattern-header .bg-primary .col-3}
+When to use
+:::
+::: {.pattern-body .col-9}
+When using the same primitive type (`Int`, `Text`, etc.) to represent
+semantically different entities (name, title, description, etc.).
+:::
+
+::: {.pattern-header .bg-primary .col-3}
+Benefits
+:::
+::: {.pattern-body .col-9}
+  1. Improves maintainability.
+  2. Increases code readability.
+  3. Enables writing custom instances.
+  4. Allows reusing instance definitions with
+     [DerivingVia](https://downloads.haskell.org/ghc/latest/docs/html/users_guide/glasgow_exts.html#deriving-via)
+:::
+
+::: {.pattern-header .bg-primary .col-3}
+Costs
+:::
+::: {.pattern-body .col-9}
+  1. Additional wrapping and unwrapping.
+  2. Deriving boilerplate is required to duplicate existing behaviour of the
+     underlying type.
+:::
+::::
 
 One of the most common and useful Haskell features is
 `newtype`. `newtype` is an ordinary data type with the name and a
