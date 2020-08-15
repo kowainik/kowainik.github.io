@@ -86,8 +86,13 @@ matching. Moreover, the size of the function wouldn’t be small, which would an
 up being a problem when you need to write variations of your function for
 different types.
 
-> **Exercise:** try to implement the `decodeValues` function for `User` that
-> reports good error messages and uses only pattern matching.
+::: {.exercise}
+### Exercise #1
+
+Try to implement the `decodeValues` function for `User` that
+reports good error messages and uses only pattern matching.
+
+:::
 
 The following sections of the blog post show a general solution to this problem
 with fine-grained error messages.
@@ -201,9 +206,13 @@ value valDecoder = gets unValues >>= \case
         Right a  -> Right a <$ put (Values vals)
 ```
 
-> **Exercise:** in our decoder for the field we don’t report the position of the
-> `WrongField` error. However, it’s quite easy to patch the decoder to take this
-> into consideration.
+::: {.exercise}
+### Exercise #2
+
+In our decoder for the field we don’t report the position of the
+`WrongField` error. However, it’s quite easy to patch the decoder to take this
+into consideration.
+:::
 
 We’re using `Either ListValueError` as the return type of our `value` decoder to
 report errors. But because of that, it’s not easy to compose different `value`

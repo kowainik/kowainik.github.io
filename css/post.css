@@ -189,3 +189,18 @@ a.anchor{color:#64328c;display:none;font-size:80%;margin-left:12px;text-decorati
 h1:hover a.anchor,h2:hover a.anchor,h3:hover a.anchor{display:inline;color:#64328c;}
 
 .post-body figcaption {text-align: center; font-style: italic; font-weight: lighter;}
+
+/* Exercises and solutions */
+.exercise {
+    padding: 2%; margin: 1% 0;
+    -webkit-box-shadow: 0px 0px 10px 3px rgba(38,228,187,1);
+    -moz-box-shadow: 0px 0px 10px 3px rgba(38,228,187,1);
+    box-shadow: 0px 0px 10px 3px rgba(38,228,187,1);
+}
+.solution {
+    padding: 2%; margin: 2%;
+    padding-left: 3em;
+    border: 4px dashed #fffbca;
+    background: #ffffff 5px center/2.5em no-repeat;
+    background-image: url(/images/solution.png);
+}
