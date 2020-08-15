@@ -180,6 +180,7 @@ unwrap it when necessary. But the benefits hugely outweigh this small
 price.
 
 ::: {.exercise}
+
 ### Newtype: Task
 
 Improve the following code by applying the __Newtype__ pattern.
@@ -347,9 +348,16 @@ You can find multiple variations of this pattern in the wild that
 differ in some implementation details:
 
 * Usage of [PatternSynonyms](https://downloads.haskell.org/ghc/latest/docs/html/users_guide/glasgow_exts.html#pattern-synonyms)
-* Replacing `Maybe` with [`Either`](https://hackage.haskell.org/package/base-4.14.0.0/docs/Data-Either.html) or [`Validation`](http://hackage.haskell.org/package/validation-selective-0.1.0.0/docs/Validation.html) types for better error-reporting
-* Rename the constructor to `UnsafePassword` instead of having a separate `unsafePassword` function (however, this is a less safer approach due to coercions)
-* Validation of the statically-known values during compile-time, so you get errors in compile-time instead of runtime, and you don't need unsafe functions when you know that the values are valid
+* Replacing `Maybe` with
+  [Either](https://hackage.haskell.org/package/base-4.14.0.0/docs/Data-Either.html)
+  or [Validation](http://hackage.haskell.org/package/validation-selective-0.1.0.0/docs/Validation.html)
+  types for better error-reporting
+* Rename the constructor to `UnsafePassword` instead of having a
+  separate `unsafePassword` function (however, this is a less safer
+  approach due to coercions)
+* Validation of the statically-known values during compile-time, so
+  you get errors in compile-time instead of runtime, and you don't
+  need unsafe functions when you know that the values are valid
 * Others
 
 Unfortunately, the community has not reached the consensus on what is
@@ -470,7 +478,7 @@ validation or result.
 
 ::: {.exercise}
 
-Try refactoring the above code without using `isNothing` and
+📚 **Exercise:** Try refactoring the above code without using `isNothing` and
 `fromJust` functions. Bonus points for using `Maybe` as a `Monad`.
 
 :::
@@ -679,7 +687,7 @@ the hash of an admin.
 
 ::: {.exercise}
 
-`mkPasswordhash` function takes a password and maybe returns password hash. Can you notice which one of the previously discussed patterns is used here? 😉
+📚 **Exercise:** The `mkPasswordhash` function takes a password and maybe returns password hash. Can you notice which one of the previously discussed patterns is used here? 😉
 
 :::
 
@@ -853,7 +861,7 @@ with a minimal syntactic overhead, and it is also safe as a bonus.
 
 ::: {.exercise}
 
-Desugar the above code manually.
+📚 **Exercise:** Desugar the above code manually.
 
 :::
 
@@ -887,8 +895,8 @@ constructing lists. `do`-notation is a syntax sugar for `>>=` from
 `Monad`, so you can think about list comprehension as a syntax sugar
 for `do`-notation specifically for lists.
 
-> Haskell also has the
-> [`MonadComprehensions`](https://downloads.haskell.org/ghc/latest/docs/html/users_guide/glasgow_exts.html#monad-comprehensions)
+> 👩‍🔬 Haskell also has the
+> [MonadComprehensions](https://downloads.haskell.org/ghc/latest/docs/html/users_guide/glasgow_exts.html#monad-comprehensions)
 > extension that allows using the list comprehension syntax for other
 > monads.
 
@@ -908,8 +916,8 @@ pattern-matching, it would look a bit less cleaner.
 
 ::: {.exercise}
 
-Try implementing the `keepOnlySameRights` functions without list
-comprehensions and the `MonadFail` instance for list.
+📚 **Exercise:** Try implementing the `keepOnlySameRights` functions
+without list comprehensions and the `MonadFail` instance for list.
 
 :::
 
@@ -932,6 +940,8 @@ sumThree :: String -> Maybe Int
     Show solution
 </button>
 :::: {#solutionMonadFail1 .solution .collapse}
+
+#### MonadFail sugar: Solution 1
 
 ```haskell
 import Text.Read (readMaybe)
@@ -957,6 +967,8 @@ catMaybes :: [Maybe a] -> [a]
     Show solution
 </button>
 :::: {#solutionMonadFail2 .solution .collapse}
+
+#### MonadFail sugar: Solution 2
 
 ```haskell
 catMaybes :: [Maybe a] -> [a]
@@ -1052,7 +1064,7 @@ matter, you already know what it does.
 
 ::: {.exercise}
 
-Do you see what the function with the type `a -> a` does?
+📚 **Exercise:** Do you see what the function with the type `a -> a` does?
 
 :::
 
@@ -1091,7 +1103,11 @@ what we wanted but still satisfy this type signature. For example:
 compareByFst cmp (a, _) (b, _) = cmp (a + 1) (b + 1)
 ```
 
-> **Question:** Can you see when this function can produce wrong results?
+::: {.exercise}
+
+📚 **Exercise:** Can you see when this function can produce wrong results?
+
+:::
 
 We want to restrict what the function can do. So instead of using
 `Int` we can use some polymorphic variable:
@@ -1177,7 +1193,7 @@ its type signature also tells us much more about its behaviour!
 
 ::: {.exercise}
 
-Implement `partitionWith`.
+📚 **Exercise:** Implement `partitionWith`.
 
 :::
 
@@ -1392,7 +1408,7 @@ inverseMap
 
 ::: {.exercise}
 
-Implement the `inverseMap` function.
+📚 **Exercise:** Implement the `inverseMap` function.
 
 :::
 
@@ -1505,9 +1521,9 @@ parseFruit t = do
 
 :::
 
-## Recursive `go`
+## Recursive go
 
-Pattern: Recursive `go`
+Pattern: Recursive go
 Description: Moving recursion over data types into the separate function.
 When to use: 1. When recursion reuses some arguments and you want to avoid passing them again. 2. When recursion uses some internal state. 3. To avoid revalidating the same data.
 Benefits: 1. Cleaner code. 2. Possible performance improvements.
@@ -1573,8 +1589,8 @@ the recursive `go` function will work only with valid data.
 
 ::: {.exercise}
 
-Can you make these `at`/`atGo` functions more efficient on the corner
-cases?
+📚 **Exercise:** Can you make these `at`/`atGo` functions more
+efficient on the corner cases?
 
 :::
 
@@ -1587,7 +1603,7 @@ change during the recursive traverse of your data structure
 
 ::: {.exercise}
 
-### Recursive `go`: Task 1
+### Recursive go: Task 1
 
 Improve the following code by applying the _Recursive `go`_ pattern.
 
@@ -1602,7 +1618,7 @@ sum (x:xs) = x + sum xs
 </button>
 :::: {#solutionRecursiveGo1 .solution .collapse}
 
-#### Recursive `go`: Solution 1
+#### Recursive go: Solution 1
 
 ```haskell
 {-# LANGUAGE BangPatterns        #-}
@@ -1617,7 +1633,7 @@ sumGo = go 0
 ```
 ::::
 
-### Recursive `go`: Task 2
+### Recursive go: Task 2
 
 Write the `ordNub` function with the _Recursive `go`_ pattern.
 
