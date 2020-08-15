@@ -62,3 +62,28 @@ title: Some title
 updated: "December 13, 2016"
 ---
 ```
+## How to add exercises with solutions
+
+```
+::: {.exercise}
+### Exercise #1
+
+Do this and that
+
+<button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#solution1" aria-expanded="false" aria-controls="solution1">
+    Show solution
+</button>
+
+:::: {#solution1 .solution .collapse}
+
+### Solution #1
+
+I am hidden solution
+
+```haskell
+i = am solution
+```
+::::
+
+:::
+```
