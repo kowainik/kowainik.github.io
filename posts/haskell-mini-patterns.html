@@ -135,7 +135,7 @@
 <p>If you are aware of the best ways to solve common problems, you can become a better Haskell developer by using more efficient programming techniques specific to the language. Likewise, you can apply Haskell-specific patterns successfully outside of Haskell.</p>
 <p>This blog post contains a structured collection of some programming mini-patterns in Haskell with the detailed description and examples, some small “quality of life” improvements that would help everyone on their developer journey.</p>
 <div class="exercise">
-<p>📚 Each pattern contains at least one task with the hidden solution, so you can test your understanding of a pattern by solving the proposed task.</p>
+<p>📚 In this article, each pattern contains at least one task with the hidden solution, so you can test your understanding of a pattern by solving the proposed task.</p>
 </div>
 <h2 id="newtype">Newtype<a href="#newtype" class="anchor">🔗</a></h2>
 <div class="pattern row">
@@ -165,7 +165,7 @@ Benefits
 <li>Improves maintainability.</li>
 <li>Increases code readability.</li>
 <li>Enables writing custom instances.</li>
-<li>Allows reusing instance definitions with <a href="https://downloads.haskell.org/ghc/latest/docs/html/users_guide/glasgow_exts.html#deriving-via">DerivingVia</a></li>
+<li>Allows reusing instance definitions with <a href="https://downloads.haskell.org/ghc/latest/docs/html/users_guide/glasgow_exts.html#deriving-via">DerivingVia</a>.</li>
 </ol>
 </div>
 <div class="pattern-header bg-primary col-3">
@@ -215,6 +215,7 @@ Costs
 <p>You can implement a more type-safe version of the <code>validateHash</code> function, and additionally this improves the code readability:</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true"></a><span class="ot">validateHash ::</span> <span class="dt">Password</span> <span class="ot">-&gt;</span> <span class="dt">PasswordHash</span> <span class="ot">-&gt;</span> <span class="dt">Bool</span></span></code></pre></div>
 <p>Now, <code>validateHash hash password</code> is a compile-time error, and it makes it impossible to confuse the order of arguments.</p>
+<hr>
 <p>Another popular way of increasing code readability without sacrificing performance is introducing a new alias (which is simply another name for a data type) by using the <code>type</code> keyword. Unfortunately, this approach is only a partial solution since it helps only a developer, not the compiler as the compiler doesn’t see the difference between type alias and type itself. And if you don’t help your compiler, the compiler won’t be there for you when you need it.</p>
 <p>For example, the following code is flawed:</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true"></a><span class="kw">type</span> <span class="dt">Attack</span>  <span class="ot">=</span> <span class="dt">Int</span></span>
@@ -222,14 +223,15 @@ Costs
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true"></a></span>
 <span id="cb6-4"><a href="#cb6-4" aria-hidden="true"></a><span class="ot">calculateDamage ::</span> <span class="dt">Attack</span> <span class="ot">-&gt;</span> <span class="dt">Defense</span> <span class="ot">-&gt;</span> <span class="dt">Attack</span></span></code></pre></div>
 <p>Of course, the above type signature is better than <code>Int -&gt; Int -&gt; Int</code>, but the compiler sees it exactly like this. So, you still can write <code>calculateDamage monsterDefense playerAttack</code> and get a runtime bug.</p>
-<p>The approach of using <code>type</code>s instead of <code>newtype</code> can bring even more damage when you have a lot of similar data types. The more types you have the harder to maintain them without external help. Below you can see a code sample from one of the libraries:</p>
+<p>The approach of using <code>type</code>s instead of <code>newtype</code> can bring even more damage when you have a lot of similar data types. The more types you have the harder to maintain them without external help. Below you can see a code sample from one of the Haskell libraries:</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true"></a><span class="kw">type</span> <span class="dt">WorkerId</span> <span class="ot">=</span> <span class="dt">UUID</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true"></a><span class="kw">type</span> <span class="dt">SupervisorId</span> <span class="ot">=</span> <span class="dt">UUID</span></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true"></a><span class="kw">type</span> <span class="dt">ProcessId</span> <span class="ot">=</span> <span class="dt">UUID</span></span>
 <span id="cb7-4"><a href="#cb7-4" aria-hidden="true"></a><span class="kw">type</span> <span class="dt">ProcessName</span> <span class="ot">=</span> <span class="dt">Text</span></span>
 <span id="cb7-5"><a href="#cb7-5" aria-hidden="true"></a><span class="kw">type</span> <span class="dt">SupervisorName</span> <span class="ot">=</span> <span class="dt">Text</span></span>
 <span id="cb7-6"><a href="#cb7-6" aria-hidden="true"></a><span class="kw">type</span> <span class="dt">WorkerName</span> <span class="ot">=</span> <span class="dt">Text</span></span></code></pre></div>
-<p>The library safety can be improved by replacing all these type aliases with <code>newtype</code>s, and it can even help to discover some bugs that happen due to passing arguments in the wrong order. Moreover, the <code>newtype</code> approach is more flexible since you can provide your custom instances or restrict some instances allowing you to create values in an unsafe way.</p>
+<p>The library safety can be improved by replacing all these type aliases with <code>newtype</code>s, and it can even help to discover some bugs that happen due to passing arguments in the wrong order.</p>
+<p>Moreover, the <code>newtype</code> approach is more flexible since you can provide your custom instances or restrict some instances allowing you to create values in an unsafe way.</p>
 <p>The cost of using <code>newtype</code> is small — you only need to wrap and unwrap it when necessary. But the benefits hugely outweigh this small price.</p>
 <section id="newtype-task" class="exercise">
 <h3>Newtype: Task<a href="#newtype-task" class="anchor">🔗</a></h3>
@@ -334,7 +336,7 @@ When to use
 </div>
 <div class="pattern-body col-9">
 <ol type="1">
-<li>When a data type restricts some values (e.g. not every <code>Text</code> is a valid <code>Password</code>).</li>
+<li>When a data type restricts some values (e.g. not every <code>ByteString</code> is a valid <code>Password</code>).</li>
 <li>When you want to make construction of big data types easier.</li>
 <li>To avoid runtime errors.</li>
 <li>To make illegal states unrepresentable.</li>
@@ -503,7 +505,7 @@ Costs
 <li><a href="https://runtimeverification.com/blog/code-smell-boolean-blindness/">Code smell: Boolean blindness</a></li>
 <li><a href="https://lexi-lambda.github.io/blog/2019/11/05/parse-don-t-validate/">Parse, don’t validate</a></li>
 </ul>
-<p>All above posts provide an amazing description and explanation of the <strong>Evidence</strong> pattern. Here I would like to add only a short overview with a small example.</p>
+<p>All above posts provide an amazing description and explanation of the <strong>Evidence</strong> pattern. Here we would like to add only a short overview with a small example.</p>
 <p>If you ever find yourself writing code like this:</p>
 <div class="sourceCode" id="cb16"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true"></a><span class="ot">add ::</span> (a <span class="ot">-&gt;</span> <span class="dt">Maybe</span> <span class="dt">Int</span>) <span class="ot">-&gt;</span> (a <span class="ot">-&gt;</span> <span class="dt">Maybe</span> <span class="dt">Int</span>) <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> <span class="dt">Maybe</span> <span class="dt">Int</span></span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true"></a>add f g x <span class="ot">=</span></span>
@@ -517,10 +519,10 @@ Costs
 </div>
 <p>Returning to our previous example with the <code>validateHash</code> function:</p>
 <div class="sourceCode" id="cb17"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true"></a><span class="ot">validateHash ::</span> <span class="dt">Password</span> <span class="ot">-&gt;</span> <span class="dt">PasswordHash</span> <span class="ot">-&gt;</span> <span class="dt">Bool</span></span></code></pre></div>
-<p>You still can forget to call this function and allow users to work with invalid passwords.</p>
+<p>You still can forget to call this validation function in the application code and allow users to work with invalid passwords.</p>
 <div class="sourceCode" id="cb18"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true"></a>getUserPage,<span class="ot"> accessDenied ::</span> <span class="dt">User</span> <span class="ot">-&gt;</span> <span class="dt">IO</span> <span class="dt">Page</span></span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true"></a></span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true"></a><span class="ot">loginUser ::</span> <span class="dt">User</span> <span class="ot">-&gt;</span> <span class="dt">Password</span> <span class="ot">-&gt;</span> <span class="dt">PasswordHash</span> <span class="ot">-&gt;</span> <span class="dt">IO</span> ()</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true"></a><span class="ot">loginUser ::</span> <span class="dt">User</span> <span class="ot">-&gt;</span> <span class="dt">Password</span> <span class="ot">-&gt;</span> <span class="dt">PasswordHash</span> <span class="ot">-&gt;</span> <span class="dt">IO</span> <span class="dt">Page</span></span>
 <span id="cb18-4"><a href="#cb18-4" aria-hidden="true"></a>loginUser user pwd pwdHash <span class="ot">=</span></span>
 <span id="cb18-5"><a href="#cb18-5" aria-hidden="true"></a>    <span class="kw">if</span> validateHash pwd pwdHash</span>
 <span id="cb18-6"><a href="#cb18-6" aria-hidden="true"></a>    <span class="kw">then</span> getUserPage user</span>
@@ -616,7 +618,7 @@ When to use
 </div>
 <div class="pattern-body col-9">
 <ol type="1">
-<li>To restrict domain of possible values</li>
+<li>To restrict domain of possible values.</li>
 <li>When it is feasible to describe the domain precisely.</li>
 </ol>
 </div>
@@ -641,23 +643,26 @@ Costs
 </ol>
 </div>
 </div>
+<p>This pattern is closely related to <a href="#smart-constructor">smart constructor</a> and <a href="#evidence">evidence</a> patterns, and they can and should be used together.</p>
 <p>The <em>make illegal states unrepresentable</em> motto is well-known in the FP community. Functional Programming features such as Algebraic Data Types (ADT), parametric polymorphism and others allow describing the shape of the valid data more precisely to the extent that it is impossible to construct any invalid values.</p>
 <p>To give a simple example of this idea, consider a function that takes two optional values and does something with those values, but only when both values are present. The function assumes that you won’t pass only a single value without the second element, so it doesn’t bother to handle such cases.</p>
 <div class="sourceCode" id="cb24"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true"></a><span class="ot">handleTwoOptionals ::</span> <span class="dt">Maybe</span> a <span class="ot">-&gt;</span> <span class="dt">Maybe</span> b <span class="ot">-&gt;</span> <span class="dt">IO</span> ()</span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true"></a>handleTwoOptionals (<span class="dt">Just</span> a) (<span class="dt">Just</span> b) <span class="ot">=</span> <span class="op">...</span> work with <span class="ch">'a'</span> <span class="fu">and</span> <span class="ch">'b'</span></span>
-<span id="cb24-3"><a href="#cb24-3" aria-hidden="true"></a>handleTwoOptionals <span class="dt">Nothing</span> <span class="dt">Nothing</span> <span class="ot">=</span> <span class="op">...</span> ask to specify both values</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true"></a>handleTwoOptionals <span class="dt">Nothing</span> <span class="dt">Nothing</span> <span class="ot">=</span> <span class="op">...</span> proceed without values</span>
 <span id="cb24-4"><a href="#cb24-4" aria-hidden="true"></a>handleTwoOptionals _ _ <span class="ot">=</span> <span class="fu">error</span> <span class="st">&quot;You must specify both values&quot;</span></span></code></pre></div>
 <p>The type of <code>handleTwoOptionals</code> allows passing <code>Just a</code> and <code>Nothing :: Maybe b</code>, but in reality the function doesn’t process such a combination. You can notice that it is straightforward to fix this particular problem by changing types barely: instead of passing two <code>Maybe</code>s separately, you need to pass <code>Maybe</code> of a pair.</p>
 <div class="sourceCode" id="cb25"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true"></a><span class="ot">handleTwoOptionals ::</span> <span class="dt">Maybe</span> (a, b) <span class="ot">-&gt;</span> <span class="dt">IO</span> ()</span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true"></a>handleTwoOptionals (<span class="dt">Just</span> (a, b)) <span class="ot">=</span> <span class="op">...</span> work with <span class="ch">'a'</span> <span class="fu">and</span> <span class="ch">'b'</span></span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true"></a>handleTwoOptionals <span class="dt">Nothing</span> <span class="ot">=</span> <span class="op">...</span> ask to specify both values</span></code></pre></div>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true"></a>handleTwoOptionals <span class="dt">Nothing</span> <span class="ot">=</span> <span class="op">...</span> proceed without values</span></code></pre></div>
 <p>With this slight change we made it impossible to specify only a single value as <code>Nothing</code>. If you pass <code>Just</code> of something, you must always provide both values.</p>
+<hr>
 <p>Let’s move on to another example. Now we want to write a function that takes two lists, but those lists must have the same length. Our function doesn’t work when lists have different sizes. The type signature can look like this:</p>
 <div class="sourceCode" id="cb26"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true"></a><span class="ot">processTwoLists ::</span> [a] <span class="ot">-&gt;</span> [b] <span class="ot">-&gt;</span> <span class="dt">Int</span></span></code></pre></div>
 <p>It is up to the caller to verify that both lists have the same size. But if you don’t verify list lengths, the <code>processTwoLists</code> function fails. Moreover, even if a caller checked this property, the type signature still doesn’t capture the verification result. Note, that it could benefit from the usage of the <a href="#evidence">evidence</a> pattern to bear in mind this fact.</p>
 <p>Again, it is pretty easy to fix the problem by changing the type of <code>processTwoLists</code>:</p>
 <div class="sourceCode" id="cb27"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true"></a><span class="ot">processTwoLists ::</span> [(a, b)] <span class="ot">-&gt;</span> <span class="dt">Int</span></span></code></pre></div>
 <p>Instead of passing two lists and expecting them to have the same size, the function simply takes a list of pairs, so it has the same number of <code>a</code>s and <code>b</code>s.</p>
+<hr>
 <p>And one more example. Imagine, that you are writing a web application with the backend and frontend. And you have a function that deals with the settings for both backend and frontend to launch your app. Both setting configurations can be optional, but at least one of the settings parts should be specified.</p>
 <p>You can start approaching this problem by writing the following code:</p>
 <div class="sourceCode" id="cb28"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true"></a><span class="kw">data</span> <span class="dt">Settings</span> <span class="ot">=</span> <span class="dt">Settings</span></span>
@@ -684,6 +689,7 @@ Costs
 <span id="cb29-10"><a href="#cb29-10" aria-hidden="true"></a>    <span class="dt">BothSettings</span> back front <span class="ot">-&gt;</span> configureBack back <span class="op">&gt;&gt;</span> configureFront front <span class="op">&gt;&gt;</span> run</span></code></pre></div>
 <p>Now, even developers unfamiliar with the codebase won’t be able to create invalid settings. The shape of our data precisely describes all valid states in our program.</p>
 <p>Generally, by pushing requirements for our data types upstream, we can implement more correct code and make the life of our API users easier, because they can’t shoot themselves in the foot by providing illegal values.</p>
+<hr>
 <p>However, it is not always possible to easily make all invalid states unrepresentable. Consider the following example. You have an enumeration type representing answers to some questions in a form. And users of this form must enter up to 3 different values in that form. Even if requirements explicitly tell that we must have one, two or three distinct answers, you might go with the a simple data type like this:</p>
 <div class="sourceCode" id="cb30"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true"></a><span class="kw">data</span> <span class="dt">Answers</span> <span class="ot">=</span> <span class="dt">Answers</span></span>
 <span id="cb30-2"><a href="#cb30-2" aria-hidden="true"></a>    {<span class="ot"> answers1 ::</span> <span class="dt">Answer</span></span>
@@ -693,10 +699,10 @@ Costs
 <p>Sure, this data type allows many illegal states, and there is a room for improvement. But to be exactly precise in our data description, we probably need to create another enumeration type specifying only valid combinations of <code>Answer</code>s. However, such enumeration will be huge and unmaintainable. Even if your original <code>Answer</code> type has 8 values, the resulting combinations type will have approximately one hundred constructions that you will need to tackle all everytime the original data type changes. In this case, it is not feasible to describe only valid states with a data type, so we don’t bother doing this.</p>
 <section id="make-illegal-states-unrepresentable-task-1" class="exercise">
 <h3>Make illegal states unrepresentable: Task 1<a href="#make-illegal-states-unrepresentable-task-1" class="anchor">🔗</a></h3>
-<p>Improve the following code by applying the <em>make illegal states unrepresentable</em> pattern.</p>
+<p>Implement the following function by applying the <em>make illegal states unrepresentable</em> pattern.</p>
 <div class="sourceCode" id="cb31"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true"></a><span class="co">-- group sublists of equal elements</span></span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true"></a><span class="op">&gt;&gt;&gt;</span> <span class="fu">group</span> <span class="st">&quot;Mississippi&quot;</span></span>
-<span id="cb31-3"><a href="#cb31-3" aria-hidden="true"></a>[<span class="st">&quot;M&quot;</span>,<span class="st">&quot;i&quot;</span>,<span class="st">&quot;ss&quot;</span>,<span class="st">&quot;i&quot;</span>,<span class="st">&quot;ss&quot;</span>,<span class="st">&quot;i&quot;</span>,<span class="st">&quot;pp&quot;</span>,<span class="st">&quot;i&quot;</span>]</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true"></a><span class="co">-- &gt;&gt;&gt; group &quot;Mississippi&quot;</span></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true"></a><span class="co">-- [&quot;M&quot;,&quot;i&quot;,&quot;ss&quot;,&quot;i&quot;,&quot;ss&quot;,&quot;i&quot;,&quot;pp&quot;,&quot;i&quot;]</span></span>
 <span id="cb31-4"><a href="#cb31-4" aria-hidden="true"></a><span class="fu">group</span><span class="ot"> ::</span> <span class="dt">Eq</span> a <span class="ot">=&gt;</span> [a] <span class="ot">-&gt;</span> [[a]]</span></code></pre></div>
 <blockquote>
 <p><strong>Hint:</strong> Use the <code>NonEmpty</code> list.</p>
@@ -917,7 +923,7 @@ Costs
 </div>
 </div>
 <p>When time comes to extract deeply-nested fields of a nested data structure, or to perform multiple validations in a single block, you start thinking on the neat way to do it at the best cost. You obviously fancy to avoid using partial functions because they can sometimes hide unhandled cases and fail at runtime unexpectedly.</p>
-<p>There’s a nice trick that combines the <code>Maybe</code> data type, <code>do</code>-notation and <code>MonadFail</code> typeclass that allows writing such code. I am going to explain each piece of this spicy combination, but first we need to understand the use-case. Let’s explore the following example.</p>
+<p>There is a nice trick that combines the <code>Maybe</code> data type, <code>do</code>-notation and <code>MonadFail</code> typeclass that allows writing such code. Each piece of this spicy combination will be explained further, but first we need to understand the use-case. Let’s explore the following example.</p>
 <p>When you write a function like this:</p>
 <div class="sourceCode" id="cb42"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true"></a><span class="ot">isThisTheAnswer ::</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Bool</span></span>
 <span id="cb42-2"><a href="#cb42-2" aria-hidden="true"></a>isThisTheAnswer <span class="dv">42</span> <span class="ot">=</span> <span class="dt">True</span></span></code></pre></div>
@@ -1064,7 +1070,7 @@ When to use
 <ol type="1">
 <li>To reduce risks of using function incorrectly.</li>
 <li>To use the same function on values of different types.</li>
-<li>To ake illegal states unrepresentable.</li>
+<li>To make illegal states unrepresentable.</li>
 </ol>
 </div>
 <div class="pattern-header bg-primary col-3">
@@ -1090,7 +1096,7 @@ Costs
 <p>For example, the following function</p>
 <div class="sourceCode" id="cb57"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true"></a><span class="ot">firstArg ::</span> a <span class="ot">-&gt;</span> b <span class="ot">-&gt;</span> a</span>
 <span id="cb57-2"><a href="#cb57-2" aria-hidden="true"></a>firstArg x _ <span class="ot">=</span> x</span></code></pre></div>
-<p>can have types depending on arguments either <code>firstArgs :: Int -&gt; String -&gt; Int</code> or <code>firstArg :: Maybe s -&gt; [a] -&gt; Maybe s</code> but not <code>firstArg :: Int -&gt; Double -&gt; Double</code>.</p>
+<p>can have types, depending on arguments, either <code>firstArgs :: Int -&gt; String -&gt; Int</code> or <code>firstArg :: Maybe s -&gt; [a] -&gt; Maybe s</code> but not <code>firstArg :: Int -&gt; Double -&gt; Double</code>.</p>
 <p>If a monomorphic function has type <code>Int -&gt; Int</code> then it can do many different things and you can’t really guess its behaviour by only looking at its type. You can guess by the function name, but naming is hard and you still need to check the documentation and probably even source code.</p>
 <p>However, if the function’s type is general as <code>a -&gt; a</code> then this function can do only one thing and in that case, its name doesn’t matter, you already know what it does.</p>
 <div class="exercise">
@@ -1146,7 +1152,7 @@ Costs
 <p>This trick is especially good with the <a href="#monadfail-sugar">MonadFail sugar</a> pattern. Instead of filtering elements by predicate and using unsafe conversion functions, you can use <code>mapMaybe</code> and make illegal states unrepresentable.</p>
 <p>Look at the following function:</p>
 <div class="sourceCode" id="cb67"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true"></a><span class="co">-- &gt;&gt;&gt; sumEven &quot;100 15 20 7&quot;</span></span>
-<span id="cb67-2"><a href="#cb67-2" aria-hidden="true"></a><span class="co">-- 120</span></span>
+<span id="cb67-2"><a href="#cb67-2" aria-hidden="true"></a><span class="co">-- 60</span></span>
 <span id="cb67-3"><a href="#cb67-3" aria-hidden="true"></a><span class="ot">sumEven ::</span> <span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">Int</span></span>
 <span id="cb67-4"><a href="#cb67-4" aria-hidden="true"></a>sumEven <span class="ot">=</span></span>
 <span id="cb67-5"><a href="#cb67-5" aria-hidden="true"></a>    <span class="fu">sum</span></span>
@@ -1287,19 +1293,19 @@ Costs
 </div>
 <p>It is often in programs, that you use enumeration types (data types with several constructors without any fields). Enums are classy at least because when we pattern-match on them, GHC yells at us about cases we forgot. But things become a bit more complicated when you also want to be able to parse your enums from strings, which is a completely sane and frequent requirement. This is problematic because when handling strings via pattern-matching, you are physically unable to handle all cases because there is an infinite number of them.</p>
 <p>Consider the following example:</p>
-<div class="sourceCode" id="cb75"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true"></a><span class="kw">data</span> <span class="dt">Color</span></span>
+<div class="sourceCode" id="cb75"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true"></a><span class="kw">data</span> <span class="dt">Colour</span></span>
 <span id="cb75-2"><a href="#cb75-2" aria-hidden="true"></a>    <span class="ot">=</span> <span class="dt">Green</span></span>
 <span id="cb75-3"><a href="#cb75-3" aria-hidden="true"></a>    <span class="op">|</span> <span class="dt">Yellow</span></span>
 <span id="cb75-4"><a href="#cb75-4" aria-hidden="true"></a>    <span class="op">|</span> <span class="dt">Blue</span></span>
 <span id="cb75-5"><a href="#cb75-5" aria-hidden="true"></a></span>
-<span id="cb75-6"><a href="#cb75-6" aria-hidden="true"></a><span class="ot">showColor ::</span> <span class="dt">Color</span> <span class="ot">-&gt;</span> <span class="dt">Text</span></span>
-<span id="cb75-7"><a href="#cb75-7" aria-hidden="true"></a>showColor <span class="ot">=</span> \<span class="kw">case</span></span>
+<span id="cb75-6"><a href="#cb75-6" aria-hidden="true"></a><span class="ot">showColour ::</span> <span class="dt">Colour</span> <span class="ot">-&gt;</span> <span class="dt">Text</span></span>
+<span id="cb75-7"><a href="#cb75-7" aria-hidden="true"></a>showColour <span class="ot">=</span> \<span class="kw">case</span></span>
 <span id="cb75-8"><a href="#cb75-8" aria-hidden="true"></a>    <span class="dt">Green</span>  <span class="ot">-&gt;</span> <span class="st">&quot;green&quot;</span></span>
 <span id="cb75-9"><a href="#cb75-9" aria-hidden="true"></a>    <span class="dt">Yellow</span> <span class="ot">-&gt;</span> <span class="st">&quot;yellow&quot;</span></span>
 <span id="cb75-10"><a href="#cb75-10" aria-hidden="true"></a>    <span class="dt">Blue</span>   <span class="ot">-&gt;</span> <span class="st">&quot;blue&quot;</span></span>
 <span id="cb75-11"><a href="#cb75-11" aria-hidden="true"></a></span>
-<span id="cb75-12"><a href="#cb75-12" aria-hidden="true"></a><span class="ot">parseColor ::</span> <span class="dt">Text</span> <span class="ot">-&gt;</span> <span class="dt">Maybe</span> <span class="dt">Color</span></span>
-<span id="cb75-13"><a href="#cb75-13" aria-hidden="true"></a>parseColor <span class="ot">=</span> \<span class="kw">case</span></span>
+<span id="cb75-12"><a href="#cb75-12" aria-hidden="true"></a><span class="ot">parseColour ::</span> <span class="dt">Text</span> <span class="ot">-&gt;</span> <span class="dt">Maybe</span> <span class="dt">Colour</span></span>
+<span id="cb75-13"><a href="#cb75-13" aria-hidden="true"></a>parseColour <span class="ot">=</span> \<span class="kw">case</span></span>
 <span id="cb75-14"><a href="#cb75-14" aria-hidden="true"></a>    <span class="st">&quot;green&quot;</span>  <span class="ot">-&gt;</span> <span class="dt">Just</span> <span class="dt">Green</span></span>
 <span id="cb75-15"><a href="#cb75-15" aria-hidden="true"></a>    <span class="st">&quot;yellow&quot;</span> <span class="ot">-&gt;</span> <span class="dt">Just</span> <span class="dt">Yellow</span></span>
 <span id="cb75-16"><a href="#cb75-16" aria-hidden="true"></a>    <span class="st">&quot;blue&quot;</span>   <span class="ot">-&gt;</span> <span class="dt">Just</span> <span class="dt">Blue</span></span>
@@ -1307,7 +1313,7 @@ Costs
 <blockquote>
 <p>It’s important that you pattern match on all cases of enumeration when possible to avoid having partial functions.</p>
 </blockquote>
-<p>If you add a new color constructor, for example <code>Orange</code>, the compiler will warn you to update the <code>showColor</code> function. But, unfortunately, it won’t remind you to update <code>parseColor</code> as the “orange” case is already covered by the wildcard (<code>_</code>) case, therefore it is all good from the compiler point of view.</p>
+<p>If you add a new colour constructor, for example <code>Orange</code>, the compiler will warn you to update the <code>showColour</code> function. But, unfortunately, it won’t remind you to update <code>parseColour</code> as the <code>"orange"</code> string is already covered by the wildcard (<code>_</code>) case. Therefore it is all good from the compiler point of view.</p>
 <p>If you have only a few data types with a few constructors and you don’t update them, then you don’t have such a problem. Otherwise it is not straightforward to maintain such code.</p>
 <p>Fortunately, there is a way to avoid this issue. You can implement helper functions that will parse your enumeration types from text back to safe Haskell data types. One of such functions is <code>inverseMap</code> from <a href="https://hackage.haskell.org/package/relude">relude</a>:</p>
 <div class="sourceCode" id="cb76"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true"></a>inverseMap</span>
@@ -1318,14 +1324,14 @@ Costs
 <div class="exercise">
 <p>📚 <strong>Exercise:</strong> Implement the <code>inverseMap</code> function.</p>
 </div>
-<p>Using this function, you can rewrite <code>parseColor</code> in a simpler and more safe way:</p>
-<div class="sourceCode" id="cb77"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb77-1"><a href="#cb77-1" aria-hidden="true"></a><span class="ot">parseColor ::</span> <span class="dt">Text</span> <span class="ot">-&gt;</span> <span class="dt">Maybe</span> <span class="dt">Color</span></span>
-<span id="cb77-2"><a href="#cb77-2" aria-hidden="true"></a>parseColor <span class="ot">=</span> inverseMap showColor</span></code></pre></div>
-<p>Even if you are not using the <code>showColor</code> function, this approach still can be the better solution, since you can handle cases exhaustively and get a parsing function for free.</p>
+<p>Using this function, you can rewrite <code>parseColour</code> in a simpler and more safe way:</p>
+<div class="sourceCode" id="cb77"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb77-1"><a href="#cb77-1" aria-hidden="true"></a><span class="ot">parseColour ::</span> <span class="dt">Text</span> <span class="ot">-&gt;</span> <span class="dt">Maybe</span> <span class="dt">Colour</span></span>
+<span id="cb77-2"><a href="#cb77-2" aria-hidden="true"></a>parseColour <span class="ot">=</span> inverseMap showColour</span></code></pre></div>
+<p>Even if you are not using the <code>showColour</code> function, this approach still can be a better solution, since you can handle cases exhaustively and get a parsing function for free.</p>
 <p>You can find <a href="http://hackage.haskell.org/package/relude-0.6.0.0/docs/Relude-Extra-Enum.html#v:inverseMap">more details about this approach in the Haddock documentation</a> for the <code>inverseMap</code> function.</p>
 <section id="bidirectional-parsing-task" class="exercise">
 <h3>Bidirectional parsing: Task<a href="#bidirectional-parsing-task" class="anchor">🔗</a></h3>
-<p>Implement a function that will take a string of two space-separate words — color and fruit name — and return them as data types.</p>
+<p>Implement a function that will take a string of two space-separate words — colour and fruit name — and return them as data types.</p>
 <p>Possible colours: red, green, yellow, blue. Possible fruits: apple, orange, lemon, blueberry.</p>
 <p>Example:</p>
 <div class="sourceCode" id="cb78"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true"></a>ghci<span class="op">&gt;</span> parseFruit <span class="st">&quot;red apple&quot;</span></span>
@@ -1444,7 +1450,7 @@ Costs
 </div>
 </div>
 <blockquote>
-<p>🙅 <strong>Disclaimer</strong> This pattern is not about recursive functions in Go.</p>
+<p>🙅 <strong>Disclaimer</strong> This pattern is not about recursive functions in the Go programming language.</p>
 </blockquote>
 <p>Quite often Haskell developers end-up writing functions that recursively do some actions on different data types: lists, trees, numeric accumulators, etc. A function that returns the element of the list at the given position (if found) can be considered as the example of such function. And it could be written using pattern matching.</p>
 <p>It is important that such a function has a stopping condition, and a step to recursively iterate through the list. In our case the stop signals are:</p>
@@ -1465,9 +1471,9 @@ Costs
 <span id="cb81-2"><a href="#cb81-2" aria-hidden="true"></a>l <span class="ot">`atGo`</span> n <span class="ot">=</span> go <span class="dv">0</span> l</span>
 <span id="cb81-3"><a href="#cb81-3" aria-hidden="true"></a>  <span class="kw">where</span></span>
 <span id="cb81-4"><a href="#cb81-4" aria-hidden="true"></a><span class="ot">    go ::</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> [a] <span class="ot">-&gt;</span> <span class="dt">Maybe</span> a</span>
-<span id="cb81-5"><a href="#cb81-5" aria-hidden="true"></a>    go i [] <span class="ot">=</span> <span class="dt">Nothing</span></span>
+<span id="cb81-5"><a href="#cb81-5" aria-hidden="true"></a>    go _ [] <span class="ot">=</span> <span class="dt">Nothing</span></span>
 <span id="cb81-6"><a href="#cb81-6" aria-hidden="true"></a>    go i (x<span class="op">:</span>xs) <span class="ot">=</span> <span class="kw">if</span> i <span class="op">==</span> n <span class="kw">then</span> <span class="dt">Just</span> x <span class="kw">else</span> go (i <span class="op">+</span> <span class="dv">1</span>) xs</span></code></pre></div>
-<p>The way the <code>go</code> pattern is implemented also is more flexible in the refactoring and “requirements”-change. If you, for example, need to check the <code>at</code> function position input on the negative number, it would be much easier and much more efficient to add this validation before the <code>go</code> function of <code>atGo</code>. You don’t need to check the number of negativity with each recursive call. You can do this only once, and the recursive <code>go</code> function will work only with valid data.</p>
+<p>The way the <code>go</code> pattern is implemented also is more flexible in the refactoring and “requirements”-change. If you, for example, need to check the <code>at</code> function index input on the negative number, it would be much easier and much more efficient to add this validation before the <code>go</code> function of <code>atGo</code>. You don’t need to check the number of negativity with each recursive call. You can do this only once, and the recursive <code>go</code> function will work only with valid data.</p>
 <div class="exercise">
 <p>📚 <strong>Exercise:</strong> Can you make these <code>at</code>/<code>atGo</code> functions more efficient on the corner cases?</p>
 </div>
@@ -1496,7 +1502,7 @@ Show solution
 </section>
 <section id="recursive-go-task-2" class="exercise">
 <h3>Recursive go: Task 2<a href="#recursive-go-task-2" class="anchor">🔗</a></h3>
-<p>Write the <code>ordNub</code> function with the <em>Recursive <code>go</code></em> pattern.</p>
+<p>Write the <code>ordNub</code> function with the <em>Recursive <code>go</code></em> pattern. The function should return all unique elements from a list in the order of their appearance.</p>
 <div class="sourceCode" id="cb84"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb84-1"><a href="#cb84-1" aria-hidden="true"></a><span class="ot">ordNub ::</span> <span class="dt">Ord</span> a <span class="ot">=&gt;</span> [a] <span class="ot">-&gt;</span> [a]</span></code></pre></div>
 <div class="sourceCode" id="cb85"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb85-1"><a href="#cb85-1" aria-hidden="true"></a><span class="op">&gt;&gt;&gt;</span> ordNub [<span class="dv">3</span>, <span class="dv">3</span>, <span class="dv">3</span>, <span class="dv">2</span>, <span class="dv">2</span>, <span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>]</span>
 <span id="cb85-2"><a href="#cb85-2" aria-hidden="true"></a>[<span class="dv">3</span>,<span class="dv">2</span>,<span class="op">-</span><span class="dv">1</span>,<span class="dv">1</span>]</span></code></pre></div>
@@ -1533,6 +1539,7 @@ Show solution
       <!-- Bootstrap core JavaScript -->
       <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"> </script>
       <script src="../js/post.js"> </script>
+      <script src="../js/hide.js"> </script>
       <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
       <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
