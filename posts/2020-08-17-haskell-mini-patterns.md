@@ -692,6 +692,261 @@ getNearestValues vals pos =
 ::::
 :::
 
+## Make illegal states unrepresentable
+
+:::: {.pattern .row}
+<div class="pattern-header bg-primary col-3"> Pattern </div>
+::: {.pattern-body .col-9}
+Make illegal states unrepresentable
+:::
+
+<div class="pattern-header bg-primary col-3"> Description </div>
+::: {.pattern-body .col-9}
+Data types precisely describe the domain allowing to create all valid
+values and making it impossible to construct invalid values.
+:::
+
+<div class="pattern-header bg-primary col-3"> When to use </div>
+::: {.pattern-body .col-9}
+  1. To restrict domain of possible values
+  2. When it is feasible to describe the domain precisely.
+:::
+
+<div class="pattern-header bg-primary col-3"> Benefits </div>
+::: {.pattern-body .col-9}
+  1. Correctness.
+  2. Need to write fewer tests.
+  3. Harder to introduce bugs for people not knowing the whole context
+     of a big picture.
+:::
+
+<div class="pattern-header bg-primary col-3"> Costs </div>
+::: {.pattern-body .col-9}
+  1. May require writing custom helper data types and functions.
+  2. Code can increase in size.
+  3. Harder to introduce logic changes.
+:::
+::::
+
+The _make illegal states unrepresentable_ motto is well-known in the
+FP community. Functional Programming features such as Algebraic Data
+Types (ADT), parametric polymorphism and others allow describing the
+shape of the valid data more precisely to the extent that it is
+impossible to construct any invalid values.
+
+To give a simple example of this idea, consider a function that takes
+two optional values and does something with those values, but only
+when both values are present. The function assumes that you won't pass
+only a single value without the second element, so it doesn't bother
+to handle such cases.
+
+```haskell
+handleTwoOptionals :: Maybe a -> Maybe b -> IO ()
+handleTwoOptionals (Just a) (Just b) = ... work with 'a' and 'b'
+handleTwoOptionals Nothing Nothing = ... ask to specify both values
+handleTwoOptionals _ _ = error "You must specify both values"
+```
+
+The type of `handleTwoOptionals` allows passing `Just a` and
+`Nothing :: Maybe b`, but in reality the function doesn't process such a
+combination. You can notice that it is straightforward to fix this
+particular problem by changing types barely: instead of passing two
+`Maybe`s separately, you need to pass `Maybe` of a pair.
+
+```haskell
+handleTwoOptionals :: Maybe (a, b) -> IO ()
+handleTwoOptionals (Just (a, b)) = ... work with 'a' and 'b'
+handleTwoOptionals Nothing = ... ask to specify both values
+```
+
+With this slight change we made it impossible to specify only a single
+value as `Nothing`. If you pass `Just` of something, you must always
+provide both values.
+
+Let's move on to another example. Now we want to write a function that
+takes two lists, but those lists must have the same length. Our
+function doesn't work when lists have different sizes. The type
+signature can look like this:
+
+```haskell
+processTwoLists :: [a] -> [b] -> Int
+```
+
+It is up to the caller to verify that both lists have the same
+size. But if you don't verify list lengths, the `processTwoLists`
+function fails. Moreover, even if a caller checked this property, the
+type signature still doesn't capture the verification result. Note,
+that it could benefit from the usage of the [evidence](#evidence)
+pattern to bear in mind this fact.
+
+Again, it is pretty easy to fix the problem by changing the type of
+`processTwoLists`:
+
+```haskell
+processTwoLists :: [(a, b)] -> Int
+```
+
+Instead of passing two lists and expecting them to have the same size,
+the function simply takes a list of pairs, so it has the same number
+of `a`s and `b`s.
+
+And one more example. Imagine, that you are writing a web application
+with the backend and frontend. And you have a function that deals with
+the settings for both backend and frontend to launch your app. Both
+setting configurations can be optional, but at least one of the
+settings parts should be specified.
+
+You can start approaching this problem by writing the following code:
+
+```haskell
+data Settings = Settings
+    { settingsBackend  :: Maybe BackendSettings
+    , settingsFrontend :: Maybe FrontendSettings
+    }
+
+runApp :: Settings -> IO ()
+runApp Settings{..} = case (settingsBackend, settingsFrontend) of
+    (Just back, Just front) -> configureBack back >> configureFront front >> run
+    (Just back, Nothing)    -> configureBack back >> run
+    (Nothing, Just front)   -> configureFront front >> run
+    (Nothing, Nothing)      -> throw "You must specify at least one settings"
+```
+
+But the above function has the same problem: the data type makes it
+possible to specify values that shouldn't happen in real life. To fix
+this problem, we need to change the shape our `Settings` data type in
+the following way by using sum types:
+
+```haskell
+data Settings
+    = OnlyBackend BackendSettings
+    | OnlyFrontend FrontendSettings
+    | BothSettings BackendSettings FrontendSettings
+
+runApp :: Settings -> IO ()
+runApp = \case
+    OnlyBackend back        -> configureBack back >> run
+    OnlyFrontend front      -> configureFront front >> run
+    BothSettings back front -> configureBack back >> configureFront front >> run
+```
+
+Now, even developers unfamiliar with the codebase won't be able to
+create invalid settings. The shape of our data precisely describes all
+valid states in our program.
+
+Generally, by pushing requirements for our data types upstream, we can
+implement more correct code and make the life of our API users easier,
+because they can't shoot themselves in the foot by providing illegal
+values.
+
+However, it is not always possible to easily make all invalid states
+unrepresentable. Consider the following example. You have an
+enumeration type representing answers to some questions in a form. And
+users of this form must enter up to 3 different values in that
+form. Even if requirements explicitly tell that we must have one, two
+or three distinct answers, you might go with the a simple data type
+like this:
+
+```haskell
+data Answers = Answers
+    { answers1 :: Answer
+    , answers2 :: Maybe Answer
+    , answers3 :: Maybe Answer
+    }
+```
+
+Sure, this data type allows many illegal states, and there is a room
+for improvement. But to be exactly precise in our data description, we
+probably need to create another enumeration type specifying only valid
+combinations of `Answer`s. However, such enumeration will be huge and
+unmaintainable. Even if your original `Answer` type has 8 values, the
+resulting combinations type will have approximately one hundred
+constructions that you will need to tackle all everytime the original
+data type changes. In this case, it is not feasible to describe only
+valid states with a data type, so we don't bother doing this.
+
+
+
+::: {.exercise}
+
+### Make illegal states unrepresentable: Task 1
+
+Improve the following code by applying the _make illegal states unrepresentable_ pattern.
+
+```haskell
+-- group sublists of equal elements
+>>> group "Mississippi"
+["M","i","ss","i","ss","i","pp","i"]
+group :: Eq a => [a] -> [[a]]
+```
+
+> **Hint:** Use the `NonEmpty` list.
+
+<button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#solutionIllegal1" aria-expanded="false" aria-controls="solutionIllegal1">
+    Show solution
+</button>
+:::: {#solutionIllegal1 .solution .collapse}
+
+#### Make illegal states unrepresentable: Solution 1
+
+```haskell
+{-# LANGUAGE ScopedTypeVariables #-}
+
+import Data.List.NonEmpty (NonEmpty (..))
+
+group :: forall a . Eq a => [a] -> [NonEmpty a]
+group = go
+  where
+    go :: [a] -> [NonEmpty a]
+    go [] = []
+    go (x : xs) =
+        let (ys, zs) = span (== x) xs
+        in (x :| ys) : go zs
+```
+::::
+:::
+
+::: {.exercise}
+
+### Make illegal states unrepresentable: Task 2
+
+Improve the following code by applying the _make illegal states unrepresentable_ pattern.
+
+
+```haskell
+-- Find sum of up to the first 3 elements
+sumUpToThree :: Num a => [a] -> a
+sumUpToThree []        = error "Empty list"
+sumUpToThree [x]       = x
+sumUpToThree [x, y]    = x + y
+sumUpToThree [x, y, z] = x + y + z
+sumUpToThree _         = error "More than three values"
+```
+
+<button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#solutionIllegal2" aria-expanded="false" aria-controls="solutionIllegal2">
+    Show solution
+</button>
+:::: {#solutionIllegal2 .solution .collapse}
+
+#### Make illegal states unrepresentable: Solution 2
+
+```haskell
+{-# LANGUAGE LambdaCase #-}
+
+data UpToThree a
+    = One a
+    | Two a a
+    | Three a a a
+
+sumUpToThree :: Num a => UpToThree a -> a
+sumUpToThree = \case
+    One   a     -> a
+    Two   a b   -> a + b
+    Three a b c -> a + b + c
+```
+::::
+:::
+
 ## Phantom type parameters
 
 :::: {.pattern .row}
@@ -1187,6 +1442,7 @@ incorrect implementation or providing incorrect inputs.
 ::: {.pattern-body .col-9}
   1. To reduce risks of using function incorrectly.
   2. To use the same function on values of different types.
+  3. To ake illegal states unrepresentable.
 :::
 
 <div class="pattern-header bg-primary col-3"> Benefits </div>
