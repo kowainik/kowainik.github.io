@@ -8,8 +8,16 @@
         <name>Kowainik</name>
         <email>xrom.xkov@gmail.com</email>
     </author>
-    <updated>2020-05-10T00:00:00Z</updated>
+    <updated>2020-08-17T00:00:00Z</updated>
     <entry>
+    <title>Haskell mini-patterns handbook</title>
+    <link href="https://kowainik.github.io/posts/haskell-mini-patterns.html" />
+    <id>https://kowainik.github.io/posts/haskell-mini-patterns.html</id>
+    <published>2020-08-17T00:00:00Z</published>
+    <updated>2020-08-17T00:00:00Z</updated>
+    <summary type="html"><![CDATA[Collection of small Haskell patterns with detailed description, examples and exercises]]></summary>
+</entry>
+<entry>
     <title>Extensions</title>
     <link href="https://kowainik.github.io/posts/extensions.html" />
     <id>https://kowainik.github.io/posts/extensions.html</id>
@@ -80,14 +88,6 @@
     <published>2018-10-01T00:00:00Z</published>
     <updated>2018-10-01T00:00:00Z</updated>
     <summary type="html"><![CDATA[Join us in the Hacktoberfest 2018!]]></summary>
-</entry>
-<entry>
-    <title>co-log: Composable Contravariant Combinatorial Comonadic Configurable Convenient Logging</title>
-    <link href="https://kowainik.github.io/posts/2018-09-25-co-log.html" />
-    <id>https://kowainik.github.io/posts/2018-09-25-co-log.html</id>
-    <published>2018-09-25T00:00:00Z</published>
-    <updated>2018-09-25T00:00:00Z</updated>
-    <summary type="html"><![CDATA[Architecture of the modern logging library in Haskell]]></summary>
 </entry>
 
 </feed>

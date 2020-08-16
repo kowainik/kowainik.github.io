@@ -7,8 +7,16 @@
         <description><![CDATA[We are writing about what we find fascinating or exciting. Our blog's aim is to share our knowledge about functional programming, distribute best-practices based on our extensive experience and tell about various topics from beginner-friendly introductions to advanced type-level tricks.]]></description>
         <atom:link href="https://kowainik.github.io/rss.xml" rel="self"
                    type="application/rss+xml" />
-        <lastBuildDate>Sun, 10 May 2020 00:00:00 UT</lastBuildDate>
+        <lastBuildDate>Mon, 17 Aug 2020 00:00:00 UT</lastBuildDate>
         <item>
+    <title>Haskell mini-patterns handbook</title>
+    <link>https://kowainik.github.io/posts/haskell-mini-patterns.html</link>
+    <description><![CDATA[Collection of small Haskell patterns with detailed description, examples and exercises]]></description>
+    <pubDate>Mon, 17 Aug 2020 00:00:00 UT</pubDate>
+    <guid>https://kowainik.github.io/posts/haskell-mini-patterns.html</guid>
+    <dc:creator>Kowainik</dc:creator>
+</item>
+<item>
     <title>Extensions</title>
     <link>https://kowainik.github.io/posts/extensions.html</link>
     <description><![CDATA[Non-boring Extensions in Haskell]]></description>
@@ -78,14 +86,6 @@
     <description><![CDATA[Join us in the Hacktoberfest 2018!]]></description>
     <pubDate>Mon, 01 Oct 2018 00:00:00 UT</pubDate>
     <guid>https://kowainik.github.io/posts/2018-10-01-hacktoberfest.html</guid>
-    <dc:creator>Kowainik</dc:creator>
-</item>
-<item>
-    <title>co-log: Composable Contravariant Combinatorial Comonadic Configurable Convenient Logging</title>
-    <link>https://kowainik.github.io/posts/2018-09-25-co-log.html</link>
-    <description><![CDATA[Architecture of the modern logging library in Haskell]]></description>
-    <pubDate>Tue, 25 Sep 2018 00:00:00 UT</pubDate>
-    <guid>https://kowainik.github.io/posts/2018-09-25-co-log.html</guid>
     <dc:creator>Kowainik</dc:creator>
 </item>
 

@@ -14,9 +14,9 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="Kowainik page">
-    <meta name="keywords" content="Haskell, Functional progarmming, FP">
-    <meta name="author" content="Kowainik" />
+    <meta name="description" content="Kowainik — 🕵️ Haskell STatic ANalyser">
+    <meta name="keywords" content="Haskell, Functional progarmming, FP ">
+    <meta name="author" content="Kowainik " />
 
     <!-- Twitter cards -->
     <meta name="twitter:card" content="summary" />
@@ -58,7 +58,7 @@
                 <a class="btn btn-outline-dark btn-tag" href="https://github.com/kowainik/stan" data-icon="octicon-star" data-size="large" aria-label="Star Kowainik/stan on GitHub">Star Project</a>
                 <a class="fa-stack fa-2x" href="https://github.com/kowainik/stan/stargazers">
                     <i class="fa fa-star fa-stack-2x"></i>
-                    <i id="stars" class="fa fa-stack-1x fa-inverse main-font">34</i>
+                    <i id="stars" class="fa fa-stack-1x fa-inverse main-font">279</i>
                 </a>
                 <div class="author">Language: Haskell</div>
 
@@ -91,6 +91,10 @@
 <ul>
 <li><a href="#using-cabal">Using Cabal</a></li>
 <li><a href="#using-stack">Using Stack</a></li>
+<li><a href="#hackage">Hackage</a></li>
+<li><a href="#homebrew">Homebrew</a></li>
+<li><a href="#ubuntu-ppa">Ubuntu PPA</a></li>
+<li><a href="#download-binary">Download binary</a></li>
 </ul></li>
 <li><a href="#usage-instructions">Usage instructions</a>
 <ul>
@@ -103,6 +107,7 @@
 <li><a href="#converting-between-toml-and-cli-configurations">Converting between TOML and CLI configurations</a></li>
 </ul></li>
 </ul></li>
+<li><a href="#other-tools">Other tools</a></li>
 <li><a href="#roadmap">Roadmap</a></li>
 <li><a href="#links-to-wiki">Links to Wiki</a></li>
 </ul>
@@ -142,7 +147,7 @@
 <h2 id="how-it-works">How it works<a href="#how-it-works" class="anchor">🔗</a></h2>
 <p><a href="#table-of-contents">[Back to the Table of Contents] ↑</a></p>
 <p>Stan analysis is based on the <a href="https://gitlab.haskell.org/ghc/ghc/-/wikis/hie-files">HIE files</a> — compile-time information about Haskell source code gathered and recorded by GHC. The HIE files contain the Haskell AST, detailed information about each identifier and types of all expressions and sub-expressions. GHC does a huge amount of work when compiling the Haskell projects, and Stan takes advantage of this feature to avoid duplicating the work and focus more on the unique features.</p>
-<p>To analyse HIE files easily, we developed an eDSL for defining AST and Type patterns based on the <a href="http://okmij.org/ftp/tagless-final/course/lecture.pdf"><em>final taggless</em></a> approach. Stan algorithm traverses HIE AST for each HIE file in the project, and matches every AST node with the given pattern to find potential vulnerabilities in the code.</p>
+<p>To analyse HIE files easily, we developed an eDSL for defining AST and Type patterns based on the <a href="http://okmij.org/ftp/tagless-final/course/lecture.pdf"><em>final tagless</em></a> approach. Stan algorithm traverses HIE AST for each HIE file in the project, and matches every AST node with the given pattern to find potential vulnerabilities in the code.</p>
 <p>Each Stan analysis check is represented by the <strong>inspection</strong> with the unique ID. Each inspection has a name, description, <strong>severity</strong>, list of <strong>categories</strong>, pattern for matching relevant parts of source code and possible solutions to the problem.</p>
 <p>When an inspection is casted on the project, it produces zero or more <strong>observations</strong> — vulnerabilities in the specific parts of the code. You can think of an <em>observation</em> as a pair of an inspection and a piece of source code where this inspection was triggered. Each observation is assigned an unique stable ID depending on the source location, so you can refer to them later or ignore.</p>
 <p>You can disable inspections or enable them only in particular modules using <strong>check</strong> — rules for controlling which inspections to run and where. Each check has a <strong>type</strong> (<code>include</code> or <code>exclude</code>), <strong>filter</strong> (by inspection id, category, severity, etc.) and <strong>scope</strong> (file, directory, everything). Checks can be specified using either TOML of CLI interfaces. By default, Stan analyses all source files using all implemented inspections.</p>
@@ -185,11 +190,48 @@ $ cd stan</code></pre>
 <pre class="shell"><code>$ stack build</code></pre>
 <p>Finally, you can copy the resulting executable under the desired location (that should be under the PATH environment variable), like so:</p>
 <pre class="shell"><code>$ cp &quot;$(stack path --local-install-root)/bin/stan&quot; ~/.local/bin/stan</code></pre>
+<h3 id="hackage">Hackage<a href="#hackage" class="anchor">🔗</a></h3>
+<p><a href="#table-of-contents">[Back to the Table of Contents] ↑</a></p>
+<p>Stan is available on Hackage. You can install the tool from there as well:</p>
+<pre class="shell"><code>$ cabal v2-install stan --install-method=copy --overwrite-policy=always</code></pre>
+<p>You can also choose with which GHC version you want to have Stan installed, and optionally add some suffix to the executable name:</p>
+<pre class="shell"><code>$ cabal v2-install stan \
+    -w ghc-8.10.1 \
+    --install-method=copy \
+    --overwrite-policy=always \
+    --program-suffix=-8.10.1</code></pre>
+<h3 id="homebrew">Homebrew<a href="#homebrew" class="anchor">🔗</a></h3>
+<p><a href="#table-of-contents">[Back to the Table of Contents] ↑</a></p>
+<p>If you are on MacOS, you can get Stan using Homebrew Kowainik’s Tap.</p>
+<p>You need to run the following command for that:</p>
+<pre class="shell"><code>$ brew install kowainik/tap/stan</code></pre>
+<blockquote>
+<p>NOTE: Homebrew installs the Stan version build with the latest supported GHC version. This means that this version of Stan is working with the project with the same GHC version due to the GHC issues described above.</p>
+</blockquote>
+<h3 id="ubuntu-ppa">Ubuntu PPA<a href="#ubuntu-ppa" class="anchor">🔗</a></h3>
+<p><a href="#table-of-contents">[Back to the Table of Contents] ↑</a></p>
+<p>If you are on Ubuntu, you can get Stan using <a href="https://launchpad.net/~kowainik/+archive/ubuntu/stan">Kowainik’s PPA</a>.</p>
+<p>You need to run the following commands for that:</p>
+<pre class="shell"><code>$ sudo add-apt-repository ppa:kowainik/stan
+$ sudo apt update
+$ sudo apt install stan</code></pre>
+<blockquote>
+<p>NOTE: <code>apt-get</code> installs the Stan version build with the latest supported GHC version. This means that this version of Stan is working with the project with the same GHC version due to the GHC issues described above.</p>
+</blockquote>
+<h3 id="download-binary">Download binary<a href="#download-binary" class="anchor">🔗</a></h3>
+<p><a href="#table-of-contents">[Back to the Table of Contents] ↑</a></p>
+<p>You can download binary directly <a href="https://github.com/kowainik/stan/releases/latest">from GitHub releases</a>.</p>
+<p>After downloading binary, make it executable and copy it under convenient location, e.g.:</p>
+<pre class="shell"><code>$ chmod +x stan-0.0.1.0-Linux-ghc-8.10.1
+$ mv stan-0.0.1.0-Linux-ghc-8.10.1 ~/.local/bin/stan</code></pre>
+<blockquote>
+<p>NOTE: you need to download binary for your specific OS and specicific GHC version you use due to the GHC issues described above.</p>
+</blockquote>
 <h2 id="usage-instructions">Usage instructions<a href="#usage-instructions" class="anchor">🔗</a></h2>
 <p><a href="#table-of-contents">[Back to the Table of Contents] ↑</a></p>
 <p>Stan works with the <a href="https://gitlab.haskell.org/ghc/ghc/-/wikis/hie-files">HIE files</a> to analyse Haskell projects. Therefore, Stan requires users to generate HIE files in advance. Fortunately, it is straightforward to satisfy this necessity. To produce HIE files, add the following GHC options in your project’s <code>.cabal</code> file to each stanza you want to analyse:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true"></a>    ghc<span class="op">-</span>options<span class="op">:</span>       <span class="op">-</span>fwrite<span class="op">-</span>ide<span class="op">-</span>info</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true"></a>                       <span class="op">-</span>hiedir<span class="op">=.</span>hie</span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true"></a>    ghc<span class="op">-</span>options<span class="op">:</span>       <span class="op">-</span>fwrite<span class="op">-</span>ide<span class="op">-</span>info</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true"></a>                       <span class="op">-</span>hiedir<span class="op">=.</span>hie</span></code></pre></div>
 <blockquote>
 <p><em>Recommendation</em>: you can use the <a href="https://vrom911.github.io/blog/common-stanzas">common stanzas</a> feature to write the above options only once and enable them in each stanza easily.</p>
 </blockquote>
@@ -218,6 +260,38 @@ $ cd stan</code></pre>
 <h3 id="toml-configurations">TOML configurations<a href="#toml-configurations" class="anchor">🔗</a></h3>
 <p><a href="#table-of-contents">[Back to the Table of Contents] ↑</a></p>
 <p>Stan supports <a href="https://github.com/toml-lang/toml">TOML</a> runtime configuration in order to customize the work of the tool based on the user’s individual requirements. You can use the TOML configuration to disable some inspections, enable them only in particular Haskell modules, ignore some observations or completely remove some files from the analysis.</p>
+<p>Specifically, you can use the following variables to set up custom configurations with TOML:</p>
+<table>
+<colgroup>
+<col style="width: 30%" />
+<col style="width: 39%" />
+<col style="width: 30%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Variable</th>
+<th>Description</th>
+<th>Examples</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>check</code></td>
+<td>Set up rules to control the set of inspections per scope.</td>
+<td><code>check = [{type = "Exclude", id = "STAN-0101", scope = "all"}]</code></td>
+</tr>
+<tr class="even">
+<td><code>remove</code></td>
+<td>Remove some files from the analysis completely. Stan won’t be run in the specified scope at all.</td>
+<td><code>remove = [ {file = "src/File.hs"}, {directory = "folder/"} ]</code></td>
+</tr>
+<tr class="odd">
+<td><code>ignore</code></td>
+<td>Ignore specific observation that was found in your project</td>
+<td><code>ignore = [{ id = "OBS-STAN-0001-YrzpQi-11:42" }]</code></td>
+</tr>
+</tbody>
+</table>
 <p>See <a href="http://hackage.haskell.org/package/stan-0.0.0.0/docs/Stan-Config.html#g:5">Haddock documentation</a> for explanation of how the TOML configuration works and examples of the different use cases.</p>
 <p>In case you have a number of TOML files locally, the following rules describe how Stan decides which TOML configuration file to use:</p>
 <ul>
@@ -243,7 +317,40 @@ $ cd stan</code></pre>
 <li>Filter in or out specific files, directories, inspections, categories or severities</li>
 <li>Generate the HTML report file</li>
 <li>Set up the output verbosity</li>
+<li>Choose to have machine readable JSON output instead</li>
 </ul>
+<p>Here is the high-level explanation of the available sub-commands:</p>
+<table>
+<colgroup>
+<col style="width: 36%" />
+<col style="width: 36%" />
+<col style="width: 27%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Sub-command</th>
+<th>Description</th>
+<th>Examples</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>check</code></td>
+<td>Set up rules to control the set of inspections per scope.</td>
+<td><code>stan check --exclude --category=Infinity --scope-all check --include --id "STAN-0101" --file=src/File.hs</code></td>
+</tr>
+<tr class="even">
+<td><code>remove</code></td>
+<td>Remove some files from the analysis completely. Stan won’t be run in the specified scope at all.</td>
+<td><code>stan remove --file=src/File.hs remove --directory=folder/</code></td>
+</tr>
+<tr class="odd">
+<td><code>ignore</code></td>
+<td>Ignore specific observation that was found in your project</td>
+<td><code>stan ignore --id "OBS-STAN-0001-YrzpQi-11:42"</code></td>
+</tr>
+</tbody>
+</table>
 <p>More precisely the commands and options are described in here:</p>
 <pre><code>stan
     [REPORT]
@@ -257,6 +364,7 @@ $ cd stan</code></pre>
     [--no-default]
     [-s|--short]
     [--hide-solution]
+    [--json-output]
     [-h|--help]
     [-v|--version]
 
@@ -273,6 +381,7 @@ Description:
   --no-default             Ignore local .stan.toml configuration file
   -s,--short               Hide verbose output information for observations
   --hide-solution          Hide verbose solution information for observations
+  --json-output            Output the machine-readable output in JSON format instead
   -h,--help                Show this help text
   -v,--version             Show Stan's version
 
@@ -291,10 +400,15 @@ Sub-commands options:
     --file=FILE_PATH         File to exclude or include
     --directory=DIRECTORY_PATH
                            Directory to exclude or include
-    --scope-all              Apply check to all files</code></pre>
-<p>For example, if you want to run Stan analysis only on a single file, you can use the following command:</p>
+    --scope-all              Apply check to all files
+
+Report options:
+
+  -b,--browse              Open report in a browser</code></pre>
+<p>For example, if you want to run Stan analysis only on a single file, generate the HTML report and immediately open report in a browser, you can use the following command:</p>
 <pre class="shell"><code>$ stan check --exclude --filter-all --scope-all \
-       check --include --filter-all --file=src/Stan/Example.hs</code></pre>
+       check --include --filter-all --file=src/Stan/Example.hs \
+       report --browse</code></pre>
 <h4 id="inspections">Inspections<a href="#inspections" class="anchor">🔗</a></h4>
 <p><a href="#table-of-contents">[Back to the Table of Contents] ↑</a></p>
 <p>You can find the list of all available inspections with description and additional information on our <a href="https://github.com/kowainik/stan/wiki/All-Inspections">dedicated wiki page</a>. However, with the tool you can get this information easily by using the <code>inspection</code> command. Optionally, you can see details of a particular inspection by typing the corresponding inspection ID alongside. You can see more robust description of the command here:</p>
@@ -328,6 +442,20 @@ Usage:
         | REMOVEs {SCOPE option}
         | IGNOREs {ID option}
       ]</code></pre>
+<h2 id="other-tools">Other tools<a href="#other-tools" class="anchor">🔗</a></h2>
+<p><a href="#table-of-contents">[Back to the Table of Contents] ↑</a></p>
+<ul>
+<li><p><a href="https://www.haskell.org/ghc/">GHC</a> — <strong>Glasgow Haskell Compiler</strong></p>
+<p>GHC is the most popular Haskell compiler. As it has access to all steps of the code compilation, GHC can warn about different aspects of your code: non-exhaustive pattern matching, unused variables, etc.</p>
+<p>However, it is not supposed to be used as a static analysis tool. It provides errors and warnings as a part of the whole compilation pipeline.</p></li>
+<li><p><a href="https://github.com/ocharles/weeder">Weeder</a> — <strong>Haskell dead-code analysis tool</strong></p>
+<p>Weeder is a tool that analyses the code but in a very specific and limited case. It helps to eliminate unreachable code in your project. Similarly to Stan, the Weeder tool is also working with the HIE files to get this information.</p></li>
+<li><p><a href="https://github.com/ndmitchell/hlint">HLint</a> — <strong>Haskell Linter Tool</strong></p>
+<p>HLint is a linter tool that suggests code improvements to make code simpler.</p>
+<p>Unlike Stan, that uses the HIE files for analysis and accesses the complete compile-time info produced by GHC, HLint relies only on parsing, which has its own benefits but also limits its capabilities.</p>
+<p>Stan and HLint are complementary tools that have different scopes and goals. There is no intention to duplicate HLint in Stan.</p></li>
+</ul>
+<p>To learn more about the implementation and goals of our project, please read the sections above that describe the Stan project in detail.</p>
 <h2 id="roadmap">Roadmap<a href="#roadmap" class="anchor">🔗</a></h2>
 <p><a href="#table-of-contents">[Back to the Table of Contents] ↑</a></p>
 <p>Our plan for the nearest future:</p>

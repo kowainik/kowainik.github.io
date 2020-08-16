@@ -14,9 +14,9 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="Kowainik page">
-    <meta name="keywords" content="Haskell, Functional progarmming, FP">
-    <meta name="author" content="Kowainik" />
+    <meta name="description" content="Kowainik — Combining Monad transformers and applicative functors for better error messages report">
+    <meta name="keywords" content="Haskell, Functional progarmming, FP , haskell, state, transformers ">
+    <meta name="author" content="Kowainik  — Dmitrii Kovanikov " />
 
     <!-- Twitter cards -->
     <meta name="twitter:card" content="summary" />
@@ -58,15 +58,22 @@
                 <div class="toc" id="main">
                     <ul>
 <li><a href="#problem">Problem</a></li>
-<li><a href="#naive-solution">Naive solution</a></li>
+<li><a href="#naive-solution">Naive solution</a>
+<ul>
+<li><a href="#exercise-1">Exercise #1</a></li>
+</ul></li>
 <li><a href="#parsing-a-single-value">Parsing a single value</a></li>
-<li><a href="#parsing-a-list-of-values-state">Parsing a list of values: State</a></li>
+<li><a href="#parsing-a-list-of-values-state">Parsing a list of values: State</a>
+<ul>
+<li><a href="#exercise-2">Exercise #2</a></li>
+</ul></li>
 <li><a href="#parsing-a-list-of-values-statet-either">Parsing a list of values: StateT + Either</a></li>
 </ul>
                 </div>
             </div>
             <div class="coolFont">
                 <div>Date: November 18, 2018</div>
+                
 
                 <div class="author">Author: Dmitrii Kovanikov</div>
                 <div class="row tag-block">
@@ -128,9 +135,10 @@
 <li><code>Value</code> at any index is different from what we expect.</li>
 </ol>
 <p>It would be tedious to implement good error reporting using only basic pattern matching. Moreover, the size of the function wouldn’t be small, which would and up being a problem when you need to write variations of your function for different types.</p>
-<blockquote>
-<p><strong>Exercise:</strong> try to implement the <code>decodeValues</code> function for <code>User</code> that reports good error messages and uses only pattern matching.</p>
-</blockquote>
+<section id="exercise-1" class="exercise">
+<h3>Exercise #1<a href="#exercise-1" class="anchor">🔗</a></h3>
+<p>Try to implement the <code>decodeValues</code> function for <code>User</code> that reports good error messages and uses only pattern matching.</p>
+</section>
 <p>The following sections of the blog post show a general solution to this problem with fine-grained error messages.</p>
 <h2 id="parsing-a-single-value">Parsing a single value<a href="#parsing-a-single-value" class="anchor">🔗</a></h2>
 <p>First of all, like any other good Haskeller, I am going to decompose this huge problem into a few smaller ones. In the previous section, we started from decoding whole list of values, but let’s now learn how to decode a single value. Before that, however, we need to think about the data type of the error message. To have a clear understanding of what’s wrong with a single value, we need to know what the received value was and what we expected it to be:</p>
@@ -187,9 +195,10 @@
 <span id="cb10-6"><a href="#cb10-6" aria-hidden="true"></a>    val<span class="op">:</span>vals <span class="ot">-&gt;</span> <span class="kw">case</span> valDecoder val <span class="kw">of</span></span>
 <span id="cb10-7"><a href="#cb10-7" aria-hidden="true"></a>        <span class="dt">Left</span> err <span class="ot">-&gt;</span> <span class="fu">pure</span> <span class="op">$</span> <span class="dt">Left</span> <span class="dt">WrongValue</span> err</span>
 <span id="cb10-8"><a href="#cb10-8" aria-hidden="true"></a>        <span class="dt">Right</span> a  <span class="ot">-&gt;</span> <span class="dt">Right</span> a <span class="op">&lt;$</span> put (<span class="dt">Values</span> vals)</span></code></pre></div>
-<blockquote>
-<p><strong>Exercise:</strong> in our decoder for the field we don’t report the position of the <code>WrongField</code> error. However, it’s quite easy to patch the decoder to take this into consideration.</p>
-</blockquote>
+<section id="exercise-2" class="exercise">
+<h3>Exercise #2<a href="#exercise-2" class="anchor">🔗</a></h3>
+<p>In our decoder for the field we don’t report the position of the <code>WrongField</code> error. However, it’s quite easy to patch the decoder to take this into consideration.</p>
+</section>
 <p>We’re using <code>Either ListValueError</code> as the return type of our <code>value</code> decoder to report errors. But because of that, it’s not easy to compose different <code>value</code> decoders. This is how <code>Decoder</code> for <code>User</code> might look like:</p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true"></a><span class="ot">user ::</span> <span class="dt">Decoder</span> (<span class="dt">Either</span> <span class="dt">ListValueError</span> <span class="dt">User</span>)</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true"></a>user <span class="ot">=</span> value valToInt <span class="op">&gt;&gt;=</span> \<span class="kw">case</span></span>

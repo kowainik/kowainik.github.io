@@ -14,9 +14,9 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="Kowainik page">
-    <meta name="keywords" content="Haskell, Functional progarmming, FP">
-    <meta name="author" content="Kowainik" />
+    <meta name="description" content="Kowainik — 🔮 🔧 Tool for scaffolding batteries-included production-level Haskell projects">
+    <meta name="keywords" content="Haskell, Functional progarmming, FP ">
+    <meta name="author" content="Kowainik " />
 
     <!-- Twitter cards -->
     <meta name="twitter:card" content="summary" />
@@ -58,7 +58,7 @@
                 <a class="btn btn-outline-dark btn-tag" href="https://github.com/kowainik/summoner" data-icon="octicon-star" data-size="large" aria-label="Star Kowainik/summoner on GitHub">Star Project</a>
                 <a class="fa-stack fa-2x" href="https://github.com/kowainik/summoner/stargazers">
                     <i class="fa fa-star fa-stack-2x"></i>
-                    <i id="stars" class="fa fa-stack-1x fa-inverse main-font">479</i>
+                    <i id="stars" class="fa fa-stack-1x fa-inverse main-font">497</i>
                 </a>
                 <div class="author">Language: Haskell</div>
 
@@ -73,7 +73,11 @@
           <div class="row post">
               <div class="col-12 post-body">
               <p class="lead">
-                  <p><img src="https://user-images.githubusercontent.com/8126674/44388234-320aac00-a55a-11e8-879d-5dca68512031.png" alt="wizard" /> <a href="https://github.com/kowainik/summoner/actions"><img src="https://github.com/kowainik/summoner/workflows/CI/badge.svg" alt="GitHub CI" /></a> <a href="http://travis-ci.org/kowainik/summoner"><img src="https://img.shields.io/travis/kowainik/summoner.svg?logo=travis" alt="Build" /></a> <a href="https://ci.appveyor.com/project/kowainik/summoner"><img src="https://ci.appveyor.com/api/projects/status/github/kowainik/summoner?branch=master&amp;svg=true" alt="Windows build" /></a> <a href="https://hackage.haskell.org/package/summoner"><img src="https://img.shields.io/hackage/v/summoner.svg?logo=haskell" alt="Hackage" /></a> <a href="https://github.com/kowainik/summoner/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-MPL--2.0-blue.svg" alt="MPL-2.0 license" /></a></p>
+                  <figure>
+<img src="https://user-images.githubusercontent.com/8126674/44388234-320aac00-a55a-11e8-879d-5dca68512031.png" alt /><figcaption>wizard</figcaption>
+</figure>
+<p><a href="https://github.com/kowainik/summoner/actions"><img src="https://github.com/kowainik/summoner/workflows/CI/badge.svg" alt="GitHub CI" /></a> <a href="http://travis-ci.org/kowainik/summoner"><img src="https://img.shields.io/travis/kowainik/summoner.svg?logo=travis" alt="Build" /></a> <a href="https://ci.appveyor.com/project/kowainik/summoner"><img src="https://ci.appveyor.com/api/projects/status/github/kowainik/summoner?branch=master&amp;svg=true" alt="Windows build" /></a></p>
+<p><a href="https://hackage.haskell.org/package/summoner"><img src="https://img.shields.io/hackage/v/summoner.svg?logo=haskell" alt="Hackage" /></a> <a href="http://stackage.org/lts/package/summoner"><img src="http://stackage.org/package/summoner/badge/lts" alt="Stackage Lts" /></a> <a href="http://stackage.org/nightly/package/summoner"><img src="http://stackage.org/package/summoner/badge/nightly" alt="Stackage Nightly" /></a> <a href="https://github.com/kowainik/summoner/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-MPL--2.0-blue.svg" alt="MPL-2.0 license" /></a></p>
 <blockquote>
 <p><em>So many of our dreams at first seem impossible, then they seem improbable, and then, when we summon the will, they soon become inevitable.</em></p>
 <p>Christopher Reeve</p>
@@ -100,7 +104,7 @@
 <li><a href="#tui-download-binary">TUI: download binary</a></li>
 <li><a href="#tui-homebrew">TUI: Homebrew</a></li>
 <li><a href="#tui-ubuntu">TUI: Ubuntu</a></li>
-<li><a href="#tui-from-hackagestackage">TUI: from Hackage/Stackage</a></li>
+<li><a href="#tui-from-hackage">TUI: from Hackage</a></li>
 <li><a href="#tui-from-source">TUI: from source</a></li>
 </ul></li>
 <li><a href="#summon-cli">Summon-CLI</a>
@@ -108,7 +112,7 @@
 <li><a href="#cli-download-binary">CLI: download binary</a></li>
 <li><a href="#cli-homebrew">CLI: Homebrew</a></li>
 <li><a href="#cli-ubuntu">CLI: Ubuntu</a></li>
-<li><a href="#cli-from-hackagestackage">CLI: from Hackage/Stackage</a></li>
+<li><a href="#cli-from-hackage">CLI: from Hackage</a></li>
 <li><a href="#cli-from-source">CLI: from source</a></li>
 </ul></li>
 </ul></li>
@@ -177,11 +181,14 @@
 -Widentities
 -Wincomplete-uni-patterns
 -Wincomplete-record-updates
--Wredundant-constraints       (GHC ⩾ 8.0)
+-Wredundant-constraints
 -fhide-source-paths           (GHC ⩾ 8.2)
 -Wmissing-export-lists        (GHC ⩾ 8.4)
 -Wpartial-fields              (GHC ⩾ 8.4)
--Wmissing-deriving-strategies (GHC ⩾ 8.8)</code></pre>
+-Wmissing-deriving-strategies (GHC ⩾ 8.8)
+-fwrite-ide-info              (GHC ⩾ 8.8)
+-hiedir=.hie                  (GHC ⩾ 8.8)
+-Wunused-packages             (GHC ⩾ 8.10)</code></pre>
 <p>Besides, the following GHC options are added to the executable, tests and benchmark stanzas:</p>
 <pre><code>-threaded
 -rtsopts
@@ -290,13 +297,11 @@ mv summon-cli-linux ~/.local/bin/summon</code></pre>
 <pre class="shell"><code>$ sudo add-apt-repository ppa:kowainik/summoner-tui
 $ sudo apt update
 $ sudo apt install summoner-tui</code></pre>
-<h5 id="tui-from-hackagestackage">TUI: from Hackage/Stackage<a href="#tui-from-hackagestackage" class="anchor">🔗</a></h5>
+<h5 id="tui-from-hackage">TUI: from Hackage<a href="#tui-from-hackage" class="anchor">🔗</a></h5>
 <p><a href="#structure">[Back to the Table of Contents] ↑</a></p>
 <p>Using <code>cabal</code>:</p>
 <pre class="shell"><code>cabal v2-update
 cabal v2-install summoner-tui</code></pre>
-<p>Using <code>stack</code>:</p>
-<pre class="shell"><code>stack install summoner-tui</code></pre>
 <h5 id="tui-from-source">TUI: from source<a href="#tui-from-source" class="anchor">🔗</a></h5>
 <p><a href="#structure">[Back to the Table of Contents] ↑</a></p>
 <p>Fetch the repo using <code>cabal</code>:</p>
@@ -304,7 +309,7 @@ cabal v2-install summoner-tui</code></pre>
 <p>or clone the directory from GitHub:</p>
 <pre class="shell"><code>git clone https://github.com/kowainik/summoner.git</code></pre>
 <p>Step into the directory:</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true"></a>cd summoner</span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true"></a>cd summoner</span></code></pre></div>
 <p>Build and install using <code>cabal</code>:</p>
 <pre class="shell"><code>cabal v2-install summoner-tui:exe:summon-tui</code></pre>
 <p>Build and install using <code>stack</code>:</p>
@@ -329,13 +334,11 @@ mv summon-cli-linux ~/.local/bin/summon</code></pre>
 <pre class="shell"><code>$ sudo add-apt-repository ppa:kowainik/summoner-cli
 $ sudo apt update
 $ sudo apt install summoner-cli</code></pre>
-<h5 id="cli-from-hackagestackage">CLI: from Hackage/Stackage<a href="#cli-from-hackagestackage" class="anchor">🔗</a></h5>
+<h5 id="cli-from-hackage">CLI: from Hackage<a href="#cli-from-hackage" class="anchor">🔗</a></h5>
 <p><a href="#structure">[Back to the Table of Contents] ↑</a></p>
 <p>Using <code>cabal</code>:</p>
 <pre class="shell"><code>cabal v2-update
 cabal v2-install summoner</code></pre>
-<p>Using <code>stack</code>:</p>
-<pre class="shell"><code>stack install summoner</code></pre>
 <h5 id="cli-from-source">CLI: from source<a href="#cli-from-source" class="anchor">🔗</a></h5>
 <p><a href="#structure">[Back to the Table of Contents] ↑</a></p>
 <p>Fetch the repo using <code>cabal</code>:</p>
@@ -343,7 +346,7 @@ cabal v2-install summoner</code></pre>
 <p>or clone the directory from GitHub:</p>
 <pre class="shell"><code>git clone https://github.com/kowainik/summoner.git</code></pre>
 <p>Step into the directory:</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true"></a>cd summoner</span></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true"></a>cd summoner</span></code></pre></div>
 <p>Build and install using <code>cabal</code>:</p>
 <pre class="shell"><code>cabal v2-install summoner-cli:exe:summon</code></pre>
 <p>Build and install using <code>stack</code>:</p>
@@ -417,7 +420,7 @@ cabal v2-install summoner</code></pre>
 <tr class="odd">
 <td><code>ghcVersions</code></td>
 <td>[GHC]</td>
-<td><code>summoner</code> uses default <code>GHC-8.8.3</code>. However, additionally you can specify other versions. For each version <code>x.y.z</code> the <code>stack-x.y.z.yaml</code> will be created.</td>
+<td><code>summoner</code> uses default <code>GHC-8.10.1</code>. However, additionally you can specify other versions. For each version <code>x.y.z</code> the <code>stack-x.y.z.yaml</code> will be created. Use <code>summon show ghc</code> to see all supported GHC versions.</td>
 </tr>
 <tr class="even">
 <td><code>github</code></td>
@@ -702,24 +705,24 @@ summon config --file ~/.summoner-demo.toml</code></pre>
 <p><a href="#structure">[Back to the Table of Contents] ↑</a></p>
 <p>This command creates minimal <code>cabal</code> or <code>stack</code> script file which allows you to save some keystrokes and eliminates the need to remember magic words for scripts.</p>
 <p><strong>Cabal example:</strong> <code>summon script cabal -n Main.hs</code> generates executable file <code>Main.hs</code> with the following content:</p>
-<div class="sourceCode" id="cb32"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true"></a><span class="pp">#!/usr/bin/env cabal</span></span>
-<span id="cb32-2"><a href="#cb32-2" aria-hidden="true"></a><span class="co">{- cabal:</span></span>
-<span id="cb32-3"><a href="#cb32-3" aria-hidden="true"></a><span class="co">build-depends:</span></span>
-<span id="cb32-4"><a href="#cb32-4" aria-hidden="true"></a><span class="co">  , base ^&gt;= 4.13.0.0</span></span>
-<span id="cb32-5"><a href="#cb32-5" aria-hidden="true"></a><span class="co">-}</span></span>
-<span id="cb32-6"><a href="#cb32-6" aria-hidden="true"></a></span>
-<span id="cb32-7"><a href="#cb32-7" aria-hidden="true"></a><span class="ot">main ::</span> <span class="dt">IO</span> ()</span>
-<span id="cb32-8"><a href="#cb32-8" aria-hidden="true"></a>main <span class="ot">=</span> <span class="fu">putStrLn</span> <span class="st">&quot;Hello, World!&quot;</span></span></code></pre></div>
+<div class="sourceCode" id="cb30"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true"></a><span class="pp">#!/usr/bin/env cabal</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true"></a><span class="co">{- cabal:</span></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true"></a><span class="co">build-depends:</span></span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true"></a><span class="co">  , base ^&gt;= 4.13.0.0</span></span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true"></a><span class="co">-}</span></span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true"></a></span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true"></a><span class="ot">main ::</span> <span class="dt">IO</span> ()</span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true"></a>main <span class="ot">=</span> <span class="fu">putStrLn</span> <span class="st">&quot;Hello, World!&quot;</span></span></code></pre></div>
 <p><strong>Stack example:</strong> <code>summon script stack -n Main.hs</code> generates executable file <code>Main.hs</code> with the following content:</p>
-<div class="sourceCode" id="cb33"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true"></a><span class="pp">#!/usr/bin/env stack</span></span>
-<span id="cb33-2"><a href="#cb33-2" aria-hidden="true"></a><span class="co">{- stack</span></span>
-<span id="cb33-3"><a href="#cb33-3" aria-hidden="true"></a><span class="co">  --resolver lts-15.5</span></span>
-<span id="cb33-4"><a href="#cb33-4" aria-hidden="true"></a><span class="co">  script</span></span>
-<span id="cb33-5"><a href="#cb33-5" aria-hidden="true"></a><span class="co">  --package base</span></span>
-<span id="cb33-6"><a href="#cb33-6" aria-hidden="true"></a><span class="co">-}</span></span>
-<span id="cb33-7"><a href="#cb33-7" aria-hidden="true"></a></span>
-<span id="cb33-8"><a href="#cb33-8" aria-hidden="true"></a><span class="ot">main ::</span> <span class="dt">IO</span> ()</span>
-<span id="cb33-9"><a href="#cb33-9" aria-hidden="true"></a>main <span class="ot">=</span> <span class="fu">putStrLn</span> <span class="st">&quot;Hello, World!&quot;</span></span></code></pre></div>
+<div class="sourceCode" id="cb31"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true"></a><span class="pp">#!/usr/bin/env stack</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true"></a><span class="co">{- stack</span></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true"></a><span class="co">  --resolver lts-15.5</span></span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true"></a><span class="co">  script</span></span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true"></a><span class="co">  --package base</span></span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true"></a><span class="co">-}</span></span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true"></a></span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true"></a><span class="ot">main ::</span> <span class="dt">IO</span> ()</span>
+<span id="cb31-9"><a href="#cb31-9" aria-hidden="true"></a>main <span class="ot">=</span> <span class="fu">putStrLn</span> <span class="st">&quot;Hello, World!&quot;</span></span></code></pre></div>
 <h4 id="cli-show-command">CLI show command<a href="#cli-show-command" class="anchor">🔗</a></h4>
 <p><a href="#structure">[Back to the Table of Contents] ↑</a></p>
 <p>These commands display the list of supported GHC versions, or Licenses. Also, when the license name is specified, the content of the License is outputted to the terminal.</p>
