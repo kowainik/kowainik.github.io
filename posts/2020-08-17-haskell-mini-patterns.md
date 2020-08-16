@@ -41,31 +41,23 @@ proposed task.
 ## Newtype
 
 :::: {.pattern .row}
-::: {.pattern-header .bg-primary .col-3}
-Pattern
-:::
+<div class="pattern-header bg-primary col-3"> Pattern </div>
 ::: {.pattern-body .col-9}
 Newtype
 :::
 
-::: {.pattern-header .bg-primary .col-3}
-Description
-:::
+<div class="pattern-header bg-primary col-3"> Description </div>
 ::: {.pattern-body .col-9}
 Lightweight data wrapper.
 :::
 
-::: {.pattern-header .bg-primary .col-3}
-When to use
-:::
+<div class="pattern-header bg-primary col-3"> When to use </div>
 ::: {.pattern-body .col-9}
 When using the same primitive type (`Int`, `Text`, etc.) to represent
 semantically different entities (name, title, description, etc.).
 :::
 
-::: {.pattern-header .bg-primary .col-3}
-Benefits
-:::
+<div class="pattern-header bg-primary col-3"> Benefits </div>
 ::: {.pattern-body .col-9}
   1. Improves maintainability.
   2. Increases code readability.
@@ -74,9 +66,7 @@ Benefits
      [DerivingVia](https://downloads.haskell.org/ghc/latest/docs/html/users_guide/glasgow_exts.html#deriving-via)
 :::
 
-::: {.pattern-header .bg-primary .col-3}
-Costs
-:::
+<div class="pattern-header bg-primary col-3"> Costs </div>
 ::: {.pattern-body .col-9}
   1. Additional wrapping and unwrapping.
   2. Deriving boilerplate is required to duplicate existing behaviour of the
@@ -314,17 +304,44 @@ Notice how the implementation of the `hitPlayer` function hasn't
 changed at all. However, if you try to swap some of the arguments in
 different functions now, the compiler will prevent you from
 accidentally committing an error.
-
 ::::
 :::
 
 ## Smart constructor
 
-Pattern: Smart constructor
-Description: Providing idiomatic ways for constructing values.
-When to use: 1. When a data type restricts some values (e.g. not every `Text` is a valid `Password`). 2. When you want to make construction of big data types easier. 3. To avoid runtime errors. 4. To make illegal states unrepresentable.
-Benefits: 1. More structured and maintainable code. 2. Separation of concepts. 3. Control of erroneous data inputs.
-Cost: 1. Some extra code. 2. Decide on the approach details.
+:::: {.pattern .row}
+<div class="pattern-header bg-primary col-3"> Pattern </div>
+::: {.pattern-body .col-9}
+Smart constructor
+:::
+
+<div class="pattern-header bg-primary col-3"> Description </div>
+::: {.pattern-body .col-9}
+Providing idiomatic ways for constructing values.
+:::
+
+<div class="pattern-header bg-primary col-3"> When to use </div>
+::: {.pattern-body .col-9}
+  1. When a data type restricts some values (e.g. not every `Text` is a valid
+     `Password`).
+  2. When you want to make construction of big data types easier.
+  3. To avoid runtime errors.
+  4. To make illegal states unrepresentable.
+:::
+
+<div class="pattern-header bg-primary col-3"> Benefits </div>
+::: {.pattern-body .col-9}
+  1. More structured and maintainable code.
+  2. Separation of concepts.
+  3. Control of erroneous data inputs.
+:::
+
+<div class="pattern-header bg-primary col-3"> Costs </div>
+::: {.pattern-body .col-9}
+  1. Some extra code.
+  2. Decide on the approach details.
+:::
+::::
 
 Once you have a `newtype`, first you need to create its value to work
 with it. And sometimes you want to validate a value before proceeding
@@ -478,11 +495,38 @@ mkTagsList (tag:tags) =
 
 ## Evidence
 
-Pattern: Evidence
-Description: Replacing boolean blindness with the validation witness.
-When to use: 1. Always. But most importantly, when you want to make sure that data is validated or you want to reuse that knowledge in the future. 2. To make illegal states unrepresentable.
-Benefits: 1. More robust code. 2. Better maintainability (e.g. easier to refactor). 3. More context in data. 4. Better error-messages support.
-Cost: 1. Requires writing code in a slightly different way. 2. More code.
+:::: {.pattern .row}
+<div class="pattern-header bg-primary col-3"> Pattern </div>
+::: {.pattern-body .col-9}
+Evidence
+:::
+
+<div class="pattern-header bg-primary col-3"> Description </div>
+::: {.pattern-body .col-9}
+Replacing boolean blindness with the validation witness.
+:::
+
+<div class="pattern-header bg-primary col-3"> When to use </div>
+::: {.pattern-body .col-9}
+  1. Always. But most importantly, when you want to make sure that data is
+     validated or you want to reuse that knowledge in the future.
+  2. To make illegal states unrepresentable.
+:::
+
+<div class="pattern-header bg-primary col-3"> Benefits </div>
+::: {.pattern-body .col-9}
+  1. More robust code.
+  2. Better maintainability (e.g. easier to refactor).
+  3. More context in data.
+  4. Better error-messages support.
+:::
+
+<div class="pattern-header bg-primary col-3"> Costs </div>
+::: {.pattern-body .col-9}
+  1. Requires writing code in a slightly different way.
+  2. More code.
+:::
+::::
 
 This topic naturally completes the previous pattern of "Smart
 constructors". The approach was covered before in various excellent
@@ -650,11 +694,39 @@ getNearestValues vals pos =
 
 ## Phantom type parameters
 
-Pattern: Phantom type parameters
-Description: Additional type-level information available during compile-time by introducing extra type variables.
-When to use: 1. To avoid duplication of many similar data types. 2. To increase code type-safety.
-Benefits: 1. More compile-time guarantees. 2. Better ergonomics compared to code duplication. 3. Flexibility. 4. Extensibility.
-Cost: 1. Need to know when not to use it. Can get out of control when applied to unsuitable situations. 2. Less beginner-friendly.
+:::: {.pattern .row}
+<div class="pattern-header bg-primary col-3"> Pattern </div>
+::: {.pattern-body .col-9}
+Phantom type parameters
+:::
+
+<div class="pattern-header bg-primary col-3"> Description </div>
+::: {.pattern-body .col-9}
+Additional type-level information available during compile-time by introducing
+extra type variables.
+:::
+
+<div class="pattern-header bg-primary col-3"> When to use </div>
+::: {.pattern-body .col-9}
+  1. To avoid duplication of many similar data types.
+  2. To increase code type-safety.
+:::
+
+<div class="pattern-header bg-primary col-3"> Benefits </div>
+::: {.pattern-body .col-9}
+  1. More compile-time guarantees.
+  2. Better ergonomics compared to code duplication.
+  3. Flexibility.
+  4. Extensibility.
+:::
+
+<div class="pattern-header bg-primary col-3"> Costs </div>
+::: {.pattern-body .col-9}
+  1. Need to know when not to use it. Can get out of control when applied to
+     unsuitable situations.
+  2. Less beginner-friendly.
+:::
+::::
 
 Sometimes you can improve benefits gained with the usage of `newtype`s
 even further by using "phantom type variables" — type variables that
@@ -725,8 +797,9 @@ the hash of an admin.
 
 ::: {.exercise}
 
-📚 **Exercise:** The `mkPasswordhash` function takes a password and maybe returns password hash. Can you notice which one of the previously discussed patterns is used here? 😉
-
+📚 **Exercise:** The `mkPasswordhash` function takes a password and maybe
+returns password hash. Can you notice which one of the previously discussed
+patterns is used here? 😉
 :::
 
 ::: {.exercise}
@@ -800,11 +873,37 @@ verifySignature = error "Not implemented"
 
 ## MonadFail sugar
 
-Pattern: MonadFail sugar
-Description: Elegant syntax for pattern-matching on nested or multiple different parts of the data.
-When to use: 1. When doing pattern-matching a lot and when a particular failure reason is not important.
-Benefits: 1. Clean syntax, less noise. 2. No runtime errors by avoiding partial functions.
-Cost: 1. No detailed error messages about failures. 2. No immediate understanding of what code would do in case of the error to pattern-match.
+:::: {.pattern .row}
+<div class="pattern-header bg-primary col-3"> Pattern </div>
+::: {.pattern-body .col-9}
+MonadFail sugar
+:::
+
+<div class="pattern-header bg-primary col-3"> Description </div>
+::: {.pattern-body .col-9}
+Elegant syntax for pattern-matching on nested or multiple different parts of the
+data.
+:::
+
+<div class="pattern-header bg-primary col-3"> When to use </div>
+::: {.pattern-body .col-9}
+  1. When doing pattern-matching a lot and when a particular failure reason is
+     not important.
+:::
+
+<div class="pattern-header bg-primary col-3"> Benefits </div>
+::: {.pattern-body .col-9}
+  1. Clean syntax, less noise.
+  2. No runtime errors by avoiding partial functions.
+:::
+
+<div class="pattern-header bg-primary col-3"> Costs </div>
+::: {.pattern-body .col-9}
+  1. No detailed error messages about failures.
+  2. No immediate understanding of what code would do in case of the error to
+     pattern-match.
+:::
+::::
 
 When time comes to extract deeply-nested fields of a nested data
 structure, or to perform multiple validations in a single block, you
@@ -926,8 +1025,8 @@ Interestingly, unlike `Either`-like data types, the `MonadFail`
 instance for lists in Haskell has a similar power to `Maybe`'s. If you
 have a container of a complicated data structure and your goal is to
 filter it only by some structure-specific criteria, keeping only
-interesting elements, you can use [list
-comprehension](https://wiki.haskell.org/List_comprehension) and
+interesting elements, you can use
+[list comprehension](https://wiki.haskell.org/List_comprehension) and
 `MonadFail` for list. List comprehension is a cute syntax sugar for
 constructing lists. `do`-notation is a syntax sugar for `>>=` from
 `Monad`, so you can think about list comprehension as a syntax sugar
@@ -953,10 +1052,8 @@ If you attempt to implement such a function by using manual
 pattern-matching, it would look a bit less cleaner.
 
 ::: {.exercise}
-
 📚 **Exercise:** Try implementing the `keepOnlySameRights` functions
 without list comprehensions and the `MonadFail` instance for list.
-
 :::
 
 ::: {.exercise}
@@ -990,6 +1087,9 @@ sumThree s = do
     pure $ a + b + c
 ```
 ::::
+:::
+
+::: {.exercise}
 
 ### MonadFail sugar: Task 2
 
@@ -1013,6 +1113,9 @@ catMaybes :: [Maybe a] -> [a]
 catMaybes xs = [x | Just x <- xs]
 ```
 ::::
+:::
+
+::: {.exercise}
 
 ### MonadFail sugar: Task 3
 
@@ -1035,6 +1138,9 @@ mapMaybe :: (a -> Maybe b) -> [a] -> [b]
 mapMaybe f as = [b | a <- as, Just b <- [f a]]
 ```
 ::::
+:::
+
+::: {.exercise}
 
 ### MonadFail sugar: Task 4
 
@@ -1044,7 +1150,6 @@ Implement the following functions applying the _MonadFail sugar_ pattern.
 -- return @Just ()@ only if all three arguments are Nothing
 threeNothing :: Maybe a -> Maybe b -> Maybe c -> Maybe ()
 ```
-
 
 <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#solutionMonadFail4" aria-expanded="false" aria-controls="solutionMonadFail4">
     Show solution
@@ -1066,11 +1171,37 @@ threeNothing ma mb mc = do
 
 ## Polymorphisation
 
-Pattern: Polymorphisation
-Description: Assigning a more general type to a function reduces the chances of writing an incorrect implementation or providing incorrect inputs.
-When to use: 1. To reduce risks of using function incorrectly. 2. To use the same function on values of different types.
-Benefits: 1. Need to write fewer tests (or no tests at all!). 2. Increases code reusability.
-Cost: 1. Can make type signatures look more complicated. 2. Reusing polymorphic types in `where` requires enabling the `ScopedTypeVariables` extension, and this might be confusing for beginners.
+:::: {.pattern .row}
+<div class="pattern-header bg-primary col-3"> Pattern </div>
+::: {.pattern-body .col-9}
+Polymorphisation
+:::
+
+<div class="pattern-header bg-primary col-3"> Description </div>
+::: {.pattern-body .col-9}
+Assigning a more general type to a function reduces the chances of writing an
+incorrect implementation or providing incorrect inputs.
+:::
+
+<div class="pattern-header bg-primary col-3"> When to use </div>
+::: {.pattern-body .col-9}
+  1. To reduce risks of using function incorrectly.
+  2. To use the same function on values of different types.
+:::
+
+<div class="pattern-header bg-primary col-3"> Benefits </div>
+::: {.pattern-body .col-9}
+  1. Need to write fewer tests (or no tests at all!).
+  2. Increases code reusability.
+:::
+
+<div class="pattern-header bg-primary col-3"> Costs </div>
+::: {.pattern-body .col-9}
+  1. Can make type signatures look more complicated.
+  2. Reusing polymorphic types in `where` requires enabling the
+     `ScopedTypeVariables` extension, and this might be confusing for beginners.
+:::
+::::
 
 Haskell has the [Polymorphism](https://wiki.haskell.org/Polymorphism)
 feature and allows writing and using polymorphic data types and
@@ -1312,6 +1443,9 @@ foldMaybes = fold . fold
 ```
 
 ::::
+:::
+
+::: {.exercise}
 
 ### Polymorphisation: Task 2
 
@@ -1340,6 +1474,9 @@ containsElem = filter . elem
 ```
 
 ::::
+:::
+
+::: {.exercise}
 
 ### Polymorphisation: Task 3
 
@@ -1375,18 +1512,44 @@ splitWhile f = go
         Nothing -> ([], a : as)
         Just b -> first (b:) (go as)
 ```
-
 ::::
-
 :::
 
 ## Bidirectional parsing
 
-Pattern: Bidirectional parsing
-Description: Matching only a limited set with exhaustiveness checking and inversing matching function automatically.
-When to use: 1. When you need to show enumerations and parse them back. 2. When the `show` function is injective (maps distinct constructors to distinct values). 3. Basically, for any bidirectional conversion by implementing only one direction and getting the inverse conversion for free.
-Benefits: 1. Automatic code correctness by implementation. 2. Easier maintainability.
-Cost: 1. Extra dependencies or extra code. 2. Less manual control over code.
+:::: {.pattern .row}
+<div class="pattern-header bg-primary col-3"> Pattern </div>
+::: {.pattern-body .col-9}
+Bidirectional parsing
+:::
+
+<div class="pattern-header bg-primary col-3"> Description </div>
+::: {.pattern-body .col-9}
+Matching only a limited set with exhaustiveness checking and inversing matching
+function automatically.
+:::
+
+<div class="pattern-header bg-primary col-3"> When to use </div>
+::: {.pattern-body .col-9}
+  1. When you need to show enumerations and parse them back.
+  2. When the `show` function is injective (maps distinct constructors to
+     distinct values).
+  3. Basically, for any bidirectional conversion by implementing only one
+     direction and getting the inverse conversion for free.
+:::
+
+<div class="pattern-header bg-primary col-3"> Benefits </div>
+::: {.pattern-body .col-9}
+  1. Automatic code correctness by implementation.
+  2. Easier maintainability.
+:::
+
+<div class="pattern-header bg-primary col-3"> Costs </div>
+::: {.pattern-body .col-9}
+  1. Extra dependencies or extra code.
+  2. Less manual control over code.
+:::
+::::
 
 It is often in programs, that you use enumeration types (data types
 with several constructors without any fields). Enums are classy at
@@ -1556,16 +1719,41 @@ parseFruit t = do
 ```
 
 ::::
-
 :::
 
 ## Recursive go
 
-Pattern: Recursive go
-Description: Moving recursion over data types into the separate function.
-When to use: 1. When recursion reuses some arguments and you want to avoid passing them again. 2. When recursion uses some internal state. 3. To avoid revalidating the same data.
-Benefits: 1. Cleaner code. 2. Possible performance improvements.
-Cost: 1. More code. 2. Requires to know about and enable the `ScopedTypeVariables` extension.
+:::: {.pattern .row}
+<div class="pattern-header bg-primary col-3"> Pattern </div>
+::: {.pattern-body .col-9}
+Recursive `go`
+:::
+
+<div class="pattern-header bg-primary col-3"> Description </div>
+::: {.pattern-body .col-9}
+Moving recursion over data types into the separate function.
+:::
+
+<div class="pattern-header bg-primary col-3"> When to use </div>
+::: {.pattern-body .col-9}
+  1. When recursion reuses some arguments and you want to avoid passing them
+     again.
+  2. When recursion uses some internal state.
+  3. To avoid revalidating the same data.
+:::
+
+<div class="pattern-header bg-primary col-3"> Benefits </div>
+::: {.pattern-body .col-9}
+  1. Cleaner code.
+  2. Possible performance improvements.
+:::
+
+<div class="pattern-header bg-primary col-3"> Costs </div>
+::: {.pattern-body .col-9}
+  1. More code.
+  2. Requires to know about and enable the `ScopedTypeVariables` extension.
+:::
+::::
 
 > 🙅 **Disclaimer** This pattern is not about recursive functions in Go.
 
@@ -1670,6 +1858,9 @@ sumGo = go 0
     go acc (x:xs) = go (acc + x) xs
 ```
 ::::
+:::
+
+::: {.exercise}
 
 ### Recursive go: Task 2
 
@@ -1690,7 +1881,7 @@ ordNub :: Ord a => [a] -> [a]
 </button>
 :::: {#solutionRecursiveGo2 .solution .collapse}
 
-#### Recursive `go`: Solution 2
+#### Recursive go: Solution 2
 
 ```haskell
 {-# LANGUAGE ScopedTypeVariables #-}
@@ -1709,7 +1900,6 @@ ordNub = go Set.empty
       else x : go (Set.insert x s) xs
 ```
 ::::
-
 :::
 
 ## Conclusion
