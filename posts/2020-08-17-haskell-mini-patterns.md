@@ -32,9 +32,9 @@ their developer journey.
 
 ::: {.exercise}
 
-📚 Each pattern contains at least one task with the hidden solution,
-so you can test your understanding of a pattern by solving the
-proposed task.
+📚 In this article, each pattern contains at least one task with the
+hidden solution, so you can test your understanding of a pattern by
+solving the proposed task.
 
 :::
 
@@ -63,7 +63,7 @@ semantically different entities (name, title, description, etc.).
   2. Increases code readability.
   3. Enables writing custom instances.
   4. Allows reusing instance definitions with
-     [DerivingVia](https://downloads.haskell.org/ghc/latest/docs/html/users_guide/glasgow_exts.html#deriving-via)
+     [DerivingVia](https://downloads.haskell.org/ghc/latest/docs/html/users_guide/glasgow_exts.html#deriving-via).
 :::
 
 <div class="pattern-header bg-primary col-3"> Costs </div>
@@ -160,6 +160,8 @@ validateHash :: Password -> PasswordHash -> Bool
 Now, `validateHash hash password` is a compile-time error, and it
 makes it impossible to confuse the order of arguments.
 
+<hr>
+
 Another popular way of increasing code readability without sacrificing
 performance is introducing a new alias (which is simply another name
 for a data type) by using the `type` keyword. Unfortunately, this
@@ -185,7 +187,7 @@ bug.
 The approach of using `type`s instead of `newtype` can bring even more
 damage when you have a lot of similar data types. The more types you
 have the harder to maintain them without external help. Below you can
-see a code sample from one of the libraries:
+see a code sample from one of the Haskell libraries:
 
 ```haskell
 type WorkerId = UUID
@@ -198,10 +200,11 @@ type WorkerName = Text
 
 The library safety can be improved by replacing all these type aliases
 with `newtype`s, and it can even help to discover some bugs that
-happen due to passing arguments in the wrong order. Moreover, the
-`newtype` approach is more flexible since you can provide your custom
-instances or restrict some instances allowing you to create values in
-an unsafe way.
+happen due to passing arguments in the wrong order.
+
+Moreover, the `newtype` approach is more flexible since you can
+provide your custom instances or restrict some instances allowing you
+to create values in an unsafe way.
 
 The cost of using `newtype` is small — you only need to wrap and
 unwrap it when necessary. But the benefits hugely outweigh this small
@@ -322,8 +325,8 @@ Providing idiomatic ways for constructing values.
 
 <div class="pattern-header bg-primary col-3"> When to use </div>
 ::: {.pattern-body .col-9}
-  1. When a data type restricts some values (e.g. not every `Text` is a valid
-     `Password`).
+  1. When a data type restricts some values (e.g. not every
+     `ByteString` is a valid `Password`).
   2. When you want to make construction of big data types easier.
   3. To avoid runtime errors.
   4. To make illegal states unrepresentable.
@@ -537,7 +540,7 @@ blog posts:
 * [Parse, don't validate](https://lexi-lambda.github.io/blog/2019/11/05/parse-don-t-validate/)
 
 All above posts provide an amazing description and explanation of the
-__Evidence__ pattern. Here I would like to add only a short overview
+__Evidence__ pattern. Here we would like to add only a short overview
 with a small example.
 
 If you ever find yourself writing code like this:
@@ -571,13 +574,13 @@ Returning to our previous example with the `validateHash` function:
 validateHash :: Password -> PasswordHash -> Bool
 ```
 
-You still can forget to call this function and allow users to work
-with invalid passwords.
+You still can forget to call this validation function in the
+application code and allow users to work with invalid passwords.
 
 ```haskell
 getUserPage, accessDenied :: User -> IO Page
 
-loginUser :: User -> Password -> PasswordHash -> IO ()
+loginUser :: User -> Password -> PasswordHash -> IO Page
 loginUser user pwd pwdHash =
     if validateHash pwd pwdHash
     then getUserPage user
@@ -708,7 +711,7 @@ values and making it impossible to construct invalid values.
 
 <div class="pattern-header bg-primary col-3"> When to use </div>
 ::: {.pattern-body .col-9}
-  1. To restrict domain of possible values
+  1. To restrict domain of possible values.
   2. When it is feasible to describe the domain precisely.
 :::
 
@@ -728,6 +731,10 @@ values and making it impossible to construct invalid values.
 :::
 ::::
 
+This pattern is closely related to
+[smart constructor](#smart-constructor) and [evidence](#evidence)
+patterns, and they can and should be used together.
+
 The _make illegal states unrepresentable_ motto is well-known in the
 FP community. Functional Programming features such as Algebraic Data
 Types (ADT), parametric polymorphism and others allow describing the
@@ -743,7 +750,7 @@ to handle such cases.
 ```haskell
 handleTwoOptionals :: Maybe a -> Maybe b -> IO ()
 handleTwoOptionals (Just a) (Just b) = ... work with 'a' and 'b'
-handleTwoOptionals Nothing Nothing = ... ask to specify both values
+handleTwoOptionals Nothing Nothing = ... proceed without values
 handleTwoOptionals _ _ = error "You must specify both values"
 ```
 
@@ -756,12 +763,14 @@ particular problem by changing types barely: instead of passing two
 ```haskell
 handleTwoOptionals :: Maybe (a, b) -> IO ()
 handleTwoOptionals (Just (a, b)) = ... work with 'a' and 'b'
-handleTwoOptionals Nothing = ... ask to specify both values
+handleTwoOptionals Nothing = ... proceed without values
 ```
 
 With this slight change we made it impossible to specify only a single
 value as `Nothing`. If you pass `Just` of something, you must always
 provide both values.
+
+<hr>
 
 Let's move on to another example. Now we want to write a function that
 takes two lists, but those lists must have the same length. Our
@@ -789,6 +798,8 @@ processTwoLists :: [(a, b)] -> Int
 Instead of passing two lists and expecting them to have the same size,
 the function simply takes a list of pairs, so it has the same number
 of `a`s and `b`s.
+
+<hr>
 
 And one more example. Imagine, that you are writing a web application
 with the backend and frontend. And you have a function that deals with
@@ -839,6 +850,8 @@ implement more correct code and make the life of our API users easier,
 because they can't shoot themselves in the foot by providing illegal
 values.
 
+<hr>
+
 However, it is not always possible to easily make all invalid states
 unrepresentable. Consider the following example. You have an
 enumeration type representing answers to some questions in a form. And
@@ -871,12 +884,13 @@ valid states with a data type, so we don't bother doing this.
 
 ### Make illegal states unrepresentable: Task 1
 
-Improve the following code by applying the _make illegal states unrepresentable_ pattern.
+Implement the following function by applying the
+_make illegal states unrepresentable_ pattern.
 
 ```haskell
 -- group sublists of equal elements
->>> group "Mississippi"
-["M","i","ss","i","ss","i","pp","i"]
+-- >>> group "Mississippi"
+-- ["M","i","ss","i","ss","i","pp","i"]
 group :: Eq a => [a] -> [[a]]
 ```
 
@@ -1166,9 +1180,9 @@ start thinking on the neat way to do it at the best cost. You
 obviously fancy to avoid using partial functions because they can
 sometimes hide unhandled cases and fail at runtime unexpectedly.
 
-There's a nice trick that combines the `Maybe` data type,
+There is a nice trick that combines the `Maybe` data type,
 `do`-notation and `MonadFail` typeclass that allows writing such
-code. I am going to explain each piece of this spicy combination, but
+code. Each piece of this spicy combination will be explained further, but
 first we need to understand the use-case. Let's explore the following
 example.
 
@@ -1442,7 +1456,7 @@ incorrect implementation or providing incorrect inputs.
 ::: {.pattern-body .col-9}
   1. To reduce risks of using function incorrectly.
   2. To use the same function on values of different types.
-  3. To ake illegal states unrepresentable.
+  3. To make illegal states unrepresentable.
 :::
 
 <div class="pattern-header bg-primary col-3"> Benefits </div>
@@ -1472,7 +1486,7 @@ firstArg :: a -> b -> a
 firstArg x _ = x
 ```
 
-can have types depending on arguments either
+can have types, depending on arguments, either
 `firstArgs :: Int -> String -> Int`
 or `firstArg :: Maybe s -> [a] -> Maybe s`
 but not `firstArg :: Int -> Double -> Double`.
@@ -1635,7 +1649,7 @@ Look at the following function:
 
 ```haskell
 -- >>> sumEven "100 15 20 7"
--- 120
+-- 60
 sumEven :: String -> Int
 sumEven =
     sum
@@ -1819,19 +1833,19 @@ to handle all cases because there is an infinite number of them.
 Consider the following example:
 
 ```haskell
-data Color
+data Colour
     = Green
     | Yellow
     | Blue
 
-showColor :: Color -> Text
-showColor = \case
+showColour :: Colour -> Text
+showColour = \case
     Green  -> "green"
     Yellow -> "yellow"
     Blue   -> "blue"
 
-parseColor :: Text -> Maybe Color
-parseColor = \case
+parseColour :: Text -> Maybe Colour
+parseColour = \case
     "green"  -> Just Green
     "yellow" -> Just Yellow
     "blue"   -> Just Blue
@@ -1840,10 +1854,10 @@ parseColor = \case
 
 > It's important that you pattern match on all cases of enumeration when possible to avoid having partial functions.
 
-If you add a new color constructor, for example `Orange`, the compiler
-will warn you to update the `showColor` function. But, unfortunately,
-it won't remind you to update `parseColor` as the "orange" case is
-already covered by the wildcard (`_`) case, therefore it is all good
+If you add a new colour constructor, for example `Orange`, the compiler
+will warn you to update the `showColour` function. But, unfortunately,
+it won't remind you to update `parseColour` as the `"orange"` string is
+already covered by the wildcard (`_`) case. Therefore it is all good
 from the compiler point of view.
 
 If you have only a few data types with a few constructors and you
@@ -1869,15 +1883,16 @@ inverseMap
 
 :::
 
-Using this function, you can rewrite `parseColor` in a simpler and more safe way:
+Using this function, you can rewrite `parseColour` in a simpler and
+more safe way:
 
 ```haskell
-parseColor :: Text -> Maybe Color
-parseColor = inverseMap showColor
+parseColour :: Text -> Maybe Colour
+parseColour = inverseMap showColour
 ```
 
-Even if you are not using the `showColor` function, this approach
-still can be the better solution, since you can handle cases
+Even if you are not using the `showColour` function, this approach
+still can be a better solution, since you can handle cases
 exhaustively and get a parsing function for free.
 
 You can find
@@ -1889,7 +1904,7 @@ for the `inverseMap` function.
 ### Bidirectional parsing: Task
 
 Implement a function that will take a string of two space-separate
-words — color and fruit name — and return them as data types.
+words — colour and fruit name — and return them as data types.
 
 Possible colours: red, green, yellow, blue.
 Possible fruits: apple, orange, lemon, blueberry.
@@ -2011,7 +2026,8 @@ Moving recursion over data types into the separate function.
 :::
 ::::
 
-> 🙅 **Disclaimer** This pattern is not about recursive functions in Go.
+> 🙅 **Disclaimer** This pattern is not about recursive functions in
+> the Go programming language.
 
 Quite often Haskell developers end-up writing functions that
 recursively do some actions on different data types: lists, trees,
@@ -2057,13 +2073,13 @@ atGo :: [a] -> Int -> Maybe a
 l `atGo` n = go 0 l
   where
     go :: Int -> [a] -> Maybe a
-    go i [] = Nothing
+    go _ [] = Nothing
     go i (x:xs) = if i == n then Just x else go (i + 1) xs
 ```
 
 The way the `go` pattern is implemented also is more flexible in the
 refactoring and "requirements"-change. If you, for example, need to
-check the `at` function position input on the negative number, it
+check the `at` function index input on the negative number, it
 would be much easier and much more efficient to add this validation
 before the `go` function of `atGo`. You don't need to check the number
 of negativity with each recursive call. You can do this only once, and
@@ -2120,7 +2136,9 @@ sumGo = go 0
 
 ### Recursive go: Task 2
 
-Write the `ordNub` function with the _Recursive `go`_ pattern.
+Write the `ordNub` function with the _Recursive `go`_ pattern. The
+function should return all unique elements from a list in the order of
+their appearance.
 
 ```haskell
 ordNub :: Ord a => [a] -> [a]
