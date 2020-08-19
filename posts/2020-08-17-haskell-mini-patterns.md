@@ -584,7 +584,7 @@ loginUser :: User -> Password -> PasswordHash -> IO Page
 loginUser user pwd pwdHash =
     if validateHash pwd pwdHash
     then getUserPage user
-    else accessDenined user
+    else accessDenied user
 ```
 
 The above code has two problems:
