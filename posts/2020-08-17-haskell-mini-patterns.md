@@ -4,6 +4,7 @@ author: Dmitrii Kovanikov <> Veronika Romashkina
 tags: haskell, tutorial, patterns
 description: Collection of small Haskell patterns with detailed description, examples and exercises
 useShortName: yes
+updated: "August 21, 2020"
 ---
 
 Navigating in the ocean of Haskell possibilities is challenging even
@@ -343,6 +344,7 @@ Providing idiomatic ways for constructing values.
 ::: {.pattern-body .col-9}
   1. Some extra code.
   2. Decide on the approach details.
+  3. Inability to define instances outside of the module.
 :::
 ::::
 
@@ -359,7 +361,8 @@ implementation of such approach based on the `Password` data type:
 
 ```haskell
 module Password
-    ( Password (unPassword)
+    ( Password
+    , unPassword
     , mkPassword
     ) where
 
@@ -367,9 +370,10 @@ import Data.ByteString (ByteString)
 import qualified Data.ByteString as ByteString
 
 
-newtype Password = Password
-    { unPassword :: ByteString
-    }
+newtype Password = Password ByteString
+
+unPassword :: Password -> ByteString
+unPassword (Password password) = password
 
 -- | Smart constructor. Doesn't allow empty passwords.
 mkPassword :: ByteString -> Maybe Password
@@ -380,8 +384,12 @@ mkPassword pwd
 
 In this module, we want to reject empty passwords. This is what the
 `mkPassword` function does. We disincline to export the `Password`
-constructor. But we need a way to deconstruct a value of type
-`Password` hence the `Password (unPassword)` line in the export list.
+constructor.
+
+But we need a way to deconstruct a value of type
+`Password`. Unfortunately, we can't define a record field of our
+`newtype` because it allows to change values using record update
+syntax. Hence the `unPassword` function.
 
 > 👩‍🔬 It is important to hide the constructor to forbid [value
 > coercion](http://hackage.haskell.org/package/base-4.14.0.0/docs/Data-Coerce.html).
@@ -466,10 +474,17 @@ mkTagsList (tag:tags) = TagsList $ mkTag tag :| map mkTag tags
 
 
 ```haskell
-module Tag where
+module Tag
+    ( Tag
+    , unTag
+    , mkTag
+    ) where
 
 -- | Tag is a non-empty string.
 newtype Tag = Tag String
+
+unTag :: Tag -> String
+unTag (Tag tag) = tag
 
 mkTag :: String -> Maybe Tag
 mkTag tag
@@ -478,7 +493,11 @@ mkTag tag
 ```
 
 ```haskell
-module TagsList where
+module TagsList
+    ( TagsList
+    , unTagsList
+    , mkTagsList
+    ) where
 
 import Control.Applicative (liftA2)
 import Data.List.NonEmpty (NonEmpty (..))
@@ -487,6 +506,9 @@ import Tag (Tag, mkTag)
 
 -- | Non-empty list of non-empty tags.
 newtype TagsList = TagsList (NonEmpty Tag)
+
+unTagsList :: TagsList -> NonEmpty Tag
+unTagsList (TagsList tagsList) = tagsList
 
 mkTagsList :: [String] -> Maybe TagsList
 mkTagsList [] = Nothing
@@ -619,9 +641,9 @@ Since `UserAuth` can be created only with `validateHash`, the only way
 to return a user page is by performing password validation:
 
 ```haskell
-loginUser :: User -> Password -> PasswordHash -> IO ()
+loginUser :: User -> Password -> PasswordHash -> IO Page
 loginUser user pwd pwdHash = case validateHash pwd pwdHash of
-    Nothing   -> accessDenined user
+    Nothing   -> accessDenied user
     Just auth -> getUserPage auth user
 ```
 
