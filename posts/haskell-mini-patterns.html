@@ -106,7 +106,7 @@
             </div>
             <div class="coolFont">
                 <div>Date: August 17, 2020</div>
-                
+                <div>Updated: August 21, 2020</div>
 
                 <div class="author">Author: Dmitrii Kovanikov <> Veronika Romashkina</div>
                 <div class="row tag-block">
@@ -359,30 +359,34 @@ Costs
 <ol type="1">
 <li>Some extra code.</li>
 <li>Decide on the approach details.</li>
+<li>Inability to define instances outside of the module.</li>
 </ol>
 </div>
 </div>
 <p>Once you have a <code>newtype</code>, first you need to create its value to work with it. And sometimes you want to validate a value before proceeding with it. Usually you would create a value of a data type by using its constructor. However, when programming in a modular way, you want to have boundaries in your interface and avoid providing unsafe ways of constructing values without validation.</p>
 <p>This programming pattern in Haskell is called <strong>smart constructor</strong>. It can be understood better by looking at the implementation of such approach based on the <code>Password</code> data type:</p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true"></a><span class="kw">module</span> <span class="dt">Password</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true"></a>    ( <span class="dt">Password</span> (unPassword)</span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true"></a>    , mkPassword</span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true"></a>    ) <span class="kw">where</span></span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true"></a></span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true"></a><span class="kw">import</span> <span class="dt">Data.ByteString</span> (<span class="dt">ByteString</span>)</span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true"></a><span class="kw">import</span> <span class="kw">qualified</span> <span class="dt">Data.ByteString</span> <span class="kw">as</span> <span class="dt">ByteString</span></span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true"></a></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true"></a>    ( <span class="dt">Password</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true"></a>    , unPassword</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true"></a>    , mkPassword</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true"></a>    ) <span class="kw">where</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true"></a></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true"></a><span class="kw">import</span> <span class="dt">Data.ByteString</span> (<span class="dt">ByteString</span>)</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true"></a><span class="kw">import</span> <span class="kw">qualified</span> <span class="dt">Data.ByteString</span> <span class="kw">as</span> <span class="dt">ByteString</span></span>
 <span id="cb10-9"><a href="#cb10-9" aria-hidden="true"></a></span>
-<span id="cb10-10"><a href="#cb10-10" aria-hidden="true"></a><span class="kw">newtype</span> <span class="dt">Password</span> <span class="ot">=</span> <span class="dt">Password</span></span>
-<span id="cb10-11"><a href="#cb10-11" aria-hidden="true"></a>    {<span class="ot"> unPassword ::</span> <span class="dt">ByteString</span></span>
-<span id="cb10-12"><a href="#cb10-12" aria-hidden="true"></a>    }</span>
-<span id="cb10-13"><a href="#cb10-13" aria-hidden="true"></a></span>
-<span id="cb10-14"><a href="#cb10-14" aria-hidden="true"></a><span class="co">-- | Smart constructor. Doesn't allow empty passwords.</span></span>
-<span id="cb10-15"><a href="#cb10-15" aria-hidden="true"></a><span class="ot">mkPassword ::</span> <span class="dt">ByteString</span> <span class="ot">-&gt;</span> <span class="dt">Maybe</span> <span class="dt">Password</span></span>
-<span id="cb10-16"><a href="#cb10-16" aria-hidden="true"></a>mkPassword pwd</span>
-<span id="cb10-17"><a href="#cb10-17" aria-hidden="true"></a>    <span class="op">|</span> <span class="dt">ByteString</span><span class="op">.</span><span class="fu">null</span> pwd <span class="ot">=</span> <span class="dt">Nothing</span></span>
-<span id="cb10-18"><a href="#cb10-18" aria-hidden="true"></a>    <span class="op">|</span> <span class="fu">otherwise</span> <span class="ot">=</span> <span class="dt">Just</span> (<span class="dt">Password</span> pwd)</span></code></pre></div>
-<p>In this module, we want to reject empty passwords. This is what the <code>mkPassword</code> function does. We disincline to export the <code>Password</code> constructor. But we need a way to deconstruct a value of type <code>Password</code> hence the <code>Password (unPassword)</code> line in the export list.</p>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true"></a></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true"></a><span class="kw">newtype</span> <span class="dt">Password</span> <span class="ot">=</span> <span class="dt">Password</span> <span class="dt">ByteString</span></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true"></a></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true"></a><span class="ot">unPassword ::</span> <span class="dt">Password</span> <span class="ot">-&gt;</span> <span class="dt">ByteString</span></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true"></a>unPassword (<span class="dt">Password</span> password) <span class="ot">=</span> password</span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true"></a></span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true"></a><span class="co">-- | Smart constructor. Doesn't allow empty passwords.</span></span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true"></a><span class="ot">mkPassword ::</span> <span class="dt">ByteString</span> <span class="ot">-&gt;</span> <span class="dt">Maybe</span> <span class="dt">Password</span></span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true"></a>mkPassword pwd</span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true"></a>    <span class="op">|</span> <span class="dt">ByteString</span><span class="op">.</span><span class="fu">null</span> pwd <span class="ot">=</span> <span class="dt">Nothing</span></span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true"></a>    <span class="op">|</span> <span class="fu">otherwise</span> <span class="ot">=</span> <span class="dt">Just</span> (<span class="dt">Password</span> pwd)</span></code></pre></div>
+<p>In this module, we want to reject empty passwords. This is what the <code>mkPassword</code> function does. We disincline to export the <code>Password</code> constructor.</p>
+<p>But we need a way to deconstruct a value of type <code>Password</code>. Unfortunately, we can’t define a record field of our <code>newtype</code> because it allows to change values using record update syntax. Hence the <code>unPassword</code> function.</p>
 <blockquote>
 <p>👩‍🔬 It is important to hide the constructor to forbid <a href="http://hackage.haskell.org/package/base-4.14.0.0/docs/Data-Coerce.html">value coercion</a>.</p>
 </blockquote>
@@ -430,29 +434,43 @@ Show solution
 </button>
 <div id="solutionSmartConstructor1" class="solution collapse">
 <h4 id="smart-constructor-solution">Smart constructor: Solution<a href="#smart-constructor-solution" class="anchor">🔗</a></h4>
-<div class="sourceCode" id="cb14"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true"></a><span class="kw">module</span> <span class="dt">Tag</span> <span class="kw">where</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true"></a></span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true"></a><span class="co">-- | Tag is a non-empty string.</span></span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true"></a><span class="kw">newtype</span> <span class="dt">Tag</span> <span class="ot">=</span> <span class="dt">Tag</span> <span class="dt">String</span></span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true"></a></span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true"></a><span class="ot">mkTag ::</span> <span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">Maybe</span> <span class="dt">Tag</span></span>
-<span id="cb14-7"><a href="#cb14-7" aria-hidden="true"></a>mkTag tag</span>
-<span id="cb14-8"><a href="#cb14-8" aria-hidden="true"></a>    <span class="op">|</span> <span class="fu">null</span> tag <span class="ot">=</span> <span class="dt">Nothing</span></span>
-<span id="cb14-9"><a href="#cb14-9" aria-hidden="true"></a>    <span class="op">|</span> <span class="fu">otherwise</span> <span class="ot">=</span> <span class="dt">Just</span> (<span class="dt">Tag</span> tag)</span></code></pre></div>
-<div class="sourceCode" id="cb15"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true"></a><span class="kw">module</span> <span class="dt">TagsList</span> <span class="kw">where</span></span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true"></a></span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true"></a><span class="kw">import</span> <span class="dt">Control.Applicative</span> (liftA2)</span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true"></a><span class="kw">import</span> <span class="dt">Data.List.NonEmpty</span> (<span class="dt">NonEmpty</span> (..))</span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true"></a><span class="kw">import</span> <span class="dt">Tag</span> (<span class="dt">Tag</span>, mkTag)</span>
+<div class="sourceCode" id="cb14"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true"></a><span class="kw">module</span> <span class="dt">Tag</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true"></a>    ( <span class="dt">Tag</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true"></a>    , unTag</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true"></a>    , mkTag</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true"></a>    ) <span class="kw">where</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true"></a></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true"></a><span class="co">-- | Tag is a non-empty string.</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true"></a><span class="kw">newtype</span> <span class="dt">Tag</span> <span class="ot">=</span> <span class="dt">Tag</span> <span class="dt">String</span></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true"></a></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true"></a><span class="ot">unTag ::</span> <span class="dt">Tag</span> <span class="ot">-&gt;</span> <span class="dt">String</span></span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true"></a>unTag (<span class="dt">Tag</span> tag) <span class="ot">=</span> tag</span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true"></a></span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true"></a><span class="ot">mkTag ::</span> <span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">Maybe</span> <span class="dt">Tag</span></span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true"></a>mkTag tag</span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true"></a>    <span class="op">|</span> <span class="fu">null</span> tag <span class="ot">=</span> <span class="dt">Nothing</span></span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true"></a>    <span class="op">|</span> <span class="fu">otherwise</span> <span class="ot">=</span> <span class="dt">Just</span> (<span class="dt">Tag</span> tag)</span></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true"></a><span class="kw">module</span> <span class="dt">TagsList</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true"></a>    ( <span class="dt">TagsList</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true"></a>    , unTagsList</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true"></a>    , mkTagsList</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true"></a>    ) <span class="kw">where</span></span>
 <span id="cb15-6"><a href="#cb15-6" aria-hidden="true"></a></span>
-<span id="cb15-7"><a href="#cb15-7" aria-hidden="true"></a></span>
-<span id="cb15-8"><a href="#cb15-8" aria-hidden="true"></a><span class="co">-- | Non-empty list of non-empty tags.</span></span>
-<span id="cb15-9"><a href="#cb15-9" aria-hidden="true"></a><span class="kw">newtype</span> <span class="dt">TagsList</span> <span class="ot">=</span> <span class="dt">TagsList</span> (<span class="dt">NonEmpty</span> <span class="dt">Tag</span>)</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true"></a><span class="kw">import</span> <span class="dt">Control.Applicative</span> (liftA2)</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true"></a><span class="kw">import</span> <span class="dt">Data.List.NonEmpty</span> (<span class="dt">NonEmpty</span> (..))</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true"></a><span class="kw">import</span> <span class="dt">Tag</span> (<span class="dt">Tag</span>, mkTag)</span>
 <span id="cb15-10"><a href="#cb15-10" aria-hidden="true"></a></span>
-<span id="cb15-11"><a href="#cb15-11" aria-hidden="true"></a><span class="ot">mkTagsList ::</span> [<span class="dt">String</span>] <span class="ot">-&gt;</span> <span class="dt">Maybe</span> <span class="dt">TagsList</span></span>
-<span id="cb15-12"><a href="#cb15-12" aria-hidden="true"></a>mkTagsList [] <span class="ot">=</span> <span class="dt">Nothing</span></span>
-<span id="cb15-13"><a href="#cb15-13" aria-hidden="true"></a>mkTagsList (tag<span class="op">:</span>tags) <span class="ot">=</span></span>
-<span id="cb15-14"><a href="#cb15-14" aria-hidden="true"></a>    <span class="dt">TagsList</span> <span class="op">&lt;$&gt;</span> liftA2 (<span class="op">:|</span>) (mkTag tag) (<span class="fu">traverse</span> mkTag tags)</span></code></pre></div>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true"></a></span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true"></a><span class="co">-- | Non-empty list of non-empty tags.</span></span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true"></a><span class="kw">newtype</span> <span class="dt">TagsList</span> <span class="ot">=</span> <span class="dt">TagsList</span> (<span class="dt">NonEmpty</span> <span class="dt">Tag</span>)</span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true"></a></span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true"></a><span class="ot">unTagsList ::</span> <span class="dt">TagsList</span> <span class="ot">-&gt;</span> <span class="dt">NonEmpty</span> <span class="dt">Tag</span></span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true"></a>unTagsList (<span class="dt">TagsList</span> tagsList) <span class="ot">=</span> tagsList</span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true"></a></span>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true"></a><span class="ot">mkTagsList ::</span> [<span class="dt">String</span>] <span class="ot">-&gt;</span> <span class="dt">Maybe</span> <span class="dt">TagsList</span></span>
+<span id="cb15-19"><a href="#cb15-19" aria-hidden="true"></a>mkTagsList [] <span class="ot">=</span> <span class="dt">Nothing</span></span>
+<span id="cb15-20"><a href="#cb15-20" aria-hidden="true"></a>mkTagsList (tag<span class="op">:</span>tags) <span class="ot">=</span></span>
+<span id="cb15-21"><a href="#cb15-21" aria-hidden="true"></a>    <span class="dt">TagsList</span> <span class="op">&lt;$&gt;</span> liftA2 (<span class="op">:|</span>) (mkTag tag) (<span class="fu">traverse</span> mkTag tags)</span></code></pre></div>
 </div>
 </section>
 <h2 id="evidence">Evidence<a href="#evidence" class="anchor">🔗</a></h2>
@@ -526,7 +544,7 @@ Costs
 <span id="cb18-4"><a href="#cb18-4" aria-hidden="true"></a>loginUser user pwd pwdHash <span class="ot">=</span></span>
 <span id="cb18-5"><a href="#cb18-5" aria-hidden="true"></a>    <span class="kw">if</span> validateHash pwd pwdHash</span>
 <span id="cb18-6"><a href="#cb18-6" aria-hidden="true"></a>    <span class="kw">then</span> getUserPage user</span>
-<span id="cb18-7"><a href="#cb18-7" aria-hidden="true"></a>    <span class="kw">else</span> accessDenined user</span></code></pre></div>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true"></a>    <span class="kw">else</span> accessDenied user</span></code></pre></div>
 <p>The above code has two problems:</p>
 <ol type="1">
 <li>Even in the <code>else</code> branch you can call <code>getUserPage</code> and allow users to enter with the invalid passwords.</li>
@@ -542,9 +560,9 @@ Costs
 <p>Now we change the type of <code>getUserPage</code> to take <code>UserAuth</code> as a required parameter:</p>
 <div class="sourceCode" id="cb20"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true"></a><span class="ot">getUserPage ::</span> <span class="dt">UserAuth</span> <span class="ot">-&gt;</span> <span class="dt">User</span> <span class="ot">-&gt;</span> <span class="dt">IO</span> <span class="dt">Page</span></span></code></pre></div>
 <p>Since <code>UserAuth</code> can be created only with <code>validateHash</code>, the only way to return a user page is by performing password validation:</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true"></a><span class="ot">loginUser ::</span> <span class="dt">User</span> <span class="ot">-&gt;</span> <span class="dt">Password</span> <span class="ot">-&gt;</span> <span class="dt">PasswordHash</span> <span class="ot">-&gt;</span> <span class="dt">IO</span> ()</span>
+<div class="sourceCode" id="cb21"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true"></a><span class="ot">loginUser ::</span> <span class="dt">User</span> <span class="ot">-&gt;</span> <span class="dt">Password</span> <span class="ot">-&gt;</span> <span class="dt">PasswordHash</span> <span class="ot">-&gt;</span> <span class="dt">IO</span> <span class="dt">Page</span></span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true"></a>loginUser user pwd pwdHash <span class="ot">=</span> <span class="kw">case</span> validateHash pwd pwdHash <span class="kw">of</span></span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true"></a>    <span class="dt">Nothing</span>   <span class="ot">-&gt;</span> accessDenined user</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true"></a>    <span class="dt">Nothing</span>   <span class="ot">-&gt;</span> accessDenied user</span>
 <span id="cb21-4"><a href="#cb21-4" aria-hidden="true"></a>    <span class="dt">Just</span> auth <span class="ot">-&gt;</span> getUserPage auth user</span></code></pre></div>
 <p>You can see how we made the code safer and more robust by a small change. And, as always, there are multiple ways of solving this problem including usages of more advanced Haskell features for providing better guarantees, with better ergonomics or for solving more difficult problems. For example, the following blog post describes implementation of a similar problem using more advanced Haskell features:</p>
 <ul>

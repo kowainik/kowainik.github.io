@@ -58,7 +58,7 @@
                 <a class="btn btn-outline-dark btn-tag" href="https://github.com/kowainik/stan" data-icon="octicon-star" data-size="large" aria-label="Star Kowainik/stan on GitHub">Star Project</a>
                 <a class="fa-stack fa-2x" href="https://github.com/kowainik/stan/stargazers">
                     <i class="fa fa-star fa-stack-2x"></i>
-                    <i id="stars" class="fa fa-stack-1x fa-inverse main-font">279</i>
+                    <i id="stars" class="fa fa-stack-1x fa-inverse main-font">284</i>
                 </a>
                 <div class="author">Language: Haskell</div>
 
@@ -173,10 +173,7 @@ $ cd stan</code></pre>
 <p>Then, you need to build it using Cabal:</p>
 <pre class="shell"><code>$ cabal v2-build exe:stan</code></pre>
 <p>Finally, you can copy the resulting executable under the desired location (that should be under the PATH environment variable), like so:</p>
-<pre class="shell"><code>$ cp dist-newstyle/build/x86_64-linux/ghc-8.8.3/stan-0.0.0.0/x/stan/build/stan/stan ~/.local/bin/stan</code></pre>
-<blockquote>
-<p>The path to the executable will be outputted as the last line of the previous command.</p>
-</blockquote>
+<pre class="shell"><code>$ cp &quot;$(cabal v2-exec --verbose=0 --offline sh -- -c 'command -v stan')&quot; ~/.local/bin/stan</code></pre>
 <h3 id="using-stack">Using Stack<a href="#using-stack" class="anchor">🔗</a></h3>
 <p><a href="#table-of-contents">[Back to the Table of Contents] ↑</a></p>
 <p>Below are the steps to install Stan using the Stack build tool.</p>
