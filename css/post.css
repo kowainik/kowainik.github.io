@@ -104,6 +104,9 @@ pre.comment {
     background-repeat: repeat;
 }
 
+.post-body h1, .post-body h2, .post-body h3, .post-body h4, .post-body h5, .post-body h6 {
+    margin-top: 30px;
+}
 .post-body a:focus, .post-body a:hover, .post-body a:active,
 .post-body a:focus code, .post-body a:hover code, .post-body a:active code{
     text-decoration: none;
