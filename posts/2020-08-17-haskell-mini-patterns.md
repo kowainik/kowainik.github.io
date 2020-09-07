@@ -566,7 +566,7 @@ __Evidence__ pattern. Here we would like to add only a short overview
 with a small example.
 
 For our example, let's have a look at the function that sorts a
-list. Its type in Haskell can look like this:
+list. Its type in Haskell looks like this:
 
 ```haskell
 sort :: Ord a => [a] -> [a]
@@ -574,7 +574,7 @@ sort :: Ord a => [a] -> [a]
 
 By sorting a list, we gained a knowledge that now all elements in the
 list are in the increasing (or decreasing) order. But the type of a
-sorted list is the same as the type of an any other list. So there's
+sorted list is the same as the type of any other list. So there is
 no way to know in advance, whether a list is sorted or not.
 
 Fortunately, this problem can be solved. We are going to follow
@@ -592,9 +592,9 @@ sort :: Ord a => [a] -> SortedList a
 > but this approach has its own pros and cons.
 
 By wrapping the list into the newtype we record (and can provide
-later) an _evidence_ of list sorting. It may be important to have this
+later) an _evidence_ of the list elements order. It may be important to have this
 knowledge, because if you know that the list is sorted, you can
-implement some functions more efficiently that for ordinary lists, e.g::
+implement some functions more **efficiently** than for the ordinary lists, e.g.:
 
 
 1. Find the minimum of a list.
