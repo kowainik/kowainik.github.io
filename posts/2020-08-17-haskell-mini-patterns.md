@@ -4,7 +4,7 @@ author: Dmitrii Kovanikov <> Veronika Romashkina
 tags: haskell, tutorial, patterns
 description: Collection of small Haskell patterns with detailed description, examples and exercises
 useShortName: yes
-updated: "August 21, 2020"
+updated: "September 7, 2020"
 ---
 
 Navigating in the ocean of Haskell possibilities is challenging even
@@ -565,7 +565,58 @@ All above posts provide an amazing description and explanation of the
 __Evidence__ pattern. Here we would like to add only a short overview
 with a small example.
 
-If you ever find yourself writing code like this:
+For our example, let's have a look at the function that sorts a
+list. Its type in Haskell can look like this:
+
+```haskell
+sort :: Ord a => [a] -> [a]
+```
+
+By sorting a list, we gained a knowledge that now all elements in the
+list are in the increasing (or decreasing) order. But the type of a
+sorted list is the same as the type of an any other list. So there's
+no way to know in advance, whether a list is sorted or not.
+
+Fortunately, this problem can be solved. We are going to follow
+[Newtype](#newtype) and [Smart constructor](#smart-constructor)
+patterns:
+
+```haskell
+newtype SortedList a = SortedList [a]
+
+sort :: Ord a => [a] -> SortedList a
+```
+
+> 👩‍🔬 It is possible to use more sophisticated techniques (such as
+> dependent types) to ensure that the list is sorted by construction,
+> but this approach has its own pros and cons.
+
+By wrapping the list into the newtype we record (and can provide
+later) an _evidence_ of list sorting. It may be important to have this
+knowledge, because if you know that the list is sorted, you can
+implement some functions more efficiently that for ordinary lists, e.g::
+
+
+1. Find the minimum of a list.
+   ```haskell
+   minimum :: SortedList a -> Maybe a
+   ```
+
+2. Keep only unique elements in the list.
+   ```haskell
+   nub :: Eq a => SortedList a -> SortedList a
+   ```
+
+3. Merge two sorted list into a new sorted list.
+   ```haskell
+   merge :: Ord a => SortedList a -> SortedList a -> SortedList a
+   ```
+
+<hr>
+
+Unfortunately, even if you follow the **Evidence** pattern in types,
+you still can misuse it in values. Consider the following code that
+throws away the knowledge about given evidence:
 
 ```haskell
 add :: (a -> Maybe Int) -> (a -> Maybe Int) -> a -> Maybe Int
@@ -575,8 +626,9 @@ add f g x =
     else Just (fromJust (f x) + fromJust (g x))
 ```
 
-It is a sign that you are following the boolean blindness anti-pattern
-and it is time to refactor your code immediately.
+Writing such code is a sign that you are following the boolean
+blindness anti-pattern and it is time to refactor your code
+immediately.
 
 The key issue here is that by calling a function that returns `Bool`
 you lose the information about earlier performed validation. Instead,
