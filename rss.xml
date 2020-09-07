@@ -7,7 +7,7 @@
         <description><![CDATA[We are writing about what we find fascinating or exciting. Our blog's aim is to share our knowledge about functional programming, distribute best-practices based on our extensive experience and tell about various topics from beginner-friendly introductions to advanced type-level tricks.]]></description>
         <atom:link href="https://kowainik.github.io/rss.xml" rel="self"
                    type="application/rss+xml" />
-        <lastBuildDate>August 21, 2020</lastBuildDate>
+        <lastBuildDate>September 7, 2020</lastBuildDate>
         <item>
     <title>Haskell mini-patterns handbook</title>
     <link>https://kowainik.github.io/posts/haskell-mini-patterns.html</link>

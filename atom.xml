@@ -8,13 +8,13 @@
         <name>Kowainik</name>
         <email>xrom.xkov@gmail.com</email>
     </author>
-    <updated>August 21, 2020</updated>
+    <updated>September 7, 2020</updated>
     <entry>
     <title>Haskell mini-patterns handbook</title>
     <link href="https://kowainik.github.io/posts/haskell-mini-patterns.html" />
     <id>https://kowainik.github.io/posts/haskell-mini-patterns.html</id>
     <published>2020-08-17T00:00:00Z</published>
-    <updated>August 21, 2020</updated>
+    <updated>September 7, 2020</updated>
     <summary type="html"><![CDATA[Collection of small Haskell patterns with detailed description, examples and exercises]]></summary>
 </entry>
 <entry>

@@ -58,7 +58,7 @@
                 <a class="btn btn-outline-dark btn-tag" href="https://github.com/kowainik/relude" data-icon="octicon-star" data-size="large" aria-label="Star Kowainik/relude on GitHub">Star Project</a>
                 <a class="fa-stack fa-2x" href="https://github.com/kowainik/relude/stargazers">
                     <i class="fa fa-star fa-stack-2x"></i>
-                    <i id="stars" class="fa fa-stack-1x fa-inverse main-font">355</i>
+                    <i id="stars" class="fa fa-stack-1x fa-inverse main-font">367</i>
                 </a>
                 <div class="author">Language: Haskell</div>
 
@@ -236,6 +236,10 @@ library
         , relude (Relude as Prelude
                  , Relude.Extra
                  )</code></pre>
+<blockquote>
+<p><strong>NOTE:</strong> due to the existing <a href="https://github.com/commercialhaskell/stack/issues/5077">stack issue</a>, <code>mixins</code> technique doesn’t work with the <code>stack repl</code> at the moment. Please, consider this before using this method of turning <code>relude</code> on in the project.</p>
+<p>If having <code>stack repl</code> crucial for your workflow, see the following options of how to use Relude in your project.</p>
+</blockquote>
 <h3 id="base-noprelude">base-noprelude<a href="#base-noprelude" class="anchor">🔗</a></h3>
 <p><a href="#structure-of-this-tutorial">[Back to the Table of Contents] ↑</a></p>
 <p>Alternatively, you can use the <code>base-noprelude</code> trick to enable alternative preludes. This approach can be helpful if you want to have your own <code>Prelude</code> module with some custom functions, not provided by <code>relude</code>. To use the trick, perform the following steps:</p>
