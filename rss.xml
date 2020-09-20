@@ -7,8 +7,16 @@
         <description><![CDATA[We are writing about what we find fascinating or exciting. Our blog's aim is to share our knowledge about functional programming, distribute best-practices based on our extensive experience and tell about various topics from beginner-friendly introductions to advanced type-level tricks.]]></description>
         <atom:link href="https://kowainik.github.io/rss.xml" rel="self"
                    type="application/rss+xml" />
-        <lastBuildDate>September 7, 2020</lastBuildDate>
+        <lastBuildDate>Mon, 21 Sep 2020 00:00:00 UT</lastBuildDate>
         <item>
+    <title>Strategic Deriving</title>
+    <link>https://kowainik.github.io/posts/deriving.html</link>
+    <description><![CDATA[A comprehensive guide for deriving in Haskell]]></description>
+    <pubDate>Mon, 21 Sep 2020 00:00:00 UT</pubDate>
+    <guid>https://kowainik.github.io/posts/deriving.html</guid>
+    <dc:creator>Kowainik</dc:creator>
+</item>
+<item>
     <title>Haskell mini-patterns handbook</title>
     <link>https://kowainik.github.io/posts/haskell-mini-patterns.html</link>
     <description><![CDATA[Collection of small Haskell patterns with detailed description, examples and exercises]]></description>
@@ -78,14 +86,6 @@
     <description><![CDATA[Astonishing results of the Hacktoberfest 2018 in Kowainik]]></description>
     <pubDate>Thu, 01 Nov 2018 00:00:00 UT</pubDate>
     <guid>https://kowainik.github.io/posts/2018-11-01-hacktoberfest-wrap-up.html</guid>
-    <dc:creator>Kowainik</dc:creator>
-</item>
-<item>
-    <title>Hacktoberfest 2018: Call for participation</title>
-    <link>https://kowainik.github.io/posts/2018-10-01-hacktoberfest.html</link>
-    <description><![CDATA[Join us in the Hacktoberfest 2018!]]></description>
-    <pubDate>Mon, 01 Oct 2018 00:00:00 UT</pubDate>
-    <guid>https://kowainik.github.io/posts/2018-10-01-hacktoberfest.html</guid>
     <dc:creator>Kowainik</dc:creator>
 </item>
 

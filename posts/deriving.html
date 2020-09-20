@@ -1,0 +1,1499 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+      <!-- Global site tag (gtag.js) - Google Analytics -->
+      <script async src="https://www.googletagmanager.com/gtag/js?id=UA-125893749-1"></script>
+      <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+
+          gtag('config', 'UA-125893749-1');
+          </script>
+    <title>Strategic Deriving :: Kowainik</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Kowainik — A comprehensive guide for deriving in Haskell">
+    <meta name="keywords" content="Haskell, Functional progarmming, FP , haskell, tutorial, deriving ">
+    <meta name="author" content="Kowainik  — Veronika Romashkina <> Dmitrii Kovanikov " />
+
+    <!-- Twitter cards -->
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="@kowainik" />
+    <meta property="twitter:title" content="Kowainik - Strategic Deriving" />
+    <meta name="twitter:description" content="A comprehensive guide for deriving in Haskell" />
+    <meta name="twitter:image:src" content="https://kowainik.github.io/images/logo-yellow.png" />
+    <meta property="og:title" content="Kowainik - Strategic Deriving" />
+    <meta property="og:description" content="A comprehensive guide for deriving in Haskell" />
+    <meta property="og:site_name" content="Kowainik" />
+    <meta property="og:image" content="https://kowainik.github.io/images/logo-yellow.png" />
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon">
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.11.0/styles/dracula.min.css" />
+    <!-- Fontawesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+    <!-- Custom fonts for this template -->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Lato" />
+    <!-- Custom styles for this template -->
+    <link href="../css/default.css" rel="stylesheet">
+    <link href="../css/post.css" rel="stylesheet">
+  </head>
+
+  <body class="body-posts">
+
+          <!-- Header -->
+      <nav class="navbar navbar-inverse navbar-fixed-left leftmenu bg-primary text-secondary">
+            <div class="navbar-header">
+                <div class="postslogo"> <a class="navbar-brand" href="../"><img class="img-fluid" src="../images/logo-tr.png" alt="Kowainik"></a></div>
+            </div>
+            <div class="toc-zone">
+                <h6 class="coolFont">Contents</h6>
+                <div class="toc" id="main">
+                    <ul>
+<li><a href="#intro">Intro</a></li>
+<li><a href="#typeclasses-and-instances">Typeclasses and Instances</a>
+<ul>
+<li><a href="#santa-letters">Santa letters</a></li>
+<li><a href="#haskell-reports">Haskell Reports</a></li>
+<li><a href="#countable-sets">Countable sets</a></li>
+</ul></li>
+<li><a href="#motivation">Motivation</a></li>
+<li><a href="#deriving">Deriving</a></li>
+<li><a href="#strategies">Strategies</a></li>
+<li><a href="#standard-deriving">Standard deriving</a></li>
+<li><a href="#auto-derived">Auto derived</a>
+<ul>
+<li><a href="#typeable">Typeable</a></li>
+<li><a href="#coercible">Coercible</a></li>
+<li><a href="#hasfield">HasField</a></li>
+</ul></li>
+<li><a href="#derive-whatever">Derive Whatever</a>
+<ul>
+<li><a href="#functor">Functor</a></li>
+<li><a href="#foldable">Foldable</a></li>
+<li><a href="#traversable">Traversable</a></li>
+<li><a href="#generic-and-generic1">Generic and Generic1</a></li>
+<li><a href="#data">Data</a></li>
+<li><a href="#lift">Lift</a></li>
+</ul></li>
+<li><a href="#newtypes">Newtypes</a></li>
+<li><a href="#any-class-derivations">Any class derivations</a>
+<ul>
+<li><a href="#generic-anyclass">Generic anyclass</a></li>
+<li><a href="#exception-anyclass">Exception anyclass</a></li>
+<li><a href="#anyclass-ambiguity">Anyclass ambiguity</a></li>
+</ul></li>
+<li><a href="#via">Via</a></li>
+<li><a href="#standalone-deriving">Standalone deriving</a></li>
+<li><a href="#empty-deriving">Empty Deriving</a></li>
+<li><a href="#best-practices-with-deriving">Best practices with Deriving</a></li>
+<li><a href="#meta-boilerplate-and-possible-future-improvements">Meta boilerplate and possible future improvements</a></li>
+<li><a href="#summary">Summary</a></li>
+<li><a href="#quiz-lock-stock-and-two-smoking-barrels">Quiz: Lock, Stock and Two Smoking Barrels</a>
+<ul>
+<li><a href="#training-1-specify-strategy">Training 1: Specify strategy</a></li>
+<li><a href="#training-2-disambiguate">Training 2: Disambiguate</a></li>
+<li><a href="#puzzle-1-semigroup-and-monoid">Puzzle 1: Semigroup and Monoid</a></li>
+<li><a href="#puzzle-2-infinite-deriving">Puzzle 2: Infinite deriving</a></li>
+</ul></li>
+<li><a href="#conclusion">Conclusion</a></li>
+<li><a href="#sources">Sources</a></li>
+</ul>
+                </div>
+            </div>
+            <div class="coolFont">
+                <div>Date: September 21, 2020</div>
+                
+
+                <div class="author">Author: Veronika Romashkina <> Dmitrii Kovanikov</div>
+                <div class="row tag-block">
+                
+                <span class="tag-block"> <a class="btn btn-outline-dark btn-tag" href="../tags/haskell">haskell</a></span>
+                
+                <span class="tag-block"> <a class="btn btn-outline-dark btn-tag" href="../tags/tutorial">tutorial</a></span>
+                
+                <span class="tag-block"> <a class="btn btn-outline-dark btn-tag" href="../tags/deriving">deriving</a></span>
+                
+                </div>
+
+                <div class="allposts">
+                    <h3><a href="../posts"> Posts =<< </a></h3>
+                </div>
+            </div>
+      </nav>
+      <div class="container info">
+          <h2 class="text-center text-uppercase text-secondary">Strategic Deriving</h2>
+          <div class="content">
+          <div class="row post">
+              <div class="col-12 post-body">
+              <p class="lead">
+                  <div class="cite-quote">
+<div class="cite-quote-content">
+<p>A vision without a <strong>strategy</strong> remains an illusion.</p>
+</div>
+<div class="cite-quote-author">
+<p>Lee Bolman</p>
+</div>
+</div>
+<h2 id="intro">Intro<a href="#intro" class="anchor">🔗</a></h2>
+<p>Hardly anybody enjoys writing and maintaining boilerplate. Developers are trying to come up with more and more techniques and approaches to avoid humdrum repeating of their own code.</p>
+<p>Haskell has some unique and powerful ways to get rid of the error-prone boilerplate by design. And here, we would like to focus on one particular compiler feature — <strong>the deriving mechanism</strong>.</p>
+<p>Nowadays, it is impossible to imagine any production Haskell project without using automatic deriving. If you saw in code the pretty common <code>deriving (Show, Eq)</code> line, this is one of the examples of the feature in action. And there are strong reasons for the <code>deriving</code> to be so widespread and essential, but most importantly, it helps to reduce unnecessary duplication and makes code more consistent and clear.</p>
+<p>But what exactly is <strong>deriving</strong>, how does it work and what pitfalls can it bring? What are <strong>deriving strategies</strong> and how do you get a habit of using them regularly?</p>
+<p>In this post, we will get answers to all these questions, speak a bit more about means of deriving mechanisms, their detailed exploration and explanation on the importance of deriving strategies. The <a href="#best-practices-with-deriving">Best Practices</a> section contains a lot of useful tips on how to manage deriving in your code, and what is the current standard. So whether you are a Haskell beginner or more experienced user, this post could be helpful and may even become your pocketbook for deriving (let’s be ambitious).</p>
+<h2 id="typeclasses-and-instances">Typeclasses and Instances<a href="#typeclasses-and-instances" class="anchor">🔗</a></h2>
+<p>To start the discussion about <strong>deriving</strong>, it is important to understand a few underlying concepts that are crucial for the deriving per se. Feel free to skip to the next section if you are already comfortable with the concept of typeclasses and instances.</p>
+<p><u> <strong>Typeclass</strong> </u> is a regularly used way to express common characteristics of the different data types. In some sense, a typeclass describes the interface of some value without telling you the implementation details.</p>
+<p><u> <strong>Instance</strong> </u> is a representation of the typeclass ↔︎️ data type relationships. In order to show that the data type obeys the typeclasses rules and to use the methods of the typeclass on the data values, you need to provide the work instructions under this particular typeclass. And that is the instance of the data type for the particular typeclass.</p>
+<hr>
+<p>Let’s consolidate the typeclasses and instances concepts on the analogues from real life.</p>
+<h4 id="santa-letters">Santa letters<a href="#santa-letters" class="anchor">🔗</a></h4>
+<p>When a little child writes a letter to Santa, they describe what toy they want, e.g. cute, plush, cartoon-character-alike. These toy properties can be interpreted as typeclasses. They exist independently from the actual toy. At the same time, you can characterise a toy like <em>plush bear</em> by different qualities: plush, animal, smiling, etc. A letter to Santa is a function implemented in terms of some typeclasses and, depending on toy characteristics, Santa will choose a perfect match for a kid.</p>
+<h4 id="haskell-reports">Haskell Reports<a href="#haskell-reports" class="anchor">🔗</a></h4>
+<p>A more technical example is Haskell Report VS Haskell compiler. A Haskell report describes what every Haskell compiler must be able to do, and the report is not talking about any particular Haskell compiler. A compiler is a data type, and the report is a typeclass. And if a compiler implements the whole report, you can say that the compiler is an instance of the report.</p>
+<h4 id="countable-sets">Countable sets<a href="#countable-sets" class="anchor">🔗</a></h4>
+<p>And here is a math typeclass-instance reference for math lovers: sets of numbers (naturals, rationals, etc.) and set properties. For example, math defines an object called <em>countable set</em> that has an infinite number of elements. Using this properly you can prove different theorems or deduce new properties. You don’t even need to have a real object satisfying this property! But if you have such an object, you get all the proven theorems and properties automatically for your object.</p>
+<hr>
+<p>Let’s look at one code example for the better illustration of the instance-typeclass relationship. We can define a typeclass that would tell us whether you were a nice or naughty child this year</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true"></a><span class="kw">data</span> <span class="dt">Behaviour</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true"></a>    <span class="ot">=</span> <span class="dt">Naughty</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true"></a>    <span class="op">|</span> <span class="dt">Nice</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true"></a><span class="kw">class</span> <span class="dt">YearBehaviour</span> a <span class="kw">where</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true"></a><span class="ot">    yearBehaviour ::</span> a <span class="ot">-&gt;</span> <span class="dt">Behaviour</span></span></code></pre></div>
+<p>And that <code>yearBehaviour</code> method could be used with a lot of data types: <code>Int</code>, <code>Double</code>,… name them all! Let’s have our first instances to show how it works:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true"></a><span class="kw">instance</span> <span class="dt">YearBehaviour</span> <span class="dt">Int</span> <span class="kw">where</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true"></a><span class="ot">    yearBehaviour ::</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Behaviour</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true"></a>    yearBehaviour <span class="dv">0</span> <span class="ot">=</span> <span class="dt">Naughty</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true"></a>    yearBehaviour _ <span class="ot">=</span> <span class="dt">Nice</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true"></a></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true"></a><span class="kw">instance</span> <span class="dt">YearBehaviour</span> <span class="dt">Double</span> <span class="kw">where</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true"></a><span class="ot">    yearBehaviour ::</span> <span class="dt">Double</span> <span class="ot">-&gt;</span> <span class="dt">Behaviour</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true"></a>    yearBehaviour n</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true"></a>        <span class="op">|</span> <span class="fu">isNaN</span> n <span class="op">||</span> <span class="fu">isInfinite</span> n <span class="ot">=</span> <span class="dt">Naughty</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true"></a>        <span class="op">|</span> <span class="fu">otherwise</span> <span class="ot">=</span> <span class="dt">Nice</span></span></code></pre></div>
+<p>And then you can write polymorphic functions and not worry about which specific type is underhood until it has the instance of the desired typeclass:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true"></a><span class="ot">canHaveChristmasGift ::</span> <span class="dt">YearBehaviour</span> a <span class="ot">=&gt;</span> a <span class="ot">-&gt;</span> <span class="dt">Text</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true"></a>canHaveChristmasGift x <span class="ot">=</span> <span class="kw">case</span> yearBehaviour x <span class="kw">of</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true"></a>    <span class="dt">Nice</span>    <span class="ot">-&gt;</span> <span class="st">&quot;Ho-ho-ho! Looks like somebody deserves a toy!&quot;</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true"></a>    <span class="dt">Naughty</span> <span class="ot">-&gt;</span> <span class="st">&quot;You were naughty this year! Better luck next year ;)&quot;</span></span></code></pre></div>
+<p>This is how it works in action:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true"></a>ghci<span class="op">&gt;</span> canHaveChristmasGift (<span class="dv">42</span><span class="ot"> ::</span> <span class="dt">Int</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true"></a><span class="st">&quot;Ho-ho-ho! Looks like somebody deserves a toy!&quot;</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true"></a>ghci<span class="op">&gt;</span> canHaveChristmasGift (<span class="dv">0</span> <span class="op">/</span> <span class="dv">0</span><span class="ot"> ::</span> <span class="dt">Double</span>)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true"></a><span class="st">&quot;You were naughty this year! Better luck next year ;)&quot;</span></span></code></pre></div>
+<p>However, if we try to use this function with something that doesn’t implement any instance of our typeclass, we will get the corresponding compiler error, that would warn us exactly about that:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true"></a>ghci<span class="op">&gt;</span> canHaveChristmasGift (<span class="st">&quot;Trust me, I am nice!&quot;</span><span class="ot"> ::</span> <span class="dt">Text</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true"></a><span class="op">&lt;</span>interactive<span class="op">&gt;:</span><span class="dv">21</span><span class="op">:</span><span class="dv">1</span><span class="op">:</span> <span class="fu">error</span><span class="op">:</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true"></a>    • <span class="dt">No</span> <span class="kw">instance</span> for (<span class="dt">YearBehaviour</span> <span class="dt">Text</span>)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true"></a>        arising from a use <span class="kw">of</span> ‘canHaveChristmasGift’</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true"></a>    • <span class="dt">In</span> the expression<span class="op">:</span> canHaveChristmasGift <span class="st">&quot;Trust me, I am nice!&quot;</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true"></a>      <span class="dt">In</span> an equation for ‘it’<span class="op">:</span> it <span class="ot">=</span> canHaveChristmasGift <span class="st">&quot;Trust me, I am nice!&quot;</span></span></code></pre></div>
+<p>Now when we know the above information about type classes and how they work, we may look at what deriving gives us and how it is connected.</p>
+<h2 id="motivation">Motivation<a href="#motivation" class="anchor">🔗</a></h2>
+<p>Without further ado, <strong>deriving</strong> is the mechanism of automatically generating typeclass instances for data types by a compiler.</p>
+<p>The fair question here is why one may need to generate instances automatically? Let’s try to get an answer to this one.</p>
+<p>For instance, we have the gift system for Santa’s <em>“Christmas”</em> operation, and we define the following data types in our system:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true"></a><span class="kw">data</span> <span class="dt">Gift</span> <span class="ot">=</span> <span class="dt">Gift</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true"></a>    {<span class="ot"> giftId   ::</span> <span class="dt">Int</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true"></a>    ,<span class="ot"> giftType ::</span> <span class="dt">GiftType</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true"></a>    }</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true"></a></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true"></a><span class="kw">data</span> <span class="dt">GiftType</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true"></a>    <span class="ot">=</span> <span class="dt">Candies</span> <span class="dt">CandyCounter</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true"></a>    <span class="op">|</span> <span class="dt">Toy</span> <span class="dt">Name</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true"></a></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true"></a><span class="kw">newtype</span> <span class="dt">Name</span> <span class="ot">=</span> <span class="dt">Name</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true"></a>    {<span class="ot"> unName ::</span> <span class="dt">Text</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true"></a>    }</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true"></a></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true"></a><span class="kw">newtype</span> <span class="dt">CandyCounter</span> <span class="ot">=</span> <span class="dt">CandyCounter</span></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true"></a>    {<span class="ot"> unCandyCounter ::</span> <span class="dt">Int</span></span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true"></a>    }</span></code></pre></div>
+<p>And now we want to compare two gifts — two values of the <code>Gift</code> data type (e.g., we may need it to prepare the most deserved presents depending on the child’s behaviour).</p>
+<p>We can, of course, write the special function <code>compareGifts :: Gift -&gt; Gift -&gt; Ordering</code>. But, generally, it’s a good practice to provide a more polymorphic interface when possible. And here it is definitely possible!</p>
+<p>One can notice that our data types would benefit from instances of the general comparison typeclass <code>Ord</code>, which already includes many comparison functions and the ecosystem nicely integrates with it. So, let’s go ahead and write some instances.</p>
+<p>If we look at the <code>Ord</code> typeclass definition, we can see that it demands the data type to have the <code>Eq</code> instance too. That means we should implement it first.</p>
+<p>We also can verify in the docs, that the standard type <code>Int</code> already has both <code>Eq</code> and <code>Ord</code> instances. At least we don’t need to define instances for primitive data types, phew! However, the newtype that we defined manually is not the same as <code>Int</code> even though it has the same runtime representation (because it is a newtype). For each newtype introduced we need to somehow define the instance too.</p>
+<p>So, taking all of that under consideration, to solve our problem, we must write:</p>
+<ul>
+<li><code>Eq</code> instance for the <code>CandyCounter</code> newtype</li>
+<li><code>Ord</code> instance for the <code>CandyCounter</code> newtype</li>
+<li><code>Eq</code> instance for the <code>Name</code> newtype</li>
+<li><code>Ord</code> instance for the <code>Name</code> newtype</li>
+<li><code>Eq</code> instance for the <code>GiftType</code> data type</li>
+<li><code>Ord</code> instance for the <code>GiftType</code> data type</li>
+<li><code>Eq</code> instance for the <code>Gift</code> data type</li>
+<li><code>Ord</code> instance for the <code>Gift</code> data type</li>
+</ul>
+<p>And only after that, we will be able to use the <code>compare</code> function with gifts.</p>
+<p>Writing all those instances by hand is quite tedious work. Besides, such work creates more work — a lot of code to maintain for the future you and your colleagues. Imagine that you need to go through the above cycle again when you slightly change anything in your data types. What a nightmare that could be!</p>
+<p>Besides boredom, it could bring pain and lead to some dummy errors like this one:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true"></a><span class="kw">instance</span> <span class="dt">Eq</span> <span class="dt">MyChangedType</span> <span class="kw">where</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true"></a>    <span class="dt">MyChangedType</span> a1 b1 (<span class="dt">Xxx</span> c1 c2) <span class="op">==</span> <span class="dt">MyChangedType</span> a2 b2 (<span class="dt">Xxx</span> d1 d2) <span class="ot">=</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true"></a>           a1 <span class="op">==</span> a2</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true"></a>        <span class="op">&amp;&amp;</span> b1 <span class="op">==</span> b2</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true"></a>        <span class="op">&amp;&amp;</span> c1 <span class="op">==</span> c2</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true"></a>        <span class="op">&amp;&amp;</span> d1 <span class="op">==</span> d2</span></code></pre></div>
+<p>Can you see what is wrong with this instance? Indeed, you can notice the mistake after looking at the instance for a while, but this is just an example. It could be a bit more tricky to notice in real-life code, so you should be extra careful in manual instance declaration and maintenance.</p>
+<p>So, with all that in mind, we are coming to the interesting part, the part why we are all here. Here comes the deriving!</p>
+<h2 id="deriving">Deriving<a href="#deriving" class="anchor">🔗</a></h2>
+<p>As we already said, the <strong>deriving</strong> mechanism is the compiler feature that automatically generates the instances of some typeclasses for you. There are different ways of deriving, but the general idea is described by the Haskell language report, which implies that any Haskell compiler should have this feature out of the box.</p>
+<p>Citing the Haskell Report 2010:</p>
+<div class="cite-quote">
+<div class="cite-quote-content">
+<p>A derived instance is an instance declaration that is generated automatically in conjunction with a data or newtype declaration. The body of a derived instance declaration is derived syntactically from the definition of the associated type.</p>
+</div>
+<div class="cite-quote-author">
+<p>Haskell 2010 Report</p>
+</div>
+</div>
+<p>This is a very accurate definition suitable for any kind of deriving. So, it should give you an idea of what is deriving in general.</p>
+<blockquote>
+<p>☝️ As the deriving mechanism is the part of Haskell language specification, the implementation depends on the compiler. We are going to talk only about Glasgow Haskell Compiler (or GHC) in this post.</p>
+</blockquote>
+<p>There are in fact a few ways to utilize the deriving feature in GHC:</p>
+<ol type="1">
+<li>The <code>deriving</code> clause within the data type declaration.</li>
+<li>Standalone deriving anywhere in the code (needs a specific extension enabled).</li>
+</ol>
+<p>The first one is the most common way of deriving, so we will focus on this approach for now. But we are going to see how standalone deriving works in a separate section as well, so stay tuned!</p>
+<p>The syntax for the simple deriving clause is the following:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true"></a>(<span class="kw">data</span><span class="op">|</span><span class="kw">newtype</span>) <span class="dt">Data</span> <span class="ot">=</span> <span class="dt">Data</span> <span class="dt">Declaration</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true"></a>    <span class="kw">deriving</span> (<span class="dt">TypeClasses</span>, <span class="dt">Separated</span>, <span class="dt">By</span> <span class="dt">Comma</span>)</span></code></pre></div>
+<p>Compiler parses such clauses and resolves them during the type checker stage. If there are no type errors or deriving errors, then the instances are created during the compilation.</p>
+<figure>
+<img src="../images/deriving/dr-type-checker.png" alt /><figcaption>Instance Workflow</figcaption>
+</figure>
+<p>Perfect, since we have an idea of deriving, let’s try to solve the boring problem from the previous example by using the easiest way of deriving in Haskell. For that, we can add the <code>deriving</code> clause (also known as <em>Deer-iving Claus</em> 🦌🎅) with the required typeclasses listed for each of our data types. As a result, we would have:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true"></a><span class="kw">data</span> <span class="dt">Gift</span> <span class="ot">=</span> <span class="dt">Gift</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true"></a>    {<span class="ot"> giftId ::</span> <span class="dt">Int</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true"></a>    ,<span class="ot"> giftType ::</span> <span class="dt">GiftType</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true"></a>    } <span class="kw">deriving</span> (<span class="dt">Eq</span>, <span class="dt">Ord</span>)</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true"></a></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true"></a><span class="kw">data</span> <span class="dt">GiftType</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true"></a>    <span class="ot">=</span> <span class="dt">Candies</span> <span class="dt">CandyCounter</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true"></a>    <span class="op">|</span> <span class="dt">Toy</span> <span class="dt">Name</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true"></a>    <span class="kw">deriving</span> (<span class="dt">Eq</span>, <span class="dt">Ord</span>)</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true"></a></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true"></a><span class="kw">newtype</span> <span class="dt">Name</span> <span class="ot">=</span> <span class="dt">Name</span></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true"></a>    {<span class="ot"> unName ::</span> <span class="dt">Text</span></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true"></a>    } <span class="kw">deriving</span> (<span class="dt">Eq</span>, <span class="dt">Ord</span>)</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true"></a></span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true"></a><span class="kw">newtype</span> <span class="dt">CandyCounter</span> <span class="ot">=</span> <span class="dt">CandyCounter</span></span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true"></a>    {<span class="ot"> unCandyCounter ::</span> <span class="dt">Int</span></span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true"></a>    } <span class="kw">deriving</span> (<span class="dt">Eq</span>, <span class="dt">Ord</span>)</span></code></pre></div>
+<p>And now magically you can compare any values of the declared types.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true"></a>ghci<span class="op">&gt;</span> <span class="op">:</span>{</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true"></a>ghci<span class="op">|</span> <span class="fu">compare</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true"></a>ghci<span class="op">|</span>     (<span class="dt">Gift</span> <span class="dv">1</span> (<span class="dt">Toy</span> <span class="op">$</span> <span class="dt">Name</span> <span class="st">&quot;Strawberry Bear&quot;</span>))</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true"></a>ghci<span class="op">|</span>     (<span class="dt">Gift</span> <span class="dv">2</span> (<span class="dt">Candies</span> <span class="op">$</span> <span class="dt">CandyCounter</span> <span class="dv">1000</span>))</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true"></a>ghci<span class="op">|</span> <span class="op">:</span>}</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true"></a><span class="dt">LT</span></span></code></pre></div>
+<p>But we are not magicians, and we are not here to show juggles, instead, we’d better show what is actually going on. As we know, the compiler should generate all those instances for us during the compilation. And we can check that by looking into the generated code to make sure that this is what is really happening. To see that, all you need to do is to specify the corresponding GHC option (<code>ddump-deriv</code>), which will output the code for you.</p>
+<p>When we compile the following code with the helpful GHC options enabled</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true"></a><span class="co">-- Candies.hs file content</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true"></a><span class="ot">{-# OPTIONS_GHC</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true"></a><span class="ot">    -ddump-deriv</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true"></a><span class="ot">    -dsuppress-idinfo</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true"></a><span class="ot">    -dsuppress-coercions</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true"></a><span class="ot">    -dsuppress-type-applications</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true"></a><span class="ot">    -dsuppress-uniques</span></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true"></a><span class="ot">    -dsuppress-module-prefixes</span></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true"></a><span class="ot">#-}</span></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true"></a></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true"></a><span class="kw">module</span> <span class="dt">Candies</span> <span class="kw">where</span></span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true"></a></span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true"></a></span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true"></a><span class="kw">newtype</span> <span class="dt">CandyCounter</span> <span class="ot">=</span> <span class="dt">CandyCounter</span></span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true"></a>    {<span class="ot"> unCandyCounter ::</span> <span class="dt">Int</span></span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true"></a>    } <span class="kw">deriving</span> (<span class="dt">Eq</span>, <span class="dt">Ord</span>)</span></code></pre></div>
+<p>And run the <code>ghc Candies.hs</code> command, it outputs the derived instances. Specifically:</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true"></a><span class="op">====================</span> <span class="dt">Derived</span> instances <span class="op">====================</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true"></a><span class="dt">Derived</span> <span class="kw">class</span> instances<span class="op">:</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true"></a>  <span class="kw">instance</span> <span class="dt">Eq</span> <span class="dt">CandyCounter</span> <span class="kw">where</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true"></a>    (<span class="op">==</span>)</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true"></a>      <span class="ot">=</span> coerce</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true"></a>          <span class="op">@</span>(<span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Bool</span>) <span class="op">@</span>(<span class="dt">CandyCounter</span> <span class="ot">-&gt;</span> <span class="dt">CandyCounter</span> <span class="ot">-&gt;</span> <span class="dt">Bool</span>) ((<span class="op">==</span>) <span class="op">@</span><span class="dt">Int</span>) <span class="ot">::</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true"></a>          <span class="dt">CandyCounter</span> <span class="ot">-&gt;</span> <span class="dt">CandyCounter</span> <span class="ot">-&gt;</span> <span class="dt">Bool</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true"></a>    (<span class="op">/=</span>)</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true"></a>      <span class="ot">=</span> coerce</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true"></a>          <span class="op">@</span>(<span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Bool</span>) <span class="op">@</span>(<span class="dt">CandyCounter</span> <span class="ot">-&gt;</span> <span class="dt">CandyCounter</span> <span class="ot">-&gt;</span> <span class="dt">Bool</span>) ((<span class="op">/=</span>) <span class="op">@</span><span class="dt">Int</span>) <span class="ot">::</span></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true"></a>          <span class="dt">CandyCounter</span> <span class="ot">-&gt;</span> <span class="dt">CandyCounter</span> <span class="ot">-&gt;</span> <span class="dt">Bool</span></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true"></a></span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true"></a>  <span class="kw">instance</span> <span class="dt">Ord</span> <span class="dt">CandyCounter</span> <span class="kw">where</span></span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true"></a>    <span class="fu">compare</span></span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true"></a>      <span class="ot">=</span> coerce</span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true"></a>          <span class="op">@</span>(<span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Ordering</span>)</span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true"></a>          <span class="op">@</span>(<span class="dt">CandyCounter</span> <span class="ot">-&gt;</span> <span class="dt">CandyCounter</span> <span class="ot">-&gt;</span> <span class="dt">Ordering</span>)</span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true"></a>          (<span class="fu">compare</span> <span class="op">@</span><span class="dt">Int</span>) <span class="ot">::</span></span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true"></a>          <span class="dt">CandyCounter</span> <span class="ot">-&gt;</span> <span class="dt">CandyCounter</span> <span class="ot">-&gt;</span> <span class="dt">Ordering</span></span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true"></a>    (<span class="op">&lt;</span>)</span>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true"></a>      <span class="ot">=</span> coerce</span>
+<span id="cb12-22"><a href="#cb12-22" aria-hidden="true"></a>          <span class="op">@</span>(<span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Bool</span>) <span class="op">@</span>(<span class="dt">CandyCounter</span> <span class="ot">-&gt;</span> <span class="dt">CandyCounter</span> <span class="ot">-&gt;</span> <span class="dt">Bool</span>) ((<span class="op">&lt;</span>) <span class="op">@</span><span class="dt">Int</span>) <span class="ot">::</span></span>
+<span id="cb12-23"><a href="#cb12-23" aria-hidden="true"></a>          <span class="dt">CandyCounter</span> <span class="ot">-&gt;</span> <span class="dt">CandyCounter</span> <span class="ot">-&gt;</span> <span class="dt">Bool</span></span>
+<span id="cb12-24"><a href="#cb12-24" aria-hidden="true"></a>    (<span class="op">&lt;=</span>)</span>
+<span id="cb12-25"><a href="#cb12-25" aria-hidden="true"></a>      <span class="ot">=</span> coerce</span>
+<span id="cb12-26"><a href="#cb12-26" aria-hidden="true"></a>          <span class="op">@</span>(<span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Bool</span>) <span class="op">@</span>(<span class="dt">CandyCounter</span> <span class="ot">-&gt;</span> <span class="dt">CandyCounter</span> <span class="ot">-&gt;</span> <span class="dt">Bool</span>) ((<span class="op">&lt;=</span>) <span class="op">@</span><span class="dt">Int</span>) <span class="ot">::</span></span>
+<span id="cb12-27"><a href="#cb12-27" aria-hidden="true"></a>          <span class="dt">CandyCounter</span> <span class="ot">-&gt;</span> <span class="dt">CandyCounter</span> <span class="ot">-&gt;</span> <span class="dt">Bool</span></span>
+<span id="cb12-28"><a href="#cb12-28" aria-hidden="true"></a>    (<span class="op">&gt;</span>)</span>
+<span id="cb12-29"><a href="#cb12-29" aria-hidden="true"></a>      <span class="ot">=</span> coerce</span>
+<span id="cb12-30"><a href="#cb12-30" aria-hidden="true"></a>          <span class="op">@</span>(<span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Bool</span>) <span class="op">@</span>(<span class="dt">CandyCounter</span> <span class="ot">-&gt;</span> <span class="dt">CandyCounter</span> <span class="ot">-&gt;</span> <span class="dt">Bool</span>) ((<span class="op">&gt;</span>) <span class="op">@</span><span class="dt">Int</span>) <span class="ot">::</span></span>
+<span id="cb12-31"><a href="#cb12-31" aria-hidden="true"></a>          <span class="dt">CandyCounter</span> <span class="ot">-&gt;</span> <span class="dt">CandyCounter</span> <span class="ot">-&gt;</span> <span class="dt">Bool</span></span>
+<span id="cb12-32"><a href="#cb12-32" aria-hidden="true"></a>    (<span class="op">&gt;=</span>)</span>
+<span id="cb12-33"><a href="#cb12-33" aria-hidden="true"></a>      <span class="ot">=</span> coerce</span>
+<span id="cb12-34"><a href="#cb12-34" aria-hidden="true"></a>          <span class="op">@</span>(<span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Bool</span>) <span class="op">@</span>(<span class="dt">CandyCounter</span> <span class="ot">-&gt;</span> <span class="dt">CandyCounter</span> <span class="ot">-&gt;</span> <span class="dt">Bool</span>) ((<span class="op">&gt;=</span>) <span class="op">@</span><span class="dt">Int</span>) <span class="ot">::</span></span>
+<span id="cb12-35"><a href="#cb12-35" aria-hidden="true"></a>          <span class="dt">CandyCounter</span> <span class="ot">-&gt;</span> <span class="dt">CandyCounter</span> <span class="ot">-&gt;</span> <span class="dt">Bool</span></span>
+<span id="cb12-36"><a href="#cb12-36" aria-hidden="true"></a>    <span class="fu">max</span></span>
+<span id="cb12-37"><a href="#cb12-37" aria-hidden="true"></a>      <span class="ot">=</span> coerce</span>
+<span id="cb12-38"><a href="#cb12-38" aria-hidden="true"></a>          <span class="op">@</span>(<span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Int</span>) <span class="op">@</span>(<span class="dt">CandyCounter</span> <span class="ot">-&gt;</span> <span class="dt">CandyCounter</span> <span class="ot">-&gt;</span> <span class="dt">CandyCounter</span>) (<span class="fu">max</span> <span class="op">@</span><span class="dt">Int</span>) <span class="ot">::</span></span>
+<span id="cb12-39"><a href="#cb12-39" aria-hidden="true"></a>          <span class="dt">CandyCounter</span> <span class="ot">-&gt;</span> <span class="dt">CandyCounter</span> <span class="ot">-&gt;</span> <span class="dt">CandyCounter</span></span>
+<span id="cb12-40"><a href="#cb12-40" aria-hidden="true"></a>    <span class="fu">min</span></span>
+<span id="cb12-41"><a href="#cb12-41" aria-hidden="true"></a>      <span class="ot">=</span> coerce</span>
+<span id="cb12-42"><a href="#cb12-42" aria-hidden="true"></a>          <span class="op">@</span>(<span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Int</span>) <span class="op">@</span>(<span class="dt">CandyCounter</span> <span class="ot">-&gt;</span> <span class="dt">CandyCounter</span> <span class="ot">-&gt;</span> <span class="dt">CandyCounter</span>) (<span class="fu">min</span> <span class="op">@</span><span class="dt">Int</span>) <span class="ot">::</span></span>
+<span id="cb12-43"><a href="#cb12-43" aria-hidden="true"></a>          <span class="dt">CandyCounter</span> <span class="ot">-&gt;</span> <span class="dt">CandyCounter</span> <span class="ot">-&gt;</span> <span class="dt">CandyCounter</span></span></code></pre></div>
+<p>Wow, imagine writing all that manually! Let’s disassemble this dumped information piece by piece, to make sure that we get something sane when using deriving.</p>
+<p>If we were writing the <code>Eq</code> instance for <code>CandyCounter</code> data type, we would do it like this:</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true"></a><span class="kw">instance</span> <span class="dt">Eq</span> <span class="dt">CandyCounter</span> <span class="kw">where</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true"></a><span class="ot">    (==) ::</span> <span class="dt">CandyCounter</span> <span class="ot">-&gt;</span> <span class="dt">CandyCounter</span> <span class="ot">-&gt;</span> <span class="dt">Bool</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true"></a>    <span class="dt">CandyCounter</span> x <span class="op">==</span> <span class="dt">CandyCounter</span> y <span class="ot">=</span> x <span class="op">==</span> y</span></code></pre></div>
+<p>Basically, we delegate the comparison of two <code>CandyCounter</code>s to the equality check of the underlying integers.</p>
+<p>In contrast, here the the generated piece responsible for the same instance:</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true"></a><span class="kw">instance</span> <span class="dt">Eq</span> <span class="dt">CandyCounter</span> <span class="kw">where</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true"></a>    (<span class="op">==</span>) <span class="ot">=</span> coerce</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true"></a>        <span class="op">@</span>(<span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Bool</span>)</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true"></a>        <span class="op">@</span>(<span class="dt">CandyCounter</span> <span class="ot">-&gt;</span> <span class="dt">CandyCounter</span> <span class="ot">-&gt;</span> <span class="dt">Bool</span>)</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true"></a>            ((<span class="op">==</span>) <span class="op">@</span><span class="dt">Int</span>)<span class="ot"> ::</span> (<span class="dt">CandyCounter</span> <span class="ot">-&gt;</span> <span class="dt">CandyCounter</span> <span class="ot">-&gt;</span> <span class="dt">Bool</span></span></code></pre></div>
+<p>Even if this instance looks completely different from what we’ve implemented manually, it has the same behaviour. GHC generates a more efficient implementation using the fact that <code>CandyCounter</code> and <code>Int</code> have the same runtime representation. The implementation uses the instance of the <code>Coercible</code> typeclass which will be described in more details later. The implementation of the <code>Ord</code> typeclass for the <code>CandyCounter</code> newtype follows the same principles, except <code>Ord</code> has more methods than <code>Eq</code>.</p>
+<p>Objectively, nothing magical is happening here, as we see GHC is creating quite sensible instances for our data types. But the amount of work that you would need to do in case of manual work, is too damn high.</p>
+<hr>
+<p>It is nice that we can use the deriving in such an effortless way, but, indeed, the reasonable question that you might have at this point is the following – How does the usage of this feature affect our compiling times?</p>
+<p>And, honestly, we don’t know a solid answer. It is likely that deriving has its effect, but there are no official measurements on this topic. However, we can give a couple of examples of the degradation of compile-time, which you can try at home (though, not recommended).</p>
+<p>If you create a huge enum data type with <a href="https://gitlab.haskell.org/ghc/ghc/-/issues/5642">~200 constructors</a> (maybe the list of all countries) and then try to derive the <code>Generic</code> instance for it, then you can manage to watch 0.5-1 episodes of your favourite TV-series (depending on your choice) while waiting for the build to finish.</p>
+<p>Another interesting example you can check is the <a href="https://taylor.fausak.me/2017/08/09/deriving-type-classes-in-haskell-is-slow/">brilliant work of Taylor</a> where he gives very interesting and honest results with <a href="https://dev.to/tfausak/how-to-define-json-instances-quickly-5ei7">the performance comparison of different types</a> using different instance generation mechanisms in Haskell, including the deriving mechanism.</p>
+<hr>
+<p>The process of the code generation through the deriving mechanisms is the piece of work by itself. We are not going to get into details of the exact description of how it works in GHC (mostly because it is very complicated to get into it for curious strangers like us). But if you are keen to learn more, here is where GHC developers keep all the good stuff and many interesting notes as well:</p>
+<ul>
+<li><a href="https://gitlab.haskell.org/ghc/ghc/-/blob/master/compiler/GHC/Tc/Deriv.hs">Deriving implementation in GHC</a>.</li>
+</ul>
+<h2 id="strategies">Strategies<a href="#strategies" class="anchor">🔗</a></h2>
+<p>In addition to plain deriving clauses, you can use deriving with a specific strategy. Let’s see what it means.</p>
+<p><strong>Strategies</strong> are introduced into GHC by the <a href="https://downloads.haskell.org/ghc/latest/docs/html/users_guide/glasgow_exts.html#deriving-strategies">DerivingStrategies</a> language extension. The GHC documentation gives a concise description of this feature:</p>
+<div class="cite-quote">
+<div class="cite-quote-content">
+<p>Deriving strategies grant users finer-grained control over how instances may be derived.</p>
+</div>
+<div class="cite-quote-author">
+<p>GHC user guide</p>
+</div>
+</div>
+<p>Strategy defines the way of the instance generation. When you write <code>deriving SomeClass</code>, the compiler needs to figure out the plan of how it is going to create the instance, because in some situations the same typeclass can be derived in multiple ways. And a specific deriving method is called <u> <strong>strategy</strong> </u>.</p>
+<p>Strategy is the implicit or explicit way to tell the compiler what kind of the deriving you want for the particular typeclass.</p>
+<p>When GHC sees a deriving clause, it associates a strategy for all typeclass listed in the deriving clause. This process is called strategy resolution. If you don’t specify the strategy explicitly, GHC uses an algorithm to find out a proper strategy. Otherwise, it matches explicitly specified strategy with the possibility to derive a typeclass using this strategy.</p>
+<p>Currently, there are four kinds of deriving strategies:</p>
+<ul>
+<li><strong>stock</strong></li>
+<li><strong>newtype</strong></li>
+<li><strong>anyclass</strong></li>
+<li><strong>via</strong></li>
+</ul>
+<p>If you want to specify a strategy manually, you need to add an extra keyword after the <code>deriving</code> keyword, e.g. <code>deriving stock Show</code>. Precisely, the syntax is as follows:</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true"></a><span class="ot">{-# LANGUAGE DerivingStrategies #-}</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true"></a></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true"></a>(<span class="kw">data</span><span class="op">|</span><span class="kw">newtype</span>) <span class="dt">Data</span> <span class="ot">=</span> <span class="dt">Data</span> <span class="dt">Declaration</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true"></a>    <span class="kw">deriving</span> <span class="dt">STRATEGY</span> (<span class="dt">TypeClasses</span>, <span class="dt">Separated</span>, <span class="dt">By</span> <span class="dt">Comma</span>)</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true"></a>    <span class="kw">deriving</span> <span class="dt">STRATEGY</span> (<span class="dt">Or</span>, <span class="dt">Separate</span>, <span class="dt">Clauses</span>)</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true"></a>    <span class="kw">deriving</span> (<span class="dt">And</span>, <span class="dt">Even</span>, <span class="dt">Without</span>, <span class="dt">A</span>, <span class="dt">Strategy</span>)</span></code></pre></div>
+<blockquote>
+<p>☝️ It is only possible to define several deriving clauses only when the <code>DerivingStrategies</code> extension is enabled.</p>
+</blockquote>
+<p>Explicit strategy marking is a quite recent feature. Even though GHC knew the concept of “strategies” for quite some time, the users gained the ability to specify the strategy only in GHC 8.2.1 when the <code>DerivingStrategies</code> language extension landed in the compiler.</p>
+<p>The extension was introduced due to the inability to correctly figure out the strategy by GHC on its own in some cases. Later, we will look into such situations, but for now, it is important to understand that specifying the strategy is important for getting expected and determined behaviour.</p>
+<p>Specifically, writing a strategy explicitly has the following benefits:</p>
+<ul>
+<li>Resolve deriving ambiguity</li>
+<li>Help compiler to avoid the possibility of the mis-strategy</li>
+<li>Specify the resulting instance behaviour</li>
+<li>Take control over the performance of generated instances, as different strategies vary in that aspect</li>
+</ul>
+<p>We will look into each of the unique deriving strategies and their meaning while discovering all existing ways of the deriving mechanisms in the coming sections.</p>
+<blockquote>
+<p>☝️ From now on, we assume that the <code>DerivingStrategies</code> is enabled in all the code we show, unless the otherwise is mentioned.</p>
+</blockquote>
+<h2 id="standard-deriving">Standard deriving<a href="#standard-deriving" class="anchor">🔗</a></h2>
+<div class="pattern row">
+<div class="pattern-header bg-primary col-3">
+Extension
+</div>
+<div class="pattern-body col-9">
+<p><em>Not needed</em></p>
+</div>
+<div class="pattern-header bg-primary col-3">
+Strategy
+</div>
+<div class="pattern-body col-9">
+<p>stock</p>
+</div>
+<div class="pattern-header bg-primary col-3">
+Typeclasses
+</div>
+<div class="pattern-body col-9">
+<ul>
+<li><a href="https://hackage.haskell.org/package/base-4.14.0.0/docs/Prelude.html#t:Eq">Eq</a></li>
+<li><a href="https://hackage.haskell.org/package/base-4.14.0.0/docs/Prelude.html#t:Ord">Ord</a></li>
+<li><a href="https://hackage.haskell.org/package/base-4.14.0.0/docs/Prelude.html#t:Show">Show</a></li>
+<li><a href="https://hackage.haskell.org/package/base-4.14.0.0/docs/Prelude.html#t:Read">Read</a></li>
+<li><a href="https://hackage.haskell.org/package/base-4.14.0.0/docs/Prelude.html#t:Enum">Enum</a></li>
+<li><a href="https://hackage.haskell.org/package/base-4.14.0.0/docs/Prelude.html#t:Bounded">Bounded</a></li>
+<li><a href="https://hackage.haskell.org/package/base-4.14.0.0/docs/Data-Ix.html#t:Ix">Ix</a></li>
+</ul>
+</div>
+</div>
+<div class="small-img">
+<figure>
+<img src="../images/deriving/santa-standard.jpg" alt /><figcaption>Deeriving Claus</figcaption>
+</figure>
+</div>
+<p>Let’s start our journey to the world of deriving with looking into fundamental deriving features. GHC is capable of deriving instances for some standard typeclasses out-of-the-box and without any additional extensions as per Haskell specification.</p>
+<p>The simplest and most common deriving clause looks like this:</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true"></a><span class="kw">data</span> <span class="dt">Elf</span> <span class="ot">=</span> <span class="dt">Elf</span> <span class="dt">Text</span> <span class="dt">Int</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true"></a>    <span class="kw">deriving</span> (<span class="dt">Show</span>, <span class="dt">Eq</span>)</span></code></pre></div>
+<p>By writing the above code, we define the <code>Elf</code> data type, and at the same time, we are also asking the compiler to generate the <code>Show</code> and <code>Eq</code> instances for <code>Elf</code>.</p>
+<p>The Haskell report mentions standard typeclasses that each Haskell compiler must be able to derive. All other means of deriving are represented by other compiler features — <a href="https://kowainik.github.io/posts/extensions">extensions</a>. Deriving of standard typeclasses is done using the <strong>stock</strong> strategy, though, the report doesn’t mention the strategy, since it is not aware of other deriving ways.</p>
+<p>According to the Haskell 2010 report, a Haskell compiler should be able to derive the following typeclasses:</p>
+<ul>
+<li><code>Show</code> — for all data types</li>
+<li><code>Read</code> — for all data types</li>
+<li><code>Eq</code> — for all data types</li>
+<li><code>Ord</code> — for all data types</li>
+<li><code>Enum</code> — for enumerations (i.e. datatypes having only nullary constructors)</li>
+<li><code>Bounded</code> — for enumerations and single-constructor data types</li>
+<li><code>Ix</code> — for enumerations and single-constructor data types, whose constituent types are instances of Ix. A Haskell implementation must provide Ix instances for tuples up to at least size 15.</li>
+</ul>
+<blockquote>
+<p>Standard typeclasses for deriving are described in the following sections of the Haskell 2010 report:</p>
+<ul>
+<li><a href="https://www.haskell.org/onlinereport/haskell2010/haskellch11.html#x18-18200011">Deriving</a></li>
+<li><a href="https://www.haskell.org/onlinereport/haskell2010/haskellch19.html"><code>Ix</code> typeclass deriving</a></li>
+</ul>
+</blockquote>
+<blockquote>
+<p>☝️ To derive instances for standard typeclasses, <strong>all</strong> fields of constructors must also have corresponding instances. All primitive data types already come with the standard instances.</p>
+</blockquote>
+<p>So, as a Haskell user, you are able to derive the above type classes for any of the data types minding the individual restrictions.</p>
+<p>As mentioned, GHC uses the <strong>stock</strong> strategy for deriving standard typeclasses. So the following two data type definitions have the same meaning:</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true"></a><span class="kw">data</span> <span class="dt">ChristmasTreats</span> <span class="ot">=</span> <span class="dt">Candies</span> <span class="op">|</span> <span class="dt">Chocolate</span> <span class="op">|</span> <span class="dt">MincedPie</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true"></a>    <span class="kw">deriving</span> (<span class="dt">Show</span>, <span class="dt">Read</span>, <span class="dt">Eq</span>, <span class="dt">Ord</span>, <span class="dt">Enum</span>, <span class="dt">Bounded</span>, <span class="dt">Ix</span>)</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true"></a></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true"></a><span class="kw">data</span> <span class="dt">ChristmasTreats</span> <span class="ot">=</span> <span class="dt">Candies</span> <span class="op">|</span> <span class="dt">Chocolate</span> <span class="op">|</span> <span class="dt">MincedPie</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true"></a>    <span class="kw">deriving</span> stock (<span class="dt">Show</span>, <span class="dt">Read</span>, <span class="dt">Eq</span>, <span class="dt">Ord</span>, <span class="dt">Enum</span>, <span class="dt">Bounded</span>, <span class="dt">Ix</span>)</span></code></pre></div>
+<p>However, in some cases, you can use a different strategy for deriving standard typeclasses. We will cover other deriving mechanisms in the following sections.</p>
+<h2 id="auto-derived">Auto derived<a href="#auto-derived" class="anchor">🔗</a></h2>
+<div class="pattern row">
+<div class="pattern-header bg-primary col-3">
+Extension
+</div>
+<div class="pattern-body col-9">
+<p><em>Not needed</em></p>
+</div>
+<div class="pattern-header bg-primary col-3">
+Strategy
+</div>
+<div class="pattern-body col-9">
+<p><em>Not needed</em></p>
+</div>
+<div class="pattern-header bg-primary col-3">
+Typeclasses
+</div>
+<div class="pattern-body col-9">
+<ul>
+<li><a href="https://hackage.haskell.org/package/base-4.14.0.0/docs/Type-Reflection.html#t:Typeable">Typeable</a></li>
+<li><a href="https://hackage.haskell.org/package/base-4.14.0.0/docs/Data-Coerce.html#t:Coercible">Coercible</a></li>
+<li><a href="https://hackage.haskell.org/package/base-4.14.0.0/docs/GHC-Records.html#t:HasField">HasField</a></li>
+</ul>
+</div>
+</div>
+<div class="small-img">
+<figure>
+<img src="../images/deriving/santa-auto.jpg" alt /><figcaption>Mecha Santa</figcaption>
+</figure>
+</div>
+<p>The previous section describes the standard typeclasses that could be derived without any extension in a very straightforward way. But there is even a simpler deriving process in GHC that we don’t see, and rarely think about.</p>
+<p>There are a few very <strong>special</strong> built-in typeclasses for which GHC always creates instances without any actions required from the programmer side. At the moment, the list of such typeclasses includes:</p>
+<ul>
+<li><code>Typeable</code></li>
+<li><code>Coercible</code></li>
+<li><code>HasField</code></li>
+</ul>
+<p>Automatic derivation of these typeclasses is done to discourage people from writing these instances manually, as these instances are too critical for the correct work of the program. So GHC generates such instances following its own rules. Despite that, users are still able to write manual instances in some cases, and the rules are provided for each typeclass individually.</p>
+<h3 id="typeable">Typeable<a href="#typeable" class="anchor">🔗</a></h3>
+<p>The <a href="https://hackage.haskell.org/package/base-4.14.0.0/docs/Type-Reflection.html#t:Typeable">Typeable</a> typeclass provides a way to know the type of a value in runtime. GHC has special rules around working with <code>Typeable</code>. To give a quick example of <code>Typeable</code> usage, let’s look at the function that takes a value and returns a representation of its type in runtime:</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true"></a>ghci<span class="op">&gt;</span> <span class="kw">import</span> <span class="dt">Type.Reflection</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true"></a>ghci<span class="op">&gt;</span> <span class="op">:</span>t typeOf</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true"></a><span class="ot">typeOf ::</span> <span class="dt">Typeable</span> a <span class="ot">=&gt;</span> a <span class="ot">-&gt;</span> <span class="dt">TypeRep</span> a</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true"></a>ghci<span class="op">&gt;</span> typeOf <span class="dt">True</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true"></a><span class="dt">Bool</span></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true"></a>ghci<span class="op">&gt;</span> typeOf [<span class="dv">3</span>, <span class="dv">1</span>, <span class="dv">2</span>]</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true"></a>[<span class="dt">Integer</span>]</span></code></pre></div>
+<p>From the usage example, you can see how important it is to have such instances out-of-the-box. Moreover, GHC does not allow to establish such instances at all.</p>
+<p>Before GHC-7.10 it was indeed necessary to enable <a href="https://downloads.haskell.org/ghc/latest/docs/html/users_guide/glasgow_exts.html#deriving-data-instances">DeriveDataTypeable</a> to have these instances for your data types, but currently, it is an error if you try to manually write the <code>Typeable</code> typeclass.</p>
+<h3 id="coercible">Coercible<a href="#coercible" class="anchor">🔗</a></h3>
+<p><a href="https://hackage.haskell.org/package/base-4.14.0.0/docs/Data-Coerce.html#t:Coercible">Coercible</a> is a magical typeclass that allows converting values of different types that have the same runtime representation. It plays an important role in the <strong>newtype</strong> deriving strategy which we are going to cover later. By the definition:</p>
+<blockquote>
+<p>Coercible is a two-parameter class that has instances for types <code>a</code> and <code>b</code> if the compiler can infer that they have the same representation.</p>
+</blockquote>
+<p>Meaning, its purpose for us is to be able to normalise the representation of some two types to the one that is clear to the compiler.</p>
+<p>For instance, if we write code like this:</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true"></a><span class="kw">newtype</span> <span class="dt">CandyCounter</span> <span class="ot">=</span> <span class="dt">CandyCounter</span> <span class="dt">Int</span></span></code></pre></div>
+<p>GHC automatically generates the following instances for us:</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true"></a><span class="kw">instance</span> <span class="dt">Coercible</span> <span class="dt">CandyCounter</span> <span class="dt">Int</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true"></a><span class="kw">instance</span> <span class="dt">Coercible</span> <span class="dt">Int</span>          <span class="dt">CandyCounter</span></span></code></pre></div>
+<p>And the main benefit that the typeclass gives us is the <code>coerce</code> function — fast and safe way to convert values between types <code>CandyCounter</code> and <code>Int</code>.</p>
+<p>Since GHC also provides <code>Coercible</code> instances for functions, we can now understand the <code>Eq</code> instance for <code>CandyCounter</code> from before:</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true"></a><span class="kw">instance</span> <span class="dt">Eq</span> <span class="dt">CandyCounter</span> <span class="kw">where</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true"></a>    (<span class="op">==</span>) <span class="ot">=</span> coerce (<span class="op">==</span>)</span></code></pre></div>
+<p>In this case, the <code>coerce</code> function behaves like the transformer from <code>Int -&gt; Int -&gt; Bool</code> to <code>CandyCounter -&gt; CandyCounter -&gt; Bool</code>. Since <code>CandyCounter</code> is a newtype, it literally has the same representation as <code>Int</code> by definition of the newtype, so it is not a big deal for the compiler to apply this coercion and delegate the work to <code>Int</code>s. And that is literally what is written in the generated code if we omit all type applications!</p>
+<blockquote>
+<p>👩‍🔬 In some cases, you may want to write Coercible instances manually or control their behaviour using type roles, but that’s a tale for another evening.</p>
+</blockquote>
+<h3 id="hasfield">HasField<a href="#hasfield" class="anchor">🔗</a></h3>
+<p><a href="https://hackage.haskell.org/package/base-4.14.0.0/docs/GHC-Records.html#t:HasField">HasField</a> is another magical built-in typeclass. Its role is to provide a polymorphic function for record getters.</p>
+<p>For example, when you have a record data type like this one:</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true"></a><span class="kw">data</span> <span class="dt">Elf</span> <span class="ot">=</span> <span class="dt">Elf</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true"></a>    {<span class="ot"> name ::</span> <span class="dt">Text</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true"></a>    ,<span class="ot"> age  ::</span> <span class="dt">Int</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true"></a>    }</span></code></pre></div>
+<p>GHC generates the following instances for you:</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true"></a><span class="kw">instance</span> <span class="dt">HasField</span> <span class="st">&quot;name&quot;</span> <span class="dt">Elf</span> <span class="dt">Text</span> <span class="kw">where</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true"></a><span class="ot">    getField ::</span> <span class="dt">Elf</span> <span class="ot">-&gt;</span> <span class="dt">Text</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true"></a>    getField <span class="ot">=</span> name</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true"></a></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true"></a><span class="kw">instance</span> <span class="dt">HasField</span> <span class="st">&quot;age&quot;</span> <span class="dt">Elf</span> <span class="dt">Int</span> <span class="kw">where</span></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true"></a><span class="ot">    getField ::</span> <span class="dt">Elf</span> <span class="ot">-&gt;</span> <span class="dt">Int</span></span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true"></a>    getField <span class="ot">=</span> age</span></code></pre></div>
+<p>And you can use it in the following manner:</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true"></a>ghci<span class="op">&gt;</span> getField <span class="op">@</span><span class="st">&quot;name&quot;</span> <span class="dt">Elf</span>{ name <span class="ot">=</span> <span class="st">&quot;Tickle Sparklepants&quot;</span>, age <span class="ot">=</span> <span class="dv">142</span> }</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true"></a><span class="st">&quot;Tickle Sparklepants&quot;</span></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true"></a>ghci<span class="op">&gt;</span> getField <span class="op">@</span><span class="st">&quot;age&quot;</span> <span class="dt">Elf</span>{ name <span class="ot">=</span> <span class="st">&quot;Merry Snowball&quot;</span>, age <span class="ot">=</span> <span class="dv">251</span> }</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true"></a><span class="dv">251</span></span></code></pre></div>
+<p>The <code>HasField</code> instances help define general instances of some other typeclasses. In the future, they are going to play an important role for the <a href="https://github.com/ghc-proposals/ghc-proposals/pull/282">RecordDotSyntax</a> proposal to make Haskell records more ergonomic.</p>
+<h2 id="derive-whatever">Derive Whatever<a href="#derive-whatever" class="anchor">🔗</a></h2>
+<div class="small-img">
+<figure>
+<img src="../images/deriving/santa-anything.jpg" alt /><figcaption>Santa for Anyone</figcaption>
+</figure>
+</div>
+<p>In addition to the basic typeclasses like <code>Show</code> and <code>Eq</code>, GHC can derive more standard typeclasses with the <strong>stock</strong> strategy, but such compiler capabilities require enabling separate extensions for each such typeclass.</p>
+<p>This chapter covers standard typeclasses with special extensions (as well as some GHC-specific classes like <code>Data</code> and <code>Generic</code>), their corresponding extensions and examples of the generated instances. We are not going to explain the meaning and usage of each typeclass separately, but instead, provide auto-generated derived instances to give the idea of each deriving clause.</p>
+<h3 id="functor">Functor<a href="#functor" class="anchor">🔗</a></h3>
+<div class="pattern row">
+<div class="pattern-header bg-primary col-3">
+Extension
+</div>
+<div class="pattern-body col-9">
+<p><a href="https://downloads.haskell.org/ghc/latest/docs/html/users_guide/glasgow_exts.html#deriving-functor-instances">DeriveFunctor</a></p>
+</div>
+<div class="pattern-header bg-primary col-3">
+Strategy
+</div>
+<div class="pattern-body col-9">
+<p>stock</p>
+</div>
+<div class="pattern-header bg-primary col-3">
+Typeclasses
+</div>
+<div class="pattern-body col-9">
+<p><a href="https://hackage.haskell.org/package/base-4.14.0.0/docs/Prelude.html#t:Functor">Functor</a></p>
+</div>
+</div>
+<p>We have the following data type that derives <code>Functor</code>:</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true"></a><span class="kw">data</span> <span class="dt">Gift</span> a</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true"></a>   <span class="ot">=</span> <span class="dt">None</span></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true"></a>   <span class="op">|</span> <span class="dt">Some</span> a</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true"></a>   <span class="kw">deriving</span> stock (<span class="dt">Functor</span>)</span></code></pre></div>
+<p>And GHC produces the following instance:</p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true"></a><span class="kw">instance</span> <span class="dt">Functor</span> <span class="dt">Gift</span> <span class="kw">where</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true"></a>    <span class="fu">fmap</span> f <span class="dt">None</span> <span class="ot">=</span> <span class="dt">None</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true"></a>    <span class="fu">fmap</span> f (<span class="dt">Some</span> a1) <span class="ot">=</span> <span class="dt">Some</span> (f a1)</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true"></a>    (<span class="op">&lt;$</span>) z <span class="dt">None</span> <span class="ot">=</span> <span class="dt">None</span></span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true"></a>    (<span class="op">&lt;$</span>) z (<span class="dt">Some</span> a1) <span class="ot">=</span> <span class="dt">Some</span> ((\ b1 <span class="ot">-&gt;</span> z) a1)</span></code></pre></div>
+<h3 id="foldable">Foldable<a href="#foldable" class="anchor">🔗</a></h3>
+<div class="pattern row">
+<div class="pattern-header bg-primary col-3">
+Extension
+</div>
+<div class="pattern-body col-9">
+<p><a href="https://downloads.haskell.org/ghc/latest/docs/html/users_guide/glasgow_exts.html#deriving-foldable-instances">DeriveFoldable</a></p>
+</div>
+<div class="pattern-header bg-primary col-3">
+Strategy
+</div>
+<div class="pattern-body col-9">
+<p>stock</p>
+</div>
+<div class="pattern-header bg-primary col-3">
+Typeclasses
+</div>
+<div class="pattern-body col-9">
+<p><a href="https://hackage.haskell.org/package/base-4.14.0.0/docs/Prelude.html#t:Foldable">Foldable</a></p>
+</div>
+</div>
+<p>We have the following data type that derives <code>Foldable</code>:</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true"></a><span class="kw">data</span> <span class="dt">Gift</span> a</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true"></a>   <span class="ot">=</span> <span class="dt">None</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true"></a>   <span class="op">|</span> <span class="dt">Some</span> a</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true"></a>   <span class="kw">deriving</span> stock (<span class="dt">Foldable</span>)</span></code></pre></div>
+<p>And GHC produces the following instance:</p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true"></a><span class="kw">instance</span> <span class="dt">Foldable</span> <span class="dt">Gift</span> <span class="kw">where</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true"></a>    <span class="fu">foldr</span> f z <span class="dt">None</span> <span class="ot">=</span> z</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true"></a>    <span class="fu">foldr</span> f z (<span class="dt">Some</span> a1) <span class="ot">=</span> f a1 z</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true"></a>    <span class="fu">foldMap</span> f <span class="dt">None</span> <span class="ot">=</span> <span class="fu">mempty</span></span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true"></a>    <span class="fu">foldMap</span> f (<span class="dt">Some</span> a1) <span class="ot">=</span> f a1</span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true"></a>    <span class="fu">null</span> <span class="dt">None</span> <span class="ot">=</span> <span class="dt">True</span></span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true"></a>    <span class="fu">null</span> (<span class="dt">Some</span> _) <span class="ot">=</span> <span class="dt">False</span></span></code></pre></div>
+<h3 id="traversable">Traversable<a href="#traversable" class="anchor">🔗</a></h3>
+<div class="pattern row">
+<div class="pattern-header bg-primary col-3">
+Extension
+</div>
+<div class="pattern-body col-9">
+<p><a href="https://downloads.haskell.org/ghc/latest/docs/html/users_guide/glasgow_exts.html#deriving-traversable-instances">DeriveTraversable</a></p>
+</div>
+<div class="pattern-header bg-primary col-3">
+Strategy
+</div>
+<div class="pattern-body col-9">
+<p>stock</p>
+</div>
+<div class="pattern-header bg-primary col-3">
+Typeclasses
+</div>
+<div class="pattern-body col-9">
+<p><a href="https://hackage.haskell.org/package/base-4.14.0.0/docs/Prelude.html#t:Traversable">Traversable</a></p>
+</div>
+</div>
+<p>We have the following data type that derives <code>Traversable</code>:</p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true"></a><span class="kw">data</span> <span class="dt">Gift</span> a</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true"></a>   <span class="ot">=</span> <span class="dt">None</span></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true"></a>   <span class="op">|</span> <span class="dt">Some</span> a</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true"></a>   <span class="kw">deriving</span> stock (<span class="dt">Functor</span>, <span class="dt">Foldable</span>, <span class="dt">Traversable</span>)</span></code></pre></div>
+<blockquote>
+<p>☝️ To derive <code>Traversable</code>, a data type must also have the <code>Functor</code> and <code>Foldable</code> instances, so we derive them as well.</p>
+</blockquote>
+<p>And GHC produces the following instance:</p>
+<div class="sourceCode" id="cb30"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true"></a><span class="kw">instance</span> <span class="dt">Traversable</span> <span class="dt">Gift</span> <span class="kw">where</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true"></a>    <span class="fu">traverse</span> f <span class="dt">None</span> <span class="ot">=</span> <span class="fu">pure</span> <span class="dt">None</span></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true"></a>    <span class="fu">traverse</span> f (<span class="dt">Some</span> a1) <span class="ot">=</span> <span class="fu">fmap</span> (\ b1 <span class="ot">-&gt;</span> <span class="dt">Some</span> b1) (f a1)</span></code></pre></div>
+<h3 id="generic-and-generic1">Generic and Generic1<a href="#generic-and-generic1" class="anchor">🔗</a></h3>
+<div class="pattern row">
+<div class="pattern-header bg-primary col-3">
+Extension
+</div>
+<div class="pattern-body col-9">
+<p><a href="https://downloads.haskell.org/ghc/latest/docs/html/users_guide/glasgow_exts.html#extension-DeriveGeneric">DeriveGeneric</a></p>
+</div>
+<div class="pattern-header bg-primary col-3">
+Strategy
+</div>
+<div class="pattern-body col-9">
+<p>stock</p>
+</div>
+<div class="pattern-header bg-primary col-3">
+Typeclasses
+</div>
+<div class="pattern-body col-9">
+<ul>
+<li><a href="https://hackage.haskell.org/package/base-4.14.0.0/docs/GHC-Generics.html#t:Generic">Generic</a></li>
+<li><a href="https://hackage.haskell.org/package/base-4.14.0.0/docs/GHC-Generics.html#t:Generic1">Generic1</a></li>
+</ul>
+</div>
+</div>
+<blockquote>
+<p>If you want to have Generic instances, you should <strong>always derive</strong> them instead of defining manually. Not only it is very difficult to write them manually, but also extremely error-prone.</p>
+</blockquote>
+<p>We have the following data type that derives <code>Generic</code> and <code>Generic1</code>:</p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true"></a><span class="kw">import</span> <span class="dt">GHC.Generics</span> (<span class="dt">Generic</span>, <span class="dt">Generic1</span>)</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true"></a></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true"></a><span class="kw">data</span> <span class="dt">Gift</span> a</span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true"></a>   <span class="ot">=</span> <span class="dt">None</span></span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true"></a>   <span class="op">|</span> <span class="dt">Some</span> a</span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true"></a>   <span class="kw">deriving</span> stock (<span class="dt">Generic</span>, <span class="dt">Generic1</span>)</span></code></pre></div>
+<p>And GHC produces the following instances:</p>
+<div class="sourceCode" id="cb32"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true"></a><span class="op">====================</span> <span class="dt">Derived</span> instances <span class="op">====================</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true"></a><span class="dt">Derived</span> <span class="kw">class</span> instances<span class="op">:</span></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true"></a>  <span class="kw">instance</span> <span class="kw">forall</span> a<span class="op">.</span> <span class="dt">Generic</span> (<span class="dt">Gift</span> a) <span class="kw">where</span></span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true"></a>    from x</span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true"></a>      <span class="ot">=</span> <span class="dt">M1</span></span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true"></a>          (<span class="kw">case</span> x <span class="kw">of</span></span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true"></a>             <span class="dt">None</span> <span class="ot">-&gt;</span> <span class="dt">L1</span> (<span class="dt">M1</span> <span class="dt">U1</span>)</span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true"></a>             <span class="dt">Some</span> g1 <span class="ot">-&gt;</span> <span class="dt">R1</span> (<span class="dt">M1</span> (<span class="dt">M1</span> (<span class="dt">K1</span> g1))))</span>
+<span id="cb32-9"><a href="#cb32-9" aria-hidden="true"></a>    to (<span class="dt">M1</span> x)</span>
+<span id="cb32-10"><a href="#cb32-10" aria-hidden="true"></a>      <span class="ot">=</span> <span class="kw">case</span> x <span class="kw">of</span></span>
+<span id="cb32-11"><a href="#cb32-11" aria-hidden="true"></a>          (<span class="dt">L1</span> (<span class="dt">M1</span> <span class="dt">U1</span>)) <span class="ot">-&gt;</span> <span class="dt">None</span></span>
+<span id="cb32-12"><a href="#cb32-12" aria-hidden="true"></a>          (<span class="dt">R1</span> (<span class="dt">M1</span> (<span class="dt">M1</span> (<span class="dt">K1</span> g1)))) <span class="ot">-&gt;</span> <span class="dt">Some</span> g1</span>
+<span id="cb32-13"><a href="#cb32-13" aria-hidden="true"></a></span>
+<span id="cb32-14"><a href="#cb32-14" aria-hidden="true"></a>  <span class="kw">instance</span> <span class="dt">Generic1</span> <span class="dt">Gift</span> <span class="kw">where</span></span>
+<span id="cb32-15"><a href="#cb32-15" aria-hidden="true"></a>    from1 x</span>
+<span id="cb32-16"><a href="#cb32-16" aria-hidden="true"></a>      <span class="ot">=</span> <span class="dt">M1</span></span>
+<span id="cb32-17"><a href="#cb32-17" aria-hidden="true"></a>          (<span class="kw">case</span> x <span class="kw">of</span></span>
+<span id="cb32-18"><a href="#cb32-18" aria-hidden="true"></a>             <span class="dt">None</span> <span class="ot">-&gt;</span> <span class="dt">L1</span> (<span class="dt">M1</span> <span class="dt">U1</span>)</span>
+<span id="cb32-19"><a href="#cb32-19" aria-hidden="true"></a>             <span class="dt">Some</span> g1 <span class="ot">-&gt;</span> <span class="dt">R1</span> (<span class="dt">M1</span> (<span class="dt">M1</span> (<span class="dt">Par1</span> g1))))</span>
+<span id="cb32-20"><a href="#cb32-20" aria-hidden="true"></a>    to1 (<span class="dt">M1</span> x)</span>
+<span id="cb32-21"><a href="#cb32-21" aria-hidden="true"></a>      <span class="ot">=</span> <span class="kw">case</span> x <span class="kw">of</span></span>
+<span id="cb32-22"><a href="#cb32-22" aria-hidden="true"></a>          (<span class="dt">L1</span> (<span class="dt">M1</span> <span class="dt">U1</span>)) <span class="ot">-&gt;</span> <span class="dt">None</span></span>
+<span id="cb32-23"><a href="#cb32-23" aria-hidden="true"></a>          (<span class="dt">R1</span> (<span class="dt">M1</span> (<span class="dt">M1</span> g1))) <span class="ot">-&gt;</span> <span class="dt">Some</span> (unPar1 g1)</span>
+<span id="cb32-24"><a href="#cb32-24" aria-hidden="true"></a></span>
+<span id="cb32-25"><a href="#cb32-25" aria-hidden="true"></a></span>
+<span id="cb32-26"><a href="#cb32-26" aria-hidden="true"></a><span class="dt">Derived</span> <span class="kw">type</span> <span class="kw">family</span> instances<span class="op">:</span></span>
+<span id="cb32-27"><a href="#cb32-27" aria-hidden="true"></a>  <span class="kw">type</span> <span class="dt">Rep</span> (<span class="dt">Gift</span> a) <span class="ot">=</span> <span class="dt">D1</span></span>
+<span id="cb32-28"><a href="#cb32-28" aria-hidden="true"></a>                        (<span class="dt">'MetaData</span> <span class="st">&quot;Gift&quot;</span> <span class="st">&quot;Deriving&quot;</span> <span class="st">&quot;main&quot;</span> <span class="dt">'False</span>)</span>
+<span id="cb32-29"><a href="#cb32-29" aria-hidden="true"></a>                        (<span class="dt">C1</span> (<span class="dt">'MetaCons</span> <span class="st">&quot;None&quot;</span> <span class="dt">'PrefixI</span> <span class="dt">'False</span>) <span class="dt">U1</span></span>
+<span id="cb32-30"><a href="#cb32-30" aria-hidden="true"></a>                         <span class="op">:+:</span> <span class="dt">C1</span></span>
+<span id="cb32-31"><a href="#cb32-31" aria-hidden="true"></a>                               (<span class="dt">'MetaCons</span> <span class="st">&quot;Some&quot;</span> <span class="dt">'PrefixI</span> <span class="dt">'False</span>)</span>
+<span id="cb32-32"><a href="#cb32-32" aria-hidden="true"></a>                               (<span class="dt">S1</span></span>
+<span id="cb32-33"><a href="#cb32-33" aria-hidden="true"></a>                                  (<span class="dt">'MetaSel</span></span>
+<span id="cb32-34"><a href="#cb32-34" aria-hidden="true"></a>                                     <span class="dt">'Nothing</span></span>
+<span id="cb32-35"><a href="#cb32-35" aria-hidden="true"></a>                                     <span class="dt">'NoSourceUnpackedness</span></span>
+<span id="cb32-36"><a href="#cb32-36" aria-hidden="true"></a>                                     <span class="dt">'NoSourceStrictness</span></span>
+<span id="cb32-37"><a href="#cb32-37" aria-hidden="true"></a>                                     <span class="dt">'DecidedLazy</span>)</span>
+<span id="cb32-38"><a href="#cb32-38" aria-hidden="true"></a>                                  (<span class="dt">Rec0</span> a)))</span>
+<span id="cb32-39"><a href="#cb32-39" aria-hidden="true"></a>  <span class="kw">type</span> <span class="dt">Rep1</span> <span class="dt">Gift</span> <span class="ot">=</span> <span class="dt">D1</span></span>
+<span id="cb32-40"><a href="#cb32-40" aria-hidden="true"></a>                     (<span class="dt">'MetaData</span> <span class="st">&quot;Gift&quot;</span> <span class="st">&quot;Deriving&quot;</span> <span class="st">&quot;main&quot;</span> <span class="dt">'False</span>)</span>
+<span id="cb32-41"><a href="#cb32-41" aria-hidden="true"></a>                     (<span class="dt">C1</span> (<span class="dt">'MetaCons</span> <span class="st">&quot;None&quot;</span> <span class="dt">'PrefixI</span> <span class="dt">'False</span>) <span class="dt">U1</span></span>
+<span id="cb32-42"><a href="#cb32-42" aria-hidden="true"></a>                      <span class="op">:+:</span> <span class="dt">C1</span></span>
+<span id="cb32-43"><a href="#cb32-43" aria-hidden="true"></a>                            (<span class="dt">'MetaCons</span> <span class="st">&quot;Some&quot;</span> <span class="dt">'PrefixI</span> <span class="dt">'False</span>)</span>
+<span id="cb32-44"><a href="#cb32-44" aria-hidden="true"></a>                            (<span class="dt">S1</span></span>
+<span id="cb32-45"><a href="#cb32-45" aria-hidden="true"></a>                               (<span class="dt">'MetaSel</span></span>
+<span id="cb32-46"><a href="#cb32-46" aria-hidden="true"></a>                                  <span class="dt">'Nothing</span> <span class="dt">'NoSourceUnpackedness</span> <span class="dt">'NoSourceStrictness</span> <span class="dt">'DecidedLazy</span>)</span>
+<span id="cb32-47"><a href="#cb32-47" aria-hidden="true"></a>                               <span class="dt">Par1</span>))</span></code></pre></div>
+<p>The <code>Generic</code> typeclass plays an important role in the <strong>anyclass</strong> deriving strategy which we are going to see later.</p>
+<h3 id="data">Data<a href="#data" class="anchor">🔗</a></h3>
+<div class="pattern row">
+<div class="pattern-header bg-primary col-3">
+Extension
+</div>
+<div class="pattern-body col-9">
+<p><a href="https://downloads.haskell.org/ghc/latest/docs/html/users_guide/glasgow_exts.html#deriving-data-instances">DeriveDataTypeablee</a></p>
+</div>
+<div class="pattern-header bg-primary col-3">
+Strategy
+</div>
+<div class="pattern-body col-9">
+<p>stock</p>
+</div>
+<div class="pattern-header bg-primary col-3">
+Typeclasses
+</div>
+<div class="pattern-body col-9">
+<p><a href="https://hackage.haskell.org/package/base-4.14.0.0/docs/Data-Data.html#t:Data">Data</a></p>
+</div>
+</div>
+<p>We have the following data type that derives <code>Data</code>:</p>
+<div class="sourceCode" id="cb33"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true"></a></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true"></a><span class="kw">import</span> <span class="dt">Data.Data</span> (<span class="dt">Data</span>)</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true"></a></span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true"></a><span class="kw">data</span> <span class="dt">Gift</span> a</span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true"></a>   <span class="ot">=</span> <span class="dt">None</span></span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true"></a>   <span class="op">|</span> <span class="dt">Some</span> a</span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true"></a>   <span class="kw">deriving</span> stock (<span class="dt">Data</span>)</span></code></pre></div>
+<p>And GHC produces the following instance:</p>
+<div class="sourceCode" id="cb34"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true"></a><span class="kw">instance</span> <span class="kw">forall</span> a<span class="op">.</span> <span class="dt">Data</span> a <span class="ot">=&gt;</span> <span class="dt">Data</span> (<span class="dt">Gift</span> a) <span class="kw">where</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true"></a>    gfoldl k z <span class="dt">None</span> <span class="ot">=</span> z <span class="dt">None</span></span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true"></a>    gfoldl k z (<span class="dt">Some</span> a1) <span class="ot">=</span> (z <span class="dt">Some</span> <span class="ot">`k`</span> a1)</span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true"></a>    gunfold k z c</span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true"></a>      <span class="ot">=</span> <span class="kw">case</span> constrIndex c <span class="kw">of</span></span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true"></a>          <span class="dt">I</span><span class="op">#</span> <span class="dv">1</span><span class="op">#</span> <span class="ot">-&gt;</span> z <span class="dt">None</span></span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true"></a>          _ <span class="ot">-&gt;</span> k (z <span class="dt">Some</span>)</span>
+<span id="cb34-8"><a href="#cb34-8" aria-hidden="true"></a>    toConstr <span class="dt">None</span> <span class="ot">=</span> <span class="op">$</span>cNone</span>
+<span id="cb34-9"><a href="#cb34-9" aria-hidden="true"></a>    toConstr (<span class="dt">Some</span> _) <span class="ot">=</span> <span class="op">$</span>cSome</span>
+<span id="cb34-10"><a href="#cb34-10" aria-hidden="true"></a>    dataTypeOf _ <span class="ot">=</span> <span class="op">$</span>tGift</span>
+<span id="cb34-11"><a href="#cb34-11" aria-hidden="true"></a>    dataCast1 f <span class="ot">=</span> gcast1 f</span>
+<span id="cb34-12"><a href="#cb34-12" aria-hidden="true"></a></span>
+<span id="cb34-13"><a href="#cb34-13" aria-hidden="true"></a>  <span class="op">$</span><span class="ot">tGift ::</span> <span class="dt">DataType</span></span>
+<span id="cb34-14"><a href="#cb34-14" aria-hidden="true"></a>  <span class="op">$</span><span class="ot">cNone ::</span> <span class="dt">Constr</span></span>
+<span id="cb34-15"><a href="#cb34-15" aria-hidden="true"></a>  <span class="op">$</span><span class="ot">cSome ::</span> <span class="dt">Constr</span></span>
+<span id="cb34-16"><a href="#cb34-16" aria-hidden="true"></a>  <span class="op">$</span>tGift <span class="ot">=</span> mkDataType <span class="st">&quot;Gift&quot;</span> [<span class="op">$</span>cNone, <span class="op">$</span>cSome]</span>
+<span id="cb34-17"><a href="#cb34-17" aria-hidden="true"></a>  <span class="op">$</span>cNone <span class="ot">=</span> mkConstr <span class="op">$</span>tGift <span class="st">&quot;None&quot;</span> [] <span class="dt">Prefix</span></span>
+<span id="cb34-18"><a href="#cb34-18" aria-hidden="true"></a>  <span class="op">$</span>cSome <span class="ot">=</span> mkConstr <span class="op">$</span>tGift <span class="st">&quot;Some&quot;</span> [] <span class="dt">Prefix</span></span></code></pre></div>
+<h3 id="lift">Lift<a href="#lift" class="anchor">🔗</a></h3>
+<div class="pattern row">
+<div class="pattern-header bg-primary col-3">
+Extension
+</div>
+<div class="pattern-body col-9">
+<p><a href="https://downloads.haskell.org/ghc/latest/docs/html/users_guide/glasgow_exts.html#deriving-lift-instances">DeriveLift</a></p>
+</div>
+<div class="pattern-header bg-primary col-3">
+Strategy
+</div>
+<div class="pattern-body col-9">
+<p>stock</p>
+</div>
+<div class="pattern-header bg-primary col-3">
+Typeclasses
+</div>
+<div class="pattern-body col-9">
+<p><a href="https://hackage.haskell.org/package/template-haskell-2.16.0.0/docs/Language-Haskell-TH-Syntax.html#t:Lift">Lift</a></p>
+</div>
+</div>
+<blockquote>
+<p>The <code>Lift</code> typeclass is very important for the <a href="https://downloads.haskell.org/ghc/latest/docs/html/users_guide/glasgow_exts.html#extension-TemplateHaskell">TemplateHaskell</a> extension.</p>
+</blockquote>
+<p>We have the following data type that derives <code>Lift</code>:</p>
+<div class="sourceCode" id="cb35"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true"></a><span class="kw">import</span> <span class="dt">Language.Haskell.TH.Syntax</span> (<span class="dt">Lift</span>)</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true"></a></span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true"></a><span class="kw">data</span> <span class="dt">Gift</span> a</span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true"></a>   <span class="ot">=</span> <span class="dt">None</span></span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true"></a>   <span class="op">|</span> <span class="dt">Some</span> a</span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true"></a>   <span class="kw">deriving</span> stock (<span class="dt">Lift</span>)</span></code></pre></div>
+<p>And GHC produces the following instance:</p>
+<div class="sourceCode" id="cb36"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true"></a><span class="kw">instance</span> <span class="kw">forall</span> a<span class="op">.</span> <span class="dt">Lift</span> a <span class="ot">=&gt;</span> <span class="dt">Lift</span> (<span class="dt">Gift</span> a) <span class="kw">where</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true"></a>    lift <span class="dt">None</span> <span class="ot">=</span> conE (mkNameG_d <span class="st">&quot;main&quot;</span> <span class="st">&quot;Deriving&quot;</span> <span class="st">&quot;None&quot;</span>)</span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true"></a>    lift (<span class="dt">Some</span> a1)</span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true"></a>      <span class="ot">=</span> appE (conE (mkNameG_d <span class="st">&quot;main&quot;</span> <span class="st">&quot;Deriving&quot;</span> <span class="st">&quot;Some&quot;</span>)) (lift a1)</span></code></pre></div>
+<h2 id="newtypes">Newtypes<a href="#newtypes" class="anchor">🔗</a></h2>
+<div class="pattern row">
+<div class="pattern-header bg-primary col-3">
+Extension
+</div>
+<div class="pattern-body col-9">
+<p><a href="https://downloads.haskell.org/ghc/latest/docs/html/users_guide/glasgow_exts.html#generalised-derived-instances-for-newtypes">GeneralizedNewtypeDeriving</a> or <a href="https://downloads.haskell.org/ghc/latest/docs/html/users_guide/glasgow_exts.html#generalised-derived-instances-for-newtypes">GeneralisedNewtypeDeriving</a></p>
+</div>
+<div class="pattern-header bg-primary col-3">
+Strategy
+</div>
+<div class="pattern-body col-9">
+<p>newtype</p>
+</div>
+<div class="pattern-header bg-primary col-3">
+Typeclasses
+</div>
+<div class="pattern-body col-9">
+<p>Any typeclass implemented by the wrapped type</p>
+</div>
+</div>
+<div class="small-img">
+<figure>
+<img src="../images/deriving/santa-newtype.jpg" alt /><figcaption>New-wave santa</figcaption>
+</figure>
+</div>
+<p>Newtypes are one of the essential Haskell features. They enable creating safe, modular and performant interfaces and are often used in different <a href="https://kowainik.github.io/posts/haskell-mini-patterns#newtype">programming patterns</a>. And, what is more important in the context of this blog post, deriving is made extremely easy for newtypes due to their nature.</p>
+<p>If you have a newtype like this one:</p>
+<div class="sourceCode" id="cb37"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true"></a><span class="kw">newtype</span> <span class="dt">GiftCount</span> <span class="ot">=</span> <span class="dt">GiftCount</span> <span class="dt">Int</span></span></code></pre></div>
+<p>you know that it has the same runtime representation as <code>Int</code> by the definition of the newtypes in Haskell. It is basically <code>Int</code>, but, from the compiler point of view, you need to add additional wrapping and unwrapping when converting between <code>GiftCount</code> and <code>Int</code>.</p>
+<p>Since <code>GiftCount</code> is a completely new data type for GHC, you need to define an instance explicitly. However, the primitive type <code>Int</code> already implements many useful instances, and would make sense to reuse them for your types as it is a custom wrapper around <code>Int</code>.</p>
+<p>In other words, all instances would include lots of wrapping and unwrapping. Fortunately, GHC makes it possible for us: for each newtype you can simply derive <strong>any typeclass</strong> that already has a defined instance for the underlying type.</p>
+<p>For example, for the above newtype we can derive the <code>Num</code> instance, even though it is not a standard class, as <code>Int</code> already has such an instance. To specify strategy explicitly, use the <strong>newtype</strong> keyword after the <strong>deriving</strong> keyword:</p>
+<div class="sourceCode" id="cb38"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true"></a><span class="kw">newtype</span> <span class="dt">GiftCount</span> <span class="ot">=</span> <span class="dt">GiftCount</span> <span class="dt">Int</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true"></a>    <span class="kw">deriving</span> <span class="kw">newtype</span> (<span class="dt">Num</span>)</span></code></pre></div>
+<p>If you just try to compile the above code, you will see the following error message:</p>
+<div class="sourceCode" id="cb39"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true"></a><span class="op">&lt;</span>interactive<span class="op">&gt;:</span><span class="dv">14</span><span class="op">:</span><span class="dv">44</span><span class="op">:</span> <span class="fu">error</span><span class="op">:</span></span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true"></a>    • <span class="dt">Can't</span> make a derived <span class="kw">instance</span> <span class="kw">of</span> ‘<span class="dt">Num</span> <span class="dt">GiftCount</span>’<span class="op">:</span></span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true"></a>        ‘<span class="dt">Num</span>’ is <span class="fu">not</span> a stock derivable <span class="kw">class</span> (<span class="dt">Eq</span>, <span class="dt">Show</span>, etc<span class="op">.</span>)</span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true"></a>        <span class="dt">Try</span> <span class="dt">GeneralizedNewtypeDeriving</span> for <span class="dt">GHC's</span> <span class="kw">newtype</span><span class="op">-</span><span class="kw">deriving</span> extension</span>
+<span id="cb39-5"><a href="#cb39-5" aria-hidden="true"></a>    • <span class="dt">In</span> the <span class="kw">newtype</span> declaration for ‘<span class="dt">GiftCount</span>’</span></code></pre></div>
+<p>That’s happening because the compiler is not capable of deriving non-standard typeclasses for newtypes. You need to enable the <code>GeneralizedNewtypeDeriving</code> extension to derive any typeclass for newtypes. After you enable it, you can see that code starts working as expected:</p>
+<div class="sourceCode" id="cb40"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true"></a>ghci<span class="op">&gt;</span> <span class="dt">GiftCount</span> <span class="dv">1</span> <span class="op">+</span> <span class="dt">GiftCount</span> <span class="dv">2</span></span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true"></a><span class="dt">GiftCount</span> <span class="dv">3</span></span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true"></a>ghci<span class="op">&gt;</span> <span class="dt">GiftCount</span> <span class="dv">5</span> <span class="op">-</span> <span class="dt">GiftCount</span> <span class="dv">3</span></span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true"></a><span class="dt">GiftCount</span> <span class="dv">2</span></span></code></pre></div>
+<p>When you don’t specify a strategy explicitly for newtypes, GHC can use the <strong>stock</strong> strategy for standard typeclasses, and the <strong>newtype</strong> strategy for other typeclasses (unless you have the <code>DeriveAnyClass</code> extension enabled, which will be covered in the next chapter).</p>
+<p>Now you can start understanding the importance of specifying the strategy explicitly. The following two data types that derive the <code>Show</code> instance using different strategies have different behaviour:</p>
+<div class="sourceCode" id="cb41"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true"></a><span class="kw">newtype</span> <span class="dt">Wrap1</span> <span class="ot">=</span> <span class="dt">Wrap1</span> <span class="dt">Int</span></span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true"></a>    <span class="kw">deriving</span> (<span class="dt">Show</span>)  <span class="co">-- defaults to stock here</span></span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true"></a></span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true"></a><span class="kw">newtype</span> <span class="dt">Wrap2</span> <span class="ot">=</span> <span class="dt">Wrap2</span> <span class="dt">Int</span></span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true"></a>    <span class="kw">deriving</span> <span class="kw">newtype</span> (<span class="dt">Show</span>)</span></code></pre></div>
+<p>You can observe the difference in their behaviour using GHCi:</p>
+<div class="sourceCode" id="cb42"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true"></a>ghci<span class="op">&gt;</span> <span class="dt">Wrap1</span> <span class="dv">42</span></span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true"></a><span class="dt">Wrap1</span> <span class="dv">42</span></span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true"></a>ghci<span class="op">&gt;</span> <span class="dt">Wrap2</span> <span class="dv">42</span></span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true"></a><span class="dv">42</span></span></code></pre></div>
+<p>For the typeclasses like <code>Show</code>, a strategy can change the behaviour. And for the typeclasses like <code>Eq</code>, a strategy can affect performance.</p>
+<p>If you derive <code>Eq</code> for <code>newtype</code> using the <code>stock</code> strategy:</p>
+<div class="sourceCode" id="cb43"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true"></a><span class="kw">newtype</span> <span class="dt">Gift</span> <span class="ot">=</span> <span class="dt">Gift</span> <span class="dt">String</span></span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true"></a>    <span class="kw">deriving</span> stock (<span class="dt">Eq</span>)</span></code></pre></div>
+<p>the derived instance looks like this:</p>
+<div class="sourceCode" id="cb44"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true"></a><span class="kw">instance</span> <span class="dt">Eq</span> <span class="dt">Gift</span> <span class="kw">where</span> (<span class="op">==</span>) (<span class="dt">Gift</span> a1) (<span class="dt">Gift</span> b1) <span class="ot">=</span> ((a1 <span class="op">==</span> b1))</span></code></pre></div>
+<p>But if you use the <code>newtype</code> strategy explicitly:</p>
+<div class="sourceCode" id="cb45"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true"></a><span class="kw">newtype</span> <span class="dt">Gift</span> <span class="ot">=</span> <span class="dt">Gift</span> <span class="dt">String</span></span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true"></a>    <span class="kw">deriving</span> <span class="kw">newtype</span> (<span class="dt">Eq</span>)</span></code></pre></div>
+<p>The instance, generated by GHC has the following shape:</p>
+<div class="sourceCode" id="cb46"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true"></a>  <span class="kw">instance</span> <span class="dt">Eq</span> <span class="dt">Gift</span> <span class="kw">where</span></span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true"></a>    (<span class="op">==</span>)</span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true"></a>      <span class="ot">=</span> coerce</span>
+<span id="cb46-4"><a href="#cb46-4" aria-hidden="true"></a>          <span class="op">@</span>(<span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">Bool</span>)</span>
+<span id="cb46-5"><a href="#cb46-5" aria-hidden="true"></a>          <span class="op">@</span>(<span class="dt">Gift</span> <span class="ot">-&gt;</span> <span class="dt">Gift</span> <span class="ot">-&gt;</span> <span class="dt">Bool</span>)</span>
+<span id="cb46-6"><a href="#cb46-6" aria-hidden="true"></a>          ((<span class="op">==</span>) <span class="op">@</span><span class="dt">String</span>) <span class="ot">::</span></span>
+<span id="cb46-7"><a href="#cb46-7" aria-hidden="true"></a>          <span class="dt">Gift</span> <span class="ot">-&gt;</span> <span class="dt">Gift</span> <span class="ot">-&gt;</span> <span class="dt">Bool</span></span>
+<span id="cb46-8"><a href="#cb46-8" aria-hidden="true"></a>    (<span class="op">/=</span>)</span>
+<span id="cb46-9"><a href="#cb46-9" aria-hidden="true"></a>      <span class="ot">=</span> coerce</span>
+<span id="cb46-10"><a href="#cb46-10" aria-hidden="true"></a>          <span class="op">@</span>(<span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">Bool</span>)</span>
+<span id="cb46-11"><a href="#cb46-11" aria-hidden="true"></a>          <span class="op">@</span>(<span class="dt">Gift</span> <span class="ot">-&gt;</span> <span class="dt">Gift</span> <span class="ot">-&gt;</span> <span class="dt">Bool</span>)</span>
+<span id="cb46-12"><a href="#cb46-12" aria-hidden="true"></a>          ((<span class="op">/=</span>) <span class="op">@</span><span class="dt">String</span>) <span class="ot">::</span></span>
+<span id="cb46-13"><a href="#cb46-13" aria-hidden="true"></a>          <span class="dt">Gift</span> <span class="ot">-&gt;</span> <span class="dt">Gift</span> <span class="ot">-&gt;</span> <span class="dt">Bool</span></span></code></pre></div>
+<p>The coerce function implements instances with zero-runtime overhead, using the fact that a newtype and the wrapped type has the same runtime representation. See the <a href="#coercible">Coercible</a> section for more details.</p>
+<hr>
+<p>The newtype strategy allows deriving even more typeclasses for newtypes which saves us from writing tons of boilerplate (and doing a lot of (un)wrapping as on the Boxing Day), does not affect instance performance, and yet allows us to use all the benefits of the newtypes in Haskell.</p>
+<p>At the same time, it is important to know where to use <strong>stock</strong> vs <strong>newtype</strong> strategy to control expected behaviour and performance.</p>
+<h2 id="any-class-derivations">Any class derivations<a href="#any-class-derivations" class="anchor">🔗</a></h2>
+<div class="pattern row">
+<div class="pattern-header bg-primary col-3">
+Extension
+</div>
+<div class="pattern-body col-9">
+<p><a href="https://downloads.haskell.org/ghc/latest/docs/html/users_guide/glasgow_exts.html#deriving-any-other-class">DeriveAnyClass</a></p>
+</div>
+<div class="pattern-header bg-primary col-3">
+Strategy
+</div>
+<div class="pattern-body col-9">
+<p>anyclass</p>
+</div>
+<div class="pattern-header bg-primary col-3">
+Typeclasses
+</div>
+<div class="pattern-body col-9">
+<p>Any typeclass with default signatures</p>
+</div>
+</div>
+<div class="small-img">
+<figure>
+<img src="../images/deriving/santa-classy.jpg" alt /><figcaption>Classy Santa</figcaption>
+</figure>
+</div>
+<p>The <strong>anyclass</strong> deriving strategy is another crucial tool in the deriving toolbox of the Haskell developer. As the name suggests, this feature allows deriving <strong>any</strong> typeclass.</p>
+<p>When deriving a typeclass using the <strong>anyclass</strong> strategy, GHC simply generates an instance declaration with no explicitly-defined methods, e.g. <code>instance Foo Bar</code>. Instead, the default definitions of methods are used. You can write the default definitions that will be used either always or only under some conditions, specified by additional constraints for the method, when introducing a typeclass.</p>
+<p>For specifying default signatures, that will be used only when a data type satisfy the requirements for the default definition, you need to:</p>
+<ul>
+<li>Provide default definitions of the required typeclass methods using the <a href="https://downloads.haskell.org/ghc/latest/docs/html/users_guide/glasgow_exts.html#extension-DefaultSignatures">DefaultSignatures</a> extension in the corresponding typeclasses.</li>
+<li>Enable the <code>DeriveAnyClass</code> extension.</li>
+<li>Derive your typeclass using the <strong>anyclass</strong> strategy.</li>
+</ul>
+<p>A hypothetical transparent example of a typeclass with the default signatures may be an alternative definition of the <code>Eq</code> typeclass, where the default equality definition compares <code>Strings</code> — the textual representation of the values based on the <code>Show</code> typeclass. Let’s define such new <code>Eq</code> typeclass:</p>
+<div class="sourceCode" id="cb47"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true"></a><span class="kw">class</span> <span class="dt">MyEq</span> a <span class="kw">where</span></span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true"></a><span class="ot">    equal ::</span> a <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> <span class="dt">Bool</span></span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true"></a></span>
+<span id="cb47-4"><a href="#cb47-4" aria-hidden="true"></a>    default<span class="ot"> equal ::</span> <span class="dt">Show</span> a <span class="ot">=&gt;</span> a <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> <span class="dt">Bool</span></span>
+<span id="cb47-5"><a href="#cb47-5" aria-hidden="true"></a>    equal x y <span class="ot">=</span> <span class="fu">show</span> x <span class="op">==</span> <span class="fu">show</span> y</span></code></pre></div>
+<p>And then you can derive instances of the <code>MyEq</code> typeclass if you have the <code>Show</code> instance for your data type. The syntax is the following:</p>
+<div class="sourceCode" id="cb48"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true"></a><span class="kw">data</span> <span class="dt">Gift</span> <span class="ot">=</span> <span class="dt">Gift</span> <span class="dt">Text</span> <span class="dt">Int</span></span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true"></a>    <span class="kw">deriving</span> stock (<span class="dt">Show</span>)</span>
+<span id="cb48-3"><a href="#cb48-3" aria-hidden="true"></a>    <span class="kw">deriving</span> anyclass (<span class="dt">MyEq</span>)</span></code></pre></div>
+<p>If you don’t enable the <code>DeriveAnyClass</code> extension, you get the following error:</p>
+<div class="sourceCode" id="cb49"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true"></a>    • <span class="dt">Can't</span> make a derived <span class="kw">instance</span> <span class="kw">of</span></span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true"></a>        ‘<span class="dt">MyEq</span> <span class="dt">Gift</span>’ with the anyclass strategy<span class="op">:</span></span>
+<span id="cb49-3"><a href="#cb49-3" aria-hidden="true"></a>        <span class="dt">Try</span> enabling <span class="dt">DeriveAnyClass</span></span>
+<span id="cb49-4"><a href="#cb49-4" aria-hidden="true"></a>    • <span class="dt">In</span> the <span class="kw">data</span> declaration for ‘<span class="dt">Gift</span>’</span>
+<span id="cb49-5"><a href="#cb49-5" aria-hidden="true"></a>   <span class="op">|</span></span>
+<span id="cb49-6"><a href="#cb49-6" aria-hidden="true"></a><span class="dv">27</span> <span class="op">|</span>     <span class="kw">deriving</span> anyclass (<span class="dt">MyEq</span>)</span>
+<span id="cb49-7"><a href="#cb49-7" aria-hidden="true"></a>   <span class="op">|</span>                        <span class="op">^^^^</span></span></code></pre></div>
+<p>After enabling the extension, as the compiler suggests, the generated code looks like this:</p>
+<div class="sourceCode" id="cb50"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true"></a><span class="op">====================</span> <span class="dt">Derived</span> instances <span class="op">====================</span></span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true"></a><span class="dt">Derived</span> <span class="kw">class</span> instances<span class="op">:</span></span>
+<span id="cb50-3"><a href="#cb50-3" aria-hidden="true"></a>  <span class="kw">instance</span> <span class="dt">MyEq</span> <span class="dt">Gift</span> <span class="kw">where</span></span>
+<span id="cb50-4"><a href="#cb50-4" aria-hidden="true"></a></span>
+<span id="cb50-5"><a href="#cb50-5" aria-hidden="true"></a><span class="op">====================</span> <span class="dt">Filling</span> <span class="kw">in</span> method body <span class="op">====================</span></span>
+<span id="cb50-6"><a href="#cb50-6" aria-hidden="true"></a><span class="dt">MyEq</span> [<span class="dt">Gift</span>]</span>
+<span id="cb50-7"><a href="#cb50-7" aria-hidden="true"></a>  equal <span class="ot">=</span> <span class="op">$</span>dmequal <span class="op">@</span>(<span class="dt">Gift</span>)</span></code></pre></div>
+<p>Since this looks a bit different from what we saw before, let’s try to understand it piece by piece.</p>
+<p>The code with the anyclass deriving strategy is equivalent to the following code on older GHC versions without the <code>DeriveAnyClass</code> extension:</p>
+<div class="sourceCode" id="cb51"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true"></a><span class="kw">data</span> <span class="dt">Gift</span> <span class="ot">=</span> <span class="dt">Gift</span> <span class="dt">Text</span> <span class="dt">Int</span></span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true"></a>    <span class="kw">deriving</span> (<span class="dt">Show</span>)</span>
+<span id="cb51-3"><a href="#cb51-3" aria-hidden="true"></a></span>
+<span id="cb51-4"><a href="#cb51-4" aria-hidden="true"></a><span class="kw">instance</span> <span class="dt">MyEq</span> <span class="dt">Gift</span></span></code></pre></div>
+<p>And this is what the compiler does when you use the <strong>anyclass</strong> strategy.</p>
+<p>The part with <em>Filling in method body</em> is written in the core (intermediate GHC syntax after desugaring) and uses the internal details of typeclasses implementation. But that’s a completely different topic. For now, we just need to be sure that the default definitions are reused.</p>
+<p>If you don’t derive the <code>Show</code> instance, you get the following error:</p>
+<div class="sourceCode" id="cb52"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true"></a>    • <span class="dt">No</span> <span class="kw">instance</span> for (<span class="dt">Show</span> <span class="dt">Gift</span>)</span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true"></a>        arising from the 'deriving' clause <span class="kw">of</span> a <span class="kw">data</span> <span class="kw">type</span> declaration</span>
+<span id="cb52-3"><a href="#cb52-3" aria-hidden="true"></a>      <span class="dt">Possible</span> fix<span class="op">:</span></span>
+<span id="cb52-4"><a href="#cb52-4" aria-hidden="true"></a>        use a standalone 'deriving instance' declaration,</span>
+<span id="cb52-5"><a href="#cb52-5" aria-hidden="true"></a>          so you can specify the <span class="kw">instance</span> context yourself</span>
+<span id="cb52-6"><a href="#cb52-6" aria-hidden="true"></a>    • <span class="dt">When</span> <span class="kw">deriving</span> the <span class="kw">instance</span> for (<span class="dt">MyEq</span> <span class="dt">Gift</span>)</span>
+<span id="cb52-7"><a href="#cb52-7" aria-hidden="true"></a>   <span class="op">|</span></span>
+<span id="cb52-8"><a href="#cb52-8" aria-hidden="true"></a><span class="dv">51</span> <span class="op">|</span>     <span class="kw">deriving</span> anyclass (<span class="dt">MyEq</span>)</span>
+<span id="cb52-9"><a href="#cb52-9" aria-hidden="true"></a>   <span class="op">|</span>                        <span class="op">^^^^</span></span></code></pre></div>
+<h3 id="generic-anyclass">Generic anyclass<a href="#generic-anyclass" class="anchor">🔗</a></h3>
+<p>In Haskell, a lot of default definitions are based on the <a href="https://hackage.haskell.org/package/base-4.14.0.0/docs/GHC-Generics.html#t:Generic">Generic</a> typeclass. Generics represent structural polymorphism — uniform description of the shape of all possible Haskell data types. Hereby, if you write a default definition that works for any data type with the <code>Generic</code> instance, you can easily derive your typeclass for <em>any</em> data type (but be mindful of the compilation cost).</p>
+<p>One common example is the pair of <code>ToJSON/FromJSON</code> typeclasses from the <code>aeson</code> library that allow converting any data types to JSON representation and back automatically. Typical usage is illustrated by the following code snippet:</p>
+<div class="sourceCode" id="cb53"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true"></a><span class="kw">data</span> <span class="dt">Elf</span> <span class="ot">=</span> <span class="dt">Elf</span></span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true"></a>    {<span class="ot"> name        ::</span> <span class="dt">Text</span></span>
+<span id="cb53-3"><a href="#cb53-3" aria-hidden="true"></a>    ,<span class="ot"> workGroupId ::</span> <span class="dt">Int</span></span>
+<span id="cb53-4"><a href="#cb53-4" aria-hidden="true"></a>    } <span class="kw">deriving</span> stock (<span class="dt">Generic</span>)</span>
+<span id="cb53-5"><a href="#cb53-5" aria-hidden="true"></a>      <span class="kw">deriving</span> anyclass (<span class="dt">ToJSON</span>, <span class="dt">FromJSON</span>)</span></code></pre></div>
+<h3 id="exception-anyclass">Exception anyclass<a href="#exception-anyclass" class="anchor">🔗</a></h3>
+<p>Another common typeclass that uses the <strong>anyclass</strong> deriving strategy is <code>Exception</code>. The <code>Exception</code> typeclass doesn’t use the <code>DefaultSignatures</code> extension, all its methods have a default implementation. However, a data type implementing <code>Exception</code> must also have <code>Show</code> and <code>Typeable</code> instances. Since <code>Typeable</code> is provided automatically by GHC, we only need to derive <code>Show</code> in addition to deriving <code>Exception</code>.</p>
+<p>You can easily derive the <code>Exception</code> typeclass like this:</p>
+<div class="sourceCode" id="cb54"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true"></a><span class="kw">data</span> <span class="dt">ChristmasException</span> <span class="ot">=</span> <span class="dt">ChristmasException</span> <span class="dt">String</span></span>
+<span id="cb54-2"><a href="#cb54-2" aria-hidden="true"></a>   <span class="kw">deriving</span> stock (<span class="dt">Show</span>)</span>
+<span id="cb54-3"><a href="#cb54-3" aria-hidden="true"></a>   <span class="kw">deriving</span> anyclass (<span class="dt">Exception</span>)</span></code></pre></div>
+<p>After you derive, you can throw your data types as any other exception:</p>
+<div class="sourceCode" id="cb55"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true"></a>ghci<span class="op">&gt;</span> throwIO (<span class="dt">ChristmasException</span> <span class="st">&quot;Danger! Run out of candy canes&quot;</span>)</span>
+<span id="cb55-2"><a href="#cb55-2" aria-hidden="true"></a><span class="op">***</span> <span class="dt">Exception</span><span class="op">:</span> <span class="dt">ChristmasException</span> <span class="st">&quot;Danger! Run out of candy canes&quot;</span></span></code></pre></div>
+<h3 id="anyclass-ambiguity">Anyclass ambiguity<a href="#anyclass-ambiguity" class="anchor">🔗</a></h3>
+<p>One of the most important applications of deriving strategies is the ability to disambiguate between the <strong>newtype</strong> strategy and <strong>anyclass</strong> strategy. This was one of the main motivations for implementing the <code>DerivingStrategies</code> extension in the first place.</p>
+<p>Let’s look at an example of such an ambiguous situation:</p>
+<div class="sourceCode" id="cb56"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true"></a><span class="ot">{-# LANGUAGE GeneralizedNewtypeDeriving #-}</span></span>
+<span id="cb56-2"><a href="#cb56-2" aria-hidden="true"></a><span class="ot">{-# LANGUAGE DeriveAnyClass #-}</span></span>
+<span id="cb56-3"><a href="#cb56-3" aria-hidden="true"></a><span class="ot">{-# LANGUAGE DeriveGeneric #-}</span></span>
+<span id="cb56-4"><a href="#cb56-4" aria-hidden="true"></a></span>
+<span id="cb56-5"><a href="#cb56-5" aria-hidden="true"></a></span>
+<span id="cb56-6"><a href="#cb56-6" aria-hidden="true"></a><span class="kw">newtype</span> <span class="dt">LetterToSanta</span> <span class="ot">=</span> <span class="dt">LetterToSanta</span> <span class="dt">Text</span></span>
+<span id="cb56-7"><a href="#cb56-7" aria-hidden="true"></a>    <span class="kw">deriving</span> (<span class="dt">Show</span>, <span class="dt">Generic</span>, <span class="dt">Eq</span>, <span class="dt">IsString</span>, <span class="dt">ToJSON</span>, <span class="dt">FromJSON</span>)</span></code></pre></div>
+<p>We’ve created the <code>LetterToSanta</code> newtype and we want to derive a few typeclasses for it, including <code>ToJSON</code> and <code>FromJSON</code>. Santa usually receives a lot of requests around Christmas, so to help him to handle all requests, elves wrote a service that can process such requests in the JSON format.</p>
+<p>But the problem here is that GHC doesn’t know how to derive <code>ToJSON</code> and <code>FromJSON</code> typeclasses. The compiler has two choices:</p>
+<ul>
+<li>Use the <strong>newtype</strong> strategy</li>
+<li>Use the <strong>anyclass</strong> strategy</li>
+</ul>
+<p>They are both equally valid. Currently, GHC chooses a default for you and produces a warning:</p>
+<div class="sourceCode" id="cb57"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true"></a>    • <span class="dt">Both</span> <span class="dt">DeriveAnyClass</span> <span class="fu">and</span> <span class="dt">GeneralizedNewtypeDeriving</span> are enabled</span>
+<span id="cb57-2"><a href="#cb57-2" aria-hidden="true"></a>      <span class="dt">Defaulting</span> to the <span class="dt">DeriveAnyClass</span> strategy for instantiating <span class="dt">ToJSON</span></span>
+<span id="cb57-3"><a href="#cb57-3" aria-hidden="true"></a>      <span class="dt">Use</span> <span class="dt">DerivingStrategies</span> to pick a different strategy</span>
+<span id="cb57-4"><a href="#cb57-4" aria-hidden="true"></a>    • <span class="dt">In</span> the <span class="kw">newtype</span> declaration for ‘<span class="dt">LetterToSanta</span>’</span>
+<span id="cb57-5"><a href="#cb57-5" aria-hidden="true"></a>   <span class="op">|</span></span>
+<span id="cb57-6"><a href="#cb57-6" aria-hidden="true"></a><span class="dv">18</span> <span class="op">|</span>     <span class="kw">deriving</span> (<span class="dt">Show</span>, <span class="dt">Generic</span>, <span class="dt">Eq</span>, <span class="dt">IsString</span>, <span class="dt">ToJSON</span>, <span class="dt">FromJSON</span>)</span>
+<span id="cb57-7"><a href="#cb57-7" aria-hidden="true"></a>   <span class="op">|</span>                                            <span class="op">^^^^^^</span></span></code></pre></div>
+<p>You can suppress this warning, but it can be dangerous. For example, the choice of default strategy in the <code>IsString</code> typeclass leads to the runtime error:</p>
+<div class="sourceCode" id="cb58"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true"></a>ghci<span class="op">&gt;</span> <span class="fu">print</span> (<span class="st">&quot;Hello, Santa!&quot;</span><span class="ot"> ::</span> <span class="dt">LetterToSanta</span>)</span>
+<span id="cb58-2"><a href="#cb58-2" aria-hidden="true"></a><span class="dt">LetterToSanta</span> <span class="st">&quot;*** Exception: Main.hs:22:34-41: No instance nor default method for class operation fromString</span></span></code></pre></div>
+<p>So, as the warning text recommends, you should enable the <code>DerivingStrategies</code> extension and specify strategies explicitly. For the <code>LetterToSanta</code> data type, they can look like this:</p>
+<div class="sourceCode" id="cb59"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true"></a><span class="kw">newtype</span> <span class="dt">LetterToSanta</span> <span class="ot">=</span> <span class="dt">LetterToSanta</span> <span class="dt">Text</span></span>
+<span id="cb59-2"><a href="#cb59-2" aria-hidden="true"></a>    <span class="kw">deriving</span> stock (<span class="dt">Show</span>, <span class="dt">Generic</span>)</span>
+<span id="cb59-3"><a href="#cb59-3" aria-hidden="true"></a>    <span class="kw">deriving</span> <span class="kw">newtype</span> (<span class="dt">Eq</span>, <span class="dt">IsString</span>)</span>
+<span id="cb59-4"><a href="#cb59-4" aria-hidden="true"></a>    <span class="kw">deriving</span> anyclass (<span class="dt">ToJSON</span>, <span class="dt">FromJSON</span>)</span></code></pre></div>
+<h2 id="via">Via<a href="#via" class="anchor">🔗</a></h2>
+<div class="pattern row">
+<div class="pattern-header bg-primary col-3">
+Extension
+</div>
+<div class="pattern-body col-9">
+<p><a href="https://downloads.haskell.org/ghc/latest/docs/html/users_guide/glasgow_exts.html#deriving-via">DerivingVia</a></p>
+</div>
+<div class="pattern-header bg-primary col-3">
+Strategy
+</div>
+<div class="pattern-body col-9">
+<p>via</p>
+</div>
+<div class="pattern-header bg-primary col-3">
+Typeclasses
+</div>
+<div class="pattern-body col-9">
+<p>Any typeclass implemented by the “via” data type</p>
+</div>
+</div>
+<div class="small-img">
+<figure>
+<img src="../images/deriving/father-frost.jpg" alt /><figcaption>Father Frost</figcaption>
+</figure>
+</div>
+<p>The <strong>via</strong> deriving mechanism is one of the newest accepted features in GHC. Even though it is rather new, many developers widely use it in both libraries and applications already.</p>
+<p>Introduced in GHC version 8.6, this feature can be enabled with the <code>DerivingVia</code> extension.</p>
+<p>The main idea around this way of deriving is that the generated instance may resemble very closely an instance of some other data type similar to yours, which you can specify as the reference point of the instance you would like to see.</p>
+<p>You can see how the user guide describes the <strong>via</strong> technique:</p>
+<div class="cite-quote">
+<div class="cite-quote-content">
+<p>This allows deriving a class instance for a type by specifying another type of equal runtime representation (such that there exists a Coercible instance between the two: see The Coercible constraint) that is already an instance of the that class.</p>
+</div>
+<div class="cite-quote-author">
+<p>GHC user guide</p>
+</div>
+</div>
+<p><code>DerivingVia</code> introduces the new strategy of deriving with the keyword <strong>via</strong>. Important to mention that due to its unique way of work, it requires to specify additional information during deriving — the data type name through which you want to derive instances for your data type.</p>
+<p>Let’s get the idea through the example first. Imagine that we have a class that describes beards:</p>
+<div class="sourceCode" id="cb60"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true"></a><span class="kw">class</span> <span class="dt">Beard</span> faceOfTheWinterHoliday <span class="kw">where</span></span>
+<span id="cb60-2"><a href="#cb60-2" aria-hidden="true"></a><span class="ot">    beardDescription ::</span> faceOfTheWinterHoliday <span class="ot">-&gt;</span> <span class="dt">String</span></span></code></pre></div>
+<p>And we already know what kind of beard does Santa have:</p>
+<div class="sourceCode" id="cb61"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true"></a><span class="kw">newtype</span> <span class="dt">Santa</span> <span class="ot">=</span> <span class="dt">Santa</span> <span class="dt">String</span></span>
+<span id="cb61-2"><a href="#cb61-2" aria-hidden="true"></a>    <span class="kw">deriving</span> <span class="kw">newtype</span> (<span class="dt">Show</span>)</span>
+<span id="cb61-3"><a href="#cb61-3" aria-hidden="true"></a></span>
+<span id="cb61-4"><a href="#cb61-4" aria-hidden="true"></a><span class="kw">instance</span> <span class="dt">Beard</span> <span class="dt">Santa</span> <span class="kw">where</span></span>
+<span id="cb61-5"><a href="#cb61-5" aria-hidden="true"></a>    beardDescription (<span class="dt">Santa</span> name) <span class="ot">=</span> name <span class="op">&lt;&gt;</span> <span class="st">&quot; has long white beard&quot;</span></span></code></pre></div>
+<p>When the times come for Father Frost to take the action, we understand, that they have pretty much the same representation holiday-wise, and their beard could also be unified:</p>
+<div class="sourceCode" id="cb62"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true"></a><span class="kw">newtype</span> <span class="dt">FatherFrost</span> <span class="ot">=</span> <span class="dt">FatherFrost</span> <span class="dt">String</span></span>
+<span id="cb62-2"><a href="#cb62-2" aria-hidden="true"></a>    <span class="kw">deriving</span> <span class="kw">newtype</span> (<span class="dt">Show</span>)</span>
+<span id="cb62-3"><a href="#cb62-3" aria-hidden="true"></a>    <span class="kw">deriving</span> <span class="dt">Beard</span> via <span class="dt">Santa</span></span></code></pre></div>
+<p>And the created instance for <code>FatherFrost</code> is similar to the <code>Santa</code>s one:</p>
+<div class="sourceCode" id="cb63"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true"></a>  <span class="kw">instance</span> <span class="dt">Beard</span> <span class="dt">FatherFrost</span> <span class="kw">where</span></span>
+<span id="cb63-2"><a href="#cb63-2" aria-hidden="true"></a>    beardDescription</span>
+<span id="cb63-3"><a href="#cb63-3" aria-hidden="true"></a>      <span class="ot">=</span> coerce</span>
+<span id="cb63-4"><a href="#cb63-4" aria-hidden="true"></a>          <span class="op">@</span>(<span class="dt">Santa</span> <span class="ot">-&gt;</span> <span class="dt">String</span>)</span>
+<span id="cb63-5"><a href="#cb63-5" aria-hidden="true"></a>          <span class="op">@</span>(<span class="dt">FatherFrost</span> <span class="ot">-&gt;</span> <span class="dt">String</span>)</span>
+<span id="cb63-6"><a href="#cb63-6" aria-hidden="true"></a>          (beardDescription <span class="op">@</span><span class="dt">Santa</span>)<span class="ot"> ::</span> <span class="dt">FatherFrost</span> <span class="ot">-&gt;</span> <span class="dt">String</span></span></code></pre></div>
+<p>This looks quite handy for the instance deriving, which gives you a lot of control over what you want to achieve with the minimal amount of work and boilerplate. However, it requires you to understand when and how to do that.</p>
+<p>We have an easy answer on this one. This requires you just 3 steps:</p>
+<ol type="1">
+<li>Create a corresponding newtype.</li>
+<li>Write the instance for the desired typeclass manually.</li>
+<li>Write the deriving via this newtype for your data type.</li>
+</ol>
+<p>This feature also is very important for the libraries that expose typeclasses as part of the library interface. <code>DerivingVia</code> makes it possible to provide additional data type with the instance of your typeclass, so that users could use it for their data type instances deriving.</p>
+<p>For real-life example usage of DerivingVia, you can refer to the <a href="https://hackage.haskell.org/package/deriving-aeson">deriving-aeson</a> Haskell library that allows customising <code>ToJSON</code> and <code>FromJSON</code> instances by providing helpful newtypes.</p>
+<blockquote>
+<p>A careful reader may notice that both <code>DefaultSignatures</code> and <code>DeriveAnyClass</code> can be considered as a special case of <code>DerivingVia</code>. Indeed, instead of providing only one default definition of a method, you can define multiple newtypes with their own definitions, and later use the <strong>via</strong> strategy to specify the behaviour explicitly.</p>
+</blockquote>
+<h2 id="standalone-deriving">Standalone deriving<a href="#standalone-deriving" class="anchor">🔗</a></h2>
+<div class="cite-quote">
+<div class="cite-quote-content">
+<p>If there is a type error, it is your problem.</p>
+</div>
+<div class="cite-quote-author">
+<p>GHC user guide, <code>StandaloneDeriving</code></p>
+</div>
+</div>
+<p>Let’s now see the other side of deriving instance declarations. In Haskell, it is possible to define instances anywhere in the code, not exactly near the data type definition. If the instance is in the other module/package/project than typeclass and data type then such instances are called <a href="https://wiki.haskell.org/Orphan_instance"><em>orphan instances</em></a>. Such instances are usually discouraged, and there is even the GHC warning to remind users about that. But sometimes it is unavoidable. And that means that we need a way to do the same for <code>deriving</code> as well.</p>
+<p>Luckily, GHC provides such a feature through the <a href="https://downloads.haskell.org/ghc/latest/docs/html/users_guide/glasgow_exts.html#stand-alone-deriving-declarations">StandaloneDeriving</a> extension for quite a long time already (since version 6.8.1). But this is not the only use case for the standalone deriving. You can use it for:</p>
+<ul>
+<li>Orphan instance deriving</li>
+<li>GADT instance deriving</li>
+<li>Different deriving instances for specified parameters in the parameterised data types (e.g. for the data type <code>Foo x</code> you want to have separate <code>Foo    (Maybe a)</code> and <code>Foo (NonEmpty a)</code> instances, which is not possible during the standard derivation during the data type declaration).</li>
+</ul>
+<p>The syntax is very alike the ordinary instance declaration with a few differences. Let’s look at it:</p>
+<div class="sourceCode" id="cb64"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true"></a><span class="kw">deriving</span> [<span class="dt">STRATEGY</span>] <span class="kw">instance</span> (<span class="dt">Constraints</span>) <span class="ot">=&gt;</span> <span class="dt">TypeClass</span> <span class="dt">DataType</span></span></code></pre></div>
+<p>The <code>STRATEGY</code> is optional, but we recommend specifying it anyway. A few examples of standalone deriving with explicit strategies:</p>
+<div class="sourceCode" id="cb65"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true"></a><span class="kw">data</span> <span class="dt">Gift</span> a</span>
+<span id="cb65-2"><a href="#cb65-2" aria-hidden="true"></a>    <span class="ot">=</span> <span class="dt">None</span></span>
+<span id="cb65-3"><a href="#cb65-3" aria-hidden="true"></a>    <span class="op">|</span> <span class="dt">Some</span> a</span>
+<span id="cb65-4"><a href="#cb65-4" aria-hidden="true"></a></span>
+<span id="cb65-5"><a href="#cb65-5" aria-hidden="true"></a><span class="kw">deriving</span> stock <span class="kw">instance</span> (<span class="dt">Show</span> a) <span class="ot">=&gt;</span> <span class="dt">Show</span> (<span class="dt">Gift</span> a)</span>
+<span id="cb65-6"><a href="#cb65-6" aria-hidden="true"></a><span class="kw">deriving</span> via (<span class="dt">Last</span> (<span class="dt">Gift</span> a)) <span class="kw">instance</span> <span class="dt">Semigroup</span> (<span class="dt">Gift</span> a)</span></code></pre></div>
+<p>One thing to keep in mind is that for any deriving strategy but <code>DerivingAnyClass</code> you need to have all the constructors of the data type in scope as the generated instances would use them.</p>
+<h2 id="empty-deriving">Empty Deriving<a href="#empty-deriving" class="anchor">🔗</a></h2>
+<p>As we are talking all about deriving today, it is fair to mention another feature provided by GHC — ability to derive instances of empty data structures.</p>
+<p>Haskell allows you to declare the data types without any constructors, and even more, the reports suggest the compiler to enable users to do this since the report Haskell2010 (for Haskell98 you need to enable <code>EmptyDataDecl</code> manually).</p>
+<p>Here is the example of such data type:</p>
+<div class="sourceCode" id="cb66"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true"></a><span class="kw">data</span> <span class="dt">EmptyGiftForNaugthy</span></span></code></pre></div>
+<p>The usefulness of such constructions will not be discussed here, though you can think of a few use cases for them.</p>
+<p>The thing is that the Haskell report does not allow to derive instances of standard typeclasses for such structures. Here is what it says about it:</p>
+<div class="cite-quote">
+<div class="cite-quote-content">
+<p>If the data declaration has no constructors, then no classes are derivable.</p>
+</div>
+</div>
+<p>However, sometimes it is handy to be able to derive instances for empty data types. And GHC lets you do it when you enable <a href="https://downloads.haskell.org/ghc/latest/docs/html/users_guide/glasgow_exts.html#extension-EmptyDataDeriving">EmptyDataDeriving</a> extension:</p>
+<div class="sourceCode" id="cb67"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true"></a><span class="ot">{-# LANGUAGE EmptyDataDeriving #-}</span></span>
+<span id="cb67-2"><a href="#cb67-2" aria-hidden="true"></a></span>
+<span id="cb67-3"><a href="#cb67-3" aria-hidden="true"></a><span class="kw">data</span> <span class="dt">EmptyGiftForNaugthy</span></span>
+<span id="cb67-4"><a href="#cb67-4" aria-hidden="true"></a>    <span class="kw">deriving</span> stock (<span class="dt">Show</span>, <span class="dt">Eq</span>)</span></code></pre></div>
+<p>And this will generate the following instance code:</p>
+<div class="sourceCode" id="cb68"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true"></a><span class="kw">instance</span> <span class="dt">Show</span> <span class="dt">EmptyGiftForNaugthy</span> <span class="kw">where</span></span>
+<span id="cb68-2"><a href="#cb68-2" aria-hidden="true"></a>    <span class="fu">showsPrec</span> _ z_a84K <span class="ot">=</span> <span class="kw">case</span> z_a84K <span class="kw">of</span></span>
+<span id="cb68-3"><a href="#cb68-3" aria-hidden="true"></a></span>
+<span id="cb68-4"><a href="#cb68-4" aria-hidden="true"></a><span class="kw">instance</span> <span class="dt">Eq</span> <span class="dt">EmptyGiftForNaugthy</span> <span class="kw">where</span></span>
+<span id="cb68-5"><a href="#cb68-5" aria-hidden="true"></a>    (<span class="op">==</span>) _ z_a84L <span class="ot">=</span> <span class="dt">True</span></span></code></pre></div>
+<p>Note, that this extension is only required for the standard typeclasses (described in the Standard deriving section). For all other ways of deriving (including <code>StandaloneDeriving</code>), you do not need to enable that. All you need is to include the corresponding necessary extension as for any other data types.</p>
+<h2 id="best-practices-with-deriving">Best practices with Deriving<a href="#best-practices-with-deriving" class="anchor">🔗</a></h2>
+<p>This section contains recommendations on using <strong>deriving</strong> when writing Haskell general-purpose libraries and production applications. We gathered this information during our work at different projects and found the optimal workflows that help developers to be more productive. We also were closely watching the practices that are used by other Haskell engineers to get the best of deriving.</p>
+<p><strong>Always specify the deriving strategy.</strong> Since GHC 8.8, you can enable the <a href="https://downloads.haskell.org/~ghc/8.10.1/docs/html/users_guide/using-warnings.html#ghc-flag--Wmissing-deriving-strategies">-Wmissing-deriving-strategies</a> to warn on implicit deriving strategies.</p>
+<p><strong>Use <code>-Wderiving-defaults</code> for your code.</strong> Since GHC 8.10, a new warning, <a href="https://downloads.haskell.org/~ghc/8.10.1/docs/html/users_guide/using-warnings.html#ghc-flag--Wderiving-defaults">-Wderiving-defaults</a> was introduced, to draw attention to ambiguous deriving clauses. This warning is enabled by default if you use <code>-Wall</code>. And it would alarm you each time when the compiler resolves the unspecified strategy on its own.</p>
+<p><strong>Derive <code>Show</code> and <code>Eq</code> for all data types whenever possible.</strong> Deriving these typeclasses doesn’t require any effort from your side, as well as it does not affect the compile-time insignificantly. However, these instances allow inspecting and testing values of the data types and could be beneficial to anyone who would use these data types in any way.</p>
+<p><strong>The <code>Show</code> typeclass must be derived instead of being written manually.</strong> By convention, the <code>Show</code> should represent a Haskell view of a data type. If you need some custom printing for a different purpose (pretty-printing, logging, etc.), you’d better use a custom function or a different typeclass. Having the <code>Show</code> instance derived also allows you to utilize packages like <a href="https://hackage.haskell.org/package/pretty-simple">pretty-simple</a> to debug Haskell data types easier.</p>
+<p><strong><code>Show</code> and <code>Read</code> instances should be aligned.</strong> As an addition to the previous point, <code>Show</code> and <code>Read</code> instances for a data type must satisfy the roundtrip property: <code>read . show ≡ id</code>. If you derive the <code>Show</code> instance, and if you need <code>Read</code>, it also makes sense to derive <code>Read</code> as well instead of writing it manually. The <code>Read</code> typeclass is not supposed to be used for efficient parsing with helpful error messages, though it is still used a lot due to convenience and availability out-of-the-box.</p>
+<p><strong>Use the <em>newtype</em> strategy whenever possible and when it makes sense.</strong> For performance reasons, derive typeclasses like <code>Eq</code>, <code>Ord</code>, <code>Enum</code>, <code>Bounded</code>, <code>Hashable</code> using the <strong>newtype</strong> strategy. When it works for your use case, use the <strong>newtype</strong> strategy when deriving typeclasses from external libraries, e.g. <code>ToField/FromField</code> from <a href="https://hackage.haskell.org/package/postgresql-simple">postgresql-simple</a>, <code>ToJSON/FromJSON</code> from <a href="https://hackage.haskell.org/package/aeson">aeson</a>.</p>
+<p><strong>Derive <code>Generic</code> instances if you see possible applications of it for your data types.</strong> For example, if you have a lot of record data types, you may want to derive <code>Generic</code> to play nicely with the <a href="https://hackage.haskell.org/package/generic-lens">generic-lens</a> library. However, notice that deriving <code>Generic</code> and other typeclasses based on generics can take a significant amount of compile time. Be mindful of the time of developers who are going to use your library or application and be aware of the trade-offs of different solutions. Deriving more typeclasses and using more features can increase compilation times, but can also increase developer productivity. To summarise, in some cases it might be better to write instances of different typeclasses manually, instead of using the <strong>anyclass</strong> strategy based on <code>Generic</code>.</p>
+<hr>
+<p>Based on the above recommendations, you can put the following GHC options into a common stanza of the <code>.cabal</code> file for your Haskell package, and get the maximal effect of deriving best-practices:</p>
+<div class="sourceCode" id="cb69"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true"></a>common common<span class="op">-</span>options<span class="op">:</span></span>
+<span id="cb69-2"><a href="#cb69-2" aria-hidden="true"></a></span>
+<span id="cb69-3"><a href="#cb69-3" aria-hidden="true"></a>  <span class="kw">if</span> impl(ghc <span class="op">&gt;=</span> <span class="fl">8.8</span>)</span>
+<span id="cb69-4"><a href="#cb69-4" aria-hidden="true"></a>    ghc<span class="op">-</span>options<span class="op">:</span>       <span class="op">-</span><span class="dt">Wmissing</span><span class="op">-</span><span class="kw">deriving</span><span class="op">-</span>strategies</span>
+<span id="cb69-5"><a href="#cb69-5" aria-hidden="true"></a>                       <span class="op">-</span><span class="dt">Werror</span><span class="ot">=</span>missing<span class="op">-</span><span class="kw">deriving</span><span class="op">-</span>strategies</span>
+<span id="cb69-6"><a href="#cb69-6" aria-hidden="true"></a></span>
+<span id="cb69-7"><a href="#cb69-7" aria-hidden="true"></a>  default<span class="op">-</span>extensions<span class="op">:</span>  <span class="dt">DeriveAnyClass</span></span>
+<span id="cb69-8"><a href="#cb69-8" aria-hidden="true"></a>                       <span class="dt">DeriveDataTypeable</span></span>
+<span id="cb69-9"><a href="#cb69-9" aria-hidden="true"></a>                       <span class="dt">DeriveFoldable</span></span>
+<span id="cb69-10"><a href="#cb69-10" aria-hidden="true"></a>                       <span class="dt">DeriveFunctor</span></span>
+<span id="cb69-11"><a href="#cb69-11" aria-hidden="true"></a>                       <span class="dt">DeriveGeneric</span></span>
+<span id="cb69-12"><a href="#cb69-12" aria-hidden="true"></a>                       <span class="dt">DeriveLift</span></span>
+<span id="cb69-13"><a href="#cb69-13" aria-hidden="true"></a>                       <span class="dt">DeriveTraversable</span></span>
+<span id="cb69-14"><a href="#cb69-14" aria-hidden="true"></a>                       <span class="dt">DerivingStrategies</span></span>
+<span id="cb69-15"><a href="#cb69-15" aria-hidden="true"></a>                       <span class="dt">DerivingVia</span></span>
+<span id="cb69-16"><a href="#cb69-16" aria-hidden="true"></a>                       <span class="dt">GeneralizedNewtypeDeriving</span></span></code></pre></div>
+<p>All the mentioned <code>default-extensions</code> are innocent, and won’t break anything, even with some other extensions enabled. However, without the <code>-Werror=missing-deriving-strategies</code> it is not recommended to enable <code>DeriveAnyClass</code> and <code>GeneralizedNewtypeDeriving</code> simultaneously due to ambiguity described earlier in the post.</p>
+<h2 id="meta-boilerplate-and-possible-future-improvements">Meta boilerplate and possible future improvements<a href="#meta-boilerplate-and-possible-future-improvements" class="anchor">🔗</a></h2>
+<p>Deriving significantly simplifies the life of a Haskell developer by reducing the need to write boilerplate code. But so much code is being derived nowadays that this method of removing boilerplate became boilerplate itself (though in a much more comprehensible way).</p>
+<p>In a typical Haskell application, you may end up with a code similar to the below one:</p>
+<div class="sourceCode" id="cb70"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true"></a><span class="co">-- | Wrapper over the text of an email.</span></span>
+<span id="cb70-2"><a href="#cb70-2" aria-hidden="true"></a><span class="kw">newtype</span> <span class="dt">Email</span> <span class="ot">=</span> <span class="dt">Email</span> {<span class="ot"> unEmail ::</span> <span class="dt">Text</span> }</span>
+<span id="cb70-3"><a href="#cb70-3" aria-hidden="true"></a>    <span class="kw">deriving</span> stock (<span class="dt">Show</span>, <span class="dt">Generic</span>)</span>
+<span id="cb70-4"><a href="#cb70-4" aria-hidden="true"></a>    <span class="kw">deriving</span> <span class="kw">newtype</span> (<span class="dt">Eq</span>, <span class="dt">Ord</span>, <span class="dt">Hashable</span>, <span class="dt">FromField</span>, <span class="dt">ToField</span>, <span class="dt">ToMustache</span>)</span>
+<span id="cb70-5"><a href="#cb70-5" aria-hidden="true"></a>    <span class="kw">deriving</span> anyclass (<span class="dt">FromJSON</span>, <span class="dt">ToJSON</span>)</span>
+<span id="cb70-6"><a href="#cb70-6" aria-hidden="true"></a></span>
+<span id="cb70-7"><a href="#cb70-7" aria-hidden="true"></a><span class="co">-- | Subject of the email.</span></span>
+<span id="cb70-8"><a href="#cb70-8" aria-hidden="true"></a><span class="kw">newtype</span> <span class="dt">Subject</span> <span class="ot">=</span> <span class="dt">Subject</span> {<span class="ot"> unSubject ::</span> <span class="dt">Text</span> }</span>
+<span id="cb70-9"><a href="#cb70-9" aria-hidden="true"></a>    <span class="kw">deriving</span> stock (<span class="dt">Show</span>, <span class="dt">Generic</span>)</span>
+<span id="cb70-10"><a href="#cb70-10" aria-hidden="true"></a>    <span class="kw">deriving</span> <span class="kw">newtype</span> (<span class="dt">Eq</span>, <span class="dt">Ord</span>, <span class="dt">Hashable</span>, <span class="dt">FromField</span>, <span class="dt">ToField</span>, <span class="dt">ToMustache</span>)</span>
+<span id="cb70-11"><a href="#cb70-11" aria-hidden="true"></a>    <span class="kw">deriving</span> anyclass (<span class="dt">ToJSON</span>, <span class="dt">FromJSON</span>)</span>
+<span id="cb70-12"><a href="#cb70-12" aria-hidden="true"></a></span>
+<span id="cb70-13"><a href="#cb70-13" aria-hidden="true"></a><span class="co">-- | Wrapper for primary keys in a database table.</span></span>
+<span id="cb70-14"><a href="#cb70-14" aria-hidden="true"></a><span class="kw">newtype</span> <span class="dt">Id</span> a <span class="ot">=</span> <span class="dt">Id</span> {<span class="ot"> unId ::</span> <span class="dt">Int</span> }</span>
+<span id="cb70-15"><a href="#cb70-15" aria-hidden="true"></a>    <span class="kw">deriving</span> stock (<span class="dt">Show</span>, <span class="dt">Generic</span>)</span>
+<span id="cb70-16"><a href="#cb70-16" aria-hidden="true"></a>    <span class="kw">deriving</span> <span class="kw">newtype</span> ( <span class="dt">Eq</span>, <span class="dt">Ord</span>, <span class="dt">Hashable</span>, <span class="dt">FromField</span>, <span class="dt">ToField</span>, <span class="dt">ToMustache</span></span>
+<span id="cb70-17"><a href="#cb70-17" aria-hidden="true"></a>                     , <span class="dt">FromHttpApiData</span>, <span class="dt">ToHttpApiData</span>)</span>
+<span id="cb70-18"><a href="#cb70-18" aria-hidden="true"></a>    <span class="kw">deriving</span> anyclass (<span class="dt">FromJSON</span>, <span class="dt">ToJSON</span>)</span></code></pre></div>
+<p>Once upon a time there was a GHC proposal, addressing this issue, but it was closed:</p>
+<ul>
+<li><a href="https://github.com/ghc-proposals/ghc-proposals/pull/215">DerivingAlias proposal</a></li>
+</ul>
+<p>So there is still an open question about how to improve on this side. Maybe you can come up with a solution that would help to resolve this question as well! We encourage you to propose your thoughts through the GHC proposals process.</p>
+<h2 id="summary">Summary<a href="#summary" class="anchor">🔗</a></h2>
+<p>As we showed, deriving is a powerful and helpful technique that you can safely use in your code. It gives developers a lot of opportunities in the way to handle instances for the data types.</p>
+<p>Yet, this is an enormous chapter of the GHC, with a lot of interesting aspects. And the knowledge of all these stuff could help you to be a better Haskell developer.</p>
+<p>To consolidate our today’s knowledge of deriving mechanisms, here is a useful table, that covers all the described techniques in the post:</p>
+<table>
+<thead>
+<tr class="header">
+<th>Typeclass</th>
+<th>Strategy</th>
+<th>Extension</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>Show</code>, <code>Read</code>, <code>Eq</code>, <code>Ord</code>, <code>Enum</code>, <code>Bounded</code>, <code>Ix</code></td>
+<td>stock</td>
+<td>none</td>
+</tr>
+<tr class="even">
+<td><code>Typeable</code>, <code>Coercible</code>, <code>HasField</code></td>
+<td>none</td>
+<td>none</td>
+</tr>
+<tr class="odd">
+<td><code>Functor</code></td>
+<td>stock</td>
+<td><code>DeriveFunctor</code></td>
+</tr>
+<tr class="even">
+<td><code>Foldable</code></td>
+<td>stock</td>
+<td><code>DeriveFoldable</code></td>
+</tr>
+<tr class="odd">
+<td><code>Traversable</code></td>
+<td>stock</td>
+<td><code>DeriveTraversable</code></td>
+</tr>
+<tr class="even">
+<td><code>Generic</code>, <code>Generic1</code></td>
+<td>stock</td>
+<td><code>DeriveGeneric</code></td>
+</tr>
+<tr class="odd">
+<td><code>Data</code></td>
+<td>stock</td>
+<td><code>DeriveDataTypeable</code></td>
+</tr>
+<tr class="even">
+<td>Any typeclass implemented by the wrapped type</td>
+<td>newtype</td>
+<td><code>GeneralizedNewtypeDeriving</code></td>
+</tr>
+<tr class="odd">
+<td>Any typeclass with default signature</td>
+<td>anyclass</td>
+<td><code>DerivingAnyClass</code></td>
+</tr>
+<tr class="even">
+<td>Any typeclass implemented by the “via” data type</td>
+<td>via</td>
+<td><code>DerivingVia</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="quiz-lock-stock-and-two-smoking-barrels">Quiz: Lock, Stock and Two Smoking Barrels<a href="#quiz-lock-stock-and-two-smoking-barrels" class="anchor">🔗</a></h2>
+<div class="small-img">
+<figure>
+<img src="../images/deriving/grinch.jpg" alt /><figcaption>Grinch</figcaption>
+</figure>
+</div>
+<p>This section contains some tasks to practice understanding of deriving strategies as well as some challenges for puzzle-lovers.</p>
+<section id="training-1-specify-strategy" class="exercise">
+<h3>Training 1: Specify strategy<a href="#training-1-specify-strategy" class="anchor">🔗</a></h3>
+<p>Specify strategies explicitly in the following code:</p>
+<div class="sourceCode" id="cb71"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true"></a><span class="kw">data</span> <span class="dt">GiftType</span> <span class="ot">=</span> <span class="dt">Toy</span> <span class="op">|</span> <span class="dt">Bicycle</span> <span class="op">|</span> <span class="dt">Dress</span> <span class="op">|</span> <span class="dt">Shoe</span></span>
+<span id="cb71-2"><a href="#cb71-2" aria-hidden="true"></a>    <span class="kw">deriving</span> (<span class="dt">Show</span>, <span class="dt">Read</span>, <span class="dt">Eq</span>, <span class="dt">Ord</span>, <span class="dt">Enum</span>, <span class="dt">Bounded</span>, <span class="dt">Ix</span>)</span>
+<span id="cb71-3"><a href="#cb71-3" aria-hidden="true"></a></span>
+<span id="cb71-4"><a href="#cb71-4" aria-hidden="true"></a><span class="kw">newtype</span> <span class="dt">Email</span> <span class="ot">=</span> <span class="dt">Email</span></span>
+<span id="cb71-5"><a href="#cb71-5" aria-hidden="true"></a>    {<span class="ot"> unEmail ::</span> <span class="dt">Text</span></span>
+<span id="cb71-6"><a href="#cb71-6" aria-hidden="true"></a>    } <span class="kw">deriving</span> (<span class="dt">Show</span>, <span class="dt">Eq</span>, <span class="dt">Ord</span>, <span class="dt">Generic</span>, <span class="dt">Hashable</span>, <span class="dt">FromJSON</span>, <span class="dt">ToJSON</span>)</span>
+<span id="cb71-7"><a href="#cb71-7" aria-hidden="true"></a></span>
+<span id="cb71-8"><a href="#cb71-8" aria-hidden="true"></a><span class="kw">newtype</span> <span class="dt">App</span> a <span class="ot">=</span> <span class="dt">App</span></span>
+<span id="cb71-9"><a href="#cb71-9" aria-hidden="true"></a>    {<span class="ot"> unApp ::</span> <span class="dt">ReaderT</span> <span class="dt">MyEnv</span> <span class="dt">IO</span> a</span>
+<span id="cb71-10"><a href="#cb71-10" aria-hidden="true"></a>    } <span class="kw">deriving</span> (<span class="dt">Functor</span>, <span class="dt">Applicative</span>, <span class="dt">Monad</span>, <span class="dt">MonadIO</span>, <span class="dt">MonadReader</span> <span class="dt">MyEnv</span>)</span></code></pre></div>
+<button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#solution1" aria-expanded="false" aria-controls="solution1">
+Show solution
+</button>
+<div id="solution1" class="solution collapse">
+<div class="sourceCode" id="cb72"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true"></a><span class="kw">data</span> <span class="dt">GiftType</span> <span class="ot">=</span> <span class="dt">Toy</span> <span class="op">|</span> <span class="dt">Bicycle</span> <span class="op">|</span> <span class="dt">Dress</span> <span class="op">|</span> <span class="dt">Shoe</span></span>
+<span id="cb72-2"><a href="#cb72-2" aria-hidden="true"></a>    <span class="kw">deriving</span> stock (<span class="dt">Show</span>, <span class="dt">Read</span>, <span class="dt">Eq</span>, <span class="dt">Ord</span>, <span class="dt">Enum</span>, <span class="dt">Bounded</span>, <span class="dt">Ix</span>)</span>
+<span id="cb72-3"><a href="#cb72-3" aria-hidden="true"></a></span>
+<span id="cb72-4"><a href="#cb72-4" aria-hidden="true"></a><span class="kw">newtype</span> <span class="dt">Email</span> <span class="ot">=</span> <span class="dt">Email</span></span>
+<span id="cb72-5"><a href="#cb72-5" aria-hidden="true"></a>    {<span class="ot"> unEmail ::</span> <span class="dt">Text</span></span>
+<span id="cb72-6"><a href="#cb72-6" aria-hidden="true"></a>    } <span class="kw">deriving</span> stock (<span class="dt">Show</span>, <span class="dt">Generic</span>)</span>
+<span id="cb72-7"><a href="#cb72-7" aria-hidden="true"></a>      <span class="kw">deriving</span> <span class="kw">newtype</span> (<span class="dt">Eq</span>, <span class="dt">Ord</span>, <span class="dt">Hashable</span>)</span>
+<span id="cb72-8"><a href="#cb72-8" aria-hidden="true"></a>      <span class="kw">deriving</span> anyclass (<span class="dt">FromJSON</span>, <span class="dt">ToJSON</span>)</span>
+<span id="cb72-9"><a href="#cb72-9" aria-hidden="true"></a>      <span class="co">--       ^^^^^^^^</span></span>
+<span id="cb72-10"><a href="#cb72-10" aria-hidden="true"></a>      <span class="co">--  this can be newtype depending on the use-case</span></span>
+<span id="cb72-11"><a href="#cb72-11" aria-hidden="true"></a></span>
+<span id="cb72-12"><a href="#cb72-12" aria-hidden="true"></a><span class="kw">newtype</span> <span class="dt">App</span> a <span class="ot">=</span> <span class="dt">App</span></span>
+<span id="cb72-13"><a href="#cb72-13" aria-hidden="true"></a>    {<span class="ot"> unApp ::</span> <span class="dt">ReaderT</span> <span class="dt">MyEnv</span> <span class="dt">IO</span> a</span>
+<span id="cb72-14"><a href="#cb72-14" aria-hidden="true"></a>    } <span class="kw">deriving</span> <span class="kw">newtype</span> ( <span class="dt">Functor</span>, <span class="dt">Applicative</span>, <span class="dt">Monad</span></span>
+<span id="cb72-15"><a href="#cb72-15" aria-hidden="true"></a>                       , <span class="dt">MonadIO</span>, <span class="dt">MonadReader</span> <span class="dt">MyEnv</span></span>
+<span id="cb72-16"><a href="#cb72-16" aria-hidden="true"></a>                       )</span></code></pre></div>
+</div>
+</section>
+<section id="training-2-disambiguate" class="exercise">
+<h3>Training 2: Disambiguate<a href="#training-2-disambiguate" class="anchor">🔗</a></h3>
+<p>Having the following extensions enabled in the module:</p>
+<div class="sourceCode" id="cb73"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true"></a><span class="ot">{-# LANGUAGE DeriveAnyClass             #-}</span></span>
+<span id="cb73-2"><a href="#cb73-2" aria-hidden="true"></a><span class="ot">{-# LANGUAGE DeriveGeneric              #-}</span></span>
+<span id="cb73-3"><a href="#cb73-3" aria-hidden="true"></a><span class="ot">{-# LANGUAGE GeneralizedNewtypeDeriving #-}</span></span></code></pre></div>
+<p>what would happen when compiling with <code>-Wall</code> the following code?</p>
+<div class="sourceCode" id="cb74"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true"></a><span class="kw">newtype</span> <span class="dt">ToyName</span> <span class="ot">=</span> <span class="dt">ToyName</span></span>
+<span id="cb74-2"><a href="#cb74-2" aria-hidden="true"></a>    {<span class="ot"> unToyName ::</span> <span class="dt">Text</span></span>
+<span id="cb74-3"><a href="#cb74-3" aria-hidden="true"></a>    } <span class="kw">deriving</span> (<span class="dt">Show</span>, <span class="dt">Read</span>, <span class="dt">Generic</span>, <span class="dt">IsString</span>, <span class="dt">FromJSON</span>, <span class="dt">ToJSON</span>)</span></code></pre></div>
+<p>Possible answers:</p>
+<ul class="task-list">
+<li><input type="checkbox" disabled />
+It won’t compile</li>
+<li><input type="checkbox" disabled />
+There will be (a) warning(s) but it will compile and work properly</li>
+<li><input type="checkbox" disabled />
+Warnings and wrong runtime behaviour</li>
+<li><input type="checkbox" disabled />
+No warnings during compilation, works as expected</li>
+<li><input type="checkbox" disabled />
+No warnings during compilation, runtime error</li>
+</ul>
+<button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#solution2" aria-expanded="false" aria-controls="solution2">
+Show solution
+</button>
+<div id="solution2" class="solution collapse">
+<p>Warning for defaulting strategy for deriving <code>IsString</code>, <code>FromJSON</code> and <code>ToJSON</code>. Invalid runtime behaviour for the <code>IsString</code> instance — throws an exception.</p>
+</div>
+</section>
+<section id="puzzle-1-semigroup-and-monoid" class="exercise">
+<h3>Puzzle 1: Semigroup and Monoid<a href="#puzzle-1-semigroup-and-monoid" class="anchor">🔗</a></h3>
+<p>Semigroup became the superclass of <code>Monoid</code> in <code>base-4.11.0.0</code> (GHC 8.4.1). That means that now it is required for the data type to be a <code>Semigroup</code> in order to have an instance of <code>Monoid</code>.</p>
+<p>Besides, <code>base</code> provides the <a href="https://hackage.haskell.org/package/base-4.14.0.0/docs/Data-Semigroup.html#t:WrappedMonoid">WrappedMonoid</a> newtype that allows deriving <code>Semigroup</code> instance, if you already have a <code>Monoid</code> instance. But is it possible to use such a newtype in the wrong way?</p>
+<p>What would happen when compiling the following code with <code>-Wall</code> and running it?</p>
+<div class="sourceCode" id="cb75"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true"></a><span class="kw">newtype</span> <span class="dt">Gift</span> <span class="ot">=</span> <span class="dt">Gift</span></span>
+<span id="cb75-2"><a href="#cb75-2" aria-hidden="true"></a>    {<span class="ot"> unGift ::</span> <span class="dt">String</span></span>
+<span id="cb75-3"><a href="#cb75-3" aria-hidden="true"></a>    } <span class="kw">deriving</span> stock (<span class="dt">Show</span>)</span>
+<span id="cb75-4"><a href="#cb75-4" aria-hidden="true"></a>      <span class="kw">deriving</span> <span class="dt">Semigroup</span> via <span class="dt">WrappedMonoid</span> <span class="dt">Gift</span></span>
+<span id="cb75-5"><a href="#cb75-5" aria-hidden="true"></a></span>
+<span id="cb75-6"><a href="#cb75-6" aria-hidden="true"></a><span class="kw">instance</span> <span class="dt">Monoid</span> <span class="dt">Gift</span> <span class="kw">where</span></span>
+<span id="cb75-7"><a href="#cb75-7" aria-hidden="true"></a>    <span class="fu">mempty</span> <span class="ot">=</span> <span class="dt">Gift</span> <span class="st">&quot;&quot;</span></span></code></pre></div>
+<p>Possible answers:</p>
+<ul class="task-list">
+<li><input type="checkbox" disabled />
+Compiler error</li>
+<li><input type="checkbox" disabled />
+Compiler warning</li>
+<li><input type="checkbox" disabled />
+Incorrect instance work after termination (exception, wrong results, etc.)</li>
+<li><input type="checkbox" disabled />
+Hangs in runtime</li>
+</ul>
+<button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#solution3" aria-expanded="false" aria-controls="solution3">
+Show solution
+</button>
+<div id="solution3" class="solution collapse">
+<p>The code perfectly compiles and doesn’t produce any warnings. Even when enabling the <code>-Wnoncanonical-monoid-instances</code> warning, not included in <code>-Wall</code>. However, when trying to append two values, we can see that our code hangs (don’t try at home!):</p>
+<div class="sourceCode" id="cb76"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true"></a>ghci<span class="op">&gt;</span> <span class="dt">Gift</span> <span class="st">&quot;bear&quot;</span> <span class="op">&lt;&gt;</span> <span class="dt">Gift</span> <span class="st">&quot;bicycle&quot;</span></span>
+<span id="cb76-2"><a href="#cb76-2" aria-hidden="true"></a><span class="dt">Gift</span> {unGift <span class="ot">=</span> <span class="st">&quot;</span></span></code></pre></div>
+<p>This happens because our hand-written <code>Monoid</code> instance doesn’t specify the implementation of <code>mappend</code>, and by default, it’s implemented as an alias to the <code>(&lt;&gt;)</code> operator from <code>Semigroup</code>. At the same time, by implementing <code>Semigroup</code> via <code>WrappedMonoid</code>, we explicitly tell the compiler to implement <code>(&lt;&gt;)</code> as an alias to <code>mappend</code>. That’s why we have infinite non-terminating recursion.</p>
+</div>
+</section>
+<section id="puzzle-2-infinite-deriving" class="exercise">
+<h3>Puzzle 2: Infinite deriving<a href="#puzzle-2-infinite-deriving" class="anchor">🔗</a></h3>
+<p>Without writing the <code>Show</code> instance explicitly, but using only deriving capabilities, implement a <code>Show</code> instance for the data type that prints nested string <code>"Ho"</code> infinitely. In other words, if you have a data type like this:</p>
+<div class="sourceCode" id="cb77"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb77-1"><a href="#cb77-1" aria-hidden="true"></a><span class="kw">newtype</span> <span class="dt">Infinite</span> <span class="ot">=</span> <span class="dt">Infinite</span> <span class="dt">Int</span></span></code></pre></div>
+<p>the behaviour of the <code>show</code> function for this type should be the following:</p>
+<div class="sourceCode" id="cb78"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true"></a>ghci<span class="op">&gt;</span> <span class="dt">Infinite</span> <span class="dv">0</span></span>
+<span id="cb78-2"><a href="#cb78-2" aria-hidden="true"></a><span class="dt">Ho</span> (<span class="dt">Ho</span> (<span class="dt">Ho</span> (<span class="dt">Ho</span> (<span class="op">...</span></span></code></pre></div>
+<button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#solution4" aria-expanded="false" aria-controls="solution4">
+Show solution
+</button>
+<div id="solution4" class="solution collapse">
+<div class="sourceCode" id="cb79"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true"></a><span class="ot">{-# LANGUAGE DerivingStrategies #-}</span></span>
+<span id="cb79-2"><a href="#cb79-2" aria-hidden="true"></a><span class="ot">{-# LANGUAGE DerivingVia        #-}</span></span>
+<span id="cb79-3"><a href="#cb79-3" aria-hidden="true"></a></span>
+<span id="cb79-4"><a href="#cb79-4" aria-hidden="true"></a><span class="kw">newtype</span> <span class="dt">Ho</span> a <span class="ot">=</span> <span class="dt">Ho</span> a</span>
+<span id="cb79-5"><a href="#cb79-5" aria-hidden="true"></a>    <span class="kw">deriving</span> stock (<span class="dt">Show</span>)</span>
+<span id="cb79-6"><a href="#cb79-6" aria-hidden="true"></a></span>
+<span id="cb79-7"><a href="#cb79-7" aria-hidden="true"></a><span class="kw">newtype</span> <span class="dt">Infinite</span> <span class="ot">=</span> <span class="dt">Infinite</span> <span class="dt">Int</span></span>
+<span id="cb79-8"><a href="#cb79-8" aria-hidden="true"></a>    <span class="kw">deriving</span> <span class="dt">Show</span> via <span class="dt">Ho</span> <span class="dt">Infinite</span></span></code></pre></div>
+</div>
+</section>
+<h2 id="conclusion">Conclusion<a href="#conclusion" class="anchor">🔗</a></h2>
+<p>We hope we explained the deriving mechanism, different strategies and syntax extensions in an accessible way. Now you should be able to reduce even more boilerplate from your code, and with the help of strategies, you would gain a fine-grained control of generated instances.</p>
+<p>Let’s derive strategically! And don’t forget to write a letter to Santa this year ;)</p>
+<h2 id="sources">Sources<a href="#sources" class="anchor">🔗</a></h2>
+<p><strong>Haskell2010 Reports</strong></p>
+<ul>
+<li><a href="https://www.haskell.org/onlinereport/haskell2010/haskellch11.html#x18-18200011">Chapter 11: Specification of Derived Instances</a></li>
+<li><a href="https://www.haskell.org/onlinereport/haskell2010/haskellch19.html">Chapter 19: Data.Ix</a></li>
+</ul>
+<p><strong>GHC resources</strong></p>
+<ul>
+<li><a href="https://gitlab.haskell.org/ghc/ghc/-/wikis/commentary/compiler/deriving-strategies">GHC Wiki: Deriving Strategies</a></li>
+<li><a href="https://downloads.haskell.org/ghc/8.10.2/docs/html/users_guide/glasgow_exts.html#extensions-to-the-deriving-mechanism">GHC User Guide: Extensions to the “deriving” mechanism</a></li>
+<li><a href="https://gitlab.haskell.org/ghc/ghc/-/blob/master/compiler/GHC/Tc/Deriv.hs">GHC Deriving Implementation</a></li>
+<li><a href="https://downloads.haskell.org/ghc/8.10.2/docs/html/users_guide/glasgow_exts.html#default-deriving-strategy">GHC User Guide: Default deriving strategy</a></li>
+<li><a href="https://downloads.haskell.org/~ghc/8.10.1/docs/html/users_guide/using-warnings.html#ghc-flag--Wderiving-defaults"><code>-Wderiving-defaults</code> warning</a></li>
+<li><a href="https://downloads.haskell.org/~ghc/8.10.1/docs/html/users_guide/using-warnings.html#ghc-flag--Wmissing-deriving-strategies"><code>-Wmissing-deriving-strategies</code> warning</a></li>
+</ul>
+<p><strong>Generics</strong></p>
+<ul>
+<li><a href="http://www.haskell.org/haskellwiki/Generics">Haskell Wiki: Generics</a></li>
+<li><a href="https://gitlab.haskell.org/ghc/ghc/-/wikis/commentary/compiler/generic-deriving">GHC Wiki: generic deriving</a></li>
+<li><a href="http://hackage.haskell.org/package/generic-data">Hackage: <code>generic-data</code></a></li>
+<li><a href="http://hackage.haskell.org/package/generic-deriving">Hackage: <code>generic-deriving</code></a></li>
+</ul>
+<p><strong>Typeable</strong></p>
+<ul>
+<li><a href="https://downloads.haskell.org/~ghc/8.10.1/docs/html/users_guide/glasgow_exts.html#deriving-typeable-instances">GHC User Guide: Deriving <code>Typeable</code> instances</a></li>
+<li><a href="https://medium.com/@hgiasac/typeable-a-long-journey-to-type-safe-dynamic-type-representation-9070eac2cf8b">Typeable — A long journey to type-safe dynamic type representation</a></li>
+</ul>
+<p><strong>Syntax</strong></p>
+<ul>
+<li><a href="https://downloads.haskell.org/ghc/latest/docs/html/users_guide/glasgow_exts.html#stand-alone-deriving-declarations">GHC User Guide: StandaloneDeriving</a></li>
+<li><a href="https://downloads.haskell.org/ghc/latest/docs/html/users_guide/glasgow_exts.html#extension-EmptyDataDeriving">GHC User Guide: EmptyDataDeriving</a></li>
+<li><a href="http://www.haskell.org/haskellwiki/GHC/Stand-alone_deriving_declarations">Haskell Wiki: GHC/Stand-alone deriving declarations</a></li>
+</ul>
+<p><strong>Orphans</strong></p>
+<ul>
+<li><a href="https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/separate_compilation.html#orphan-modules">GHC User Guide: Orphan modules and instance declarations</a></li>
+<li><a href="https://wiki.haskell.org/Orphan_instance">Haskell Wiki: Orphan instance</a></li>
+</ul>
+              </p>
+              </div>
+          </div>
+          </div>
+      </div>
+
+
+      <!-- Bootstrap core JavaScript -->
+      <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"> </script>
+      <script src="../js/post.js"> </script>
+      <script src="../js/hide.js"> </script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/haskell.min.js"></script>
+      <script>hljs.initHighlightingOnLoad()</script>
+      <script async defer src="https://buttons.github.io/buttons.js"></script>
+  </body>
+</html>

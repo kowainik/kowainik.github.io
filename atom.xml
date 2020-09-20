@@ -8,8 +8,16 @@
         <name>Kowainik</name>
         <email>xrom.xkov@gmail.com</email>
     </author>
-    <updated>September 7, 2020</updated>
+    <updated>2020-09-21T00:00:00Z</updated>
     <entry>
+    <title>Strategic Deriving</title>
+    <link href="https://kowainik.github.io/posts/deriving.html" />
+    <id>https://kowainik.github.io/posts/deriving.html</id>
+    <published>2020-09-21T00:00:00Z</published>
+    <updated>2020-09-21T00:00:00Z</updated>
+    <summary type="html"><![CDATA[A comprehensive guide for deriving in Haskell]]></summary>
+</entry>
+<entry>
     <title>Haskell mini-patterns handbook</title>
     <link href="https://kowainik.github.io/posts/haskell-mini-patterns.html" />
     <id>https://kowainik.github.io/posts/haskell-mini-patterns.html</id>
@@ -80,14 +88,6 @@
     <published>2018-11-01T00:00:00Z</published>
     <updated>2018-11-01T00:00:00Z</updated>
     <summary type="html"><![CDATA[Astonishing results of the Hacktoberfest 2018 in Kowainik]]></summary>
-</entry>
-<entry>
-    <title>Hacktoberfest 2018: Call for participation</title>
-    <link href="https://kowainik.github.io/posts/2018-10-01-hacktoberfest.html" />
-    <id>https://kowainik.github.io/posts/2018-10-01-hacktoberfest.html</id>
-    <published>2018-10-01T00:00:00Z</published>
-    <updated>2018-10-01T00:00:00Z</updated>
-    <summary type="html"><![CDATA[Join us in the Hacktoberfest 2018!]]></summary>
 </entry>
 
 </feed>
