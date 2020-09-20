@@ -104,9 +104,11 @@ pre.comment {
     background-repeat: repeat;
 }
 
-.post-body h1, .post-body h2, .post-body h3, .post-body h4, .post-body h5, .post-body h6 {
+.post-body h1, .post-body h2, .post-body h3, .post-body h4, .post-body h5, .post-body h6, .post-body hr{
     margin-top: 30px;
+    margin-bottom: 30px;
 }
+.post-body hr {border-color: #26e4bb;}
 .post-body a:focus, .post-body a:hover, .post-body a:active,
 .post-body a:focus code, .post-body a:hover code, .post-body a:active code{
     text-decoration: none;
@@ -117,9 +119,59 @@ pre.comment {
 
 .post-body a img, .post-body img {display: block; max-width: 80%; margin: auto;}
 
+.post-body .small-img img {display: block; max-width: 25%; margin: auto;}
 .post blockquote {
     padding-left: 2%;
     border-left: 4px solid #26e4bb;
+}
+
+/* Blockquote main style */
+.cite-quote {
+    position: relative;
+    color: #26e4bb;
+    padding: 30px 0;
+    width: 100%;
+    max-width: 600px;
+    z-index: 1;
+    margin: 3% auto;
+    align-self: center;
+    border-top: solid 2px;
+    border-bottom: solid 2px;
+}
+
+/* Blockquote header */
+.cite-quote-content {
+    position: relative;
+    color: #26e4bb;
+    font-size: 1.4rem;
+    font-weight: 600;
+    line-height: 1;
+    margin: 0;
+}
+
+/* Blockquote right double quotes */
+.cite-quote:after {
+    position: absolute;
+    content: "”";
+    font-family: 'Montserrat';
+    color: #26e4bb;
+    font-size: 10rem;
+    line-height: 0;
+    bottom: -43px;
+    right: 30px;
+}
+
+/* Blockquote subheader */
+.cite-quote-author {
+    position: relative;
+    color: #292a2b;
+    font-size: 1.4rem;
+    font-weight: normal;
+    font-style: italic;
+    line-height: 1;
+    margin: 0;
+    padding-top: 20px;
+    z-index: 1;
 }
 
 .post table {
