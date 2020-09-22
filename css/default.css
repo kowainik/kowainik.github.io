@@ -133,6 +133,7 @@ hr.star-dark-pr:after {
 .btn-primary {
     background-color: #26e4bb;
     border-color: #26e4bb;
+    color: #2C3E50;
 }
 
 .btn-primary:hover, .btn-primary:focus, .btn-primary:active {
