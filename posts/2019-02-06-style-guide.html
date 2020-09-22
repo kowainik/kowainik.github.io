@@ -79,6 +79,7 @@
 <li><a href="#guideline-for-module-formatting">Guideline for module formatting</a>
 <ul>
 <li><a href="#language--">{-# LANGUAGE #-}</a></li>
+<li><a href="#default-extensions">Default extensions</a></li>
 <li><a href="#export-lists">Export lists</a></li>
 <li><a href="#imports">Imports</a></li>
 <li><a href="#data-declaration">Data declaration</a></li>
@@ -90,12 +91,13 @@
 <li><a href="#let-expressions">let expressions</a></li>
 </ul></li>
 <li><a href="#general-recommendations">General recommendations</a></li>
+<li><a href="#ghc-options">GHC options</a></li>
 </ul>
                 </div>
             </div>
             <div class="coolFont">
                 <div>Date: February  6, 2019</div>
-                
+                <div>Updated: September 22, 2020</div>
 
                 <div class="author">Author: Kowainik</div>
                 <div class="row tag-block">
@@ -126,7 +128,7 @@
 <ol type="1">
 <li>Make code <strong>easier to understand:</strong> ideas for solutions should not be hidden behind complex and obscure code.</li>
 <li>Make code <strong>easier to read:</strong> code arrangement should be immediately apparent after looking at the existing code. Names of functions &amp; variables should be transparent and obvious.</li>
-<li>Make code <strong>easier to write:</strong> developers should think about code formatting rules as little as possible. The style guide should answer any query pertaining to the formatting of a specific piece of code.</li>
+<li>Make code <strong>easier to write:</strong> developers should think about code formatting rules as little as possible.</li>
 <li>Make code <strong>easier to maintain:</strong> this style guide aims to reduce the burden of maintaining packages using version control systems unless this conflicts with the previous points.</li>
 </ol>
 <h2 id="rule-of-thumb-when-working-with-existing-source-code">Rule of thumb when working with existing source code<a href="#rule-of-thumb-when-working-with-existing-source-code" class="anchor">🔗</a></h2>
@@ -134,11 +136,11 @@
 <h2 id="indentation">Indentation<a href="#indentation" class="anchor">🔗</a></h2>
 <p>Indent code blocks with <em>4 spaces</em>.</p>
 <p>Indent <code>where</code> keywords with <em>2 spaces</em> and always put a <code>where</code> keyword on a new line.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true"></a><span class="ot">showSign ::</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">String</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true"></a>showSign n</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true"></a>    <span class="op">|</span> n <span class="op">==</span> <span class="dv">0</span>    <span class="ot">=</span> <span class="st">&quot;Zero&quot;</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true"></a>    <span class="op">|</span> n <span class="op">&lt;</span> <span class="dv">0</span>     <span class="ot">=</span> <span class="st">&quot;Negative&quot;</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true"></a>    <span class="op">|</span> <span class="fu">otherwise</span> <span class="ot">=</span> <span class="st">&quot;Positive&quot;</span></span>
+<div class="sourceCode" id="cb1"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true"></a><span class="ot">showDouble ::</span> <span class="dt">Double</span> <span class="ot">-&gt;</span> <span class="dt">String</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true"></a>showDouble n</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true"></a>    <span class="op">|</span> <span class="fu">isNaN</span> n      <span class="ot">=</span> <span class="st">&quot;NaN&quot;</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true"></a>    <span class="op">|</span> <span class="fu">isInfinite</span> n <span class="ot">=</span> <span class="st">&quot;Infinity&quot;</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true"></a>    <span class="op">|</span> <span class="fu">otherwise</span>    <span class="ot">=</span> <span class="fu">show</span> n</span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true"></a></span>
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true"></a><span class="ot">greet ::</span> <span class="dt">IO</span> ()</span>
 <span id="cb1-8"><a href="#cb1-8" aria-hidden="true"></a>greet <span class="ot">=</span> <span class="kw">do</span></span>
@@ -172,17 +174,17 @@
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true"></a>    {<span class="ot"> fooBar  ::</span> <span class="dt">Bar</span></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true"></a>    ,<span class="ot"> fooBaz  ::</span> <span class="dt">Baz</span></span>
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true"></a>    ,<span class="ot"> fooQuux ::</span> <span class="dt">Quux</span></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true"></a>    } <span class="kw">deriving</span> (<span class="dt">Eq</span>, <span class="dt">Show</span>, <span class="dt">Generic</span>)</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true"></a>    } <span class="kw">deriving</span> stock (<span class="dt">Eq</span>, <span class="dt">Show</span>, <span class="dt">Generic</span>)</span>
 <span id="cb4-6"><a href="#cb4-6" aria-hidden="true"></a>      <span class="kw">deriving</span> anyclass (<span class="dt">FromJSON</span>, <span class="dt">ToJSON</span>)</span></code></pre></div>
 <p>Align sum types with every constructor on its own line with leading <code>=</code> and <code>|</code>.</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true"></a><span class="kw">data</span> <span class="dt">TrafficLight</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true"></a>    <span class="ot">=</span> <span class="dt">Red</span></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true"></a>    <span class="op">|</span> <span class="dt">Yellow</span></span>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true"></a>    <span class="op">|</span> <span class="dt">Green</span></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true"></a>    <span class="kw">deriving</span> (<span class="dt">Eq</span>, <span class="dt">Ord</span>, <span class="dt">Enum</span>, <span class="dt">Bounded</span>, <span class="dt">Show</span>, <span class="dt">Read</span>)</span></code></pre></div>
-<ul>
-<li><strong>The indentation of a line should not depend on the length of any identifier in preceding lines.</strong></li>
-</ul>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true"></a>    <span class="kw">deriving</span> stock (<span class="dt">Show</span>, <span class="dt">Read</span>, <span class="dt">Eq</span>, <span class="dt">Ord</span>, <span class="dt">Enum</span>, <span class="dt">Bounded</span>, <span class="dt">Ix</span>)</span></code></pre></div>
+<blockquote>
+<p><strong>The indentation of a line should not depend on the length of any identifier in preceding lines.</strong></p>
+</blockquote>
 <p>Try to follow the above rule inside function definitions but without fanatism:</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true"></a><span class="co">-- + Good</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true"></a>createFoo <span class="ot">=</span> <span class="dt">Foo</span></span>
@@ -257,10 +259,18 @@
 <span id="cb11-5"><a href="#cb11-5" aria-hidden="true"></a><span class="co">-- - Bad</span></span>
 <span id="cb11-6"><a href="#cb11-6" aria-hidden="true"></a><span class="kw">type</span> <span class="dt">Size</span> <span class="ot">=</span> <span class="dt">Int</span></span></code></pre></div>
 <p>Use the data type name as the constructor name for <code>data</code> with single constructor and <code>newtype</code>.</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true"></a><span class="kw">data</span> <span class="dt">User</span> <span class="ot">=</span> <span class="dt">User</span> <span class="dt">Int</span> <span class="dt">String</span></span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true"></a><span class="kw">data</span> <span class="dt">User</span> <span class="ot">=</span> <span class="dt">User</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true"></a>    {<span class="ot"> userId   ::</span> <span class="dt">Int</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true"></a>    ,<span class="ot"> userName ::</span> <span class="dt">String</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true"></a>    }</span></code></pre></div>
 <p>The field name for a <code>newtype</code> must be prefixed by <code>un</code> followed by the type name.</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true"></a><span class="kw">newtype</span> <span class="dt">Size</span> <span class="ot">=</span> <span class="dt">Size</span> {<span class="ot"> unSize ::</span> <span class="dt">Int</span> }</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true"></a><span class="kw">newtype</span> <span class="dt">App</span> a <span class="ot">=</span> <span class="dt">App</span> {<span class="ot"> unApp ::</span> <span class="dt">ReaderT</span> <span class="dt">Context</span> <span class="dt">IO</span> a }</span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true"></a><span class="kw">newtype</span> <span class="dt">Size</span> <span class="ot">=</span> <span class="dt">Size</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true"></a>    {<span class="ot"> unSize ::</span> <span class="dt">Int</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true"></a>    }</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true"></a></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true"></a><span class="kw">newtype</span> <span class="dt">App</span> a <span class="ot">=</span> <span class="dt">App</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true"></a>    {<span class="ot"> unApp ::</span> <span class="dt">ReaderT</span> <span class="dt">Context</span> <span class="dt">IO</span> a</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true"></a>    }</span></code></pre></div>
 <p>Field names for the record data type should start with the full name of the data type.</p>
 <div class="sourceCode" id="cb14"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true"></a><span class="co">-- + Good</span></span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true"></a><span class="kw">data</span> <span class="dt">HealthReading</span> <span class="ot">=</span> <span class="dt">HealthReading</span></span>
@@ -279,7 +289,7 @@
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true"></a>    {<span class="ot"> unMeasure ::</span> <span class="dt">Double</span>  <span class="co">-- ^ See how 2 spaces separate this comment</span></span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true"></a>    }</span></code></pre></div>
 <p>Write <a href="https://github.com/aisamanra/haddock-cheatsheet/blob/master/haddocks.pdf">Haddock documentation</a> for the top-level functions, function arguments and data type fields. The documentation should give enough information to apply the function without looking at its definition.</p>
-<p>Use block comment style (<code>{- |</code> and <code>-}</code>) for Haddock for multiple line comments.</p>
+<p>Use block comment style (<code>{- |</code> and <code>-}</code>) for Haddock in multiple line comments.</p>
 <div class="sourceCode" id="cb17"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true"></a><span class="co">-- + Good</span></span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true"></a><span class="co">{- | Example of multi-line block comment which is very long</span></span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true"></a><span class="co">and doesn't fit single line.</span></span>
@@ -294,7 +304,7 @@
 <span id="cb17-12"><a href="#cb17-12" aria-hidden="true"></a><span class="co">-- | Example of multi-line block comment which is very long</span></span>
 <span id="cb17-13"><a href="#cb17-13" aria-hidden="true"></a><span class="co">-- and doesn't fit single line.</span></span>
 <span id="cb17-14"><a href="#cb17-14" aria-hidden="true"></a><span class="ot">foo ::</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> [a] <span class="ot">-&gt;</span> [a]</span></code></pre></div>
-<p>For commenting function arguments, data type constructors and their fields, you are allowed to use end-of-line Haddock comments if they fit line length limit. Otherwise, use block style comments. It is <em>allowed</em> to align end-of-line comments with each other. But it is <em>forbidden</em> to use comments of different styles for the function arguments, data type constructors, and fields.</p>
+<p>For commenting function arguments, data type constructors and their fields, you are allowed to use end-of-line Haddock comments if they fit line length limit. Otherwise, use block style comments. It is <em>allowed</em> to align end-of-line comments with each other. But it is <em>forbidden</em> to use comments of different types (pre or post) for the function arguments, data type constructors, and fields.</p>
 <div class="sourceCode" id="cb18"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true"></a><span class="co">-- + Good</span></span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true"></a><span class="co">{- | 'replicate' @n x@ returns list of length @n@ with @x@ as the value of</span></span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true"></a><span class="co">every element. This function is lazy in its returned value.</span></span>
@@ -332,10 +342,9 @@
 <span id="cb19-16"><a href="#cb19-16" aria-hidden="true"></a><span class="co">-}</span></span>
 <span id="cb19-17"><a href="#cb19-17" aria-hidden="true"></a><span class="ot">intersperse ::</span> <span class="dt">Char</span> <span class="ot">-&gt;</span> <span class="dt">Text</span> <span class="ot">-&gt;</span> <span class="dt">Text</span></span></code></pre></div>
 <h2 id="guideline-for-module-formatting">Guideline for module formatting<a href="#guideline-for-module-formatting" class="anchor">🔗</a></h2>
-<p>Allowed tools for automatic module formatting:</p>
+<p>Use these tools for automatic module formatting:</p>
 <ul>
 <li><a href="https://github.com/jaspervdj/stylish-haskell"><code>stylish-haskell</code></a> (with a relevant <a href="https://github.com/kowainik/org/blob/master/.stylish-haskell.yaml"><code>.stylish-haskell.yaml</code></a>): for formatting the import section and for alignment.</li>
-<li><a href="https://github.com/kowainik/smuggler"><code>smuggler</code></a>: for removing unused imports.</li>
 </ul>
 <h3 id="language--">{-# LANGUAGE #-}<a href="#language--" class="anchor">🔗</a></h3>
 <p>Put <code>OPTIONS_GHC</code> pragma before <code>LANGUAGE</code> pragmas in a separate section. Write each <code>LANGUAGE</code> pragma on its own line, sort them alphabetically and align by max width among them.</p>
@@ -344,44 +353,63 @@
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true"></a><span class="ot">{-# LANGUAGE ApplicativeDo       #-}</span></span>
 <span id="cb20-4"><a href="#cb20-4" aria-hidden="true"></a><span class="ot">{-# LANGUAGE ScopedTypeVariables #-}</span></span>
 <span id="cb20-5"><a href="#cb20-5" aria-hidden="true"></a><span class="ot">{-# LANGUAGE TypeApplications    #-}</span></span></code></pre></div>
+<h3 id="default-extensions">Default extensions<a href="#default-extensions" class="anchor">🔗</a></h3>
 <p>You can put commonly-used language extensions into <code>default-extensions</code> in the <code>.cabal</code> file. Here is the list of extensions this style guide allows one to put in there:</p>
 <div class="sourceCode" id="cb21"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true"></a><span class="dt">ConstraintKinds</span></span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true"></a><span class="dt">DeriveGeneric</span></span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true"></a><span class="dt">GeneralizedNewtypeDeriving</span></span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true"></a><span class="dt">InstanceSigs</span></span>
-<span id="cb21-5"><a href="#cb21-5" aria-hidden="true"></a><span class="dt">KindSignatures</span></span>
-<span id="cb21-6"><a href="#cb21-6" aria-hidden="true"></a><span class="dt">LambdaCase</span></span>
-<span id="cb21-7"><a href="#cb21-7" aria-hidden="true"></a><span class="dt">OverloadedStrings</span></span>
-<span id="cb21-8"><a href="#cb21-8" aria-hidden="true"></a><span class="dt">RecordWildCards</span></span>
-<span id="cb21-9"><a href="#cb21-9" aria-hidden="true"></a><span class="dt">ScopedTypeVariables</span></span>
-<span id="cb21-10"><a href="#cb21-10" aria-hidden="true"></a><span class="dt">StandaloneDeriving</span></span>
-<span id="cb21-11"><a href="#cb21-11" aria-hidden="true"></a><span class="dt">TupleSections</span></span>
-<span id="cb21-12"><a href="#cb21-12" aria-hidden="true"></a><span class="dt">TypeApplications</span></span>
-<span id="cb21-13"><a href="#cb21-13" aria-hidden="true"></a><span class="dt">ViewPatterns</span></span></code></pre></div>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true"></a><span class="dt">DerivingStrategies</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true"></a><span class="dt">GeneralizedNewtypeDeriving</span></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true"></a><span class="dt">InstanceSigs</span></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true"></a><span class="dt">KindSignatures</span></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true"></a><span class="dt">LambdaCase</span></span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true"></a><span class="dt">OverloadedStrings</span></span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true"></a><span class="dt">RecordWildCards</span></span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true"></a><span class="dt">ScopedTypeVariables</span></span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true"></a><span class="dt">StandaloneDeriving</span></span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true"></a><span class="dt">TupleSections</span></span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true"></a><span class="dt">TypeApplications</span></span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true"></a><span class="dt">ViewPatterns</span></span></code></pre></div>
 <h3 id="export-lists">Export lists<a href="#export-lists" class="anchor">🔗</a></h3>
 <p>Use the following rules to format the export section:</p>
 <ol type="1">
 <li><strong>Always write</strong> an explicit export list.</li>
-<li>Indent the export list by <em>7 spaces</em> (so that the bracket is below the first letter of the module name).</li>
+<li>Indent the export list by <em>4 spaces</em>.</li>
 <li>You can split the export list into sections. Use Haddock to assign names to these sections.</li>
 <li>Classes, data types and type aliases should be written before functions in each section.</li>
 </ol>
 <div class="sourceCode" id="cb22"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true"></a><span class="kw">module</span> <span class="dt">Map</span></span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true"></a>       ( <span class="co">-- * Data type</span></span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true"></a>         <span class="dt">Map</span></span>
-<span id="cb22-4"><a href="#cb22-4" aria-hidden="true"></a>       , <span class="dt">Key</span></span>
-<span id="cb22-5"><a href="#cb22-5" aria-hidden="true"></a>       , empty</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true"></a>    ( <span class="co">-- * Data type</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true"></a>      <span class="dt">Map</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true"></a>    , <span class="dt">Key</span></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true"></a>    , empty</span>
 <span id="cb22-6"><a href="#cb22-6" aria-hidden="true"></a></span>
-<span id="cb22-7"><a href="#cb22-7" aria-hidden="true"></a>         <span class="co">-- * Update</span></span>
-<span id="cb22-8"><a href="#cb22-8" aria-hidden="true"></a>       , insert</span>
-<span id="cb22-9"><a href="#cb22-9" aria-hidden="true"></a>       , insertWith</span>
-<span id="cb22-10"><a href="#cb22-10" aria-hidden="true"></a>       , alter</span>
-<span id="cb22-11"><a href="#cb22-11" aria-hidden="true"></a>       ) <span class="kw">where</span></span></code></pre></div>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true"></a>      <span class="co">-- * Update</span></span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true"></a>    , insert</span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true"></a>    , insertWith</span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true"></a>    , alter</span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true"></a>    ) <span class="kw">where</span></span></code></pre></div>
 <h3 id="imports">Imports<a href="#imports" class="anchor">🔗</a></h3>
-<p>Always use explicit import lists or qualified imports. Use qualified imports only if the import list is big enough or there are conflicts in names. This makes the code more robust against changes in dependent libraries.</p>
+<p>Always use <strong>explicit import lists</strong> or <strong>qualified imports</strong>.</p>
+<blockquote>
+<p><strong>Exception:</strong> modules that only reexport other entire modules.</p>
+</blockquote>
+<p>Use your judgement to choose between explicit import lists or qualified imports. However, qualified imports are recommended in the following situations:</p>
 <ul>
-<li><strong>Exception:</strong> modules that only reexport other entire modules.</li>
+<li>Name conflicts</li>
+<li>Long export lists</li>
+<li>A library is designed for qualified imports, e.g. <code>tomland</code></li>
 </ul>
+<p>This import policy makes the code more maintainable and robust against changes in dependent libraries.</p>
+<p>Choose the reasonable names for <code>qualified</code> imports:</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true"></a><span class="co">-- + Good</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true"></a><span class="kw">import</span> <span class="kw">qualified</span> <span class="dt">Data.Text</span> <span class="kw">as</span> <span class="dt">Text</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true"></a><span class="kw">import</span> <span class="kw">qualified</span> <span class="dt">Data.ByteString</span> <span class="kw">as</span> <span class="dt">BS</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true"></a><span class="kw">import</span> <span class="kw">qualified</span> <span class="dt">Toml</span></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true"></a></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true"></a><span class="co">-- - Bad</span></span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true"></a><span class="kw">import</span> <span class="kw">qualified</span> <span class="dt">GitHub</span> <span class="kw">as</span> <span class="dt">C</span></span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true"></a><span class="kw">import</span> <span class="kw">qualified</span> <span class="dt">App.Server</span> <span class="kw">as</span> <span class="dt">Srv</span></span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true"></a><span class="kw">import</span> <span class="kw">qualified</span> <span class="dt">App.Service</span> <span class="kw">as</span> <span class="dt">Svc</span></span></code></pre></div>
 <p>Imports should be grouped in the following order:</p>
 <ol type="1">
 <li>Non-qualified imports from Hackage packages.</li>
@@ -392,69 +420,82 @@
 <p>Put a blank line between each group of imports.</p>
 <p>Put <em>2 blank lines</em> after the import section.</p>
 <p>The imports in each group should be sorted alphabetically by module name.</p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true"></a><span class="kw">module</span> <span class="dt">MyProject.Foo</span></span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true"></a>       ( <span class="dt">Foo</span> (<span class="op">..</span>)</span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true"></a>       ) <span class="kw">where</span></span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true"></a></span>
-<span id="cb23-5"><a href="#cb23-5" aria-hidden="true"></a><span class="kw">import</span> <span class="dt">Control.Exception</span> (catch, try)</span>
-<span id="cb23-6"><a href="#cb23-6" aria-hidden="true"></a><span class="kw">import</span> <span class="dt">Data.Traversable</span> (for)</span>
-<span id="cb23-7"><a href="#cb23-7" aria-hidden="true"></a></span>
-<span id="cb23-8"><a href="#cb23-8" aria-hidden="true"></a><span class="kw">import</span> <span class="dt">MyProject.Ansi</span> (errorMessage, infoMessage)</span>
-<span id="cb23-9"><a href="#cb23-9" aria-hidden="true"></a></span>
-<span id="cb23-10"><a href="#cb23-10" aria-hidden="true"></a><span class="kw">import</span> <span class="kw">qualified</span> <span class="dt">Data.Aeson</span> <span class="kw">as</span> <span class="dt">Json</span></span>
-<span id="cb23-11"><a href="#cb23-11" aria-hidden="true"></a><span class="kw">import</span> <span class="kw">qualified</span> <span class="dt">Data.Text</span> <span class="kw">as</span> <span class="dt">Text</span></span>
-<span id="cb23-12"><a href="#cb23-12" aria-hidden="true"></a></span>
-<span id="cb23-13"><a href="#cb23-13" aria-hidden="true"></a><span class="kw">import</span> <span class="kw">qualified</span> <span class="dt">MyProject.BigModule</span> <span class="kw">as</span> <span class="dt">Big</span></span>
-<span id="cb23-14"><a href="#cb23-14" aria-hidden="true"></a></span>
-<span id="cb23-15"><a href="#cb23-15" aria-hidden="true"></a></span>
-<span id="cb23-16"><a href="#cb23-16" aria-hidden="true"></a><span class="kw">data</span> <span class="dt">Foo</span></span>
-<span id="cb23-17"><a href="#cb23-17" aria-hidden="true"></a><span class="op">...</span></span></code></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true"></a><span class="kw">module</span> <span class="dt">MyProject.Foo</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true"></a>    ( <span class="dt">Foo</span> (<span class="op">..</span>)</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true"></a>    ) <span class="kw">where</span></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true"></a></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true"></a><span class="kw">import</span> <span class="dt">Control.Exception</span> (catch, try)</span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true"></a><span class="kw">import</span> <span class="dt">Data.Traversable</span> (for)</span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true"></a></span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true"></a><span class="kw">import</span> <span class="dt">MyProject.Ansi</span> (errorMessage, infoMessage)</span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true"></a></span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true"></a><span class="kw">import</span> <span class="kw">qualified</span> <span class="dt">Data.Aeson</span> <span class="kw">as</span> <span class="dt">Json</span></span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true"></a><span class="kw">import</span> <span class="kw">qualified</span> <span class="dt">Data.Text</span> <span class="kw">as</span> <span class="dt">Text</span></span>
+<span id="cb24-12"><a href="#cb24-12" aria-hidden="true"></a></span>
+<span id="cb24-13"><a href="#cb24-13" aria-hidden="true"></a><span class="kw">import</span> <span class="kw">qualified</span> <span class="dt">MyProject.BigModule</span> <span class="kw">as</span> <span class="dt">Big</span></span>
+<span id="cb24-14"><a href="#cb24-14" aria-hidden="true"></a></span>
+<span id="cb24-15"><a href="#cb24-15" aria-hidden="true"></a></span>
+<span id="cb24-16"><a href="#cb24-16" aria-hidden="true"></a><span class="kw">data</span> <span class="dt">Foo</span></span>
+<span id="cb24-17"><a href="#cb24-17" aria-hidden="true"></a><span class="op">...</span></span></code></pre></div>
 <h3 id="data-declaration">Data declaration<a href="#data-declaration" class="anchor">🔗</a></h3>
 <p>Refer to the <a href="#alignment">Alignment section</a> to see how to format data type declarations.</p>
 <p>Records for data types with multiple constructors are forbidden.</p>
-<div class="sourceCode" id="cb24"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true"></a><span class="co">-- - Bad</span></span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true"></a><span class="kw">data</span> <span class="dt">Foo</span></span>
-<span id="cb24-3"><a href="#cb24-3" aria-hidden="true"></a>    <span class="ot">=</span> <span class="dt">Bar</span> {<span class="ot"> bar1 ::</span> <span class="dt">Int</span>,<span class="ot"> bar2 ::</span> <span class="dt">Double</span> }</span>
-<span id="cb24-4"><a href="#cb24-4" aria-hidden="true"></a>    <span class="op">|</span> <span class="dt">Baz</span> {<span class="ot"> baz1 ::</span> <span class="dt">Int</span>,<span class="ot"> baz2 ::</span> <span class="dt">Double</span>,<span class="ot"> baz3 ::</span> <span class="dt">Text</span> }</span>
-<span id="cb24-5"><a href="#cb24-5" aria-hidden="true"></a></span>
-<span id="cb24-6"><a href="#cb24-6" aria-hidden="true"></a><span class="co">-- + Good</span></span>
-<span id="cb24-7"><a href="#cb24-7" aria-hidden="true"></a><span class="kw">data</span> <span class="dt">Foo</span></span>
-<span id="cb24-8"><a href="#cb24-8" aria-hidden="true"></a>    <span class="ot">=</span> <span class="dt">FooBar</span> <span class="dt">Bar</span></span>
-<span id="cb24-9"><a href="#cb24-9" aria-hidden="true"></a>    <span class="op">|</span> <span class="dt">FooBaz</span> <span class="dt">Baz</span></span>
-<span id="cb24-10"><a href="#cb24-10" aria-hidden="true"></a></span>
-<span id="cb24-11"><a href="#cb24-11" aria-hidden="true"></a><span class="kw">data</span> <span class="dt">Bar</span> <span class="ot">=</span> <span class="dt">Bar</span> {<span class="ot"> bar1 ::</span> <span class="dt">Int</span>,<span class="ot"> bar2 ::</span> <span class="dt">Double</span> }</span>
-<span id="cb24-12"><a href="#cb24-12" aria-hidden="true"></a><span class="kw">data</span> <span class="dt">Baz</span> <span class="ot">=</span> <span class="dt">Baz</span> {<span class="ot"> baz1 ::</span> <span class="dt">Int</span>,<span class="ot"> baz2 ::</span> <span class="dt">Double</span>,<span class="ot"> baz3 ::</span> <span class="dt">Text</span> }</span>
-<span id="cb24-13"><a href="#cb24-13" aria-hidden="true"></a></span>
-<span id="cb24-14"><a href="#cb24-14" aria-hidden="true"></a><span class="co">-- + Also good</span></span>
-<span id="cb24-15"><a href="#cb24-15" aria-hidden="true"></a><span class="kw">data</span> <span class="dt">Foo</span></span>
-<span id="cb24-16"><a href="#cb24-16" aria-hidden="true"></a>    <span class="ot">=</span> <span class="dt">Bar</span> <span class="dt">Int</span> <span class="dt">Double</span></span>
-<span id="cb24-17"><a href="#cb24-17" aria-hidden="true"></a>    <span class="op">|</span> <span class="dt">Baz</span> <span class="dt">Int</span> <span class="dt">Double</span> <span class="dt">Text</span></span></code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true"></a><span class="co">-- - Bad</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true"></a><span class="kw">data</span> <span class="dt">Foo</span></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true"></a>    <span class="ot">=</span> <span class="dt">Bar</span> {<span class="ot"> bar1 ::</span> <span class="dt">Int</span>,<span class="ot"> bar2 ::</span> <span class="dt">Double</span> }</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true"></a>    <span class="op">|</span> <span class="dt">Baz</span> {<span class="ot"> baz1 ::</span> <span class="dt">Int</span>,<span class="ot"> baz2 ::</span> <span class="dt">Double</span>,<span class="ot"> baz3 ::</span> <span class="dt">Text</span> }</span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true"></a></span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true"></a><span class="co">-- + Good</span></span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true"></a><span class="kw">data</span> <span class="dt">Foo</span></span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true"></a>    <span class="ot">=</span> <span class="dt">FooBar</span> <span class="dt">Bar</span></span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true"></a>    <span class="op">|</span> <span class="dt">FooBaz</span> <span class="dt">Baz</span></span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true"></a></span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true"></a><span class="kw">data</span> <span class="dt">Bar</span> <span class="ot">=</span> <span class="dt">Bar</span></span>
+<span id="cb25-12"><a href="#cb25-12" aria-hidden="true"></a>    {<span class="ot"> bar1 ::</span> <span class="dt">Int</span></span>
+<span id="cb25-13"><a href="#cb25-13" aria-hidden="true"></a>    ,<span class="ot"> bar2 ::</span> <span class="dt">Double</span></span>
+<span id="cb25-14"><a href="#cb25-14" aria-hidden="true"></a>    }</span>
+<span id="cb25-15"><a href="#cb25-15" aria-hidden="true"></a></span>
+<span id="cb25-16"><a href="#cb25-16" aria-hidden="true"></a><span class="kw">data</span> <span class="dt">Baz</span> <span class="ot">=</span> <span class="dt">Baz</span></span>
+<span id="cb25-17"><a href="#cb25-17" aria-hidden="true"></a>    {<span class="ot"> baz1 ::</span> <span class="dt">Int</span></span>
+<span id="cb25-18"><a href="#cb25-18" aria-hidden="true"></a>    ,<span class="ot"> baz2 ::</span> <span class="dt">Double</span></span>
+<span id="cb25-19"><a href="#cb25-19" aria-hidden="true"></a>    ,<span class="ot"> baz3 ::</span> <span class="dt">Text</span></span>
+<span id="cb25-20"><a href="#cb25-20" aria-hidden="true"></a>    }</span>
+<span id="cb25-21"><a href="#cb25-21" aria-hidden="true"></a></span>
+<span id="cb25-22"><a href="#cb25-22" aria-hidden="true"></a><span class="co">-- + Also acceptable</span></span>
+<span id="cb25-23"><a href="#cb25-23" aria-hidden="true"></a><span class="kw">data</span> <span class="dt">Foo</span></span>
+<span id="cb25-24"><a href="#cb25-24" aria-hidden="true"></a>    <span class="ot">=</span> <span class="dt">Bar</span> <span class="dt">Int</span> <span class="dt">Double</span></span>
+<span id="cb25-25"><a href="#cb25-25" aria-hidden="true"></a>    <span class="op">|</span> <span class="dt">Baz</span> <span class="dt">Int</span> <span class="dt">Double</span> <span class="dt">Text</span></span></code></pre></div>
 <h3 id="strictness">Strictness<a href="#strictness" class="anchor">🔗</a></h3>
 <p>Fields of data type constructors should be strict. Specify strictness explicitly with <code>!</code>. This helps to avoid space leaks and gives you an error instead of a warning in case you forget to initialize some fields.</p>
-<div class="sourceCode" id="cb25"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true"></a><span class="co">-- + Good</span></span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true"></a><span class="kw">data</span> <span class="dt">Settings</span> <span class="ot">=</span> <span class="dt">Settings</span></span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true"></a>    {<span class="ot"> settingsHasTravis  ::</span> <span class="op">!</span><span class="dt">Bool</span></span>
-<span id="cb25-4"><a href="#cb25-4" aria-hidden="true"></a>    ,<span class="ot"> settingsConfigPath ::</span> <span class="op">!</span><span class="dt">FilePath</span></span>
-<span id="cb25-5"><a href="#cb25-5" aria-hidden="true"></a>    ,<span class="ot"> settingsRetryCount ::</span> <span class="op">!</span><span class="dt">Int</span></span>
-<span id="cb25-6"><a href="#cb25-6" aria-hidden="true"></a>    }</span>
-<span id="cb25-7"><a href="#cb25-7" aria-hidden="true"></a></span>
-<span id="cb25-8"><a href="#cb25-8" aria-hidden="true"></a><span class="co">-- - Bad</span></span>
-<span id="cb25-9"><a href="#cb25-9" aria-hidden="true"></a><span class="kw">data</span> <span class="dt">Settings</span> <span class="ot">=</span> <span class="dt">Settings</span></span>
-<span id="cb25-10"><a href="#cb25-10" aria-hidden="true"></a>    {<span class="ot"> settingsHasTravis  ::</span> <span class="dt">Bool</span></span>
-<span id="cb25-11"><a href="#cb25-11" aria-hidden="true"></a>    ,<span class="ot"> settingsConfigPath ::</span> <span class="dt">FilePath</span></span>
-<span id="cb25-12"><a href="#cb25-12" aria-hidden="true"></a>    ,<span class="ot"> settingsRetryCount ::</span> <span class="dt">Int</span></span>
-<span id="cb25-13"><a href="#cb25-13" aria-hidden="true"></a>    }</span></code></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true"></a><span class="co">-- + Good</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true"></a><span class="kw">data</span> <span class="dt">Settings</span> <span class="ot">=</span> <span class="dt">Settings</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true"></a>    {<span class="ot"> settingsHasTravis  ::</span> <span class="op">!</span><span class="dt">Bool</span></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true"></a>    ,<span class="ot"> settingsConfigPath ::</span> <span class="op">!</span><span class="dt">FilePath</span></span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true"></a>    ,<span class="ot"> settingsRetryCount ::</span> <span class="op">!</span><span class="dt">Int</span></span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true"></a>    }</span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true"></a></span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true"></a><span class="co">-- - Bad</span></span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true"></a><span class="kw">data</span> <span class="dt">Settings</span> <span class="ot">=</span> <span class="dt">Settings</span></span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true"></a>    {<span class="ot"> settingsHasTravis  ::</span> <span class="dt">Bool</span></span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true"></a>    ,<span class="ot"> settingsConfigPath ::</span> <span class="dt">FilePath</span></span>
+<span id="cb26-12"><a href="#cb26-12" aria-hidden="true"></a>    ,<span class="ot"> settingsRetryCount ::</span> <span class="dt">Int</span></span>
+<span id="cb26-13"><a href="#cb26-13" aria-hidden="true"></a>    }</span></code></pre></div>
+<p>For modules with many data types it is acceptable to enable the <a href="https://downloads.haskell.org/ghc/latest/docs/html/users_guide/glasgow_exts.html#strict-by-default-data-types">StrictData</a> extension.</p>
 <h3 id="deriving">Deriving<a href="#deriving" class="anchor">🔗</a></h3>
-<p>Type classes in the deriving section should always be surrounded by parentheses. Don’t derive typeclasses unnecessarily.</p>
-<p>Use <a href="https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/glasgow_exts.html#deriving-strategies"><code>-XDerivingStrategies</code></a> extension for <code>newtype</code>s to explicitly specify the way you want to derive type classes:</p>
-<div class="sourceCode" id="cb26"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true"></a><span class="ot">{-# LANGUAGE DeriveAnyClass             #-}</span></span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true"></a><span class="ot">{-# LANGUAGE DerivingStrategies         #-}</span></span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true"></a><span class="ot">{-# LANGUAGE GeneralizedNewtypeDeriving #-}</span></span>
-<span id="cb26-4"><a href="#cb26-4" aria-hidden="true"></a></span>
-<span id="cb26-5"><a href="#cb26-5" aria-hidden="true"></a><span class="kw">newtype</span> <span class="dt">Id</span> a <span class="ot">=</span> <span class="dt">Id</span> {<span class="ot"> unId ::</span> <span class="dt">Int</span> }</span>
-<span id="cb26-6"><a href="#cb26-6" aria-hidden="true"></a>    <span class="kw">deriving</span> stock    (<span class="dt">Generic</span>)</span>
-<span id="cb26-7"><a href="#cb26-7" aria-hidden="true"></a>    <span class="kw">deriving</span> <span class="kw">newtype</span>  (<span class="dt">Eq</span>, <span class="dt">Ord</span>, <span class="dt">Show</span>, <span class="dt">Hashable</span>)</span>
-<span id="cb26-8"><a href="#cb26-8" aria-hidden="true"></a>    <span class="kw">deriving</span> anyclass (<span class="dt">FromJSON</span>, <span class="dt">ToJSON</span>)</span></code></pre></div>
+<p>Always specify a deriving strategy for each deriving clause. Use <a href="https://kowainik.github.io/posts/deriving">DerivingStrategies</a> to explicitly specify the way you want to derive type classes.</p>
+<p>Type classes in the deriving section should always be surrounded by parentheses.</p>
+<p>Derive <code>Show</code> and <code>Eq</code> instances for all introduced data types where possible.</p>
+<p>For <code>newtype</code>s prefer to use <strong>newtype</strong> strategy of deriving.</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true"></a><span class="ot">{-# LANGUAGE DeriveAnyClass             #-}</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true"></a><span class="ot">{-# LANGUAGE DerivingStrategies         #-}</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true"></a><span class="ot">{-# LANGUAGE GeneralizedNewtypeDeriving #-}</span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true"></a></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true"></a></span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true"></a><span class="kw">newtype</span> <span class="dt">Id</span> a <span class="ot">=</span> <span class="dt">Id</span></span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true"></a>    {<span class="ot"> unId ::</span> <span class="dt">Int</span></span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true"></a>    } <span class="kw">deriving</span> stock    (<span class="dt">Show</span>, <span class="dt">Generic</span>)</span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true"></a>      <span class="kw">deriving</span> <span class="kw">newtype</span>  (<span class="dt">Eq</span>, <span class="dt">Ord</span>, <span class="dt">Hashable</span>)</span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true"></a>      <span class="kw">deriving</span> anyclass (<span class="dt">FromJSON</span>, <span class="dt">ToJSON</span>)</span></code></pre></div>
 <h3 id="function-declaration">Function declaration<a href="#function-declaration" class="anchor">🔗</a></h3>
 <p>All top-level functions <em>must</em> have type signatures.</p>
 <p>All functions inside a <code>where</code> block <em>must</em> have type signatures. Explicit type signatures help to avoid cryptic type errors.</p>
@@ -462,128 +503,140 @@
 <p>You might need the <code>-XScopedTypeVariables</code> extension to write the polymorphic types of functions inside a <code>where</code> block.</p>
 </blockquote>
 <p>Surround <code>.</code> after <code>forall</code> in type signatures with spaces.</p>
-<div class="sourceCode" id="cb27"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true"></a><span class="fu">lookup</span><span class="ot"> ::</span> <span class="kw">forall</span> a f <span class="op">.</span> <span class="dt">Typeable</span> a <span class="ot">=&gt;</span> <span class="dt">TypeRepMap</span> f <span class="ot">-&gt;</span> <span class="dt">Maybe</span> (f a)</span></code></pre></div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true"></a><span class="fu">lookup</span><span class="ot"> ::</span> <span class="kw">forall</span> a f <span class="op">.</span> <span class="dt">Typeable</span> a <span class="ot">=&gt;</span> <span class="dt">TypeRepMap</span> f <span class="ot">-&gt;</span> <span class="dt">Maybe</span> (f a)</span></code></pre></div>
 <p>If the function type signature is very long, then place the type of each argument under its own line with respect to alignment.</p>
-<div class="sourceCode" id="cb28"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true"></a>sendEmail</span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true"></a><span class="ot">    ::</span> <span class="kw">forall</span> env m <span class="op">.</span></span>
-<span id="cb28-3"><a href="#cb28-3" aria-hidden="true"></a>       ( <span class="dt">MonadLog</span> m</span>
-<span id="cb28-4"><a href="#cb28-4" aria-hidden="true"></a>       , <span class="dt">MonadEmail</span> m</span>
-<span id="cb28-5"><a href="#cb28-5" aria-hidden="true"></a>       , <span class="dt">WithDb</span> env m</span>
-<span id="cb28-6"><a href="#cb28-6" aria-hidden="true"></a>       )</span>
-<span id="cb28-7"><a href="#cb28-7" aria-hidden="true"></a>    <span class="ot">=&gt;</span> <span class="dt">Email</span></span>
-<span id="cb28-8"><a href="#cb28-8" aria-hidden="true"></a>    <span class="ot">-&gt;</span> <span class="dt">Subject</span></span>
-<span id="cb28-9"><a href="#cb28-9" aria-hidden="true"></a>    <span class="ot">-&gt;</span> <span class="dt">Body</span></span>
-<span id="cb28-10"><a href="#cb28-10" aria-hidden="true"></a>    <span class="ot">-&gt;</span> <span class="dt">Template</span></span>
-<span id="cb28-11"><a href="#cb28-11" aria-hidden="true"></a>    <span class="ot">-&gt;</span> m ()</span></code></pre></div>
-<p>If the line with argument names is too big, then put each argument on its own line and separate it somehow from the body section.</p>
 <div class="sourceCode" id="cb29"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true"></a>sendEmail</span>
-<span id="cb29-2"><a href="#cb29-2" aria-hidden="true"></a>    toEmail</span>
-<span id="cb29-3"><a href="#cb29-3" aria-hidden="true"></a>    subject<span class="op">@</span>(<span class="dt">Subject</span> subj)</span>
-<span id="cb29-4"><a href="#cb29-4" aria-hidden="true"></a>    body</span>
-<span id="cb29-5"><a href="#cb29-5" aria-hidden="true"></a>    <span class="dt">Template</span>{<span class="op">..</span>}  <span class="co">-- default body variables</span></span>
-<span id="cb29-6"><a href="#cb29-6" aria-hidden="true"></a>  <span class="ot">=</span> <span class="kw">do</span></span>
-<span id="cb29-7"><a href="#cb29-7" aria-hidden="true"></a>    <span class="op">&lt;</span>code goes here<span class="op">&gt;</span></span></code></pre></div>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true"></a><span class="ot">    ::</span> <span class="kw">forall</span> env m</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true"></a>    <span class="op">.</span>  ( <span class="dt">MonadLog</span> m</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true"></a>       , <span class="dt">MonadEmail</span> m</span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true"></a>       , <span class="dt">WithDb</span> env m</span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true"></a>       )</span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true"></a>    <span class="ot">=&gt;</span> <span class="dt">Email</span></span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true"></a>    <span class="ot">-&gt;</span> <span class="dt">Subject</span></span>
+<span id="cb29-9"><a href="#cb29-9" aria-hidden="true"></a>    <span class="ot">-&gt;</span> <span class="dt">Body</span></span>
+<span id="cb29-10"><a href="#cb29-10" aria-hidden="true"></a>    <span class="ot">-&gt;</span> <span class="dt">Template</span></span>
+<span id="cb29-11"><a href="#cb29-11" aria-hidden="true"></a>    <span class="ot">-&gt;</span> m ()</span></code></pre></div>
+<p>If the line with argument names is too big, then put each argument on its own line and separate it somehow from the body section.</p>
+<div class="sourceCode" id="cb30"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true"></a>sendEmail</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true"></a>    toEmail</span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true"></a>    subject<span class="op">@</span>(<span class="dt">Subject</span> subj)</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true"></a>    body</span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true"></a>    <span class="dt">Template</span>{<span class="op">..</span>}  <span class="co">-- default body variables</span></span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true"></a>  <span class="ot">=</span> <span class="kw">do</span></span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true"></a>    <span class="op">&lt;</span>code goes here<span class="op">&gt;</span></span></code></pre></div>
 <p>In other cases, place an <code>=</code> sign on the same line where the function definition is.</p>
 <p>Put operator fixity before operator signature:</p>
-<div class="sourceCode" id="cb30"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true"></a><span class="co">-- | Flipped version of '&lt;$&gt;'.</span></span>
-<span id="cb30-2"><a href="#cb30-2" aria-hidden="true"></a><span class="kw">infixl</span> <span class="dv">1</span> <span class="op">&lt;&amp;&gt;</span></span>
-<span id="cb30-3"><a href="#cb30-3" aria-hidden="true"></a><span class="ot">(&lt;&amp;&gt;) ::</span> <span class="dt">Functor</span> f <span class="ot">=&gt;</span> f a <span class="ot">-&gt;</span> (a <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> f b</span>
-<span id="cb30-4"><a href="#cb30-4" aria-hidden="true"></a>as <span class="op">&lt;&amp;&gt;</span> f <span class="ot">=</span> f <span class="op">&lt;$&gt;</span> as</span></code></pre></div>
+<div class="sourceCode" id="cb31"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true"></a><span class="co">-- | Flipped version of '&lt;$&gt;'.</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true"></a><span class="kw">infixl</span> <span class="dv">1</span> <span class="op">&lt;&amp;&gt;</span></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true"></a><span class="ot">(&lt;&amp;&gt;) ::</span> <span class="dt">Functor</span> f <span class="ot">=&gt;</span> f a <span class="ot">-&gt;</span> (a <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> f b</span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true"></a>as <span class="op">&lt;&amp;&gt;</span> f <span class="ot">=</span> f <span class="op">&lt;$&gt;</span> as</span></code></pre></div>
 <p>Put pragmas immediately following the function they apply to.</p>
-<div class="sourceCode" id="cb31"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true"></a><span class="co">-- | Lifted version of 'T.putStrLn'.</span></span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true"></a><span class="ot">putTextLn ::</span> <span class="dt">MonadIO</span> m <span class="ot">=&gt;</span> <span class="dt">Text</span> <span class="ot">-&gt;</span> m ()</span>
-<span id="cb31-3"><a href="#cb31-3" aria-hidden="true"></a>putTextLn <span class="ot">=</span> liftIO <span class="op">.</span> Text.putStrLn</span>
-<span id="cb31-4"><a href="#cb31-4" aria-hidden="true"></a><span class="ot">{-# INLINE putTextLn #-}</span></span>
-<span id="cb31-5"><a href="#cb31-5" aria-hidden="true"></a><span class="ot">{-# SPECIALIZE putTextLn :: Text -&gt; IO () #-}</span></span></code></pre></div>
+<div class="sourceCode" id="cb32"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true"></a><span class="co">-- | Lifted version of 'T.putStrLn'.</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true"></a><span class="ot">putTextLn ::</span> <span class="dt">MonadIO</span> m <span class="ot">=&gt;</span> <span class="dt">Text</span> <span class="ot">-&gt;</span> m ()</span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true"></a>putTextLn <span class="ot">=</span> liftIO <span class="op">.</span> Text.putStrLn</span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true"></a><span class="ot">{-# INLINE putTextLn #-}</span></span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true"></a><span class="ot">{-# SPECIALIZE putTextLn :: Text -&gt; IO () #-}</span></span></code></pre></div>
 <p>In case of data type definitions, you must put the pragma before the type it applies to. Example:</p>
-<div class="sourceCode" id="cb32"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true"></a><span class="kw">data</span> <span class="dt">TypeRepMap</span> (<span class="ot">f ::</span> k <span class="ot">-&gt;</span> <span class="dt">Type</span>) <span class="ot">=</span> <span class="dt">TypeRepMap</span></span>
-<span id="cb32-2"><a href="#cb32-2" aria-hidden="true"></a>    {<span class="ot"> fingerprintAs ::</span> <span class="ot">{-# UNPACK #-}</span> <span class="op">!</span>(<span class="dt">PrimArray</span> <span class="dt">Word64</span>)</span>
-<span id="cb32-3"><a href="#cb32-3" aria-hidden="true"></a>    ,<span class="ot"> fingerprintBs ::</span> <span class="ot">{-# UNPACK #-}</span> <span class="op">!</span>(<span class="dt">PrimArray</span> <span class="dt">Word64</span>)</span>
-<span id="cb32-4"><a href="#cb32-4" aria-hidden="true"></a>    ,<span class="ot"> trAnys        ::</span> <span class="ot">{-# UNPACK #-}</span> <span class="op">!</span>(<span class="dt">Array</span> <span class="dt">Any</span>)</span>
-<span id="cb32-5"><a href="#cb32-5" aria-hidden="true"></a>    ,<span class="ot"> trKeys        ::</span> <span class="ot">{-# UNPACK #-}</span> <span class="op">!</span>(<span class="dt">Array</span> <span class="dt">Any</span>)</span>
-<span id="cb32-6"><a href="#cb32-6" aria-hidden="true"></a>    }</span></code></pre></div>
+<div class="sourceCode" id="cb33"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true"></a><span class="kw">data</span> <span class="dt">TypeRepMap</span> (<span class="ot">f ::</span> k <span class="ot">-&gt;</span> <span class="dt">Type</span>) <span class="ot">=</span> <span class="dt">TypeRepMap</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true"></a>    {<span class="ot"> fingerprintAs ::</span> <span class="ot">{-# UNPACK #-}</span> <span class="op">!</span>(<span class="dt">PrimArray</span> <span class="dt">Word64</span>)</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true"></a>    ,<span class="ot"> fingerprintBs ::</span> <span class="ot">{-# UNPACK #-}</span> <span class="op">!</span>(<span class="dt">PrimArray</span> <span class="dt">Word64</span>)</span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true"></a>    ,<span class="ot"> trAnys        ::</span> <span class="ot">{-# UNPACK #-}</span> <span class="op">!</span>(<span class="dt">Array</span> <span class="dt">Any</span>)</span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true"></a>    ,<span class="ot"> trKeys        ::</span> <span class="ot">{-# UNPACK #-}</span> <span class="op">!</span>(<span class="dt">Array</span> <span class="dt">Any</span>)</span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true"></a>    }</span></code></pre></div>
 <h3 id="if-then-else-clauses">if-then-else clauses<a href="#if-then-else-clauses" class="anchor">🔗</a></h3>
 <p>Prefer guards over <em>if-then-else</em> where possible.</p>
-<div class="sourceCode" id="cb33"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true"></a><span class="co">-- + Good</span></span>
-<span id="cb33-2"><a href="#cb33-2" aria-hidden="true"></a><span class="ot">showParity ::</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Bool</span></span>
-<span id="cb33-3"><a href="#cb33-3" aria-hidden="true"></a>showParity n</span>
-<span id="cb33-4"><a href="#cb33-4" aria-hidden="true"></a>    <span class="op">|</span> <span class="fu">even</span> n    <span class="ot">=</span> <span class="st">&quot;even&quot;</span></span>
-<span id="cb33-5"><a href="#cb33-5" aria-hidden="true"></a>    <span class="op">|</span> <span class="fu">otherwise</span> <span class="ot">=</span> <span class="st">&quot;odd&quot;</span></span>
-<span id="cb33-6"><a href="#cb33-6" aria-hidden="true"></a></span>
-<span id="cb33-7"><a href="#cb33-7" aria-hidden="true"></a><span class="co">-- - Meh</span></span>
-<span id="cb33-8"><a href="#cb33-8" aria-hidden="true"></a><span class="ot">showParity ::</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Bool</span></span>
-<span id="cb33-9"><a href="#cb33-9" aria-hidden="true"></a>showParity n <span class="ot">=</span></span>
-<span id="cb33-10"><a href="#cb33-10" aria-hidden="true"></a>    <span class="kw">if</span> <span class="fu">even</span> n</span>
-<span id="cb33-11"><a href="#cb33-11" aria-hidden="true"></a>    <span class="kw">then</span> <span class="st">&quot;even&quot;</span></span>
-<span id="cb33-12"><a href="#cb33-12" aria-hidden="true"></a>    <span class="kw">else</span> <span class="st">&quot;odd&quot;</span></span></code></pre></div>
+<div class="sourceCode" id="cb34"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true"></a><span class="co">-- + Good</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true"></a><span class="ot">showParity ::</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Bool</span></span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true"></a>showParity n</span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true"></a>    <span class="op">|</span> <span class="fu">even</span> n    <span class="ot">=</span> <span class="st">&quot;even&quot;</span></span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true"></a>    <span class="op">|</span> <span class="fu">otherwise</span> <span class="ot">=</span> <span class="st">&quot;odd&quot;</span></span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true"></a></span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true"></a><span class="co">-- - Meh</span></span>
+<span id="cb34-8"><a href="#cb34-8" aria-hidden="true"></a><span class="ot">showParity ::</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Bool</span></span>
+<span id="cb34-9"><a href="#cb34-9" aria-hidden="true"></a>showParity n <span class="ot">=</span></span>
+<span id="cb34-10"><a href="#cb34-10" aria-hidden="true"></a>    <span class="kw">if</span> <span class="fu">even</span> n</span>
+<span id="cb34-11"><a href="#cb34-11" aria-hidden="true"></a>    <span class="kw">then</span> <span class="st">&quot;even&quot;</span></span>
+<span id="cb34-12"><a href="#cb34-12" aria-hidden="true"></a>    <span class="kw">else</span> <span class="st">&quot;odd&quot;</span></span></code></pre></div>
+<p>Align <code>if</code>, <code>then</code> and <code>else</code> lines with the same level of indentation:</p>
+<div class="sourceCode" id="cb35"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true"></a><span class="ot">digitOrNumber ::</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Text</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true"></a>digitOrNumber i <span class="ot">=</span></span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true"></a>    <span class="kw">if</span> i <span class="op">&gt;=</span> <span class="dv">0</span> <span class="op">&amp;&amp;</span> i <span class="op">&lt;</span> <span class="dv">10</span></span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true"></a>    <span class="kw">then</span> <span class="st">&quot;This is a digit&quot;</span></span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true"></a>    <span class="kw">else</span> <span class="st">&quot;This is a number&quot;</span></span></code></pre></div>
 <p>When writing monadic code in <code>do</code>-blocks where guards cannot be used, add one indentation level before <code>then</code> and <code>else</code>:</p>
-<div class="sourceCode" id="cb34"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true"></a>choose</span>
-<span id="cb34-2"><a href="#cb34-2" aria-hidden="true"></a><span class="ot">    ::</span> <span class="dt">Text</span>  <span class="co">-- ^ Question text.</span></span>
-<span id="cb34-3"><a href="#cb34-3" aria-hidden="true"></a>    <span class="ot">-&gt;</span> <span class="dt">NonEmpty</span> <span class="dt">Text</span>  <span class="co">-- ^ List of available options.</span></span>
-<span id="cb34-4"><a href="#cb34-4" aria-hidden="true"></a>    <span class="ot">-&gt;</span> <span class="dt">IO</span> <span class="dt">Text</span>  <span class="co">-- ^ The chosen option.</span></span>
-<span id="cb34-5"><a href="#cb34-5" aria-hidden="true"></a>choose question choices <span class="ot">=</span> <span class="kw">do</span></span>
-<span id="cb34-6"><a href="#cb34-6" aria-hidden="true"></a>    printQuestion question choices</span>
-<span id="cb34-7"><a href="#cb34-7" aria-hidden="true"></a>    answer <span class="ot">&lt;-</span> prompt</span>
-<span id="cb34-8"><a href="#cb34-8" aria-hidden="true"></a>    <span class="kw">if</span> <span class="fu">null</span> answer</span>
-<span id="cb34-9"><a href="#cb34-9" aria-hidden="true"></a>        <span class="kw">then</span> <span class="fu">pure</span> (<span class="fu">head</span> choices)</span>
-<span id="cb34-10"><a href="#cb34-10" aria-hidden="true"></a>        <span class="kw">else</span> <span class="fu">pure</span> answer</span></code></pre></div>
+<div class="sourceCode" id="cb36"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true"></a>choose</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true"></a><span class="ot">    ::</span> <span class="dt">Text</span>  <span class="co">-- ^ Question text.</span></span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true"></a>    <span class="ot">-&gt;</span> <span class="dt">NonEmpty</span> <span class="dt">Text</span>  <span class="co">-- ^ List of available options.</span></span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true"></a>    <span class="ot">-&gt;</span> <span class="dt">IO</span> <span class="dt">Text</span>  <span class="co">-- ^ The chosen option.</span></span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true"></a>choose question choices <span class="ot">=</span> <span class="kw">do</span></span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true"></a>    printQuestion question choices</span>
+<span id="cb36-7"><a href="#cb36-7" aria-hidden="true"></a>    answer <span class="ot">&lt;-</span> prompt</span>
+<span id="cb36-8"><a href="#cb36-8" aria-hidden="true"></a>    <span class="kw">if</span> <span class="fu">null</span> answer</span>
+<span id="cb36-9"><a href="#cb36-9" aria-hidden="true"></a>        <span class="kw">then</span> <span class="fu">pure</span> (<span class="fu">head</span> choices)</span>
+<span id="cb36-10"><a href="#cb36-10" aria-hidden="true"></a>        <span class="kw">else</span> <span class="fu">pure</span> answer</span></code></pre></div>
 <p>In the code outside <code>do</code>-blocks you can align <em>if-then-else</em> clauses like you would normal expressions:</p>
-<div class="sourceCode" id="cb35"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true"></a><span class="ot">shiftInts ::</span> [<span class="dt">Int</span>] <span class="ot">-&gt;</span> [<span class="dt">Int</span>]</span>
-<span id="cb35-2"><a href="#cb35-2" aria-hidden="true"></a>shiftInts <span class="ot">=</span> <span class="fu">map</span> <span class="op">$</span> \n <span class="ot">-&gt;</span> <span class="kw">if</span> <span class="fu">even</span> n <span class="kw">then</span> n <span class="op">+</span> <span class="dv">1</span> <span class="kw">else</span> n <span class="op">-</span> <span class="dv">1</span></span></code></pre></div>
+<div class="sourceCode" id="cb37"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true"></a><span class="ot">shiftInts ::</span> [<span class="dt">Int</span>] <span class="ot">-&gt;</span> [<span class="dt">Int</span>]</span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true"></a>shiftInts <span class="ot">=</span> <span class="fu">map</span> <span class="op">$</span> \n <span class="ot">-&gt;</span> <span class="kw">if</span> <span class="fu">even</span> n <span class="kw">then</span> n <span class="op">+</span> <span class="dv">1</span> <span class="kw">else</span> n <span class="op">-</span> <span class="dv">1</span></span></code></pre></div>
 <h3 id="case-expressions">Case expressions<a href="#case-expressions" class="anchor">🔗</a></h3>
 <p>Align the <code>-&gt;</code> arrows in the alternatives when it helps readability.</p>
-<div class="sourceCode" id="cb36"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true"></a><span class="co">-- + Good</span></span>
-<span id="cb36-2"><a href="#cb36-2" aria-hidden="true"></a><span class="ot">firstOrDefault ::</span> [a] <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> a</span>
-<span id="cb36-3"><a href="#cb36-3" aria-hidden="true"></a>firstOrDefault list def <span class="ot">=</span> <span class="kw">case</span> list <span class="kw">of</span></span>
-<span id="cb36-4"><a href="#cb36-4" aria-hidden="true"></a>    []  <span class="ot">-&gt;</span> def</span>
-<span id="cb36-5"><a href="#cb36-5" aria-hidden="true"></a>    x<span class="op">:</span>_ <span class="ot">-&gt;</span> x</span>
-<span id="cb36-6"><a href="#cb36-6" aria-hidden="true"></a></span>
-<span id="cb36-7"><a href="#cb36-7" aria-hidden="true"></a><span class="co">-- - Bad</span></span>
-<span id="cb36-8"><a href="#cb36-8" aria-hidden="true"></a><span class="ot">foo ::</span> <span class="dt">IO</span> ()</span>
-<span id="cb36-9"><a href="#cb36-9" aria-hidden="true"></a>foo <span class="ot">=</span> getArgs <span class="op">&gt;&gt;=</span> \<span class="kw">case</span></span>
-<span id="cb36-10"><a href="#cb36-10" aria-hidden="true"></a>    []                      <span class="ot">-&gt;</span> <span class="kw">do</span></span>
-<span id="cb36-11"><a href="#cb36-11" aria-hidden="true"></a>        <span class="fu">putStrLn</span> <span class="st">&quot;No arguments provided&quot;</span></span>
-<span id="cb36-12"><a href="#cb36-12" aria-hidden="true"></a>        runWithNoArgs</span>
-<span id="cb36-13"><a href="#cb36-13" aria-hidden="true"></a>    firstArg<span class="op">:</span>secondArg<span class="op">:</span>rest <span class="ot">-&gt;</span> <span class="kw">do</span></span>
-<span id="cb36-14"><a href="#cb36-14" aria-hidden="true"></a>        <span class="fu">putStrLn</span> <span class="op">$</span> <span class="st">&quot;The first argument is &quot;</span> <span class="op">++</span> firstArg</span>
-<span id="cb36-15"><a href="#cb36-15" aria-hidden="true"></a>        <span class="fu">putStrLn</span> <span class="op">$</span> <span class="st">&quot;The second argument is &quot;</span> <span class="op">++</span> secondArg</span>
-<span id="cb36-16"><a href="#cb36-16" aria-hidden="true"></a>    _                       <span class="ot">-&gt;</span> <span class="fu">pure</span> ()</span></code></pre></div>
+<div class="sourceCode" id="cb38"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true"></a><span class="co">-- + Good</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true"></a><span class="ot">firstOrDefault ::</span> [a] <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> a</span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true"></a>firstOrDefault list def <span class="ot">=</span> <span class="kw">case</span> list <span class="kw">of</span></span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true"></a>    []  <span class="ot">-&gt;</span> def</span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true"></a>    x<span class="op">:</span>_ <span class="ot">-&gt;</span> x</span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true"></a></span>
+<span id="cb38-7"><a href="#cb38-7" aria-hidden="true"></a><span class="co">-- - Bad</span></span>
+<span id="cb38-8"><a href="#cb38-8" aria-hidden="true"></a><span class="ot">foo ::</span> <span class="dt">IO</span> ()</span>
+<span id="cb38-9"><a href="#cb38-9" aria-hidden="true"></a>foo <span class="ot">=</span> getArgs <span class="op">&gt;&gt;=</span> \<span class="kw">case</span></span>
+<span id="cb38-10"><a href="#cb38-10" aria-hidden="true"></a>    []                      <span class="ot">-&gt;</span> <span class="kw">do</span></span>
+<span id="cb38-11"><a href="#cb38-11" aria-hidden="true"></a>        <span class="fu">putStrLn</span> <span class="st">&quot;No arguments provided&quot;</span></span>
+<span id="cb38-12"><a href="#cb38-12" aria-hidden="true"></a>        runWithNoArgs</span>
+<span id="cb38-13"><a href="#cb38-13" aria-hidden="true"></a>    firstArg<span class="op">:</span>secondArg<span class="op">:</span>rest <span class="ot">-&gt;</span> <span class="kw">do</span></span>
+<span id="cb38-14"><a href="#cb38-14" aria-hidden="true"></a>        <span class="fu">putStrLn</span> <span class="op">$</span> <span class="st">&quot;The first argument is &quot;</span> <span class="op">++</span> firstArg</span>
+<span id="cb38-15"><a href="#cb38-15" aria-hidden="true"></a>        <span class="fu">putStrLn</span> <span class="op">$</span> <span class="st">&quot;The second argument is &quot;</span> <span class="op">++</span> secondArg</span>
+<span id="cb38-16"><a href="#cb38-16" aria-hidden="true"></a>    _                       <span class="ot">-&gt;</span> <span class="fu">pure</span> ()</span></code></pre></div>
 <p>Use the <code>-XLambdaCase</code> extension when you perform pattern matching over the last argument of the function:</p>
-<div class="sourceCode" id="cb37"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true"></a><span class="ot">fromMaybe ::</span> a <span class="ot">-&gt;</span> <span class="dt">Maybe</span> a <span class="ot">-&gt;</span> a</span>
-<span id="cb37-2"><a href="#cb37-2" aria-hidden="true"></a>fromMaybe v <span class="ot">=</span> \<span class="kw">case</span></span>
-<span id="cb37-3"><a href="#cb37-3" aria-hidden="true"></a>    <span class="dt">Nothing</span> <span class="ot">-&gt;</span> v</span>
-<span id="cb37-4"><a href="#cb37-4" aria-hidden="true"></a>    <span class="dt">Just</span> x  <span class="ot">-&gt;</span> x</span></code></pre></div>
+<div class="sourceCode" id="cb39"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true"></a><span class="ot">fromMaybe ::</span> a <span class="ot">-&gt;</span> <span class="dt">Maybe</span> a <span class="ot">-&gt;</span> a</span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true"></a>fromMaybe v <span class="ot">=</span> \<span class="kw">case</span></span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true"></a>    <span class="dt">Nothing</span> <span class="ot">-&gt;</span> v</span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true"></a>    <span class="dt">Just</span> x  <span class="ot">-&gt;</span> x</span></code></pre></div>
 <h3 id="let-expressions">let expressions<a href="#let-expressions" class="anchor">🔗</a></h3>
 <p>Write every <code>let</code>-binding on a new line:</p>
-<div class="sourceCode" id="cb38"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true"></a><span class="ot">isLimitedBy ::</span> <span class="dt">Integer</span> <span class="ot">-&gt;</span> <span class="dt">Natural</span> <span class="ot">-&gt;</span> <span class="dt">Bool</span></span>
-<span id="cb38-2"><a href="#cb38-2" aria-hidden="true"></a>isLimitedBy n limit <span class="ot">=</span></span>
-<span id="cb38-3"><a href="#cb38-3" aria-hidden="true"></a>    <span class="kw">let</span> intLimit <span class="ot">=</span> <span class="fu">toInteger</span> limit</span>
-<span id="cb38-4"><a href="#cb38-4" aria-hidden="true"></a>    <span class="kw">in</span> n <span class="op">&lt;=</span> intLimit</span></code></pre></div>
+<div class="sourceCode" id="cb40"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true"></a><span class="ot">isLimitedBy ::</span> <span class="dt">Integer</span> <span class="ot">-&gt;</span> <span class="dt">Natural</span> <span class="ot">-&gt;</span> <span class="dt">Bool</span></span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true"></a>isLimitedBy n limit <span class="ot">=</span></span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true"></a>    <span class="kw">let</span> intLimit <span class="ot">=</span> <span class="fu">toInteger</span> limit</span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true"></a>    <span class="kw">in</span> n <span class="op">&lt;=</span> intLimit</span></code></pre></div>
 <p>Put a <code>let</code> before each variable inside a <code>do</code> block. In pure functions try to avoid <code>let</code>. Instead, use <code>where</code>.</p>
 <h2 id="general-recommendations">General recommendations<a href="#general-recommendations" class="anchor">🔗</a></h2>
 <p>Try to split code into separate modules.</p>
 <p>Avoid abusing point-free style. Sometimes code is clearer when <strong>not</strong> written in point-free style:</p>
-<div class="sourceCode" id="cb39"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true"></a><span class="co">-- + Good</span></span>
-<span id="cb39-2"><a href="#cb39-2" aria-hidden="true"></a><span class="ot">foo ::</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> <span class="dt">Int</span></span>
-<span id="cb39-3"><a href="#cb39-3" aria-hidden="true"></a>foo n x <span class="ot">=</span> <span class="fu">length</span> <span class="op">$</span> <span class="fu">replicate</span> n x</span>
-<span id="cb39-4"><a href="#cb39-4" aria-hidden="true"></a></span>
-<span id="cb39-5"><a href="#cb39-5" aria-hidden="true"></a><span class="co">-- - Bad</span></span>
-<span id="cb39-6"><a href="#cb39-6" aria-hidden="true"></a><span class="ot">foo ::</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> <span class="dt">Int</span></span>
-<span id="cb39-7"><a href="#cb39-7" aria-hidden="true"></a>foo <span class="ot">=</span> (<span class="fu">length</span> <span class="op">.</span> ) <span class="op">.</span> <span class="fu">replicate</span></span></code></pre></div>
+<div class="sourceCode" id="cb41"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true"></a><span class="co">-- + Good</span></span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true"></a><span class="ot">foo ::</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> <span class="dt">Int</span></span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true"></a>foo n x <span class="ot">=</span> <span class="fu">length</span> <span class="op">$</span> <span class="fu">replicate</span> n x</span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true"></a></span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true"></a><span class="co">-- - Bad</span></span>
+<span id="cb41-6"><a href="#cb41-6" aria-hidden="true"></a><span class="ot">foo ::</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> <span class="dt">Int</span></span>
+<span id="cb41-7"><a href="#cb41-7" aria-hidden="true"></a>foo <span class="ot">=</span> (<span class="fu">length</span> <span class="op">.</span> ) <span class="op">.</span> <span class="fu">replicate</span></span></code></pre></div>
 <p>Prefer <code>pure</code> over <code>return</code>.</p>
+<p>Use <code>-XApplicativeDo</code> in combination with <code>-XRecordWildCards</code> to prevent position-sensitive errors where possible.</p>
+<h2 id="ghc-options">GHC options<a href="#ghc-options" class="anchor">🔗</a></h2>
 <p>Code should be compilable with the following ghc options without warnings:</p>
 <ul>
 <li><code>-Wall</code></li>
-<li><code>-Wincomplete-uni-patterns</code></li>
-<li><code>-Wincomplete-record-updates</code></li>
 <li><code>-Wcompat</code></li>
 <li><code>-Widentities</code></li>
+<li><code>-Wincomplete-uni-patterns</code></li>
+<li><code>-Wincomplete-record-updates</code></li>
 <li><code>-Wredundant-constraints</code></li>
 <li><code>-Wmissing-export-lists</code></li>
 <li><code>-Wpartial-fields</code></li>
+<li><code>-Wmissing-deriving-strategies</code></li>
+<li><code>-Wunused-packages</code></li>
 </ul>
 <p>Enable <code>-fhide-source-paths</code> and <code>-freverse-errors</code> for cleaner compiler output.</p>
-<p>Use <code>-XApplicativeDo</code> in combination with <code>-XRecordWildCards</code> to prevent position-sensitive errors where possible.</p>
+<p>Enable <code>.hie</code> files creation for your projects in the <code>.hie/</code> directory:</p>
+<div class="sourceCode" id="cb42"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true"></a>ghc<span class="op">-</span>options<span class="op">:</span>  <span class="op">-</span>fwrite<span class="op">-</span>ide<span class="op">-</span>info</span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true"></a>              <span class="op">-</span>hiedir<span class="op">=.</span>hie</span></code></pre></div>
               </p>
               </div>
           </div>
