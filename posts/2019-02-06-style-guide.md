@@ -3,6 +3,7 @@ title: Haskell Style Guide
 author: Kowainik
 tags: haskell, guide
 description: Haskell Style guide used in Kowainik
+updated: "September 22, 2020"
 ---
 
 
@@ -22,8 +23,7 @@ following goals:
 2. Make code **easier to read:** code arrangement should be immediately apparent
    after looking at the existing code. Names of functions & variables should be transparent and obvious.
 3. Make code **easier to write:** developers should think about code formatting
-   rules as little as possible. The style guide should answer any query pertaining to
-   the formatting of a specific piece of code.
+   rules as little as possible.
 4. Make code **easier to maintain:** this style guide aims to reduce the burden
    of maintaining packages using version control systems unless this conflicts
    with the previous points.
@@ -42,11 +42,11 @@ Indent code blocks with _4 spaces_.
 Indent `where` keywords with _2 spaces_ and always put a `where` keyword on a new line.
 
 ```haskell
-showSign :: Int -> String
-showSign n
-    | n == 0    = "Zero"
-    | n < 0     = "Negative"
-    | otherwise = "Positive"
+showDouble :: Double -> String
+showDouble n
+    | isNaN n      = "NaN"
+    | isInfinite n = "Infinity"
+    | otherwise    = show n
 
 greet :: IO ()
 greet = do
@@ -102,7 +102,7 @@ data Foo = Foo
     { fooBar  :: Bar
     , fooBaz  :: Baz
     , fooQuux :: Quux
-    } deriving (Eq, Show, Generic)
+    } deriving stock (Eq, Show, Generic)
       deriving anyclass (FromJSON, ToJSON)
 ```
 
@@ -113,10 +113,10 @@ data TrafficLight
     = Red
     | Yellow
     | Green
-    deriving (Eq, Ord, Enum, Bounded, Show, Read)
+    deriving stock (Show, Read, Eq, Ord, Enum, Bounded, Ix)
 ```
 
-+ **The indentation of a line should not depend on the length of any identifier in preceding lines.**
+> **The indentation of a line should not depend on the length of any identifier in preceding lines.**
 
 Try to follow the above rule inside function definitions but without fanatism:
 
@@ -233,14 +233,22 @@ Use the data type name as the constructor name for `data` with single
 constructor and `newtype`.
 
 ```haskell
-data User = User Int String
+data User = User
+    { userId   :: Int
+    , userName :: String
+    }
 ```
 
 The field name for a `newtype` must be prefixed by `un` followed by the type name.
 
 ```haskell
-newtype Size = Size { unSize :: Int }
-newtype App a = App { unApp :: ReaderT Context IO a }
+newtype Size = Size
+    { unSize :: Int
+    }
+
+newtype App a = App
+    { unApp :: ReaderT Context IO a
+    }
 ```
 
 Field names for the record data type should start with the full name of the data type.
@@ -279,7 +287,7 @@ for the top-level functions, function arguments
 and data type fields. The documentation should give enough
 information to apply the function without looking at its definition.
 
-Use block comment style (`{- |` and `-}`) for Haddock for multiple line comments.
+Use block comment style (`{- |` and `-}`) for Haddock in multiple line comments.
 
 ```haskell
 -- + Good
@@ -302,7 +310,7 @@ For commenting function arguments, data type constructors and their fields,
 you are allowed to use end-of-line Haddock comments if they fit line length
 limit. Otherwise, use block style comments. It is _allowed_ to align end-of-line
 comments with each other. But it is _forbidden_ to use comments of different
-styles for the function arguments, data type constructors, and fields.
+types (pre or post) for the function arguments, data type constructors, and fields.
 
 ```haskell
 -- + Good
@@ -350,12 +358,11 @@ intersperse :: Char -> Text -> Text
 
 ## Guideline for module formatting
 
-Allowed tools for automatic module formatting:
+Use these tools for automatic module formatting:
 
 * [`stylish-haskell`](https://github.com/jaspervdj/stylish-haskell)
   (with a relevant [`.stylish-haskell.yaml`](https://github.com/kowainik/org/blob/master/.stylish-haskell.yaml)):
   for formatting the import section and for alignment.
-* [`smuggler`](https://github.com/kowainik/smuggler): for removing unused imports.
 
 ### {-# LANGUAGE #-}
 
@@ -371,12 +378,15 @@ max width among them.
 {-# LANGUAGE TypeApplications    #-}
 ```
 
+### Default extensions
+
 You can put commonly-used language extensions into `default-extensions` in the
 `.cabal` file. Here is the list of extensions this style guide allows one to put in there:
 
 ```haskell
 ConstraintKinds
 DeriveGeneric
+DerivingStrategies
 GeneralizedNewtypeDeriving
 InstanceSigs
 KindSignatures
@@ -395,8 +405,7 @@ ViewPatterns
 Use the following rules to format the export section:
 
 1. **Always write** an explicit export list.
-2. Indent the export list by _7 spaces_ (so that the bracket is below the
-   first letter of the module name).
+2. Indent the export list by _4 spaces_.
 3. You can split the export list into sections. Use Haddock to assign names to
    these sections.
 4. Classes, data types and type aliases should be written before functions in
@@ -404,25 +413,48 @@ Use the following rules to format the export section:
 
 ```haskell
 module Map
-       ( -- * Data type
-         Map
-       , Key
-       , empty
+    ( -- * Data type
+      Map
+    , Key
+    , empty
 
-         -- * Update
-       , insert
-       , insertWith
-       , alter
-       ) where
+      -- * Update
+    , insert
+    , insertWith
+    , alter
+    ) where
 ```
 
 ### Imports
 
-Always use explicit import lists or qualified imports. Use qualified
-imports only if the import list is big enough or there are conflicts in names. This
-makes the code more robust against changes in dependent libraries.
+Always use **explicit import lists** or **qualified imports**.
 
-* __Exception:__ modules that only reexport other entire modules.
+> __Exception:__ modules that only reexport other entire modules.
+
+Use your judgement to choose between explicit import lists or
+qualified imports. However, qualified imports are recommended in the
+following situations:
+
+* Name conflicts
+* Long export lists
+* A library is designed for qualified imports, e.g. `tomland`
+
+This import policy makes the code more maintainable and robust against
+changes in dependent libraries.
+
+Choose the reasonable names for `qualified` imports:
+
+```haskell
+-- + Good
+import qualified Data.Text as Text
+import qualified Data.ByteString as BS
+import qualified Toml
+
+-- - Bad
+import qualified GitHub as C
+import qualified App.Server as Srv
+import qualified App.Service as Svc
+```
 
 Imports should be grouped in the following order:
 
@@ -439,8 +471,8 @@ The imports in each group should be sorted alphabetically by module name.
 
 ```haskell
 module MyProject.Foo
-       ( Foo (..)
-       ) where
+    ( Foo (..)
+    ) where
 
 import Control.Exception (catch, try)
 import Data.Traversable (for)
@@ -475,10 +507,18 @@ data Foo
     = FooBar Bar
     | FooBaz Baz
 
-data Bar = Bar { bar1 :: Int, bar2 :: Double }
-data Baz = Baz { baz1 :: Int, baz2 :: Double, baz3 :: Text }
+data Bar = Bar
+    { bar1 :: Int
+    , bar2 :: Double
+    }
 
--- + Also good
+data Baz = Baz
+    { baz1 :: Int
+    , baz2 :: Double
+    , baz3 :: Text
+    }
+
+-- + Also acceptable
 data Foo
     = Bar Int Double
     | Baz Int Double Text
@@ -506,23 +546,33 @@ data Settings = Settings
     }
 ```
 
+For modules with many data types it is acceptable to enable the
+[StrictData](https://downloads.haskell.org/ghc/latest/docs/html/users_guide/glasgow_exts.html#strict-by-default-data-types)
+extension.
+
 ### Deriving
 
-Type classes in the deriving section should always be surrounded by parentheses.
-Don't derive typeclasses unnecessarily.
+Always specify a deriving strategy for each deriving clause.
+Use [DerivingStrategies](https://kowainik.github.io/posts/deriving)
+to explicitly specify the way you want to derive type classes.
 
-Use [`-XDerivingStrategies`](https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/glasgow_exts.html#deriving-strategies)
-extension for `newtype`s to explicitly specify the way you want to derive type classes:
+Type classes in the deriving section should always be surrounded by parentheses.
+
+Derive `Show` and `Eq` instances for all introduced data types where possible.
+
+For `newtype`s prefer to use __newtype__ strategy of deriving.
 
 ```haskell
 {-# LANGUAGE DeriveAnyClass             #-}
 {-# LANGUAGE DerivingStrategies         #-}
 {-# LANGUAGE GeneralizedNewtypeDeriving #-}
 
-newtype Id a = Id { unId :: Int }
-    deriving stock    (Generic)
-    deriving newtype  (Eq, Ord, Show, Hashable)
-    deriving anyclass (FromJSON, ToJSON)
+
+newtype Id a = Id
+    { unId :: Int
+    } deriving stock    (Show, Generic)
+      deriving newtype  (Eq, Ord, Hashable)
+      deriving anyclass (FromJSON, ToJSON)
 ```
 
 ### Function declaration
@@ -546,8 +596,8 @@ its own line with respect to alignment.
 
 ```haskell
 sendEmail
-    :: forall env m .
-       ( MonadLog m
+    :: forall env m
+    .  ( MonadLog m
        , MonadEmail m
        , WithDb env m
        )
@@ -621,6 +671,16 @@ showParity n =
     if even n
     then "even"
     else "odd"
+```
+
+Align `if`, `then` and `else` lines with the same level of indentation:
+
+```haskell
+digitOrNumber :: Int -> Text
+digitOrNumber i =
+    if i >= 0 && i < 10
+    then "This is a digit"
+    else "This is a number"
 ```
 
 When writing monadic code in `do`-blocks where guards cannot be used,
@@ -713,18 +773,29 @@ foo = (length . ) . replicate
 
 Prefer `pure` over `return`.
 
+Use `-XApplicativeDo` in combination with `-XRecordWildCards` to prevent
+position-sensitive errors where possible.
+
+## GHC options
+
 Code should be compilable with the following ghc options without warnings:
 
 * `-Wall`
-* `-Wincomplete-uni-patterns`
-* `-Wincomplete-record-updates`
 * `-Wcompat`
 * `-Widentities`
+* `-Wincomplete-uni-patterns`
+* `-Wincomplete-record-updates`
 * `-Wredundant-constraints`
 * `-Wmissing-export-lists`
 * `-Wpartial-fields`
+* `-Wmissing-deriving-strategies`
+* `-Wunused-packages`
 
 Enable `-fhide-source-paths` and `-freverse-errors` for cleaner compiler output.
 
-Use `-XApplicativeDo` in combination with `-XRecordWildCards` to prevent
-position-sensitive errors where possible.
+Enable `.hie` files creation for your projects in the `.hie/` directory:
+
+```haskell
+ghc-options:  -fwrite-ide-info
+              -hiedir=.hie
+```

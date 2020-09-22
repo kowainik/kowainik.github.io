@@ -36,6 +36,7 @@ syncStyleGuide = do
         , "author: Kowainik"
         , "tags: haskell, guide"
         , "description: Haskell Style guide used in Kowainik"
+        , "updated: \"September 22, 2020\""
         , "---"
         , ""
         ]
