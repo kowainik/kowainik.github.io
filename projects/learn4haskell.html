@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+      <!-- Global site tag (gtag.js) - Google Analytics -->
+      <script async src="https://www.googletagmanager.com/gtag/js?id=UA-125893749-1"></script>
+      <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+
+          gtag('config', 'UA-125893749-1');
+          </script>
+    <title>learn4haskell :: Kowainik</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Kowainik — 👩‍🏫 👨‍🏫 Learn Haskell basics in 4 pull requests">
+    <meta name="keywords" content="Haskell, Functional progarmming, FP ">
+    <meta name="author" content="Kowainik " />
+
+    <!-- Twitter cards -->
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="@kowainik" />
+    <meta property="twitter:title" content="Kowainik - learn4haskell" />
+    <meta name="twitter:description" content="👩‍🏫 👨‍🏫 Learn Haskell basics in 4 pull requests" />
+    <meta name="twitter:image:src" content="https://kowainik.github.io/images/logo-yellow.png" />
+    <meta property="og:title" content="Kowainik - learn4haskell" />
+    <meta property="og:description" content="👩‍🏫 👨‍🏫 Learn Haskell basics in 4 pull requests" />
+    <meta property="og:site_name" content="Kowainik" />
+    <meta property="og:image" content="https://kowainik.github.io/images/logo-yellow.png" />
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon">
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.11.0/styles/dracula.min.css" />
+    <!-- Fontawesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+    <!-- Custom fonts for this template -->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Lato" />
+    <!-- Custom styles for this template -->
+    <link href="../css/default.css" rel="stylesheet">
+    <link href="../css/post.css" rel="stylesheet">
+  </head>
+
+  <body class="body-posts">
+
+      <!-- Header -->
+      <nav class="navbar navbar-inverse navbar-fixed-left leftmenu bg-primary text-secondary">
+            <div class="navbar-header">
+                <div class="postslogo"> <a class="navbar-brand" href="../"><img class="img-fluid mb-5 d-block mx-auto" src="../images/logo-tr.png" alt="Kowainik"></a></div>
+
+            </div>
+            <div class="coolFont">
+                <a class="btn btn-outline-dark btn-tag" href="https://github.com/kowainik/learn4haskell" data-icon="octicon-star" data-size="large" aria-label="Star Kowainik/learn4haskell on GitHub">Star Project</a>
+                <a class="fa-stack fa-2x" href="https://github.com/kowainik/learn4haskell/stargazers">
+                    <i class="fa fa-star fa-stack-2x"></i>
+                    <i id="stars" class="fa fa-stack-1x fa-inverse main-font">3</i>
+                </a>
+                <div class="author">Language: Haskell</div>
+
+                <div class="allposts">
+                    <h3><a href="../projects"> Projects =<< </a></h3>
+                </div>
+            </div>
+      </nav>
+      <div class="container info">
+          <h2 class="text-center text-uppercase text-secondary">learn4haskell</h2>
+          <div class="content">
+          <div class="row post">
+              <div class="col-12 post-body">
+              <p class="lead">
+                  <figure>
+<img src="images/HacktoberFest2020-Learn4Haskell-Banner.png" alt /><figcaption>Learn4Haskell</figcaption>
+</figure>
+<p>It is this time of the year when thousand pull requests are starting to float in the air like a leaf on the wind 🍃</p>
+<p>It is Hacktoberfest! And we are happy to be part of this fantastic event.</p>
+<p>Usually, people are contributing to the projects within the communities they are boiling in. But why not to use this time learning something challenging, something fresh, something that you never had time for?</p>
+<p>You can get the benefits of the Hacktoberfest itself and learn wholly new but fascinating concepts – Functional Programming with Haskell.</p>
+<p>And we are here to help!</p>
+<ul>
+<li>4 Pull Request to get the T-Shirt or plant a tree as stands in the Hacktoberfest rules.</li>
+<li>4 Pull Request to learn to program in Haskell.</li>
+<li>4 Pull Request to blow your mind.</li>
+</ul>
+<h2 id="table-of-contents">Table of Contents<a href="#table-of-contents" class="anchor">🔗</a></h2>
+<ul>
+<li><a href="#what-is-learn4haskell">What is Learn4Haskell</a>
+<ul>
+<li><a href="#course-plan">Course Plan</a></li>
+</ul></li>
+<li><a href="#goals">Goals</a></li>
+<li><a href="#who-can-participate">Who can participate</a></li>
+<li><a href="#what-you-will-get-from-this-course">What you will get from this course</a></li>
+<li><a href="#how-to-get-started">How to get started</a>
+<ul>
+<li><a href="#installing-haskell">Installing Haskell</a></li>
+<li><a href="#haskell-ide">Haskell IDE</a></li>
+<li><a href="#how-to-develop">How to develop</a></li>
+</ul></li>
+<li><a href="#who-we-are">Who we are</a></li>
+<li><a href="#how-can-you-help">How can you help</a></li>
+</ul>
+<h2 id="what-is-learn4haskell">What is Learn4Haskell<a href="#what-is-learn4haskell" class="anchor">🔗</a></h2>
+<p>Learn4Haskell is a GitHub-located course that would get you into the Haskell Functional Programming world in just 4 Pull Requests.</p>
+<p>The course is organised as a coding project. So you would be able to complete the course without exiting your editor.</p>
+<p>This works in the following way. When you decide to start the project, all you need to do is to fork the project. We prepared 4 separate modules — chapters. Each part contains educational material and lots of examples that we provide in the simple form that doesn’t require you to know anything about FP beforehand. Also, each chapter contains a number of exercises on everything that is explained by us. You can solve the tasks on your way and at the end open a PR to your fork with this chapter’s solution and summon us (by shouting out our nicknames there). We would be happy to give you feedback on your progress, explain problematic concepts or just support you mentally!</p>
+<p>Each chapter contains unique information and covers different topics. We suggest you go through them in order. However, if you think that some of the chapters are already familiar to you, feel free to skip to the next one. There is absolutely no problem, if you would like to talk to us only on some PRs and chapters.</p>
+<p>Chapters are very filled with information, but yet are aimed to be doable without additional sources. You may spend an evening per chapter, but we swear it’s worth it!</p>
+<p>At the end of the course you should be able to independently create and read basic Haskell code and understand Monads and other famous concepts of Functional Programming.</p>
+<h3 id="course-plan">Course Plan<a href="#course-plan" class="anchor">🔗</a></h3>
+<p>Here is a more concrete plan of all these mystical 4 Chapters we prepare for you. These are the highlights of each part.</p>
+<ul>
+<li><strong>Chapter One</strong> – What is Haskell, what are its particularities, basic Haskell syntax, functions, types, expressions.</li>
+<li><strong>Chapter Two</strong> – FP concepts in the language, immutability, pattern matching, recursion, polymorphism, laziness, Higher-ordered functions, partial applications, eta-reduction.</li>
+<li><strong>Chapter Three</strong> – Focus on Types. Type aliases, ADTs, Product types and Records, Sum types and Enumerations, Newtypes, Typeclasses.</li>
+<li><strong>Chapter Four</strong> – Kinds. Also three monsters of the FP: Functor, Applicative, Monad.</li>
+</ul>
+<h2 id="goals">Goals<a href="#goals" class="anchor">🔗</a></h2>
+<p>We created the Learn4Haskell project to pursue the following goals:</p>
+<ul>
+<li>Help others to learn Haskell</li>
+<li>Give a beginner-friendly and self-consistent course with theory and practice in the same place</li>
+<li>Explain Haskell topics before each task, but strive to be concise and useful at the same time. It is a tough balance!</li>
+<li>Help people who want to participate in Hacktoberfest and Open-Source, but also want to learn new things during this process</li>
+<li>Provide review and feedback on solutions, so people are never alone in this challenging journey.</li>
+<li>Give people who completed this course with all the necessary understanding to be able to work with the basic project that uses standard features. Also, provide a strong basis on which they should be able to continue their FP study.</li>
+</ul>
+<h2 id="who-can-participate">Who can participate<a href="#who-can-participate" class="anchor">🔗</a></h2>
+<p>Everyone!</p>
+<p>We welcome everyone and would be happy to assist you in this journey!</p>
+<p>The course is intended for people who don’t know Haskell or know only language basics, though.</p>
+<p>If you are already an experienced Haskell developer and came here for learning advanced topics, this course might not be that for you. But you still can help! Your feedback and suggestions would be helpful for us as well as for the language newcomers who decide to go with this course.</p>
+<h2 id="what-you-will-get-from-this-course">What you will get from this course<a href="#what-you-will-get-from-this-course" class="anchor">🔗</a></h2>
+<p>This course is coming with many benefits. Check them out to be sure that it fits you!</p>
+<p>So, the participation in this course would give you:</p>
+<ul>
+<li>4 Pull Requests required for Hacktoberfest completion</li>
+<li>Basic knowledge of the most functional programming language</li>
+<li>Understanding of the FP concepts that you would be able to use in your day-to-day life afterwards</li>
+<li>On-the-fly feedback and help from experienced Haskell developers and educators</li>
+<li>Interesting challenges</li>
+<li>Fun!</li>
+</ul>
+<p>This seems like a neat deal!</p>
+<h2 id="how-to-get-started">How to get started<a href="#how-to-get-started" class="anchor">🔗</a></h2>
+<p>Starting to learn Haskell with Learn4Haskell is very easy!</p>
+<ol type="1">
+<li><a href="https://docs.github.com/en/free-pro-team@latest/github/getting-started-with-github/fork-a-repo">Fork this repository</a>.</li>
+<li>Enable GitHub Actions for your fork repository.</li>
+<li><a href="#installing-haskell">Install the Haskell compiler</a>.</li>
+<li>Open the <code>src/Chapter1.hs</code> file, and start learning and solving tasks!</li>
+<li>After you finish the first chapter (or any other chapter, or even if you are stuck in the middle), open <a href="https://docs.github.com/en/free-pro-team@latest/github/collaborating-with-issues-and-pull-requests/creating-a-pull-request">Pull Request</a> <strong>to your fork</strong> with the solution and mention <span class="citation" data-cites="vrom911">@vrom911</span> and <span class="citation" data-cites="chshersh">@chshersh</span> and we would be on our way for the review. &gt; Note, that you should open PR for your fork of this repo, not this repo. &gt; Everyone has their own solutions to our tasks, and they don’t mix together &gt; well in one repo 🙂</li>
+</ol>
+<blockquote>
+<p>However, if you find some bugs or problems in this repo, you can, of course, open PR to Learn4Haskell directly. We appreciate any help and feedback!</p>
+</blockquote>
+<p>Learn4Haskell has 4 chapters you can walk through and submit 4 pull requests to complete the Hacktoberfest (or just for knowledge and fun sake).</p>
+<p>So, you can start right now with forking. And we will describe how you can install all necessary to be able to run this course locally in the following section.</p>
+<h3 id="installing-haskell">Installing Haskell<a href="#installing-haskell" class="anchor">🔗</a></h3>
+<p>If you on Linux or macOS, then the process is easy:</p>
+<ol type="1">
+<li><p>Install <a href="https://www.haskell.org/ghcup/">ghcup</a> and follow <code>ghcup</code> instructions for successful installation.</p></li>
+<li><p>Install the latest version of the Haskell compiler — GHC — and the <a href="https://www.haskell.org/cabal/">Cabal</a> build tool. After you install <code>ghcup</code>, it is easy to install the rest with a few commands from your terminal</p>
+<pre class="shell"><code>ghcup install ghc 8.10.2
+ghcup set ghc 8.10.2
+ghcup install cabal 3.2.0.0</code></pre></li>
+<li><p>Run <code>cabal update</code> to fetch the latest info about Haskell packages.</p></li>
+</ol>
+<h3 id="haskell-ide">Haskell IDE<a href="#haskell-ide" class="anchor">🔗</a></h3>
+<p>If you don’t have any IDE preferences, we recommend installing <a href="https://code.visualstudio.com/download">Visual Studio Code</a> with the <a href="https://marketplace.visualstudio.com/items?itemName=haskell.haskell">Haskell plugin</a>. The mentioned plugin would give you all the necessary to immediately start coding with Haskell.</p>
+<h3 id="how-to-develop">How to develop<a href="#how-to-develop" class="anchor">🔗</a></h3>
+<p>The course assumes that you install Haskell tooling (GHC and Cabal), edit code in the corresponding chapters, run GHCi (Haskell interpreter, explained in the course) from the root of this project and load your chapters to check your code. Don’t worry, each Chapter explains all relevant information!</p>
+<p>We also provide Makefile with commands to test your solutions locally with our prepared test-suite locally. At the same time, we configured CI using GitHub Actions for Learn4Haskell to check your answers at GitHub right away!</p>
+<p>To run all tests for Chapter One:</p>
+<pre class="shell"><code>make test-chapter1</code></pre>
+<p>To run tests only for basic tasks for Chapter One (without the advanced tasks):</p>
+<pre class="shell"><code>make test-chapter1-basic</code></pre>
+<p>Similar commands are provided for all chapters from One to Four.</p>
+<h2 id="who-we-are">Who we are<a href="#who-we-are" class="anchor">🔗</a></h2>
+<p><span class="citation" data-cites="vrom911">[Veronika (@vrom911)]</span>(https://vrom911.github.com/) and <span class="citation" data-cites="chshersh">[Dmitrii (@chshersh)]</span>(https://kodimensional.dev/) are experienced Haskell developers. Together we drive this open source organisation — <a href="https://kowainik.github.io/">Kowainik</a>. We have a lot of open source projects and libraries in Haskell that are used in the Haskell community. We are also working on a lot of tutorials and guides in Haskell and mentoring people who are keen to learn Haskell as well. Moreover, Dmitrii has a few years of experience teaching Haskell courses in the university for the CS students.</p>
+<p>We are passionate about Functional Programming and Haskell in particular. But at the same time we understand how difficult it could be to get into all these ideas on your own. That is why we decided to start this course to help newcomers. With the interactive learning process and live discussions, Haskell could be not that scary, at least we will do our best that it won’t be the case for you!</p>
+<h2 id="how-can-you-help">How can you help<a href="#how-can-you-help" class="anchor">🔗</a></h2>
+<p>You can help us by supporting us on Ko-Fi or via GitHub sponsorship program:</p>
+<ul>
+<li><a href="https://ko-fi.com/kowainik">Kowainik Ko-Fi</a></li>
+<li><a href="https://github.com/sponsors/vrom911">Veronika Romashkina via GitHub</a></li>
+<li><a href="https://github.com/sponsors/chshersh">Dmitrii Kovanikov via GitHub</a></li>
+</ul>
+<p>We also appreciate any feedback on our course a lot! You can submit your feedback using the following form: * https://docs.google.com/forms/d/e/1FAIpQLScBVhLxq5CgGnAfIGUE-fCoOUqeGkDY2HXzbT7KV2jjLOsmjQ/viewform</p>
+              </p>
+              </div>
+          </div>
+          </div>
+
+
+      </div>
+
+      <script src="../js/stars.js"></script>
+      <script>
+       shootingStars("kowainik/learn4haskell", function (stars) {
+           document.getElementById("stars").innerHTML = stars;
+       });
+      </script>
+
+
+      <!-- Bootstrap core JavaScript -->
+      <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"> </script>
+      <script src="../js/post.js"> </script>
+      <script src="../js/hide.js"> </script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/haskell.min.js"></script>
+      <script>hljs.initHighlightingOnLoad()</script>
+      <script async defer src="https://buttons.github.io/buttons.js"></script>
+  </body>
+</html>
