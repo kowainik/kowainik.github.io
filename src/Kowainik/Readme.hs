@@ -43,7 +43,7 @@ createProjectMds = do
       where
         -- not forks and not this project
         validProject :: GitHubProject -> Bool
-        validProject GitHubProject{..} = ghpName /= "kowainik.github.io" && not ghpIsFork
+        validProject GitHubProject{..} = not (ghpIsFork || ghpIsArchived)
 
     -- Formalise md files
     makeReadmeMD :: Manager -> GitHubProject -> IO ()
@@ -78,14 +78,16 @@ data GitHubProject = GitHubProject
     , ghpLanguage :: Text
     , ghpStars    :: Int
     , ghpIsFork   :: Bool
+    , ghpIsArchived :: Bool
     , ghpDesc     :: Text
     } deriving stock (Show)
 
 instance FromJSON GitHubProject where
     parseJSON = withObject "GitHubProject" $ \o -> do
-        ghpName     <- o .:  "name"
-        ghpLanguage <- o .:? "language" .!= "Docs"
-        ghpStars    <- o .:  "stargazers_count"
-        ghpIsFork   <- o .:  "fork"
-        ghpDesc     <- o .:  "description"
+        ghpName       <- o .:  "name"
+        ghpLanguage   <- o .:? "language" .!= "Docs"
+        ghpStars      <- o .:  "stargazers_count"
+        ghpIsFork     <- o .:  "fork"
+        ghpIsArchived <- o .:  "archived"
+        ghpDesc       <- o .:  "description"
         pure GitHubProject{..}

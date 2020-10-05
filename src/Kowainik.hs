@@ -21,6 +21,7 @@ import Hakyll.Web.Feed (renderAtom, renderRss)
 import System.FilePath (replaceExtension)
 import Text.Pandoc.Options (WriterOptions (..))
 import Text.Pandoc.Templates (compileTemplate)
+import System.Environment (lookupEnv)
 
 import Kowainik.Download (getStanReport, syncStyleGuide)
 import Kowainik.Feed (feedCompiler)
@@ -36,15 +37,23 @@ import qualified Text.Pandoc.Walk as Pandoc.Walk
 
 
 runKowainik :: IO ()
-runKowainik = createProjectMds
-    >> syncStyleGuide
-    >> parseTeam "team/creators.json" >>= \creators
-    -> parseTeam "team/volunteers.json" >>= \volunteers
-    -> getStanReport >>= \report
-    -> mainHakyll creators volunteers report
+runKowainik = do
+    noSync <- lookupEnv "NO_SYNC"
 
-mainHakyll :: [TeamMember] -> [TeamMember] -> String -> IO ()
-mainHakyll creators volunteers report = hakyll $ do
+    mReport <- case noSync of
+        Just _ -> pure Nothing
+        Nothing -> do
+            createProjectMds
+            syncStyleGuide
+            Just <$> getStanReport
+
+    creators   <- parseTeam "team/creators.json"
+    volunteers <- parseTeam "team/volunteers.json"
+
+    mainHakyll creators volunteers mReport
+
+mainHakyll :: [TeamMember] -> [TeamMember] -> Maybe String -> IO ()
+mainHakyll creators volunteers mReport = hakyll $ do
     match ("images/**" .||. "fonts/**" .||. "js/*"  .||. "favicon.ico") $ do
         route   idRoute
         compile copyFileCompiler
@@ -70,7 +79,7 @@ mainHakyll creators volunteers report = hakyll $ do
                 >>= relativizeUrls
 
     -- Stan report page
-    create ["projects/stan/report.html"] $ do
+    whenJust mReport $ \report -> create ["projects/stan/report.html"] $ do
         route idRoute
         compile (makeItem report >>= relativizeUrls)
 
