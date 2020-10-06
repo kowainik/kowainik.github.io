@@ -1,0 +1,540 @@
+<!-- This template was used as basis for this webpage: https://startbootstrap.com/template-overviews/freelancer -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+      <!-- Global site tag (gtag.js) - Google Analytics -->
+      <script async src="https://www.googletagmanager.com/gtag/js?id=UA-125893749-1"></script>
+      <script>
+       window.dataLayer = window.dataLayer || [];
+       function gtag(){dataLayer.push(arguments);}
+       gtag('js', new Date());
+
+       gtag('config', 'UA-125893749-1');
+      </script>
+    <title>Do Pure Haskell Interview :: Kowainik</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Kowainik Book announcement">
+    <meta name="keywords" content="Haskell, Functional progarmming, FP, Book">
+    <meta name="author" content="Kowainik" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Kowainik" />
+    <meta property="og:title" content="Kowainik website" />
+    <meta property="og:description" content="Kowainik is writing a Book!" />
+    <meta property="og:image" content="/images/logo-yellow.png" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Kowainik website" />
+    <meta name="twitter:description" content="Kowainik is writing a Book!" />
+    <meta name="twitter:image:src" content="https://kowainik.github.io/images/logo-yellow.png" />
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <!-- Fontawesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+    <!-- Custom fonts for this template -->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css">
+
+    <!-- Plugin CSS -->
+    <link href="../css/magnific-popup.css" rel="stylesheet" type="text/css">
+    <!-- Custom styles for this template -->
+    <link href="../css/default.css" rel="stylesheet">
+    <link href="../css/main.css" rel="stylesheet">
+    <link href="../css/book.css" rel="stylesheet">
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/tomorrow-night.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.11.0/styles/dracula.min.css" />
+  </head>
+
+  <body id="page-top">
+    <!-- Header -->
+      <header class="masthead bg-primary text-secondary text-center mb-0">
+        <!-- Navigation -->
+        <!-- Navigation -->
+<nav class="navbar navbar-expand-lg static-top text-uppercase" id="mainNav">
+    <div class="container">
+    <button class="navbar-toggler navbar-toggler-right text-uppercase text-secondary rounded" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      Menu
+      <i class="fa fa-bars"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+        <a class="navbar-brand brand-kowainik" href="../">
+            <img class="d-inline-block align-top" src="../images/logo_trans.png" width="50" alt="Kowainik" />
+        </a>
+      <ul class="navbar-nav ml-auto empty-list">
+        
+        <li class="nav-item mx-0 mx-lg-1">
+          <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#about-book">About book</a>
+        </li>
+        
+        <li class="nav-item mx-0 mx-lg-1">
+          <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#audience">Audience</a>
+        </li>
+        
+        <li class="nav-item mx-0 mx-lg-1">
+          <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#goals">Goals</a>
+        </li>
+        
+        <li class="nav-item mx-0 mx-lg-1">
+          <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#table-of-contents">Table of Contents</a>
+        </li>
+        
+        <li class="nav-item mx-0 mx-lg-1">
+          <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#feedback">Feedback</a>
+        </li>
+        
+        <li class="nav-item mx-0 mx-lg-1">
+          <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#authors">Authors</a>
+        </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+        <div class="container">
+          <div class="row align-items-center">
+            <div class="col-12 col-sm-12 col-md-3 ml-auto">
+              <a class="book-container" href="kowainik.github.io/books/haskell-interview" target="_blank" rel="noreferrer noopener">
+                <div class="book"> <img alt="Do pure Haskell Interview :: Kowainik" src="../images/books/do-pure-haskell-interview.png" /> </div>
+              </a>
+            </div>
+            <div class="col-md-7 ml-auto align-items-center align-middle">
+              <h1 class="text-uppercase mb-0">Do Pure Haskell Interview</h1>
+              <h5 class="mb-0">Book by</h5>
+              <h5 class="mb-0">Dmitrii Kovanikov and Veronika Romashkina</h5>
+              <hr class="star-light-pr">
+              <p class="lead">Work In Progress! Stay tuned to learn more about our new project: </p>
+              <pre><code class="sourceCode haskell hljs">do pure (Haskell Interview)</code></pre>
+              <p class="lead">a go-to Haskell algorithmic and coding book. </p>
+              <div class="align-self-center">
+                  <a class="btn btn-primary rounded-pill" href="https://ko-fi.com/kowainik" target="_blank">
+                      <i class="fas fa-coffee"></i> Buy a coffee
+                  </a>
+              </div>
+            </div>
+          </div>
+        </div>
+    </header>
+
+    <!-- About Book Section -->
+    <section class="projects" id="about-book">
+        <div class="container">
+            <h2 class="text-center text-uppercase text-secondary mb-0">About book</h2>
+            <hr class="star-dark mb-5">
+            <div id="about" class="row justify-content-md-center about-book-row">
+              <div class="col-sm-8 align-middle">
+                <p class="lead">
+                    Our book is a beginner-friendly and approachable guide to solving coding challenges in modern Haskell. It gives examples of standard programming puzzles with explained solutions.
+                </p>
+                <p class="lead">
+                    After reading the book, readers will acquire the following skills:
+                </p>
+                <ul class="lead">
+                    <li><span class="bold">Solve</span> common coding problems in a purely functional way using Haskell</li>
+                    <li><span class="bold">Develop</span> general skills for solving more challenging tasks</li>
+                    <li><span class="bold">Design</span> functional data structures</li>
+                    <li><span class="bold">Analyse</span> performance characteristics (time and memory) of solutions</li>
+                    <li><span class="bold">Know</span> language shortcomings: what problems can be solved efficiently in Haskell, and, most importantly, are not suitable for solving in Haskell due to their nature
+                    </li>
+                </ul>
+            </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Audience Section -->
+    <section class="bg-primary text-secondary mb-0" id="audience">
+        <div class="container">
+            <h2 class="text-center text-uppercase text-secondary">Audience</h2>
+            <hr class="star-light-pr mb-5">
+            <div class="row justify-content-md-center">
+                <div class="col-md-8">
+                    <p class="lead"><span class="bold">Developers</span> who learned FP and want to find a Haskell job but don't know how to prepare for the interview and how to solve standard coding puzzles in Haskell.
+                    </p>
+                    <p class="lead"><span class="bold">Interviewers</span> who want to hire Haskell developers but don't know how to evaluate the experience in Haskell efficiently.
+                    </p>
+                    <p class="lead">Even if you think that asking <i>Algorithmic Questions</i> during an interview has nothing to do with real-world work, you still might be interested in reading the book for learning new concepts. Sometimes, you need to solve non-trivial problems in your daily job. Even though it is not happening often, it is good to know how to overcome such challenges when they arise. </p>
+                </div>
+            </div>
+            <div class="row justify-content-md-center">
+                <div class="col-md-8">
+                    <img class="img-fluid d-block mx-auto" src="../images/audience.png" alt="Audience">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Goals Section -->
+    <section class id="goals">
+      <div class="container">
+        <h2 class="text-center text-uppercase text-secondary mb-0">Goals</h2>
+        <hr class="star-dark mb-5">
+        <div class="row">
+            <div class="col-md-3 ml-auto">
+                <img class="img-fluid mb-5 d-block mx-auto" src="../images/goals.png" alt="Goals">
+            </div>
+            <div class="col-md-7 mr-auto">
+                <ul class="lead">
+                    <li>Be <span class="bold">beginner-friendly</span>, approachable and pragmatic — <i>no prior academic knowledge is required</i> to understand the book, knowledge of basic Haskell syntax is enough </li>
+                    <li>Create the universal book explaining necessary <span class="bold">Computer Science (CS) concepts</span> for the standard interviewing processes, preparing people with no CS degree</li>
+                    <li> Provide a detailed analysis of the knowledge necessary for <span class="bold">coding interviews</span> in Haskell</li>
+                    <li> Give <span class="bold">real-life production examples</span> of problems requiring algorithmic solutions</li>
+                    <li> Share the process of <span class="bold">from-idea-to-solution</span></li>
+                    <li> Teach approaches to solve problems in <span class="bold">FP style</span></li>
+                </ul>
+            </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ToC Section -->
+    <section class="bg-primary" id="table-of-contents">
+      <div class="container">
+        <h2 class="text-center text-uppercase text-secondary mb-0">Table of Contents</h2>
+        <hr class="star-light-pr mb-5">
+        <div class="row">
+            <div class="col-sm-10 mr-auto">
+                    <ol class="toc lead">
+                        <li>About book</li>
+                        <li>Know your tool
+                            <ol class="toc lead">
+                                <li>FP</li>
+                                <li>Paradigms difference</li>
+                                <li>Immutability</li>
+                                <li>Purity</li>
+                                <li>Laziness</li>
+                                <li>Haskell Type system</li>
+                                <li>Totality</li>
+                                <li>Exercises</li>
+                            </ol>
+                        </li>
+                        <li>Analyse your code
+                            <ol class="toc lead">
+                                <li>Time and memory</li>
+                                <li>O notation</li>
+                                <li>Exercises</li>
+                            </ol>
+                        </li>
+                        <li>Build Data Structures
+                            <ol class="toc lead">
+                                <li>Data structure kinds</li>
+                                <li>List</li>
+                                <li>Stack</li>
+                                <li>Queue</li>
+                                <li>Map and Set
+                                    <ol class="toc lead">
+                                        <li>Dualism of Maps and Sets </li>
+                                        <li>* List </li>
+                                        <li>Binary search tree</li>
+                                        <li>Map/HashMap/IntMap Set/HashSet/IntSet</li>
+                                    </ol>
+                                </li>
+                                <li>Priority Queue</li>
+                                <li>Array
+                                    <ol class="toc lead">
+                                        <li>Immutable arrays</li>
+                                        <li>Mutable arrays</li>
+                                    </ol>
+                                </li>
+                                <li>Graphs
+                                    <ol class="toc lead">
+                                        <li>Graph representation</li>
+                                        <li>Common graph operations</li>
+                                        <li>DFS</li>
+                                        <li>BFS</li>
+                                        <li>Dijkstra algorithm</li>
+                                    </ol>
+                                </li>
+                                <li>Exercises</li>
+                            </ol>
+                        </li>
+                        <li>Choose Problem-solving methods
+                            <ol class="toc lead">
+                                <li>Bruteforce</li>
+                                <li>Sorting out the problem</li>
+                                <li>Memoization</li>
+                                <li>Dynamic programming</li>
+                                <li>Divide and conquer</li>
+                                <li>Binary search on the answer (square root, minimum in rotated array)</li>
+                                <li>Use appropriate data structure</li>
+                                <li>Meet-in-the-middle</li>
+                                <li>Exercises</li>
+                            </ol>
+
+                        </li>
+                        <li>Practice Algorithms
+                            <ol class="toc lead">
+                                <li>Backpack problem</li>
+                                <li>4-SUM problem</li>
+                                <li>Anagram buckets</li>
+                                <li>k-th large element</li>
+                                <li>Edit distance</li>
+                                <li>Matrix sub-sum</li>
+                                <li>Parenthesis sequence</li>
+                                <li>Check prime number</li>
+                                <li>Calculator</li>
+                                <li>Palindrome</li>
+                                <li>Binary to decimal</li>
+                            </ol>
+                        </li>
+                    </ol>
+            </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Feedback Section -->
+    <section class id="feedback">
+      <div class="container">
+        <h2 class="text-center text-uppercase text-secondary mb-0">We want to hear from you!</h2>
+        <hr class="star-dark mb-5">
+        <div class="row">
+            <div class="col-md-3 ml-auto">
+                <img class="img-fluid mb-5 d-block mx-auto" src="../images/speaker.png" alt="Hear from you">
+            </div>
+            <div class="col-md-7 mr-auto">
+                <p class="lead">The book is only at its early stages, but we are ready to receive any support and feedback.</p>
+                <p class="lead">You can support us on
+                    <u><a href="https://github.com/chshersh" target="_blank">GitHub</a></u>
+                    <u><a href="https://github.com/vrom911" target="_blank">Sponsorship</a></u>
+                    or by supplying us with
+                    <u><a href="https://ko-fi.com/kowainik" target="_blank">coffee.</a></u>
+                </p>
+                <div class="align-self-center justify-content-center text-center">
+                    <a class="btn btn-primary rounded-pill" href="https://ko-fi.com/kowainik" target="_blank">
+                        <i class="fas fa-coffee"></i> Buy a coffee
+                    </a>
+                </div>
+
+                <p class="lead">
+                    If you are an <i>artist</i> or can <i>design a book cover</i>, don't hesitate to
+                    <u><a href="#around-the-web">contact us.</a></u>
+                    Make the cover of your dreams come true!
+                </p>
+                <p class="lead">
+                    We are also looking for <i>technical editors</i> who can give early reviews, suggestions and any other feedback on the book content.
+                </p>
+                <p class="lead">
+                    <u><a href="#around-the-web">Reach out</a></u> to us with any questions, offers and brave ideas!
+                </p>
+            </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Authors Section -->
+    <section id="authors" class="bg-primary portfolio">
+        <div class="container">
+            <h2 class="text-center text-uppercase text-secondary mb-0">Authors</h2>
+            <hr class="star-light-pr mb-5">
+            <div class="row">
+                
+                <div class="col-md-6 col-lg-6">
+                    <a class="popup-item portfolio-item d-block mx-auto" href="#team-chshersh">
+                        <div class="portfolio-item-caption d-flex position-absolute h-100 w-100">
+                            <div class="portfolio-item-caption-content my-auto w-100 text-uppercase text-center text-white">
+                                <h2>Dmitrii Kovanikov</h2>
+                                <p class="lead text-secondary">Haskell Adept</p>
+                            </div>
+                        </div>
+                        <img class="img-fluid" src="../images/team/dmitrii.kovanikov.png" alt="Dmitrii Kovanikov">
+                    </a>
+                </div>
+                
+                <div class="col-md-6 col-lg-6">
+                    <a class="popup-item portfolio-item d-block mx-auto" href="#team-vrom911">
+                        <div class="portfolio-item-caption d-flex position-absolute h-100 w-100">
+                            <div class="portfolio-item-caption-content my-auto w-100 text-uppercase text-center text-white">
+                                <h2>Veronika Romashkina</h2>
+                                <p class="lead text-secondary">Haskell Devotee</p>
+                            </div>
+                        </div>
+                        <img class="img-fluid" src="../images/team/veronika.romashkina.png" alt="Veronika Romashkina">
+                    </a>
+                </div>
+                
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-md-7 col-lg-7">
+                    <p class="lead">
+                        Haskell and education are our passions!
+                    </p>
+                    <p class="lead">
+                        We have experience teaching <span class="bold">Haskell</span>, <span class="bold">Algorithms</span> and <span class="bold">Data Structures</span> to students for years. Our
+                        <u><a href="../posts" target="_blank">blogs</a></u>
+                        contain multiple comprehensive tutorials and guides — from beginner-friendly Haskell introduction posts to description of advanced data structures with type-level interfaces.
+                    </p>
+                    <p class="lead">
+                        In Kowainik we lead
+                        <u><a href="https://github.com/kowainik" target="_blank">multiple open-source projects</a></u>
+                        and <u><a href="https://github.com/kowainik/learn4haskell" target="_blank">mentor</a></u>
+                        people by helping them contribute to open-source.
+                    </p>
+                    <p class="lead">
+                        At the same time, we have years of using Haskell <span class="bold">in production</span>
+                        — from developing backends of web-services to implementing sophisticated distributed algorithms.
+                    </p>
+                    <p class="lead">
+                        We love explaining complicated and challenging topics in simple ways, and that's why we want to write a book and share our experience and knowledge with everyone!
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer class="footer text-center">
+  <div class="container">
+    <div class="row">
+      <address class="col-md-4 mb-5 mb-lg-0">
+        <h4 class="text-uppercase mb-4"><i class="fa fa-home"></i></h4>
+
+        <p class="lead mb-0">London, UK</p>
+      </address>
+      <div id="around-the-web" class="col-md-4 mb-5 mb-lg-0">
+        <h4 class="text-uppercase mb-4">Around the Web</h4>
+        <ul class="empty-list list-inline mb-0 mx-auto">
+          
+          <li class="list-inline-item my-auto">
+            <a class="btn btn-outline-light btn-social text-center rounded-circle" href="https://twitter.com/kowainik" target="_blank">
+              <i class="fab fa-fw fa-twitter"></i>
+            </a>
+          </li>
+          
+          <li class="list-inline-item my-auto">
+            <a class="btn btn-outline-light btn-social text-center rounded-circle" href="https://github.com/kowainik" target="_blank">
+              <i class="fab fa-fw fa-github"></i>
+            </a>
+          </li>
+          
+          <li class="list-inline-item my-auto">
+            <a class="btn btn-outline-light btn-social text-center rounded-circle" href="https://www.reddit.com/user/kowainik" target="_blank">
+              <i class="fab fa-fw fa-reddit"></i>
+            </a>
+          </li>
+          
+          <li class="list-inline-item my-auto">
+            <a class="btn btn-outline-light btn-social text-center rounded-circle" href="https://www.linkedin.com/company/kowainik" target="_blank">
+              <i class="fab fa-fw fa-linkedin"></i>
+            </a>
+          </li>
+          
+          <li class="list-inline-item my-auto">
+            <a class="btn btn-outline-light btn-social text-center rounded-circle" href="https://t.me/kowainik" target="_blank">
+              <i class="fab fa-fw fa-telegram"></i>
+            </a>
+          </li>
+          
+          <li class="list-inline-item my-auto">
+            <a class="btn btn-outline-light btn-social text-center rounded-circle" href="../rss.xml" target="_blank">
+              <i class="fas fa-fw fa-rss"></i>
+            </a>
+          </li>
+          
+        </ul>
+      </div>
+      <address class="col-md-4">
+          <h4 class="text-uppercase mb-4"><i class="fa fa-envelope"></i></h4>
+          <p class="lead mb-0">xrom.xkov@gmail.com</p>
+      </address>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-md-4 mb-0 align-self-center text-center">
+                <a class="btn btn-primary rounded-pill" href="https://ko-fi.com/kowainik" target="_blank">
+                    <i class="fas fa-coffee"></i> Buy a coffee
+                </a>
+        </div>
+  </div>
+</footer>
+
+<div class="copyright py-4 text-center text-white">
+  <div class="container">
+    <small>Copyright &copy; Kowainik 2018-2020</small>
+    <br>
+    <small> Powered by <a class="text-primary" href="https://jaspervdj.be/hakyll/" target="_blank">Hakyll</a></small>
+  </div>
+</div>
+
+
+    <!-- Team Modals -->
+    <!-- Team Modal -->
+
+<div class="portfolio-modal mfp-hide" id="team-chshersh">
+    <div class="portfolio-modal-dialog bg-white">
+        <a class="close-button d-none d-md-block portfolio-modal-dismiss" href="#"> <i class="fa fa-3x fa-times"></i> </a>
+        <div class="container text-center">
+            <div class="row">
+                <div class="col-lg-8 mx-auto">
+                    <h2 class="text-secondary text-uppercase mb-0">Dmitrii Kovanikov, @chshersh</h2>
+                    <hr class="star-dark mb-5">
+                    <!-- <img class="img-fluid mb-5" src="/images/team/dmitrii.kovanikov" alt="Dmitrii Kovanikov"> -->
+                    <p class="mb-5">Haskell Adept, Functional Programming enthusiast. I like to discover elegant solutions for sophisticated software problems by squeezing maximum from the Haskell programming language. I enjoy discussions about programming languages design. Before founding Kowainik organization, I had experience in full-stack web-applications development with Haskell, Elm and PostgreSQL. Also, I was <a href="https://github.com/jagajaga/FP-Course-ITMO" target="_blank">teaching Haskell</a> to the students at the ITMO University.</p>
+                    <a class="btn btn-primary btn-lg rounded-pill" href="https://github.com/chshersh" target="_blank">
+                        <i class="fab fa-github"></i> Github Page
+                    </a>
+                    <a class="btn btn-primary btn-lg rounded-pill" href="https://github.com/sponsors/chshersh" target="_blank">
+                        <i class="fas fa-heart"></i> Sponsor
+                    </a>
+                    <a class="btn btn-primary btn-lg rounded-pill portfolio-modal-dismiss" href="#"> <i class="fa fa-close"></i> Close About</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="portfolio-modal mfp-hide" id="team-vrom911">
+    <div class="portfolio-modal-dialog bg-white">
+        <a class="close-button d-none d-md-block portfolio-modal-dismiss" href="#"> <i class="fa fa-3x fa-times"></i> </a>
+        <div class="container text-center">
+            <div class="row">
+                <div class="col-lg-8 mx-auto">
+                    <h2 class="text-secondary text-uppercase mb-0">Veronika Romashkina, @vrom911</h2>
+                    <hr class="star-dark mb-5">
+                    <!-- <img class="img-fluid mb-5" src="/images/team/veronika.romashkina" alt="Veronika Romashkina"> -->
+                    <p class="mb-5">I'm a functional programming enthusiast who puts effort into the growth of the Haskell open source community. I'm genuinely passionate about Haskell and have experience working as a full-stack developer using Haskell, Elm, Python, HTML/CSS, PostgreSQL, MySQL and others. I enjoy exploring new topics and never stop learning and improving my skills.</p>
+                    <a class="btn btn-primary btn-lg rounded-pill" href="https://github.com/vrom911" target="_blank">
+                        <i class="fab fa-github"></i> Github Page
+                    </a>
+                    <a class="btn btn-primary btn-lg rounded-pill" href="https://github.com/sponsors/vrom911" target="_blank">
+                        <i class="fas fa-heart"></i> Sponsor
+                    </a>
+                    <a class="btn btn-primary btn-lg rounded-pill portfolio-modal-dismiss" href="#"> <i class="fa fa-close"></i> Close About</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+    <!-- Scroll to Top Button (Only visible on small and extra-small screen sizes) -->
+    <div class="scroll-to-top d-lg-none position-fixed ">
+      <a class="js-scroll-trigger d-block text-center text-white rounded" href="#page-top">
+        <i class="fa fa-chevron-up"></i>
+      </a>
+    </div>
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"> </script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+    <!-- Highlighting -->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/haskell.min.js"></script>
+      <script src="https://cdn.rawgit.com/icons8/bower-webicon/v0.10.7/jquery-webicon.min.js"></script>
+      <script>hljs.initHighlightingOnLoad()</script>
+
+    <!-- Plugin JavaScript -->
+    <script src="../js/jquery.easing.min.js"></script>
+    <script src="../js/jquery.magnific-popup.min.js"></script>
+
+    <!-- Custom scripts for this template -->
+    <script src="../js/main.js"></script>
+  </body>
+</html>
