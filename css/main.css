@@ -1,27 +1,20 @@
 /*******************************
  ******** Sections
  *******************************/
-
-section {
-    padding: 6rem 0;
-}
-
+section {padding: 6rem 0;}
 section h2 {
     font-size: 2.25rem;
     line-height: 2rem;
 }
-
 @media (min-width: 992px) {
     section h2 {
         font-size: 3rem;
         line-height: 2.5rem;
     }
 }
-
 /*******************************
  ******** Scrolling
  *******************************/
-
 .scroll-to-top {
     z-index: 1042;
     right: 1rem;
@@ -39,39 +32,16 @@ section h2 {
 /*******************************
  ******** Navigation
  *******************************/
-
 #mainNav {
     padding-top: 1rem;
     padding-bottom: 1rem;
     font-weight: 700;
     font-family: 'Montserrat';
 }
-
-#mainNav .navbar-brand {
-    /* color: #fff; */
-}
-
 #mainNav .navbar-nav {
     margin-top: 1rem;
     letter-spacing: 0.0625rem;
 }
-
-#mainNav .navbar-nav li.nav-item a.nav-link {
-    /* color: #fff; */
-}
-
-#mainNav .navbar-nav li.nav-item a.nav-link:hover {
-    /* color: #26e4bb; */
-}
-
-#mainNav .navbar-nav li.nav-item a.nav-link:active, #mainNav .navbar-nav li.nav-item a.nav-link:focus {
-    /* color: #fff; */
-}
-
-#mainNav .navbar-nav li.nav-item a.nav-link.active {
-    /* color: #26e4bb; */
-}
-
 #mainNav .navbar-toggler {
     font-size: 80%;
     padding: 0.8rem;
@@ -114,10 +84,7 @@ section h2 {
 /*******************************
  ******** Header
  *******************************/
-
-header.masthead {
-    padding-bottom: 6rem;
-}
+header.masthead {padding-bottom: 6rem;}
 header.masthead h1 {
     font-size: 2rem;
     line-height: 3rem;
@@ -128,26 +95,19 @@ header.masthead h2 {
 }
 
 @media (min-width: 992px) {
-    header.masthead {
-        padding-bottom: 6rem;
-    }
+    header.masthead {padding-bottom: 6rem;}
     header.masthead h1 {
         font-size: 2.2em;
         line-height: 4rem;
     }
-    header.masthead h2 {
-        font-size: 1.75em;
-    }
+    header.masthead h2 {font-size: 1.75em;}
 }
 
 /*******************************
  ******** Portfolio
  *******************************/
-
 .projects ,
-.portfolio {
-    margin-bottom: -15px;
-}
+.portfolio {margin-bottom: -15px;}
 .projects .projects-item ,
 .portfolio .portfolio-item {
     position: relative;
@@ -213,14 +173,10 @@ header.masthead h2 {
   }
 }
 
-
 .footer {
     padding-top: 5rem;
     padding-bottom: 5rem;
     background-color: #2C3E50;
     color: #fff;
 }
-
-.copyright {
-    background-color: #1a252f;
-}
+.copyright {background-color: #1a252f;}
