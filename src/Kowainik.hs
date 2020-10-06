@@ -81,7 +81,7 @@ mainHakyll creators volunteers mReport = hakyll $ do
                 >>= relativizeUrls
 
     -- books
-    create ["books/haskell-interview.html"] $ do
+    create ["books/do-pure-haskell-interview.html"] $ do
         route idRoute
         compile $ do
             let ctx = makeNavContext bookNav
