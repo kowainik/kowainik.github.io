@@ -54,6 +54,7 @@ library
   exposed-modules:     Kowainik
                          Kowainik.Download
                          Kowainik.Feed
+                         Kowainik.Nav
                          Kowainik.Project
                          Kowainik.Readme
                          Kowainik.Social

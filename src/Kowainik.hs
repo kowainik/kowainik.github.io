@@ -18,13 +18,14 @@ import Hakyll (Compiler, Context, Identifier, Item (..), MonadMetadata, Pattern,
                unsafeCompiler, (.||.))
 import Hakyll.ShortcutLinks (applyAllShortcuts)
 import Hakyll.Web.Feed (renderAtom, renderRss)
+import System.Environment (lookupEnv)
 import System.FilePath (replaceExtension)
 import Text.Pandoc.Options (WriterOptions (..))
 import Text.Pandoc.Templates (compileTemplate)
-import System.Environment (lookupEnv)
 
 import Kowainik.Download (getStanReport, syncStyleGuide)
 import Kowainik.Feed (feedCompiler)
+import Kowainik.Nav (bookNav, mainNav, makeNavContext)
 import Kowainik.Project (makeProjectContext)
 import Kowainik.Readme (createProjectMds)
 import Kowainik.Social (makeSocialContext)
@@ -66,7 +67,8 @@ mainHakyll creators volunteers mReport = hakyll $ do
     create ["index.html"] $ do
         route idRoute
         compile $ do
-            let ctx = makeProjectContext
+            let ctx = makeNavContext mainNav
+                   <> makeProjectContext
                    <> makeSocialContext
                    <> makeCreatorsContext creators
                    <> makeVolunteersContext volunteers
@@ -76,6 +78,20 @@ mainHakyll creators volunteers mReport = hakyll $ do
                 >>= applyAsTemplate ctx
                 >>= loadAndApplyTemplate "templates/team.html" ctx
                 >>= loadAndApplyTemplate "templates/main.html" ctx
+                >>= relativizeUrls
+
+    -- books
+    create ["books/haskell-interview.html"] $ do
+        route idRoute
+        compile $ do
+            let ctx = makeNavContext bookNav
+                   <> makeSocialContext
+                   <> makeCreatorsContext creators
+                   <> makeTeamContext "team" creators
+                   <> defaultContext
+            makeItem ""
+                >>= applyAsTemplate ctx
+                >>= loadAndApplyTemplate "templates/haskell-interview-book.html" ctx
                 >>= relativizeUrls
 
     -- Stan report page

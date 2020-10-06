@@ -225,6 +225,11 @@ pre.comment {
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
+        border: none !important;
+    }
+    .toc ul li::before {
+        display:none;
+        border: none !important;
     }
     .toc a, .toc a:visited {
         color: #2C3E50;
