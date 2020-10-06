@@ -58,7 +58,7 @@
                 <a class="btn btn-outline-dark btn-tag" href="https://github.com/kowainik/learn4haskell" data-icon="octicon-star" data-size="large" aria-label="Star Kowainik/learn4haskell on GitHub">Star Project</a>
                 <a class="fa-stack fa-2x" href="https://github.com/kowainik/learn4haskell/stargazers">
                     <i class="fa fa-star fa-stack-2x"></i>
-                    <i id="stars" class="fa fa-stack-1x fa-inverse main-font">3</i>
+                    <i id="stars" class="fa fa-stack-1x fa-inverse main-font">210</i>
                 </a>
                 <div class="author">Language: Haskell</div>
 
@@ -150,7 +150,11 @@
 <p>Starting to learn Haskell with Learn4Haskell is very easy!</p>
 <ol type="1">
 <li><a href="https://docs.github.com/en/free-pro-team@latest/github/getting-started-with-github/fork-a-repo">Fork this repository</a>.</li>
-<li>Enable GitHub Actions for your fork repository.</li>
+<li>:warning: Add the <code>hacktoberfest</code> topic to your fork. Otherwise, <a href="https://hacktoberfest.digitalocean.com/hacktoberfest-update">your PRs won’t count</a>.</li>
+<li>Enable GitHub Actions for your fork repository.
+<ul>
+<li>Visit: https://github.com/<YOUR_GITHUB_USERNAME>/learn4haskell/actions</li>
+</ul></li>
 <li><a href="#installing-haskell">Install the Haskell compiler</a>.</li>
 <li>Open the <code>src/Chapter1.hs</code> file, and start learning and solving tasks!</li>
 <li>After you finish the first chapter (or any other chapter, or even if you are stuck in the middle), open <a href="https://docs.github.com/en/free-pro-team@latest/github/collaborating-with-issues-and-pull-requests/creating-a-pull-request">Pull Request</a> <strong>to your fork</strong> with the solution and mention <span class="citation" data-cites="vrom911">@vrom911</span> and <span class="citation" data-cites="chshersh">@chshersh</span> and we would be on our way for the review. &gt; Note, that you should open PR for your fork of this repo, not this repo. &gt; Everyone has their own solutions to our tasks, and they don’t mix together &gt; well in one repo 🙂</li>
@@ -161,9 +165,13 @@
 <p>Learn4Haskell has 4 chapters you can walk through and submit 4 pull requests to complete the Hacktoberfest (or just for knowledge and fun sake).</p>
 <p>So, you can start right now with forking. And we will describe how you can install all necessary to be able to run this course locally in the following section.</p>
 <h3 id="installing-haskell">Installing Haskell<a href="#installing-haskell" class="anchor">🔗</a></h3>
-<p>If you on Linux or macOS, then the process is easy:</p>
+<p>If you’re on Windows, install the <code>haskell-dev</code> and <code>make</code> packages <a href="https://chocolatey.org/install">using Chocolatey</a>.</p>
+<pre class="shell"><code>choco install haskell-dev make
+refreshenv</code></pre>
+<p>Then, do <a href="https://www.stackage.org/blog/2020/08/ghc-8-10-2-windows-workaround">the workaround</a> to alleviate a GHC 8.10.2 issue on Windows which prevents the test suite from building correctly.</p>
+<p>If you’re on Linux or macOS, then the process is easy:</p>
 <ol type="1">
-<li><p>Install <a href="https://www.haskell.org/ghcup/">ghcup</a> and follow <code>ghcup</code> instructions for successful installation.</p></li>
+<li><p>Install <a href="https://www.haskell.org/ghcup/">ghcup</a> and follow <code>ghcup</code> instructions for successful installation (remember to restart your terminal afterwards to avoid an <code>unknown ghcup command</code> error on the next step).</p></li>
 <li><p>Install the latest version of the Haskell compiler — GHC — and the <a href="https://www.haskell.org/cabal/">Cabal</a> build tool. After you install <code>ghcup</code>, it is easy to install the rest with a few commands from your terminal</p>
 <pre class="shell"><code>ghcup install ghc 8.10.2
 ghcup set ghc 8.10.2
