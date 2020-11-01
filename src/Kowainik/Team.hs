@@ -46,7 +46,7 @@ memberWho   = field "memberWho"   $ pure . tmWho   . itemBody
 memberImage = field "memberImage" $ pure . tmImage . itemBody
 memberAbout = field "memberAbout" $ pure . tmAbout . itemBody
 memberId    = field "memberId"    $ pure . tmId    . itemBody
-memberWeb   = field "memberWeb"   $ (maybe empty pure) . tmWeb . itemBody
+memberWeb   = field "memberWeb"   $ maybe empty pure . tmWeb . itemBody
 memberSponsor = field "memberSponsor" $ (\p -> if p then pure "" else empty) . tmSponsor . itemBody
 
 makeVolunteersContext :: [TeamMember] -> Context a
