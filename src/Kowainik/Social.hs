@@ -1,7 +1,7 @@
 module Kowainik.Social
-       ( Social (..)
-       , makeSocialContext
-       ) where
+    ( Social (..)
+    , makeSocialContext
+    ) where
 
 import Hakyll (Compiler, Context, Item, field, itemBody, listField, makeItem)
 
@@ -20,7 +20,6 @@ allSocials :: Compiler [Item Social]
 allSocials = traverse makeItem
     [ Social "twitter"  "fab" "https://twitter.com/kowainik"
     , Social "github"   "fab" "https://github.com/kowainik"
-    , Social "reddit"   "fab" "https://www.reddit.com/user/kowainik"
     , Social "linkedin" "fab" "https://www.linkedin.com/company/kowainik"
     , Social "telegram" "fab" "https://t.me/kowainik"
     , Social "rss"      "fas" "/rss.xml"

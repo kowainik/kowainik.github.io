@@ -13,10 +13,19 @@ $for(team)$
                     <a class="btn btn-primary btn-lg rounded-pill" href="https://github.com/$memberNick$" target="_blank">
                         <i class="fab fa-github"></i> Github Page
                     </a>
+                    $if(memberWeb)$
+                    <a class="btn btn-primary btn-lg rounded-pill" href="$memberWeb$" target="_blank">
+                        <i class="fas fa-globe"></i> Web Page
+                    </a>
+                    $endif$
+                    $if(memberSponsor)$
                     <a class="btn btn-primary btn-lg rounded-pill" href="https://github.com/sponsors/$memberNick$" target="_blank">
                         <i class="fas fa-heart"></i> Sponsor
                     </a>
-                    <a class="btn btn-primary btn-lg rounded-pill portfolio-modal-dismiss" href="#"> <i class="fa fa-close"></i> Close About</a>
+                    $endif$
+                </div>
+                <div class="col-lg-8 mx-auto my-3">
+                    <a class="btn btn-secondary btn-lg rounded-pill portfolio-modal-dismiss" href="#"> <i class="fas fa-times-circle"></i> Close About</a>
                 </div>
             </div>
         </div>
