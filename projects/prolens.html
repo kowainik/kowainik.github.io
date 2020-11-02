@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+      <!-- Global site tag (gtag.js) - Google Analytics -->
+      <script async src="https://www.googletagmanager.com/gtag/js?id=UA-125893749-1"></script>
+      <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+
+          gtag('config', 'UA-125893749-1');
+          </script>
+    <title>prolens :: Kowainik</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Kowainik — 👓 Profunctor based lightweight implementation of Lenses">
+    <meta name="keywords" content="Haskell, Functional progarmming, FP ">
+    <meta name="author" content="Kowainik " />
+
+    <!-- Twitter cards -->
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="@kowainik" />
+    <meta property="twitter:title" content="Kowainik - prolens" />
+    <meta name="twitter:description" content="👓 Profunctor based lightweight implementation of Lenses" />
+    <meta name="twitter:image:src" content="https://kowainik.github.io/images/logo-yellow.png" />
+    <meta property="og:title" content="Kowainik - prolens" />
+    <meta property="og:description" content="👓 Profunctor based lightweight implementation of Lenses" />
+    <meta property="og:site_name" content="Kowainik" />
+    <meta property="og:image" content="https://kowainik.github.io/images/logo-yellow.png" />
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon">
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.11.0/styles/dracula.min.css" />
+    <!-- Fontawesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+    <!-- Custom fonts for this template -->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Lato" />
+    <!-- Custom styles for this template -->
+    <link href="../css/default.css" rel="stylesheet">
+    <link href="../css/post.css" rel="stylesheet">
+  </head>
+
+  <body class="body-posts">
+
+      <!-- Header -->
+      <nav class="navbar navbar-inverse navbar-fixed-left leftmenu bg-primary text-secondary">
+            <div class="navbar-header">
+                <div class="postslogo"> <a class="navbar-brand" href="../"><img class="img-fluid mb-5 d-block mx-auto" src="../images/logo-tr.png" alt="Kowainik"></a></div>
+
+            </div>
+            <div class="coolFont">
+                <a class="btn btn-outline-dark btn-tag" href="https://github.com/kowainik/prolens" data-icon="octicon-star" data-size="large" aria-label="Star Kowainik/prolens on GitHub">Star Project</a>
+                <a class="fa-stack fa-2x" href="https://github.com/kowainik/prolens/stargazers">
+                    <i class="fa fa-star fa-stack-2x"></i>
+                    <i id="stars" class="fa fa-stack-1x fa-inverse main-font">55</i>
+                </a>
+                <div class="author">Language: Haskell</div>
+
+                <div class="allposts">
+                    <h3><a href="../projects"> Projects =<< </a></h3>
+                </div>
+            </div>
+      </nav>
+      <div class="container info">
+          <h2 class="text-center text-uppercase text-secondary">prolens</h2>
+          <div class="content">
+          <div class="row post">
+              <div class="col-12 post-body">
+              <p class="lead">
+                  <figure>
+<img src="https://user-images.githubusercontent.com/8126674/95865685-da91b080-0d5e-11eb-91cd-b6a7bae29262.png" alt /><figcaption>Prolens Logo</figcaption>
+</figure>
+<p><a href="https://github.com/kowainik/prolens/actions"><img src="https://github.com/kowainik/prolens/workflows/CI/badge.svg" alt="GitHub CI" /></a> <a href="https://hackage.haskell.org/package/prolens"><img src="https://img.shields.io/hackage/v/prolens.svg?logo=haskell" alt="Hackage" /></a> <a href="LICENSE"><img src="https://img.shields.io/badge/license-MPL--2.0-blue.svg" alt="MPL-2.0 license" /></a></p>
+<p>The <code>prolens</code> package is a Haskell library with a <strong>minimal</strong> and <strong>lightweight</strong> implementation of <em>optics</em>. <strong>Optic</strong> is a high-level concept for values that provide <em>composable</em> access to different parts of structures.</p>
+<p>Prolens implements the following optics:</p>
+<ul>
+<li><strong>Lens</strong> — composable getters and setters</li>
+<li><strong>Prism</strong> — composable constructors and deconstructors</li>
+<li><strong>Traversal</strong> — composable data structures visitors</li>
+</ul>
+<h2 id="goals">Goals<a href="#goals" class="anchor">🔗</a></h2>
+<p>We created the <code>prolens</code> project in pursuit of the following goals:</p>
+<ol type="1">
+<li><strong>Education</strong>. Teach others how to implement and work with profunctor optics. This also means that some underlying types or type variables have different unconventional names</li>
+<li><strong>Learning</strong>. Explore new concepts ourselves and understand better abstractions used in the implementation.</li>
+<li><strong>Minimalism</strong>. Keep the number of dependencies, features and code low, but still solve common problems.</li>
+<li><strong>Performance</strong>. Despite being minimalist, implement optics so they are as fast as manual and clumsy pattern matching.</li>
+<li><strong>Exploration</strong>. Understand how different modern Haskell features can work on improving interface and bring new flavour into standard approaches. Because of this, we implement our own <code>Profunctor</code> typeclass with the <a href="https://downloads.haskell.org/ghc/latest/docs/html/users_guide/glasgow_exts.html#quantified-constraints">QuantifiedConstraints</a> feature, which is not present in any other library at the moment.</li>
+<li><strong>Profunctors</strong>. We use profunctor encoding of optics because it has more elegant design with fewer surprises.</li>
+</ol>
+<h2 id="features">Features<a href="#features" class="anchor">🔗</a></h2>
+<ol type="1">
+<li><strong>Lightweight</strong>. Only <a href="http://hackage.haskell.org/package/base">base</a> in dependencies. The project itself also has a rather small amount of code.</li>
+<li><strong>Fast</strong>. Despite being lightweight, <code>prolens</code> provides a performant API. We use the <a href="https://hackage.haskell.org/package/inspection-testing">inspection-testing</a> library to guarantee that our implementation of optics compiles to the same code as plain Haskell getters, record-update syntax and pattern matching.</li>
+<li><strong>Excellent documentation</strong>. The <code>prolens</code> library contains a mini-tutorial on optics, enough to understand how and when to use basic lenses and prisms.</li>
+<li><strong>Beginner-friendly</strong>. The abstractions in the implementation are hardcore, but our documentation presents the concept in a beginner-friendly and approachable manner.</li>
+<li><strong>Lawful</strong>. We use property-based testing to make sure that laws of all underlying abstractions are verified.</li>
+</ol>
+<h2 id="how-to-use">How to use<a href="#how-to-use" class="anchor">🔗</a></h2>
+<p><code>prolens</code> is compatible with the latest GHC compiler versions starting from <code>8.6.5</code>.</p>
+<p>In order to start using <code>prolens</code> in your project, you will need to set it up with the three easy steps:</p>
+<ol type="1">
+<li><p>Add the dependency on <code>prolens</code> in your project’s <code>.cabal</code> file. For this, you should modify the <code>build-depends</code> section by adding the name of this library. After the adjustment, this section could look like this:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true"></a>build<span class="op">-</span>depends<span class="op">:</span> base <span class="op">^&gt;=</span> <span class="fl">4.14</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true"></a>             , prolens <span class="op">^&gt;=</span> <span class="fl">0.0</span></span></code></pre></div></li>
+<li><p>In the module where you wish to use composable getters and setters, you should add the import:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true"></a><span class="kw">import</span> <span class="dt">Prolens</span> (<span class="dt">Lens'</span>, lens, view)</span></code></pre></div></li>
+<li><p>Now you can use the types and functions from the library:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true"></a><span class="kw">data</span> <span class="dt">User</span> <span class="ot">=</span> <span class="dt">User</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true"></a>    {<span class="ot"> userName ::</span> <span class="dt">String</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true"></a>    ,<span class="ot"> userAge  ::</span> <span class="dt">Int</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true"></a>    }</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true"></a></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true"></a><span class="ot">nameL ::</span> <span class="dt">Lens'</span> <span class="dt">User</span> <span class="dt">String</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true"></a>nameL <span class="ot">=</span> lens userName (\u new <span class="ot">-&gt;</span> u { userName <span class="ot">=</span> new })</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true"></a></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true"></a><span class="ot">main ::</span> <span class="dt">IO</span> ()</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true"></a>main <span class="ot">=</span> putStrln <span class="op">$</span> view nameL (<span class="dt">User</span> <span class="st">&quot;Johnny&quot;</span> <span class="dv">27</span>)</span></code></pre></div></li>
+</ol>
+<h3 id="usage-with-stack">Usage with Stack<a href="#usage-with-stack" class="anchor">🔗</a></h3>
+<p>If <code>prolens</code> is not available on your current Stackage resolver yet, fear not! You can still use it from Hackage by adding the following to the <code>extra-deps</code> section of your <code>stack.yaml</code> file:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true"></a><span class="fu">extra-deps</span><span class="kw">:</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true"></a><span class="at">  </span><span class="kw">-</span><span class="at"> prolens-0.0.0.0</span></span></code></pre></div>
+<h2 id="comparison-to-other-libraries">Comparison to other libraries<a href="#comparison-to-other-libraries" class="anchor">🔗</a></h2>
+<ol type="1">
+<li><p><a href="https://hackage.haskell.org/package/lens">lens</a></p>
+<p>It is the most mature Haskell library for optics. <code>lens</code> provides a richer interface, but it is heavyweight and based on Van Laarhoven (VL) encoding of lenses.</p></li>
+<li><p><a href="https://hackage.haskell.org/package/microlens">microlens</a></p>
+<p>A lightweight implementation of optics compatible with <code>lens</code>. <code>microlens</code> is also minimalistic, but it doesn’t provide prisms and is based on VL encoding.</p></li>
+<li><p><a href="https://hackage.haskell.org/package/optics">optics</a></p>
+<p>The <code>optics</code> library uses the profunctor encoding. It provides much more features than <code>prolens</code>, but at the same time it’s heavyweight. Also, <code>optics</code> uses an opaque representation of optics (e.g. they are wrapped in a newtype), which means that they are composed using the custom operator <code>%</code>, while in <code>prolens</code> optics are type aliases to functions and can be easily composed with the dot <code>.</code> operator.</p></li>
+<li><p><a href="https://hackage.haskell.org/package/profunctor-optics">profunctor-optics</a></p>
+<p>This library is also based on profunctor encoding (as the name suggests) and provides optics as aliases to functions. But it is more heavyweight, though it provides more features.</p></li>
+</ol>
+<p>In addition to this per-library comparison, <code>prolens</code> has a few unique features:</p>
+<ul>
+<li>Beginner-friendly documentation with usage examples</li>
+<li>Usage of <code>inspection-testing</code> to guarantee the performance of optics</li>
+<li>Property-based tests of lens and typeclasses laws to make sure that all abstractions behave properly</li>
+</ul>
+<h2 id="acknowledgement">Acknowledgement<a href="#acknowledgement" class="anchor">🔗</a></h2>
+<ul>
+<li>Edward Kmett for lenses and profunctor typeclasses</li>
+<li>Well-Typed for the implementation of <code>optics</code></li>
+</ul>
+              </p>
+              </div>
+          </div>
+          </div>
+
+
+      </div>
+
+      <script src="../js/stars.js"></script>
+      <script>
+       shootingStars("kowainik/prolens", function (stars) {
+           document.getElementById("stars").innerHTML = stars;
+       });
+      </script>
+
+
+      <!-- Bootstrap core JavaScript -->
+      <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"> </script>
+      <script src="../js/post.js"> </script>
+      <script src="../js/hide.js"> </script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/haskell.min.js"></script>
+      <script>hljs.initHighlightingOnLoad()</script>
+      <script async defer src="https://buttons.github.io/buttons.js"></script>
+  </body>
+</html>
