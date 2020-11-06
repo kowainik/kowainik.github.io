@@ -50,7 +50,7 @@ createProjectMds = do
     makeReadmeMD manager gp@GitHubProject{..} = do
         request <- parseRequest $ "https://raw.githubusercontent.com/kowainik/"
                                ++ toString ghpName
-                               ++ "/master/README.md"
+                               ++ "/main/README.md"
         response <- httpLbs request manager
         let responseText = LT.unlines $ drop 1 $ LT.lines $ T.decodeUtf8 $ responseBody response
 
@@ -74,12 +74,12 @@ createProjectMds = do
 
 
 data GitHubProject = GitHubProject
-    { ghpName     :: Text
-    , ghpLanguage :: Text
-    , ghpStars    :: Int
-    , ghpIsFork   :: Bool
+    { ghpName       :: Text
+    , ghpLanguage   :: Text
+    , ghpStars      :: Int
+    , ghpIsFork     :: Bool
     , ghpIsArchived :: Bool
-    , ghpDesc     :: Text
+    , ghpDesc       :: Text
     } deriving stock (Show)
 
 instance FromJSON GitHubProject where
