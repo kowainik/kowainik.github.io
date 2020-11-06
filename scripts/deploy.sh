@@ -7,7 +7,7 @@ cabal run site rebuild
 # Create deploy environment inside of .deploy directory
 mkdir .deploy
 cd .deploy
-git init
+git init --initial-branch=main
 git remote add origin git@github.com:kowainik/kowainik.github.io.git
 git pull -r origin main
 
