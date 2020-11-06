@@ -23,7 +23,7 @@ downloadFile link = do
 
 syncStyleGuide :: IO ()
 syncStyleGuide = do
-    resp <- downloadFile "https://raw.githubusercontent.com/kowainik/org/master/style-guide.md"
+    resp <- downloadFile "https://raw.githubusercontent.com/kowainik/org/main/style-guide.md"
 
     let responseText = LT.unlines $ drop 1 $ LT.lines $ decodeUtf8 resp
     let filepath :: FilePath = "posts" </> "2019-02-06-style-guide.md"
@@ -42,4 +42,4 @@ syncStyleGuide = do
         ]
 
 getStanReport :: IO String
-getStanReport = decodeUtf8 <$> downloadFile "https://raw.githubusercontent.com/kowainik/stan/master/stan.html"
+getStanReport = decodeUtf8 <$> downloadFile "https://raw.githubusercontent.com/kowainik/stan/main/stan.html"

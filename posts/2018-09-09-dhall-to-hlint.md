@@ -274,6 +274,6 @@ many keystrokes we managed to avoid.
 [hlint]: https://github.com/ndmitchell/hlint
 [dhall]: https://github.com/dhall-lang/dhall-lang
 [dhall-json]: https://hackage.haskell.org/package/dhall-json
-[Rule]: https://github.com/kowainik/relude/blob/master/hlint/Rule.dhall
-[warn]: https://github.com/kowainik/relude/blob/master/hlint/warn.dhall
-[hlint.dhall]: https://github.com/kowainik/relude/blob/master/hlint/hlint.dhall
+[Rule]: https://github.com/kowainik/relude/blob/main/hlint/Rule.dhall
+[warn]: https://github.com/kowainik/relude/blob/main/hlint/warn.dhall
+[hlint.dhall]: https://github.com/kowainik/relude/blob/main/hlint/hlint.dhall
