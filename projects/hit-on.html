@@ -217,7 +217,7 @@ mv hit-linux ~/.local/bin/hit</code></pre>
 </tr>
 <tr class="odd">
 <td>resolve</td>
-<td>Switch to master, sync and delete the branch</td>
+<td>Switch to the main branch, sync and delete the branch</td>
 </tr>
 <tr class="even">
 <td>clear</td>
@@ -248,7 +248,7 @@ mv hit-linux ~/.local/bin/hit</code></pre>
 <h2 id="usage">Usage<a href="#usage" class="anchor">🔗</a></h2>
 <p>The best way to demonstrate the power of the <code>hit</code> tool on a day-to-day basis with our workflow is to go through the entire workflow step by step, solving an ordinary problem of the typical <a href="https://git-scm.com/"><code>git</code></a> user.</p>
 <blockquote>
-<p>Here we assume that you work with <code>origin</code> remote with the main branch set to <code>master</code>.</p>
+<p>Here we assume that you work with <code>origin</code> remote.</p>
 </blockquote>
 <h3 id="hit-clone">hit clone<a href="#hit-clone" class="anchor">🔗</a></h3>
 <p>If you don’t have the repository locally, you need to clone it. With the <code>git</code> tool you would need to specify the full URL which you can get from the repository GitHub page.</p>
@@ -259,7 +259,7 @@ mv hit-linux ~/.local/bin/hit</code></pre>
 <pre class="shell"><code>hit clone owner-name/project-name</code></pre>
 <h3 id="hit-hop">hit hop<a href="#hit-hop" class="anchor">🔗</a></h3>
 <p>When you want to start working on a new issue, you usually want to make sure you’re using the latest version of your project. As a <code>git</code> user you may use the following commands:</p>
-<pre class="shell"><code>git checkout master
+<pre class="shell"><code>git checkout main
 git pull --rebase --prune</code></pre>
 <p>With <code>hit</code> you can just:</p>
 <pre class="shell"><code>hit hop</code></pre>
@@ -312,10 +312,10 @@ Resolves #42&quot;</code></pre>
 <p>However, with <code>hit</code> you can just:</p>
 <pre class="shell"><code>hit sync</code></pre>
 <h3 id="hit-fresh">hit fresh<a href="#hit-fresh" class="anchor">🔗</a></h3>
-<p>While you were waiting for the second round of reviews, another pull request was merged to the <code>master</code> branch. Now you need to apply the new <code>master</code> changes to your local branch.</p>
+<p>While you were waiting for the second round of reviews, another pull request was merged to the <code>main</code> branch. Now you need to apply the new <code>main</code> changes to your local branch.</p>
 <p>With <code>git</code> you can do the following:</p>
-<pre class="shell"><code>git fetch origin master
-git rebase origin/master</code></pre>
+<pre class="shell"><code>git fetch origin main
+git rebase origin/main</code></pre>
 <p>Again, with <code>hit</code> you can do better:</p>
 <pre class="shell"><code>hit fresh</code></pre>
 <h3 id="hit-fix">hit fix<a href="#hit-fix" class="anchor">🔗</a></h3>
@@ -336,7 +336,7 @@ git push origin my-login/42-short-desc --force</code></pre>
 <h3 id="hit-resolve">hit resolve<a href="#hit-resolve" class="anchor">🔗</a></h3>
 <p>Hooray, your PR just got merged! It’s time to clean your local repository and start working on a new issue!</p>
 <p>With <code>git</code> you would do the following:</p>
-<pre class="shell"><code>git checkout master
+<pre class="shell"><code>git checkout main
 git pull --rebase --prune
 git branch -D my-login/42-short-desc</code></pre>
 <p>With <code>hit</code> you can finish your work faster:</p>
@@ -347,6 +347,18 @@ git branch -D my-login/42-short-desc</code></pre>
 <pre class="shell"><code>git log --oneline --decorate [COMMIT_HASH]</code></pre>
 <p>With <code>hit</code> you can finish your work faster:</p>
 <pre class="shell"><code>hit log [COMMIT_HASH]</code></pre>
+<h2 id="troubleshooting">Troubleshooting<a href="#troubleshooting" class="anchor">🔗</a></h2>
+<p>If you see</p>
+<pre class="shell"><code>$ hit hop
+fatal: ambiguous argument 'origin/HEAD': unknown revision or path not in the working tree.
+Use '--' to separate paths from revisions, like this:
+'git &lt;command&gt; [&lt;revision&gt;...] -- [&lt;file&gt;...]'
+hit: readCreateProcess: git &quot;rev-parse&quot; &quot;--abbrev-ref&quot; &quot;origin/HEAD&quot; (exit 128): failed
+  origin/master
+...skipping...</code></pre>
+<p>then you can run</p>
+<pre class="shell"><code>$ git remote set-head origin -a</code></pre>
+<p>to synchronise with the remote, fetch and set <code>origin/HEAD</code> locally.</p>
 <h2 id="acknowledgement">Acknowledgement<a href="#acknowledgement" class="anchor">🔗</a></h2>
 <p>Icons made by <a href="http://www.freepik.com">Freepik</a> from <a href="https://www.flaticon.com/">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/">CC 3.0 BY</a>.</p>
               </p>

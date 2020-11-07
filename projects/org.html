@@ -75,19 +75,17 @@
               <p class="lead">
                   <p>This repository contains organization-wide guidelines on the processes within Kowainik.</p>
 <h2 id="communications">Communications<a href="#communications" class="anchor">🔗</a></h2>
-<p>We can be contacted by email xrom.xkov@gmail.com</p>
+<p>We can be contacted by email xrom.xkov@gmail.com.</p>
+<p>You can also subscribe to our news in <a href="https://twitter.com/kowainik">Twitter</a> or <a href="https://t.me/kowainik">Telegram</a>.</p>
 <h2 id="workflow">Workflow<a href="#workflow" class="anchor">🔗</a></h2>
 <h3 id="version-control-system">Version control system<a href="#version-control-system" class="anchor">🔗</a></h3>
 <p>Git version control system based on GitHub is used.</p>
-<blockquote>
-<p>TODO: experiment with Pijul at some moment in future.</p>
-</blockquote>
 <h4 id="issues-and-branches">Issues and branches<a href="#issues-and-branches" class="anchor">🔗</a></h4>
 <ol type="1">
 <li>Work should be done under corresponding GitHub issue. If such issue doesn’t exist: create it.</li>
 <li>Always discuss work under corresponding GitHub issue before doing this issue. If you see multiple ways to do something — discuss with somebody under issue comments section how to do this. If you’re not sure that there’s only one way to do the thing — discuss with somebody under issue comments section how to do this. In perfect case scenario each issue should contain some plan how to do this issue.</li>
-<li><code>master</code> branch should be stable, always compilable and working.</li>
-<li>Do your work for some issue under separate branch forked from <code>master</code> branch.</li>
+<li>The main branch should be stable, always compilable and working.</li>
+<li>Do your work for some issue under separate branch checkout from the main branch.</li>
 <li>Name your branch as <code>username/issueId-short-description</code>. For example: <code>chshersh/1-describe-workflow</code>.</li>
 <li>You <em>shouldn’t</em> fix multiple issues in a single branch.</li>
 <li>Use <a href="https://chris.beams.io/posts/git-commit/">this guide</a> for commit messages.</li>
@@ -114,29 +112,27 @@ If you don’t change source code, only documentation, then it’s recommended t
 <li>Add <code>wip</code> label to your PR if work is not finished.</li>
 <li>Add issue number at the title of PR in square brackets (just like in commit messages).</li>
 <li>Request review from at least two people in team.</li>
-<li>Pull request can be merged to <code>master</code> only if there’re two approvals for this PR.</li>
+<li>Pull request can be merged to the main branch only if there’re two approvals for this PR.</li>
 <li>Resolve all conflicts using only <code>git rebase</code> command to make history clean.</li>
 <li>If you’re the second person who approves the PR you should click on the <a href="https://help.github.com/articles/about-pull-request-merges/#squash-and-merge-your-pull-request-commits"><code>Squash and Merge</code></a> button.</li>
 </ol>
 <h3 id="project-structure">Project structure<a href="#project-structure" class="anchor">🔗</a></h3>
 <ol type="1">
-<li>Use <code>cabal</code> build tool with <code>cabal new-build</code> or <code>stack</code> as a main build tool. But it’s desired to support both of them on CI.</li>
+<li>You can use locally <code>cabal</code> or <code>stack</code> as your main build tool. But it’s desired to support both of them on CI.</li>
 <li>Every project should contain the following files in addition to code:
 <ul>
 <li>README.md</li>
-<li>CHANGES.md</li>
+<li>CHANGELOG.md</li>
 <li><code>.stylish-haskell.yaml</code></li>
-<li><code>.travis.yml</code></li>
+<li><code>.github/CODEOWNERS.md</code></li>
+<li><code>.github/workflows/ci.yml</code> (GitHub Actions CI)</li>
 </ul></li>
 <li>Use PVP versioning for projects.</li>
 </ol>
-<p>The easiest way to create a project is to use <a href="https://github.com/kowainik/summoner"><code>summoner</code></a> tool <a href="https://github.com/kowainik/org/blob/master/.summoner.toml">with our own settings</a>.</p>
-<blockquote>
-<p><strong>TODO:</strong> What about Windows CI?</p>
-</blockquote>
+<p>The easiest way to create a project is to use <a href="https://github.com/kowainik/summoner">Summoner</a> tool <a href="https://github.com/kowainik/org/blob/main/.summoner.toml">with our own settings</a>.</p>
 <h2 id="code-style">Code style<a href="#code-style" class="anchor">🔗</a></h2>
 <ol type="1">
-<li>Use <a href="style-guide.md">Kowainik Style guide</a> for Haskell code.</li>
+<li>Use <a href="https://kowainik.github.io/posts/2019-02-06-style-guide">Kowainik Style guide</a> for Haskell code.</li>
 <li>Use <a href="https://github.com/jaspervdj/stylish-haskell"><code>stylish-haskell</code></a> with <a href=".stylish-haskell.yaml"><code>.stylish-haskell.yaml</code></a> to format code.</li>
 <li>Use <a href="https://github.com/kowainik/relude"><code>relude</code></a> custom prelude for applications or huge libraries.</li>
 </ol>
