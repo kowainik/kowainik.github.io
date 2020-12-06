@@ -1150,11 +1150,6 @@ more friendly or intuitive.
 
 Let's not wait for the brighter future, let's build it by ourselves!
 
-## Meme shelf
-
-![Doc Thor](/images/haddock/doc-thor.jpg)
-![Haddock XZibit](/images/haddock/haddock-xzibit.jpg)
-
 ## Links
 
 * [Official Haddock documentation](https://haskell-haddock.readthedocs.io/en/latest/)
@@ -1163,3 +1158,9 @@ Let's not wait for the brighter future, let's build it by ourselves!
 * [Haddock Mistakes](https://artyom.me/haddock-mistakes)
 * [How I read Haskell documentation](https://williamyaoh.com/posts/2019-06-06-how-i-read-haskell-documentation.html)
 * [Hackage: standalone-haddock](https://hackage.haskell.org/package/standalone-haddock)
+
+## Meme shelf
+
+![Doc Thor](/images/haddock/doc-thor.jpg)
+![Haddock XZibit](/images/haddock/haddock-xzibit.jpg)
+![Think about haddock](/images/haddock/haddock-no-docs.jpg)
