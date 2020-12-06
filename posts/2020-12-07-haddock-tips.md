@@ -195,7 +195,7 @@ When documentation is built, it will look like on the screenshot below:
 
 ![Haddock Overall Example](/images/haddock/haddock-overall-example.png)
 
-<hr>
+<hr class="fish">
 
 We don't recommend using the Haddock comment syntax for other places
 where they cannot be applied by specification because this breaks
@@ -238,7 +238,8 @@ If you wanted to leave an ordinary (non-documentation) comment:
 var :: Int
 var = 42 -- The answer
 ```
-<hr>
+
+<hr class="fish">
 
 We are not going to cover all annotation syntax. You can learn more
 from the [official documentation](https://haskell-haddock.readthedocs.io/en/latest/index.html).
@@ -330,7 +331,7 @@ requirements. Adding this header to each module is advisable.
 > 👩‍🏫 You can use the [headroom](@github(vaclavsvejcar)) tool to
 > create and update module headers automatically.
 
-<hr>
+<hr class="fish">
 
 Additionally, you can put a special Haddock pragma `{-#
 OPTIONS_HADDOCK show-extensions #-}` at the top of your module before
@@ -401,7 +402,7 @@ functions or operators related to the particular concept.
 
 ![Haddock ToC](/images/haddock/haddock-prolens-toc.png)
 
-<hr>
+<hr class="fish">
 
 To organise your documentation like that, you can use
 [Sections Headings](https://haskell-haddock.readthedocs.io/en/latest/markup.html#section-headings)
@@ -628,7 +629,7 @@ change leads to the complete table restructure. You can use
 [this site](https://www.tablesgenerator.com/text_tables) to create tables
 easier.
 
-<hr>
+<hr class="fish">
 
 In addition to having a challenging way to write tables and long
 debugging times, there are a few more facts. Whenever you have an idea
@@ -672,7 +673,7 @@ Moreover, if you want to easily draw some arrows, diagrams and so on
 with ASCII, there are even plenty of online tools which could help to
 handle it easily.
 
-<hr>
+<hr class="fish">
 
 It is fair to mention that Haddock does
 [support images](https://haskell-haddock.readthedocs.io/en/latest/markup.html?highlight=image#images)

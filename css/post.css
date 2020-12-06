@@ -286,3 +286,9 @@ h1:hover a.anchor,h2:hover a.anchor,h3:hover a.anchor{display:inline;color:#6432
     text-align: center;
     overflow-wrap: break-word;
 }
+
+.fish {
+    border-width: 0 0 30px;
+    border-style: solid;
+    border-image: url(/images/haddock/fish.png) 0 0 100% repeat;
+}
