@@ -58,7 +58,7 @@
                 <a class="btn btn-outline-dark btn-tag" href="https://github.com/kowainik/learn4haskell" data-icon="octicon-star" data-size="large" aria-label="Star Kowainik/learn4haskell on GitHub">Star Project</a>
                 <a class="fa-stack fa-2x" href="https://github.com/kowainik/learn4haskell/stargazers">
                     <i class="fa fa-star fa-stack-2x"></i>
-                    <i id="stars" class="fa fa-stack-1x fa-inverse main-font">338</i>
+                    <i id="stars" class="fa fa-stack-1x fa-inverse main-font">381</i>
                 </a>
                 <div class="author">Language: Haskell</div>
 
@@ -157,7 +157,7 @@
 <ol type="1">
 <li><a href="https://docs.github.com/en/free-pro-team@latest/github/getting-started-with-github/fork-a-repo">Fork this repository</a>.</li>
 <li>:warning: Add the <code>hacktoberfest</code> topic to your fork. Otherwise, <a href="https://hacktoberfest.digitalocean.com/hacktoberfest-update">your PRs won’t count</a>.</li>
-<li>Enable GitHub Actions for your fork repository.
+<li>Enable GitHub Actions for your forked repository.
 <ul>
 <li>Visit: https://github.com/<YOUR_GITHUB_USERNAME>/learn4haskell/actions</li>
 </ul></li>
@@ -169,7 +169,7 @@
 <p>However, if you find some bugs or problems in this repo, you can of open a PR to Learn4Haskell directly. We appreciate any help and feedback!</p>
 </blockquote>
 <p>Learn4Haskell has 4 chapters that you can walk through and submit 4 pull requests to complete the Hacktoberfest event (or just for knowledge and your enjoyment).</p>
-<p>So, you can start right now with forking. Following this will describe how you can install all the necessary items to be able to run this course locally.</p>
+<p>So, you can start right now with forking. Following this we’ll describe how you can install all the necessary items to be able to run this course locally.</p>
 <h3 id="installing-haskell">Installing Haskell<a href="#installing-haskell" class="anchor">🔗</a></h3>
 <p>If you’re on Windows, install the <code>haskell-dev</code> and <code>make</code> packages <a href="https://chocolatey.org/install">using Chocolatey</a>.</p>
 <pre class="shell"><code>choco install haskell-dev make
@@ -188,7 +188,7 @@ ghcup install cabal 3.2.0.0</code></pre></li>
 <p>If you don’t have any IDE preferences, we recommend installing <a href="https://code.visualstudio.com/download">Visual Studio Code</a> with the <a href="https://marketplace.visualstudio.com/items?itemName=haskell.haskell">Haskell plugin</a>. The mentioned plugin would give you everything required to immediately start coding with Haskell.</p>
 <h3 id="how-to-develop">How to develop<a href="#how-to-develop" class="anchor">🔗</a></h3>
 <p>The course assumes that you install Haskell tooling (GHC and Cabal), edit code in the corresponding chapters, run GHCi (Haskell interpreter, explained in the course) from the root of this project and load your chapters to check your code. Don’t worry, each chapter explains all the needed information!</p>
-<p>We also provide Makefile with commands to test your solutions locally with the included prepared test-suite. We have also configured the CI using GitHub Actions on Learn4Haskell to check your answers at GitHub automatically!</p>
+<p>We also provide a Makefile with commands to test your solutions locally with the included prepared test-suite. We have also configured the CI using GitHub Actions on Learn4Haskell to check your answers at GitHub automatically!</p>
 <p>To run all tests for Chapter One:</p>
 <pre class="shell"><code>make test-chapter1</code></pre>
 <p>To run tests only for basic tasks for Chapter One (without the advanced tasks):</p>

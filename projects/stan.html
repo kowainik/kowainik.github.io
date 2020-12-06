@@ -58,7 +58,7 @@
                 <a class="btn btn-outline-dark btn-tag" href="https://github.com/kowainik/stan" data-icon="octicon-star" data-size="large" aria-label="Star Kowainik/stan on GitHub">Star Project</a>
                 <a class="fa-stack fa-2x" href="https://github.com/kowainik/stan/stargazers">
                     <i class="fa fa-star fa-stack-2x"></i>
-                    <i id="stars" class="fa fa-stack-1x fa-inverse main-font">332</i>
+                    <i id="stars" class="fa fa-stack-1x fa-inverse main-font">346</i>
                 </a>
                 <div class="author">Language: Haskell</div>
 
@@ -113,14 +113,14 @@
 </ul>
 <h2 id="what-this-tool-is-about">What this tool is about<a href="#what-this-tool-is-about" class="anchor">🔗</a></h2>
 <p><a href="#table-of-contents">[Back to the Table of Contents] ↑</a></p>
-<p>Stan is a command-line tool for analysing Haskell projects and outputting discovered vulnerabilities in a helpful way with possible solutions for detected problems. Stan is searching for not only performance or error-prone code pieces, but it also can help with establishing and applying best-practices from the whole Haskell ecosystem.</p>
+<p>Stan is a command-line tool for analysing Haskell projects. It discovers which parts of the code can potentially be improved, and offers suggestions on how to do so. Stan is searching for not only performance or error-prone code pieces, but it also can help with establishing and applying best-practices from the whole Haskell ecosystem.</p>
 <p>Although Haskell is a statically typed language, not all properties can be encoded in types. Even though GHC is quite a powerful compiler, it tries to be library-agnostic and provide only language-specific suggestions, while Stan uses the knowledge about the current state of the ecosystem and commonly used libraries.</p>
 <p>You will find Stan helpful if you enjoy writing in Haskell, but want more guarantees from your code, not provided by the Haskell type system or GHC.</p>
 <h2 id="goals">Goals<a href="#goals" class="anchor">🔗</a></h2>
 <p><a href="#table-of-contents">[Back to the Table of Contents] ↑</a></p>
 <p>Stan design and implementation is driven by the following goals:</p>
 <ul>
-<li>Catch common vulnerabilities, anti-patterns, performance issues</li>
+<li>Catch common errors, anti-patterns, performance issues</li>
 <li>Provide meaningful insights on the projects generally</li>
 <li>Point out potential bugs and weak points in the programs flow for users, so they can carefully evaluate each problem with the code</li>
 <li>Help beginners to learn best practices in an easy and informative way</li>
@@ -147,9 +147,9 @@
 <h2 id="how-it-works">How it works<a href="#how-it-works" class="anchor">🔗</a></h2>
 <p><a href="#table-of-contents">[Back to the Table of Contents] ↑</a></p>
 <p>Stan analysis is based on the <a href="https://gitlab.haskell.org/ghc/ghc/-/wikis/hie-files">HIE files</a> — compile-time information about Haskell source code gathered and recorded by GHC. The HIE files contain the Haskell AST, detailed information about each identifier and types of all expressions and sub-expressions. GHC does a huge amount of work when compiling the Haskell projects, and Stan takes advantage of this feature to avoid duplicating the work and focus more on the unique features.</p>
-<p>To analyse HIE files easily, we developed an eDSL for defining AST and Type patterns based on the <a href="http://okmij.org/ftp/tagless-final/course/lecture.pdf"><em>final tagless</em></a> approach. Stan algorithm traverses HIE AST for each HIE file in the project, and matches every AST node with the given pattern to find potential vulnerabilities in the code.</p>
+<p>To analyse HIE files easily, we developed an eDSL for defining AST and Type patterns based on the <a href="http://okmij.org/ftp/tagless-final/course/lecture.pdf"><em>final tagless</em></a> approach. Stan algorithm traverses HIE AST for each HIE file in the project, and matches every AST node with the given pattern to find potential improvement areas in the code.</p>
 <p>Each Stan analysis check is represented by the <strong>inspection</strong> with the unique ID. Each inspection has a name, description, <strong>severity</strong>, list of <strong>categories</strong>, pattern for matching relevant parts of source code and possible solutions to the problem.</p>
-<p>When an inspection is casted on the project, it produces zero or more <strong>observations</strong> — vulnerabilities in the specific parts of the code. You can think of an <em>observation</em> as a pair of an inspection and a piece of source code where this inspection was triggered. Each observation is assigned an unique stable ID depending on the source location, so you can refer to them later or ignore.</p>
+<p>When an inspection is casted on the project, it produces zero or more <strong>observations</strong> —. You can think of an <em>observation</em> as a pair of an inspection and a piece of source code where this inspection was triggered. Each observation is assigned an unique stable ID depending on the source location, so you can refer to them later or ignore.</p>
 <p>You can disable inspections or enable them only in particular modules using <strong>check</strong> — rules for controlling which inspections to run and where. Each check has a <strong>type</strong> (<code>include</code> or <code>exclude</code>), <strong>filter</strong> (by inspection id, category, severity, etc.) and <strong>scope</strong> (file, directory, everything). Checks can be specified using either TOML of CLI interfaces. By default, Stan analyses all source files using all implemented inspections.</p>
 <p>If you want to understand Stan terminology better, refer to the glossary:</p>
 <ul>
@@ -237,7 +237,7 @@ $ mv stan-0.0.1.0-Linux-ghc-8.10.1 ~/.local/bin/stan</code></pre>
 </blockquote>
 <p>After creating HIE files, you can just run Stan on the project:</p>
 <pre class="shell"><code>$ stan</code></pre>
-<p>to see all found vulnerabilities in your terminal.</p>
+<p>to see all found suggestions in your terminal.</p>
 <p>If you want to see a more detailed information in a more structured way, you can generate an HTML report (to the <code>stan.html</code> file) using the following command:</p>
 <pre class="shell"><code>$ stan report</code></pre>
 <p>Stan strives to implement the convenient interface, so you can use the tool without configuring a lot in advance. However, the tool also provides various ways to set it up in the way to be the most efficient with your particular use case.</p>

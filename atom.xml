@@ -8,8 +8,16 @@
         <name>Kowainik</name>
         <email>xrom.xkov@gmail.com</email>
     </author>
-    <updated>2020-11-01T00:00:00Z</updated>
+    <updated>2020-12-07T00:00:00Z</updated>
     <entry>
+    <title>Haskell Documentation with Haddock: Wishes'n'Tips</title>
+    <link href="https://kowainik.github.io/posts/haddock-tips.html" />
+    <id>https://kowainik.github.io/posts/haddock-tips.html</id>
+    <published>2020-12-07T00:00:00Z</published>
+    <updated>2020-12-07T00:00:00Z</updated>
+    <summary type="html"><![CDATA[A comprehensive guide for documentation with Haddock in Haskell]]></summary>
+</entry>
+<entry>
     <title>Brave New Hacktoberfest — Learn4Haskell</title>
     <link href="https://kowainik.github.io/posts/hacktoberfest2020.html" />
     <id>https://kowainik.github.io/posts/hacktoberfest2020.html</id>
@@ -80,14 +88,6 @@
     <published>2019-01-14T00:00:00Z</published>
     <updated>2019-01-14T00:00:00Z</updated>
     <summary type="html"><![CDATA[Architecture of the bidirectional serialization library with usage of profunctors, GADTs and Monad transformers]]></summary>
-</entry>
-<entry>
-    <title>State monad comes to help sequential pattern matching</title>
-    <link href="https://kowainik.github.io/posts/2018-11-18-state-pattern-matching.html" />
-    <id>https://kowainik.github.io/posts/2018-11-18-state-pattern-matching.html</id>
-    <published>2018-11-18T00:00:00Z</published>
-    <updated>2018-11-18T00:00:00Z</updated>
-    <summary type="html"><![CDATA[Combining Monad transformers and applicative functors for better error messages report]]></summary>
 </entry>
 
 </feed>

@@ -7,8 +7,16 @@
         <description><![CDATA[We are writing about what we find fascinating or exciting. Our blog's aim is to share our knowledge about functional programming, distribute best-practices based on our extensive experience and tell about various topics from beginner-friendly introductions to advanced type-level tricks.]]></description>
         <atom:link href="https://kowainik.github.io/rss.xml" rel="self"
                    type="application/rss+xml" />
-        <lastBuildDate>Sun, 01 Nov 2020 00:00:00 UT</lastBuildDate>
+        <lastBuildDate>Mon, 07 Dec 2020 00:00:00 UT</lastBuildDate>
         <item>
+    <title>Haskell Documentation with Haddock: Wishes'n'Tips</title>
+    <link>https://kowainik.github.io/posts/haddock-tips.html</link>
+    <description><![CDATA[A comprehensive guide for documentation with Haddock in Haskell]]></description>
+    <pubDate>Mon, 07 Dec 2020 00:00:00 UT</pubDate>
+    <guid>https://kowainik.github.io/posts/haddock-tips.html</guid>
+    <dc:creator>Kowainik</dc:creator>
+</item>
+<item>
     <title>Brave New Hacktoberfest — Learn4Haskell</title>
     <link>https://kowainik.github.io/posts/hacktoberfest2020.html</link>
     <description><![CDATA[Results of the Hacktoberfest 2020 in Kowainik]]></description>
@@ -78,14 +86,6 @@
     <description><![CDATA[Architecture of the bidirectional serialization library with usage of profunctors, GADTs and Monad transformers]]></description>
     <pubDate>Mon, 14 Jan 2019 00:00:00 UT</pubDate>
     <guid>https://kowainik.github.io/posts/2019-01-14-tomland.html</guid>
-    <dc:creator>Kowainik</dc:creator>
-</item>
-<item>
-    <title>State monad comes to help sequential pattern matching</title>
-    <link>https://kowainik.github.io/posts/2018-11-18-state-pattern-matching.html</link>
-    <description><![CDATA[Combining Monad transformers and applicative functors for better error messages report]]></description>
-    <pubDate>Sun, 18 Nov 2018 00:00:00 UT</pubDate>
-    <guid>https://kowainik.github.io/posts/2018-11-18-state-pattern-matching.html</guid>
     <dc:creator>Kowainik</dc:creator>
 </item>
 
