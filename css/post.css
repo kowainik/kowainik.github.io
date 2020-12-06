@@ -249,6 +249,7 @@ a.anchor{color:#64328c;display:none;font-size:80%;margin-left:12px;text-decorati
 h1:hover a.anchor,h2:hover a.anchor,h3:hover a.anchor{display:inline;color:#64328c;}
 
 .post-body figcaption {text-align: center; font-style: italic; font-weight: lighter;}
+.post-body li p {display: inline;}
 
 /* Exercises and solutions */
 .exercise {

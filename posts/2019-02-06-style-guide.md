@@ -361,7 +361,7 @@ intersperse :: Char -> Text -> Text
 Use these tools for automatic module formatting:
 
 * [`stylish-haskell`](https://github.com/jaspervdj/stylish-haskell)
-  (with a relevant [`.stylish-haskell.yaml`](https://github.com/kowainik/org/blob/master/.stylish-haskell.yaml)):
+  (with a relevant [`.stylish-haskell.yaml`](https://github.com/kowainik/org/blob/main/.stylish-haskell.yaml)):
   for formatting the import section and for alignment.
 
 ### {-# LANGUAGE #-}
