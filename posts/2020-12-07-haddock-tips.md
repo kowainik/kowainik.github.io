@@ -1150,6 +1150,8 @@ more friendly or intuitive.
 
 Let's not wait for the brighter future, let's build it by ourselves!
 
+![Doc Thor](/images/haddock/doc-thor.jpg)
+
 ## Links
 
 * [Official Haddock documentation](https://haskell-haddock.readthedocs.io/en/latest/)
