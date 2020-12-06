@@ -1150,7 +1150,10 @@ more friendly or intuitive.
 
 Let's not wait for the brighter future, let's build it by ourselves!
 
+## Meme shelf
+
 ![Doc Thor](/images/haddock/doc-thor.jpg)
+![Haddock XZibit](/images/haddock/haddock-xzibit.jpg)
 
 ## Links
 
