@@ -264,7 +264,7 @@ documentation piece.
 
 Though, sometimes you are interested only in specific types and
 functions, not in reading the full documentation. Hackage helps here
-as well. You can press the `s` button on a package page to quickly
+as well. You can press the <kbd>s</kbd> button on a package page to quickly
 jump to definitions.
 
 ![Haddock Search Example](/images/haddock/haddock-relude-search.png)
