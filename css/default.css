@@ -148,6 +148,15 @@ hr.star-light-pr:after {
     background-color: #128f76;
     border-color: #128f76;
 }
+.btn-outline-primary {
+    color: #26e4bb !important;
+    border-color: #26e4bb !important;
+}
+
+.btn-outline-primary:hover, .btn-outline-primary:focus, .btn-outline-primary:active {
+    background-color: #26e4bb !important;
+    color: #fff !important;
+}
 
 .btn-secondary {
     background-color: #2C3E50;
@@ -209,3 +218,12 @@ ul.empty-list li::before {
     display:none !important;
     border-style: none !important;
 }
+
+.footer {
+    width:100%;
+    padding-top: 5rem;
+    padding-bottom: 5rem;
+    background-color: #2C3E50;
+    color: #fff;
+}
+.group-checkbox{ display:none;}

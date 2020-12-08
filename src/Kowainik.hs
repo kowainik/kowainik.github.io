@@ -29,8 +29,7 @@ import Kowainik.Nav (bookNav, mainNav, makeNavContext)
 import Kowainik.Project (makeProjectContext)
 import Kowainik.Readme (createProjectMds)
 import Kowainik.Social (makeSocialContext)
-import Kowainik.Team (TeamMember, makeCreatorsContext, makeTeamContext, makeVolunteersContext,
-                      parseTeam)
+import Kowainik.Team (TeamMember, makeCreatorsContext, makeTeamContext, parseTeam)
 
 import qualified Data.Text as T
 import qualified Text.Pandoc as Pandoc
@@ -48,13 +47,12 @@ runKowainik = do
             syncStyleGuide
             Just <$> getStanReport
 
-    creators   <- parseTeam "team/creators.json"
-    volunteers <- parseTeam "team/volunteers.json"
+    creators <- parseTeam "team/creators.json"
 
-    mainHakyll creators volunteers mReport
+    mainHakyll creators mReport
 
-mainHakyll :: [TeamMember] -> [TeamMember] -> Maybe String -> IO ()
-mainHakyll creators volunteers mReport = hakyll $ do
+mainHakyll :: [TeamMember] -> Maybe String -> IO ()
+mainHakyll creators mReport = hakyll $ do
     match ("images/**" .||. "fonts/**" .||. "js/*"  .||. "favicon.ico") $ do
         route   idRoute
         compile copyFileCompiler
@@ -71,8 +69,7 @@ mainHakyll creators volunteers mReport = hakyll $ do
                    <> makeProjectContext
                    <> makeSocialContext
                    <> makeCreatorsContext creators
-                   <> makeVolunteersContext volunteers
-                   <> makeTeamContext "team" (creators <> volunteers)
+                   <> makeTeamContext "team" creators
                    <> defaultContext
             makeItem ""
                 >>= applyAsTemplate ctx
@@ -115,7 +112,10 @@ mainHakyll creators volunteers mReport = hakyll $ do
             pandoc <- renderPandocWith defaultHakyllReaderOptions tocWriter i
             let toc = itemBody pandoc
             tgs <- getTags (itemIdentifier i)
-            let postTagsCtx = postCtxWithTags tgs <> constField "toc" toc
+            let postTagsCtx
+                   =  postCtxWithTags tgs
+                   <> constField "toc" toc
+                   <> makeSocialContext
             customPandocCompiler
                 >>= loadAndApplyTemplate "templates/post.html" postTagsCtx
                 >>= loadAndApplyTemplate "templates/posts-default.html" postTagsCtx

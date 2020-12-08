@@ -1,4 +1,4 @@
-.navbar {align-items: stretch;}
+.navbar {align-items: start;}
 @media (min-width:768px) {.container{width:503px}}
 @media (min-width:992px) {.container{width:723px}}
 @media (min-width:1200px){.container{width:923px}}
@@ -10,11 +10,11 @@
     }
     .navbar-header {
         top: 0%;
-        height: 3%;
         margin-bottom: 0%;
         padding-bottom: 0%;
         margin-top: 1%;
     }
+    .postslogo, .coffee, .socials {margin-bottom: 10px;}
 }
 @media (max-width:768px) {
     .body {padding-top: 0px;}
@@ -64,7 +64,7 @@ pre, code {text-align: left;}
 .post {
     text-align: left;
     font-size: 1.2rem;
-    margin: 7% 3%;
+    margin: 2% 3%;
 }
 
 .coolFont {font-family:'Noteworthy Light';font-weight:bold;font-size:1.1em;}
@@ -75,22 +75,12 @@ pre.comment {
     overflow: visible;
 }
 
-.tag-block {
-    margin: 1%;
-}
-.author {
-    margin-bottom: 5%;
-}
+.author {margin-bottom: 1%;}
 
 @media (min-width:768px) {
     .allposts {
         position: fixed;
         bottom: 1%;
-    }
-}
-@media (min-width:768px) {
-    .postslogo {
-        margin-top: 10%;
     }
 }
 .post-body a{
@@ -292,3 +282,4 @@ h1:hover a.anchor,h2:hover a.anchor,h3:hover a.anchor{display:inline;color:#6432
     border-style: solid;
     border-image: url(/images/haddock/fish.png) 0 0 100% repeat;
 }
+.footer {padding-top: 1rem; padding-bottom: 1rem;}
