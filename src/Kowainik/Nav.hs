@@ -36,7 +36,7 @@ mainNav = traverse makeItem
     , mkNav "About"
     , mkNav "Team"
     , mkNav "Blog"
-    , mkNav "Contact us"
+    , mkNav "Subscribe"
     ]
 
 bookNav :: Compiler [Item Nav]

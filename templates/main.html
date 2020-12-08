@@ -141,27 +141,6 @@
             </div>
         </div>
     </section>
-    <section id="team" class="portfolio">
-        <div class="container">
-            <h2 class="text-center text-uppercase text-secondary mb-0">Our volunteers</h2>
-            <hr class="star-dark mb-5">
-            <div class="row">
-                $for(volunteers)$
-                <div class="col-md-4 col-lg-4">
-                    <a class="popup-item portfolio-item d-block mx-auto" href="#team-$memberId$">
-                        <div class="portfolio-item-caption d-flex position-absolute h-100 w-100">
-                            <div class="portfolio-item-caption-content my-auto w-100 text-uppercase text-center text-white">
-                                <h2>$memberName$</h2>
-                                <p class="lead text-secondary">$memberWho$</p>
-                            </div>
-                        </div>
-                        <img class="img-fluid" src="/images/team/$memberImage$.png" alt="$memberName$">
-                    </a>
-                </div>
-                $endfor$
-            </div>
-        </div>
-    </section>
 
     <!-- Blog Section -->
     <section class="bg-primary" id="blog">
@@ -192,18 +171,18 @@
     </section>
 
     <!-- Join us Section -->
-    <section class="" id="contact-us">
+    <section class="" id="subscribe">
       <div class="container">
-        <h2 class="text-center text-uppercase text-secondary mb-0">Contact us</h2>
+        <h2 class="text-center text-uppercase text-secondary mb-0">Subscribe</h2>
         <hr class="star-dark mb-5">
         <div class="row">
-            <div class="col-lg-5 ml-auto">
-                <p class="lead text-secondary"> If you have any questions about our open source work or organization generally just drop us a line at <strong>&#120;&#114;&#111;&#109;&#046;&#120;&#107;&#111;&#118;&#064;&#103;&#109;&#097;&#105;&#108;&#046;&#099;&#111;&#109;</strong>
+            <div class="col-lg-5 ml-auto my-auto">
+                <p class="lead text-secondary"> Subscribe to our newsletter to receive the latest news and updates from us:
                 </p>
-                <p class="lead"> Currently, we are a non-commercial organisation, but entirely open for any collaborations in relevant technologies.</p>
+                $partial("templates/subscribe.html")$
             </div>
             <div class="col-lg-4 mr-auto">
-                <img class="img-fluid mb-5 d-block mx-auto" src="/images/joinus.svg" alt="Join us icon">
+                <img class="img-fluid mb-5 d-block mx-auto" src="/images/bell.png" alt="Subscribe: Bell icon">
             </div>
         </div>
       </div>
