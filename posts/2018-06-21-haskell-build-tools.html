@@ -50,17 +50,50 @@
 
           <!-- Header -->
       <nav class="navbar navbar-inverse navbar-fixed-left leftmenu bg-primary text-secondary">
-            <div class="navbar-header">
-                <div class="postslogo"> <a class="navbar-brand" href="../"><img class="img-fluid" src="../images/logo-tr.png" alt="Kowainik"></a></div>
+            <div class="navbar-header text-center">
+                <div class="postslogo justify-content-center"> <a href="../"><img class="img-fluid" src="../images/logo-tr.png" alt="Kowainik"></a></div>
+                <div class="coffee text-center">
+                    <a class="btn btn-primary rounded-pill" href="https://ko-fi.com/kowainik" target="_blank">
+                        <i class="fas fa-coffee"></i> Buy a coffee
+                    </a>
+                </div>
+                <ul class="socials empty-list list-inline mb-0 justify-content-center text-center mx-auto">
+                
+                <li class="list-inline-item my-auto">
+                    <a class="btn btn-outline-dark btn-social text-center rounded-circle" href="https://twitter.com/kowainik" target="_blank">
+                        <i class="fab fa-fw fa-twitter"></i>
+                    </a>
+                </li>
+                
+                <li class="list-inline-item my-auto">
+                    <a class="btn btn-outline-dark btn-social text-center rounded-circle" href="https://github.com/kowainik" target="_blank">
+                        <i class="fab fa-fw fa-github"></i>
+                    </a>
+                </li>
+                
+                <li class="list-inline-item my-auto">
+                    <a class="btn btn-outline-dark btn-social text-center rounded-circle" href="https://www.linkedin.com/company/kowainik" target="_blank">
+                        <i class="fab fa-fw fa-linkedin"></i>
+                    </a>
+                </li>
+                
+                <li class="list-inline-item my-auto">
+                    <a class="btn btn-outline-dark btn-social text-center rounded-circle" href="https://t.me/kowainik" target="_blank">
+                        <i class="fab fa-fw fa-telegram"></i>
+                    </a>
+                </li>
+                
+                <li class="list-inline-item my-auto">
+                    <a class="btn btn-outline-dark btn-social text-center rounded-circle" href="../rss.xml" target="_blank">
+                        <i class="fas fa-fw fa-rss"></i>
+                    </a>
+                </li>
+                
+                </ul>
 
             </div>
-            <div class="align-self-center">
-                <a class="btn btn-primary rounded-pill" href="https://ko-fi.com/kowainik" target="_blank">
-                    <i class="fas fa-coffee"></i> Buy a coffee
-                </a>
-            </div>
 
-            <div class="toc-zone">
+            <div class="toc-zone justify-content-center">
                 <h6 class="coolFont">Contents</h6>
                 <div class="toc" id="main">
                     <ul>
@@ -99,12 +132,18 @@
 </ul>
                 </div>
             </div>
-            <div class="coolFont">
-                <div>Date: June 21, 2018</div>
-                
+            <div class="allposts text-center">
+                <h3><a href="../posts"> Posts =<< </a></h3>
+            </div>
+      </nav>
+      <div class="container info">
+          <h2 class="text-center text-uppercase text-secondary">Haskell: Build Tools</h2>
+          <div class="row coolFont align-self-center justify-content-center">
+            <div class="col-10">Date: June 21, 2018</div>
+            
 
-                <div class="author">Author: Dmitrii Kovanikov</div>
-                <div class="row tag-block">
+            <div class="author col-10">Author: Dmitrii Kovanikov</div>
+            <div class="col-12 text-center m-auto tag-block">
                 
                 <span class="tag-block"> <a class="btn btn-outline-dark btn-tag" href="../tags/haskell">haskell</a></span>
                 
@@ -116,17 +155,11 @@
                 
                 <span class="tag-block"> <a class="btn btn-outline-dark btn-tag" href="../tags/tutorial">tutorial</a></span>
                 
-                </div>
-
-                <div class="allposts">
-                    <h3><a href="../posts"> Posts =<< </a></h3>
-                </div>
             </div>
-      </nav>
-      <div class="container info">
-          <h2 class="text-center text-uppercase text-secondary">Haskell: Build Tools</h2>
+          </div>
+
           <div class="content">
-          <div class="row post">
+            <div class="row post">
               <div class="col-12 post-body">
               <p class="lead">
                   <p>This blog post describes the two main ways of managing and building Haskell projects: using the <code>cabal</code> and <code>stack</code> build tools. The blog post doesn’t try to replace documentation for any of the building tools, nor does it try to cover all possible ways to build a Haskell project. Rather, it tries to give beginners step by step instructions on how to create and build a simple project. The goal is to reduce the confusion, especially for those who have just started working with Haskell. While documentation is good to gain a deep understanding, sometimes you just need things to be done straight away.</p>
@@ -424,9 +457,130 @@ stack-example/
 </ul>
               </p>
               </div>
-          </div>
+            </div>
+
           </div>
       </div>
+<footer class="footer text-center">
+  <div class="row">
+    <div class="col-12 post-body">
+      <hr class="star-light">
+    </div>
+  </div>
+  <div class="row justify-content-center align-items-center">
+      <div class="col-md-4 mb-5 mb-lg-0">
+          <h4 class="text-uppercase mb-4">Support our work</h4>
+      </div>
+      <div class="col-md-4 mb-5 mb-lg-0">
+          <h4 class="text-uppercase mb-4">Subscribe</h4>
+      </div>
+      <div class="col-md-4 mb-5 mb-lg-0">
+          <h4 class="text-uppercase mb-4">Follow us</h4>
+      </div>
+  </div>
+  <div class="row justify-content-center align-items-center">
+      <div class="col-md-4 mb-5 mb-lg-0">
+          <p class="px-5">If you like what we do, you can help us do more of that by supporting on Ko-Fi or GitHub:</p>
+      </div>
+      <div class="col-md-4 mb-5 mb-lg-0">
+          <p class="px-5">Enjoyed this post? Consider subscribing to our newsletter to always be first to check out our new updates:</p>
+      </div>
+      <div class="col-md-4 mb-5 mb-lg-0">
+          <p class="px-5">We also share our work elsewhere. You can find us also at:</p>
+      </div>
+  </div>
+
+  <div class="row justify-content-center align-items-center">
+      <div class="col-md-4 mb-5 mb-lg-0">
+          <ul class="empty-list list-inline mb-0 mx-auto">
+              <li class="list-inline-item my-auto">
+                  <a class="btn btn-outline-primary btn-sm rounded-pill" href="https://ko-fi.com/kowainik" target="_blank">
+                      <i class="fas fa-coffee"></i> Buy a coffee
+                  </a>
+
+              </li>
+              <li class="list-inline-item my-auto">
+                  <a class="btn btn-outline-primary btn-sm rounded-pill" href="https://github.com/sponsors/vrom911" target="_blank">
+                      <i class="fab fa-github"></i> @vrom911
+                  </a>
+              </li>
+              <li class="list-inline-item my-auto">
+                  <a class="btn btn-outline-primary btn-sm rounded-pill" href="https://github.com/sponsors/chshersh" target="_blank">
+                      <i class="fab fa-github"></i> @chshersh
+                  </a>
+              </li>
+          </ul>
+      </div>
+
+      <div class="col-md-4 mb-5 mb-lg-0">
+        <!-- Begin Mailchimp Signup Form -->
+          <div class="row justify-content-center" id="mc_embed_signup">
+  <form action="https://news.us2.list-manage.com/subscribe/post?u=af5d0411175f11e83618abf5e&amp;id=b04a7ed805" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+    <div class="form-row mx-0" id="mc_embed_signup_scroll">
+      <div class="col-8 input-group ">
+        <div class="input-group-prepend">
+          <div class="input-group-text"><i class="fa fa-envelope"></i> </div>
+        </div>
+        <input type="email" value name="EMAIL" class="required email form-control" placeholder="Your email" id="mce-EMAIL">
+      </div>
+      <div class="col-4 text-left">
+        <input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button btn btn-primary btn-lg">
+      </div>
+      <div class="mc-field-group group-checkbox input-group">
+        <ul>
+          <li><input type="checkbox" value="1" name="group[83780][1]" class="form-check-input" id="mce-group[83780]-83780-0"></li>
+          <li><input type="checkbox" value="2" name="group[83780][2]" class="form-check-input" id="mce-group[83780]-83780-1" checked></li>
+        </ul>
+      </div>
+      <div id="mce-responses" class="clear">
+        <div class="response" id="mce-error-response" style="display:none"></div>
+        <div class="response" id="mce-success-response" style="display:none"></div>
+      </div>
+      <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
+      <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_af5d0411175f11e83618abf5e_b04a7ed805" tabindex="-1" value></div>
+    </div>
+  </form>
+</div>
+
+    <!--End mc_embed_signup-->
+    </div>
+    <div class="col-md-4 mb-5 mb-lg-0">
+        <ul class="empty-list list-inline mb-0 mx-auto">
+            
+            <li class="list-inline-item my-auto">
+                <a class="btn btn-outline-light btn-social text-center rounded-circle" href="https://twitter.com/kowainik" target="_blank">
+                    <i class="fab fa-fw fa-twitter"></i>
+                </a>
+            </li>
+            
+            <li class="list-inline-item my-auto">
+                <a class="btn btn-outline-light btn-social text-center rounded-circle" href="https://github.com/kowainik" target="_blank">
+                    <i class="fab fa-fw fa-github"></i>
+                </a>
+            </li>
+            
+            <li class="list-inline-item my-auto">
+                <a class="btn btn-outline-light btn-social text-center rounded-circle" href="https://www.linkedin.com/company/kowainik" target="_blank">
+                    <i class="fab fa-fw fa-linkedin"></i>
+                </a>
+            </li>
+            
+            <li class="list-inline-item my-auto">
+                <a class="btn btn-outline-light btn-social text-center rounded-circle" href="https://t.me/kowainik" target="_blank">
+                    <i class="fab fa-fw fa-telegram"></i>
+                </a>
+            </li>
+            
+            <li class="list-inline-item my-auto">
+                <a class="btn btn-outline-light btn-social text-center rounded-circle" href="../rss.xml" target="_blank">
+                    <i class="fas fa-fw fa-rss"></i>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+  </div>
+</footer>
 
 
       <!-- Bootstrap core JavaScript -->
