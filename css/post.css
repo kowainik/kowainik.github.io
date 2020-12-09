@@ -283,3 +283,11 @@ h1:hover a.anchor,h2:hover a.anchor,h3:hover a.anchor{display:inline;color:#6432
     border-image: url(/images/haddock/fish.png) 0 0 100% repeat;
 }
 .footer {padding-top: 1rem; padding-bottom: 1rem;}
+
+@media (min-width:768px) {
+.stretch {height: 100% !important; position: relative !important; align-items:stretch;}
+.footer-h {position: absolute; top: 0; left:50%;transform: translateX(-50%);}
+.footer-txt {position: absolute; top: 30%;}
+.footer-links {width:100%; position: absolute; bottom: 0; left:50%;transform: translateX(-50%);}
+.footer .subscribe-form{width: 100%;}
+}
