@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+      <!-- Global site tag (gtag.js) - Google Analytics -->
+      <script async src="https://www.googletagmanager.com/gtag/js?id=UA-125893749-1"></script>
+      <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+
+          gtag('config', 'UA-125893749-1');
+          </script>
+    <title>Foo to Bar: Naming Conventions in Haskell :: Kowainik</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Kowainik — A comprehensive guide for various naming conventions for types, variables and functions in Haskell">
+    <meta name="keywords" content="Haskell, Functional progarmming, FP , haskell, documentation, guide ">
+    <meta name="author" content="Kowainik  — Veronika Romashkina <> Dmitrii Kovanikov " />
+
+    <!-- Twitter cards -->
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="@kowainik" />
+    <meta property="twitter:title" content="Kowainik - Foo to Bar: Naming Conventions in Haskell" />
+    <meta name="twitter:description" content="A comprehensive guide for various naming conventions for types, variables and functions in Haskell" />
+    <meta name="twitter:image:src" content="https://kowainik.github.io/images/logo-yellow.png" />
+    <meta property="og:title" content="Kowainik - Foo to Bar: Naming Conventions in Haskell" />
+    <meta property="og:description" content="A comprehensive guide for various naming conventions for types, variables and functions in Haskell" />
+    <meta property="og:site_name" content="Kowainik" />
+    <meta property="og:image" content="https://kowainik.github.io/images/logo-yellow.png" />
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon">
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.11.0/styles/dracula.min.css" />
+    <!-- Fontawesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+    <!-- Custom fonts for this template -->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Lato" />
+    <!-- Custom styles for this template -->
+    <link href="../css/default.css" rel="stylesheet">
+    <link href="../css/post.css" rel="stylesheet">
+  </head>
+
+  <body class="body-posts">
+
+          <!-- Header -->
+      <nav class="navbar navbar-inverse navbar-fixed-left leftmenu bg-primary text-secondary">
+            <div class="navbar-header text-center">
+                <div class="postslogo justify-content-center"> <a href="../"><img class="img-fluid" src="../images/logo-tr.png" alt="Kowainik"></a></div>
+                <div class="coffee text-center">
+                    <a class="btn btn-primary rounded-pill" href="https://ko-fi.com/kowainik" target="_blank">
+                        <i class="fas fa-coffee"></i> Buy a coffee
+                    </a>
+                </div>
+                <ul class="socials empty-list list-inline mb-0 justify-content-center text-center mx-auto">
+                
+                <li class="list-inline-item my-auto">
+                    <a class="btn btn-outline-dark btn-social text-center rounded-circle" href="https://twitter.com/kowainik" target="_blank">
+                        <i class="fab fa-fw fa-twitter"></i>
+                    </a>
+                </li>
+                
+                <li class="list-inline-item my-auto">
+                    <a class="btn btn-outline-dark btn-social text-center rounded-circle" href="https://github.com/kowainik" target="_blank">
+                        <i class="fab fa-fw fa-github"></i>
+                    </a>
+                </li>
+                
+                <li class="list-inline-item my-auto">
+                    <a class="btn btn-outline-dark btn-social text-center rounded-circle" href="https://www.linkedin.com/company/kowainik" target="_blank">
+                        <i class="fab fa-fw fa-linkedin"></i>
+                    </a>
+                </li>
+                
+                <li class="list-inline-item my-auto">
+                    <a class="btn btn-outline-dark btn-social text-center rounded-circle" href="https://t.me/kowainik" target="_blank">
+                        <i class="fab fa-fw fa-telegram"></i>
+                    </a>
+                </li>
+                
+                <li class="list-inline-item my-auto">
+                    <a class="btn btn-outline-dark btn-social text-center rounded-circle" href="../rss.xml" target="_blank">
+                        <i class="fas fa-fw fa-rss"></i>
+                    </a>
+                </li>
+                
+                </ul>
+
+            </div>
+
+            <div class="toc-zone justify-content-center">
+                <h6 class="coolFont">Contents</h6>
+                <div class="toc" id="main">
+                    <ul>
+<li><a href="#checked">Checked</a></li>
+<li><a href="#type-variables">Type variables</a></li>
+<li><a href="#function-variables">Function variables</a></li>
+<li><a href="#suffixes">Suffixes</a>
+<ul>
+<li><a href="#apostrophe">Apostrophe ’</a></li>
+<li><a href="#typeclasses">Typeclasses</a>
+<ul>
+<li><a href="#f">F</a></li>
+<li><a href="#a">A</a></li>
+<li><a href="#m">M</a></li>
+</ul></li>
+<li><a href="#underscore-_">Underscore _</a></li>
+<li><a href="#number">Number</a></li>
+<li><a href="#lr">L/R</a></li>
+<li><a href="#byon">By/On</a></li>
+<li><a href="#p">P</a></li>
+</ul></li>
+<li><a href="#prefixes">Prefixes</a>
+<ul>
+<li><a href="#newtypes">newtypes</a></li>
+<li><a href="#ungetrun">un/get/run</a></li>
+<li><a href="#records">records</a></li>
+<li><a href="#pretty">pretty</a></li>
+<li><a href="#when">when</a></li>
+<li><a href="#is">is</a></li>
+<li><a href="#m-1">m</a></li>
+<li><a href="#generic">generic</a></li>
+<li><a href="#mk">mk</a></li>
+</ul></li>
+<li><a href="#operator-conventions">Operator conventions</a></li>
+<li><a href="#others">Others</a></li>
+<li><a href="#possible-ecosystem-improvements">Possible ecosystem improvements</a>
+<ul>
+<li><a href="#challenge-time">Challenge time!</a></li>
+</ul></li>
+<li><a href="#conclusion">Conclusion</a></li>
+</ul>
+                </div>
+            </div>
+            <div class="allposts text-center">
+                <h3><a href="../posts"> Posts =<< </a></h3>
+            </div>
+      </nav>
+      <div class="container info">
+          <h2 class="text-center text-uppercase text-secondary">Foo to Bar: Naming Conventions in Haskell</h2>
+          <div class="row coolFont align-self-center justify-content-center">
+            <div class="col-10">Date: December 13, 2020</div>
+            
+
+            <div class="author col-10">Author: Veronika Romashkina <> Dmitrii Kovanikov</div>
+            <div class="col-12 text-center m-auto tag-block">
+                
+                <span class="tag-block"> <a class="btn btn-outline-dark btn-tag" href="../tags/haskell">haskell</a></span>
+                
+                <span class="tag-block"> <a class="btn btn-outline-dark btn-tag" href="../tags/documentation">documentation</a></span>
+                
+                <span class="tag-block"> <a class="btn btn-outline-dark btn-tag" href="../tags/guide">guide</a></span>
+                
+            </div>
+          </div>
+
+          <div class="content">
+            <div class="row post">
+              <div class="col-12 post-body">
+              <p class="lead">
+                  <p>Developers spend most of their time reading code, understanding it and exploring other ways to use existing solutions. Frankly, in our profession, there is very little time on actually writing new libraries and creating new interfaces in real-life development. So it is quite important to have some help in the most common activities. <strong>Naming conventions</strong> is one such thing that improves readability and eases the usage cost if agreed upon and spread worldwide.</p>
+<p>Some languages have their own special naming conventions that make sense. Haskell is among them. There are a bunch of naming patterns that are commonly used everywhere in the ecosystem (including the standard libraries) that may help you to recognise the function’s meaning without looking at its documentation and even its type! This ability is especially relevant because naming is one of the hardest development problems, so having some help and no-brainer rules to guide in this area improves everyone’s life.</p>
+<p>In this post, we will explore common naming conventions in Haskell together. It is going to be useful for both creators (library and API developers) and consumers (library users), as it establishes norms accepted in the libraries’ APIs.</p>
+<blockquote>
+<p>🦋 If you are interested in other conventions and best practices on how to write Haskell code, you can take a look at our <a href="https://kowainik.github.io/posts/2019-02-06-style-guide">style guide</a>.</p>
+</blockquote>
+<h2 id="checked">Checked<a href="#checked" class="anchor">🔗</a></h2>
+<p>Let’s start with the conventional and straightforward norms established in Haskell’s specifications and standards. Names in Haskell must satisfy the following simple rules:</p>
+<ul>
+<li><strong>Types and typeclasses</strong> must start with an <em>uppercase</em> letter</li>
+<li><strong>Functions and variables</strong> must start with a <em>lowercase</em> letter</li>
+<li><strong>Top-level operator functions</strong> must start with any allowed symbol except for <code>:</code></li>
+<li><strong>Constructors as operators</strong> must start with <code>:</code></li>
+</ul>
+<p>These rules are in the specifications and therefore checked by the compiler. So if you try to break the naming rules, you will get errors during the compilation.</p>
+<p>Additionally, functions follow the <strong>lowerCamelCase</strong> style and types follow the <strong>UpperCamelCase</strong> style. This is the de facto standard of writing code in Haskell, but using distinct styles doesn’t lead to a compiler error. Moreover, there are some testing libraries that use <em>snake_case </em>to discover tests automatically. However, you can restrict that with the Haskell tooling, e.g. HLint can check this for you.</p>
+<hr>
+<p>There are various details in the names that will give you hints on what the function does. We will walk through them to learn to recognise them all.</p>
+<h2 id="type-variables">Type variables<a href="#type-variables" class="anchor">🔗</a></h2>
+<p>Let’s start our excursions with the type variables that are most commonly used in type signatures and definitions. Some variables represent particular meaning: it could be a typeclass-related convention or just a convenient shorter usage. But in any way, this information is useful to know while reading and writing types:</p>
+<div class="table row">
+<div class="col-3">
+<p><code>a</code>, <code>b</code>, <code>c</code>, …</p>
+</div>
+<div class="col-9">
+<p>Ordinary type variables with no particular meaning</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true"></a><span class="fu">map</span><span class="ot"> ::</span> (a <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> [a] <span class="ot">-&gt;</span> [b]</span></code></pre></div>
+</div>
+<div class="col-3">
+<p><code>f</code></p>
+</div>
+<div class="col-9">
+<p><code>Functor</code> or <code>Applicative</code></p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true"></a><span class="fu">fmap</span><span class="ot"> ::</span> <span class="dt">Functor</span> f <span class="ot">=&gt;</span> (a <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> f a <span class="ot">-&gt;</span> f b</span></code></pre></div>
+</div>
+<div class="col-3">
+<p><code>m</code></p>
+</div>
+<div class="col-9">
+<p><code>Monad</code> or <code>Semigroup</code>/<code>Monoid</code></p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true"></a><span class="ot">(&gt;&gt;=) ::</span> <span class="dt">Monad</span> m <span class="ot">=&gt;</span> m a <span class="ot">-&gt;</span> (a <span class="ot">-&gt;</span> m b) <span class="ot">-&gt;</span> m b</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true"></a><span class="ot">(&lt;&gt;) ::</span> <span class="dt">Semigroup</span> m <span class="ot">=&gt;</span> m <span class="ot">-&gt;</span> m <span class="ot">-&gt;</span> m</span></code></pre></div>
+</div>
+<div class="col-3">
+<p><code>e</code></p>
+</div>
+<div class="col-9">
+<p>Types representing errors</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true"></a><span class="ot">failures ::</span> [<span class="dt">Validation</span> e a] <span class="ot">-&gt;</span> [e]</span></code></pre></div>
+</div>
+<div class="col-3">
+<p><code>t</code></p>
+</div>
+<div class="col-9">
+<p><code>Foldable</code> or <code>Traversable</code></p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true"></a><span class="fu">concat</span><span class="ot"> ::</span> <span class="dt">Foldable</span> t <span class="ot">=&gt;</span> t [a] <span class="ot">-&gt;</span> [a]</span></code></pre></div>
+<p>or types of kind <code>Type</code> (previously <code>*</code>)</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true"></a><span class="kw">newtype</span> <span class="dt">Size</span> (<span class="ot">t ::</span> <span class="dt">Type</span>) <span class="ot">=</span> <span class="dt">Size</span> <span class="dt">Int</span></span></code></pre></div>
+</div>
+<div class="col-3">
+<p><code>k</code></p>
+</div>
+<div class="col-9">
+<p>Kind</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true"></a><span class="kw">type</span> <span class="kw">family</span> (<span class="op">++</span>) (<span class="ot">xs ::</span> [k]) (<span class="ot">ys ::</span> [k])<span class="ot"> ::</span> [k]</span></code></pre></div>
+</div>
+</div>
+<h2 id="function-variables">Function variables<a href="#function-variables" class="anchor">🔗</a></h2>
+<p>The way we name arguments and variables in functions is also not accidental. They contain hints that make reading these variables used in function bodies easier. Variables in functions use the following established commonly used names:</p>
+<div class="table row">
+<div class="col-3">
+<p><code>l</code></p>
+</div>
+<div class="col-9">
+<p>Lists variable</p>
+</div>
+<div class="col-3">
+<p><code>(x:xs)</code> or <code>(y:ys)</code></p>
+</div>
+<div class="col-9">
+<p>Patterns for lists where <code>x</code> means a single x and <code>xs</code> means <em>many <code>x</code>s</em></p>
+<p>Also used together with the previous one with as-patterns:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true"></a>foo l<span class="op">@</span>(x<span class="op">:</span>xs) <span class="ot">=</span> <span class="op">...</span></span></code></pre></div>
+</div>
+<div class="col-3">
+<p><code>f</code>, <code>g</code>, <code>h</code></p>
+</div>
+<div class="col-9">
+<p>Function arguments</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true"></a><span class="fu">map</span> f (x<span class="op">:</span>xs) <span class="ot">=</span> f x <span class="op">:</span> <span class="fu">map</span> f xs</span></code></pre></div>
+</div>
+<div class="col-3">
+<p><code>p</code></p>
+</div>
+<div class="col-9">
+<p>Functions which are predicates (e.g. of type <code>Int -&gt; Bool</code>)</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true"></a><span class="ot">bar ::</span> (<span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Bool</span>) <span class="ot">-&gt;</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Maybe</span> <span class="dt">Int</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true"></a>bar p i <span class="ot">=</span> <span class="op">...</span></span></code></pre></div>
+</div>
+<div class="col-3">
+<p><code>n</code>, <code>i</code>, <code>j</code>, <code>k</code></p>
+</div>
+<div class="col-9">
+<p>Miscellaneous counters</p>
+</div>
+<div class="col-3">
+<p><code>len</code></p>
+</div>
+<div class="col-9">
+<p>Container size</p>
+</div>
+<div class="col-3">
+<p><code>go</code></p>
+</div>
+<div class="col-9">
+<p>Helper recursive function. Read more about the <a href="https://kowainik.github.io/posts/haskell-mini-patterns#recursive-go">Recursive go pattern</a>.</p>
+</div>
+</div>
+<h2 id="suffixes">Suffixes<a href="#suffixes" class="anchor">🔗</a></h2>
+<p>Suffix in a Haskell function can contain a lot of information about its purpose. Sometimes you would see multiple different suffixes simultaneously that combine the characteristics of each piece, so it is helpful to pay attention to that.</p>
+<h4 id="apostrophe">Apostrophe ’<a href="#apostrophe" class="anchor">🔗</a></h4>
+<p>The <code>'</code> symbol is used in the functions, for which there is a corresponding function without the apostrophe, e.g. <code>foo</code> and <code>foo'</code>.</p>
+<p>The apostrophe at the end means that it’s a <strong>strict</strong> version of a similar function. Both functions must have the same type, but different implementations underneath. The only difference in their behaviour is that the one with the <code>'</code> symbol evaluates intermediate results more eagerly.</p>
+<p>Example:</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true"></a><span class="fu">foldMap</span><span class="ot">  ::</span> (<span class="dt">Foldable</span> t, <span class="dt">Monoid</span> m) <span class="ot">=&gt;</span> (a <span class="ot">-&gt;</span> m) <span class="ot">-&gt;</span> t a <span class="ot">-&gt;</span> m</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true"></a><span class="ot">foldMap' ::</span> (<span class="dt">Foldable</span> t, <span class="dt">Monoid</span> m) <span class="ot">=&gt;</span> (a <span class="ot">-&gt;</span> m) <span class="ot">-&gt;</span> t a <span class="ot">-&gt;</span> m</span></code></pre></div>
+<p>As you can see, both functions have the same type. But <code>foldMap'</code> is more efficient and helps to avoid space leaks when monoidal operation <code>&lt;&gt;</code> is strict in both arguments.</p>
+<h3 id="typeclasses">Typeclasses<a href="#typeclasses" class="anchor">🔗</a></h3>
+<p>There is a group of symbols that is used to indicate that the function returns the value in some context. This suffix – an uppercase letter or word – tells us the typeclass this context should represent.</p>
+<p>Meet the <code>FAM</code>ily 👩‍👩‍👦‍👦</p>
+<h4 id="f">F<a href="#f" class="anchor">🔗</a></h4>
+<p>The suffix <code>F</code> suggests that it works with <code>Functor</code>s in some way.</p>
+<p>Such functions can have an alternative without the suffix <code>F</code>.</p>
+<p>Example from the <a href="https://hackage.haskell.org/package/containers">containers</a> library:</p>
+<div class="row no-gutters">
+<div class="col-6">
+<div class="sourceCode" id="cb12"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true"></a>alter</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true"></a><span class="ot">    ::</span> <span class="dt">Ord</span> k</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true"></a>    <span class="ot">=&gt;</span> (<span class="dt">Maybe</span> a <span class="ot">-&gt;</span> <span class="dt">Maybe</span> a)</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true"></a>    <span class="ot">-&gt;</span> k</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true"></a>    <span class="ot">-&gt;</span> <span class="dt">Map</span> k a</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true"></a>    <span class="ot">-&gt;</span> <span class="dt">Map</span> k a</span></code></pre></div>
+</div>
+<div class="col-6">
+<div class="sourceCode" id="cb13"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true"></a>alterF</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true"></a><span class="ot">    ::</span> (<span class="dt">Functor</span> f, <span class="dt">Ord</span> k)</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true"></a>    <span class="ot">=&gt;</span> (<span class="dt">Maybe</span> a <span class="ot">-&gt;</span> f (<span class="dt">Maybe</span> a))</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true"></a>    <span class="ot">-&gt;</span> k</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true"></a>    <span class="ot">-&gt;</span> <span class="dt">Map</span> k a</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true"></a>    <span class="ot">-&gt;</span> f (<span class="dt">Map</span> k a)</span></code></pre></div>
+</div>
+</div>
+<p>However, sometimes the suffix <code>F</code> has an alternative meaning. <code>F</code> frequently used as a suffix in formatting libraries to indicate that a function is a <em>formatter</em> or a <em>pretty-printer</em>.</p>
+<p>Example from the <a href="https://hackage.haskell.org/package/fmt">fmt</a> library:</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true"></a><span class="ot">timeF ::</span> <span class="dt">FormatTime</span> a <span class="ot">=&gt;</span> <span class="dt">Text</span> <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> <span class="dt">BuilderSource</span></span></code></pre></div>
+<p>You can see how the same naming can have different meanings. What’s important is that the library establishes its naming convention explicitly and uses it consistently.</p>
+<h4 id="a">A<a href="#a" class="anchor">🔗</a></h4>
+<p>The suffix <code>A</code> means that the function works with some general <code>Applicative</code> type (the type that has the <code>Applicative</code> instance).</p>
+<p>Examples:</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true"></a><span class="fu">sequenceA</span><span class="ot"> ::</span> (<span class="dt">Traversable</span> t, <span class="dt">Applicative</span> f) <span class="ot">=&gt;</span> t (f a) <span class="ot">-&gt;</span> f (t a)</span></code></pre></div>
+<h4 id="m">M<a href="#m" class="anchor">🔗</a></h4>
+<p>The suffix <code>M</code> is among the most common ones. It usually means that the function works with the <code>Monad</code>s or in the monadic context.</p>
+<p>Similarly to the previous suffixes, functions <em>with</em> <code>M</code> have their counterparts <em>without</em> <code>M</code>:</p>
+<div class="row no-gutters">
+<div class="col-6">
+<div class="sourceCode" id="cb16"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true"></a><span class="fu">filter</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true"></a></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true"></a><span class="ot">    ::</span> (a <span class="ot">-&gt;</span> <span class="dt">Bool</span>)</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true"></a>    <span class="ot">-&gt;</span> [a]</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true"></a>    <span class="ot">-&gt;</span> [a]</span></code></pre></div>
+</div>
+<div class="col-6">
+<div class="sourceCode" id="cb17"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true"></a>filterM</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true"></a><span class="ot">    ::</span> <span class="dt">Applicative</span> m</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true"></a>    <span class="ot">=&gt;</span> (a <span class="ot">-&gt;</span> m <span class="dt">Bool</span>)</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true"></a>    <span class="ot">-&gt;</span> [a]</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true"></a>    <span class="ot">-&gt;</span> m [a]</span></code></pre></div>
+</div>
+</div>
+<blockquote>
+<p>Note: Historically, the standard Haskell library <code>base</code> didn’t have <code>Applicative</code> functors, and there weren’t the superclass of Monads. But now the suffix <code>M</code> is also sometimes used with Applicative functions.</p>
+</blockquote>
+<h3 id="underscore-_">Underscore _<a href="#underscore-_" class="anchor">🔗</a></h3>
+<p>Underscore, as a suffix of functions, also has a special meaning. It gives us a clue that the function works exactly as the one without <code>_</code> but discards the result (returns <code>()</code> instead).</p>
+<p>Examples:</p>
+<div class="row no-gutters">
+<div class="col-6">
+<div class="sourceCode" id="cb18"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true"></a>concurrently</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true"></a><span class="ot">    ::</span> <span class="dt">IO</span> a</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true"></a>    <span class="ot">-&gt;</span> <span class="dt">IO</span> b</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true"></a>    <span class="ot">-&gt;</span> <span class="dt">IO</span> (a, b)</span></code></pre></div>
+</div>
+<div class="col-6">
+<div class="sourceCode" id="cb19"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true"></a>concurrently_</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true"></a><span class="ot">    ::</span> <span class="dt">IO</span> a</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true"></a>    <span class="ot">-&gt;</span> <span class="dt">IO</span> b</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true"></a>    <span class="ot">-&gt;</span> <span class="dt">IO</span> ()</span></code></pre></div>
+</div>
+</div>
+<h3 id="number">Number<a href="#number" class="anchor">🔗</a></h3>
+<p>You can often see the series of functions with the numbers at the end of their names. These groups have the same initial part but differ with the number. Numbers there represent the <strong>number of arguments</strong> each function takes.</p>
+<blockquote>
+<p>🔢 The number 1 is not used usually in that meaning as it’s redundant.</p>
+</blockquote>
+<div class="row no-gutters">
+<div class="col-4">
+<div class="sourceCode" id="cb20"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true"></a><span class="ot">liftA  ::</span> <span class="dt">Applicative</span> f</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true"></a>    <span class="ot">=&gt;</span> (a <span class="ot">-&gt;</span> b)</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true"></a>    <span class="co">--  ^ 1</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true"></a>    <span class="ot">-&gt;</span> f a <span class="ot">-&gt;</span> f b</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true"></a>    <span class="co">--  ^ 1</span></span></code></pre></div>
+</div>
+<div class="col-4">
+<div class="sourceCode" id="cb21"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true"></a><span class="ot">liftA2 ::</span> <span class="dt">Applicative</span> f</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true"></a>    <span class="ot">=&gt;</span> (a <span class="ot">-&gt;</span> b <span class="ot">-&gt;</span> c)</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true"></a>    <span class="co">--  ^ 1  ^ 2</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true"></a>    <span class="ot">-&gt;</span> f a <span class="ot">-&gt;</span> f b <span class="ot">-&gt;</span> f c</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true"></a>    <span class="co">--  ^ 1    ^ 2</span></span></code></pre></div>
+</div>
+<div class="col-4">
+<div class="sourceCode" id="cb22"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true"></a><span class="ot">liftA3 ::</span> <span class="dt">Applicative</span> f</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true"></a>    <span class="ot">=&gt;</span> (a <span class="ot">-&gt;</span> b <span class="ot">-&gt;</span> c <span class="ot">-&gt;</span> d)</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true"></a>    <span class="co">--  ^ 1  ^ 2  ^ 3</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true"></a>    <span class="ot">-&gt;</span> f a <span class="ot">-&gt;</span> f b <span class="ot">-&gt;</span> f c <span class="ot">-&gt;</span> f d</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true"></a>    <span class="co">--  ^ 1    ^ 2    ^ 3</span></span></code></pre></div>
+</div>
+</div>
+<blockquote>
+<p>👀 Have you noticed the suffix <code>A</code> here? :)</p>
+</blockquote>
+<div class="row no-gutters">
+<div class="col-4">
+<div class="sourceCode" id="cb23"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true"></a><span class="fu">zipWith</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true"></a><span class="ot">    ::</span> (a <span class="ot">-&gt;</span> b <span class="ot">-&gt;</span> c)</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true"></a>    <span class="ot">-&gt;</span> [a] <span class="ot">-&gt;</span> [b] <span class="ot">-&gt;</span> [c]</span></code></pre></div>
+</div>
+<div class="col-4">
+<div class="sourceCode" id="cb24"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true"></a><span class="fu">zipWith3</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true"></a><span class="ot">    ::</span> (a <span class="ot">-&gt;</span> b <span class="ot">-&gt;</span> c <span class="ot">-&gt;</span> d)</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true"></a>    <span class="ot">-&gt;</span> [a] <span class="ot">-&gt;</span> [b] <span class="ot">-&gt;</span> [c] <span class="ot">-&gt;</span> [d]</span></code></pre></div>
+</div>
+<div class="col-4">
+<div class="sourceCode" id="cb25"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true"></a>zipWith4</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true"></a><span class="ot">    ::</span> (a <span class="ot">-&gt;</span> b <span class="ot">-&gt;</span> c <span class="ot">-&gt;</span> d <span class="ot">-&gt;</span> e)</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true"></a>    <span class="ot">-&gt;</span> [a] <span class="ot">-&gt;</span> [b] <span class="ot">-&gt;</span> [c] <span class="ot">-&gt;</span> [d] <span class="ot">-&gt;</span> [e]</span></code></pre></div>
+</div>
+</div>
+<p>Number 1 has a special meaning of requiring at least one argument to be present in a container:</p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true"></a><span class="fu">foldr</span><span class="ot">  ::</span> <span class="dt">Foldable</span> t <span class="ot">=&gt;</span> (a <span class="ot">-&gt;</span> b <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> b <span class="ot">-&gt;</span> t a <span class="ot">-&gt;</span> b</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true"></a><span class="fu">foldr1</span><span class="ot"> ::</span> <span class="dt">Foldable</span> t <span class="ot">=&gt;</span> (a <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> a) <span class="ot">-&gt;</span> t a <span class="ot">-&gt;</span> a</span></code></pre></div>
+<p>Though, the fact that it works with <code>Foldable</code> is not ideal. There is <a href="https://gitlab.haskell.org/ghc/ghc/-/issues/13573">a proposal</a> to implement a typeclass called <code>Foldable</code> (or <code>Semifoldable</code>) for non-empty types.</p>
+<h3 id="lr">L/R<a href="#lr" class="anchor">🔗</a></h3>
+<p>The suffixes <code>L</code> and <code>R</code> (sometimes <code>l</code> and <code>r</code>) represent the direction of function application or order of traversing a data structure.</p>
+<blockquote>
+<p>ℹ️ Most of the time, these sibling functions have the same type, but in some functions, certain arguments are reversed for convenience.</p>
+</blockquote>
+<p>Examples:</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true"></a><span class="fu">foldr</span><span class="ot"> ::</span> <span class="dt">Foldable</span> t <span class="ot">=&gt;</span> (a <span class="ot">-&gt;</span> b <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> b <span class="ot">-&gt;</span> t a <span class="ot">-&gt;</span> b</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true"></a><span class="fu">foldl</span><span class="ot"> ::</span> <span class="dt">Foldable</span> t <span class="ot">=&gt;</span> (b <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> b <span class="ot">-&gt;</span> t a <span class="ot">-&gt;</span> b</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true"></a></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true"></a><span class="fu">scanr</span><span class="ot"> ::</span> (a <span class="ot">-&gt;</span> b <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> b <span class="ot">-&gt;</span> [a] <span class="ot">-&gt;</span> [b]</span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true"></a><span class="fu">scanl</span><span class="ot"> ::</span> (b <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> b <span class="ot">-&gt;</span> [a] <span class="ot">-&gt;</span> [b]</span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true"></a></span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true"></a><span class="ot">mapAccumR ::</span> <span class="dt">Traversable</span> t <span class="ot">=&gt;</span> (a <span class="ot">-&gt;</span> b <span class="ot">-&gt;</span> (a, c)) <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> t b <span class="ot">-&gt;</span> (a, t c)</span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true"></a><span class="ot">mapAccumL ::</span> <span class="dt">Traversable</span> t <span class="ot">=&gt;</span> (a <span class="ot">-&gt;</span> b <span class="ot">-&gt;</span> (a, c)) <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> t b <span class="ot">-&gt;</span> (a, t c)</span></code></pre></div>
+<h3 id="byon">By/On<a href="#byon" class="anchor">🔗</a></h3>
+<p>Some of the overloaded functions that work with <code>Foldable</code>s or lists have a non-overloaded sibling with the suffix <code>By</code>.</p>
+<p>It is often convenient to use these functions together with <code>on</code>, for instance:</p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true"></a>sortBy (<span class="fu">compare</span> <span class="ot">`on`</span> <span class="fu">fst</span>)</span></code></pre></div>
+<p>This <code>on</code> pattern is so widely used, so functions also have the suffix <code>On</code>.</p>
+<p>Compare these three types:</p>
+<div class="row no-gutters">
+<div class="col-4">
+<div class="sourceCode" id="cb29"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true"></a><span class="fu">sort</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true"></a><span class="ot">    ::</span> <span class="dt">Ord</span> a</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true"></a></span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true"></a>    <span class="ot">=&gt;</span> [a]</span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true"></a>    <span class="ot">-&gt;</span> [a]</span></code></pre></div>
+</div>
+<div class="col-4">
+<div class="sourceCode" id="cb30"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true"></a>sortBy</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true"></a></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true"></a><span class="ot">    ::</span> (a <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> <span class="dt">Ordering</span>)</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true"></a>    <span class="ot">-&gt;</span> [a]</span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true"></a>    <span class="ot">-&gt;</span> [a]</span></code></pre></div>
+</div>
+<div class="col-4">
+<div class="sourceCode" id="cb31"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true"></a>sortOn</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true"></a><span class="ot">    ::</span> <span class="dt">Ord</span> b</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true"></a>    <span class="ot">=&gt;</span> (a <span class="ot">-&gt;</span> b)</span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true"></a>    <span class="ot">-&gt;</span> [a]</span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true"></a>    <span class="ot">-&gt;</span> [a]</span></code></pre></div>
+</div>
+</div>
+<h3 id="p">P<a href="#p" class="anchor">🔗</a></h3>
+<p>In some libraries or applications’ code, the suffix <code>P</code> shows that the function is a parser of some type, e.g. when using the <a href="https://hackage.haskell.org/package/optparse-applicative">optparse-applicative</a> library. The usage of this naming convention can look like this:</p>
+<div class="sourceCode" id="cb32"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true"></a><span class="kw">data</span> <span class="dt">Config</span> <span class="ot">=</span> <span class="dt">Config</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true"></a>    {<span class="ot"> configPort ::</span> <span class="dt">Port</span></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true"></a>    ,<span class="ot"> configPath ::</span> <span class="dt">FilePath</span></span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true"></a>    }</span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true"></a></span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true"></a><span class="ot">portP ::</span> <span class="dt">Parser</span> <span class="dt">Port</span></span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true"></a><span class="ot">pathP ::</span> <span class="dt">Parser</span> <span class="dt">FilePath</span></span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true"></a></span>
+<span id="cb32-9"><a href="#cb32-9" aria-hidden="true"></a><span class="ot">configP ::</span> <span class="dt">Parser</span> <span class="dt">Config</span></span>
+<span id="cb32-10"><a href="#cb32-10" aria-hidden="true"></a>configP <span class="ot">=</span> <span class="kw">do</span></span>
+<span id="cb32-11"><a href="#cb32-11" aria-hidden="true"></a>    configPort <span class="ot">&lt;-</span> portP</span>
+<span id="cb32-12"><a href="#cb32-12" aria-hidden="true"></a>    configPath <span class="ot">&lt;-</span> pathP</span>
+<span id="cb32-13"><a href="#cb32-13" aria-hidden="true"></a>    <span class="fu">pure</span> <span class="dt">Config</span>{<span class="op">..</span>}</span></code></pre></div>
+<h2 id="prefixes">Prefixes<a href="#prefixes" class="anchor">🔗</a></h2>
+<p>Now we are going to focus on function prefixes and their meaning. Similar to suffixes, there are some established patterns that are often used by developers.</p>
+<h4 id="newtypes">newtypes<a href="#newtypes" class="anchor">🔗</a></h4>
+<p>Newtypes in Haskell is a widespread pattern. It is a wrapper around some type. Thus, it is important to mention this relation to the type or the fact that it’s a newtype in the name.</p>
+<h4 id="ungetrun">un/get/run<a href="#ungetrun" class="anchor">🔗</a></h4>
+<p>Newtypes can have a name for their only field. One of the most common naming conventions is to name this field as the type name prefixed with <code>un</code> (short for <em>unwrap</em>):</p>
+<div class="sourceCode" id="cb33"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true"></a><span class="kw">newtype</span> <span class="dt">Size</span> <span class="ot">=</span> <span class="dt">Size</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true"></a>    {<span class="ot"> unSize ::</span> <span class="dt">Int</span></span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true"></a>    }</span></code></pre></div>
+<div class="exercise">
+<p>When <code>un</code> is followed by small letter, it usually means the inverse of the same function (short for <em>undo</em>):</p>
+<div class="sourceCode" id="cb34"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true"></a><span class="fu">foldr</span><span class="ot"> ::</span> <span class="dt">Foldable</span> t <span class="ot">=&gt;</span> (a <span class="ot">-&gt;</span> b <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> b <span class="ot">-&gt;</span> t a <span class="ot">-&gt;</span> b</span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true"></a><span class="ot">unfoldr ::</span> (b <span class="ot">-&gt;</span> <span class="dt">Maybe</span> (a, b)) <span class="ot">-&gt;</span> b <span class="ot">-&gt;</span> [a]</span></code></pre></div>
+</div>
+<p>In the standard library <code>base</code>, you can find a lot of <code>Monoid</code>al newtypes that use the prefix <code>get</code> for the same purposes:</p>
+<div class="sourceCode" id="cb35"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true"></a><span class="kw">newtype</span> <span class="dt">Max</span> a <span class="ot">=</span> <span class="dt">Max</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true"></a>    {<span class="ot"> getMax ::</span> a</span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true"></a>    }</span></code></pre></div>
+<p>However, if the newtype is some wrapper for a Monad, the prefix <code>run</code> is utilised instead:</p>
+<div class="sourceCode" id="cb36"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true"></a><span class="kw">newtype</span> <span class="dt">StateT</span> s m a <span class="ot">=</span> <span class="dt">StateT</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true"></a>    {<span class="ot"> runState ::</span> s <span class="ot">-&gt;</span> m (a, s)</span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true"></a>    }</span></code></pre></div>
+<h4 id="records">records<a href="#records" class="anchor">🔗</a></h4>
+<p>Fields in record data types have several well-known naming conventions widely used in the Haskell ecosystem and probably often equally.</p>
+<p>One popular naming rule is to prefix each field with the <strong>full type name</strong> to avoid name conflicts with other records:</p>
+<div class="sourceCode" id="cb37"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true"></a><span class="kw">data</span> <span class="dt">User</span> <span class="ot">=</span> <span class="dt">User</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true"></a>    {<span class="ot"> userId   ::</span> <span class="dt">Int</span></span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true"></a>    ,<span class="ot"> userName ::</span> <span class="dt">Text</span></span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true"></a>    }</span></code></pre></div>
+<p>Sometimes, the <strong>abbreviation</strong> is used as a prefix when the full name of the type is too long:</p>
+<div class="sourceCode" id="cb38"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true"></a><span class="kw">data</span> <span class="dt">HealthReading</span> <span class="ot">=</span> <span class="dt">HealthReading</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true"></a>    {<span class="ot"> hrDate        ::</span> <span class="dt">UTCTime</span></span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true"></a>    ,<span class="ot"> hrMeasurement ::</span> <span class="dt">Double</span></span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true"></a>    }</span></code></pre></div>
+<h4 id="pretty">pretty<a href="#pretty" class="anchor">🔗</a></h4>
+<p>The prefix <code>pretty</code> is used for <em>pure</em> functions that display values in a prettier human-readable way, unlike <code>show</code>, which is supposed to be parsed by Haskell.</p>
+<div class="sourceCode" id="cb39"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true"></a><span class="kw">data</span> <span class="dt">GhcVersion</span></span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true"></a>    <span class="ot">=</span> <span class="dt">Ghc884</span></span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true"></a>    <span class="op">|</span> <span class="dt">Ghc8102</span></span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true"></a>    <span class="kw">deriving</span> stock (<span class="dt">Show</span>)</span>
+<span id="cb39-5"><a href="#cb39-5" aria-hidden="true"></a></span>
+<span id="cb39-6"><a href="#cb39-6" aria-hidden="true"></a><span class="ot">prettyGhcVersion ::</span> <span class="dt">GhcVersion</span> <span class="ot">-&gt;</span> <span class="dt">Text</span></span>
+<span id="cb39-7"><a href="#cb39-7" aria-hidden="true"></a>prettyGhcVersion <span class="ot">=</span> \<span class="kw">case</span></span>
+<span id="cb39-8"><a href="#cb39-8" aria-hidden="true"></a>    <span class="dt">Ghc884</span>  <span class="ot">-&gt;</span> <span class="st">&quot;GHC 8.8.4&quot;</span></span>
+<span id="cb39-9"><a href="#cb39-9" aria-hidden="true"></a>    <span class="dt">Ghc8102</span> <span class="ot">-&gt;</span> <span class="st">&quot;GHC 8.10.2&quot;</span></span></code></pre></div>
+<h4 id="when">when<a href="#when" class="anchor">🔗</a></h4>
+<p>The <code>when*</code> family of functions usually do some actions when the criterion is met. Usually, the first argument is the criterion followed by the action that needs to be run. Such functions typically discard the result of either and return <code>pure ()</code>.</p>
+<p>This convention is originated from the <code>when</code> function in base:</p>
+<div class="sourceCode" id="cb40"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true"></a><span class="ot">when ::</span> <span class="dt">Applicative</span> f <span class="ot">=&gt;</span> <span class="dt">Bool</span> <span class="ot">-&gt;</span> f () <span class="ot">-&gt;</span> f ()</span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true"></a></span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true"></a><span class="co">-- variations</span></span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true"></a><span class="ot">whenM        ::</span> <span class="dt">Monad</span> m       <span class="ot">=&gt;</span> m <span class="dt">Bool</span>      <span class="ot">-&gt;</span> m ()        <span class="ot">-&gt;</span> m ()</span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true"></a><span class="ot">whenJust     ::</span> <span class="dt">Applicative</span> m <span class="ot">=&gt;</span> <span class="dt">Maybe</span> a     <span class="ot">-&gt;</span> (a <span class="ot">-&gt;</span> m ()) <span class="ot">-&gt;</span> m ()</span>
+<span id="cb40-6"><a href="#cb40-6" aria-hidden="true"></a><span class="ot">whenNothingM ::</span> <span class="dt">Monad</span> m       <span class="ot">=&gt;</span> m (<span class="dt">Maybe</span> a) <span class="ot">-&gt;</span> m a         <span class="ot">-&gt;</span> m a</span>
+<span id="cb40-7"><a href="#cb40-7" aria-hidden="true"></a><span class="ot">whenLeft_    ::</span> <span class="dt">Applicative</span> f <span class="ot">=&gt;</span> <span class="dt">Either</span> l r  <span class="ot">-&gt;</span> (l <span class="ot">-&gt;</span> f ()) <span class="ot">-&gt;</span> f ()</span></code></pre></div>
+<blockquote>
+<p>🔗 See how multiple naming conventions are used together?</p>
+</blockquote>
+<p>Similarly, there’s the prefix <code>unless</code> that has the inverse meaning for the check: <code>when (not p) ≡ unless p</code>.</p>
+<h4 id="is">is<a href="#is" class="anchor">🔗</a></h4>
+<p>Prefix <code>is</code> is used for predicates that check some property and return <code>Bool</code>. The property could also be a check on the constructor for sum types or some more specific check:</p>
+<div class="sourceCode" id="cb41"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true"></a><span class="ot">isNothing ::</span> <span class="dt">Maybe</span> a <span class="ot">-&gt;</span> <span class="dt">Bool</span></span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true"></a><span class="ot">isLeft ::</span> <span class="dt">Either</span> a b <span class="ot">-&gt;</span> <span class="dt">Bool</span></span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true"></a><span class="ot">isEven ::</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Bool</span></span></code></pre></div>
+<h4 id="m-1">m<a href="#m-1" class="anchor">🔗</a></h4>
+<p>We have already seen the suffix <code>M</code>. However, <code>m</code> is also often used as a prefix. When you see <code>m</code> in this position, it could have two different meanings described below.</p>
+<p>When followed by a <strong>lowercase</strong> letter, it usually means that the function works with some monadic type (similar to the suffix meaning).</p>
+<div class="sourceCode" id="cb42"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true"></a><span class="fu">filter</span><span class="ot">  ::</span>                (a <span class="ot">-&gt;</span> <span class="dt">Bool</span>) <span class="ot">-&gt;</span> [a] <span class="ot">-&gt;</span> [a]</span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true"></a><span class="ot">mfilter ::</span> <span class="dt">MonadPlus</span> m <span class="ot">=&gt;</span> (a <span class="ot">-&gt;</span> <span class="dt">Bool</span>) <span class="ot">-&gt;</span> m a <span class="ot">-&gt;</span> m a</span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true"></a></span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true"></a><span class="fu">zip</span><span class="ot">  ::</span>               [a] <span class="ot">-&gt;</span> [b] <span class="ot">-&gt;</span> [(a, b)]</span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true"></a><span class="ot">mzip ::</span> <span class="dt">MonadZip</span> m <span class="ot">=&gt;</span> m a <span class="ot">-&gt;</span> m b <span class="ot">-&gt;</span> m (a, b)</span></code></pre></div>
+<p>But when followed by an <strong>uppercase</strong> letter, it usually means that this is a <code>Maybe</code> version of a value. This naming convention is generally used with local variables.</p>
+<div class="sourceCode" id="cb43"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true"></a><span class="ot">printPath ::</span> <span class="dt">Maybe</span> <span class="dt">FilePath</span> <span class="ot">-&gt;</span> <span class="dt">IO</span> ()</span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true"></a>printPath mPath <span class="ot">=</span> <span class="kw">case</span> mPath <span class="kw">of</span></span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true"></a>    <span class="dt">Nothing</span> <span class="ot">-&gt;</span> <span class="fu">putStrLn</span> <span class="st">&quot;No path given&quot;</span></span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true"></a>    <span class="dt">Just</span> path <span class="ot">-&gt;</span> <span class="fu">putStrLn</span> <span class="op">$</span> <span class="st">&quot;Path is: &quot;</span> <span class="op">++</span> path</span></code></pre></div>
+<h4 id="generic">generic<a href="#generic" class="anchor">🔗</a></h4>
+<p>The standard library uses the <a href="https://hackage.haskell.org/package/base-4.14.0.0/docs/Data-List.html#g:26">suffix <code>generic</code></a> to provide functions that return polymorphic values or work with more polymorphic arguments. They are usually much slower, as a consequence, but in some cases, they are the best option.</p>
+<div class="row no-gutters">
+<div class="col-6">
+<div class="sourceCode" id="cb44"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true"></a><span class="fu">take</span></span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true"></a></span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true"></a><span class="ot">    ::</span> <span class="dt">Int</span></span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true"></a>    <span class="ot">-&gt;</span> [a]</span>
+<span id="cb44-5"><a href="#cb44-5" aria-hidden="true"></a>    <span class="ot">-&gt;</span> [a]</span></code></pre></div>
+</div>
+<div class="col-6">
+<div class="sourceCode" id="cb45"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true"></a>genericTake</span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true"></a><span class="ot">    ::</span> <span class="dt">Integral</span> i</span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true"></a>    <span class="ot">=&gt;</span> i</span>
+<span id="cb45-4"><a href="#cb45-4" aria-hidden="true"></a>    <span class="ot">-&gt;</span> [a]</span>
+<span id="cb45-5"><a href="#cb45-5" aria-hidden="true"></a>    <span class="ot">-&gt;</span> [a]</span></code></pre></div>
+</div>
+</div>
+<h4 id="mk">mk<a href="#mk" class="anchor">🔗</a></h4>
+<p>Smart constructors are usually named with the prefix <code>mk</code>, followed by the type name:</p>
+<div class="sourceCode" id="cb46"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true"></a><span class="kw">newtype</span> <span class="dt">Positive</span> <span class="ot">=</span> <span class="dt">Positive</span> <span class="dt">Int</span></span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true"></a></span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true"></a><span class="ot">mkPositive ::</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Maybe</span> <span class="dt">Positive</span></span></code></pre></div>
+<p>Sometimes, ordinary constructors also start with the prefix <code>Mk</code>:</p>
+<div class="sourceCode" id="cb47"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true"></a><span class="kw">newtype</span> <span class="dt">Size</span> <span class="ot">=</span> <span class="dt">MkSize</span> <span class="dt">Int</span></span></code></pre></div>
+<h2 id="operator-conventions">Operator conventions<a href="#operator-conventions" class="anchor">🔗</a></h2>
+<p>Haskell allows defining custom operators, and as regular functions, they also have a few of their own naming conventions.</p>
+<hr>
+<p>Arrows around some already existing operator usually mean that it is a <em>lifted</em> version of it in some sense:</p>
+<div class="row no-gutters">
+<div class="col-6">
+<div class="sourceCode" id="cb48"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true"></a>(<span class="op">$</span>)</span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true"></a></span>
+<span id="cb48-3"><a href="#cb48-3" aria-hidden="true"></a><span class="ot">    ::</span> (a <span class="ot">-&gt;</span> b)</span>
+<span id="cb48-4"><a href="#cb48-4" aria-hidden="true"></a>    <span class="ot">-&gt;</span> a</span>
+<span id="cb48-5"><a href="#cb48-5" aria-hidden="true"></a>    <span class="ot">-&gt;</span> b</span></code></pre></div>
+</div>
+<div class="col-6">
+<div class="sourceCode" id="cb49"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true"></a>(<span class="op">&lt;$&gt;</span>)</span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true"></a><span class="ot">    ::</span> <span class="dt">Functor</span> f</span>
+<span id="cb49-3"><a href="#cb49-3" aria-hidden="true"></a>    <span class="ot">=&gt;</span> (a <span class="ot">-&gt;</span> b)</span>
+<span id="cb49-4"><a href="#cb49-4" aria-hidden="true"></a>    <span class="ot">-&gt;</span> f a</span>
+<span id="cb49-5"><a href="#cb49-5" aria-hidden="true"></a>    <span class="ot">-&gt;</span> f b</span></code></pre></div>
+</div>
+</div>
+<p>The number of <code>&lt;&gt;</code> layers can mean the number of applications of the same concept.</p>
+<div class="row no-gutters">
+<div class="col-6">
+<div class="sourceCode" id="cb50"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true"></a>(<span class="op">&lt;$&gt;</span>)</span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true"></a><span class="ot">    ::</span> <span class="dt">Functor</span> f</span>
+<span id="cb50-3"><a href="#cb50-3" aria-hidden="true"></a>    <span class="ot">=&gt;</span> (a <span class="ot">-&gt;</span> b)</span>
+<span id="cb50-4"><a href="#cb50-4" aria-hidden="true"></a>    <span class="ot">-&gt;</span> f a</span>
+<span id="cb50-5"><a href="#cb50-5" aria-hidden="true"></a>    <span class="ot">-&gt;</span> f b</span></code></pre></div>
+</div>
+<div class="col-6">
+<div class="sourceCode" id="cb51"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true"></a>(<span class="op">&lt;&lt;$&gt;&gt;</span>)</span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true"></a><span class="ot">    ::</span> (<span class="dt">Functor</span> f, <span class="dt">Functor</span> g)</span>
+<span id="cb51-3"><a href="#cb51-3" aria-hidden="true"></a>    <span class="ot">=&gt;</span> (a <span class="ot">-&gt;</span> b)</span>
+<span id="cb51-4"><a href="#cb51-4" aria-hidden="true"></a>    <span class="ot">-&gt;</span> f (g a)</span>
+<span id="cb51-5"><a href="#cb51-5" aria-hidden="true"></a>    <span class="ot">-&gt;</span> f (g b)</span></code></pre></div>
+</div>
+</div>
+<p>In the same spirit, arrows can mean the direction of function application:</p>
+<div class="sourceCode" id="cb52"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true"></a><span class="ot">(&lt;$) ::</span> <span class="dt">Functor</span> f <span class="ot">=&gt;</span> a <span class="ot">-&gt;</span> f b <span class="ot">-&gt;</span> f a</span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true"></a><span class="ot">($&gt;) ::</span> <span class="dt">Functor</span> f <span class="ot">=&gt;</span> f a <span class="ot">-&gt;</span> b <span class="ot">-&gt;</span> f b</span></code></pre></div>
+<hr>
+<p>Some operators have <code>!</code> in them, which means they are stricter versions of their analogues:</p>
+<div class="sourceCode" id="cb53"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true"></a><span class="ot">($)  ::</span> (a <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> b</span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true"></a><span class="ot">($!) ::</span> (a <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> b</span>
+<span id="cb53-3"><a href="#cb53-3" aria-hidden="true"></a></span>
+<span id="cb53-4"><a href="#cb53-4" aria-hidden="true"></a><span class="ot">(&lt;$&gt;)  ::</span> <span class="dt">Functor</span> f <span class="ot">=&gt;</span> (a <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> f a <span class="ot">-&gt;</span> f b</span>
+<span id="cb53-5"><a href="#cb53-5" aria-hidden="true"></a><span class="ot">(&lt;$!&gt;) ::</span> <span class="dt">Monad</span>   m <span class="ot">=&gt;</span> (a <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> m a <span class="ot">-&gt;</span> m b</span></code></pre></div>
+<h2 id="others">Others<a href="#others" class="anchor">🔗</a></h2>
+<p>Haskell also introduces several additional naming conventions.</p>
+<p>A function that handles each constructor by returning a value or applying some action to its argument is called an <strong>eliminator</strong>. It has the same name as the type and starts with a lower letter.</p>
+<p>Examples:</p>
+<div class="row no-gutters">
+<div class="col-6">
+<p><strong>Data type</strong></p>
+</div>
+<div class="col-6">
+<p><strong>Eliminator</strong></p>
+</div>
+<div class="col-6">
+<div class="sourceCode" id="cb54"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true"></a><span class="kw">data</span> <span class="dt">Bool</span></span>
+<span id="cb54-2"><a href="#cb54-2" aria-hidden="true"></a>    <span class="ot">=</span> <span class="dt">False</span></span>
+<span id="cb54-3"><a href="#cb54-3" aria-hidden="true"></a>    <span class="op">|</span> <span class="dt">True</span></span>
+<span id="cb54-4"><a href="#cb54-4" aria-hidden="true"></a> </span>
+<span id="cb54-5"><a href="#cb54-5" aria-hidden="true"></a> </span></code></pre></div>
+</div>
+<div class="col-6">
+<div class="sourceCode" id="cb55"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true"></a>bool</span>
+<span id="cb55-2"><a href="#cb55-2" aria-hidden="true"></a><span class="ot">    ::</span> a  <span class="co">-- ^ Handle 'False'</span></span>
+<span id="cb55-3"><a href="#cb55-3" aria-hidden="true"></a>    <span class="ot">-&gt;</span> a  <span class="co">-- ^ Handle 'True'</span></span>
+<span id="cb55-4"><a href="#cb55-4" aria-hidden="true"></a>    <span class="ot">-&gt;</span> <span class="dt">Bool</span></span>
+<span id="cb55-5"><a href="#cb55-5" aria-hidden="true"></a>    <span class="ot">-&gt;</span> a</span></code></pre></div>
+</div>
+<div class="col-6">
+<div class="sourceCode" id="cb56"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true"></a><span class="kw">data</span> <span class="dt">Maybe</span> a</span>
+<span id="cb56-2"><a href="#cb56-2" aria-hidden="true"></a>    <span class="ot">=</span> <span class="dt">Nothing</span></span>
+<span id="cb56-3"><a href="#cb56-3" aria-hidden="true"></a>    <span class="op">|</span> <span class="dt">Just</span> a</span>
+<span id="cb56-4"><a href="#cb56-4" aria-hidden="true"></a> </span>
+<span id="cb56-5"><a href="#cb56-5" aria-hidden="true"></a> </span></code></pre></div>
+</div>
+<div class="col-6">
+<div class="sourceCode" id="cb57"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true"></a><span class="fu">maybe</span></span>
+<span id="cb57-2"><a href="#cb57-2" aria-hidden="true"></a><span class="ot">    ::</span> b  <span class="co">-- ^ Handle'Nothing'</span></span>
+<span id="cb57-3"><a href="#cb57-3" aria-hidden="true"></a>    <span class="ot">-&gt;</span> (a <span class="ot">-&gt;</span> b)  <span class="co">-- ^ Handle'Just'</span></span>
+<span id="cb57-4"><a href="#cb57-4" aria-hidden="true"></a>    <span class="ot">-&gt;</span> <span class="dt">Maybe</span> a</span>
+<span id="cb57-5"><a href="#cb57-5" aria-hidden="true"></a>    <span class="ot">-&gt;</span> b</span></code></pre></div>
+</div>
+<div class="col-6">
+<div class="sourceCode" id="cb58"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true"></a><span class="kw">data</span> <span class="dt">Either</span> a b</span>
+<span id="cb58-2"><a href="#cb58-2" aria-hidden="true"></a>    <span class="ot">=</span> <span class="dt">Left</span> a</span>
+<span id="cb58-3"><a href="#cb58-3" aria-hidden="true"></a>    <span class="op">|</span> <span class="dt">Right</span> b</span>
+<span id="cb58-4"><a href="#cb58-4" aria-hidden="true"></a> </span>
+<span id="cb58-5"><a href="#cb58-5" aria-hidden="true"></a> </span></code></pre></div>
+</div>
+<div class="col-6">
+<div class="sourceCode" id="cb59"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true"></a><span class="fu">either</span></span>
+<span id="cb59-2"><a href="#cb59-2" aria-hidden="true"></a><span class="ot">    ::</span> (a <span class="ot">-&gt;</span> c)  <span class="co">-- ^ Handle'Left'</span></span>
+<span id="cb59-3"><a href="#cb59-3" aria-hidden="true"></a>    <span class="ot">-&gt;</span> (b <span class="ot">-&gt;</span> c)  <span class="co">-- ^ Handle 'Right'</span></span>
+<span id="cb59-4"><a href="#cb59-4" aria-hidden="true"></a>    <span class="ot">-&gt;</span> <span class="dt">Either</span> a b</span>
+<span id="cb59-5"><a href="#cb59-5" aria-hidden="true"></a>    <span class="ot">-&gt;</span> c</span></code></pre></div>
+</div>
+<div class="col-6">
+<div class="sourceCode" id="cb60"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true"></a><span class="kw">data</span> <span class="dt">Validation</span> e a</span>
+<span id="cb60-2"><a href="#cb60-2" aria-hidden="true"></a>    <span class="ot">=</span> <span class="dt">Failure</span> e</span>
+<span id="cb60-3"><a href="#cb60-3" aria-hidden="true"></a>    <span class="op">|</span> <span class="dt">Success</span> a</span>
+<span id="cb60-4"><a href="#cb60-4" aria-hidden="true"></a> </span>
+<span id="cb60-5"><a href="#cb60-5" aria-hidden="true"></a> </span></code></pre></div>
+</div>
+<div class="col-6">
+<div class="sourceCode" id="cb61"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true"></a>validation</span>
+<span id="cb61-2"><a href="#cb61-2" aria-hidden="true"></a><span class="ot">    ::</span> (e <span class="ot">-&gt;</span> c)  <span class="co">-- ^ Handle 'Failure'</span></span>
+<span id="cb61-3"><a href="#cb61-3" aria-hidden="true"></a>    <span class="ot">-&gt;</span> (a <span class="ot">-&gt;</span> c)  <span class="co">-- ^ Handle 'Success'</span></span>
+<span id="cb61-4"><a href="#cb61-4" aria-hidden="true"></a>    <span class="ot">-&gt;</span> <span class="dt">Validation</span> e a</span>
+<span id="cb61-5"><a href="#cb61-5" aria-hidden="true"></a>    <span class="ot">-&gt;</span> c</span></code></pre></div>
+</div>
+</div>
+<hr>
+<p>When functions or constructors are unsafe, they have the prefix <code>unsafe</code> or <code>Unsafe</code>.</p>
+<div class="sourceCode" id="cb62"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true"></a><span class="ot">unsafePerformIO ::</span> <span class="dt">IO</span> a <span class="ot">-&gt;</span> a</span>
+<span id="cb62-2"><a href="#cb62-2" aria-hidden="true"></a><span class="ot">unsafeFromList ::</span> <span class="dt">Size</span> <span class="ot">-&gt;</span> [a] <span class="ot">-&gt;</span> <span class="dt">Bundle</span> v a</span></code></pre></div>
+<hr>
+<p>Sometimes functions also have the prefix <code>is</code> or suffix <code>Of</code>/<code>From</code> (or both) to make them read more like natural language.</p>
+<p>Examples:</p>
+<div class="sourceCode" id="cb63"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true"></a>streamOf someList</span>
+<span id="cb63-2"><a href="#cb63-2" aria-hidden="true"></a>traverseOf userFollowersL</span>
+<span id="cb63-3"><a href="#cb63-3" aria-hidden="true"></a>copyFileFrom somePath</span>
+<span id="cb63-4"><a href="#cb63-4" aria-hidden="true"></a><span class="st">&quot;foo&quot;</span> <span class="ot">`isPrefixOf`</span> <span class="st">&quot;fooBar&quot;</span></span></code></pre></div>
+<h2 id="possible-ecosystem-improvements">Possible ecosystem improvements<a href="#possible-ecosystem-improvements" class="anchor">🔗</a></h2>
+<p>We highlighted some of the most common and established naming conventions in the Haskell ecosystem. But sometimes different Haskell libraries or particular functions don’t follow common rules, and have inconsistent or non-obvious naming rules within the library itself.</p>
+<p>That means that not every library uses naming conventions, which is unfortunate. It’s very confusing to get used to some rules and common sense, and then realise that they don’t work in some places and your assumptions on how something should work are incorrect. It wastes a bit of our time and also slows down the processes. We, as a community, should work harder on establishing and following the <strong>best practices</strong>, as this is one the most topical struggles for Haskell developers according to the <a href="https://taylor.fausak.me/2020/11/22/haskell-survey-results/#s6q7">2020 State of Haskell survey results</a>.</p>
+<p>Here are several examples of potential areas for improvement:</p>
+<ul>
+<li><p>In packages with container implementations, functions to extract <code>Map</code> keys are called <code>keys</code> but functions to extract values are called <code>elems</code>, not <code>values</code> which would be logically ensuing.</p></li>
+<li><p>Functions for converting a dictionary to a list of key-value pairs in <code>containers</code> is called <code>assocs</code> and in <code>unordered-containers</code> is called <code>toList</code>. At the same time, <code>toList</code> is also a method of <code>Foldable</code> and behaves precisely as <code>elems</code> in both cases.</p></li>
+<li><p>Generally speaking, not having a unified interface for container data structures (maps, sets, sequences, etc.) causes pain from time to time. <a href="https://github.com/kowainik/containers-backpack">containers-backpack</a> is one way to solve this problem, though the ecosystem is not yet ready for the backpack feature (which is 4 years old in Haskell).</p></li>
+<li><p><code>*sql-simple</code> family of libraries have functions where suffix <code>_</code> means “no arguments” instead of “this function discards the result”.</p></li>
+<li><p>People use apostrophe <code>'</code> to define local variables for their updated variables because it is too hard to come up with a new name that will better reflect the meaning of the new var in the scope. E.g. you can often see something like <code>let cur = f x; cur' =   g cur; cur'' = h cur'</code>. This approach makes code hard to follow and often confusing when variables are not close to each other, and your first thought is that some stricter version of a function is used.</p></li>
+<li><p>Haskell has a feature called <a href="https://downloads.haskell.org/ghc/latest/docs/html/users_guide/glasgow_exts.html#typed-holes"><em>typed holes</em></a>. This feature allows using a variable starting with an underscore in expressions, and it lets the compiler help you with the type of the specified expression. However, this conflicts with lens naming rules: <code>_1</code> and <code>_2</code> lenses for tuples and prisms starting with <code>_</code>.</p></li>
+<li><p>Names in the standard library <code>base</code> are also inconsistent in some aspects. There are patterns, which we also described in the post, but some anomalies also exist. For example, newtypes like <code>Max</code> and <code>Const</code> have fields named <code>getMax</code> and <code>getConst</code>, but <code>Identity</code> (also a newtype) has the name <code>runIdentity</code>. This inconsistency can be very puzzling often and requires keeping in mind different naming conventions for values of the similar structures.</p></li>
+<li><p>The <code>m/M</code> letter in various functions doesn’t really explain where the monadic type should go. See for yourselves:</p>
+<div class="sourceCode" id="cb64"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true"></a><span class="ot">filterM ::</span> <span class="dt">Applicative</span> m <span class="ot">=&gt;</span> (a <span class="ot">-&gt;</span> m <span class="dt">Bool</span>) <span class="ot">-&gt;</span> [a] <span class="ot">-&gt;</span> m [a]</span>
+<span id="cb64-2"><a href="#cb64-2" aria-hidden="true"></a><span class="ot">mfilter ::</span> <span class="dt">MonadPlus</span> m <span class="ot">=&gt;</span> (a <span class="ot">-&gt;</span> <span class="dt">Bool</span>) <span class="ot">-&gt;</span> m a <span class="ot">-&gt;</span> m a</span></code></pre></div>
+<p>Both functions satisfy the naming convention we were talking about in a sense. However, there are no logical explanations as to why exactly the first one is working with lists, while the other one is working with general <code>Monad</code>s.</p></li>
+</ul>
+<section id="challenge-time" class="exercise">
+<h3>Challenge time!<a href="#challenge-time" class="anchor">🔗</a></h3>
+<p>What do you think would be the type of a function called <code>mfilterM</code>?</p>
+</section>
+<p>We believe that we all can do better here by embracing standard rules and sharing this knowledge with each other.</p>
+<h2 id="conclusion">Conclusion<a href="#conclusion" class="anchor">🔗</a></h2>
+<p>When coming to programming, one usually doesn’t know anything about the accepted rules and best practices. It takes some time (along with the right people and resources to learn from) to feel “at home”. The same applies when coming to a new language. Naming is one of the essential keys of code readability, usability and understandability. So, sharing this knowledge is as much as important.</p>
+<p>To make a community stronger, its users more confident and working as a team, we all need to follow some common standards in naming. We hope that our observations in this write-up could be the first steps into some more common norms and guidelines.</p>
+              </p>
+              </div>
+            </div>
+
+          </div>
+      </div>
+<footer class="footer text-center">
+  <div class="row">
+    <div class="col-12 post-body">
+      <hr class="star-light">
+    </div>
+  </div>
+  <div class="row justify-content-center flex-row">
+      <div class="col-md-4 mb-5 mb-lg-0">
+          <div class="stretch">
+          <h4 class="text-uppercase mt-0 mb-4 flex-h">Support our work</h4>
+          <p class="px-5 flex-text flex-txt">If you like what we do, you can help us do more of that by supporting on Ko-Fi or GitHub:</p>
+          <ul class="empty-list list-inline mb-0 mx-auto flex-links">
+              <li class="list-inline-item my-auto">
+                  <a class="btn btn-outline-primary btn-sm rounded-pill" href="https://ko-fi.com/kowainik" target="_blank">
+                      <i class="fas fa-coffee"></i> Buy a coffee
+                  </a>
+
+              </li>
+              <li class="list-inline-item my-auto">
+                  <a class="btn btn-outline-primary btn-sm rounded-pill" href="https://github.com/sponsors/vrom911" target="_blank">
+                      <i class="fab fa-github"></i> @vrom911
+                  </a>
+              </li>
+              <li class="list-inline-item my-auto">
+                  <a class="btn btn-outline-primary btn-sm rounded-pill" href="https://github.com/sponsors/chshersh" target="_blank">
+                      <i class="fab fa-github"></i> @chshersh
+                  </a>
+              </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="col-md-4 mb-5 mb-lg-0">
+          <div class="stretch">
+              <h4 class="text-uppercase text-center mb-4 footer-h">Subscribe</h4>
+              <p class="px-5 flex-text footer-txt">Enjoyed this post? Consider subscribing to our newsletter to always be first to check out our new updates:</p>
+        <!-- Begin Mailchimp Signup Form -->
+              <div class="footer-links"> <div class="row justify-content-center subscribe-form" id="mc_embed_signup">
+  <form action="https://news.us2.list-manage.com/subscribe/post?u=af5d0411175f11e83618abf5e&amp;id=b04a7ed805" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+    <div class="form-row mx-0" id="mc_embed_signup_scroll">
+      <div class="col-8 input-group ">
+        <div class="input-group-prepend">
+          <div class="input-group-text"><i class="fa fa-envelope"></i> </div>
+        </div>
+        <input type="email" value name="EMAIL" class="required email form-control" placeholder="Your email" id="mce-EMAIL">
+      </div>
+      <div class="col-4 text-left">
+        <input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button btn btn-primary btn-lg">
+      </div>
+      <div class="mc-field-group group-checkbox input-group">
+        <ul>
+          <li><input type="checkbox" value="1" name="group[83780][1]" class="form-check-input" id="mce-group[83780]-83780-0"></li>
+          <li><input type="checkbox" value="2" name="group[83780][2]" class="form-check-input" id="mce-group[83780]-83780-1" checked></li>
+        </ul>
+      </div>
+      <div id="mce-responses" class="clear">
+        <div class="response" id="mce-error-response" style="display:none"></div>
+        <div class="response" id="mce-success-response" style="display:none"></div>
+      </div>
+      <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
+      <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_af5d0411175f11e83618abf5e_b04a7ed805" tabindex="-1" value></div>
+    </div>
+  </form>
+</div>
+</div>
+    <!--End mc_embed_signup-->
+          </div>
+    </div>
+    <div class="col-md-4 mb-5 mb-lg-0">
+        <div class="stretch">
+        <h4 class="text-uppercase mb-4 footer-h">Follow us</h4>
+        <p class="px-5 footer-txt mt-6">We also share our work elsewhere. You can find us also at:</p>
+        <ul class="empty-list list-inline mb-0 mx-auto text-center footer-links">
+            
+            <li class="list-inline-item my-auto">
+                <a class="btn btn-outline-light btn-social text-center rounded-circle" href="https://twitter.com/kowainik" target="_blank">
+                    <i class="fab fa-fw fa-twitter"></i>
+                </a>
+            </li>
+            
+            <li class="list-inline-item my-auto">
+                <a class="btn btn-outline-light btn-social text-center rounded-circle" href="https://github.com/kowainik" target="_blank">
+                    <i class="fab fa-fw fa-github"></i>
+                </a>
+            </li>
+            
+            <li class="list-inline-item my-auto">
+                <a class="btn btn-outline-light btn-social text-center rounded-circle" href="https://www.linkedin.com/company/kowainik" target="_blank">
+                    <i class="fab fa-fw fa-linkedin"></i>
+                </a>
+            </li>
+            
+            <li class="list-inline-item my-auto">
+                <a class="btn btn-outline-light btn-social text-center rounded-circle" href="https://t.me/kowainik" target="_blank">
+                    <i class="fab fa-fw fa-telegram"></i>
+                </a>
+            </li>
+            
+            <li class="list-inline-item my-auto">
+                <a class="btn btn-outline-light btn-social text-center rounded-circle" href="../rss.xml" target="_blank">
+                    <i class="fas fa-fw fa-rss"></i>
+                </a>
+            </li>
+            
+        </ul>
+        </div>
+    </div>
+  </div>
+</footer>
+
+
+      <!-- Bootstrap core JavaScript -->
+      <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"> </script>
+      <script src="../js/post.js"> </script>
+      <script src="../js/hide.js"> </script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/haskell.min.js"></script>
+      <script>hljs.initHighlightingOnLoad()</script>
+      <script async defer src="https://buttons.github.io/buttons.js"></script>
+  </body>
+</html>

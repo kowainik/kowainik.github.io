@@ -8,8 +8,16 @@
         <name>Kowainik</name>
         <email>xrom.xkov@gmail.com</email>
     </author>
-    <updated>2020-12-07T00:00:00Z</updated>
+    <updated>2020-12-13T00:00:00Z</updated>
     <entry>
+    <title>Foo to Bar: Naming Conventions in Haskell</title>
+    <link href="https://kowainik.github.io/posts/naming-conventions.html" />
+    <id>https://kowainik.github.io/posts/naming-conventions.html</id>
+    <published>2020-12-13T00:00:00Z</published>
+    <updated>2020-12-13T00:00:00Z</updated>
+    <summary type="html"><![CDATA[A comprehensive guide for various naming conventions for types, variables and functions in Haskell]]></summary>
+</entry>
+<entry>
     <title>Haskell Documentation with Haddock: Wishes'n'Tips</title>
     <link href="https://kowainik.github.io/posts/haddock-tips.html" />
     <id>https://kowainik.github.io/posts/haddock-tips.html</id>
@@ -80,14 +88,6 @@
     <published>2019-02-06T00:00:00Z</published>
     <updated>September 22, 2020</updated>
     <summary type="html"><![CDATA[Haskell Style guide used in Kowainik]]></summary>
-</entry>
-<entry>
-    <title>tomland: Bidirectional TOML serialization</title>
-    <link href="https://kowainik.github.io/posts/2019-01-14-tomland.html" />
-    <id>https://kowainik.github.io/posts/2019-01-14-tomland.html</id>
-    <published>2019-01-14T00:00:00Z</published>
-    <updated>2019-01-14T00:00:00Z</updated>
-    <summary type="html"><![CDATA[Architecture of the bidirectional serialization library with usage of profunctors, GADTs and Monad transformers]]></summary>
 </entry>
 
 </feed>
