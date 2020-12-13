@@ -291,3 +291,4 @@ h1:hover a.anchor,h2:hover a.anchor,h3:hover a.anchor{display:inline;color:#6432
 .footer-links {width:100%; position: absolute; bottom: 0; left:50%;transform: translateX(-50%);}
 .footer .subscribe-form{width: 100%;}
 }
+.table [class^="col-"] {border: 1px solid #2C3E50;}
