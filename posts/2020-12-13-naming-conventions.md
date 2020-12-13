@@ -31,7 +31,7 @@ accepted in the libraries' APIs.
 
 > 🦋 If you are interested in other conventions and best practices on
 > how to write Haskell code, you can take a look at our
-> [style > guide](https://kowainik.github.io/posts/2019-02-06-style-guide).
+> [style guide](https://kowainik.github.io/posts/2019-02-06-style-guide).
 
 ## Checked
 
@@ -887,8 +887,8 @@ __Eliminator__
 data Bool
     = False
     | True
-
-
+ 
+ 
 ```
 :::
 
@@ -907,8 +907,8 @@ bool
 data Maybe a
     = Nothing
     | Just a
-
-
+ 
+ 
 ```
 :::
 
@@ -927,8 +927,8 @@ maybe
 data Either a b
     = Left a
     | Right b
-
-
+ 
+ 
 ```
 :::
 
@@ -947,8 +947,8 @@ either
 data Validation e a
     = Failure e
     | Success a
-
-
+ 
+ 
 ```
 :::
 
@@ -1015,7 +1015,7 @@ Here are several examples of potential areas for improvement:
   `Foldable` and behaves precisely as `elems` in both cases.
 * Generally speaking, not having a unified interface for container
   data structures (maps, sets, sequences, etc.) causes pain from time
-  to time. [containers-backpack](@github:kowainik) is one way to solve
+  to time. [containers-backpack](@github(kowainik)) is one way to solve
   this problem, though the ecosystem is not yet ready for the backpack
   feature (which is 4 years old in Haskell).
 * `*sql-simple` family of libraries have functions where suffix `_`
@@ -1042,15 +1042,15 @@ Here are several examples of potential areas for improvement:
   conventions for values of the similar structures.
 * The `m/M` letter in various functions doesn't really explain where the monadic type should go. See for yourselves:
 
-```haskell
-filterM :: Applicative m => (a -> m Bool) -> [a] -> m [a]
-mfilter :: MonadPlus m => (a -> Bool) -> m a -> m a
-```
+  ```haskell
+  filterM :: Applicative m => (a -> m Bool) -> [a] -> m [a]
+  mfilter :: MonadPlus m => (a -> Bool) -> m a -> m a
+  ```
 
-Both functions satisfy the naming convention we were talking about in
-a sense. However, there are no logical explanations as to why exactly
-the first one is working with lists, while the other one is working
-with general `Monad`s.
+  Both functions satisfy the naming convention we were talking about in
+  a sense. However, there are no logical explanations as to why exactly
+  the first one is working with lists, while the other one is working
+  with general `Monad`s.
 
 ::: {.exercise}
 
