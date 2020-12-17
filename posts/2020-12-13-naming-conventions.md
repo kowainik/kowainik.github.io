@@ -738,7 +738,7 @@ printPath mPath = case mPath of
 #### generic
 
 The standard library uses the
-[suffix `generic`](https://hackage.haskell.org/package/base-4.14.0.0/docs/Data-List.html#g:26)
+[prefix `generic`](https://hackage.haskell.org/package/base-4.14.0.0/docs/Data-List.html#g:26)
 to provide functions that return polymorphic values or work with more
 polymorphic arguments. They are usually much slower, as a consequence,
 but in some cases, they are the best option.
