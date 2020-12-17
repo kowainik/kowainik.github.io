@@ -550,7 +550,7 @@
 <span id="cb43-3"><a href="#cb43-3" aria-hidden="true"></a>    <span class="dt">Nothing</span> <span class="ot">-&gt;</span> <span class="fu">putStrLn</span> <span class="st">&quot;No path given&quot;</span></span>
 <span id="cb43-4"><a href="#cb43-4" aria-hidden="true"></a>    <span class="dt">Just</span> path <span class="ot">-&gt;</span> <span class="fu">putStrLn</span> <span class="op">$</span> <span class="st">&quot;Path is: &quot;</span> <span class="op">++</span> path</span></code></pre></div>
 <h4 id="generic">generic<a href="#generic" class="anchor">🔗</a></h4>
-<p>The standard library uses the <a href="https://hackage.haskell.org/package/base-4.14.0.0/docs/Data-List.html#g:26">suffix <code>generic</code></a> to provide functions that return polymorphic values or work with more polymorphic arguments. They are usually much slower, as a consequence, but in some cases, they are the best option.</p>
+<p>The standard library uses the <a href="https://hackage.haskell.org/package/base-4.14.0.0/docs/Data-List.html#g:26">prefix <code>generic</code></a> to provide functions that return polymorphic values or work with more polymorphic arguments. They are usually much slower, as a consequence, but in some cases, they are the best option.</p>
 <div class="row no-gutters">
 <div class="col-6">
 <div class="sourceCode" id="cb44"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true"></a><span class="fu">take</span></span>
