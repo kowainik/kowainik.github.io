@@ -13,15 +13,15 @@ copyright:             2018-2020 Kowainik
 category:              Web
 build-type:            Simple
 extra-doc-files:       README.md
-tested-with:           GHC == 8.8.3
+tested-with:           GHC == 8.10.4
 
 source-repository head
   type:                git
   location:            https://github.com/kowainik/kowainik.github.io.git
 
 common common-options
-  build-depends:       base ^>= 4.13.0.0
-                     , relude ^>= 0.6.0.0
+  build-depends:       base ^>= 4.14.0.0
+                     , relude ^>= 0.7.0.0
 
   mixins:              base hiding (Prelude)
                      , relude (Relude as Prelude)
