@@ -7,8 +7,16 @@
         <description><![CDATA[We are writing about what we find fascinating or exciting. Our blog's aim is to share our knowledge about functional programming, distribute best-practices based on our extensive experience and tell about various topics from beginner-friendly introductions to advanced type-level tricks.]]></description>
         <atom:link href="https://kowainik.github.io/rss.xml" rel="self"
                    type="application/rss+xml" />
-        <lastBuildDate>Sun, 13 Dec 2020 00:00:00 UT</lastBuildDate>
+        <lastBuildDate>Sun, 21 Feb 2021 00:00:00 UT</lastBuildDate>
         <item>
+    <title>Totality</title>
+    <link>https://kowainik.github.io/posts/totality.html</link>
+    <description><![CDATA[A comprehensive guide to the concept of totality in Functional Programming.]]></description>
+    <pubDate>Sun, 21 Feb 2021 00:00:00 UT</pubDate>
+    <guid>https://kowainik.github.io/posts/totality.html</guid>
+    <dc:creator>Kowainik</dc:creator>
+</item>
+<item>
     <title>Foo to Bar: Naming Conventions in Haskell</title>
     <link>https://kowainik.github.io/posts/naming-conventions.html</link>
     <description><![CDATA[A comprehensive guide for various naming conventions for types, variables and functions in Haskell]]></description>
@@ -78,14 +86,6 @@
     <description><![CDATA[Membrain is the Haskell library for type-safe memory units. This blog post provides details of the implementation and mentions type-level tricks.]]></description>
     <pubDate>Tue, 23 Jul 2019 00:00:00 UT</pubDate>
     <guid>https://kowainik.github.io/posts/membrain.html</guid>
-    <dc:creator>Kowainik</dc:creator>
-</item>
-<item>
-    <title>Haskell Style Guide</title>
-    <link>https://kowainik.github.io/posts/2019-02-06-style-guide.html</link>
-    <description><![CDATA[Haskell Style guide used in Kowainik]]></description>
-    <pubDate>Wed, 06 Feb 2019 00:00:00 UT</pubDate>
-    <guid>https://kowainik.github.io/posts/2019-02-06-style-guide.html</guid>
     <dc:creator>Kowainik</dc:creator>
 </item>
 

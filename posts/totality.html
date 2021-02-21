@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+      <!-- Global site tag (gtag.js) - Google Analytics -->
+      <script async src="https://www.googletagmanager.com/gtag/js?id=UA-125893749-1"></script>
+      <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+
+          gtag('config', 'UA-125893749-1');
+          </script>
+    <title>Totality :: Kowainik</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Kowainik — A comprehensive guide to the concept of totality in Functional Programming.">
+    <meta name="keywords" content="Haskell, Functional progarmming, FP , haskell, fp, guide ">
+    <meta name="author" content="Kowainik  — Veronika Romashkina <> Dmitrii Kovanikov " />
+
+    <!-- Twitter cards -->
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="@kowainik" />
+    <meta property="twitter:title" content="Kowainik - Totality" />
+    <meta name="twitter:description" content="A comprehensive guide to the concept of totality in Functional Programming." />
+    <meta name="twitter:image:src" content="https://kowainik.github.io/images/logo-yellow.png" />
+    <meta property="og:title" content="Kowainik - Totality" />
+    <meta property="og:description" content="A comprehensive guide to the concept of totality in Functional Programming." />
+    <meta property="og:site_name" content="Kowainik" />
+    <meta property="og:image" content="https://kowainik.github.io/images/logo-yellow.png" />
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon">
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.11.0/styles/dracula.min.css" />
+    <!-- Fontawesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+    <!-- Custom fonts for this template -->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Lato" />
+    <!-- Custom styles for this template -->
+    <link href="../css/default.css" rel="stylesheet">
+    <link href="../css/post.css" rel="stylesheet">
+  </head>
+
+  <body class="body-posts">
+
+          <!-- Header -->
+      <nav class="navbar navbar-inverse navbar-fixed-left leftmenu bg-primary text-secondary">
+            <div class="navbar-header text-center">
+                <div class="postslogo justify-content-center"> <a href="../"><img class="img-fluid" src="../images/logo-tr.png" alt="Kowainik"></a></div>
+                <div class="coffee text-center">
+                    <a class="btn btn-primary rounded-pill" href="https://ko-fi.com/kowainik" target="_blank">
+                        <i class="fas fa-coffee"></i> Buy a coffee
+                    </a>
+                </div>
+                <ul class="socials empty-list list-inline mb-0 justify-content-center text-center mx-auto">
+                
+                <li class="list-inline-item my-auto">
+                    <a class="btn btn-outline-dark btn-social text-center rounded-circle" href="https://twitter.com/kowainik" target="_blank">
+                        <i class="fab fa-fw fa-twitter"></i>
+                    </a>
+                </li>
+                
+                <li class="list-inline-item my-auto">
+                    <a class="btn btn-outline-dark btn-social text-center rounded-circle" href="https://github.com/kowainik" target="_blank">
+                        <i class="fab fa-fw fa-github"></i>
+                    </a>
+                </li>
+                
+                <li class="list-inline-item my-auto">
+                    <a class="btn btn-outline-dark btn-social text-center rounded-circle" href="https://www.linkedin.com/company/kowainik" target="_blank">
+                        <i class="fab fa-fw fa-linkedin"></i>
+                    </a>
+                </li>
+                
+                <li class="list-inline-item my-auto">
+                    <a class="btn btn-outline-dark btn-social text-center rounded-circle" href="https://t.me/kowainik" target="_blank">
+                        <i class="fab fa-fw fa-telegram"></i>
+                    </a>
+                </li>
+                
+                <li class="list-inline-item my-auto">
+                    <a class="btn btn-outline-dark btn-social text-center rounded-circle" href="../rss.xml" target="_blank">
+                        <i class="fas fa-fw fa-rss"></i>
+                    </a>
+                </li>
+                
+                </ul>
+
+            </div>
+
+            <div class="toc-zone justify-content-center">
+                <h6 class="coolFont">Contents</h6>
+                <div class="toc" id="main">
+                    <ul>
+<li><a href="#definition">Definition</a>
+<ul>
+<li><a href="#is-that-math">Is that math?</a></li>
+<li><a href="#termination">Termination*</a></li>
+</ul></li>
+<li><a href="#not-totally-total">Not totally total</a></li>
+<li><a href="#why-should-we-care">Why should we care?</a></li>
+<li><a href="#partially-correct">Partially correct</a></li>
+<li><a href="#fake-totality">Fake totality</a>
+<ul>
+<li><a href="#wildcards">Wildcards</a></li>
+<li><a href="#promises-we-give">Promises we give</a></li>
+<li><a href="#name-convincing">Name convincing</a></li>
+<li><a href="#trust">Trust</a></li>
+</ul></li>
+<li><a href="#totality-fighters">Totality fighters</a>
+<ul>
+<li><a href="#general">General</a>
+<ul>
+<li><a href="#returning-the-default-value">Returning the default value</a></li>
+<li><a href="#returning-maybeeithervalidation">Returning maybe/either/validation</a></li>
+<li><a href="#restrict-input-types">Restrict input types</a></li>
+<li><a href="#separate-specialised-functions-instead-of-common-typeclasses">Separate specialised functions instead of common typeclasses</a></li>
+</ul></li>
+<li><a href="#haskell-specific">Haskell-specific</a>
+<ul>
+<li><a href="#compiler">Compiler</a></li>
+<li><a href="#static-analyser">Static Analyser</a></li>
+<li><a href="#program-verification-tools">Program Verification Tools</a></li>
+</ul></li>
+<li><a href="#future">Future</a></li>
+</ul></li>
+<li><a href="#so-hard">So hard</a></li>
+<li><a href="#conclusion">Conclusion</a></li>
+<li><a href="#links">Links</a></li>
+<li><a href="#credits">Credits</a></li>
+</ul>
+                </div>
+            </div>
+            <div class="allposts text-center">
+                <h3><a href="../posts"> Posts =<< </a></h3>
+            </div>
+      </nav>
+      <div class="container info">
+          <h2 class="text-center text-uppercase text-secondary">Totality</h2>
+          <div class="row coolFont align-self-center justify-content-center">
+            <div class="col-10">Date: February 21, 2021</div>
+            
+
+            <div class="author col-10">Author: Veronika Romashkina <> Dmitrii Kovanikov</div>
+            <div class="col-12 text-center m-auto tag-block">
+                
+                <span class="tag-block"> <a class="btn btn-outline-dark btn-tag" href="../tags/haskell">haskell</a></span>
+                
+                <span class="tag-block"> <a class="btn btn-outline-dark btn-tag" href="../tags/fp">fp</a></span>
+                
+                <span class="tag-block"> <a class="btn btn-outline-dark btn-tag" href="../tags/guide">guide</a></span>
+                
+            </div>
+          </div>
+
+          <div class="content">
+            <div class="row post">
+              <div class="col-12 post-body">
+              <p class="lead">
+                  <p>Along with the popular Functional Programming (FP) concepts such as purity or immutability, there is a significant one, which couldn’t boast much discussion around it — <strong>totality</strong>. Totality is an exceptionally interesting notion in the FP context. And you probably already use it and are aware of some pitfalls of not having totality in your code, but maybe the terminology doesn’t ring a bell.</p>
+<p>In this blog post, we want to provide a comprehensive guide to the concept of totality in Functional Programming by demystifying its meaning, giving a lot of examples, and recommending how to get tools to help you write maintainable, testable code. You will find this blog post helpful if you are interested in understanding the fundamentals of FP.</p>
+<blockquote>
+<p>Note: we will use Haskell to demonstrate and explain the totality, but the involved concepts apply to any programming language.</p>
+</blockquote>
+<p>Ready?</p>
+<figure>
+<img src="../images/totality/mortal-kompose-start.gif" alt="Press Start" /><figcaption aria-hidden="true">Press Start</figcaption>
+</figure>
+<h2 id="definition">Definition<a href="#definition" class="anchor">🔗</a></h2>
+<p><strong>Functions</strong> are core elements of Functional Programming. Functions are expressions that have a type that could be primitive or more complex. We can say that each function has an input, 0 or more arguments of some type and only one output, returning type. In other words, a function transforms its inputs to the output, and the function definition describes what actual work a function does to produce its result.</p>
+<p>A function is <strong>total</strong> if it is defined for all inputs of its corresponding type, or in other words, if a function returns the output on any possible values of the input types.</p>
+<p>For example, the following function that checks if the given integer is zero is total:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true"></a><span class="ot">isZero ::</span> <span class="dt">Integer</span> <span class="ot">-&gt;</span> <span class="dt">Bool</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true"></a>isZero n <span class="ot">=</span> n <span class="op">==</span> <span class="dv">0</span></span></code></pre></div>
+<p>The above function is defined for any value of type <code>Integer</code>. No matter what it would receive as the argument, it will always return the answer – <code>True</code> or <code>False</code>.</p>
+<p>On the other hand, a function like “integral division” is <strong>partial</strong> (non-total). Though the division works perfectly on most of the inputs, the result of division by zero is not defined; therefore, there is an argument on which the function can’t return a reasonable result (and that’s why you may find the <code>isZero</code> function helpful). Partial functions are not defined on all their inputs and usually blow up when given something they cannot handle.</p>
+<figure>
+<img src="../images/totality/totality-functional.png" alt="Partial Functions" /><figcaption aria-hidden="true">Partial Functions</figcaption>
+</figure>
+<h3 id="is-that-math">Is that math?<a href="#is-that-math" class="anchor">🔗</a></h3>
+<figure>
+<img src="../images/totality/fp-vs-math.png" alt="FP vs Math" /><figcaption aria-hidden="true">FP vs Math</figcaption>
+</figure>
+<p>The definition of totality originated in math. It has a similar formulation to what we provided above and could be understood in the same way.</p>
+<p>Total function is a function defined for all elements in its domain. The domain is the set of x-values that can be put into a function. In other words, it’s the set of all possible values of the independent variable.</p>
+<p>We can notice that the math function domain is the same as the input of our functions.</p>
+<p>The following image is the canonical way to represent math functions, mapping values from domain A to values of range B. If it were a programming function, we would say that it maps type A to type B. Both total and partial way could be illustrated in that manner:</p>
+<figure>
+<img src="../images/totality/totality-math.png" alt="Totality in math" /><figcaption aria-hidden="true">Totality in math</figcaption>
+</figure>
+<p>However, despite all similarities, functions in programming are a bit different because they have a notion of <em>computation</em>.</p>
+<p>Math doesn’t consider how long it takes for a function to calculate or how much memory it needs. Moreover, functions in programming can hang, and it is vital to keep this in mind when you write code.</p>
+<p>Functions in math also don’t have side-effects, e.g. reading from file. But all these concerns are valid in the context of programming.</p>
+<p>To summarise, here is a short list of possible things that functions in programming can do, and math functions cannot:</p>
+<ul>
+<li>Hang (loop indefinitely or takes unreasonable time to compute)</li>
+<li>Throw exceptions</li>
+<li>Terminate before producing a result in case of insufficient memory</li>
+<li>Have side-effects (read from files, send requests to web services, etc.)</li>
+</ul>
+<p>Functional Programming is closer to the original math definition in the sense that its functions are pure – they have no side-effects. This essential FP paradigm allows us to talk about the concept of totality in a programming context, even though programming functions are very different from math functions.</p>
+<h3 id="termination">Termination*<a href="#termination" class="anchor">🔗</a></h3>
+<p><em>advanced section, could be skipped</em></p>
+<p>As we look at totality from the programming point of view, we need to describe a very close concept to totality — <strong>termination</strong>. Termination gives the guarantee that function does produce a result in a finite amount of time. Usually, when people talk about <strong>total functional programming</strong>, they mean programming with <em>total</em> functions that <em>terminate successfully</em>.</p>
+<hr>
+<p>This concept of termination is more relevant to advanced languages called <em>proof-assistants</em> used to write proofs as programming functions. In such languages, successful proof must be a total and terminating function. Proof-assistants are invaluable in the software verification areas.</p>
+<p>However, in real-life software, not all functions must be total. For instance, a Read-Eval-Print-Loop (REPL) or a Web Backend are not supposed to terminate eventually on their own. They should run infinitely and respond to requests in a timely manner.</p>
+<hr>
+<p>The terminology of totality is a bit ambiguous in programming due to the different use-cases. In some places, total functions are required to terminate, while others require only to handle all inputs’ values. We will try to cover the most common definition of totality in this post.</p>
+<p>Note as well that totality is not a straightforward and universally-applicable idea. We will make a few common simplifications in this post regarding totality in modern languages. But bear in mind that there are a lot of specifics that need to be kept in view. There are different methods of making functions total and guaranteeing this property for compiled vs interpreted, for typed vs untyped languages.</p>
+<hr>
+<p>Another aspect — <strong>laziness</strong>; it also affects the work of pure functions in different ways. Infinite functions could be total (with termination notion) due to laziness. For instance, the following recursive function produces an infinite list. And if you’ll try to print the resulting list to the terminal, you will wait indefinitely for this function to finish:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true"></a><span class="ot">multipliedByTwo ::</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> [<span class="dt">Int</span>]</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true"></a>multipliedByTwo x <span class="ot">=</span> x <span class="op">:</span> multipliedByTwo (x <span class="op">*</span> <span class="dv">2</span>)</span></code></pre></div>
+<p>However, due to laziness, you still can take the first five elements of the list and get the result:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true"></a>ghci<span class="op">&gt;</span> <span class="fu">take</span> <span class="dv">5</span> (multipliedByTwo <span class="dv">3</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true"></a>[<span class="dv">3</span>, <span class="dv">6</span>, <span class="dv">12</span>, <span class="dv">24</span>, <span class="dv">48</span>]</span></code></pre></div>
+<hr>
+<p>If being absolutely honest, Haskell is not a total functional programming language by default. It has a special value called <em>“bottom”</em> (⊥) that can be passed to any pure function. When such a value is being evaluated, it throws a runtime error. You can use standard Haskell functions <code>undefined</code> or <code>error</code> at the bottom. It means that even the pure and total function <code>isZero</code> we defined above could fail in runtime if used on bottom elements:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true"></a>ghci<span class="op">&gt;</span> isZero <span class="fu">undefined</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true"></a><span class="op">***</span> <span class="dt">Exception</span><span class="op">:</span> Prelude.undefined</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true"></a><span class="dt">CallStack</span> (from <span class="dt">HasCallStack</span>)<span class="op">:</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true"></a>  <span class="fu">error</span>, called at libraries<span class="op">/</span>base<span class="op">/</span><span class="dt">GHC</span><span class="op">/</span>Err.hs<span class="op">:</span><span class="dv">79</span><span class="op">:</span><span class="dv">14</span> <span class="kw">in</span> base<span class="op">:</span><span class="dt">GHC.Err</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true"></a>  <span class="fu">undefined</span>, called at <span class="op">&lt;</span>interactive<span class="op">&gt;:</span><span class="dv">2</span><span class="op">:</span><span class="dv">8</span> <span class="kw">in</span> interactive<span class="op">:</span><span class="dt">Ghci1</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true"></a></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true"></a>ghci<span class="op">&gt;</span> isZero (<span class="fu">error</span> <span class="st">&quot;I'm a banana, I do what I wanna&quot;</span>)</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true"></a><span class="op">***</span> <span class="dt">Exception</span><span class="op">:</span> <span class="dt">I'm</span> a banana, <span class="dt">I</span> <span class="kw">do</span> what <span class="dt">I</span> wanna</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true"></a><span class="dt">CallStack</span> (from <span class="dt">HasCallStack</span>)<span class="op">:</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true"></a>  <span class="fu">error</span>, called at <span class="op">&lt;</span>interactive<span class="op">&gt;:</span><span class="dv">3</span><span class="op">:</span><span class="dv">9</span> <span class="kw">in</span> interactive<span class="op">:</span><span class="dt">Ghci1</span></span></code></pre></div>
+<p>To design a complete total system, we need to have the input set without bottom (⊥) elements. An example of pure total language is <a href="https://dhall-lang.org/">Dhall</a> — a configuration language where all functions must be pure, total and terminating.</p>
+<p>If interested, you can read more about research in total functional programming (see in <a href="#links">Links</a>).</p>
+<h2 id="not-totally-total">Not totally total<a href="#not-totally-total" class="anchor">🔗</a></h2>
+<figure>
+<img src="../images/totality/Fight.gif" alt="Fight" /><figcaption aria-hidden="true">Fight</figcaption>
+</figure>
+<p>Usually, in FP, you don’t use the phrase “total function” as, by default, functions are considered to be total. However, this can’t be the case all the time; it would be too easy. There is an opposite concept of <em>totality</em> – <strong>partiality</strong>, which means that a function is <strong>not</strong> defined for all inputs of its type.</p>
+<p>Here are a few examples of common partial functions:</p>
+<ul>
+<li><strong>Taking a list element by index.</strong> The index can be negative or be outside the list bounds, so it’s impossible to get the element in such cases.</li>
+<li><strong>Parsing string to an integer.</strong> Not every string represents a valid numeric number, so a parsing function fails in such cases.</li>
+<li><strong>Printf-like pretty-printing.</strong> If you specify the formatting with a separate string, it may fail at runtime on a wrong number of arguments or when types of arguments don’t match.</li>
+<li><strong>Mathematical functions</strong>: division by zero, square root of a negative number, etc.</li>
+<li><strong>Multiplication of matrices.</strong> If the dimensions of the two matrices are not aligned, it is impossible to multiply one matrix with another.</li>
+<li>Laziness brings more interesting partiality cases to the table. When you can have infinite lists, functions like <code>sum</code>, <code>sort</code> or <code>reverse</code> become partial because they hang on infinite lists.</li>
+</ul>
+<h2 id="why-should-we-care">Why should we care?<a href="#why-should-we-care" class="anchor">🔗</a></h2>
+<p>As a developer, you have to deal with runtime exceptions all the time. Programming with total functions helps to avoid some of the runtime exceptions by ultimately preventing them from happening in the first place. But, at the same time, it requires time and discipline to write total functions. So you may think that writing total functions is a big price to pay for reducing the number of runtime exceptions since total functions won’t remove all exceptions entirely. But we believe that you actually should care about totality due to the few other perks as well:</p>
+<ul>
+<li>Even when writing a huge number of unit tests, you still can miss some cases. Total functional programming gives more guarantees about code correctness.</li>
+<li>Debugging runtime exceptions can be tedious for developers. But users of buggy products are frustrated even more. Spending more time on making functions total pays off in the long run.</li>
+<li>Total functional programming results in more maintainable, modular and composable programming. The composition of total functions is total. It means that you can refactor your code painlessly, split it into smaller and reusable parts, combine different components, and still be confident that it works. While working with partial functions, you may introduce new fragile logic not covered by tests, forget to update tests and experience unpleasant production failures.</li>
+<li>It is much easier to reason about total functions. You don’t need to keep track of all input states, whether they are valid and whether functions throw exceptions. Therefore, you can understand the existing code faster (and become more productive quicker as a consequence). Not to mention that code reviews will be more helpful and easier for everyone when you write and review total functions.</li>
+</ul>
+<figure>
+<img src="../images/totality/totality.png" alt="Totality" /><figcaption aria-hidden="true">Totality</figcaption>
+</figure>
+<h2 id="partially-correct">Partially correct<a href="#partially-correct" class="anchor">🔗</a></h2>
+<p>We’ve already seen some examples of non-total functions above. But now, let’s take a closer look and focus more on recognising partiality and discussing different situations where it is possible to (unintentionally) introduce partiality. We will talk mostly about pure functions (except one example with <code>IO</code> for the sake of understandability) because this case is more interesting. Impure functions can easily be non-total due to exceptions.</p>
+<blockquote>
+<p>👻<strong>Myth:</strong> <em>all pure functions are safe</em></p>
+<p>Even though pure functions don’t have side-effects and allow us to reason about the code easier, they still can be partial. So having purity is not enough for achieving maximal type-safety and guarantees from the compiler.</p>
+</blockquote>
+<p>Few examples of the most dangerous places where to watch out for partiality:</p>
+<p><strong>Embedded pattern matching in function</strong></p>
+<p>Missing cases (non-empty list in this situation):</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true"></a><span class="ot">isEmpty ::</span> [a] <span class="ot">-&gt;</span> <span class="dt">Bool</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true"></a>isEmpty [] <span class="ot">=</span> <span class="dt">True</span></span></code></pre></div>
+<p><strong>Case-of expression (similar to embedded pattern-matching)</strong></p>
+<p>Missing cases (the <code>GT</code> constructor of the <code>Ordering</code> type):</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true"></a><span class="ot">orderingToInt ::</span> <span class="dt">Ordering</span> <span class="ot">-&gt;</span> <span class="dt">Int</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true"></a>orderingToInt ordering <span class="ot">=</span> <span class="kw">case</span> ordering <span class="kw">of</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true"></a>    <span class="dt">LT</span> <span class="ot">-&gt;</span> <span class="op">-</span><span class="dv">1</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true"></a>    <span class="dt">EQ</span> <span class="ot">-&gt;</span> <span class="dv">0</span></span></code></pre></div>
+<figure>
+<img src="../images/totality/finish-pattern-matching.gif" alt="Finish Pattern Matching" /><figcaption aria-hidden="true">Finish Pattern Matching</figcaption>
+</figure>
+<p><strong>Guards</strong></p>
+<p>Uncovered conditions unders the guards:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true"></a><span class="ot">orderingNumber ::</span> <span class="dt">Ord</span> a <span class="ot">=&gt;</span> a <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> <span class="dt">Int</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true"></a>orderingNumber x y</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true"></a>    <span class="op">|</span> x <span class="op">&lt;</span> y <span class="ot">=</span> <span class="op">-</span><span class="dv">1</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true"></a>    <span class="op">|</span> x <span class="op">==</span> y <span class="ot">=</span> <span class="dv">0</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true"></a>    <span class="op">|</span> x <span class="op">&gt;</span> y <span class="ot">=</span> <span class="dv">1</span></span></code></pre></div>
+<p>In this case, if using this function on <code>Double</code>s, we can get to the point where none of the conditions will apply (e.g. with <code>NaN</code>). In this case, it is good to have a terminal check.</p>
+<p><strong>Pattern-matching in lambdas</strong></p>
+<p>Though this is very handy to write functions quickly, it is not an easy to write all-encompassing pattern matching with lambda:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true"></a><span class="ot">takeHeads ::</span> [[a]] <span class="ot">-&gt;</span> [a]</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true"></a>takeHeads <span class="ot">=</span> <span class="fu">map</span> (\(x <span class="op">:</span> _) <span class="ot">-&gt;</span> x)</span></code></pre></div>
+<p>Usually, lambdas are used with the (named) wildcard patterns instead.</p>
+<p><strong>Pattern-matching in <code>let-in</code></strong></p>
+<p>Similar to the case with lambdas pattern matching, you can bump into a similar behaviour:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true"></a><span class="kw">let</span> <span class="dt">Just</span> myVal <span class="ot">=</span> Map.lookup myKey myMap</span></code></pre></div>
+<p><strong>Pattern-matching in <code>where</code></strong></p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true"></a><span class="ot">patchParagraph ::</span> [<span class="dt">Text</span>] <span class="ot">-&gt;</span> [<span class="dt">Text</span>]</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true"></a>patchParagraph paragraph <span class="ot">=</span> <span class="op">...</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true"></a>  <span class="kw">where</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true"></a>    title <span class="op">:</span> _ <span class="ot">=</span> paragraph</span></code></pre></div>
+<p><strong>Pattern-matching in binds: &lt;-</strong></p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true"></a><span class="ot">main ::</span> <span class="dt">IO</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true"></a>main <span class="ot">=</span> <span class="kw">do</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true"></a>    [inputFile] <span class="ot">&lt;-</span> getArgs</span></code></pre></div>
+<blockquote>
+<p>Note: watch out for <code>MonadFail</code> instances; sometimes, it can be reasonable to do so.</p>
+</blockquote>
+<p><strong>Unspecified fields of record data types during initialisation</strong></p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true"></a><span class="kw">data</span> <span class="dt">User</span> <span class="ot">=</span> <span class="dt">User</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true"></a>    {<span class="ot"> userName ::</span> <span class="dt">Text</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true"></a>    ,<span class="ot"> userAge ::</span> <span class="dt">Int</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true"></a>    }</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true"></a></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true"></a><span class="ot">newUser ::</span> <span class="dt">User</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true"></a>newUser <span class="ot">=</span> <span class="dt">User</span> { userName <span class="ot">=</span> <span class="st">&quot;New User&quot;</span> }</span></code></pre></div>
+<blockquote>
+<p>Note: this is valid because Haskell is lazy, and all unspecified fields are initialised with <code>error</code>.</p>
+</blockquote>
+<p><strong>Records inside sum types</strong></p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true"></a><span class="kw">data</span> <span class="dt">Address</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true"></a>    <span class="ot">=</span> <span class="dt">Address</span> {<span class="ot"> street ::</span> <span class="dt">Text</span>,<span class="ot"> country ::</span> <span class="dt">Text</span> }</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true"></a>    <span class="op">|</span> <span class="dt">NoAddress</span></span></code></pre></div>
+<p>When using records inside sum types, you get partial getters (<code>street</code> and <code>country</code>) and partial record-update syntax.</p>
+<p><strong>Error</strong></p>
+<p>Using “bottom” function <code>error</code>:</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true"></a><span class="ot">zipEqual ::</span> [a] <span class="ot">-&gt;</span> [a] <span class="ot">-&gt;</span> [(a, a)]</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true"></a>zipEqual [] [] <span class="ot">=</span> []</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true"></a>zipEqual (x<span class="op">:</span>xs) (y<span class="op">:</span>ys) <span class="ot">=</span> (x, y) <span class="op">:</span> zipEqual xs ys</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true"></a>zipEqual _ _ <span class="ot">=</span> <span class="fu">error</span> <span class="st">&quot;Expecting lists of equal size!&quot;</span></span></code></pre></div>
+<p><strong>Undefined</strong></p>
+<p>The special case of <code>error</code> without a custom error message:</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true"></a><span class="ot">hash256 ::</span> <span class="dt">Text</span> <span class="ot">-&gt;</span> <span class="dt">ByteString</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true"></a>hash256 <span class="ot">=</span> <span class="fu">undefined</span></span></code></pre></div>
+<p><strong>Non-terminating unintentional loops</strong></p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true"></a><span class="ot">increment ::</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Int</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true"></a>increment x <span class="ot">=</span> <span class="kw">let</span> x <span class="ot">=</span> x <span class="op">+</span> <span class="dv">1</span> <span class="kw">in</span> x</span></code></pre></div>
+<figure>
+<img src="../images/totality/your-ram-is-mine.gif" alt="Your RAM is mine" /><figcaption aria-hidden="true">Your RAM is mine</figcaption>
+</figure>
+<p><strong>Partial primitive functions</strong></p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true"></a>ghci<span class="op">&gt;</span> naturalFromInteger (<span class="op">-</span><span class="dv">3</span>)</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true"></a><span class="op">***</span> <span class="dt">Exception</span><span class="op">:</span> arithmetic underflow</span></code></pre></div>
+<p><strong>Type class instances (non initialised, standard type classes giving errors)</strong></p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true"></a><span class="kw">data</span> <span class="dt">State</span> <span class="ot">=</span> <span class="dt">Open</span> <span class="op">|</span> <span class="dt">Closed</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true"></a></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true"></a><span class="kw">instance</span> <span class="dt">Eq</span> <span class="dt">State</span></span></code></pre></div>
+<p><strong>Compiler panics</strong></p>
+<p>Sometimes our compilers have bugs or low-level panics in their core functions. It results in having partial functions in applications.</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true"></a>stan<span class="op">:</span> stan<span class="op">:</span> panic<span class="op">!</span> (the 'impossible' happened)</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true"></a>  (<span class="dt">GHC</span> version <span class="fl">8.8</span><span class="op">.</span><span class="dv">3</span> for x86_64<span class="op">-</span>unknown<span class="op">-</span>linux)<span class="op">:</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true"></a>    readHieFile<span class="op">:</span> hie file versions don't match for file<span class="op">:</span> <span class="op">.</span>hie<span class="op">/</span>Relude.hie <span class="dt">Expected</span> <span class="dv">8083</span> but got <span class="dv">8082</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true"></a></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true"></a><span class="dt">Please</span> report this as a <span class="dt">GHC</span> bug<span class="op">:</span>  https<span class="op">://</span>www<span class="op">.</span>haskell<span class="op">.</span>org<span class="op">/</span>ghc<span class="op">/</span>reportabug</span></code></pre></div>
+<p><strong>Segmentation fault</strong></p>
+<p>Even more low-level errors, usually on the level of operating with memory or Operating System interface manually.</p>
+<h2 id="fake-totality">Fake totality<a href="#fake-totality" class="anchor">🔗</a></h2>
+<p>As in many other areas, people sometimes prefer “fake” safety to no safety at all. So just as a box-ticking exercise, we plug partiality with seeming safe case checking. Even if the function becomes total, there could be a few additional problems with such shaky solutions.</p>
+<p>Let’s look at a few examples of such tricks.</p>
+<h3 id="wildcards">Wildcards<a href="#wildcards" class="anchor">🔗</a></h3>
+<p>Pattern matching, as we’ve seen, is a frequent candidate for leaking partiality. And the go-to solution for many cases is to use a wildcard – the pattern that fits anything. It leads to having a case that will fire up anyway if none of the above patterns worked.</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true"></a><span class="kw">data</span> <span class="dt">Status</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true"></a>    <span class="ot">=</span> <span class="dt">Approved</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true"></a>    <span class="op">|</span> <span class="dt">Rejected</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true"></a></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true"></a><span class="ot">run ::</span> <span class="dt">Status</span> <span class="ot">-&gt;</span> <span class="dt">Result</span></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true"></a>run s <span class="ot">=</span> <span class="kw">case</span> s <span class="kw">of</span></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true"></a>    <span class="dt">Approved</span> <span class="ot">-&gt;</span> runApprovedAction</span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true"></a>    _ <span class="ot">-&gt;</span> runRejectedAction</span></code></pre></div>
+<p>However, it could affect you in the future if you, for example, tweaked the type a bit to add another status.</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true"></a><span class="kw">data</span> <span class="dt">Status</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true"></a>    <span class="ot">=</span> <span class="dt">Approved</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true"></a>    <span class="op">|</span> <span class="dt">Rejected</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true"></a>    <span class="op">|</span> <span class="dt">Cancelled</span></span></code></pre></div>
+<p>The problem is that the function still covers all cases of <code>Status</code>, but it doesn’t do the right thing on the newly added status. In other words, the function is total but is still incorrect. In the case of using wildcards, you should be very careful not to forget any of such places, as even the compiler won’t help you with that, as this is a totally fine function!</p>
+<p>To avoid such situations, you can use pattern matching on every pattern without using wildcards when possible.</p>
+<h3 id="promises-we-give">Promises we give<a href="#promises-we-give" class="anchor">🔗</a></h3>
+<p>Sometimes we are sure that some event can’t possibly happen. And it may be an absolute truth, but the compiler is not convinced. And rather than trying to be more accommodating with that, we sometimes catch ourselves writing something like:</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true"></a><span class="fu">error</span> <span class="st">&quot;impossible happened, lol&quot;</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true"></a><span class="fu">error</span> <span class="st">&quot;never ever going to happen, I promise&quot;</span></span></code></pre></div>
+<p>Then we roll our eyes seeing something like this while running our app:</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true"></a><span class="op">***</span> <span class="dt">Exception</span><span class="op">:</span> never ever going to happen, <span class="dt">I</span> promise</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true"></a><span class="dt">CallStack</span> (from <span class="dt">HasCallStack</span>)<span class="op">:</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true"></a>  <span class="fu">error</span>, called at <span class="op">&lt;</span>interactive<span class="op">&gt;:</span><span class="dv">3</span><span class="op">:</span><span class="dv">5</span></span></code></pre></div>
+<p>The problem with this is that it is not adjustable to logic changes. With such promises you give, you state a lot of logic in one line. However, not all entries of usage of your functions could guarantee that they are aware of this agreement.</p>
+<h3 id="name-convincing">Name convincing<a href="#name-convincing" class="anchor">🔗</a></h3>
+<p>Another technique we tend to use from time to time is safety-by-naming. When you are sure that the function can accept only a particular input and that no other input could be provided to the function from anywhere, you can indicate that using type synonyms (the simple new name for the type).</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true"></a><span class="kw">type</span> <span class="dt">NonNegative</span> <span class="ot">=</span> <span class="dt">Int</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true"></a></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true"></a><span class="ot">lastDigit ::</span> <span class="dt">NonNegative</span> <span class="ot">-&gt;</span> <span class="dt">NonNegative</span></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true"></a>lastDigit n <span class="ot">=</span> n <span class="ot">`div`</span> <span class="dv">10</span></span></code></pre></div>
+<p>However, nothing would stop to use the <code>lastDigit</code> function with negative numbers:</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true"></a><span class="op">&gt;</span> lastDigit (<span class="op">-</span><span class="dv">25</span>)</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true"></a><span class="op">-</span><span class="dv">3</span></span></code></pre></div>
+<p>The purpose of <code>NonNegative</code> type name was in self-documentation. And it works if this function is internal and guaranteed to be used only in specific places; however, this is tricky to control in big codebases.</p>
+<h3 id="trust">Trust<a href="#trust" class="anchor">🔗</a></h3>
+<p>Do not trust every pure function from other libraries. Yes, this is correct that partial functions should be highlighted in the documentation, though, sadly, it is not always true. And this can come from anywhere! For example, the standard library in Haskell. People could falsely assume that the most essential and primary library in the language is trustworthy, but watch out! <code>base</code> (name of the standard library) provides a number of partial functions, so you need to know about that to be able to get around that.</p>
+<p>For example, the <code>maximum</code> function from the <code>base</code>, that returns the maximum value from the provided list of elements, fails in the runtime if the list is empty:</p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true"></a><span class="ot">maxOfTwo ::</span> [<span class="dt">Int</span>] <span class="ot">-&gt;</span> [<span class="dt">Int</span>] <span class="ot">-&gt;</span> <span class="dt">Int</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true"></a>maxOfTwo list1 list2 <span class="ot">=</span> <span class="fu">max</span> (<span class="fu">maximum</span> list1) (<span class="fu">maximum</span> list2)</span></code></pre></div>
+<figure>
+<img src="../images/totality/maximum-damage.gif" alt="Maximum Damage" /><figcaption aria-hidden="true">Maximum Damage</figcaption>
+</figure>
+<p>The moral of this point is not to question every other thing that is not written for you. The advice here is to keep an eye on commonly-known precedents and try to be in the know.</p>
+<h2 id="totality-fighters">Totality fighters<a href="#totality-fighters" class="anchor">🔗</a></h2>
+<p>Now that we know a few common non-total patterns that can be met in codebases, let’s look at the most popular and effective ways to achieve totality.</p>
+<figure>
+<img src="../images/totality/choose-your-fighter.png" alt="Choose Your Fighter" /><figcaption aria-hidden="true">Choose Your Fighter</figcaption>
+</figure>
+<h3 id="general">General<a href="#general" class="anchor">🔗</a></h3>
+<p>This section will show some of the common solutions. However, all of the solutions can bring additional burden to the way you would organise your code later, so use wisely and consider trade-offs.</p>
+<h4 id="returning-the-default-value">Returning the default value<a href="#returning-the-default-value" class="anchor">🔗</a></h4>
+<p>In many cases, partiality comes from the impossibility to return anything as a result. For instance, when you want to get the first element from the list, we couldn’t return anything meaningful when the list is empty. In some of those cases, we can use some default value established in the right way.</p>
+<p>For example, we can extend the partial function to take an argument that we can use as a result when something went wrong. However, there is a way to do it without adding any new arguments. The <code>Monoid</code> typeclass contains inside the “default” or “initial” value of the data type with an instance of <code>Monoid</code>. It is called <code>mempty</code>. It is useful because it could be used as the returning value if the result could be found in another way.</p>
+<h4 id="returning-maybeeithervalidation">Returning maybe/either/validation<a href="#returning-maybeeithervalidation" class="anchor">🔗</a></h4>
+<p>The previous point methods won’t work on some types, where we can not decide on the “default” element (what is the default for integers? Is it 0 or 1 or -1?). This is where optional results are useful. Instead of saying that the function will definitely return you a value, we would say that it will <em>maybe</em> return a value or <em>maybe</em> not.</p>
+<p>For representing such data, in Haskell, there are several such <em>optional</em> sum types that represent “Or” situation:</p>
+<ul>
+<li><code>Maybe a</code> – represent <code>Just</code> a value or <code>Nothing</code> at all.</li>
+<li><code>Either e a</code> – similar to <code>Maybe</code> but allows to put more context into the <code>Nothing</code> case.</li>
+<li><code>Validation e a</code> – similar to <code>Either</code> but allows you to accumulate all kinds of failing cases in one go when you want to combine multiple <code>Validation</code>s later.</li>
+<li><code>These a b</code> – Allows having one of, two or none results at the same time.</li>
+</ul>
+<p>This technique is so popular that some alternative standard libraries in Haskell have chosen this approach to neutralise partial functions present in the <code>base</code> library.</p>
+<h4 id="restrict-input-types">Restrict input types<a href="#restrict-input-types" class="anchor">🔗</a></h4>
+<p>An alternative to patching output types to represent what the function can return to us more accurately, we can think of improving the types that our function can take.</p>
+<p>For example, when we want to take the first element of the list, we are pretty sure that there is at least one element. So why not specify that in the input itself? We can narrow down what the function can take and have lots of benefits from this. The <code>NonEmpty</code> list data type denotes that the list always has at least one element.</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true"></a><span class="ot">nonEmptyHead ::</span> <span class="dt">NonEmpty</span> a <span class="ot">-&gt;</span> a</span></code></pre></div>
+<h4 id="separate-specialised-functions-instead-of-common-typeclasses">Separate specialised functions instead of common typeclasses<a href="#separate-specialised-functions-instead-of-common-typeclasses" class="anchor">🔗</a></h4>
+<p>Another problematic point is when we state that some data types can do more than they actually can. This could peep out, for example, in some typeclass instances. When you define an instance of some typeclass, you must implement all methods of this typeclass. But in some cases, it is not possible.</p>
+<p>One example of such a typeclass is <code>Num</code> and its instance for the <code>Natural</code> type. <code>Natural</code> doesn’t have negative numbers, but <code>Num</code> contains methods of negating and subtracting values, leading to partial functions throwing errors in runtime.</p>
+<p>The solution in such cases would be to create smaller abstractions towards bigger ones that would contain more power. Specifically here, <code>Num</code> could be separated into a few typeclasses: one of them shouldn’t have negation, so this would be convenient to use <code>Int</code> and <code>Nat</code> together and not worry about getting a runtime exception depending on the type you use.</p>
+<p>On the other hand, if you see that your data type doesn’t really fit some of the existing abstractions, it might be right not to provide an instance of such a typeclass, even if it leads to a less convenient API.</p>
+<h3 id="haskell-specific">Haskell-specific<a href="#haskell-specific" class="anchor">🔗</a></h3>
+<p>Haskell provides several tools for reducing partiality in your code. There could be similar instruments in other functional languages, so we will try to describe the concept of them applicable to Haskell in this particular case.</p>
+<h4 id="compiler">Compiler<a href="#compiler" class="anchor">🔗</a></h4>
+<p>The first and the most important instrument that will help you fight partiality is the compiler itself. In Haskell it is Glasgow Haskell Compiler (GHC). GHC provides several warnings and sanity-checks that are particularly useful for totality checking. For instance, checks on non-exhaustive pattern matching or uninitialised records.</p>
+<p>However, be aware that those warnings are not enabled by default. And we strongly recommend compiling your Haskell projects with the following flags:</p>
+<ul>
+<li><p><code>-Wall</code> — this flag includes multiple useful warnings, and specifically in the area of totality, tells GHC to check for non-exhaustive pattern-matching</p></li>
+<li><p><code>-Wincomplete-uni-patterns</code> — enables pattern-matching coverage checker for internal variables and lambdas</p></li>
+<li><p><code>-Wincomplete-record-updates</code> — warns when the record-update syntax is used with data types that contain records inside sum types.</p></li>
+<li><p><code>-Wpartial-fields</code> — warns when defining a sum type with a partial record field inside.</p>
+<p>The easiest way to enable them universally is to add to a <a href="https://vrom911.github.io/blog/common-stanzas">common stanza</a> so that it would be applied to all parts of your project at once.</p></li>
+</ul>
+<h4 id="static-analyser">Static Analyser<a href="#static-analyser" class="anchor">🔗</a></h4>
+<p>In addition to the compiler effort, you can use static analysers to help you more with totality. In Haskell, there is the <a href="https://github.com/kowainik">Stan</a> analyser; it warns you on the usage of commonly-known partial functions that fail due to non-exhaustive pattern-matching or hang when given infinite lists as inputs. Moreover, it helps with some fake-totality cases, such as usages of undefined or wildcards in pattern matching on sum types (like in the example from the “Fake totality” section).</p>
+<h4 id="program-verification-tools">Program Verification Tools<a href="#program-verification-tools" class="anchor">🔗</a></h4>
+<p>As another option of totality/termination guarantees, you can utilise a verification tool. Haskell has <a href="https://ucsd-progsys.github.io/liquidhaskell-blog/">LiquidHaskell</a> – an instrument to enforce critical properties at compile time. When using this tool, you can write additional annotations to your functions in the code specifying requirements for inputs, and LiquidHaskell will check them if you run it. LiquidHaskell has a specific goal to eliminate partiality and non-terminating functions.</p>
+<blockquote>
+<p>Because Haskell is pure, the only effects it allows are divergence and incomplete patterns. If we rule out both these effects, using termination and totality checking, the user can rest assured that their functions are total, and thus correctly encode mathematical proofs. Unfortunately, creative use of certain features of Haskell, in particular data types with non-negative recursion and higher-rank types, can be used to write non-terminating functions that pass Liquid Haskell’s current checks. Until this is fixed, users need to be careful when using such features.</p>
+</blockquote>
+<h3 id="future">Future<a href="#future" class="anchor">🔗</a></h3>
+<p>Languages with <strong>Dependent Types</strong> (DT), such as <a href="https://www.idris-lang.org/">Idris</a>, <a href="https://wiki.portal.chalmers.se/agda/pmwiki.php">Agda</a> or <a href="https://coq.inria.fr/">Coq</a>, can boast having eliminated a whole layer of partial errors. DT allows you to make your values dependable on other types and patterns you are working with at the moment and also use them as first-class objects (pass to functions).</p>
+<p>All examples of partial functions we’ve given before (matrix dimensions, printf, division by zero, getting element by index) can be converted to total with the help of DT. You will need to specify your requirements as additional constraints in type signatures, like on the examples below:</p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true"></a><span class="fu">div</span><span class="ot"> ::</span> (x <span class="op">:</span> <span class="dt">Int</span>) <span class="ot">-&gt;</span> (y <span class="op">:</span> <span class="dt">Int</span>, y <span class="op">/=</span> <span class="dv">0</span>) <span class="ot">-&gt;</span> <span class="dt">Int</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true"></a></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true"></a><span class="ot">elementAt ::</span> (xs <span class="op">:</span> <span class="dt">List</span> a) <span class="ot">-&gt;</span> (i <span class="op">:</span> <span class="dt">IntNoBiggerThan</span> (<span class="fu">length</span> xs)) <span class="ot">-&gt;</span> a</span></code></pre></div>
+<p>Would DT solve all of the totality issues? Maybe. But it depends.</p>
+<p>We see that most of the dependent type systems were architected with the totality in mind. See the following quote on the importance of totality:</p>
+<blockquote>
+<p>Totality is important for dependently typed programs, partly because non-terminating proofs are not very useful, and partly for reasons of efficiency: if a certain type has at most one total value, then total code of that type does not need to be run at all.</p>
+</blockquote>
+<h2 id="so-hard">So hard<a href="#so-hard" class="anchor">🔗</a></h2>
+<p>While reading this blog post, you may think that achieving totality is hard. And it indeed looks like a lot of things to keep in mind, as well as following some discipline:</p>
+<ul>
+<li>Use pure functions when possible</li>
+<li>Check for all patterns when performing pattern-matching</li>
+<li>Enable proper compiler warnings</li>
+<li>Use external static analysers or program verifiers</li>
+</ul>
+<p>All these steps touch different parts of the workflow and require interacting with various components. Not everything can be automated. Some steps require thorough thinking about the architecture (e.g. thinking about modelling your problem with immutable data and pure functions instead of mutable references and IO). So automating all of them is not always straightforward. But it pays off eventually to invest in totality for your code.</p>
+<p>It’s worth mentioning that even basic totality-checking constructs, such as patterns coverage checks, are not always easy to implement in tools. For instance, the following function is total, even though each individual patterns are not total on their own.</p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true"></a><span class="ot">ordSub ::</span> <span class="dt">Ordering</span> <span class="ot">-&gt;</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Int</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true"></a>ordSub <span class="fu">ord</span> x y <span class="ot">=</span> <span class="kw">case</span> <span class="fu">ord</span> <span class="kw">of</span></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true"></a>   <span class="dt">EQ</span> <span class="ot">-&gt;</span> <span class="dv">0</span></span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true"></a>   _ <span class="ot">-&gt;</span> <span class="kw">case</span> <span class="fu">ord</span> <span class="kw">of</span></span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true"></a>       <span class="dt">GT</span> <span class="ot">-&gt;</span> x <span class="op">-</span> y</span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true"></a>       <span class="dt">LT</span> <span class="ot">-&gt;</span> y <span class="op">-</span> x</span></code></pre></div>
+<p>But for a long time, GHC wasn’t able to tell that. However, the latest release of GHC, the 9.0 version, can verify that this function is indeed total.</p>
+<p>You can see how totality checking can be challenging to implement even for fundamental parts of Functional Programming. But it would help every one of us a lot if more automated totality tools were acceptable to users by default. Until then, it is a noble and right thing to use what we have now: enable compiler options, configure and use tools (especially on CI) to detect partiality, and use established techniques and best-practices in libraries to provide total code.</p>
+<h2 id="conclusion">Conclusion<a href="#conclusion" class="anchor">🔗</a></h2>
+<p>Even being the core concept of Functional Programming, Totality is something that you need to work on in order to get that. It is not coming for free. You do not have any guarantees that you won’t have runtime exceptions in pure functions if you write in some particular FP language. There are lots of ways to shoot yourself in the foot. But it is crucial to understand what totality does, how it serves us and be able to identify partiality when you see it.</p>
+<figure>
+<img src="../images/totality/supreme-warrior.png" alt="Supreme Warrior" /><figcaption aria-hidden="true">Supreme Warrior</figcaption>
+</figure>
+<h2 id="links">Links<a href="#links" class="anchor">🔗</a></h2>
+<ul>
+<li><p><a href="https://en.wikipedia.org/wiki/Total_functional_programming">Wikipedia: Total Functional Programming</a></p></li>
+<li><p><a href="https://en.wikipedia.org/wiki/Partial_function">Wikipedia: Partial Function</a></p></li>
+<li><p><a href="https://dzone.com/articles/total-and-partial-functions-in-fp">Total and partial functions in FP</a></p></li>
+<li><p><a href="https://www.calculushowto.com/total-function/">Total function &amp; partial function: Definition</a></p></li>
+<li><p><a href="https://lispcast.com/what-is-a-total-function/">What is a total function?</a></p></li>
+<li><p><a href="https://softwareengineering.stackexchange.com/questions/334874/in-the-context-of-functional-programming-what-are-total-functions-and-partia">SO: What are total and partial functions?</a></p></li>
+<li><p><a href="https://kseo.github.io/posts/2015-06-18-total-functional-programming.html">Total functional programming</a></p></li>
+<li><p><a href="http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.106.364&amp;rep=rep1&amp;type=pdf">“Total functional programming” by D.A.Turner</a></p></li>
+<li><p><a href="https://ucsd-progsys.github.io/liquidhaskell/options/#totality-check">LiquidHaskell: Totality Check</a></p></li>
+<li><p><a href="https://goto.ucsd.edu/~nvazou/theorem-proving-for-all/03-Totality.html">Totality and Termination</a></p></li>
+<li><p><a href="https://www.cs.nott.ac.uk/~psztxa/publ/pisigma-new.pdf">ΠΣ: Dependent Types without the Sugar</a></p></li>
+<li><p><a href="https://stackoverflow.com/questions/42151927/what-is-haskell-missing-for-totality-checking">SO: What is Haskell missing for totality checking?</a></p></li>
+<li><p><a href="https://youtu.be/IcgmSRJHu_8">“Making Impossible States Impossible” by Richard Feldman</a></p></li>
+</ul>
+<h2 id="credits">Credits<a href="#credits" class="anchor">🔗</a></h2>
+<p>Many of this blog post’s illustrations were inspired by the Mortal Kombat game. Specifically, we used some of the images and gifs from the game, and some of the elements are adapted to similar situations from the game.</p>
+              </p>
+              </div>
+            </div>
+
+          </div>
+      </div>
+<footer class="footer text-center">
+  <div class="row">
+    <div class="col-12 post-body">
+      <hr class="star-light">
+    </div>
+  </div>
+  <div class="row justify-content-center flex-row">
+      <div class="col-md-4 mb-5 mb-lg-0">
+          <div class="stretch">
+          <h4 class="text-uppercase mt-0 mb-4 flex-h">Support our work</h4>
+          <p class="px-5 flex-text flex-txt">If you like what we do, you can help us do more of that by supporting on Ko-Fi or GitHub:</p>
+          <ul class="empty-list list-inline mb-0 mx-auto flex-links">
+              <li class="list-inline-item my-auto">
+                  <a class="btn btn-outline-primary btn-sm rounded-pill" href="https://ko-fi.com/kowainik" target="_blank">
+                      <i class="fas fa-coffee"></i> Buy a coffee
+                  </a>
+
+              </li>
+              <li class="list-inline-item my-auto">
+                  <a class="btn btn-outline-primary btn-sm rounded-pill" href="https://github.com/sponsors/vrom911" target="_blank">
+                      <i class="fab fa-github"></i> @vrom911
+                  </a>
+              </li>
+              <li class="list-inline-item my-auto">
+                  <a class="btn btn-outline-primary btn-sm rounded-pill" href="https://github.com/sponsors/chshersh" target="_blank">
+                      <i class="fab fa-github"></i> @chshersh
+                  </a>
+              </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="col-md-4 mb-5 mb-lg-0">
+          <div class="stretch">
+              <h4 class="text-uppercase text-center mb-4 footer-h">Subscribe</h4>
+              <p class="px-5 flex-text footer-txt">Enjoyed this post? Consider subscribing to our newsletter to always be first to check out our new updates:</p>
+        <!-- Begin Mailchimp Signup Form -->
+              <div class="footer-links"> <div class="row justify-content-center subscribe-form" id="mc_embed_signup">
+  <form action="https://news.us2.list-manage.com/subscribe/post?u=af5d0411175f11e83618abf5e&amp;id=b04a7ed805" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+    <div class="form-row mx-0" id="mc_embed_signup_scroll">
+      <div class="col-8 input-group ">
+        <div class="input-group-prepend">
+          <div class="input-group-text"><i class="fa fa-envelope"></i> </div>
+        </div>
+        <input type="email" value name="EMAIL" class="required email form-control" placeholder="Your email" id="mce-EMAIL">
+      </div>
+      <div class="col-4 text-left">
+        <input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button btn btn-primary btn-lg">
+      </div>
+      <div class="mc-field-group group-checkbox input-group">
+        <ul>
+          <li><input type="checkbox" value="1" name="group[83780][1]" class="form-check-input" id="mce-group[83780]-83780-0"></li>
+          <li><input type="checkbox" value="2" name="group[83780][2]" class="form-check-input" id="mce-group[83780]-83780-1" checked></li>
+        </ul>
+      </div>
+      <div id="mce-responses" class="clear">
+        <div class="response" id="mce-error-response" style="display:none"></div>
+        <div class="response" id="mce-success-response" style="display:none"></div>
+      </div>
+      <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
+      <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_af5d0411175f11e83618abf5e_b04a7ed805" tabindex="-1" value></div>
+    </div>
+  </form>
+</div>
+</div>
+    <!--End mc_embed_signup-->
+          </div>
+    </div>
+    <div class="col-md-4 mb-5 mb-lg-0">
+        <div class="stretch">
+        <h4 class="text-uppercase mb-4 footer-h">Follow us</h4>
+        <p class="px-5 footer-txt mt-6">We also share our work elsewhere. You can find us also at:</p>
+        <ul class="empty-list list-inline mb-0 mx-auto text-center footer-links">
+            
+            <li class="list-inline-item my-auto">
+                <a class="btn btn-outline-light btn-social text-center rounded-circle" href="https://twitter.com/kowainik" target="_blank">
+                    <i class="fab fa-fw fa-twitter"></i>
+                </a>
+            </li>
+            
+            <li class="list-inline-item my-auto">
+                <a class="btn btn-outline-light btn-social text-center rounded-circle" href="https://github.com/kowainik" target="_blank">
+                    <i class="fab fa-fw fa-github"></i>
+                </a>
+            </li>
+            
+            <li class="list-inline-item my-auto">
+                <a class="btn btn-outline-light btn-social text-center rounded-circle" href="https://www.linkedin.com/company/kowainik" target="_blank">
+                    <i class="fab fa-fw fa-linkedin"></i>
+                </a>
+            </li>
+            
+            <li class="list-inline-item my-auto">
+                <a class="btn btn-outline-light btn-social text-center rounded-circle" href="https://t.me/kowainik" target="_blank">
+                    <i class="fab fa-fw fa-telegram"></i>
+                </a>
+            </li>
+            
+            <li class="list-inline-item my-auto">
+                <a class="btn btn-outline-light btn-social text-center rounded-circle" href="../rss.xml" target="_blank">
+                    <i class="fas fa-fw fa-rss"></i>
+                </a>
+            </li>
+            
+        </ul>
+        </div>
+    </div>
+  </div>
+</footer>
+
+
+      <!-- Bootstrap core JavaScript -->
+      <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"> </script>
+      <script src="../js/post.js"> </script>
+      <script src="../js/hide.js"> </script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/haskell.min.js"></script>
+      <script>hljs.initHighlightingOnLoad()</script>
+      <script async defer src="https://buttons.github.io/buttons.js"></script>
+  </body>
+</html>

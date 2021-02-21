@@ -240,33 +240,33 @@
 <hr>
 <p>We were curious about how many people get started with our course each day, so we’ve been collecting info about <em>the first open Pull Request</em>, and here this information aggregated by days:</p>
 <figure>
-<img src="../images/posts/hacktoberfest2020/chart_started.png" alt /><figcaption>Course starters per day</figcaption>
+<img src="../images/posts/hacktoberfest2020/chart_started.png" alt="Course starters per day" /><figcaption aria-hidden="true">Course starters per day</figcaption>
 </figure>
 <p>Interestingly enough, we had not a single day without new people. We noticed some more activity on weekends, but generally everyday we received several PRs with different Chapter solutions. Sometimes our notifications were not decreasing even after clearing up some of the PRs, because people were already submitting a few more, while we were focused on one.</p>
 <hr>
 <p>Some people rapidly were nailing all four Chapters, others were active only periodically. However, not everyone finished all chapters. Here is the diagram of the PRs opening distribution per chapter.</p>
 <figure>
-<img src="../images/posts/hacktoberfest2020/chart_chapters.png" alt /><figcaption>Solutions per chapter</figcaption>
+<img src="../images/posts/hacktoberfest2020/chart_chapters.png" alt="Solutions per chapter" /><figcaption aria-hidden="true">Solutions per chapter</figcaption>
 </figure>
 <p>As you see, there is a more significant gap between the second (lists and streaming functions) and third Chapters (ADTs, typeclasses), so we need to work on the problem to make it flatter. That is why we would appreciate the feedback from people who haven’t finished all Chapters yet whether it is because of the lack of interest, time or difficulty, we want to hear from you!</p>
 <hr>
 <p>In our course, we recommended people to open PRs to their own forks of our course, but many people submitted PRs to our repository (that was not a problem for us, though we will talk about downsides later). Here is a pie chart for this information:</p>
 <figure>
-<img src="../images/posts/hacktoberfest2020/chart_fork.png" alt /><figcaption>Fork vs Repo</figcaption>
+<img src="../images/posts/hacktoberfest2020/chart_fork.png" alt="Fork vs Repo" /><figcaption aria-hidden="true">Fork vs Repo</figcaption>
 </figure>
 <p>You can see from the chart that more than half of the people opened pull requests to their own forks, though some people submitted their solutions directly to the course repository. We are going to talk later about the difference in review workflow between forks and our repository.</p>
 <hr>
 <p>A lot of Learn4Haskell participants helped us make the course better by improving documentation and adding more test cases. Here is a chart of the relationship between all participants and active contributors:</p>
 <figure>
-<img src="../images/posts/hacktoberfest2020/chart_contributors.png" alt /><figcaption>Contributors diagram</figcaption>
+<img src="../images/posts/hacktoberfest2020/chart_contributors.png" alt="Contributors diagram" /><figcaption aria-hidden="true">Contributors diagram</figcaption>
 </figure>
 <hr>
 <p>It’s interesting to see charts of stars growth and distribution of stars per location.</p>
 <figure>
-<img src="../images/posts/hacktoberfest2020/chart_stars.png" alt /><figcaption>Stars trend</figcaption>
+<img src="../images/posts/hacktoberfest2020/chart_stars.png" alt="Stars trend" /><figcaption aria-hidden="true">Stars trend</figcaption>
 </figure>
 <figure>
-<img src="../images/posts/hacktoberfest2020/chart_star_location.png" alt /><figcaption>Stars location</figcaption>
+<img src="../images/posts/hacktoberfest2020/chart_star_location.png" alt="Stars location" /><figcaption aria-hidden="true">Stars location</figcaption>
 </figure>
 <hr>
 <p>From the stats, you can see that many people tried Learn4Haskell. Some people helped us to improve the course both course participants and non-participants.</p>
@@ -290,7 +290,7 @@
 <li><p><strong>Documentation testing</strong>. We use comments to structure our tutorial and all presented information. Our explanations contain multiple code snippets, and we want to make sure they are correct. We used the brilliant Haskell testing library <code>doctest</code> for this. It allows testing such documentation examples. So, on the one hand, we are sure that we don’t provide bogus code. Additionally, learners can verify that their implementations pass basic documentation examples. Moreover, we added playing in REPL as the first exercise, and people can verify what they see through our tests. Even though <code>doctest</code> is not perfect in some aspects, it turned out to be very helpful!</p></li>
 <li><p><strong>Hintman</strong>. In Kowainik, we developed a <a href="https://github.com/kowainik/hintman">GitHub Application</a> that runs the Haskell linter HLint on source code diff of the PR and provides an automatic instant review. Some people told us that our app already provided helpful suggestions for writing better Haskell without even our manual review! Just a screenshot of one such example:</p>
 <figure>
-<img src="../images/posts/hacktoberfest2020/hintman-thanks-bot.png" alt /><figcaption>Hintman</figcaption>
+<img src="../images/posts/hacktoberfest2020/hintman-thanks-bot.png" alt="Hintman" /><figcaption aria-hidden="true">Hintman</figcaption>
 </figure></li>
 <li><p><strong>CI in one click</strong>. Having an easy way to run various tests and notify participants of the results without manual review is a great advantage. This is possible due to the wonderful GitHub Actions and Haskell setups for that.</p></li>
 <li><p><strong>Haskell libraries for the unit- and property-testing</strong>. We use Haskell libraries <code>hspec</code> for unit testing and <code>hedgehog</code> for property testing. It turns out, tests in Haskell are easily readable and writable, and multiple people were able to add their own tests without even learning about Monads, do-notation and many other things.</p></li>
@@ -348,18 +348,18 @@
 <hr>
 <p>Not every person finished all four chapters, though, the majority among those who left feedback did so.</p>
 <figure>
-<img src="../images/posts/hacktoberfest2020/feedback_chapters.png" alt /><figcaption>Completed chapters</figcaption>
+<img src="../images/posts/hacktoberfest2020/feedback_chapters.png" alt="Completed chapters" /><figcaption aria-hidden="true">Completed chapters</figcaption>
 </figure>
 <p>If you are reading this blog post, but you did Learn4Haskell and haven’t submitted your feedback yet, feel free to do this afterwards! We would appreciate your opinion.</p>
 <hr>
 <p>As for the course authors, it is crucial for us to keep the learning interesting, so people would stay captivated and follow our course for fun, and don’t feel that it’s a daily job or some mandatory university course. It turns out that people really enjoy our content!</p>
 <figure>
-<img src="../images/posts/hacktoberfest2020/feedback_interest.png" alt /><figcaption>Course interest</figcaption>
+<img src="../images/posts/hacktoberfest2020/feedback_interest.png" alt="Course interest" /><figcaption aria-hidden="true">Course interest</figcaption>
 </figure>
 <hr>
 <p>We have been in Haskell for too long to be able to soberly assess the level of difficulty of Learn4Haskell tasks from the beginners’ point of view. That’s why we were interested in learners’ opinions about our course difficulty. It looks like we’ve managed to achieve quite the right balance!</p>
 <figure>
-<img src="../images/posts/hacktoberfest2020/feedback_difficulty.png" alt /><figcaption>Course difficulty</figcaption>
+<img src="../images/posts/hacktoberfest2020/feedback_difficulty.png" alt="Course difficulty" /><figcaption aria-hidden="true">Course difficulty</figcaption>
 </figure>
 <hr>
 <p>We spend an enormous amount of our time on review as we hoped it is key to the successful learning process. 100% of people who filled the form seem to agree that they find reviews helpful, so no diagram this time!</p>

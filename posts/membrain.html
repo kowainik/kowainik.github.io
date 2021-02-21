@@ -303,7 +303,7 @@
 </table>
 <p>As you can see, memory units represent a complicated system, and this is why it is better to be more confident that you are doing safe computations with them.</p>
 <figure>
-<img src="https://user-images.githubusercontent.com/8126674/61353304-07c48a00-a8a2-11e9-99b7-e2704eda690a.jpg" alt /><figcaption>Memory Units confusion</figcaption>
+<img src="https://user-images.githubusercontent.com/8126674/61353304-07c48a00-a8a2-11e9-99b7-e2704eda690a.jpg" alt="Memory Units confusion" /><figcaption aria-hidden="true">Memory Units confusion</figcaption>
 </figure>
 <h2 id="implementation">Implementation<a href="#implementation" class="anchor">🔗</a></h2>
 <p>Let’s move to the more technically exciting part — the implementation itself. The goal of the library is to ease the lives of people working with memory units. The intentions are:</p>
@@ -327,7 +327,7 @@
 <p>Now, I hope you see the motivation behind the <code>membrain</code> library too. In order to bypass many crucial mistakes that could cost <a href="http://edition.cnn.com/TECH/space/9909/30/mars.metric.02/">lots of money</a> or even lives in especially important cases, we could use the Haskell type system to avoid this whole domain of errors.</p>
 <h3 id="the-definition">The definition<a href="#the-definition" class="anchor">🔗</a></h3>
 <figure>
-<img src="https://user-images.githubusercontent.com/8126674/61596495-1363d800-ac37-11e9-9c9b-ec4d09e924a0.png" alt /><figcaption>Memory definition galaxy brain meme</figcaption>
+<img src="https://user-images.githubusercontent.com/8126674/61596495-1363d800-ac37-11e9-9c9b-ec4d09e924a0.png" alt="Memory definition galaxy brain meme" /><figcaption aria-hidden="true">Memory definition galaxy brain meme</figcaption>
 </figure>
 <p>If we want to avoid runtime computations and manual supervision of units, we can delegate this job to the compiler. To do so we are using the following data type:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true"></a><span class="kw">newtype</span> <span class="dt">Memory</span> (<span class="ot">mem ::</span> <span class="dt">Nat</span>) <span class="ot">=</span> <span class="dt">Memory</span></span>
@@ -454,7 +454,7 @@
 <p>In the following subsections, let’s talk about the most interesting ones.</p>
 <h3 id="type-level-testing">Type-level testing<a href="#type-level-testing" class="anchor">🔗</a></h3>
 <figure>
-<img src="https://user-images.githubusercontent.com/8126674/61596217-4906c200-ac33-11e9-8b03-8ccac743c5a6.jpg" alt /><figcaption>Type-level testing power</figcaption>
+<img src="https://user-images.githubusercontent.com/8126674/61596217-4906c200-ac33-11e9-8b03-8ccac743c5a6.jpg" alt="Type-level testing power" /><figcaption aria-hidden="true">Type-level testing power</figcaption>
 </figure>
 <p>As most of the library logic is taken upon types, it would be extremely useful to have tests on this level of computation. But how? The answer is the <a href="https://hackage.haskell.org/package/type-spec">type-spec</a> library. This package is created to write type-level unit tests. It provides a convenient EDSL for this purpose. In our case we are using it to add tests on our <code>UnitSymbol</code> instances I mention above. The cool thing is that you write your test cases at the type level as well.</p>
 <p>Just look at our use case. To be able to show the <code>Memory</code> value in the standardised format like <code>5kB</code>, we are using the <code>UnitSymbol</code> type family and a bunch of type instances for each unit. By design, every unit is the type alias of a corresponding type-level natural number. For instance, a kilobyte is defined as follows</p>

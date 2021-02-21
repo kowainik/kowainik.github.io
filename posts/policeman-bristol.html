@@ -176,7 +176,7 @@
 <p>Furthermore, we are separating pure logic as per the Haskell best abilities. The “pure” stages such as diff building, result evaluation and versions manipulations are completely isolated. That gives us the opportunity to provide reliable testing (both unit and property) which could be useful in feature shipping in the future as well.</p>
 <p>Eventually, we were able to achieve MVP state of <code>policeman</code> in just two days. Below you can find an example of the Policeman’s work on some local changes for the <a href="https://github.com/kowainik/relude">relude</a> package:</p>
 <figure>
-<img src="https://user-images.githubusercontent.com/4276606/73396836-1fada980-42da-11ea-8c59-64fa985f54bc.png" alt /><figcaption>Policeman example</figcaption>
+<img src="https://user-images.githubusercontent.com/4276606/73396836-1fada980-42da-11ea-8c59-64fa985f54bc.png" alt="Policeman example" /><figcaption aria-hidden="true">Policeman example</figcaption>
 </figure>
 <h2 id="hie-there">HIE there<a href="#hie-there" class="anchor">🔗</a></h2>
 <p>Initially, we were considering to parse source code of the Haskell files and compare abstract syntax trees to detect the semantic difference between the given two versions. Unfortunately, this approach is not capable of handling some edgy cases, so it won’t be able to work with some packages. That is the reason why we decided to go with the HIE files as a source of truth for Policeman in the long run. <em>We are not interested in fake evidence</em> 🕵️.</p>

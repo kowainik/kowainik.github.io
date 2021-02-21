@@ -8,8 +8,16 @@
         <name>Kowainik</name>
         <email>xrom.xkov@gmail.com</email>
     </author>
-    <updated>2020-12-13T00:00:00Z</updated>
+    <updated>2021-02-21T00:00:00Z</updated>
     <entry>
+    <title>Totality</title>
+    <link href="https://kowainik.github.io/posts/totality.html" />
+    <id>https://kowainik.github.io/posts/totality.html</id>
+    <published>2021-02-21T00:00:00Z</published>
+    <updated>2021-02-21T00:00:00Z</updated>
+    <summary type="html"><![CDATA[A comprehensive guide to the concept of totality in Functional Programming.]]></summary>
+</entry>
+<entry>
     <title>Foo to Bar: Naming Conventions in Haskell</title>
     <link href="https://kowainik.github.io/posts/naming-conventions.html" />
     <id>https://kowainik.github.io/posts/naming-conventions.html</id>
@@ -80,14 +88,6 @@
     <published>2019-07-23T00:00:00Z</published>
     <updated>2019-07-23T00:00:00Z</updated>
     <summary type="html"><![CDATA[Membrain is the Haskell library for type-safe memory units. This blog post provides details of the implementation and mentions type-level tricks.]]></summary>
-</entry>
-<entry>
-    <title>Haskell Style Guide</title>
-    <link href="https://kowainik.github.io/posts/2019-02-06-style-guide.html" />
-    <id>https://kowainik.github.io/posts/2019-02-06-style-guide.html</id>
-    <published>2019-02-06T00:00:00Z</published>
-    <updated>September 22, 2020</updated>
-    <summary type="html"><![CDATA[Haskell Style guide used in Kowainik]]></summary>
 </entry>
 
 </feed>

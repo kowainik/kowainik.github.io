@@ -377,7 +377,7 @@ Linking LanguageExtensions ...</code></pre>
 <p>Safe Haskell is the family of compiler extensions that are created to bring some guarantees about the code.</p>
 <p>You have probably noticed the <strong>“Safe Haskell”</strong> field in the documentation pages of your favourite packages on Hackage and was a bit worried, why the safety field is determined as <strong>“None”</strong> in the most type-safe language?</p>
 <figure>
-<img src="https://user-images.githubusercontent.com/4276606/81501498-98a4a000-92d0-11ea-9108-24f6cc18ceb4.png" alt /><figcaption>Safe Haskell: None</figcaption>
+<img src="https://user-images.githubusercontent.com/4276606/81501498-98a4a000-92d0-11ea-9108-24f6cc18ceb4.png" alt="Safe Haskell: None" /><figcaption aria-hidden="true">Safe Haskell: None</figcaption>
 </figure>
 <p>Don’t worry about that, probably it is not what you think it is. It just means that the <code>SafeHaskell</code> extension is not determined by the maintainers for this particular module.</p>
 <p>Let’s get deeper into this. There are three extensions coming with SafeHaskell:</p>
@@ -497,7 +497,7 @@ Linking LanguageExtensions ...</code></pre>
 <h4 id="module-part">Module part<a href="#module-part" class="anchor">🔗</a></h4>
 <p>The module retrieval part is implemented through the custom parser. But in order to be able to write one, we needed to understand all the possible syntax allowances, which we did, and I tell you what, this is some complicated stuff.</p>
 <figure>
-<img src="https://user-images.githubusercontent.com/4276606/81501432-46fc1580-92d0-11ea-952e-8b218bb49601.jpg" alt /><figcaption>Pragmas Syntax</figcaption>
+<img src="https://user-images.githubusercontent.com/4276606/81501432-46fc1580-92d0-11ea-952e-8b218bb49601.jpg" alt="Pragmas Syntax" /><figcaption aria-hidden="true">Pragmas Syntax</figcaption>
 </figure>
 <p>Our goal is to support all most common cases, which includes <code>CPP</code> handling, as it is quite a widely used technique. And this adds some more complexity to the parser. Still, I think, it is a great value for a not too big cost.</p>
 <p>And to understand some of the variety that can be in the header section of your file (if you thought that there is nothing complicated there) just look at this weave of comments, pragmas and <code>CPP</code>s together:</p>

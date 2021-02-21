@@ -311,7 +311,7 @@
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true"></a>    <span class="kw">deriving</span> (<span class="dt">TypeClasses</span>, <span class="dt">Separated</span>, <span class="dt">By</span> <span class="dt">Comma</span>)</span></code></pre></div>
 <p>Compiler parses such clauses and resolves them during the type checker stage. If there are no type errors or deriving errors, then the instances are created during the compilation.</p>
 <figure>
-<img src="../images/deriving/dr-type-checker.png" alt /><figcaption>Instance Workflow</figcaption>
+<img src="../images/deriving/dr-type-checker.png" alt="Instance Workflow" /><figcaption aria-hidden="true">Instance Workflow</figcaption>
 </figure>
 <p>Perfect, since we have an idea of deriving, let’s try to solve the boring problem from the previous example by using the easiest way of deriving in Haskell. For that, we can add the <code>deriving</code> clause (also known as <em>Deer-iving Claus</em> 🦌🎅) with the required typeclasses listed for each of our data types. As a result, we would have:</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true"></a><span class="kw">data</span> <span class="dt">Gift</span> <span class="ot">=</span> <span class="dt">Gift</span></span>
@@ -499,7 +499,7 @@ Typeclasses
 </div>
 <div class="small-img">
 <figure>
-<img src="../images/deriving/santa-standard.jpg" alt /><figcaption>Deeriving Claus</figcaption>
+<img src="../images/deriving/santa-standard.jpg" alt="Deeriving Claus" /><figcaption aria-hidden="true">Deeriving Claus</figcaption>
 </figure>
 </div>
 <p>Let’s start our journey to the world of deriving with looking into fundamental deriving features. GHC is capable of deriving instances for some standard typeclasses out-of-the-box and without any additional extensions as per Haskell specification.</p>
@@ -563,7 +563,7 @@ Typeclasses
 </div>
 <div class="small-img">
 <figure>
-<img src="../images/deriving/santa-auto.jpg" alt /><figcaption>Mecha Santa</figcaption>
+<img src="../images/deriving/santa-auto.jpg" alt="Mecha Santa" /><figcaption aria-hidden="true">Mecha Santa</figcaption>
 </figure>
 </div>
 <p>The previous section describes the standard typeclasses that could be derived without any extension in a very straightforward way. But there is even a simpler deriving process in GHC that we don’t see, and rarely think about.</p>
@@ -628,7 +628,7 @@ Typeclasses
 <h2 id="derive-whatever">Derive Whatever<a href="#derive-whatever" class="anchor">🔗</a></h2>
 <div class="small-img">
 <figure>
-<img src="../images/deriving/santa-anything.jpg" alt /><figcaption>Santa for Anyone</figcaption>
+<img src="../images/deriving/santa-anything.jpg" alt="Santa for Anyone" /><figcaption aria-hidden="true">Santa for Anyone</figcaption>
 </figure>
 </div>
 <p>In addition to the basic typeclasses like <code>Show</code> and <code>Eq</code>, GHC can derive more standard typeclasses with the <strong>stock</strong> strategy, but such compiler capabilities require enabling separate extensions for each such typeclass.</p>
@@ -922,7 +922,7 @@ Typeclasses
 </div>
 <div class="small-img">
 <figure>
-<img src="../images/deriving/santa-newtype.jpg" alt /><figcaption>New-wave santa</figcaption>
+<img src="../images/deriving/santa-newtype.jpg" alt="New-wave santa" /><figcaption aria-hidden="true">New-wave santa</figcaption>
 </figure>
 </div>
 <p>Newtypes are one of the essential Haskell features. They enable creating safe, modular and performant interfaces and are often used in different <a href="https://kowainik.github.io/posts/haskell-mini-patterns#newtype">programming patterns</a>. And, what is more important in the context of this blog post, deriving is made extremely easy for newtypes due to their nature.</p>
@@ -1007,7 +1007,7 @@ Typeclasses
 </div>
 <div class="small-img">
 <figure>
-<img src="../images/deriving/santa-classy.jpg" alt /><figcaption>Classy Santa</figcaption>
+<img src="../images/deriving/santa-classy.jpg" alt="Classy Santa" /><figcaption aria-hidden="true">Classy Santa</figcaption>
 </figure>
 </div>
 <p>The <strong>anyclass</strong> deriving strategy is another crucial tool in the deriving toolbox of the Haskell developer. As the name suggests, this feature allows deriving <strong>any</strong> typeclass.</p>
@@ -1134,7 +1134,7 @@ Typeclasses
 </div>
 <div class="small-img">
 <figure>
-<img src="../images/deriving/father-frost.jpg" alt /><figcaption>Father Frost</figcaption>
+<img src="../images/deriving/father-frost.jpg" alt="Father Frost" /><figcaption aria-hidden="true">Father Frost</figcaption>
 </figure>
 </div>
 <p>The <strong>via</strong> deriving mechanism is one of the newest accepted features in GHC. Even though it is rather new, many developers widely use it in both libraries and applications already.</p>
@@ -1354,7 +1354,7 @@ Typeclasses
 <h2 id="quiz-lock-stock-and-two-smoking-barrels">Quiz: Lock, Stock and Two Smoking Barrels<a href="#quiz-lock-stock-and-two-smoking-barrels" class="anchor">🔗</a></h2>
 <div class="small-img">
 <figure>
-<img src="../images/deriving/grinch.jpg" alt /><figcaption>Grinch</figcaption>
+<img src="../images/deriving/grinch.jpg" alt="Grinch" /><figcaption aria-hidden="true">Grinch</figcaption>
 </figure>
 </div>
 <p>This section contains some tasks to practice understanding of deriving strategies as well as some challenges for puzzle-lovers.</p>

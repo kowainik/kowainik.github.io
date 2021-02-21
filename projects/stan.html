@@ -58,7 +58,7 @@
                 <a class="btn btn-outline-dark btn-tag" href="https://github.com/kowainik/stan" data-icon="octicon-star" data-size="large" aria-label="Star Kowainik/stan on GitHub">Star Project</a>
                 <a class="fa-stack fa-2x" href="https://github.com/kowainik/stan/stargazers">
                     <i class="fa fa-star fa-stack-2x"></i>
-                    <i id="stars" class="fa fa-stack-1x fa-inverse main-font">350</i>
+                    <i id="stars" class="fa fa-stack-1x fa-inverse main-font">378</i>
                 </a>
                 <div class="author">Language: Haskell</div>
 
@@ -109,6 +109,7 @@
 </ul></li>
 <li><a href="#other-tools">Other tools</a></li>
 <li><a href="#roadmap">Roadmap</a></li>
+<li><a href="#users">Users</a></li>
 <li><a href="#links-to-wiki">Links to Wiki</a></li>
 </ul>
 <h2 id="what-this-tool-is-about">What this tool is about<a href="#what-this-tool-is-about" class="anchor">🔗</a></h2>
@@ -116,6 +117,8 @@
 <p>Stan is a command-line tool for analysing Haskell projects. It discovers which parts of the code can potentially be improved, and offers suggestions on how to do so. Stan is searching for not only performance or error-prone code pieces, but it also can help with establishing and applying best-practices from the whole Haskell ecosystem.</p>
 <p>Although Haskell is a statically typed language, not all properties can be encoded in types. Even though GHC is quite a powerful compiler, it tries to be library-agnostic and provide only language-specific suggestions, while Stan uses the knowledge about the current state of the ecosystem and commonly used libraries.</p>
 <p>You will find Stan helpful if you enjoy writing in Haskell, but want more guarantees from your code, not provided by the Haskell type system or GHC.</p>
+<p>For a crash course to Stan, watch the talk about Stan, presented by Veronika Romashkina and Dmitrii Kovanikov at the Haskell Love conference.</p>
+<p><a href="https://www.youtube.com/watch?v=wb5PLv6-e6I"><img src="https://img.youtube.com/vi/wb5PLv6-e6I/0.jpg" alt="Stan – Haskell Static Analyser" /></a></p>
 <h2 id="goals">Goals<a href="#goals" class="anchor">🔗</a></h2>
 <p><a href="#table-of-contents">[Back to the Table of Contents] ↑</a></p>
 <p>Stan design and implementation is driven by the following goals:</p>
@@ -142,7 +145,7 @@
 </ul>
 <p>The below example of the terminal output gives you the understanding of what sorts of analysis you can expect from Stan:</p>
 <figure>
-<img src="https://user-images.githubusercontent.com/4276606/85208720-89326100-b32a-11ea-94fd-4aa149626b74.png" alt /><figcaption>Stan terminal example</figcaption>
+<img src="https://user-images.githubusercontent.com/4276606/85208720-89326100-b32a-11ea-94fd-4aa149626b74.png" alt="Stan terminal example" /><figcaption aria-hidden="true">Stan terminal example</figcaption>
 </figure>
 <h2 id="how-it-works">How it works<a href="#how-it-works" class="anchor">🔗</a></h2>
 <p><a href="#table-of-contents">[Back to the Table of Contents] ↑</a></p>
@@ -252,7 +255,7 @@ $ mv stan-0.0.1.0-Linux-ghc-8.10.1 ~/.local/bin/stan</code></pre>
 </ol>
 <p>Stan runtime settings have many parts, and each of them can come from different configuration sources. If some option is specified through multiple sources, the most prioritized one will be used. In addition, Stan helps to understand its own configuration, so it outputs detailed information about each part of the config, what configuration settings were used and how they were set.</p>
 <figure>
-<img src="https://user-images.githubusercontent.com/4276606/85208889-bb908e00-b32b-11ea-8256-c576a33cbf38.png" alt /><figcaption>Configuration explanation</figcaption>
+<img src="https://user-images.githubusercontent.com/4276606/85208889-bb908e00-b32b-11ea-8256-c576a33cbf38.png" alt="Configuration explanation" /><figcaption aria-hidden="true">Configuration explanation</figcaption>
 </figure>
 <h3 id="toml-configurations">TOML configurations<a href="#toml-configurations" class="anchor">🔗</a></h3>
 <p><a href="#table-of-contents">[Back to the Table of Contents] ↑</a></p>
@@ -467,6 +470,12 @@ More inspections on potential bugs and performance</li>
 Single-pass traverse on AST</li>
 </ul>
 <p>We have much more ideas to work on. See more detailed plan in the dedicated <a href="https://github.com/kowainik/stan/projects/1">GitHub Project page</a>.</p>
+<h2 id="users">Users<a href="#users" class="anchor">🔗</a></h2>
+<p>Stan is known to be adopted by the following companies:</p>
+<ul>
+<li>A major international bank</li>
+<li><a href="https://www.itpro.tv/">ITProTV</a></li>
+</ul>
 <h2 id="links-to-wiki">Links to Wiki<a href="#links-to-wiki" class="anchor">🔗</a></h2>
 <p><a href="#table-of-contents">[Back to the Table of Contents] ↑</a></p>
 <ul>

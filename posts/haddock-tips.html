@@ -179,7 +179,7 @@
 <p>You write documentation using the special Haddock markup language right near the structures you want to document, and it can be rendered to different formats, including styled HTML, that could be viewable later on <a href="http://hackage.haskell.org/">Hackage</a>, <a href="https://www.stackage.org/">Stackage</a> or even locally. Moreover, if you upload your library to Hackage or Stackage, <a href="https://hoogle.haskell.org/">Hoogle</a> will search for definitions by name or type across all packages, including yours.</p>
 <p>Here is how a typical Haddock documentation page for a module looks like:</p>
 <figure>
-<img src="../images/haddock/haddock-membrain.png" alt /><figcaption>Haddock Module Example</figcaption>
+<img src="../images/haddock/haddock-membrain.png" alt="Haddock Module Example" /><figcaption aria-hidden="true">Haddock Module Example</figcaption>
 </figure>
 <p>To produce the documentation, Haddock needs to build the project first because it uses build-time information. But you don’t need to worry about it usually, because build tools do that automatically when you ask them to output documentation.</p>
 <h3 id="comment-to-document">Comment to Document<a href="#comment-to-document" class="anchor">🔗</a></h3>
@@ -281,7 +281,7 @@
 <span id="cb4-47"><a href="#cb4-47" aria-hidden="true"></a>    <span class="fu">getChar</span> (<span class="dt">CharCode</span> _ c) <span class="ot">=</span> <span class="dt">Just</span> c</span></code></pre></div>
 <p>When documentation is built, it will look like on the screenshot below:</p>
 <figure>
-<img src="../images/haddock/haddock-overall-example.png" alt /><figcaption>Haddock Overall Example</figcaption>
+<img src="../images/haddock/haddock-overall-example.png" alt="Haddock Overall Example" /><figcaption aria-hidden="true">Haddock Overall Example</figcaption>
 </figure>
 <hr class="fish">
 <p>We don’t recommend using the Haddock comment syntax for other places where they cannot be applied by specification because this breaks Haddock. Even though the documentation states that such comments should be ignored, it is not what you would get on the output.</p>
@@ -311,13 +311,13 @@ src/BlogpostHaddock.hs:57:10: error:
 <div class="exercise">
 <p>Though, sometimes you are interested only in specific types and functions, not in reading the full documentation. Hackage helps here as well. You can press the <kbd>s</kbd> button on a package page to quickly jump to definitions.</p>
 <figure>
-<img src="../images/haddock/haddock-relude-search.png" alt /><figcaption>Haddock Search Example</figcaption>
+<img src="../images/haddock/haddock-relude-search.png" alt="Haddock Search Example" /><figcaption aria-hidden="true">Haddock Search Example</figcaption>
 </figure>
 </div>
 <h3 id="top-level">Top Level<a href="#top-level" class="anchor">🔗</a></h3>
 <p>First thing you see on the module documentation page is this:</p>
 <figure>
-<img src="../images/haddock/haddock-top-level-header.png" alt /><figcaption>Haddock top-level header</figcaption>
+<img src="../images/haddock/haddock-top-level-header.png" alt="Haddock top-level header" /><figcaption aria-hidden="true">Haddock top-level header</figcaption>
 </figure>
 <p>This whole information is taken from the top-level Haddock comment for the module. The comment is attached to the <code>module</code> construction in the source file. You can put extensions (<code>{-# LANGUAGE ... #-}</code>) and options (e.g. <code>{-# OPTIONS_GHC ... #-}</code>) either <em>before</em> the module header comment or <em>after</em>, but we recommend putting module Haddock comment closer to the module keyword itself, <strong>after</strong> all language extensions and module-specific options.</p>
 <p>So the module layout may look like this:</p>
@@ -352,7 +352,7 @@ src/BlogpostHaddock.hs:57:10: error:
 <hr class="fish">
 <p>Additionally, you can put a special Haddock pragma <code>{-# OPTIONS_HADDOCK show-extensions #-}</code> at the top of your module before the documentation to also display all extensions enabled in this module. This feature can be helpful to quickly give an overview of required GHC features to work with the module API.</p>
 <figure>
-<img src="../images/haddock/haddock-extensions.png" alt /><figcaption>Haddock Extensions for the module</figcaption>
+<img src="../images/haddock/haddock-extensions.png" alt="Haddock Extensions for the module" /><figcaption aria-hidden="true">Haddock Extensions for the module</figcaption>
 </figure>
 <h4 id="top-level-module-documentation">Top level module documentation<a href="#top-level-module-documentation" class="anchor">🔗</a></h4>
 <p>The top-level module documentation is the first thing people see when they open a module. So it should describe the module exhaustively and set the mood of what to expect from it.</p>
@@ -373,7 +373,7 @@ src/BlogpostHaddock.hs:57:10: error:
 <p>One of the improvements that could help users navigate your documentation easily is having a structured Table of Contents (ToC) for the module. It can be done in Haddock using the <a href="https://haskell-haddock.readthedocs.io/en/latest/markup.html#documentation-structure-examples">Sectioning feature</a>.</p>
 <p>Here is an example of how such detail could improve the understanding of your module. From just a look at the Contents of the main <code>Prolens</code> module of the <a href="https://hackage.haskell.org/package/prolens">prolens</a> library we already can have an idea of the different interfaces that it provides, such as Lenses, Prisms and Traversals); And the structure guides about where to look for functions or operators related to the particular concept.</p>
 <figure>
-<img src="../images/haddock/haddock-prolens-toc.png" alt /><figcaption>Haddock ToC</figcaption>
+<img src="../images/haddock/haddock-prolens-toc.png" alt="Haddock ToC" /><figcaption aria-hidden="true">Haddock ToC</figcaption>
 </figure>
 <hr class="fish">
 <p>To organise your documentation like that, you can use <a href="https://haskell-haddock.readthedocs.io/en/latest/markup.html#section-headings">Sections Headings</a> with the <code>*</code> symbols. You can also add the inline description of the sections which will be shown in the section before the documentation for each element in there.</p>
@@ -389,7 +389,7 @@ src/BlogpostHaddock.hs:57:10: error:
 <span id="cb10-10"><a href="#cb10-10" aria-hidden="true"></a>    <span class="op">...</span></span>
 <span id="cb10-11"><a href="#cb10-11" aria-hidden="true"></a>    )</span></code></pre></div>
 <figure>
-<img src="../images/haddock/haddock-our-toc-view.png" alt /><figcaption>Haddock ToC</figcaption>
+<img src="../images/haddock/haddock-our-toc-view.png" alt="Haddock ToC" /><figcaption aria-hidden="true">Haddock ToC</figcaption>
 </figure>
 <h4 id="named-doc-chunks">Named doc chunks<a href="#named-doc-chunks" class="anchor">🔗</a></h4>
 <p>ToC works fabulously for your documentation. You can notice that each section’s inline description can potentially contain a lot of useful information and be quite agglomerated because of that. However, it quickly can become messy and make the header of the module repulsive for the developers and maintainers themselves. It can even prevent maintainers from writing descriptions full of important details and explanations to the grouped elements only not to mix documentation and code. Haddock has a solution for this: <a href="https://haskell-haddock.readthedocs.io/en/latest/markup.html#named-chunks">named documentation chunks</a>.</p>
@@ -420,7 +420,7 @@ src/BlogpostHaddock.hs:57:10: error:
 <span id="cb11-24"><a href="#cb11-24" aria-hidden="true"></a><span class="co">Can even say about this group</span></span>
 <span id="cb11-25"><a href="#cb11-25" aria-hidden="true"></a><span class="co">-}</span></span></code></pre></div>
 <figure>
-<img src="../images/haddock/haddock-named-chunks.png" alt /><figcaption>Haddock ToC</figcaption>
+<img src="../images/haddock/haddock-named-chunks.png" alt="Haddock ToC" /><figcaption aria-hidden="true">Haddock ToC</figcaption>
 </figure>
 <p>Though be aware that this feature allows using named chunks only in the export list, but not in the documentation for functions and types. It would be so much better if the scope of this feature would be expanded to all places where you can write Haddock comments! Admittedly, there’s an <a href="https://github.com/haskell/haddock/issues/97">open feature request</a> in Haddock about this.</p>
 <h4 id="exports-best-practices">Exports best practices<a href="#exports-best-practices" class="anchor">🔗</a></h4>
@@ -502,7 +502,7 @@ src/BlogpostHaddock.hs:57:10: error:
 <p>One of the standard things for library API is to create a special short-named module (ideally it should have the same name as your package for convenience) that imports other modules with all the essential API. Such import-only modules usually don’t contribute any new code. They serve the purpose of reexporting necessary library API and presenting it in a more digestible way.</p>
 <p>We use this approach a lot in the <a href="https://hackage.haskell.org/package/tomland">tomland</a> library. We have several import-only modules there. The main <code>Toml</code> module reexports everything, so users need to write only a single import line <code>import qualified Toml</code> in order to have access to everything. Besides that, we also group logical modules into subgroups using imports-only super modules. Here is a short example of such a module:</p>
 <figure>
-<img src="../images/haddock/haddock-tomland-import-only.png" alt /><figcaption>Haddock Imports only module</figcaption>
+<img src="../images/haddock/haddock-tomland-import-only.png" alt="Haddock Imports only module" /><figcaption aria-hidden="true">Haddock Imports only module</figcaption>
 </figure>
 <p>We have a few tips on how to utilise documentation for such modules and make them shine maximally:</p>
 <ul>
@@ -514,7 +514,7 @@ src/BlogpostHaddock.hs:57:10: error:
 <h3 id="tables">Tables<a href="#tables" class="anchor">🔗</a></h3>
 <p>A lot of information can be conveyed greatly with tables! Here is a great example of textual types conversion functions from the <a href="https://github.com/kowainik/relude">relude</a> library presented as a table:</p>
 <figure>
-<img src="../images/haddock/haddock-relude-string.png" alt /><figcaption>Haddock Table</figcaption>
+<img src="../images/haddock/haddock-relude-string.png" alt="Haddock Table" /><figcaption aria-hidden="true">Haddock Table</figcaption>
 </figure>
 <p>Tables in Haddock are grid-like tables where the layout is defined by “ASCII art”. See the <a href="https://haskell-haddock.readthedocs.io/en/latest/markup.html#grid-tables">official documentation about tables</a> to learn about their syntax.</p>
 <p>Despite bringing a lot of joy to users who read tables and people who love to create tables (guilty as charged), writing tables can be painful as the format is space- and layout-sensitive, so even any tiny change leads to the complete table restructure. You can use <a href="https://www.tablesgenerator.com/text_tables">this site</a> to create tables easier.</p>
@@ -528,11 +528,11 @@ src/BlogpostHaddock.hs:57:10: error:
 <p>The goal of the documentation is to give a comprehensive picture to your user and/or folk working on the same project. Therefore, it makes sense to use any accessible option to make use of any tool at your elbow. One of the versatile yet straightforward instruments is a graphical representation of some ideas of the function via ASCII.</p>
 <p>Here are a few examples of ASCII-ar documentation in the wild.</p>
 <figure>
-<img src="../images/haddock/haddock-ascii-prolens.png" alt /><figcaption>Haddock ASCII Example 1</figcaption>
+<img src="../images/haddock/haddock-ascii-prolens.png" alt="Haddock ASCII Example 1" /><figcaption aria-hidden="true">Haddock ASCII Example 1</figcaption>
 </figure>
 <p>You can see that the diagram is simple, but it has a significant effect on understanding the type and what each part of it is responsible for.</p>
 <figure>
-<img src="../images/haddock/haddock-ascii-border.png" alt /><figcaption>Haddock ASCII Example 2</figcaption>
+<img src="../images/haddock/haddock-ascii-border.png" alt="Haddock ASCII Example 2" /><figcaption aria-hidden="true">Haddock ASCII Example 2</figcaption>
 </figure>
 <p>Here it is used to showcase the rendered output of borders in TUI.</p>
 <p>Use your imagination to figure out what else could be done with ASCII, but it is clearly one of the easiest instruments that helps improve the documentation.</p>
@@ -540,7 +540,7 @@ src/BlogpostHaddock.hs:57:10: error:
 <hr class="fish">
 <p>It is fair to mention that Haddock does <a href="https://haskell-haddock.readthedocs.io/en/latest/markup.html?highlight=image#images">support images</a> as part of the documentation. And there are a bunch of use cases for that. You can see how useful it is for the rendering libraries, like <a href="https://hackage.haskell.org/package/reanimate">reanimate</a>:</p>
 <figure>
-<img src="../images/haddock/haddock-reanimate-gif.gif" alt /><figcaption>Haddock Gif Example</figcaption>
+<img src="../images/haddock/haddock-reanimate-gif.gif" alt="Haddock Gif Example" /><figcaption aria-hidden="true">Haddock Gif Example</figcaption>
 </figure>
 <p>However, we do not suggest using the images feature heavily. The reason for that is that such documentation is not that stable when you develop a package. But as we know, Haddock is the instrument not only for users but for suppliers as well. Also, documentation has a burden of maintenance, you should keep that up-to-date, and there is no automatic way of that. Reasonably, it is not applicable if you are writing an image library, but even in that case, it would be great to have some mechanism to test images on obsolescence. However, in cases of simple schemes and anything doable with ASCII, it is better to prefer the latter.</p>
 <h3 id="expandable-examples">Expandable examples<a href="#expandable-examples" class="anchor">🔗</a></h3>
@@ -562,7 +562,7 @@ src/BlogpostHaddock.hs:57:10: error:
 <span id="cb13-8"><a href="#cb13-8" aria-hidden="true"></a><span class="op">-</span>}</span></code></pre></div>
 <p>By default, Haddock hides such sections, but you can expand it by clicking on the triangle ▶ icon:</p>
 <figure>
-<img src="../images/haddock/haddock-expandable-example.gif" alt /><figcaption>Haddock Expandable Example</figcaption>
+<img src="../images/haddock/haddock-expandable-example.gif" alt="Haddock Expandable Example" /><figcaption aria-hidden="true">Haddock Expandable Example</figcaption>
 </figure>
 <p>This feature gives implementers more flexibility and control over the on-page appearance of the module. It helps to prioritise information and provide a compact way to fit the vital information, putting some additional parts outside. With this feature, you can provide necessary details only to users who are interested in specifics of some functions. And other people can quickly scroll past these irrelevant details.</p>
 <h3 id="doctest">Doctest<a href="#doctest" class="anchor">🔗</a></h3>
@@ -591,7 +591,7 @@ src/BlogpostHaddock.hs:57:10: error:
 <p>It is a really helpful feature because people who are not familiar with all types and functions can simply jump to definitions and read about them when necessary.</p>
 <p>You can also use links (as well as other Haddock formatting) inside code blocks to make them look prettier. See the example below:</p>
 <figure>
-<img src="../images/haddock/haddock-tomland-links.png" alt /><figcaption>Haddock Tomland links</figcaption>
+<img src="../images/haddock/haddock-tomland-links.png" alt="Haddock Tomland links" /><figcaption aria-hidden="true">Haddock Tomland links</figcaption>
 </figure>
 <p>Here, we use keyword highlighting, module and functions links to make it more readable and help users to understand the example better.</p>
 <h3 id="anchors">Anchors<a href="#anchors" class="anchor">🔗</a></h3>
@@ -746,7 +746,7 @@ Show solution
 </ul>
 <p>The output looks like this:</p>
 <figure>
-<img src="../images/haddock/haddock-warnings.png" alt /><figcaption>Haddock Warnings</figcaption>
+<img src="../images/haddock/haddock-warnings.png" alt="Haddock Warnings" /><figcaption aria-hidden="true">Haddock Warnings</figcaption>
 </figure>
 <p>It doesn’t report all the problems you may have with rendering, so we still recommend <strong>checking your documentation before each release</strong>.</p>
 <h2 id="wishes">Wishes<a href="#wishes" class="anchor">🔗</a></h2>

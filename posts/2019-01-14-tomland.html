@@ -332,7 +332,7 @@ server.ports = [8080, 8081, 9080, 9081]</code></pre>
 <span id="cb14-4"><a href="#cb14-4" aria-hidden="true"></a>    }</span></code></pre></div>
 <p>If we look at types as sets of values then <code>BiMap</code> can be represented by the following graph:</p>
 <figure>
-<img src="https://user-images.githubusercontent.com/4276606/50770531-b6a36000-1298-11e9-9528-caae87951d2a.png" alt /><figcaption>BiMap illustration</figcaption>
+<img src="https://user-images.githubusercontent.com/4276606/50770531-b6a36000-1298-11e9-9528-caae87951d2a.png" alt="BiMap illustration" /><figcaption aria-hidden="true">BiMap illustration</figcaption>
 </figure>
 <p>Type parameters <code>a</code> and <code>b</code> represent the values between which we’re converting. And <code>e</code> is the type of error.</p>
 <blockquote>
@@ -357,7 +357,7 @@ server.ports = [8080, 8081, 9080, 9081]</code></pre>
 <span id="cb16-9"><a href="#cb16-9" aria-hidden="true"></a>        }</span></code></pre></div>
 <p>This instance can be described clearly by the following picture:</p>
 <figure>
-<img src="https://user-images.githubusercontent.com/4276606/50771234-13a01580-129b-11e9-93da-6c5dd0f7f160.png" alt /><figcaption>Category composition illustration</figcaption>
+<img src="https://user-images.githubusercontent.com/4276606/50771234-13a01580-129b-11e9-93da-6c5dd0f7f160.png" alt="Category composition illustration" /><figcaption aria-hidden="true">Category composition illustration</figcaption>
 </figure>
 <p>It’s not convenient to use the dot-operator from <code>Control.Category</code> to compose <code>BiMap</code>s because this operator is already specialized to arrow <code>(-&gt;)</code> in <code>Prelude</code>. But we still can use the ‘&gt;&gt;&gt;’ and ‘&lt;&lt;&lt;’ operators for composing objects and this is quite nice!</p>
 <div class="sourceCode" id="cb17"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true"></a><span class="ot">_ByteStringText ::</span> <span class="dt">TomlBiMap</span> <span class="dt">ByteString</span> <span class="dt">Text</span></span>
