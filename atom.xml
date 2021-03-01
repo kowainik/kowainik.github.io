@@ -8,8 +8,16 @@
         <name>Kowainik</name>
         <email>xrom.xkov@gmail.com</email>
     </author>
-    <updated>2021-02-21T00:00:00Z</updated>
+    <updated>2021-03-01T00:00:00Z</updated>
     <entry>
+    <title>Arrows Zoo</title>
+    <link href="https://kowainik.github.io/posts/arrows-zoo.html" />
+    <id>https://kowainik.github.io/posts/arrows-zoo.html</id>
+    <published>2021-03-01T00:00:00Z</published>
+    <updated>2021-03-01T00:00:00Z</updated>
+    <summary type="html"><![CDATA[The digest of all arrows (->, <-, =>, etc.) use cases in Haskell.]]></summary>
+</entry>
+<entry>
     <title>Totality</title>
     <link href="https://kowainik.github.io/posts/totality.html" />
     <id>https://kowainik.github.io/posts/totality.html</id>
@@ -80,14 +88,6 @@
     <published>2019-09-25T00:00:00Z</published>
     <updated>2019-09-25T00:00:00Z</updated>
     <summary type="html"><![CDATA[Our Google Summer of Code journey as mentors for Issue Wanted project]]></summary>
-</entry>
-<entry>
-    <title>Insane in the Membrain</title>
-    <link href="https://kowainik.github.io/posts/membrain.html" />
-    <id>https://kowainik.github.io/posts/membrain.html</id>
-    <published>2019-07-23T00:00:00Z</published>
-    <updated>2019-07-23T00:00:00Z</updated>
-    <summary type="html"><![CDATA[Membrain is the Haskell library for type-safe memory units. This blog post provides details of the implementation and mentions type-level tricks.]]></summary>
 </entry>
 
 </feed>

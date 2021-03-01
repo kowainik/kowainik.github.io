@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+      <!-- Global site tag (gtag.js) - Google Analytics -->
+      <script async src="https://www.googletagmanager.com/gtag/js?id=UA-125893749-1"></script>
+      <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+
+          gtag('config', 'UA-125893749-1');
+          </script>
+    <title>Arrows Zoo :: Kowainik</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Kowainik — The digest of all arrows (->, <-, =>, etc.) use cases in Haskell.">
+    <meta name="keywords" content="Haskell, Functional progarmming, FP , haskell, fp, guide ">
+    <meta name="author" content="Kowainik  — Veronika Romashkina " />
+
+    <!-- Twitter cards -->
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="@kowainik" />
+    <meta property="twitter:title" content="Kowainik - Arrows Zoo" />
+    <meta name="twitter:description" content="The digest of all arrows (->, <-, =>, etc.) use cases in Haskell." />
+    <meta name="twitter:image:src" content="https://kowainik.github.io/images/logo-yellow.png" />
+    <meta property="og:title" content="Kowainik - Arrows Zoo" />
+    <meta property="og:description" content="The digest of all arrows (->, <-, =>, etc.) use cases in Haskell." />
+    <meta property="og:site_name" content="Kowainik" />
+    <meta property="og:image" content="https://kowainik.github.io/images/logo-yellow.png" />
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon">
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.11.0/styles/dracula.min.css" />
+    <!-- Fontawesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+    <!-- Custom fonts for this template -->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Lato" />
+    <!-- Custom styles for this template -->
+    <link href="../css/default.css" rel="stylesheet">
+    <link href="../css/post.css" rel="stylesheet">
+  </head>
+
+  <body class="body-posts">
+
+          <!-- Header -->
+      <nav class="navbar navbar-inverse navbar-fixed-left leftmenu bg-primary text-secondary">
+            <div class="navbar-header text-center">
+                <div class="postslogo justify-content-center"> <a href="../"><img class="img-fluid" src="../images/logo-tr.png" alt="Kowainik"></a></div>
+                <div class="coffee text-center">
+                    <a class="btn btn-primary rounded-pill" href="https://ko-fi.com/kowainik" target="_blank">
+                        <i class="fas fa-coffee"></i> Buy a coffee
+                    </a>
+                </div>
+                <ul class="socials empty-list list-inline mb-0 justify-content-center text-center mx-auto">
+                
+                <li class="list-inline-item my-auto">
+                    <a class="btn btn-outline-dark btn-social text-center rounded-circle" href="https://twitter.com/kowainik" target="_blank">
+                        <i class="fab fa-fw fa-twitter"></i>
+                    </a>
+                </li>
+                
+                <li class="list-inline-item my-auto">
+                    <a class="btn btn-outline-dark btn-social text-center rounded-circle" href="https://github.com/kowainik" target="_blank">
+                        <i class="fab fa-fw fa-github"></i>
+                    </a>
+                </li>
+                
+                <li class="list-inline-item my-auto">
+                    <a class="btn btn-outline-dark btn-social text-center rounded-circle" href="https://www.linkedin.com/company/kowainik" target="_blank">
+                        <i class="fab fa-fw fa-linkedin"></i>
+                    </a>
+                </li>
+                
+                <li class="list-inline-item my-auto">
+                    <a class="btn btn-outline-dark btn-social text-center rounded-circle" href="https://t.me/kowainik" target="_blank">
+                        <i class="fab fa-fw fa-telegram"></i>
+                    </a>
+                </li>
+                
+                <li class="list-inline-item my-auto">
+                    <a class="btn btn-outline-dark btn-social text-center rounded-circle" href="../rss.xml" target="_blank">
+                        <i class="fas fa-fw fa-rss"></i>
+                    </a>
+                </li>
+                
+                </ul>
+
+            </div>
+
+            <div class="toc-zone justify-content-center">
+                <h6 class="coolFont">Contents</h6>
+                <div class="toc" id="main">
+                    <ul>
+<li><a href="#section">-&gt;</a>
+<ul>
+<li><a href="#types">Types</a></li>
+<li><a href="#kinds">Kinds</a></li>
+<li><a href="#lambda-function">Lambda function</a></li>
+<li><a href="#cases">Cases</a></li>
+<li><a href="#view-patterns">View Patterns</a></li>
+<li><a href="#multi-way-if">Multi-Way If</a></li>
+<li><a href="#linear-types">Linear types*</a></li>
+</ul></li>
+<li><a href="#section-1">&lt;-</a>
+<ul>
+<li><a href="#do">Do</a></li>
+<li><a href="#comprehension">Comprehension</a></li>
+<li><a href="#pattern-guard">Pattern guard</a></li>
+<li><a href="#pattern-synonyms">Pattern-synonyms</a></li>
+</ul></li>
+<li><a href="#other-arrows">Other Arrows</a>
+<ul>
+<li><a href="#section-2">=&gt;</a></li>
+<li><a href="#and">&lt;&lt;= and =&gt;&gt;</a></li>
+<li><a href="#section-3">&lt;&lt;&lt;/&gt;&gt;&gt;</a></li>
+<li><a href="#section-4">-&lt;</a></li>
+</ul></li>
+<li><a href="#conclusion">Conclusion</a></li>
+</ul>
+                </div>
+            </div>
+            <div class="allposts text-center">
+                <h3><a href="../posts"> Posts =<< </a></h3>
+            </div>
+      </nav>
+      <div class="container info">
+          <h2 class="text-center text-uppercase text-secondary">Arrows Zoo</h2>
+          <div class="row coolFont align-self-center justify-content-center">
+            <div class="col-10">Date: March  1, 2021</div>
+            
+
+            <div class="author col-10">Author: Veronika Romashkina</div>
+            <div class="col-12 text-center m-auto tag-block">
+                
+                <span class="tag-block"> <a class="btn btn-outline-dark btn-tag" href="../tags/haskell">haskell</a></span>
+                
+                <span class="tag-block"> <a class="btn btn-outline-dark btn-tag" href="../tags/fp">fp</a></span>
+                
+                <span class="tag-block"> <a class="btn btn-outline-dark btn-tag" href="../tags/guide">guide</a></span>
+                
+            </div>
+          </div>
+
+          <div class="content">
+            <div class="row post">
+              <div class="col-12 post-body">
+              <p class="lead">
+                  <div class="cite-quote">
+<div class="cite-quote-content">
+<p>A good archer is not known by his arrows but his aim</p>
+</div>
+<div class="cite-quote-author">
+<p>Thomas Fuller</p>
+</div>
+</div>
+<p>Don’t know about you, folks, but I had a hard time remembering all the Haskell arrows that you can bump into in all different situations. For example, I guess I will never be able to use <code>ViewPatterns</code> correctly on the first attempt. For me, the digest of every use case of each arrow in Haskell sounds like a handy thing to have, at least this information will be structured somewhere, so here we go.</p>
+<p>Each section of this post covers a specific arrow application, explains when and how it is used and gives examples. Some not that popular usages of the arrow syntax are mentioned in this writing too. So, if you are excited, let’s get started!</p>
+<figure>
+<img src="../images/posts/arrows/arrows-blue-knight.jpg" alt="Arrows Blue Knight" /><figcaption aria-hidden="true">Arrows Blue Knight</figcaption>
+</figure>
+<h2 id="section">-&gt;<a href="#section" class="anchor">🔗</a></h2>
+<p>The most frequently used arrow in Haskell – right-directed arrow <code>-&gt;</code> – is the one we are going to talk about first and foremost.</p>
+<h3 id="types">Types<a href="#types" class="anchor">🔗</a></h3>
+<p><code>-&gt;</code> is used in the type signatures to show the relation of types in functions. When just starting learning Haskell, we can think of this arrow as an indicator in the type. But later, we can figure out, that in reality, <code>-&gt;</code> is the built-in data type specified in the <code>GHC.Prim</code> module:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true"></a><span class="kw">infixr</span> <span class="op">-</span><span class="dv">1</span> <span class="ot">-&gt;</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true"></a><span class="kw">data</span> (<span class="ot">-&gt;</span>) a b</span></code></pre></div>
+<p>The arrow type operator is usually used in the infix form. It shows the direction from input to output type of functions.</p>
+<p>For instance, we say that the standard <code>length</code> function takes a list and returns a single integer – the list’s size. With the arrow, it is written in the type like this:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true"></a><span class="fu">length</span><span class="ot"> ::</span> [a] <span class="ot">-&gt;</span> <span class="dt">Int</span></span></code></pre></div>
+<p>We can use function type when defining a new data type:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true"></a><span class="kw">newtype</span> <span class="dt">ReaderT</span> r m a <span class="ot">=</span> <span class="dt">ReaderT</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true"></a>    {<span class="ot"> runReaderT ::</span> r <span class="ot">-&gt;</span> m a</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true"></a>    }</span></code></pre></div>
+<p>Another example of where you can use <code>-&gt;</code> as a type operator is <a href="https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/exts/gadt.html">GADT</a>:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true"></a><span class="kw">data</span> <span class="dt">Expression</span> <span class="kw">where</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true"></a>    <span class="dt">Literal</span><span class="ot"> ::</span> <span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">Expression</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true"></a>    <span class="dt">Const</span><span class="ot"> ::</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Expression</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true"></a>    <span class="dt">BinOperation</span><span class="ot"> ::</span> <span class="dt">BinOp</span> <span class="ot">-&gt;</span> <span class="dt">Expression</span> <span class="ot">-&gt;</span> <span class="dt">Expression</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true"></a>    <span class="op">...</span></span></code></pre></div>
+<h3 id="kinds">Kinds<a href="#kinds" class="anchor">🔗</a></h3>
+<p>Like type signatures for functions and data types, we also use <code>-&gt;</code> to specify the kinds of the types (aka types of the types).</p>
+<p>With the <a href="https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/exts/kind_signatures.html#extension-KindSignatures">KindSignatures</a> extensions, we can specify the kind for the type variables:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true"></a><span class="ot">{-# LANGUAGE KindSignatures #-}</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true"></a><span class="kw">data</span> <span class="dt">IntBox</span> (<span class="ot">f ::</span> <span class="dt">Type</span> <span class="ot">-&gt;</span> <span class="dt">Type</span>) <span class="ot">=</span> <span class="dt">IntBox</span> (f <span class="dt">Int</span>)</span></code></pre></div>
+<p>With the relatively new GHC extension – <a href="https://downloads.haskell.org/ghc/latest/docs/html/users_guide/exts/poly_kinds.html#extension-StandaloneKindSignatures">StandaloneKindSignatures</a>, which was added in GHC-8.10, we can specify the <strong>kind</strong> of the type similar to the way we do it for functions’ types:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true"></a><span class="kw">type</span> <span class="dt">Pair</span><span class="ot"> ::</span> <span class="dt">Type</span> <span class="ot">-&gt;</span> <span class="dt">Type</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true"></a><span class="kw">data</span> <span class="dt">Pair</span> a <span class="ot">=</span> <span class="dt">Pair</span> a a</span></code></pre></div>
+<p>Right-directed arrow is also used in the <a href="https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/exts/type_families.html">type families</a> declarations:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true"></a><span class="kw">type</span> <span class="kw">family</span> <span class="dt">AllHave</span> (<span class="ot">f ::</span> k <span class="ot">-&gt;</span> <span class="dt">Constraint</span>) (<span class="ot">xs ::</span> [k])<span class="ot"> ::</span> <span class="dt">Constraint</span> <span class="kw">where</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true"></a>    <span class="dt">AllHave</span> _ '[]       <span class="ot">=</span> ()</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true"></a>    <span class="dt">AllHave</span> f (x '<span class="op">:</span> xs) <span class="ot">=</span> (f x, <span class="dt">AllHave</span> f xs)</span></code></pre></div>
+<h3 id="lambda-function">Lambda function<a href="#lambda-function" class="anchor">🔗</a></h3>
+<p>The syntax for lambda functions in Haskell uses the right arrow <code>-&gt;</code> but on the term-level and not type-level as in the previous use-case. The general scheme is the following:</p>
+<pre><code>\variables with spaces (or patterns in parenthesis) -&gt; action with variables</code></pre>
+<p>Here are a few examples:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true"></a><span class="ot">doubleList ::</span> [<span class="dt">Int</span>] <span class="ot">-&gt;</span> [<span class="dt">Int</span>]</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true"></a>doubleList <span class="ot">=</span> <span class="fu">map</span> (\x <span class="ot">-&gt;</span> x <span class="op">*</span> <span class="dv">2</span>)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true"></a></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true"></a>foldl' (\hash el <span class="ot">-&gt;</span> HashSet.insert el hash) <span class="fu">mempty</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true"></a></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true"></a><span class="ot">ifM ::</span> <span class="dt">Monad</span> m <span class="ot">=&gt;</span> m <span class="dt">Bool</span> <span class="ot">-&gt;</span> m a <span class="ot">-&gt;</span> m a <span class="ot">-&gt;</span> m a</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true"></a>ifM p x y <span class="ot">=</span> p <span class="op">&gt;&gt;=</span> \b <span class="ot">-&gt;</span> <span class="kw">if</span> b <span class="kw">then</span> x <span class="kw">else</span> y</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true"></a></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true"></a><span class="ot">heads ::</span> [<span class="dt">NonEmpty</span> a] <span class="ot">-&gt;</span> [a]</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true"></a>heads <span class="ot">=</span> <span class="fu">map</span> (\(x <span class="op">:|</span> _) <span class="ot">-&gt;</span> x)</span></code></pre></div>
+<h3 id="cases">Cases<a href="#cases" class="anchor">🔗</a></h3>
+<p><strong>Case of</strong></p>
+<p>In addition to pattern matching in the function declaration, you can also use the <strong>case-of</strong> expression. The main difference between the case-of and top-level pattern matching is that <code>case</code> uses arrows <code>-&gt;</code> instead of <code>=</code> for branch results.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true"></a><span class="ot">whenJust ::</span> <span class="dt">Applicative</span> f <span class="ot">=&gt;</span> <span class="dt">Maybe</span> a <span class="ot">-&gt;</span> (a <span class="ot">-&gt;</span> f ()) <span class="ot">-&gt;</span> f ()</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true"></a>whenJust ma f <span class="ot">=</span> <span class="kw">case</span> ma <span class="kw">of</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true"></a>    <span class="dt">Just</span> x  <span class="ot">-&gt;</span> f x</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true"></a>    <span class="dt">Nothing</span> <span class="ot">-&gt;</span> <span class="fu">pure</span> ()</span></code></pre></div>
+<p><strong>Lambda case</strong></p>
+<p>Similar to the <em>case-of</em> expression, <a href="https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/exts/lambda_case.html#extension-LambdaCase"><strong>lambda case</strong></a> is used to reduce syntax noise when using the case construction on the last argument in lambda functions.</p>
+<p>The most common case is to use it on the last input argument in the functions:</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true"></a><span class="ot">isEmpty ::</span> [a] <span class="ot">-&gt;</span> <span class="dt">Bool</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true"></a>isEmpty <span class="ot">=</span> \<span class="kw">case</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true"></a>    [] <span class="ot">-&gt;</span> <span class="dt">True</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true"></a>    _  <span class="ot">-&gt;</span> <span class="dt">False</span></span></code></pre></div>
+<p><strong>Case guards</strong></p>
+<p>Just like <em>guards</em> in normal functions, you can use guards with cases as well in the same manner, but keeping the syntax of the <em>case-of</em> with <code>-&gt;</code>:</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true"></a><span class="ot">maybeAddEven ::</span> <span class="dt">Maybe</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Maybe</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Maybe</span> <span class="dt">Int</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true"></a>maybeAddEven ma mb <span class="ot">=</span> <span class="kw">case</span> (ma, mb) <span class="kw">of</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true"></a>    (<span class="dt">Just</span> a, <span class="dt">Just</span> b)</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true"></a>        <span class="op">|</span> <span class="fu">even</span> a <span class="op">&amp;&amp;</span> <span class="fu">even</span> b <span class="ot">-&gt;</span> <span class="dt">Just</span> a <span class="op">+</span> b</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true"></a>        <span class="op">|</span> <span class="fu">otherwise</span> <span class="ot">-&gt;</span> <span class="dt">Nothing</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true"></a>    (_, _) <span class="ot">-&gt;</span> <span class="dt">Nothing</span></span></code></pre></div>
+<p><strong>Lambda Case* </strong></p>
+<p>Additionally, since GHC 9.0.1, combining <code>LambdaCase</code> with <code>Arrows</code> allows the <code>\case</code> syntax to be used as a command in the <code>proc</code> notation:</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true"></a>proc x <span class="ot">-&gt;</span> (f <span class="op">-&lt;</span> x) <span class="ot">`catchA`</span> \<span class="kw">case</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true"></a>    p1 <span class="ot">-&gt;</span> cmd1</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true"></a>    <span class="op">...</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true"></a>    pN <span class="ot">-&gt;</span> cmdN</span></code></pre></div>
+<h3 id="view-patterns">View Patterns<a href="#view-patterns" class="anchor">🔗</a></h3>
+<p><a href="https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/exts/view_patterns.html?highlight=viewpatterns#extension-ViewPatterns"><code>-XViewPatterns</code></a> is a handy extension that allows writing function application directly in the arguments specification. And, as you can guess, the <code>-&gt;</code> is part of its syntax too. First, you need to specify the function you want to apply and then, after the arrow, the variable that you can use later on in the function body. E.g.</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true"></a><span class="ot">mkUser ::</span> <span class="dt">Text</span> <span class="ot">-&gt;</span> <span class="dt">Text</span> <span class="ot">-&gt;</span> <span class="dt">User</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true"></a>mkUser (Text.toLower <span class="ot">-&gt;</span> nickname) (Text.toLower <span class="ot">-&gt;</span> name) <span class="ot">=</span> <span class="dt">User</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true"></a>    { userNickname <span class="ot">=</span> nickname</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true"></a>    , userName <span class="ot">=</span> name</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true"></a>    }</span></code></pre></div>
+<p>You can also use <code>ViewPatterns</code> with the concrete pattern, not the variable:</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true"></a><span class="ot">startWithA ::</span> <span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">Bool</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true"></a>startWithA (<span class="fu">map</span> <span class="fu">toLower</span> <span class="ot">-&gt;</span> <span class="ch">'a'</span><span class="op">:</span>_) <span class="ot">=</span> <span class="dt">True</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true"></a>startWithA _ <span class="ot">=</span> <span class="dt">False</span></span></code></pre></div>
+<p>Multiple <code>ViewPatterns</code> can be composed in a single pattern:</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true"></a><span class="ot">maybeEven ::</span> <span class="dt">Maybe</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">String</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true"></a>maybeEven (fromMaybe <span class="dv">0</span> <span class="ot">-&gt;</span> <span class="fu">even</span> <span class="ot">-&gt;</span> isEven) <span class="ot">=</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true"></a>    <span class="kw">if</span> isEven</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true"></a>    <span class="kw">then</span> <span class="st">&quot;Even number&quot;</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true"></a>    <span class="kw">else</span> <span class="st">&quot;Other&quot;</span></span></code></pre></div>
+<blockquote>
+<p>The above is equivalent to the usage of ordinary function composition and a single view pattern:</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true"></a>maybeEven (<span class="fu">even</span> <span class="op">.</span> fromMaybe <span class="dv">0</span> <span class="ot">-&gt;</span> isEven)</span></code></pre></div>
+</blockquote>
+<div class="sourceCode" id="cb18"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true"></a><span class="op">&gt;</span> maybeEven (<span class="dt">Just</span> <span class="dv">2</span>)</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true"></a><span class="st">&quot;Even number&quot;</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true"></a><span class="op">&gt;</span> maybeEven (<span class="dt">Just</span> <span class="dv">15</span>)</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true"></a><span class="st">&quot;Other&quot;</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true"></a><span class="op">&gt;</span> maybeEven <span class="dt">Nothing</span></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true"></a><span class="st">&quot;Other&quot;</span></span></code></pre></div>
+<h3 id="multi-way-if">Multi-Way If<a href="#multi-way-if" class="anchor">🔗</a></h3>
+<p>The <a href="https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/exts/multiway_if.html#extension-MultiWayIf"><code>MultiWayIf</code></a> extension allows writing <code>if-then-else</code> constructions with <em>guards</em> to check more conditions on the same level, and it also uses the right-directed arrow (-&gt;). Check this one out:</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true"></a><span class="ot">choose ::</span> [<span class="dt">String</span>] <span class="ot">-&gt;</span> <span class="dt">IO</span> ()</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true"></a>choose allowedStrs <span class="ot">=</span> <span class="kw">do</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true"></a>    input <span class="ot">&lt;-</span> <span class="fu">getLine</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true"></a>    <span class="kw">if</span> <span class="op">|</span> trim input <span class="op">==</span> <span class="st">&quot;&quot;</span> <span class="ot">-&gt;</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true"></a>           <span class="fu">putStrLn</span> <span class="st">&quot;Empty input&quot;</span> <span class="op">&gt;&gt;</span> choose allowedStrs</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true"></a>       <span class="op">|</span> <span class="fu">map</span> <span class="fu">toLower</span> input <span class="ot">`elem`</span> allowedStrs <span class="ot">-&gt;</span></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true"></a>           <span class="fu">putStrLn</span> <span class="op">$</span> <span class="st">&quot;You choose: &quot;</span> <span class="op">&lt;&gt;</span> input</span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true"></a>       <span class="op">|</span> <span class="fu">otherwise</span> <span class="ot">-&gt;</span></span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true"></a>           <span class="fu">putStrLn</span> <span class="st">&quot;Choose wisely&quot;</span> <span class="op">&gt;&gt;</span> choose allowedStrs</span></code></pre></div>
+<h3 id="linear-types">Linear types*<a href="#linear-types" class="anchor">🔗</a></h3>
+<p>The brand new feature introduced in Haskell is <a href="https://ghc.gitlab.haskell.org/ghc/doc/users_guide/exts/linear_types.html"><strong>linear types</strong></a>. It only appeared in GHC-9.0 and is not yet that widespread, but it is nice to know that the arrow with the special syntax can represent linear types. The syntax is using <code>%m -&gt;</code> to specify the “linearity” of the function.</p>
+<p>See the example of the <code>uncons</code> function, that consumes the input list only once (hence <code>%1</code>):</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true"></a><span class="ot">uncons ::</span> [a] <span class="op">%</span><span class="dv">1</span> <span class="ot">-&gt;</span> <span class="dt">Maybe</span> (a, [a])</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true"></a>uncons [] <span class="ot">=</span> <span class="dt">Nothing</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true"></a>uncons (x<span class="op">:</span>xs) <span class="ot">=</span> <span class="dt">Just</span> (x, xs)</span></code></pre></div>
+<h2 id="section-1">&lt;-<a href="#section-1" class="anchor">🔗</a></h2>
+<p>Now, let’s see where the opposite-direction arrow <code>&lt;-</code> is used. It is also quite popular and has different use-cases, which is good to distinguish in order to understand and control your code better.</p>
+<h3 id="do">Do<a href="#do" class="anchor">🔗</a></h3>
+<p>One of the main syntactic Haskell features is <strong>“do” notation</strong>. Do-notation is an alternative for building up monadic computations, using a pseudo-imperative code writing style with the named variables. In reality, do-notation is the syntax-sugar for the binding that uses the left arrow <code>&lt;-</code> operator to assign the result of binding into the variable.</p>
+<p>There are a few types of do-notations. We are going to check out each of them separately here.</p>
+<p><strong>Traditional Do-notation</strong></p>
+<p>Any instance of the <code>Monad</code> class can be used in a traditional do-block in Haskell without any additional extension whatsoever.</p>
+<p>The most conventional usage of do-notation is with the <code>IO</code> Monad:</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true"></a><span class="ot">main ::</span> <span class="dt">IO</span> ()</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true"></a>main <span class="ot">=</span> <span class="kw">do</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true"></a>    input <span class="ot">&lt;-</span> <span class="fu">getLine</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true"></a>    <span class="fu">putStrLn</span> <span class="op">$</span> input <span class="op">&lt;&gt;</span> <span class="st">&quot; is what you wrote.&quot;</span></span></code></pre></div>
+<p>This is the same as:</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true"></a>main <span class="ot">=</span> <span class="fu">getLine</span> <span class="op">&gt;&gt;=</span> \input <span class="ot">-&gt;</span> putStrLin (input <span class="op">&lt;&gt;</span> <span class="st">&quot; is what you wrote.&quot;</span>)</span></code></pre></div>
+<blockquote>
+<p>Note how our new arrow <code>&lt;-</code> translates to the already familiar lambda-arrow <code>-&gt;</code> and the bind (<code>&gt;&gt;=</code>) operator.</p>
+</blockquote>
+<p>Do-notation could be written with any Monad: <code>Maybe</code>, <code>Either</code>, <code>Reader</code>, <code>State</code>, etc.</p>
+<blockquote>
+<p>Note: do not confuse <code>&lt;-</code> binding and <code>let =</code> expressions in the do-notation. <code>let =</code> is used for simple variable assignment, when <code>&lt;-</code> is used to assign the “binded” variable.</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true"></a><span class="ot">main ::</span> ()</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true"></a>main <span class="ot">=</span> <span class="kw">do</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true"></a>    input <span class="ot">&lt;-</span> <span class="fu">getLine</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true"></a>    <span class="kw">let</span> reversedInput <span class="ot">=</span> <span class="fu">reverse</span> input</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true"></a>    <span class="fu">putStrLn</span> <span class="op">$</span> <span class="st">&quot;Reverse of what you wrote is &quot;</span> <span class="op">&lt;&gt;</span> reversedInput</span></code></pre></div>
+</blockquote>
+<p><strong>Applicative-do</strong></p>
+<p><a href="https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/exts/applicative_do.html">ApplicativeDo</a> is a GHC extension that allows using do-notation with the <code>Applicative</code> representers. Unlike monadic <code>do</code>, this one uses do-notation to syntax sugar <code>&lt;$&gt;</code> and <code>&lt;*&gt;</code> operators of the <code>Applicative</code> typeclass.</p>
+<p>Applicative-do is very useful for working with Applicative-based solutions, for example, with <a href="https://hackage.haskell.org/package/optparse-applicative">optparse-applicative</a> – Haskell parsing library:</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true"></a><span class="ot">{-# LANGUAGE ApplicativeDo #-}</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true"></a></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true"></a><span class="ot">userParser ::</span> <span class="dt">Parser</span> <span class="dt">User</span></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true"></a>userParser <span class="ot">=</span> <span class="kw">do</span></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true"></a>    userName <span class="ot">&lt;-</span> nameParser</span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true"></a>    userAge  <span class="ot">&lt;-</span> ageParser</span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true"></a>    <span class="fu">pure</span> (<span class="dt">User</span> userName userAge)</span></code></pre></div>
+<p>The above becomes the syntax sugar for:</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true"></a><span class="ot">userParser ::</span> <span class="dt">Parser</span> <span class="dt">User</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true"></a>userParser <span class="ot">=</span> <span class="dt">User</span> <span class="op">&lt;$&gt;</span> nameParser <span class="op">&lt;*&gt;</span> ageParser</span></code></pre></div>
+<p><strong>Recursive-do</strong></p>
+<p><code>RecursiveDo</code> is yet another extension to strengthen do-notation. It allows recursive bindings that won’t work with the ordinary do-notation.</p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true"></a><span class="ot">{-# LANGUAGE RecursiveDo #-}</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true"></a></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true"></a><span class="kw">data</span> <span class="dt">Node</span> <span class="ot">=</span> <span class="dt">Node</span> <span class="dt">Int</span> (<span class="dt">IORef</span> <span class="dt">Node</span>)</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true"></a></span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true"></a><span class="ot">mkNode ::</span>  <span class="dt">IO</span> (<span class="dt">IORef</span> <span class="dt">Node</span>)</span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true"></a>mkNode <span class="ot">=</span> <span class="kw">do</span></span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true"></a>    rec nodeRef <span class="ot">&lt;-</span> newIORef (<span class="dt">Node</span> <span class="dv">0</span> nodeRef)</span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true"></a>    <span class="fu">return</span> nodeRef</span></code></pre></div>
+<p>Alternatively to the <code>rec</code> keyword for the particular binding, <code>mdo</code> could be used instead of <code>do</code> to use recursive bindings on the whole block where GHC will cleverly apply it optimally.</p>
+<p><strong>Qualified-Do</strong></p>
+<p>The <a href="https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/exts/qualified_do.html?highlight=qualifieddo#extension-QualifiedDo">QualifiedDo</a> extension is the most recent addition to the compiler that became available only with the GHC version 9.0.</p>
+<p>The feature allows you to customise the do-notation sugaring rules (you can use the <code>&gt;&gt;=</code> function defined in some modules in the qualified <code>do</code> blocks). You would then be able to specify qualified for each particular case you want to use it with.</p>
+<p>For example, if we have a <code>List</code> module that would define binding functions:</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true"></a><span class="kw">module</span> <span class="dt">List</span> <span class="kw">where</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true"></a></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true"></a><span class="kw">import</span> <span class="dt">Prelude</span> <span class="kw">hiding</span> (<span class="dt">Monad</span> (..))</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true"></a></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true"></a><span class="ot">(&gt;&gt;=) ::</span> [a] <span class="ot">-&gt;</span> (a <span class="ot">-&gt;</span> [b]) <span class="ot">-&gt;</span> [b]</span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true"></a>(<span class="op">&gt;&gt;=</span>) <span class="ot">=</span> <span class="fu">flip</span> <span class="fu">concatMap</span></span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true"></a></span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true"></a><span class="ot">(&gt;&gt;) ::</span> a <span class="ot">-&gt;</span> [a] <span class="ot">-&gt;</span> [a]</span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true"></a>(<span class="op">&gt;&gt;</span>) <span class="ot">=</span> (<span class="op">:</span>)</span></code></pre></div>
+<p>Then you can use it for the list do-notation:</p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true"></a><span class="ot">{-# LANGUAGE QualifiedDo #-}</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true"></a></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true"></a><span class="kw">import</span> <span class="kw">qualified</span> <span class="dt">List</span></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true"></a></span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true"></a><span class="ot">list ::</span> [<span class="dt">String</span>]</span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true"></a>list <span class="ot">=</span> List.do</span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true"></a>    num <span class="ot">&lt;-</span> [<span class="dv">10</span>, <span class="dv">42</span>]</span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true"></a>    <span class="st">&quot;Hello&quot;</span></span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true"></a>    <span class="st">&quot;number&quot;</span></span>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true"></a>    <span class="fu">show</span> num</span>
+<span id="cb28-11"><a href="#cb28-11" aria-hidden="true"></a>    <span class="st">&quot;!&quot;</span></span>
+<span id="cb28-12"><a href="#cb28-12" aria-hidden="true"></a>    []</span></code></pre></div>
+<p>And it works like this:</p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true"></a><span class="op">&gt;</span> list</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true"></a>[<span class="st">&quot;Hello&quot;</span>,<span class="st">&quot;number&quot;</span>,<span class="st">&quot;10&quot;</span>,<span class="st">&quot;!&quot;</span>,<span class="st">&quot;Hello&quot;</span>,<span class="st">&quot;number&quot;</span>,<span class="st">&quot;42&quot;</span>,<span class="st">&quot;!&quot;</span>]</span></code></pre></div>
+<p>You can also combine different <code>do</code>s:</p>
+<div class="sourceCode" id="cb30"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true"></a><span class="kw">import</span> <span class="kw">qualified</span> <span class="dt">Your.Module.With.Defined.Bind</span> <span class="kw">as</span> <span class="dt">M</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true"></a></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true"></a><span class="ot">f ::</span> <span class="dt">M.M</span> <span class="dt">SomeType</span></span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true"></a>f <span class="ot">=</span> M.do</span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true"></a>    x <span class="ot">&lt;-</span> foo  <span class="co">-- &lt;- represents M.&gt;&gt;=</span></span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true"></a>    foo' <span class="op">$</span> <span class="kw">do</span></span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true"></a>        y <span class="ot">&lt;-</span> g1  <span class="co">-- &lt;- represents Prelude.&gt;&gt;=</span></span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true"></a>        g2 x y</span></code></pre></div>
+<h3 id="comprehension">Comprehension<a href="#comprehension" class="anchor">🔗</a></h3>
+<p>Comprehensions are an expressive shorthand for building computations on some particular structures. There are several different comprehensions you can try on your favourite types.</p>
+<p>Comprehensions use the <code>&lt;-</code> arrow to express generators that would be used for the structure building.</p>
+<p><strong>List comprehension</strong></p>
+<p>List comprehension is the syntactic sugar for working on lists. See the following examples:</p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true"></a><span class="op">&gt;</span> [ (i, j) <span class="op">|</span> i <span class="ot">&lt;-</span> [<span class="dv">0</span><span class="op">..</span><span class="dv">2</span>], j <span class="ot">&lt;-</span> [<span class="dv">0</span><span class="op">..</span><span class="dv">2</span>] ]</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true"></a>[(<span class="dv">0</span>,<span class="dv">0</span>),(<span class="dv">0</span>,<span class="dv">1</span>),(<span class="dv">0</span>,<span class="dv">2</span>),(<span class="dv">1</span>,<span class="dv">0</span>),(<span class="dv">1</span>,<span class="dv">1</span>),(<span class="dv">1</span>,<span class="dv">2</span>),(<span class="dv">2</span>,<span class="dv">0</span>),(<span class="dv">2</span>,<span class="dv">1</span>),(<span class="dv">2</span>,<span class="dv">2</span>)]</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true"></a></span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true"></a><span class="op">&gt;</span> [ (i, j) <span class="op">|</span> i <span class="ot">&lt;-</span> [<span class="dv">0</span><span class="op">..</span><span class="dv">2</span>], j <span class="ot">&lt;-</span> [<span class="dv">0</span><span class="op">..</span><span class="dv">2</span>], i <span class="op">/=</span> j ]</span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true"></a>[(<span class="dv">0</span>,<span class="dv">1</span>),(<span class="dv">0</span>,<span class="dv">2</span>),(<span class="dv">1</span>,<span class="dv">0</span>),(<span class="dv">1</span>,<span class="dv">2</span>),(<span class="dv">2</span>,<span class="dv">0</span>),(<span class="dv">2</span>,<span class="dv">1</span>)]</span></code></pre></div>
+<p>This function is actually the Cartesian product of two sets – a list of pairs of numbers from sets of numbers from 0 to 2. Here, with <code>&lt;-</code>, you hand over each element of the list as an input to generate pairs.</p>
+<p>List comprehensions are the most convenient for writing some <code>map</code>s and <code>filter</code>s over lists.</p>
+<p>Note that you can use functions in list comprehensions and also nested list comprehensions as well.</p>
+<p><strong>Parallel List comprehension</strong></p>
+<p>One way to boost your list comprehension skills is to use the <a href="https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/exts/parallel_list_comprehensions.html">ParallelListComp</a> extension. If we think of <code>concatMap</code>s (or cartesian products) in list comprehensions, here, we should imagine the work of such comprehensions as <code>zip*</code> functions.</p>
+<p>Syntactically, <code>ParallelListComp</code> uses several <code>|</code> statements with <code>&lt;-</code> arrows.</p>
+<p>Let’s look at the similar to the list comprehensions example to understand the difference with better:</p>
+<div class="sourceCode" id="cb32"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true"></a><span class="op">&gt;</span> <span class="op">:</span>set <span class="op">-</span><span class="dt">XParallelListComp</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true"></a><span class="op">&gt;</span> [ (i, j) <span class="op">|</span> i <span class="ot">&lt;-</span> [<span class="dv">0</span><span class="op">..</span><span class="dv">2</span>] <span class="op">|</span> j <span class="ot">&lt;-</span> [<span class="dv">0</span><span class="op">..</span><span class="dv">3</span>] ]</span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true"></a>[(<span class="dv">0</span>,<span class="dv">0</span>),(<span class="dv">1</span>,<span class="dv">1</span>),(<span class="dv">2</span>,<span class="dv">2</span>)]</span></code></pre></div>
+<p>As you can see, it behaves exactly as <code>zip</code> in here, while list comprehension would give you product.</p>
+<p><strong>Transform List Comp</strong></p>
+<p>The <a href="https://downloads.haskell.org/ghc/latest/docs/html/users_guide/exts/generalised_list_comprehensions.html#extension-TransformListComp"><code>TransformListComp</code></a> extension enables the SQL-like syntax in list comprehensions. By SQL-like, I mean that several keywords from the SQL world are introduced that you can utilise in comprehension syntax: <code>group</code>, <code>by</code>, and <code>using</code>. Also, you need to use the <code>then</code> keyword for each statement.</p>
+<div class="sourceCode" id="cb33"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true"></a><span class="op">&gt;</span> nums <span class="ot">=</span> [ (<span class="st">&quot;one&quot;</span>, <span class="dv">1</span>), (<span class="st">&quot;two&quot;</span>, <span class="dv">2</span>), (<span class="st">&quot;three&quot;</span>, <span class="dv">3</span>), (<span class="st">&quot;four&quot;</span>, <span class="dv">4</span>), (<span class="st">&quot;five&quot;</span>, <span class="dv">5</span>) ]</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true"></a><span class="op">&gt;</span> [ (str, num) <span class="op">|</span> (str, num) <span class="ot">&lt;-</span> nums, <span class="kw">then</span> sortWith by str ]</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true"></a>[(<span class="st">&quot;five&quot;</span>,<span class="dv">5</span>),(<span class="st">&quot;four&quot;</span>,<span class="dv">4</span>),(<span class="st">&quot;one&quot;</span>,<span class="dv">1</span>),(<span class="st">&quot;three&quot;</span>,<span class="dv">3</span>),(<span class="st">&quot;two&quot;</span>,<span class="dv">2</span>)]</span></code></pre></div>
+<p><strong>Monad comprehension</strong></p>
+<p><a href="https://downloads.haskell.org/ghc/latest/docs/html/users_guide/exts/monad_comprehensions.html#extension-MonadComprehensions"><code>MonadComprehensions</code></a> is the extension that allows list comprehension syntax with <code>Monad</code>s. This also makes parallel comprehensions (Parallel List Comprehensions) and transform comprehensions (Generalised (SQL-like) List Comprehensions) to work for any monad.</p>
+<p>Here is an example of how this feature can be used to write the <code>maybeAddEven</code> function from the <a href="#cases">Case guard</a> section:</p>
+<div class="sourceCode" id="cb34"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true"></a><span class="ot">maybeAddEven ::</span> <span class="dt">Maybe</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Maybe</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Maybe</span> <span class="dt">Int</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true"></a>maybeAddEven  ma mb <span class="ot">=</span> [ a <span class="op">+</span> b <span class="op">|</span> a <span class="ot">&lt;-</span> ma, b <span class="ot">&lt;-</span> mb, <span class="fu">even</span> a, <span class="fu">even</span> b ]</span></code></pre></div>
+<h3 id="pattern-guard">Pattern guard<a href="#pattern-guard" class="anchor">🔗</a></h3>
+<p><a href="https://wiki.haskell.org/Pattern_guard">Pattern guard</a> is a feature that, in some way, extends the <em>guards</em> notion. Instead of being a boolean expression like in simple guards, a pattern guard is a list of qualifiers, similar to the previous section’s list comprehension.</p>
+<p>You can often use it instead of the awkward <code>case-of</code> statements.</p>
+<p>And again, let’s reuse the <code>maybeAddEven</code> example, but this time with the help of the pattern guards feature:</p>
+<div class="sourceCode" id="cb35"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true"></a><span class="ot">maybeAddEven ::</span> <span class="dt">Maybe</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Maybe</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Maybe</span> <span class="dt">Int</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true"></a>maybeAddEven ma mb</span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true"></a>    <span class="op">|</span> <span class="dt">Just</span> a <span class="ot">&lt;-</span> ma</span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true"></a>    , <span class="fu">even</span> a</span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true"></a>    , <span class="dt">Just</span> b <span class="ot">&lt;-</span> mb</span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true"></a>    , <span class="fu">even</span> b</span>
+<span id="cb35-7"><a href="#cb35-7" aria-hidden="true"></a>        <span class="ot">=</span> <span class="dt">Just</span> <span class="op">$</span> a <span class="op">+</span> b</span>
+<span id="cb35-8"><a href="#cb35-8" aria-hidden="true"></a>    <span class="op">|</span> <span class="fu">otherwise</span> <span class="ot">=</span> <span class="dt">Nothing</span></span></code></pre></div>
+<h3 id="pattern-synonyms">Pattern-synonyms<a href="#pattern-synonyms" class="anchor">🔗</a></h3>
+<p><a href="https://downloads.haskell.org/ghc/latest/docs/html/users_guide/exts/pattern_synonyms.html#extension-PatternSynonyms"><code>PatternSynonyms</code></a> is an extension that allows you to define names for the patterns. To define some of the patterns, you need to use <code>&lt;-</code>. For example:</p>
+<div class="sourceCode" id="cb36"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true"></a><span class="kw">pattern</span> <span class="dt">Head</span> x <span class="ot">&lt;-</span> x<span class="op">:</span>xs</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true"></a></span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true"></a><span class="ot">foo ::</span> [a] <span class="ot">-&gt;</span> <span class="dt">Maybe</span> a</span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true"></a>foo [] <span class="ot">=</span> <span class="dt">Nothing</span></span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true"></a>foo (<span class="dt">Head</span> x) <span class="ot">=</span> <span class="dt">Just</span> x</span></code></pre></div>
+<p>See more about patterns <a href="https://gitlab.haskell.org/ghc/ghc/-/wikis/pattern-synonyms">here</a>.</p>
+<h2 id="other-arrows">Other Arrows<a href="#other-arrows" class="anchor">🔗</a></h2>
+<p>There are much more arrows for all tastes in Haskell. Here are a few more diversely looking arrows, used in various situations, for you to enjoy.</p>
+<h3 id="section-2">=&gt;<a href="#section-2" class="anchor">🔗</a></h3>
+<p>This fat arrow is used to specify constraints in the type signatures:</p>
+<div class="sourceCode" id="cb37"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true"></a><span class="fu">sort</span><span class="ot"> ::</span> <span class="dt">Ord</span> a <span class="ot">=&gt;</span> [a] <span class="ot">-&gt;</span> [a]</span></code></pre></div>
+<h3 id="and">&lt;&lt;= and =&gt;&gt;<a href="#and" class="anchor">🔗</a></h3>
+<p>The double-tip arrows represent operator forms of the Comonadic <code>extend</code> and <a href="https://hackage.haskell.org/package/comonad-5.0.8/docs/Control-Comonad.html#v:-60--60--61-">flipped <code>extend</code></a> functions.</p>
+<p>As <code>Comonad</code> is the dual to the <code>Monad</code> concept, you can notice why the operators look this way. It is just the opposite of the monadic bind – <code>&gt;&gt;=</code> and <code>=&lt;&lt;</code> operators.</p>
+<h3 id="section-3">&lt;&lt;&lt;/&gt;&gt;&gt;<a href="#section-3" class="anchor">🔗</a></h3>
+<p>These arrows are from the <code>Category</code> typeclass. <code>&gt;&gt;&gt;</code> is the left-to-right composition, and <code>&lt;&lt;&lt;</code> – right-to-left composition (similar to the dot (.) composition operator) in the <code>Category</code> and <code>Arrow</code>s world. The following three examples, demonstrating different order of composition, produce the same result:</p>
+<div class="sourceCode" id="cb38"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true"></a><span class="ot">lowerName ::</span> <span class="dt">User</span> <span class="ot">-&gt;</span> <span class="dt">Text</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true"></a>lowerName <span class="ot">=</span> <span class="fu">toLower</span> <span class="op">.</span> userName</span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true"></a><span class="co">-- or</span></span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true"></a>lowerName <span class="ot">=</span> <span class="fu">toLower</span> <span class="op">&lt;&lt;&lt;</span> userName</span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true"></a><span class="co">-- or</span></span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true"></a>lowerName <span class="ot">=</span> userName <span class="op">&gt;&gt;&gt;</span> <span class="fu">toLower</span></span></code></pre></div>
+<h3 id="section-4">-&lt;<a href="#section-4" class="anchor">🔗</a></h3>
+<p>Similar to the do-notation we saw before, GHC has a special <code>do</code> syntax for <code>Arrow</code>s. Instead of the <code>&lt;-</code> arrow, you can use <code>-&lt;</code> when working with the <code>Arrow</code> typeclass:</p>
+<div class="sourceCode" id="cb39"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true"></a>foo <span class="ot">=</span> proc x <span class="ot">-&gt;</span> <span class="kw">do</span></span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true"></a>    fx <span class="ot">&lt;-</span> f <span class="op">-&lt;</span> x</span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true"></a>    gx <span class="ot">&lt;-</span> g <span class="op">-&lt;</span> x</span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true"></a>    returnA <span class="op">-&lt;</span> (fx <span class="op">+</span> gx)</span></code></pre></div>
+<h2 id="conclusion">Conclusion<a href="#conclusion" class="anchor">🔗</a></h2>
+<p>Arrows in Haskell can have ambiguous meaning depending on the context. Hope, this post could make the use-cases clearer and help understand some different arrow usage situations.</p>
+              </p>
+              </div>
+            </div>
+
+          </div>
+      </div>
+<footer class="footer text-center">
+  <div class="row">
+    <div class="col-12 post-body">
+      <hr class="star-light">
+    </div>
+  </div>
+  <div class="row justify-content-center flex-row">
+      <div class="col-md-4 mb-5 mb-lg-0">
+          <div class="stretch">
+          <h4 class="text-uppercase mt-0 mb-4 flex-h">Support our work</h4>
+          <p class="px-5 flex-text flex-txt">If you like what we do, you can help us do more of that by supporting on Ko-Fi or GitHub:</p>
+          <ul class="empty-list list-inline mb-0 mx-auto flex-links">
+              <li class="list-inline-item my-auto">
+                  <a class="btn btn-outline-primary btn-sm rounded-pill" href="https://ko-fi.com/kowainik" target="_blank">
+                      <i class="fas fa-coffee"></i> Buy a coffee
+                  </a>
+
+              </li>
+              <li class="list-inline-item my-auto">
+                  <a class="btn btn-outline-primary btn-sm rounded-pill" href="https://github.com/sponsors/vrom911" target="_blank">
+                      <i class="fab fa-github"></i> @vrom911
+                  </a>
+              </li>
+              <li class="list-inline-item my-auto">
+                  <a class="btn btn-outline-primary btn-sm rounded-pill" href="https://github.com/sponsors/chshersh" target="_blank">
+                      <i class="fab fa-github"></i> @chshersh
+                  </a>
+              </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="col-md-4 mb-5 mb-lg-0">
+          <div class="stretch">
+              <h4 class="text-uppercase text-center mb-4 footer-h">Subscribe</h4>
+              <p class="px-5 flex-text footer-txt">Enjoyed this post? Consider subscribing to our newsletter to always be first to check out our new updates:</p>
+        <!-- Begin Mailchimp Signup Form -->
+              <div class="footer-links"> <div class="row justify-content-center subscribe-form" id="mc_embed_signup">
+  <form action="https://news.us2.list-manage.com/subscribe/post?u=af5d0411175f11e83618abf5e&amp;id=b04a7ed805" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+    <div class="form-row mx-0" id="mc_embed_signup_scroll">
+      <div class="col-8 input-group ">
+        <div class="input-group-prepend">
+          <div class="input-group-text"><i class="fa fa-envelope"></i> </div>
+        </div>
+        <input type="email" value name="EMAIL" class="required email form-control" placeholder="Your email" id="mce-EMAIL">
+      </div>
+      <div class="col-4 text-left">
+        <input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button btn btn-primary btn-lg">
+      </div>
+      <div class="mc-field-group group-checkbox input-group">
+        <ul>
+          <li><input type="checkbox" value="1" name="group[83780][1]" class="form-check-input" id="mce-group[83780]-83780-0"></li>
+          <li><input type="checkbox" value="2" name="group[83780][2]" class="form-check-input" id="mce-group[83780]-83780-1" checked></li>
+        </ul>
+      </div>
+      <div id="mce-responses" class="clear">
+        <div class="response" id="mce-error-response" style="display:none"></div>
+        <div class="response" id="mce-success-response" style="display:none"></div>
+      </div>
+      <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
+      <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_af5d0411175f11e83618abf5e_b04a7ed805" tabindex="-1" value></div>
+    </div>
+  </form>
+</div>
+</div>
+    <!--End mc_embed_signup-->
+          </div>
+    </div>
+    <div class="col-md-4 mb-5 mb-lg-0">
+        <div class="stretch">
+        <h4 class="text-uppercase mb-4 footer-h">Follow us</h4>
+        <p class="px-5 footer-txt mt-6">We also share our work elsewhere. You can find us also at:</p>
+        <ul class="empty-list list-inline mb-0 mx-auto text-center footer-links">
+            
+            <li class="list-inline-item my-auto">
+                <a class="btn btn-outline-light btn-social text-center rounded-circle" href="https://twitter.com/kowainik" target="_blank">
+                    <i class="fab fa-fw fa-twitter"></i>
+                </a>
+            </li>
+            
+            <li class="list-inline-item my-auto">
+                <a class="btn btn-outline-light btn-social text-center rounded-circle" href="https://github.com/kowainik" target="_blank">
+                    <i class="fab fa-fw fa-github"></i>
+                </a>
+            </li>
+            
+            <li class="list-inline-item my-auto">
+                <a class="btn btn-outline-light btn-social text-center rounded-circle" href="https://www.linkedin.com/company/kowainik" target="_blank">
+                    <i class="fab fa-fw fa-linkedin"></i>
+                </a>
+            </li>
+            
+            <li class="list-inline-item my-auto">
+                <a class="btn btn-outline-light btn-social text-center rounded-circle" href="https://t.me/kowainik" target="_blank">
+                    <i class="fab fa-fw fa-telegram"></i>
+                </a>
+            </li>
+            
+            <li class="list-inline-item my-auto">
+                <a class="btn btn-outline-light btn-social text-center rounded-circle" href="../rss.xml" target="_blank">
+                    <i class="fas fa-fw fa-rss"></i>
+                </a>
+            </li>
+            
+        </ul>
+        </div>
+    </div>
+  </div>
+</footer>
+
+
+      <!-- Bootstrap core JavaScript -->
+      <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"> </script>
+      <script src="../js/post.js"> </script>
+      <script src="../js/hide.js"> </script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/haskell.min.js"></script>
+      <script>hljs.initHighlightingOnLoad()</script>
+      <script async defer src="https://buttons.github.io/buttons.js"></script>
+  </body>
+</html>
