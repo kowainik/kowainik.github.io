@@ -107,8 +107,8 @@
 <p>In order to start using <code>prolens</code> in your project, you will need to set it up with the three easy steps:</p>
 <ol type="1">
 <li><p>Add the dependency on <code>prolens</code> in your project’s <code>.cabal</code> file. For this, you should modify the <code>build-depends</code> section by adding the name of this library. After the adjustment, this section could look like this:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true"></a>build<span class="op">-</span>depends<span class="op">:</span> base <span class="op">^&gt;=</span> <span class="fl">4.14</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true"></a>             , prolens <span class="op">^&gt;=</span> <span class="fl">0.0</span></span></code></pre></div></li>
+<div class="sourceCode" id="cb1"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true"></a>build<span class="op">-</span>depends<span class="op">:</span> base <span class="op">^&gt;=</span> <span class="fl">4.15</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true"></a>             , prolens <span class="op">^&gt;=</span> <span class="dt">LATEST_VERSION</span></span></code></pre></div></li>
 <li><p>In the module where you wish to use composable getters and setters, you should add the import:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true"></a><span class="kw">import</span> <span class="dt">Prolens</span> (<span class="dt">Lens'</span>, lens, view)</span></code></pre></div></li>
 <li><p>Now you can use the types and functions from the library:</p>
@@ -126,7 +126,7 @@
 <h3 id="usage-with-stack">Usage with Stack<a href="#usage-with-stack" class="anchor">🔗</a></h3>
 <p>If <code>prolens</code> is not available on your current Stackage resolver yet, fear not! You can still use it from Hackage by adding the following to the <code>extra-deps</code> section of your <code>stack.yaml</code> file:</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true"></a><span class="fu">extra-deps</span><span class="kw">:</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true"></a><span class="at">  </span><span class="kw">-</span><span class="at"> prolens-0.0.0.0</span></span></code></pre></div>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true"></a><span class="at">  </span><span class="kw">-</span><span class="at"> prolens-CURRENT_VERSION</span></span></code></pre></div>
 <h2 id="comparison-to-other-libraries">Comparison to other libraries<a href="#comparison-to-other-libraries" class="anchor">🔗</a></h2>
 <ol type="1">
 <li><p><a href="https://hackage.haskell.org/package/lens">lens</a></p>

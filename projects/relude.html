@@ -58,7 +58,7 @@
                 <a class="btn btn-outline-dark btn-tag" href="https://github.com/kowainik/relude" data-icon="octicon-star" data-size="large" aria-label="Star Kowainik/relude on GitHub">Star Project</a>
                 <a class="fa-stack fa-2x" href="https://github.com/kowainik/relude/stargazers">
                     <i class="fa fa-star fa-stack-2x"></i>
-                    <i id="stars" class="fa fa-stack-1x fa-inverse main-font">462</i>
+                    <i id="stars" class="fa fa-stack-1x fa-inverse main-font">476</i>
                 </a>
                 <div class="author">Language: Haskell</div>
 
@@ -117,9 +117,10 @@
 <p>While in here, the type could represent an unreachable state:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true"></a><span class="ot">whenNotNull ::</span> <span class="dt">Applicative</span> f <span class="ot">=&gt;</span> [a] <span class="ot">-&gt;</span> ([a] <span class="ot">-&gt;</span> f ()) <span class="ot">-&gt;</span> f ()</span></code></pre></div></li>
 <li><p><strong>Performance.</strong> We prefer <code>Text</code> over <a href="https://www.reddit.com/r/haskell/comments/29jw0s/whats_wrong_with_string/"><code>String</code></a>, use space-leaks-free functions (e.g. our custom performant <code>sum</code> and <code>product</code>), introduce <code>{-# INLINE #-}</code> and <code>{-# SPECIALIZE #-}</code> pragmas where appropriate, and make efficient container types (e.g. <code>Map</code>, <code>HashMap</code>, <code>Set</code>) more accesible.</p></li>
-<li><p><strong>Minimalism</strong> (low number of dependencies). We don not force users of <code>relude</code> to stick to any specific lens or text formatting or logging library. Where possible, <code>relude</code> depends only on boot libraries. The <a href="https://raw.githubusercontent.com/kowainik/relude/main/relude-dependency-graph.png">Dependency graph</a> of <code>relude</code> can give you a clearer picture.</p></li>
+<li><p><strong>Minimalism</strong> (low number of dependencies). We do not force users of <code>relude</code> to stick to any specific lens or text formatting or logging library. Where possible, <code>relude</code> depends only on boot libraries. The <a href="https://raw.githubusercontent.com/kowainik/relude/main/relude-dependency-graph.png">Dependency graph</a> of <code>relude</code> can give you a clearer picture.</p></li>
 <li><p><strong>Convenience</strong>. Despite minimalism, we want to bring commonly used types and functions into scope, and make available functions easier to use. Some examples of conveniences:</p>
 <ul>
+<li>No need to add <code>containers</code>, <code>unordered-containers</code>, <code>text</code> and <code>bytestring</code> to dependencies in your <code>.cabal</code> file to use the main API of these libraries</li>
 <li>No need to import types like <code>NonEmpty</code>, <code>Text</code>, <code>Set</code>, <code>Reader[T]</code>, <code>MVar</code>, <code>STM</code></li>
 <li>Functions like <code>liftIO</code>, <code>fromMaybe</code>, <code>sortWith</code> are avaiable by default as well</li>
 <li><code>IO</code> actions are lifted to <code>MonadIO</code></li>
@@ -204,10 +205,17 @@
 <p>This is the recommended way to use a custom prelude.</p>
 <p>You can use the Cabal feature <code>mixins</code> to replace the default <code>Prelude</code> with <code>Relude</code> without the need to add extra dependencies or to import <code>Relude</code> manually in each module. For this you need to add the following lines into your <code>.cabal</code> file:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true"></a>  mixins<span class="op">:</span>   base hiding (<span class="dt">Prelude</span>)</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true"></a>          , relude (<span class="dt">Relude</span> as <span class="dt">Prelude</span>)</span></code></pre></div>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true"></a>          , relude (<span class="dt">Relude</span> as <span class="dt">Prelude</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true"></a>          , relude</span></code></pre></div>
 <blockquote>
 <p><strong>NOTE:</strong> this requires Cabal version to be at least <code>2.2</code></p>
 </blockquote>
+<p>The above syntax does the following:</p>
+<ol type="1">
+<li>Makes all modules of <code>base</code> available except <code>Prelude</code>.</li>
+<li>Renames the <code>Relude</code> module in <code>relude</code> to <code>Prelude</code>.</li>
+<li>Additionally allows importing all other modules from <code>relude</code> (extra modules and reexports from other libraries).</li>
+</ol>
 <p>See the following complete example of how your <code>.cabal</code> file may look like after the set up:</p>
 <pre class="cabal"><code>cabal-version:       2.2
 name:                prelude-example
@@ -216,22 +224,24 @@ version:             0.0.0.0
 library
   exposed-modules:     Example
   build-depends:       base &gt;= 4.10 &amp;&amp; &lt; 4.13
-                     , relude ^&gt;= 0.6.0.0
+                     , relude ^&gt;= 1.0.0.0
 
   mixins:              base hiding (Prelude)
                      , relude (Relude as Prelude)
+                     , relude
 
   default-language:    Haskell2010</code></pre>
 <blockquote>
 <p><strong>NOTE:</strong> if you use <a href="https://github.com/kowainik/summoner"><code>summoner</code></a> to generate a Haskell project, the tool automatically creates the <code>mixins</code> field when you specify a custom prelude.</p>
 </blockquote>
-<p>If you want to bring a non-default module of <code>relude</code>, e.g. <code>Relude.Extra.Enum</code> or <code>Relude.Unsafe</code>, you need to list it under the <code>mixins</code> field as well, like this:</p>
+<p>If you want to restrict allowed modules in <code>relude</code> to a specific list (e.g. use only <code>Relude.Extra.Enum</code> or <code>Relude.Unsafe</code> or <code>Data.Text</code> from <code>text</code>), you can alternatively list them explicitly under the first <code>mixins</code> entry field as well, like this:</p>
 <pre class="cabal"><code>  mixins: base hiding (Prelude)
         , relude (Relude as Prelude
                  , Relude.Extra.Enum
-                 , ...
+                 , Relude.Unsafe
+                 , Data.Text
                  )</code></pre>
-<p>If you want to bring all <code>Extra.*</code> modules into scope, you can add a single <code>Relude.Extra</code> module to <code>mixins</code>, and after that you can import all extra functions and data types from <code>Relude.Extra</code>. This is the easiest way to bring all functions and types from <code>relude</code> to your project (excluding <code>Relude.Unsafe</code>).</p>
+<p>If you want to bring only all <code>Extra.*</code> modules into scope, you can add a single <code>Relude.Extra</code> module to <code>mixins</code>, and after that you can import all extra functions and data types from <code>Relude.Extra</code>. This is the easiest way to bring all functions and types from <code>relude</code> to your project (excluding <code>Relude.Unsafe</code>).</p>
 <pre class="cabal"><code>  mixins: base hiding (Prelude)
         , relude (Relude as Prelude
                  , Relude.Extra
@@ -375,7 +385,7 @@ library
 <span id="cb13-4"><a href="#cb13-4" aria-hidden="true"></a>ghci<span class="op">&gt;</span> viaNonEmpty <span class="fu">head</span> []</span>
 <span id="cb13-5"><a href="#cb13-5" aria-hidden="true"></a><span class="dt">Nothing</span></span></code></pre></div></li>
 <li><p><code>uncons</code> splits a list at the first element.</p></li>
-<li><p><code>ordNub</code> and <code>sortNub</code> are <em>O(n log n)</em> versions of <code>nub</code> (which is quadratic), also, <code>hashNub</code> and <code>unstableNub</code> are almost <em>O(n)</em> versions of <code>nub</code>.</p></li>
+<li><p><code>ordNub</code> and <code>sortNub</code> are <em>O(n log n)</em> versions of <code>nub</code> (which is quadratic), also, <code>hashNub</code> and <code>unstableNub</code> are almost <em>O(n)</em> versions of <code>nub</code>, and <code>intNub</code> for fast <code>Int</code>s nub.</p></li>
 <li><p><code>whenM</code>, <code>unlessM</code>, <code>ifM</code>, <code>guardM</code> — monadic guard combinators, that work with any <code>Monad</code>, e.g. <code>whenM (doesFileExist "foo")</code>.</p></li>
 <li><p>General fold functions:</p>
 <div class="sourceCode" id="cb14"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true"></a><span class="ot">foldMapA ::</span> (<span class="dt">Monoid</span> b, <span class="dt">Applicative</span> m, <span class="dt">Foldable</span> f) <span class="ot">=&gt;</span> (a <span class="ot">-&gt;</span> m b) <span class="ot">-&gt;</span> f a <span class="ot">-&gt;</span> m b</span>
@@ -490,7 +500,7 @@ library
 <li>Run <code>hlint</code> using this file.</li>
 </ol>
 <p>For the latest <code>relude</code> version, this can be achieved by executing the following two commands on your CI:</p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true"></a><span class="at">curl https://raw.githubusercontent.com/kowainik/relude/v0.7.0.0/.hlint.yaml -o .hlint-relude.yaml</span></span>
+<div class="sourceCode" id="cb23"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true"></a><span class="at">curl https://raw.githubusercontent.com/kowainik/relude/v1.0.0.0/.hlint.yaml -o .hlint-relude.yaml</span></span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true"></a><span class="at">curl -sSL https://raw.github.com/ndmitchell/neil/master/misc/travis.sh | sh -s -- hlint -h .hlint-relude.yaml .</span></span></code></pre></div>
 <p>See an example of this feature described in the following blog post about Travis CI settings:</p>
 <ul>
@@ -506,7 +516,7 @@ library
 <li><code>relude</code> has custom HLint rules specific to it: you can use them to remove redundant imports or find hints on how to use functions from <code>relude</code>. Moreover, the HLint rules are generated using Dhall and there is <a href="https://kowainik.github.io/posts/2018-09-09-dhall-to-hlint">a blog post about this technique</a>. This allows to maintain HLint rules with less effort, even though it is already not an easy task.</li>
 <li>One significant difference: <code>head</code> in <code>protolude</code> returns <code>Maybe a</code> while in <code>relude</code> it works with <code>NonEmpty</code>.</li>
 <li><code>relude</code> uses type-level features to provide better error messages on the difference from <code>Prelude</code>, and also to forbid <code>elem</code> and <code>notElem</code> functions for <code>Set</code> and <code>HashSet</code> (because <code>elem</code> from <code>Foldable</code> runs in <em>O(n)</em> time and you can accidentally use <code>elem</code> from <code>Foldable</code> but with <code>relude</code> you can’t).</li>
-<li>Protolude supports older GHC versions (from GHC 7.6.1) while <code>relude</code> only supports from GHC 8.0.2. So if you aim ancient GHC versions, <code>protolude</code> might be a better choice. But because of that it contains a lot of CPP, code is scary in some places as a consequence and it is more difficult to add, remove or change things there.</li>
+<li>Protolude supports older GHC versions (from GHC 7.6.1) while <code>relude</code> only supports from GHC 8.2.2. So if you aim ancient GHC versions, <code>protolude</code> might be a better choice. But because of that it contains a lot of CPP, code is scary in some places as a consequence and it is more difficult to add, remove or change things there.</li>
 <li><code>relude</code> has much better documentation:
 <ul>
 <li><a href="http://hackage.haskell.org/package/relude/docs/Relude.html">High-level overview of internal module structure</a></li>
@@ -522,10 +532,10 @@ library
 <h3 id="generating-.hlint.yaml">Generating .hlint.yaml<a href="#generating-.hlint.yaml" class="anchor">🔗</a></h3>
 <p>Note, that we are using custom <code>hlint</code> setting which are <code>Relude</code> specific. To keep it up to date don’t forget to reflect your changes in this file. We are using <code>Dhall</code> to maintain the configurations. To use it follow the steps below.</p>
 <p>First time:</p>
-<pre class="shell"><code>$ cabal v2-install dhall-json</code></pre>
-<p>Dhall 16.0.0 is required, so make sure that the previous command installed <code>dhall-json</code> &gt;= 1.6.4.</p>
+<pre class="shell"><code>$ cabal v2-install dhall-yaml</code></pre>
+<p>Dhall 16.0.0 is required, so make sure that the previous command installed <code>dhall-yaml</code> &gt;= 1.2.5.</p>
 <p>To generate <code>hlint</code> file:</p>
-<pre class="shell"><code>$ dhall-to-yaml &lt;&lt;&lt; './hlint/hlint.dhall' &gt; .hlint.yaml</code></pre>
+<pre class="shell"><code>$ dhall-to-yaml-ng &lt;&lt;&lt; './hlint/hlint.dhall' &gt; .hlint.yaml</code></pre>
 <p>Check that you have generated valid <code>.hlint.yaml</code> file without parse errors:</p>
 <pre class="shell"><code>$ hlint test/Spec.hs</code></pre>
 <p>See our blog post where we describe the details of the implementation for this solution:</p>
