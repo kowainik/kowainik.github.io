@@ -58,7 +58,7 @@
                 <a class="btn btn-outline-dark btn-tag" href="https://github.com/kowainik/relude" data-icon="octicon-star" data-size="large" aria-label="Star Kowainik/relude on GitHub">Star Project</a>
                 <a class="fa-stack fa-2x" href="https://github.com/kowainik/relude/stargazers">
                     <i class="fa fa-star fa-stack-2x"></i>
-                    <i id="stars" class="fa fa-stack-1x fa-inverse main-font">476</i>
+                    <i id="stars" class="fa fa-stack-1x fa-inverse main-font">486</i>
                 </a>
                 <div class="author">Language: Haskell</div>
 
@@ -116,7 +116,7 @@
 <div class="sourceCode" id="cb1"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true"></a><span class="ot">whenNotNull ::</span> <span class="dt">Applicative</span> f <span class="ot">=&gt;</span> [a] <span class="ot">-&gt;</span> (<span class="dt">NonEmpty</span> a <span class="ot">-&gt;</span> f ()) <span class="ot">-&gt;</span> f ()</span></code></pre></div>
 <p>While in here, the type could represent an unreachable state:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true"></a><span class="ot">whenNotNull ::</span> <span class="dt">Applicative</span> f <span class="ot">=&gt;</span> [a] <span class="ot">-&gt;</span> ([a] <span class="ot">-&gt;</span> f ()) <span class="ot">-&gt;</span> f ()</span></code></pre></div></li>
-<li><p><strong>Performance.</strong> We prefer <code>Text</code> over <a href="https://www.reddit.com/r/haskell/comments/29jw0s/whats_wrong_with_string/"><code>String</code></a>, use space-leaks-free functions (e.g. our custom performant <code>sum</code> and <code>product</code>), introduce <code>{-# INLINE #-}</code> and <code>{-# SPECIALIZE #-}</code> pragmas where appropriate, and make efficient container types (e.g. <code>Map</code>, <code>HashMap</code>, <code>Set</code>) more accesible.</p></li>
+<li><p><strong>Performance.</strong> We prefer <code>Text</code> over <a href="https://www.reddit.com/r/haskell/comments/29jw0s/whats_wrong_with_string/"><code>String</code></a>, use space-leaks-free functions (e.g. our custom performant <code>sum</code> and <code>product</code>), introduce <code>{-# INLINE #-}</code> and <code>{-# SPECIALIZE #-}</code> pragmas where appropriate, and make efficient container types (e.g. <code>Map</code>, <code>HashMap</code>, <code>Set</code>) more accessible.</p></li>
 <li><p><strong>Minimalism</strong> (low number of dependencies). We do not force users of <code>relude</code> to stick to any specific lens or text formatting or logging library. Where possible, <code>relude</code> depends only on boot libraries. The <a href="https://raw.githubusercontent.com/kowainik/relude/main/relude-dependency-graph.png">Dependency graph</a> of <code>relude</code> can give you a clearer picture.</p></li>
 <li><p><strong>Convenience</strong>. Despite minimalism, we want to bring commonly used types and functions into scope, and make available functions easier to use. Some examples of conveniences:</p>
 <ul>

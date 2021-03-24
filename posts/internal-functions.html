@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+      <!-- Global site tag (gtag.js) - Google Analytics -->
+      <script async src="https://www.googletagmanager.com/gtag/js?id=UA-125893749-1"></script>
+      <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+
+          gtag('config', 'UA-125893749-1');
+          </script>
+    <title>Many faces of Internal Functions :: Kowainik</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Kowainik — The post explores various ways to define internal functions and discuss the advantages and disadvantages of each approach">
+    <meta name="keywords" content="Haskell, Functional progarmming, FP , haskell, fp, guide ">
+    <meta name="author" content="Kowainik  — Veronika Romashkina " />
+
+    <!-- Twitter cards -->
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="@kowainik" />
+    <meta property="twitter:title" content="Kowainik - Many faces of Internal Functions" />
+    <meta name="twitter:description" content="The post explores various ways to define internal functions and discuss the advantages and disadvantages of each approach" />
+    <meta name="twitter:image:src" content="https://kowainik.github.io/images/logo-yellow.png" />
+    <meta property="og:title" content="Kowainik - Many faces of Internal Functions" />
+    <meta property="og:description" content="The post explores various ways to define internal functions and discuss the advantages and disadvantages of each approach" />
+    <meta property="og:site_name" content="Kowainik" />
+    <meta property="og:image" content="https://kowainik.github.io/images/logo-yellow.png" />
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon">
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.11.0/styles/dracula.min.css" />
+    <!-- Fontawesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+    <!-- Custom fonts for this template -->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Lato" />
+    <!-- Custom styles for this template -->
+    <link href="../css/default.css" rel="stylesheet">
+    <link href="../css/post.css" rel="stylesheet">
+  </head>
+
+  <body class="body-posts">
+
+          <!-- Header -->
+      <nav class="navbar navbar-inverse navbar-fixed-left leftmenu bg-primary text-secondary">
+            <div class="navbar-header text-center">
+                <div class="postslogo justify-content-center"> <a href="../"><img class="img-fluid" src="../images/logo-tr.png" alt="Kowainik"></a></div>
+                <div class="coffee text-center">
+                    <a class="btn btn-primary rounded-pill" href="https://ko-fi.com/kowainik" target="_blank">
+                        <i class="fas fa-coffee"></i> Buy a coffee
+                    </a>
+                </div>
+                <ul class="socials empty-list list-inline mb-0 justify-content-center text-center mx-auto">
+                
+                <li class="list-inline-item my-auto">
+                    <a class="btn btn-outline-dark btn-social text-center rounded-circle" href="https://twitter.com/kowainik" target="_blank">
+                        <i class="fab fa-fw fa-twitter"></i>
+                    </a>
+                </li>
+                
+                <li class="list-inline-item my-auto">
+                    <a class="btn btn-outline-dark btn-social text-center rounded-circle" href="https://github.com/kowainik" target="_blank">
+                        <i class="fab fa-fw fa-github"></i>
+                    </a>
+                </li>
+                
+                <li class="list-inline-item my-auto">
+                    <a class="btn btn-outline-dark btn-social text-center rounded-circle" href="https://www.linkedin.com/company/kowainik" target="_blank">
+                        <i class="fab fa-fw fa-linkedin"></i>
+                    </a>
+                </li>
+                
+                <li class="list-inline-item my-auto">
+                    <a class="btn btn-outline-dark btn-social text-center rounded-circle" href="https://t.me/kowainik" target="_blank">
+                        <i class="fab fa-fw fa-telegram"></i>
+                    </a>
+                </li>
+                
+                <li class="list-inline-item my-auto">
+                    <a class="btn btn-outline-dark btn-social text-center rounded-circle" href="../rss.xml" target="_blank">
+                        <i class="fas fa-fw fa-rss"></i>
+                    </a>
+                </li>
+                
+                </ul>
+
+            </div>
+
+            <div class="toc-zone justify-content-center">
+                <h6 class="coolFont">Contents</h6>
+                <div class="toc" id="main">
+                    <ul>
+<li><a href="#hof">HOF</a></li>
+<li><a href="#example-of-hof">Example of HOF</a></li>
+<li><a href="#non-standard-hofs">Non-standard HOFs</a></li>
+<li><a href="#lambda">Lambda</a></li>
+<li><a href="#where">Where</a></li>
+<li><a href="#let">Let</a></li>
+<li><a href="#top-level">Top-level</a></li>
+<li><a href="#import">Import</a></li>
+<li><a href="#comparison">Comparison</a>
+<ul>
+<li><a href="#lambda-1">Lambda</a></li>
+<li><a href="#where-1">Where</a></li>
+<li><a href="#let-1">Let</a></li>
+<li><a href="#top-level-1">Top-level</a></li>
+<li><a href="#import-1">Import</a></li>
+</ul></li>
+<li><a href="#conclusion">Conclusion</a></li>
+</ul>
+                </div>
+            </div>
+            <div class="allposts text-center">
+                <h3><a href="../posts"> Posts =<< </a></h3>
+            </div>
+      </nav>
+      <div class="container info">
+          <h2 class="text-center text-uppercase text-secondary">Many faces of Internal Functions</h2>
+          <div class="row coolFont align-self-center justify-content-center">
+            <div class="col-10">Date: March 24, 2021</div>
+            
+
+            <div class="author col-10">Author: Veronika Romashkina</div>
+            <div class="col-12 text-center m-auto tag-block">
+                
+                <span class="tag-block"> <a class="btn btn-outline-dark btn-tag" href="../tags/haskell">haskell</a></span>
+                
+                <span class="tag-block"> <a class="btn btn-outline-dark btn-tag" href="../tags/fp">fp</a></span>
+                
+                <span class="tag-block"> <a class="btn btn-outline-dark btn-tag" href="../tags/guide">guide</a></span>
+                
+            </div>
+          </div>
+
+          <div class="content">
+            <div class="row post">
+              <div class="col-12 post-body">
+              <p class="lead">
+                  <p>Higher-Order Function (HOF) is a fundamental concept of <em>Functional Programming</em> (FP). HOF is a widespread and broadly used feature as it allows manipulating functions quite easily. HOF helps us to create more abstract interfaces and write more composable code, eventually leading to well-structured systems that work together really well.</p>
+<p>In Haskell, there are different ways to define and use functions. And working with HOF often requires creating some “internal” functions for passing them as arguments to other functions. Today I want to explore various ways to do that and discuss the advantages and disadvantages of each approach. Knowing the pros and cons helps you understand different syntax and semantic techniques and establish some ground rules when working with HOF.</p>
+<h2 id="hof">HOF<a href="#hof" class="anchor">🔗</a></h2>
+<p>A function that takes another function as an argument or returns a function is called <strong>Higher-Order Function</strong>. HOF is essential to Functional Programming, as functions are a central piece of FP. Being able to use functions as <em>first-class citizens</em> is a crucial part of the Functional Programming paradigm. Also, it is almost impossible to use declarative programming efficiently without first-class functions.</p>
+<p>Here is how HOF may look like in the type signatures:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true"></a><span class="ot">apply ::</span> (a <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> b</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true"></a><span class="ot">multiplyBy ::</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> (<span class="dt">Double</span> <span class="ot">-&gt;</span> <span class="dt">Double</span>)</span></code></pre></div>
+<figure>
+<img src="../images/posts/hof/HOF.png" alt="Higher-Order Function" /><figcaption aria-hidden="true">Higher-Order Function</figcaption>
+</figure>
+<h2 id="example-of-hof">Example of HOF<a href="#example-of-hof" class="anchor">🔗</a></h2>
+<p>Haskell has a lot of commonly-known HOFs that are present in many other functional languages as well. You have probably already seen or used the <code>map</code> function – a go-to function to alter the list structures.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true"></a><span class="fu">map</span><span class="ot"> ::</span> (a <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> [a] <span class="ot">-&gt;</span> [b]</span></code></pre></div>
+<p>It takes a list and a function, that tells how to transform each element of the list, and then applies a given function to each list element.</p>
+<p>To give you one example, if you want to get the list of <code>String</code>s out of the list of numbers (to print them, for instance), you will write something like this:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true"></a><span class="fu">showList</span><span class="ot"> ::</span> [<span class="dt">Int</span>] <span class="ot">-&gt;</span> [<span class="dt">String</span>]</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true"></a><span class="fu">showList</span> xs <span class="ot">=</span> <span class="fu">map</span> <span class="fu">show</span> xs</span></code></pre></div>
+<p>You see that we used a standard function <code>show</code> as an argument for the <code>map</code>ping function.</p>
+<p>The standard library contains many more HOFs such as <code>filter</code>, foldings, traversals, function composition, application and binding operators. Once you start using HOFs, it’s impossible to imagine programming without them.</p>
+<h2 id="non-standard-hofs">Non-standard HOFs<a href="#non-standard-hofs" class="anchor">🔗</a></h2>
+<p>However, the already existing standard functions are not always enough for all use-cases (otherwise, developers’ roles won’t be that necessary). Very likely that your case may be more sophisticated and include a few more things that need to be done with your data. Let’s examine what options we have to handle those cases.</p>
+<h2 id="lambda">Lambda<a href="#lambda" class="anchor">🔗</a></h2>
+<p>Lambda function (anonymous function) is the first thing that comes to mind. Lambdas provide a quick way to build a new function instantly on-the-fly.</p>
+<p>Returning to our example of mapping numbers, let’s say that instead of simply showing the number, you want to add something to every string as well. In that case, you can’t just reuse <code>show</code>. You need to apply a custom function to each element. Fortunately, you can define a lambda function and describe the new desired behaviour in its body:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true"></a><span class="fu">showList</span> xs <span class="ot">=</span> <span class="fu">map</span> (\x <span class="ot">-&gt;</span> <span class="fu">show</span> x <span class="op">&lt;&gt;</span> <span class="st">&quot; is in the list&quot;</span>) xs</span></code></pre></div>
+<p>The lambda approach is appeared to be extremely handy in the case when the function is the last argument, so you could write multiline lambda body, without the necessity of the old-fashioned brackets, but with the new-school <code>$</code>:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true"></a>main <span class="ot">=</span> <span class="kw">do</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true"></a>    <span class="kw">let</span> xs <span class="ot">=</span> [<span class="dv">0</span><span class="op">..</span><span class="dv">10</span>]</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true"></a>    for xs <span class="op">$</span> \x <span class="ot">-&gt;</span> <span class="kw">do</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true"></a>        <span class="kw">let</span> y <span class="ot">=</span> x <span class="op">^</span> <span class="dv">2</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true"></a>        <span class="fu">putStrLn</span> <span class="op">$</span> <span class="st">&quot;The square of &quot;</span> <span class="op">&lt;&gt;</span> <span class="fu">show</span> x <span class="op">&lt;&gt;</span> <span class="st">&quot; is &quot;</span> <span class="op">&lt;&gt;</span> <span class="fu">show</span> y</span></code></pre></div>
+<h2 id="where">Where<a href="#where" class="anchor">🔗</a></h2>
+<p>Although lambda functions are perfect for quick solutions like above, they can quickly become overloaded and hardly readable in some other situations, especially when they are becoming long. For increased readability and maintainability, you can define a local function with the help of the Haskell <code>where</code> construction.</p>
+<p>Our <code>showList</code> example could be rewritten with this approach:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true"></a><span class="fu">showList</span> <span class="ot">=</span> <span class="fu">map</span> showOne xs</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true"></a>  <span class="kw">where</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true"></a><span class="ot">    showOne ::</span> <span class="dt">Show</span> a <span class="ot">=&gt;</span> a <span class="ot">-&gt;</span> <span class="dt">String</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true"></a>    showOne x <span class="ot">=</span> <span class="fu">show</span> x <span class="op">&lt;&gt;</span> <span class="st">&quot; is in the list&quot;</span></span></code></pre></div>
+<p>And as you see, we again pass a simple function as the <code>map</code>’s argument after this rewrite.</p>
+<p>This approach’s handy benefit is that you can have a normally-written local function that is visible inside the one it is defined in. You can specify the type signature, including polymorphic variables, so it could be reused throughout the initial function while in scope. At the same time, you won’t spoil the global namespace of functions. You also could be as generous with commenting, and explanation as you wish while writing code in any format.</p>
+<p>The nice example of where <code>where</code> is usually a better idea than a lambda functions is the following:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true"></a>groupBy</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true"></a><span class="ot">    ::</span> <span class="kw">forall</span> f k a</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true"></a>    <span class="op">.</span>  (<span class="dt">Foldable</span> f, <span class="dt">Ord</span> k)</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true"></a>    <span class="ot">=&gt;</span> (a <span class="ot">-&gt;</span> k)</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true"></a>    <span class="ot">-&gt;</span> f a</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true"></a>    <span class="ot">-&gt;</span> <span class="dt">Map</span> k (<span class="dt">NonEmpty</span> a)</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true"></a>groupBy f <span class="ot">=</span> foldl' mapGroup <span class="fu">mempty</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true"></a>  <span class="kw">where</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true"></a><span class="ot">    mapGroup ::</span> <span class="dt">Map</span> k (<span class="dt">NonEmpty</span> a) <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> <span class="dt">Map</span> k (<span class="dt">NonEmpty</span> a)</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true"></a>    mapGroup m a <span class="ot">=</span> alter (<span class="dt">Just</span> <span class="op">.</span> toVal) (f a) m</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true"></a>      <span class="kw">where</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true"></a><span class="ot">          toVal ::</span> <span class="dt">Maybe</span> (<span class="dt">NonEmpty</span> a) <span class="ot">-&gt;</span> <span class="dt">NonEmpty</span> a</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true"></a>          toVal <span class="dt">Nothing</span>   <span class="ot">=</span> a <span class="op">:|</span> []</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true"></a>          toVal (<span class="dt">Just</span> xs) <span class="ot">=</span> a <span class="op">&lt;|</span> xs</span></code></pre></div>
+<h2 id="let">Let<a href="#let" class="anchor">🔗</a></h2>
+<p>An alternative to <code>where</code> construction is <code>let-in</code> (or <code>let</code>). <code>let</code> is always written before the start of some <em>expression</em> (yes, <code>let</code> could be introduced for any internal expression as well) where it would be used. It is also important to keep in mind that the defined <code>let</code> variable would be visible only and only in this exact expression.</p>
+<p>Our example then, rewritten in terms of the <code>let</code> syntax, has the following shape:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true"></a><span class="fu">showList</span> <span class="ot">=</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true"></a>    <span class="kw">let</span> showOne x <span class="ot">=</span> <span class="fu">show</span> x <span class="op">&lt;&gt;</span> <span class="st">&quot; is in the list&quot;</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true"></a>    <span class="kw">in</span> <span class="fu">map</span> showOne xs</span></code></pre></div>
+<p>Usually, the type signatures are omitted in the <code>let</code> constructions by developers; however, it is also legal (and maybe even friendlier to future readers) to add the type signature the same way we do with <code>where</code>:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true"></a><span class="fu">showList</span> <span class="ot">=</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true"></a>    <span class="kw">let</span><span class="ot"> showOne ::</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">String</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true"></a>        showOne x <span class="ot">=</span> <span class="fu">show</span> x <span class="op">&lt;&gt;</span> <span class="st">&quot; is in the list&quot;</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true"></a>    <span class="kw">in</span> <span class="fu">map</span> showOne xs</span></code></pre></div>
+<p>And here is the example of the <code>let</code> construction with the smaller scope:</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true"></a><span class="kw">if</span> <span class="fu">even</span> x</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true"></a><span class="kw">then</span> <span class="kw">let</span> newVal <span class="ot">=</span> x <span class="ot">`div`</span> <span class="dv">2</span> <span class="kw">in</span> newVal <span class="op">^</span> <span class="dv">2</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true"></a><span class="kw">else</span> <span class="kw">let</span> (newVal, p) <span class="ot">=</span> <span class="fu">divMod</span> x <span class="dv">2</span> <span class="kw">in</span> newVal <span class="op">+</span> p</span></code></pre></div>
+<p><code>let</code> expression is frequently used with <code>do</code>-notation.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true"></a>main <span class="ot">=</span> <span class="kw">do</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true"></a>    <span class="kw">let</span> name <span class="ot">=</span> <span class="st">&quot;Veronika&quot;</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true"></a>    <span class="fu">putStrLn</span> <span class="op">$</span> <span class="st">&quot;Hello, &quot;</span> <span class="op">&lt;&gt;</span> name <span class="op">&lt;&gt;</span> <span class="st">&quot;!&quot;</span></span></code></pre></div>
+<p>The fundamental difference between <code>where</code> and <code>let</code> (besides the readability and other subjective metrics) becomes pictorial when dealing with different internal scoping layers. These two structures behave differently there. You can’t put a definition via <code>let</code> after the actual usage of it. But at the same time, you can’t use locally defined through <code>let</code> variables and functions in the <code>where</code> clause to the initial function.</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true"></a><span class="co">-- WRONG!</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true"></a>main <span class="ot">=</span> <span class="kw">do</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true"></a>    <span class="kw">let</span> name <span class="ot">=</span> <span class="st">&quot;Veronika&quot;</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true"></a>    <span class="fu">putStrLn</span> greet</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true"></a>  <span class="kw">where</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true"></a><span class="ot">    greet ::</span> <span class="dt">String</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true"></a>    greet <span class="ot">=</span> <span class="st">&quot;Hello, &quot;</span> <span class="op">&lt;&gt;</span> name <span class="op">&lt;&gt;</span> <span class="st">&quot;!&quot;</span></span></code></pre></div>
+<p>The <code>let</code> variables become beneficial when you want to reuse a binded variable inside the <code>do</code>-block:</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true"></a>knownUsers allUsers <span class="ot">=</span> <span class="kw">do</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true"></a>    cachedUsers <span class="ot">&lt;-</span> getCachedUsers</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true"></a>    <span class="kw">let</span><span class="ot"> isKnownUser ::</span> <span class="dt">User</span> <span class="ot">-&gt;</span> <span class="dt">Bool</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true"></a>        isKnownUser user <span class="ot">=</span> user <span class="ot">`Set.elem`</span> cachedUsers</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true"></a>    <span class="fu">pure</span> <span class="op">$</span> <span class="fu">filter</span> isKnownUser allUsers</span></code></pre></div>
+<blockquote>
+<p>Fun fact: you can use <code>where</code> inside <code>let</code> and <code>let</code> inside where too. But be careful with the understanding of their scopes. It could easily become tricky!</p>
+</blockquote>
+<h2 id="top-level">Top-level<a href="#top-level" class="anchor">🔗</a></h2>
+<p>By using either lambdas, <code>where</code> or <code>let</code>, you restrict your function from being used elsewhere outside the function you define it in. However, you could end up writing a very general and useful helper function that actually could be reused in a few places throughout the file.</p>
+<p>In this case, you may consider moving this function to the top level of the module.</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true"></a><span class="ot">showOne ::</span> <span class="dt">Show</span> a <span class="ot">=&gt;</span> a <span class="ot">-&gt;</span> <span class="dt">String</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true"></a>showOne x <span class="ot">=</span> <span class="fu">show</span> x <span class="op">&lt;&gt;</span> <span class="st">&quot; is in the list&quot;</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true"></a></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true"></a></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true"></a><span class="op">...</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true"></a></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true"></a><span class="ot">showDoubleList ::</span> [<span class="dt">Double</span>] <span class="ot">-&gt;</span> [<span class="dt">String</span>]</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true"></a>showDoubleList xs <span class="ot">=</span> <span class="fu">map</span> showOne xs</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true"></a></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true"></a><span class="ot">showBoolList ::</span> [<span class="dt">Bool</span>] <span class="ot">-&gt;</span> [<span class="dt">String</span>]</span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true"></a>showBoolList xs <span class="ot">=</span> <span class="fu">map</span> showOne xs</span></code></pre></div>
+<p>It then gives you a few additional benefits that you may use: you can provide the docs with various examples, you can export it from the file and use it elsewhere, you can make the compiler optimise it more aggressively, you can test it separately (if you export it).</p>
+<h2 id="import">Import<a href="#import" class="anchor">🔗</a></h2>
+<p>As the add-on to the previous approach, this one goes even further. The helper function could be so useful that you need it in many parts of your project, not only in the current module. To have a more intuitive structure and prevent possible cyclic dependencies between modules, you can put it into a separate module – either a new one, or to the existing one that by semantics corresponds to the meaning of the function.</p>
+<p>In our <code>showList</code> example, we can put the helper function into the dedicated internal module for show-related utilities:</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true"></a><span class="kw">import</span> <span class="dt">My.Show.Internal</span> (showOne)</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true"></a></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true"></a></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true"></a>myList <span class="ot">=</span> <span class="fu">map</span> showOne xs</span></code></pre></div>
+<h2 id="comparison">Comparison<a href="#comparison" class="anchor">🔗</a></h2>
+<p>As we have now seen different approaches, let’s write down explicit pros and cons to each of them.</p>
+<h4 id="lambda-1">Lambda<a href="#lambda-1" class="anchor">🔗</a></h4>
+<p><strong><em>Pros:</em></strong></p>
+<ul>
+<li>Quick solution</li>
+<li>Immediately visible actions</li>
+<li>No need to waste your creativity talent on naming</li>
+<li>Shorter code</li>
+</ul>
+<p><strong><em>Cons:</em></strong></p>
+<ul>
+<li>Awkward to specify type signatures</li>
+<li>Not suitable for big function bodies (especially if not the last argument)</li>
+<li>Could lead to <code>{ ..;}</code> syntax, which is not widely used or easily readable</li>
+<li>The scope is directly limited to this particular usage and can’t be reused</li>
+<li>No way to give more context through the name of the function</li>
+<li>Awkward to add comments to the arguments or other parts of the function</li>
+<li>You can introduce partial pattern-matching accidentally and not notice it because GHC doesn’t warn on non-exhaustive pattern matching by default or even with -Wall</li>
+<li>Non-discoverable in the project</li>
+</ul>
+<h4 id="where-1">Where<a href="#where-1" class="anchor">🔗</a></h4>
+<p><strong><em>Pros:</em></strong></p>
+<ul>
+<li>Dedicated one place to look up for the helper functions of the concrete function</li>
+<li>Doesn’t litter the initial function body with the details that are not essential at the high-level review</li>
+<li>Won’t distract from the main code</li>
+<li>Type signatures and comments could be added without bringing the additional burden</li>
+<li>The scoping is clear (the whole initial function)</li>
+<li>Implies the high-to-low approach of reading code (Starting from high-level context and going to low-level implementation details only if needed)</li>
+<li>Doesn’t spoil the global namespace of functions so that local names could be generic and short</li>
+<li>Could be introduced separately for each pattern matching branch of the function</li>
+</ul>
+<p><strong><em>Cons:</em></strong></p>
+<ul>
+<li>The variables and functions created inside the body of the initial function (including the binding results while in do-notation) are not visible in <code>where</code></li>
+<li><code>where</code> is not always exist in other languages, so people could be less used to it (e.g. Elm has only <code>let</code> but not <code>where</code>)</li>
+<li>Some people prefer the low-to-high approach of reading code (Starting from low-level view context going to high-level only after knowing all low-level details)</li>
+<li>Can’t be used outside the function and won’t be visible in the project</li>
+<li>Polymorphic type signatures in such functions can require additional extensions and <code>forall</code>ing in the main function</li>
+</ul>
+<h4 id="let-1">Let<a href="#let-1" class="anchor">🔗</a></h4>
+<p><strong><em>Pros:</em></strong></p>
+<ul>
+<li>Could be introduced right before the usage</li>
+<li>Possible to specify type signatures</li>
+<li>The scoping starts from the declaration of <code>let</code> till the end of the underneath expression</li>
+<li>Could be introduced in any expression in the function</li>
+</ul>
+<p><strong><em>Cons:</em></strong></p>
+<ul>
+<li>The declaration is in the middle of the function, so for example, in functions with long bodies, it could be tricky to find where the new function comes from, as <code>let</code> declaration could be anywhere</li>
+<li>Usually, type signatures are omitted by developers and many of them advocate for this practice (while we in Kowainik have different <a href="https://kowainik.github.io/posts/2019-02-06-style-guide">style guide</a> rules on this topic); it makes it hard to grep on the function</li>
+<li>Can’t be used outside the function and won’t be visible in the project</li>
+<li>Polymorphic type signatures in such functions can require additional extensions and <code>forall</code>ing in the main function</li>
+<li>Beginners are confused by <code>let</code> and binding with <code>&lt;-</code> in do-notation</li>
+<li>For some reason, it’s easier to introduce non-terminating recursive expressions with <code>let</code>, and this causes <a href="https://github.com/ghc-proposals/ghc-proposals/pull/401">hot proposals about changing the behaviour</a></li>
+<li>Enabling some extensions (e.g. <code>TypeFamilies</code>) implies the <code>MonoLocalBinds</code> extension that makes inferred types of <code>let</code> expressions less polymorphic, which can lead to unexpected compilation errors</li>
+</ul>
+<h4 id="top-level-1">Top-level<a href="#top-level-1" class="anchor">🔗</a></h4>
+<p><strong><em>Pros:</em></strong></p>
+<ul>
+<li>A proper function declaration with type signature and docs</li>
+<li>Easily discoverable in the project</li>
+<li>Can be reused in many functions</li>
+<li>Could be more polymorphic in order to fit more use-cases</li>
+<li>Can be tested with doctests</li>
+</ul>
+<p><strong><em>Cons:</em></strong></p>
+<ul>
+<li>Can be more polymorphic than necessary, which could lead to explicit type annotations on usage</li>
+<li>Still should be exported in order to test in the test-suits</li>
+<li>Can’t use variables from the local context, so requires passing everything explicitly to it, which may lead to lots of boilerplate</li>
+<li>Need to be more careful with the name as it could lead to name-clashes</li>
+</ul>
+<h4 id="import-1">Import<a href="#import-1" class="anchor">🔗</a></h4>
+<p><strong><em>Pros:</em></strong></p>
+<ul>
+<li>A proper function declaration with type signature and docs</li>
+<li>Easily discoverable in the project</li>
+<li>Have a dedicated logical place in the project and is considered to be used throughout the project</li>
+<li>The usage in different modules is apparent, and can restrictions of usages can be customised through tools</li>
+<li>Different optimisation rules of GHC for exported functions</li>
+<li>You can test this function</li>
+<li>Can be imported qualified in order to be more specific with the context</li>
+<li>Can be added to the local <code>Prelude</code> module and used without any imports anywhere in the project</li>
+</ul>
+<p><strong><em>Cons:</em></strong></p>
+<ul>
+<li>Can be more polymorphic than necessary, which could lead to explicit type annotations on usage.</li>
+<li>Can’t use variables from the local context, so requires passing everything explicitly to it, which may lead to lots of boilerplate</li>
+<li>Can perform slower than the non-imported version due to GHC optimisations</li>
+<li>Need to be more careful with the name as it could lead to name-clashes</li>
+<li>Requires to come up with a place for this function: it could either be exported from irrelevant module, or the all-purpose general <code>.Util</code>, or require creating a single-function module, or probably even require resolving cyclic module dependencies (either via boot files or by any other method)</li>
+</ul>
+<h2 id="conclusion">Conclusion<a href="#conclusion" class="anchor">🔗</a></h2>
+<p>The functions that take functions as arguments are a powerful tool in writing maintainable, readable and elegant code. And we are in charge of deciding on the best way to make that happen in each particular case. Each solution has its own trade-offs that affect maintainability, readability and even performance. The above exploration is only for guidance. I am sure that each specific case and project requires special consideration and deciding on the approach that would work better for the project and developers.</p>
+              </p>
+              </div>
+            </div>
+
+          </div>
+      </div>
+<footer class="footer text-center">
+  <div class="row">
+    <div class="col-12 post-body">
+      <hr class="star-light">
+    </div>
+  </div>
+  <div class="row justify-content-center flex-row">
+      <div class="col-md-4 mb-5 mb-lg-0">
+          <div class="stretch">
+          <h4 class="text-uppercase mt-0 mb-4 flex-h">Support our work</h4>
+          <p class="px-5 flex-text flex-txt">If you like what we do, you can help us do more of that by supporting on Ko-Fi or GitHub:</p>
+          <ul class="empty-list list-inline mb-0 mx-auto flex-links">
+              <li class="list-inline-item my-auto">
+                  <a class="btn btn-outline-primary btn-sm rounded-pill" href="https://ko-fi.com/kowainik" target="_blank">
+                      <i class="fas fa-coffee"></i> Buy a coffee
+                  </a>
+
+              </li>
+              <li class="list-inline-item my-auto">
+                  <a class="btn btn-outline-primary btn-sm rounded-pill" href="https://github.com/sponsors/vrom911" target="_blank">
+                      <i class="fab fa-github"></i> @vrom911
+                  </a>
+              </li>
+              <li class="list-inline-item my-auto">
+                  <a class="btn btn-outline-primary btn-sm rounded-pill" href="https://github.com/sponsors/chshersh" target="_blank">
+                      <i class="fab fa-github"></i> @chshersh
+                  </a>
+              </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="col-md-4 mb-5 mb-lg-0">
+          <div class="stretch">
+              <h4 class="text-uppercase text-center mb-4 footer-h">Subscribe</h4>
+              <p class="px-5 flex-text footer-txt">Enjoyed this post? Consider subscribing to our newsletter to always be first to check out our new updates:</p>
+        <!-- Begin Mailchimp Signup Form -->
+              <div class="footer-links"> <div class="row justify-content-center subscribe-form" id="mc_embed_signup">
+  <form action="https://news.us2.list-manage.com/subscribe/post?u=af5d0411175f11e83618abf5e&amp;id=b04a7ed805" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+    <div class="form-row mx-0" id="mc_embed_signup_scroll">
+      <div class="col-8 input-group ">
+        <div class="input-group-prepend">
+          <div class="input-group-text"><i class="fa fa-envelope"></i> </div>
+        </div>
+        <input type="email" value name="EMAIL" class="required email form-control" placeholder="Your email" id="mce-EMAIL">
+      </div>
+      <div class="col-4 text-left">
+        <input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button btn btn-primary btn-lg">
+      </div>
+      <div class="mc-field-group group-checkbox input-group">
+        <ul>
+          <li><input type="checkbox" value="1" name="group[83780][1]" class="form-check-input" id="mce-group[83780]-83780-0"></li>
+          <li><input type="checkbox" value="2" name="group[83780][2]" class="form-check-input" id="mce-group[83780]-83780-1" checked></li>
+        </ul>
+      </div>
+      <div id="mce-responses" class="clear">
+        <div class="response" id="mce-error-response" style="display:none"></div>
+        <div class="response" id="mce-success-response" style="display:none"></div>
+      </div>
+      <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
+      <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_af5d0411175f11e83618abf5e_b04a7ed805" tabindex="-1" value></div>
+    </div>
+  </form>
+</div>
+</div>
+    <!--End mc_embed_signup-->
+          </div>
+    </div>
+    <div class="col-md-4 mb-5 mb-lg-0">
+        <div class="stretch">
+        <h4 class="text-uppercase mb-4 footer-h">Follow us</h4>
+        <p class="px-5 footer-txt mt-6">We also share our work elsewhere. You can find us also at:</p>
+        <ul class="empty-list list-inline mb-0 mx-auto text-center footer-links">
+            
+            <li class="list-inline-item my-auto">
+                <a class="btn btn-outline-light btn-social text-center rounded-circle" href="https://twitter.com/kowainik" target="_blank">
+                    <i class="fab fa-fw fa-twitter"></i>
+                </a>
+            </li>
+            
+            <li class="list-inline-item my-auto">
+                <a class="btn btn-outline-light btn-social text-center rounded-circle" href="https://github.com/kowainik" target="_blank">
+                    <i class="fab fa-fw fa-github"></i>
+                </a>
+            </li>
+            
+            <li class="list-inline-item my-auto">
+                <a class="btn btn-outline-light btn-social text-center rounded-circle" href="https://www.linkedin.com/company/kowainik" target="_blank">
+                    <i class="fab fa-fw fa-linkedin"></i>
+                </a>
+            </li>
+            
+            <li class="list-inline-item my-auto">
+                <a class="btn btn-outline-light btn-social text-center rounded-circle" href="https://t.me/kowainik" target="_blank">
+                    <i class="fab fa-fw fa-telegram"></i>
+                </a>
+            </li>
+            
+            <li class="list-inline-item my-auto">
+                <a class="btn btn-outline-light btn-social text-center rounded-circle" href="../rss.xml" target="_blank">
+                    <i class="fas fa-fw fa-rss"></i>
+                </a>
+            </li>
+            
+        </ul>
+        </div>
+    </div>
+  </div>
+</footer>
+
+
+      <!-- Bootstrap core JavaScript -->
+      <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"> </script>
+      <script src="../js/post.js"> </script>
+      <script src="../js/hide.js"> </script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/haskell.min.js"></script>
+      <script>hljs.initHighlightingOnLoad()</script>
+      <script async defer src="https://buttons.github.io/buttons.js"></script>
+  </body>
+</html>

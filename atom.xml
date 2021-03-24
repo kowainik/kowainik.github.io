@@ -8,8 +8,16 @@
         <name>Kowainik</name>
         <email>xrom.xkov@gmail.com</email>
     </author>
-    <updated>2021-03-01T00:00:00Z</updated>
+    <updated>2021-03-24T00:00:00Z</updated>
     <entry>
+    <title>Many faces of Internal Functions</title>
+    <link href="https://kowainik.github.io/posts/internal-functions.html" />
+    <id>https://kowainik.github.io/posts/internal-functions.html</id>
+    <published>2021-03-24T00:00:00Z</published>
+    <updated>2021-03-24T00:00:00Z</updated>
+    <summary type="html"><![CDATA[The post explores various ways to define internal functions and discuss the advantages and disadvantages of each approach]]></summary>
+</entry>
+<entry>
     <title>Arrows Zoo</title>
     <link href="https://kowainik.github.io/posts/arrows-zoo.html" />
     <id>https://kowainik.github.io/posts/arrows-zoo.html</id>
@@ -80,14 +88,6 @@
     <published>2020-01-29T00:00:00Z</published>
     <updated>2020-01-29T00:00:00Z</updated>
     <summary type="html"><![CDATA[Bristol Haskell Hackathon 2020 project — Policeman — a tool for Haskell PVP version suggesting.]]></summary>
-</entry>
-<entry>
-    <title>GSoC 2019 for mentors: Summertime Codeness</title>
-    <link href="https://kowainik.github.io/posts/gsoc2019.html" />
-    <id>https://kowainik.github.io/posts/gsoc2019.html</id>
-    <published>2019-09-25T00:00:00Z</published>
-    <updated>2019-09-25T00:00:00Z</updated>
-    <summary type="html"><![CDATA[Our Google Summer of Code journey as mentors for Issue Wanted project]]></summary>
 </entry>
 
 </feed>

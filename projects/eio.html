@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+      <!-- Global site tag (gtag.js) - Google Analytics -->
+      <script async src="https://www.googletagmanager.com/gtag/js?id=UA-125893749-1"></script>
+      <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+
+          gtag('config', 'UA-125893749-1');
+          </script>
+    <title>eio :: Kowainik</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Kowainik — IO with Exceptions tracked on the type-level">
+    <meta name="keywords" content="Haskell, Functional progarmming, FP ">
+    <meta name="author" content="Kowainik " />
+
+    <!-- Twitter cards -->
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="@kowainik" />
+    <meta property="twitter:title" content="Kowainik - eio" />
+    <meta name="twitter:description" content="IO with Exceptions tracked on the type-level" />
+    <meta name="twitter:image:src" content="https://kowainik.github.io/images/logo-yellow.png" />
+    <meta property="og:title" content="Kowainik - eio" />
+    <meta property="og:description" content="IO with Exceptions tracked on the type-level" />
+    <meta property="og:site_name" content="Kowainik" />
+    <meta property="og:image" content="https://kowainik.github.io/images/logo-yellow.png" />
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon">
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.11.0/styles/dracula.min.css" />
+    <!-- Fontawesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+    <!-- Custom fonts for this template -->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Lato" />
+    <!-- Custom styles for this template -->
+    <link href="../css/default.css" rel="stylesheet">
+    <link href="../css/post.css" rel="stylesheet">
+  </head>
+
+  <body class="body-posts">
+
+      <!-- Header -->
+      <nav class="navbar navbar-inverse navbar-fixed-left leftmenu bg-primary text-secondary">
+            <div class="navbar-header">
+                <div class="postslogo"> <a class="navbar-brand" href="../"><img class="img-fluid mb-5 d-block mx-auto" src="../images/logo-tr.png" alt="Kowainik"></a></div>
+
+            </div>
+            <div class="coolFont">
+                <a class="btn btn-outline-dark btn-tag" href="https://github.com/kowainik/eio" data-icon="octicon-star" data-size="large" aria-label="Star Kowainik/eio on GitHub">Star Project</a>
+                <a class="fa-stack fa-2x" href="https://github.com/kowainik/eio/stargazers">
+                    <i class="fa fa-star fa-stack-2x"></i>
+                    <i id="stars" class="fa fa-stack-1x fa-inverse main-font">40</i>
+                </a>
+                <div class="author">Language: Haskell</div>
+
+                <div class="allposts">
+                    <h3><a href="../projects"> Projects =<< </a></h3>
+                </div>
+            </div>
+      </nav>
+      <div class="container info">
+          <h2 class="text-center text-uppercase text-secondary">eio</h2>
+          <div class="content">
+          <div class="row post">
+              <div class="col-12 post-body">
+              <p class="lead">
+                  <p><a href="https://github.com/kowainik/eio/actions"><img src="https://github.com/kowainik/eio/workflows/CI/badge.svg" alt="GitHub CI" /></a> <a href="https://hackage.haskell.org/package/eio"><img src="https://img.shields.io/hackage/v/eio.svg?logo=haskell" alt="Hackage" /></a> <a href="LICENSE"><img src="https://img.shields.io/badge/license-MPL--2.0-blue.svg" alt="MPL-2.0 license" /></a></p>
+<p>IO with Exceptions tracked on the type-level.</p>
+<p><strong>Note:</strong> The package is considered to be used with the <code>QualifiedDo</code> feature, so hence the support only of GHC-9.0 and upper.</p>
+<h2 id="usage-example">Usage example<a href="#usage-example" class="anchor">🔗</a></h2>
+<p>Since this is a literate haskell file, we need to specify all our language extensions and imports up front.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true"></a><span class="ot">{-# LANGUAGE QualifiedDo #-}</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true"></a><span class="ot">{-# LANGUAGE DataKinds #-}</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true"></a><span class="ot">{-# LANGUAGE DerivingStrategies #-}</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true"></a><span class="ot">{-# LANGUAGE DeriveAnyClass #-}</span></span></code></pre></div>
+<p>It is recomended to use <code>eio</code> library qualified, as it reimplements many standard functions.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true"></a><span class="kw">import</span> <span class="dt">Control.Exception</span> (<span class="dt">Exception</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true"></a><span class="kw">import</span> <span class="dt">EIO</span> (<span class="dt">EIO</span>)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true"></a><span class="kw">import</span> <span class="kw">qualified</span> <span class="dt">EIO</span></span></code></pre></div>
+<p>Let’s also define our own exception to play with:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true"></a><span class="kw">data</span> <span class="dt">MyErr</span> <span class="ot">=</span> <span class="dt">MyErr</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true"></a>    <span class="kw">deriving</span> stock (<span class="dt">Show</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true"></a>    <span class="kw">deriving</span> anyclass (<span class="dt">Exception</span>)</span></code></pre></div>
+<p>The main function of our module will look like this:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true"></a><span class="ot">main ::</span> <span class="dt">IO</span> ()</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true"></a>main <span class="ot">=</span> EIO.runEIO safeMain</span></code></pre></div>
+<p>Let’s now write the safe main function that should not have any exceptions pushed to the actual <code>main</code> function, as the list of exceptions on type level should be empty.</p>
+<p>This means, that if we throw the exception inside but don’t handle it properly, it won’t type check, as the list of exceptions in <code>EIO</code> will contain at least one element:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode idris"><code class="sourceCode idris"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true"></a><span class="co">-- - Type error!</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true"></a><span class="fu">safeMainWrong</span> <span class="ot">::</span> <span class="dt">EIO</span> <span class="ch">'[] ()</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true"></a>safeMainWrong <span class="fu">=</span> <span class="dt">EIO</span><span class="fu">.</span><span class="kw">do</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true"></a>    <span class="dt">EIO</span><span class="fu">.</span>throw <span class="dt">MyErr</span></span></code></pre></div>
+<p>And the error will exactly point out to the fact that the empty list is expected, but got non-empty instead:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode idris"><code class="sourceCode idris"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true"></a><span class="fu">error</span><span class="ot">:</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true"></a>    • <span class="dt">Couldn'</span>t match type<span class="ot">:</span> <span class="ch">'[MyErr]</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true"></a>                     <span class="kw">with</span><span class="ot">:</span> <span class="ch">'[]</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true"></a>      <span class="dt">Expected</span><span class="ot">:</span> <span class="dt">EIO</span> <span class="ch">'[] ()</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true"></a>        <span class="dt">Actual</span><span class="ot">:</span> <span class="dt">EIO</span> <span class="ch">'[MyErr] ()</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true"></a>    • <span class="dt">In</span> a stmt <span class="kw">of</span> a qualified <span class="ch">'do'</span> block<span class="ot">:</span> <span class="dt">EIO</span><span class="fu">.</span>throw <span class="dt">MyErr</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true"></a>      <span class="dt">In</span> the expression<span class="ot">:</span> <span class="dt">EIO</span><span class="fu">.</span><span class="kw">do</span> <span class="dt">EIO</span><span class="fu">.</span>throw <span class="dt">MyErr</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true"></a>      <span class="dt">In</span> an equation for ‘safeMain’<span class="ot">:</span> safeMain <span class="fu">=</span> <span class="dt">EIO</span><span class="fu">.</span><span class="kw">do</span> <span class="dt">EIO</span><span class="fu">.</span>throw <span class="dt">MyErr</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true"></a>   <span class="fu">|</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true"></a>xx <span class="fu">|</span>     <span class="dt">EIO</span><span class="fu">.</span>throw <span class="dt">MyErr</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true"></a>   <span class="fu">|</span>     <span class="fu">^^^^^^^^^^^^^^^</span></span></code></pre></div>
+<p>In order for it to type check, we need to handle each thrown exception properly, so that you have an empty list in the end:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true"></a><span class="ot">safeMain ::</span> <span class="dt">EIO</span> '[] ()</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true"></a>safeMain <span class="ot">=</span> EIO.do</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true"></a>    EIO.return ()</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true"></a>    EIO.throw <span class="dt">MyErr</span> <span class="ot">`EIO.catch`</span> (\<span class="dt">MyErr</span> <span class="ot">-&gt;</span> EIO.return ())</span></code></pre></div>
+              </p>
+              </div>
+          </div>
+          </div>
+
+
+      </div>
+
+      <script src="../js/stars.js"></script>
+      <script>
+       shootingStars("kowainik/eio", function (stars) {
+           document.getElementById("stars").innerHTML = stars;
+       });
+      </script>
+
+
+      <!-- Bootstrap core JavaScript -->
+      <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"> </script>
+      <script src="../js/post.js"> </script>
+      <script src="../js/hide.js"> </script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/haskell.min.js"></script>
+      <script>hljs.initHighlightingOnLoad()</script>
+      <script async defer src="https://buttons.github.io/buttons.js"></script>
+  </body>
+</html>
