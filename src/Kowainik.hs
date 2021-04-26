@@ -7,19 +7,20 @@ module Kowainik
     ( runKowainik
     ) where
 
+import Data.Time (UTCTime)
 import Hakyll (Compiler, Context, Identifier, Item (..), MonadMetadata, Pattern, Rules,
                applyAsTemplate, buildTags, compile, compressCssCompiler, constField,
                copyFileCompiler, create, customRoute, dateField, defaultContext,
                defaultHakyllReaderOptions, defaultHakyllWriterOptions, field, fromCapture,
                functionField, getMetadata, getResourceString, getTags, hakyll, idRoute, listField,
                loadAll, loadAndApplyTemplate, lookupString, makeItem, match, metadataRoute,
-               pandocCompilerWithTransformM, recentFirst, relativizeUrls, renderPandocWith, route,
-               saveSnapshot, setExtension, tagsRules, templateBodyCompiler, titleField, toFilePath,
+               pandocCompilerWithTransformM, relativizeUrls, renderPandocWith, route, saveSnapshot,
+               setExtension, tagsRules, templateBodyCompiler, titleField, toFilePath,
                unsafeCompiler, (.||.))
 import Hakyll.ShortcutLinks (applyAllShortcuts)
 import Hakyll.Web.Feed (renderAtom, renderRss)
 import System.Environment (lookupEnv)
-import System.FilePath (replaceExtension)
+import System.FilePath (dropExtension, replaceExtension, splitDirectories)
 import Text.Pandoc.Options (WriterOptions (..))
 import Text.Pandoc.Templates (compileTemplate)
 
@@ -32,6 +33,7 @@ import Kowainik.Social (makeSocialContext)
 import Kowainik.Team (TeamMember, makeCreatorsContext, makeTeamContext, parseTeam)
 
 import qualified Data.Text as T
+import qualified Data.Time.Format as Time
 import qualified Text.Pandoc as Pandoc
 import qualified Text.Pandoc.Walk as Pandoc.Walk
 
@@ -189,7 +191,7 @@ compilePosts :: String -> Identifier -> Pattern -> Rules ()
 compilePosts title page pat = do
     route idRoute
     compile $ do
-        posts <- recentFirst =<< loadAll pat
+        posts <- recentlyUpdatedFirst =<< loadAll pat
         let ids = map itemIdentifier posts
         tagsList <- ordNub . concat <$> traverse getTags ids
         let ctx = postCtxWithTags tagsList
@@ -202,6 +204,30 @@ compilePosts title page pat = do
             >>= loadAndApplyTemplate page ctx
             >>= loadAndApplyTemplate "templates/posts-default.html" ctx
             >>= relativizeUrls
+  where
+    recentlyUpdatedFirst :: MonadMetadata m => [Item a] -> m [Item a]
+    recentlyUpdatedFirst = sortByM $ getItemLastModificationTime . itemIdentifier
+
+    getItemLastModificationTime
+        :: MonadMetadata m
+        => Identifier    -- ^ Input page
+        -> m UTCTime     -- ^ Parsed UTC time
+    getItemLastModificationTime id' = do
+        metadata <- getMetadata id'
+        -- lookup 'updated' from metadata
+        let mUpdated = lookupString "updated" metadata >>= parseLongDate
+
+        -- get 'created' from path as we don't have 'date' yet
+        let paths = splitDirectories $ dropExtension $ toFilePath id'
+        let mCreated = asumMap (parseShortDate . take shortDateLen) paths
+
+        let errMsg = unlines
+                [ "Error parsing 'updated' and 'created' times from:"
+                , "  updated: " <> show (lookupString "updated" metadata)
+                , "  created: " <> show paths
+                ]
+
+        maybe (error errMsg) pure (mUpdated <|> mCreated)
 
 compileProjects :: String -> Identifier -> Pattern -> Rules ()
 compileProjects title page pat = do
@@ -221,10 +247,6 @@ compileProjects title page pat = do
   where
     moreStarsFirst :: MonadMetadata m => [Item a] -> m [Item a]
     moreStarsFirst = sortByM $ getItemStars . itemIdentifier
-      where
-        sortByM :: (Monad m, Ord k) => (a -> m k) -> [a] -> m [a]
-        sortByM f xs = map fst . sortBy (flip $ comparing snd) <$>
-            mapM (\x -> (x,) <$> f x) xs
 
     getItemStars
         :: MonadMetadata m
@@ -238,6 +260,9 @@ compileProjects title page pat = do
       where
         starError = error "Couldn't parse stars"
 
+sortByM :: (Monad m, Ord k) => (a -> m k) -> [a] -> m [a]
+sortByM f xs = map fst . sortBy (flip $ comparing snd) <$>
+    mapM (\x -> (x,) <$> f x) xs
 
 -- | Removes the @.html@ suffix in the post URLs.
 stripExtension :: Context a
@@ -269,10 +294,32 @@ addAnchors =
 -- Context to used for posts
 postCtx :: Context String
 postCtx = stripExtension
-    <> dateField "date" "%B %e, %Y"
+    <> dateField "date" dateFormat
     <> defaultContext
 
 postCtxWithTags :: [String] -> Context String
 postCtxWithTags tags =
     listField "tagsList" (field "tag" $ pure . itemBody) (traverse makeItem tags)
     <> postCtx
+
+{- | Date format used in our blog posts and projects:
+
+@
+September 19, 2021
+@
+-}
+dateFormat :: String
+dateFormat = "%B %e, %Y"
+
+{- | Parse string representation of a date using 'dateFormat'.
+-}
+parseLongDate :: MonadFail m => String -> m UTCTime
+parseLongDate = Time.parseTimeM True Time.defaultTimeLocale dateFormat
+
+{- | Parse string representation of a date using blog post names date format.
+-}
+parseShortDate :: MonadFail m => String -> m UTCTime
+parseShortDate = Time.parseTimeM True Time.defaultTimeLocale "%Y-%m-%d"
+
+shortDateLen :: Int
+shortDateLen = length @[] "YYYY-MM-DD"

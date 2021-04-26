@@ -72,6 +72,7 @@ library
                      , pandoc >= 2.9
                      , pandoc-types
                      , text
+                     , time
 
 executable site
   import:              common-options
