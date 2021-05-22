@@ -241,6 +241,20 @@ h1:hover a.anchor,h2:hover a.anchor,h3:hover a.anchor{display:inline;color:#6432
 .post-body figcaption {text-align: center; font-style: italic; font-weight: lighter;}
 .post-body li p {display: inline;}
 
+/* Definitions */
+.definition {
+    padding: 1%; margin: 1%;
+    -webkit-box-shadow: 0px 0px 10px 3px rgba(38,228,187,1);
+    -moz-box-shadow: 0px 0px 10px 3px rgba(38,228,187,1);
+    box-shadow: 0px 0px 10px 3px rgba(38,228,187,1);
+    padding-left: 3em;
+    background: #ffffff 5px top/2.5em no-repeat;
+    background-image: url(/images/definition.png);
+    background-position: 5px 10px;
+}
+
+.definition > p { margin: 1%; }
+
 /* Exercises and solutions */
 .exercise {
     padding: 1% 2%; margin: 2% 0;
