@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+      <!-- Global site tag (gtag.js) - Google Analytics -->
+      <script async src="https://www.googletagmanager.com/gtag/js?id=UA-125893749-1"></script>
+      <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+
+          gtag('config', 'UA-125893749-1');
+          </script>
+    <title>Fix(ity) me :: Kowainik</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Kowainik — A comprehensive guide to operators and their fixity in Haskell">
+    <meta name="keywords" content="Haskell, Functional progarmming, FP , haskell, fp, guide ">
+    <meta name="author" content="Kowainik  — Dmitrii Kovanikov <> Veronika Romashkina " />
+
+    <!-- Twitter cards -->
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="@kowainik" />
+    <meta property="twitter:title" content="Kowainik - Fix(ity) me" />
+    <meta name="twitter:description" content="A comprehensive guide to operators and their fixity in Haskell" />
+    <meta name="twitter:image:src" content="https://kowainik.github.io/images/logo-yellow.png" />
+    <meta property="og:title" content="Kowainik - Fix(ity) me" />
+    <meta property="og:description" content="A comprehensive guide to operators and their fixity in Haskell" />
+    <meta property="og:site_name" content="Kowainik" />
+    <meta property="og:image" content="https://kowainik.github.io/images/logo-yellow.png" />
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon">
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.11.0/styles/dracula.min.css" />
+    <!-- Fontawesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+    <!-- Custom fonts for this template -->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Lato" />
+    <!-- Custom styles for this template -->
+    <link href="../css/default.css" rel="stylesheet">
+    <link href="../css/post.css" rel="stylesheet">
+  </head>
+
+  <body class="body-posts">
+
+          <!-- Header -->
+      <nav class="navbar navbar-inverse navbar-fixed-left leftmenu bg-primary text-secondary">
+            <div class="navbar-header text-center">
+                <div class="postslogo justify-content-center"> <a href="../"><img class="img-fluid" src="../images/logo-tr.png" alt="Kowainik"></a></div>
+                <div class="coffee text-center">
+                    <a class="btn btn-primary rounded-pill" href="https://ko-fi.com/kowainik" target="_blank">
+                        <i class="fas fa-coffee"></i> Buy a coffee
+                    </a>
+                </div>
+                <ul class="socials empty-list list-inline mb-0 justify-content-center text-center mx-auto">
+                
+                <li class="list-inline-item my-auto">
+                    <a class="btn btn-outline-dark btn-social text-center rounded-circle" href="https://twitter.com/kowainik" target="_blank">
+                        <i class="fab fa-fw fa-twitter"></i>
+                    </a>
+                </li>
+                
+                <li class="list-inline-item my-auto">
+                    <a class="btn btn-outline-dark btn-social text-center rounded-circle" href="https://github.com/kowainik" target="_blank">
+                        <i class="fab fa-fw fa-github"></i>
+                    </a>
+                </li>
+                
+                <li class="list-inline-item my-auto">
+                    <a class="btn btn-outline-dark btn-social text-center rounded-circle" href="https://www.linkedin.com/company/kowainik" target="_blank">
+                        <i class="fab fa-fw fa-linkedin"></i>
+                    </a>
+                </li>
+                
+                <li class="list-inline-item my-auto">
+                    <a class="btn btn-outline-dark btn-social text-center rounded-circle" href="https://t.me/kowainik" target="_blank">
+                        <i class="fab fa-fw fa-telegram"></i>
+                    </a>
+                </li>
+                
+                <li class="list-inline-item my-auto">
+                    <a class="btn btn-outline-dark btn-social text-center rounded-circle" href="../rss.xml" target="_blank">
+                        <i class="fas fa-fw fa-rss"></i>
+                    </a>
+                </li>
+                
+                </ul>
+
+            </div>
+
+            <div class="toc-zone justify-content-center">
+                <h6 class="coolFont">Contents</h6>
+                <div class="toc" id="main">
+                    <ul>
+<li><a href="#difficulty">Difficulty</a></li>
+<li><a href="#definitions">Definitions</a>
+<ul>
+<li><a href="#operator">Operator</a></li>
+<li><a href="#arity">Arity</a>
+<ul>
+<li><a href="#nullary-operators">Nullary operators*</a></li>
+</ul></li>
+<li><a href="#notation">Notation</a>
+<ul>
+<li><a href="#postfix-operators">Postfix operators*</a></li>
+</ul></li>
+<li><a href="#associativity">Associativity</a></li>
+<li><a href="#precedence">Precedence</a></li>
+</ul></li>
+<li><a href="#fixity-declaration">Fixity declaration</a>
+<ul>
+<li><a href="#fun-part">Fun part*</a></li>
+<li><a href="#standard-examples">Standard examples</a></li>
+<li><a href="#discovering-fixity">Discovering fixity</a></li>
+<li><a href="#functions-fixity">Functions fixity</a></li>
+<li><a href="#dots-on-i">Dots on i</a></li>
+<li><a href="#beyond-fixity-rules">Beyond fixity rules</a></li>
+<li><a href="#common-errors">Common errors</a></li>
+<li><a href="#type-level-operators">Type-level operators</a></li>
+<li><a href="#local-fixity-declarations">Local fixity declarations</a></li>
+</ul></li>
+<li><a href="#takeaways">Takeaways</a></li>
+<li><a href="#links">Links</a></li>
+</ul>
+                </div>
+            </div>
+            <div class="allposts text-center">
+                <h3><a href="../posts"> Posts =<< </a></h3>
+            </div>
+      </nav>
+      <div class="container info">
+          <h2 class="text-center text-uppercase text-secondary">Fix(ity) me</h2>
+          <div class="row coolFont align-self-center justify-content-center">
+            <div class="col-10">Date: May 24, 2021</div>
+            
+
+            <div class="author col-10">Author: Dmitrii Kovanikov <> Veronika Romashkina</div>
+            <div class="col-12 text-center m-auto tag-block">
+                
+                <span class="tag-block"> <a class="btn btn-outline-dark btn-tag" href="../tags/haskell">haskell</a></span>
+                
+                <span class="tag-block"> <a class="btn btn-outline-dark btn-tag" href="../tags/fp">fp</a></span>
+                
+                <span class="tag-block"> <a class="btn btn-outline-dark btn-tag" href="../tags/guide">guide</a></span>
+                
+            </div>
+          </div>
+
+          <div class="content">
+            <div class="row post">
+              <div class="col-12 post-body">
+              <p class="lead">
+                  <p>Overwhelmed by the huge number of custom operators in Haskell? Work with a popular library, but it looks overly intimidating due to the abundance of intricate-looking operators? For many Haskell engineers, these problems are real. Developers can experience massive anxiety, based solely on the fact that they need to deal with such API that throws a bunch of custom operators in their faces (we call such interfaces <em>“inthefaces”</em>).</p>
+<p>To get a deeper understanding of the problem and develop firefighting techniques, let’s have a closer look at operators and how to work with them.</p>
+<p>This post is useful for both newcomers and language adepts, seeking ground rules around using operators and must-do things when introducing your own operators.</p>
+<h2 id="difficulty">Difficulty<a href="#difficulty" class="anchor">🔗</a></h2>
+<p>Let’s first discuss why custom operators often feel so unfriendly. Since Haskell allows defining custom operators, you can find many creative symbolic names used for diverse purposes in various codebases. Unfortunately, they can decrease readability and maintainability and increase the entrance threshold for new joiners.</p>
+<p>When you see an unfamiliar operator (e.g. <code>%~|</code>), usually it’s not clear what it should do solely from its name. If you are familiar with some <a href="https://kowainik.github.io/posts/naming-conventions#operator-conventions">guidance of operator naming</a> in a particular context, you could figure out the meaning by analysing each symbol. But in general, there are no rules; you’re on your own.</p>
+<p>The arbitrary-looking name doesn’t provide any hint to guide you through code understanding when you see it for the first time. Moreover, even if you manage to get the logic of custom operators, this information vanishes out of your brain the second after you finish using it. In other words, such knowledge is not long-term unless you use it all the time (e.g. <code>+</code>, <code>/=</code>, etc.).</p>
+<p>Unfortunately, another difficulty point of operators is that they bring an additional layer of complexity — <em>implicit parentheses</em>. The compiler has special rules for parsing expressions with operators (unlike ordinary functions), determined by each operator independently. The compilation result, driven by individual rules for every operator, sets your code’s correctness and even performance: you may see unexpected compiler errors (inability to parse expression) or even wrong runtime results when mixing different operators.</p>
+<p>However, despite all challenges associated with using operators, careful usage can lead to elegant and idiomatic solutions. This is crucial when you are creating embedded domain-specific languages (eDSL). So it is absolutely necessary knowledge to have in your pocket.</p>
+<h2 id="definitions">Definitions<a href="#definitions" class="anchor">🔗</a></h2>
+<p>As a guide through the dark forest of operators and brackets, this blog post focuses on <strong>operator fixity</strong> — a Haskell feature controlling the <em>associativity</em> and <em>precedence</em> of operators (explained later). Fixity glues different operators and controls their behaviour. When used properly, this feature helps to write more maintainable code and provide more convenient APIs.</p>
+<p>Before we proceed further and dive into the main fixity part, let’s walk through the basic definitions we need in order to work with operators.</p>
+<p>Even though operators may seem straightforward, in reality, it’s a convoluted topic that involves multiple different concepts:</p>
+<ul>
+<li>Operator</li>
+<li>Notation</li>
+<li>Arity</li>
+<li>Associativity</li>
+<li>Precedence</li>
+</ul>
+<p>To understand how operators are used, we will go through the definition of each concept with explanation and examples.</p>
+<h3 id="operator">Operator<a href="#operator" class="anchor">🔗</a></h3>
+<div class="definition">
+<p>An <strong>operator</strong> is a function defined using one or more operator symbols.</p>
+</div>
+<p>The below table contains a few standard operators in Haskell:</p>
+<table style="width:71%;">
+<colgroup>
+<col style="width: 13%" />
+<col style="width: 57%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Name</strong></th>
+<th><strong>Description</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>+</code></td>
+<td>Numeric addition</td>
+</tr>
+<tr class="even">
+<td><code>-</code></td>
+<td>Numeric subtraction</td>
+</tr>
+<tr class="odd">
+<td><code>*</code></td>
+<td>Numeric multiplication</td>
+</tr>
+<tr class="even">
+<td><code>^</code></td>
+<td>Numeric power</td>
+</tr>
+<tr class="odd">
+<td><code>==</code></td>
+<td>Equality</td>
+</tr>
+<tr class="even">
+<td><code>&lt;=</code></td>
+<td>Less or equal</td>
+</tr>
+<tr class="odd">
+<td><code>&gt;</code></td>
+<td>Greater</td>
+</tr>
+<tr class="even">
+<td><code>&amp;&amp;</code></td>
+<td>Boolean “and”</td>
+</tr>
+<tr class="odd">
+<td><code>||</code></td>
+<td>Boolean “or”</td>
+</tr>
+<tr class="even">
+<td><code>.</code></td>
+<td>Function composition</td>
+</tr>
+<tr class="odd">
+<td><code>$</code></td>
+<td>Function application</td>
+</tr>
+<tr class="even">
+<td><code>&amp;</code></td>
+<td>Function application with flipped arguments</td>
+</tr>
+<tr class="odd">
+<td><code>&gt;&gt;=</code></td>
+<td>Monad bind</td>
+</tr>
+<tr class="even">
+<td><code>&lt;$&gt;</code></td>
+<td>Functor mapping</td>
+</tr>
+<tr class="odd">
+<td><code>&lt;*&gt;</code></td>
+<td>Applicative chaining</td>
+</tr>
+</tbody>
+</table>
+<p>According to the <a href="https://www.haskell.org/onlinereport/haskell2010/">Haskell 2010 Report</a>, only the following characters are allowed to be used as operator symbols:</p>
+<pre><code>! $ % &amp; ⋆ + . / &lt; = &gt; ? @ \ ^ | - ~ : #</code></pre>
+<p>However, not all variants of these symbols are possible to use as operators. The following combinations are already reserved for built-ins and syntax, so you can’t define your custom operators using the exact names from the list below:</p>
+<ul>
+<li><code>..</code> — list range syntax for enumerations</li>
+<li><code>:</code> — list constructor (operator for prepending elements to lists)</li>
+<li><code>::</code> — type signature</li>
+<li><code>=</code> — defining functions, data types and variables</li>
+<li><code>\</code> — escaping characters and multiline strings gaps</li>
+<li><code>|</code> — alternatives: guards and constructors in sum types</li>
+<li><code>&lt;-</code> and <code>-&gt;</code> — function arrows, binding variables, and much more; check our separate blog post to explore the entire <a href="https://kowainik.github.io/posts/arrows-zoo">Arrows Zoo</a></li>
+<li><code>@</code> — as-patterns and visible <a href="https://ghc.gitlab.haskell.org/ghc/doc/users_guide/exts/type_applications.html">type applications</a></li>
+<li><code>~</code> — irrefutable patterns</li>
+<li><code>=&gt;</code> — contexts (aka constraints) in functions and instances</li>
+</ul>
+<h3 id="arity">Arity<a href="#arity" class="anchor">🔗</a></h3>
+<div class="definition">
+<p>Functions and operators (being functions themselves) have the notion of <strong>arity</strong> — the number of input arguments that function takes.</p>
+</div>
+<p>All functions can have zero to many input elements and only one output. So, if we have <code>+</code> that takes two numbers and returns the result of their addition, then we can say that the arity of <code>+</code> is equal to two.</p>
+<p>The following terms represent the most common arities:</p>
+<ul>
+<li><strong>Nullary</strong> — zero arguments</li>
+<li><strong>Unary</strong> — single argument</li>
+<li><strong>Binary</strong> — two arguments</li>
+<li><strong>Ternary</strong> — three arguments</li>
+</ul>
+<p>This guide focuses on <strong>binary</strong> operators as they are the most common in the ecosystem. However, keep in mind that operators of other arities can perfectly exist as well.</p>
+<h4 id="nullary-operators">Nullary operators*<a href="#nullary-operators" class="anchor">🔗</a></h4>
+<p>You can go one step further with improving your eDSLs in Haskell and define a <em>nullary</em> operator (an operator that takes no arguments). This feature doesn’t require any language extensions.</p>
+<p>For example, we use it in <a href="https://github.com/kowainik/Stan">Stan</a> to define more readable AST patterns that match specific Haskell code :</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true"></a><span class="ot">(?) ::</span> <span class="dt">PatternAst</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true"></a>(<span class="op">?</span>) <span class="ot">=</span> <span class="dt">PatternAstAnything</span></span></code></pre></div>
+<p>Note that when using the nullary operator, you need to put it in parentheses:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true"></a>opApp (httpLit <span class="op">|||</span> urlName) addPathOp (<span class="op">?</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true"></a><span class="op">|||</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true"></a>opApp (<span class="op">?</span>) addPathOp urlName</span></code></pre></div>
+<h3 id="notation">Notation<a href="#notation" class="anchor">🔗</a></h3>
+<div class="definition">
+<p>Depending on where operators appear in relation to their arguments, their position can be described using one of the following two forms:</p>
+<ul>
+<li><strong>infix</strong> — operator comes between its arguments</li>
+<li><strong>prefix</strong> — operator comes before its arguments</li>
+</ul>
+</div>
+<p>By default, operators are used in the <em>infix</em> form. Here is an example of multiplying two numbers using a <em>binary</em> operator <code>*</code>:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true"></a><span class="dv">24</span> <span class="op">*</span> <span class="dv">16</span></span></code></pre></div>
+<p>You can see that this is indeed the <em>infix</em> form, as <code>*</code> itself is positioned between two input numbers.</p>
+<p>Every operator could additionally be transformed into <em>prefix</em> form. To use an operator in the <em>prefix</em> form, put it in <code>()</code> and move its position to the first place (like for ordinary functions):</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true"></a>(<span class="op">*</span>) <span class="dv">24</span> <span class="dv">16</span></span></code></pre></div>
+<p>Unlike operators, ordinary functions by default are used in the <em>prefix</em> form. For instance, below is an example of a <em>binary</em> function <code>elem</code>, used in its <em>prefix</em> form and supplied with two arguments:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true"></a><span class="fu">elem</span> <span class="dv">5</span> myList</span></code></pre></div>
+<p>However, you can use a function in the <em>infix</em> form as well! For that, you need to put it in backticks (```) and change its position:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true"></a><span class="dv">5</span> <span class="ot">`elem`</span> myList</span></code></pre></div>
+<p>In sum, you actually have four ways to use one function/operator (as they often come together).</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true"></a>plus <span class="dv">3</span> <span class="dv">4</span>     <span class="co">-- function in prefix form (default)</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true"></a><span class="dv">3</span> <span class="ot">`plus`</span> <span class="dv">4</span>   <span class="co">-- function in infix form</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true"></a><span class="dv">3</span> <span class="op">+</span> <span class="dv">4</span>        <span class="co">-- operator in infix form (default)</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true"></a>(<span class="op">+</span>) <span class="dv">3</span> <span class="dv">4</span>      <span class="co">-- operator in prefix form</span></span></code></pre></div>
+<p>The most interesting notation that we are going to focus on is the <strong>infix</strong> form of operators and functions. The compiler treats them differently from prefix ones, and they also come with a special mechanism controlling their behaviour which we look into in further steps.</p>
+<h4 id="postfix-operators">Postfix operators*<a href="#postfix-operators" class="anchor">🔗</a></h4>
+<div class="definition">
+<p>Haskell allows defining <strong>postfix</strong> operators — operators that are positioned <em>after</em> their arguments. Such operators must be <em>unary</em> (take precisely one argument).</p>
+</div>
+<p>To use this feature, you need to enable the <a href="https://downloads.haskell.org/ghc/latest/docs/html/users_guide/exts/rebindable_syntax.html#postfix-operators">PostfixOperators</a> language extension. However, you need to put your operator application (operator together with its argument) in parentheses.</p>
+<p>The most popular example of using this feature is writing a fancy factorial:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true"></a><span class="ot">{-# LANGUAGE PostfixOperators #-}</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true"></a><span class="ot">(!) ::</span> <span class="dt">Integer</span> <span class="ot">-&gt;</span> <span class="dt">Integer</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true"></a>(<span class="op">!</span>) n <span class="ot">=</span> <span class="fu">product</span> [<span class="dv">1</span><span class="op">..</span>n]</span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true"></a>ghci<span class="op">&gt;</span> (<span class="dv">10</span><span class="op">!</span>)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true"></a><span class="dv">3628800</span></span></code></pre></div>
+<p>Another example of using postfix operators is the improvement of the eDSL for the Haskell CSS library <a href="https://hackage.haskell.org/package/clay">clay</a> by allowing to write size in percentages:</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true"></a><span class="ot">(%) ::</span> <span class="dt">Rational</span> <span class="ot">-&gt;</span> <span class="dt">Size</span> <span class="dt">Percentage</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true"></a>(<span class="op">%</span>) <span class="ot">=</span> <span class="fu">fromRational</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true"></a></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true"></a><span class="ot">css ::</span> <span class="dt">Css</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true"></a>css <span class="ot">=</span> <span class="kw">do</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true"></a>    footer <span class="op">&lt;&gt;</span> header <span class="op">?</span> <span class="kw">do</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true"></a>        width (<span class="dv">100</span><span class="op">%</span>)</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true"></a>        maxWidth (<span class="dv">100</span><span class="op">%</span>)</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true"></a>        backgroundColor lightGrey</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true"></a></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true"></a>    footer <span class="op">?</span> marginTop (<span class="dv">2</span><span class="op">%</span>)</span></code></pre></div>
+<h3 id="associativity">Associativity<a href="#associativity" class="anchor">🔗</a></h3>
+<div class="definition">
+<p><strong>Associativity</strong> is a property of an operator describing how multiple usages of the same operator are grouped in the absence of parentheses. In other words, associativity describes how brackets are placed when you don’t write them explicitly. This property applies to binary operators.</p>
+</div>
+<p>Let’s look at an example to understand better what associativity means. If you have a binary operator ◯ and you write the following expression:</p>
+<p>a ◯ b ◯ c ◯ d</p>
+<p>There are several ways how <code>()</code> can be placed:</p>
+<ol type="1">
+<li>((a ◯ b) ◯ c) ◯ d</li>
+<li>a ◯ (b ◯ (c ◯ d))</li>
+<li>(a ◯ b) ◯ (c ◯ d)</li>
+<li>a ◯ ((b ◯ c) ◯ d)</li>
+<li>(a ◯ (b ◯ c)) ◯ d</li>
+</ol>
+<div class="definition">
+<p>Depending on the resulting order of parentheses, if you don’t write them explicitly, we can define the associativity type of an operator:</p>
+<ul>
+<li>If <code>()</code> are placed like in option 1, the operator is called <strong>left-associative</strong> (the brackets are accumulated on the left).</li>
+<li>If <code>()</code> are placed like in option 2, the operator is called <strong>right-associative</strong> (the brackets are accumulated on the right).</li>
+</ul>
+</div>
+<p>Other ways of placing <code>()</code> – options 3-5 – don’t have names, and usually brackets are not placed in such ways automatically. Such combinations can be achieved only through manual placement.</p>
+<hr>
+<div class="definition">
+<p>If for any values <code>a</code>, <code>b</code> and <code>c</code>, the result of evaluating expression after specifying <code>()</code> either in option 1 or option 2 is the same, the operation that the operator performs is called <strong>associative</strong>.</p>
+</div>
+<p>The exact definition explained with a formula:</p>
+<p>a ◯ b ◯ c ≡ a ◯ (b ◯ c) ≡ (a ◯ b) ◯ c</p>
+<p>Some common examples of associative operators include addition, multiplication, list appending, function composition, function application, boolean “and”, boolean “or”.</p>
+<p>On the other hand, operators such as subtraction, division, equality, comparison don’t satisfy this property.</p>
+<p>The consequence of the operator being associative is that it doesn’t matter how you place <code>()</code>; the result will always be the same. So, if placing parentheses can affect the performance, you can set them differently and still get the same result but faster.</p>
+<blockquote>
+<p>👩‍🔬 The associativity property becomes crucial in some cases. The <a href="https://hackage.haskell.org/package/base/docs/Data-Semigroup.html#v:-60--62-"><code>&lt;&gt;</code> (append) operator</a> from the <code>Semigroup</code> typeclass must be associative for a lawful <code>Semigroup</code> instance. Abiding the associativity law makes code correct because other functions rely on sane behaviour described by the typeclass law.</p>
+</blockquote>
+<blockquote>
+<p>For example, the <a href="https://hackage.haskell.org/package/base/docs/Data-Semigroup.html#v:stimes">stimes</a> function implements appending the same value to itself <code>n</code> times. It uses the benefits of associativity for a more performant implementation that runs in <code>O(log n)</code> time instead of naive <code>O(n)</code>. If an instance violates <code>Semigroup</code> laws, this efficient default implementation of <code>stimes</code> produces invalid results.</p>
+</blockquote>
+<hr>
+<div class="definition">
+<p>Operators also can be <strong>non-associative</strong> (not-right and not-left associative).</p>
+<p>This means that the expression “a ◯ b ◯ c” doesn’t make sense, no matter how you place <code>()</code>.</p>
+</div>
+<p>For example, the operator of the integer comparison can’t be used several times:</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true"></a><span class="co">-- ❌ incorrect</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true"></a><span class="dv">1</span> <span class="op">&lt;=</span> x <span class="op">&lt;=</span> <span class="dv">10</span></span></code></pre></div>
+<p>Indeed, it would be nice to be able to write the code above to describe concise range checks. However, it’s not possible, and you need to write it like this:</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true"></a><span class="co">-- ✅ correct</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true"></a><span class="dv">1</span> <span class="op">&lt;=</span> x <span class="op">&amp;&amp;</span> x <span class="op">&lt;=</span> <span class="dv">10</span></span></code></pre></div>
+<p>One way to understand the reason for this is to look at types:</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true"></a><span class="ot">(&lt;=) ::</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Bool</span></span></code></pre></div>
+<p>You can see that a specialised version of the <code>&lt;=</code> operator takes two <code>Int</code>s and returns a <code>Bool</code>, so it can’t be chained because the return type can’t be matched with the input type. However, this is not universally true for all operators with different input and output types. Polymorphic operators still can have associativity and be chained.</p>
+<h3 id="precedence">Precedence<a href="#precedence" class="anchor">🔗</a></h3>
+<p>While associativity is a handy property when dealing with the series of one operator usages, it wouldn’t answer the question “which operator to apply first if I deal with several in a single expression?” It makes the following known “puzzle” so tricky without diligent thinking:</p>
+<p>2 + 2 * 4</p>
+<div class="small-img">
+<figure>
+<img src="../images/posts/fixity/224.png" alt="2+2*4" /><figcaption aria-hidden="true">2+2*4</figcaption>
+</figure>
+</div>
+<p>Therefore, it’s not enough to know their associativity to figure out how <code>()</code> will be placed when using different operators. You also need to have information about their <em>precedence</em>.</p>
+<div class="definition">
+<p>Operator <strong>precedence</strong> describes the priority of operators and their relation to each other.</p>
+</div>
+<p>For example, we know that <code>*</code> has <em>higher precedence</em> than <code>+</code> from school math classes. Thus, when we write 2 + 3 * 4, we understand this expression as 2 + (3 * 4) and not (2 + 3) * 4. Therefore, we conclude that <code>*</code> has higher priority over <code>+</code>.</p>
+<p>But what happens if you use school operators in a programming language? The compiler didn’t go to school; hence it doesn’t know about these conventions. And that’s why it needs some ground rules about their priorities.</p>
+<p>Even if you embed rules for several common operators directly in the compiler, you won’t get the same level of control for custom operators from some external libraries. How will the compiler know a proper way to place the brackets? It won’t. No standard rules are telling how the compiler should behave based exclusively on operator names. The priority information is specific to each use case and needs to be learned.</p>
+<div class="exercise">
+<p>For the sake of a small challenge, you can try to guess the inferred placement of parentheses for the following use case:</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true"></a><span class="fu">abs</span> n <span class="ot">`mod`</span> <span class="dv">100</span> <span class="ot">`div`</span> <span class="dv">10</span></span></code></pre></div>
+<button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#solution2" aria-expanded="false" aria-controls="solution2">
+Show solution
+</button>
+<div id="solution2" class="solution collapse">
+<p>Answer</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true"></a>((<span class="fu">abs</span> n) <span class="ot">`mod`</span> <span class="dv">100</span>) <span class="ot">`div`</span> <span class="dv">10</span></span></code></pre></div>
+</div>
+</div>
+<hr>
+<p>If you want to check the placement of brackets in a Haskell expression quickly, you can use the following TemplateHaskell trick in GHCi by putting your expression inside <code>$([| |])</code>.</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true"></a><span class="op">$</span> ghci <span class="op">-</span>ddump<span class="op">-</span>splices <span class="op">-</span><span class="dt">XTemplateHaskell</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true"></a>ghci<span class="op">&gt;</span> <span class="op">$</span>([<span class="op">|</span> readMaybe <span class="op">&lt;$&gt;</span> <span class="fu">getLine</span> <span class="op">&gt;&gt;=</span> <span class="fu">print</span> <span class="op">|</span>])</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true"></a><span class="op">&lt;</span>interactive<span class="op">&gt;:</span><span class="dv">1</span><span class="op">:</span><span class="dv">3</span><span class="op">-</span><span class="dv">39</span><span class="op">:</span> <span class="dt">Splicing</span> expression</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true"></a>    [<span class="op">|</span> readMaybe <span class="op">&lt;$&gt;</span> <span class="fu">getLine</span> <span class="op">&gt;&gt;=</span> <span class="fu">print</span> <span class="op">|</span>]</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true"></a>  <span class="op">======&gt;</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true"></a>    ((readMaybe <span class="op">&lt;$&gt;</span> <span class="fu">getLine</span>) <span class="op">&gt;&gt;=</span> <span class="fu">print</span>)</span></code></pre></div>
+<blockquote>
+<p>👩‍🔬 In the above code, we use the quotation brackets <code>[| ... |]</code> to parse an expression into Haskell AST using the GHC parser. Then we convert it back to Haskell using the Template Haskell splice <code>$(...)</code>. This invokes the TemplateHaskell pretty-printer that inserts all implicit parentheses for us.</p>
+</blockquote>
+<p>The key part of the above output is the last line: <code>((readMaybe &lt;$&gt; getLine) &gt;&gt;= print)</code>. Here we can see how the compiler consumes this expression and puts the brackets for us. From this example, we can say that <code>&lt;$&gt;</code> operation will be applied first, and only then the bind operator <code>&gt;&gt;=</code> will use the result. That means that <code>&lt;$&gt;</code> has higher priority than <code>&gt;&gt;=</code>.</p>
+<hr>
+<p>As we finished with all the necessary terms and concepts, let’s move to the following section, where we are going to learn how to use (and specify) all this information for your own operators.</p>
+<h2 id="fixity-declaration">Fixity declaration<a href="#fixity-declaration" class="anchor">🔗</a></h2>
+<p>Previously we saw that the compiler uses information about operators associativity and precedence to parse expressions correctly. However, this algorithm is not magical, and information about standard operators is not hard-coded in the compiler internals.</p>
+<p>In Haskell, <strong>all</strong> operations have this information without any exceptions. To manually specify operator associativity and precedence, you can use syntax called <strong>fixity declaration</strong>.</p>
+<p>And, consequently, all standard operators have fixity declarations too. In fact, the Haskell 2010 Report specifies associativity and precedence for operators from the standard library <code>base</code>.</p>
+<p>In order to define the fixity for your operator, you need to write a special declaration in the same module as your defined function. The general shape of a fixity declaration is the following:</p>
+<pre><code>infix[l|r] NUMBER &lt;Comma-separated operators&gt;
+</code></pre>
+<p>Explanation of the above syntax:</p>
+<ul>
+<li>The first keyword defines associativity:
+<ul>
+<li><strong>infix</strong> — non-associative</li>
+<li><strong>infixr</strong> — right-associative</li>
+<li><strong>infixl</strong> — left-associative</li>
+</ul></li>
+<li>The <strong>NUMBER</strong> defines operator precedence. It must be in the range between 0 and 9 inclusive. The higher number implies higher precedence.</li>
+<li>Then, you enumerate a <strong>comma-separated list of operators</strong> that would have declared associativity and precedence.</li>
+</ul>
+<blockquote>
+<p>⚠️ If you don’t specify fixity for an operator, it will use the default, which is <code>infixl 9</code></p>
+</blockquote>
+<blockquote>
+<p>ℹ️ There was a GHC proposal to allow a more flexible scheme for the operator precedence, but the proposal was closed.</p>
+<ul>
+<li><a href="https://github.com/ghc-proposals/ghc-proposals/pull/165">GHC proposal: Use nontotal precedence for operators</a></li>
+</ul>
+</blockquote>
+<p>The below image summarises the relation between Haskell syntax and operator associativity:</p>
+<figure>
+<img src="../images/posts/fixity/fixity.png" alt="Fixity" /><figcaption aria-hidden="true">Fixity</figcaption>
+</figure>
+<h3 id="fun-part">Fun part*<a href="#fun-part" class="anchor">🔗</a></h3>
+<p>The following real-life analogies of operator associativity can help with remembering the rules around placing brackets:</p>
+<ul>
+<li>When a dog eats food, it eats immediately everything that is given to it. So a dog eating food is <strong>infixl</strong>.</li>
+</ul>
+<figure>
+<img src="../images/posts/fixity/dog-eats2.gif" alt="Dog eats" /><figcaption aria-hidden="true">Dog eats</figcaption>
+</figure>
+<ul>
+<li>When you try to feed a cat, it first needs to sniff (evaluate) all provided food and only then it can start eating it. So a cat eating food is <strong>infixr</strong>.</li>
+</ul>
+<figure>
+<img src="../images/posts/fixity/cat-vs-dog.gif" alt="Cat vs Dog" /><figcaption aria-hidden="true">Cat vs Dog</figcaption>
+</figure>
+<ul>
+<li>When you pet a parrot, it bytes the first piece but most of the food goes past it right on the floor. That’s why a parrot eating food is <strong>infix</strong>.</li>
+</ul>
+<figure>
+<img src="../images/posts/fixity/parrot-eats.gif" alt="Parrot eats" /><figcaption aria-hidden="true">Parrot eats</figcaption>
+</figure>
+<p>The following type signatures demonstrate the above analogies:</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true"></a>🥣<span class="ot"> ::</span> 🐕 <span class="ot">-&gt;</span> 🥩 <span class="ot">-&gt;</span> 🐕</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true"></a>🍽<span class="ot"> ::</span> 🐠 <span class="ot">-&gt;</span> 🐈 <span class="ot">-&gt;</span> 🐈</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true"></a>🎯<span class="ot"> ::</span> 🦜 <span class="ot">-&gt;</span> 🌽 <span class="ot">-&gt;</span> 🐥</span></code></pre></div>
+<p>Applying the same operator multiple times helps to recall its associativity:</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true"></a>🥣(🥣(🥣🐕🥩)🥩)🥩</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true"></a>🍽🐠(🍽🐠(🍽🐠🐈))</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true"></a>🎯🦜🌽</span></code></pre></div>
+<p>For better performance, <em>infixl</em> operators should be <strong>eager</strong> (just like dogs). And <em>infixr</em> operators in Haskell are usually <strong>lazy</strong> (similar to cats). And, of course, infix operators are <strong>wild</strong>.</p>
+<h3 id="standard-examples">Standard examples<a href="#standard-examples" class="anchor">🔗</a></h3>
+<p>Now, let’s see a few examples from the standard library. Here are a few common operators as they are defined in <code>base</code>:</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true"></a><span class="co">-- operator fixities for comparison operators</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true"></a>infix  <span class="dv">4</span>  <span class="op">==</span>, <span class="op">/=</span>, <span class="op">&lt;</span>, <span class="op">&lt;=</span>, <span class="op">&gt;=</span>, <span class="op">&gt;</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true"></a></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true"></a><span class="co">-- | Boolean &quot;and&quot; operator.</span></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true"></a><span class="kw">infixr</span> <span class="dv">3</span>  <span class="op">&amp;&amp;</span></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true"></a><span class="ot">(&amp;&amp;) ::</span> <span class="dt">Bool</span> <span class="ot">-&gt;</span> <span class="dt">Bool</span> <span class="ot">-&gt;</span> <span class="dt">Bool</span></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true"></a></span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true"></a><span class="co">-- | Boolean &quot;or&quot; operator.</span></span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true"></a><span class="kw">infixr</span> <span class="dv">2</span>  <span class="op">||</span></span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true"></a><span class="ot">(||) ::</span> <span class="dt">Bool</span> <span class="ot">-&gt;</span> <span class="dt">Bool</span> <span class="ot">-&gt;</span> <span class="dt">Bool</span></span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true"></a></span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true"></a><span class="kw">infixl</span> <span class="dv">4</span> <span class="op">&lt;$&gt;</span></span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true"></a><span class="ot">(&lt;$&gt;) ::</span> <span class="dt">Functor</span> f <span class="ot">=&gt;</span> (a <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> f a <span class="ot">-&gt;</span> f b</span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true"></a>(<span class="op">&lt;$&gt;</span>) <span class="ot">=</span> <span class="fu">fmap</span></span></code></pre></div>
+<p>The above examples are suggesting us that the following information is held:</p>
+<ul>
+<li>Comparison operators (e.g. <code>==</code>, <code>&lt;</code>) are <em>non-associative</em>.</li>
+<li>Boolean “and” (<code>&amp;&amp;</code>) and “or” (<code>||</code>) operators are <em>right-associative</em>, so the expression <code>x &amp;&amp; y &amp;&amp; z</code> parses as <code>x &amp;&amp; (y &amp;&amp; z)</code>. This is important because those operators are lazy in their second (right) argument.</li>
+<li>Operator <code>&amp;&amp;</code> has <em>higher precedence</em> than <code>||</code>, so the expression <code>x &amp;&amp; y || z</code> parses as <code>(x &amp;&amp; y) || z</code>.</li>
+<li>Comparison operators have <em>higher precedence</em> than boolean operators, so you don’t need to use <code>()</code> around comparisons when performing multiple checks:
+<ul>
+<li><code>isBetween (a, b) x = a &lt;= x &amp;&amp; x &lt;= b</code></li>
+<li><code>outOfBounds (a, b) x = a &lt;= b &amp;&amp; (x &lt; a || b &lt; x)</code></li>
+</ul></li>
+<li>The functor operator <code>&lt;$&gt;</code> is <em>left-associative</em>, meaning that <code>f &lt;$&gt; g &lt;$&gt; x</code> parses as <code>(f &lt;$&gt; g) &lt;$&gt; x</code>, but it still works anyway because the <code>Functor</code> instance for a function is a function composition. So the previous expression is equal to <code>f . g &lt;$&gt; x</code> but you may see slightly worse error messages in case of errors when using multiple functor operators instead of the composition.</li>
+</ul>
+<div class="exercise">
+<p><strong>Exercise</strong></p>
+<p>To strengthen your understanding of operators associativity and precedence, try to solve the following exercise.</p>
+<p>We have a <strong>“logic implication”</strong> operator defined as follows:</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true"></a><span class="kw">infixr</span> <span class="dv">1</span> <span class="op">==&gt;</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true"></a><span class="ot">(==&gt;) ::</span> <span class="dt">Bool</span> <span class="ot">-&gt;</span> <span class="dt">Bool</span> <span class="ot">-&gt;</span> <span class="dt">Bool</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true"></a>a <span class="op">==&gt;</span> b <span class="ot">=</span> <span class="fu">not</span> a <span class="op">||</span> b</span></code></pre></div>
+<p>Can you guess how the compiler will place parentheses in the following cases and what results those expressions will produce? Take into consideration the given knowledge of fixity.</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true"></a>ghci<span class="op">&gt;</span> <span class="dt">False</span> <span class="op">==&gt;</span> <span class="dt">False</span> <span class="op">==&gt;</span> <span class="dt">False</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true"></a></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true"></a>ghci<span class="op">&gt;</span> <span class="dt">False</span> <span class="op">==&gt;</span> (<span class="dt">False</span> <span class="op">==&gt;</span> <span class="dt">False</span>)</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true"></a></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true"></a>ghci<span class="op">&gt;</span> (<span class="dt">False</span> <span class="op">==&gt;</span> <span class="dt">False</span>) <span class="op">==&gt;</span> <span class="dt">False</span></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true"></a></span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true"></a>ghci<span class="op">&gt;</span> <span class="dt">True</span> <span class="op">||</span> <span class="dt">True</span>  <span class="op">==&gt;</span> <span class="dt">False</span></span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true"></a></span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true"></a>ghci<span class="op">&gt;</span> (<span class="dt">True</span> <span class="op">||</span> <span class="dt">True</span>)  <span class="op">==&gt;</span> <span class="dt">False</span></span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true"></a></span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true"></a>ghci<span class="op">&gt;</span> <span class="dt">True</span> <span class="op">||</span> (<span class="dt">True</span> <span class="op">==&gt;</span> <span class="dt">False</span>)</span></code></pre></div>
+<button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#solution1" aria-expanded="false" aria-controls="solution1">
+Show solution
+</button>
+<div id="solution1" class="solution collapse">
+<div class="sourceCode" id="cb24"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true"></a>ghci<span class="op">&gt;</span> <span class="dt">False</span> <span class="op">==&gt;</span> <span class="dt">False</span> <span class="op">==&gt;</span> <span class="dt">False</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true"></a><span class="dt">True</span></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true"></a>ghci<span class="op">&gt;</span> <span class="dt">False</span> <span class="op">==&gt;</span> (<span class="dt">False</span> <span class="op">==&gt;</span> <span class="dt">False</span>)</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true"></a><span class="dt">True</span></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true"></a>ghci<span class="op">&gt;</span> (<span class="dt">False</span> <span class="op">==&gt;</span> <span class="dt">False</span>) <span class="op">==&gt;</span> <span class="dt">False</span></span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true"></a><span class="dt">False</span></span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true"></a>ghci<span class="op">&gt;</span> <span class="dt">True</span> <span class="op">||</span> <span class="dt">True</span>  <span class="op">==&gt;</span> <span class="dt">False</span></span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true"></a><span class="dt">False</span></span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true"></a>ghci<span class="op">&gt;</span> (<span class="dt">True</span> <span class="op">||</span> <span class="dt">True</span>)  <span class="op">==&gt;</span> <span class="dt">False</span></span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true"></a><span class="dt">False</span></span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true"></a>ghci<span class="op">&gt;</span> <span class="dt">True</span> <span class="op">||</span> (<span class="dt">True</span> <span class="op">==&gt;</span> <span class="dt">False</span>)</span>
+<span id="cb24-12"><a href="#cb24-12" aria-hidden="true"></a><span class="dt">True</span></span></code></pre></div>
+</div>
+</div>
+<h3 id="discovering-fixity">Discovering fixity<a href="#discovering-fixity" class="anchor">🔗</a></h3>
+<p>Though fixity is critical information for writing correct and performant code, fixity is only visible on the declaration level, but not during the usage. However, there are ways to find it out for yourself.</p>
+<p>You can get the information about the fixity using the <code>:i</code> command in GHCi. The command gives not only the type signature, module it is coming from but also data about fixity.</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true"></a>ghci<span class="op">&gt;</span> <span class="op">:</span>i (<span class="op">&amp;&amp;</span>)</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true"></a><span class="ot">(&amp;&amp;) ::</span> <span class="dt">Bool</span> <span class="ot">-&gt;</span> <span class="dt">Bool</span> <span class="ot">-&gt;</span> <span class="dt">Bool</span> 	<span class="co">-- Defined in 'GHC.Classes'</span></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true"></a><span class="kw">infixr</span> <span class="dv">3</span> <span class="op">&amp;&amp;</span></span></code></pre></div>
+<p>Another way to discover fixity is to check the documentation. Haddock renders fixity information near the type signature, so you can also see it when browsing through the docs:</p>
+<figure>
+<img src="../images/posts/fixity/bool-operators.png" alt="Haddock: Boolean operators" /><figcaption aria-hidden="true">Haddock: Boolean operators</figcaption>
+</figure>
+<hr class="fish">
+<blockquote>
+<p>⚠️ Currently, you will see the fixity information only if the operator has an <strong>explicit</strong> fixity declaration. If the <em>implicit</em> default one is used (<code>infixl 9</code>), neither Haddock nor GHCi displays it.</p>
+</blockquote>
+<h3 id="functions-fixity">Functions fixity<a href="#functions-fixity" class="anchor">🔗</a></h3>
+<p>We’ve mentioned before that you can turn ordinary functions into operators by using backticks. In that case, the entire operator-specific behaviour applies to them as well, including the ability to specify precedence and associativity via the fixity declaration.</p>
+<p>You can write explicit fixity declarations for infix forms of ordinary functions, as shown in the example below. Otherwise, the default fixity <code>infixl 9</code> will be applied to infix calls of normal functions.</p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true"></a><span class="co">-- | Integer division.</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true"></a><span class="kw">infixl</span> <span class="dv">7</span> <span class="ot">`div`</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true"></a><span class="fu">div</span><span class="ot"> ::</span> <span class="dt">Integral</span> a <span class="ot">=&gt;</span> a <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> a</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true"></a></span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true"></a><span class="co">-- | Integer modulus.</span></span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true"></a><span class="kw">infixl</span> <span class="dv">7</span> <span class="ot">`mod`</span></span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true"></a><span class="fu">mod</span><span class="ot"> ::</span> <span class="dt">Integral</span> a <span class="ot">=&gt;</span> a <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> a</span></code></pre></div>
+<h3 id="dots-on-i">Dots on i<a href="#dots-on-i" class="anchor">🔗</a></h3>
+<p>The Haskell standard library contains very diverse operators of all forms, shapes and fixities. Let’s look at a few interesting cases of fixity declarations that are extremely useful to know in order to understand how functions work together in the language.</p>
+<p>Composition and application are essential parts of Haskell. They are also operators, so let’s look at how they are defined:</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true"></a><span class="co">-- | Function composition.</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true"></a><span class="kw">infixr</span> <span class="dv">9</span>  <span class="op">.</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true"></a><span class="ot">(.) ::</span> (b <span class="ot">-&gt;</span> c) <span class="ot">-&gt;</span> (a <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> (a <span class="ot">-&gt;</span> c)</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true"></a></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true"></a><span class="co">-- | Function application.</span></span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true"></a><span class="kw">infixr</span> <span class="dv">0</span>  <span class="op">$</span></span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true"></a><span class="ot">($) ::</span> (a <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> b</span></code></pre></div>
+<p>The function composition operator has the highest precedence – 9, while the function application operator has the lowest 0.</p>
+<p>In other words, function composition will group arguments first, while function application will be applied last. Usually <code>$</code> is used to avoid redundant <code>()</code>. Compare:</p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true"></a>foo list <span class="ot">=</span> <span class="fu">length</span> (<span class="fu">filter</span> <span class="fu">odd</span> (<span class="fu">map</span> (<span class="fu">div</span> <span class="dv">2</span>) (<span class="fu">filter</span> <span class="fu">even</span> (<span class="fu">map</span> (<span class="fu">div</span> <span class="dv">7</span>) list))))</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true"></a>foo list <span class="ot">=</span> <span class="fu">length</span> <span class="op">$</span> <span class="fu">filter</span> <span class="fu">odd</span> <span class="op">$</span> <span class="fu">map</span> (<span class="fu">div</span> <span class="dv">2</span>) <span class="op">$</span> <span class="fu">filter</span> <span class="fu">even</span> <span class="op">$</span> <span class="fu">map</span> (<span class="fu">div</span> <span class="dv">7</span>) list</span></code></pre></div>
+<p>And similarly, it’s common to define functions in Haskell in point-free style using function composition. So the above example can be rewritten using the dot operator:</p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true"></a>foo <span class="ot">=</span> <span class="fu">length</span> <span class="op">.</span> <span class="fu">filter</span> <span class="fu">odd</span> <span class="op">.</span> <span class="fu">map</span> (<span class="fu">div</span> <span class="dv">2</span>) <span class="op">.</span> <span class="fu">filter</span> <span class="fu">even</span> <span class="op">.</span> <span class="fu">map</span> (<span class="fu">div</span> <span class="dv">7</span>)</span></code></pre></div>
+<p>Implicit parentheses in the example above resemble the original version:</p>
+<div class="sourceCode" id="cb30"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true"></a><span class="fu">length</span> <span class="op">.</span> (<span class="fu">filter</span> <span class="fu">odd</span> <span class="op">.</span> (<span class="fu">map</span> (<span class="fu">div</span> <span class="dv">2</span>) <span class="op">.</span> (<span class="fu">filter</span> <span class="fu">even</span> <span class="op">.</span> <span class="fu">map</span> (<span class="fu">div</span> <span class="dv">7</span>))))</span></code></pre></div>
+<h3 id="beyond-fixity-rules">Beyond fixity rules<a href="#beyond-fixity-rules" class="anchor">🔗</a></h3>
+<p>Even if the lowest precedence that you can give to an operator is 0 and the highest is 9, there are a few special cases where things in Haskell go beyond these rules.</p>
+<p>For example, consider the following definition, including function composition:</p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true"></a><span class="ot">hasWithLen ::</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> [[<span class="dt">Int</span>]] <span class="ot">-&gt;</span> [[<span class="dt">Int</span>]]</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true"></a>hasWithLen n <span class="ot">=</span> <span class="fu">elem</span> n <span class="op">.</span> <span class="fu">map</span> (\l <span class="ot">-&gt;</span> <span class="fu">length</span> l <span class="op">:</span> l)</span></code></pre></div>
+<p>If you place <code>()</code> explicitly in the function definition, you will get the following expression:</p>
+<div class="sourceCode" id="cb32"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true"></a>(<span class="fu">elem</span> n) <span class="op">.</span> (<span class="fu">map</span> (\l <span class="ot">-&gt;</span> (<span class="fu">length</span> l) <span class="op">:</span> l))</span></code></pre></div>
+<p>From this, you can see function application (space) has even higher precedence than function composition (<code>.</code>). In some sense, you can think of a space (function application in <code>f x y</code>) as a built-in operator with the highest precedence 10.</p>
+<hr>
+<p>Let’s look at another peculiar situation. Even though the <a href="https://www.haskell.org/onlinereport/haskell2010/">Haskell 2010 Report</a> doesn’t specify the fixity for the function arrow, from the code and the GHCi <code>:i</code> command, we observe that the fundamental built-in function arrow has precedence <code>-1</code>:</p>
+<div class="sourceCode" id="cb33"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true"></a><span class="kw">infixr</span> <span class="op">-</span><span class="dv">1</span> <span class="ot">-&gt;</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true"></a><span class="kw">data</span> (<span class="ot">-&gt;</span>) a b</span></code></pre></div>
+<p>Since the arrow is <em>right-associative</em> (as the fixity declaration tells us), we now understand how parentheses are placed in all type signatures and why we can skip them (as we always do) in there.</p>
+<div class="sourceCode" id="cb34"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true"></a><span class="dt">Int</span> <span class="ot">-&gt;</span> (<span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Bool</span>)  <span class="co">-- same as Int -&gt; Int -&gt; Bool</span></span></code></pre></div>
+<p>Another way of looking at this is the following: all functions in Haskell take exactly one argument and return exactly one result. Both the argument and result can be a function. Haskell just provides lots of syntax sugar to make this behaviour invisible on the surface.</p>
+<h3 id="common-errors">Common errors<a href="#common-errors" class="anchor">🔗</a></h3>
+<p>Using operators can lead to confusing compiler errors in multiple cases due to the fixity conflicts and other tricky moments.</p>
+<p>For instance, if you try to use two different operators with the same precedence but different associativity, GHC outputs an error:</p>
+<div class="sourceCode" id="cb35"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true"></a>ghci<span class="op">&gt;</span> <span class="dt">Just</span> <span class="dv">5</span> <span class="op">==</span> <span class="fu">subtract</span> <span class="dv">3</span> <span class="op">&lt;$&gt;</span> <span class="dt">Just</span> <span class="dv">8</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true"></a></span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true"></a><span class="op">&lt;</span>interactive<span class="op">&gt;:</span><span class="dv">7</span><span class="op">:</span><span class="dv">1</span><span class="op">:</span> <span class="fu">error</span><span class="op">:</span></span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true"></a>    <span class="dt">Precedence</span> parsing <span class="fu">error</span></span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true"></a>        cannot mix '<span class="op">==</span>' [infix <span class="dv">4</span>] <span class="fu">and</span> '<span class="op">&lt;$&gt;</span>' [<span class="kw">infixl</span> <span class="dv">4</span>] <span class="kw">in</span> the same infix expression</span></code></pre></div>
+<p>Or, if you use operator section, applied to the expression that involves multiple operators:</p>
+<div class="sourceCode" id="cb36"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true"></a>    <span class="dt">The</span> operator '<span class="op">&lt;&gt;</span>' [<span class="kw">infixr</span> <span class="dv">6</span>] <span class="kw">of</span> a section</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true"></a>        must have lower precedence than that <span class="kw">of</span> the operand,</span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true"></a>          namely <span class="ch">'$'</span> [<span class="kw">infixr</span> <span class="dv">0</span>]</span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true"></a>        <span class="kw">in</span> the section<span class="op">:</span> '<span class="op">&lt;&gt;</span> HashSet1.fromList <span class="op">$</span> x <span class="op">:|</span> xs'</span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true"></a></span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true"></a>    <span class="op">|</span></span>
+<span id="cb36-7"><a href="#cb36-7" aria-hidden="true"></a><span class="dv">313</span> <span class="op">|</span>             x<span class="op">:</span>xs <span class="ot">-&gt;</span> (<span class="op">&lt;&gt;</span> HashSet1.fromList <span class="op">$</span> x <span class="op">:|</span> xs)</span>
+<span id="cb36-8"><a href="#cb36-8" aria-hidden="true"></a>    <span class="op">|</span>                     <span class="op">^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^</span></span></code></pre></div>
+<hr>
+<p>Let’s look at another type of errors happening due to the usage of operators. If you want to print a string literal, the simple code works:</p>
+<div class="sourceCode" id="cb37"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true"></a><span class="fu">putStrLn</span> <span class="st">&quot;The number is 42&quot;</span></span></code></pre></div>
+<p>But now you want to print a variable instead of a fixed number, and if you do a straightforward change like below, you will see an error message:</p>
+<div class="sourceCode" id="cb38"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true"></a><span class="fu">putStrLn</span> <span class="st">&quot;The number is: &quot;</span> <span class="op">++</span> <span class="fu">show</span> n</span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true"></a></span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true"></a>    • <span class="dt">Couldn't</span> match expected <span class="kw">type</span> '[<span class="dt">Char</span>]' with actual <span class="kw">type</span> <span class="dt">'IO</span> ()'</span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true"></a>    • <span class="dt">In</span> the first argument <span class="kw">of</span> '(<span class="op">++</span>)', namely</span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true"></a>        'putStrLn <span class="st">&quot;The number is: &quot;</span>'</span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true"></a>      <span class="dt">In</span> the expression<span class="op">:</span> <span class="fu">putStrLn</span> <span class="st">&quot;The number is: &quot;</span> <span class="op">++</span> <span class="fu">show</span> n</span>
+<span id="cb38-7"><a href="#cb38-7" aria-hidden="true"></a>      <span class="dt">In</span> an equation for 'it'<span class="op">:</span> it <span class="ot">=</span> <span class="fu">putStrLn</span> <span class="st">&quot;The number is: &quot;</span> <span class="op">++</span> <span class="fu">show</span></span></code></pre></div>
+<p>The error message tells us that there is a type error, so you might think you’ve probably used a wrong function (either converting to string or appending strings). However, the error, in fact, is due to the precedence of operators. The above expression is parsed by the compiler as follows:</p>
+<div class="sourceCode" id="cb39"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true"></a>(<span class="fu">putStrLn</span> <span class="st">&quot;The number is: &quot;</span>) <span class="op">++</span> (<span class="fu">show</span> n)</span></code></pre></div>
+<p>So you’re trying to append the string with the result of printing the string, not with the already written text literal. Now you see that the compiler complains rightfully.</p>
+<p>This error can be easily fixed by either using explicit parentheses or using the dollar operator <code>$</code> (remember its precedence?):</p>
+<div class="sourceCode" id="cb40"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true"></a><span class="fu">putStrLn</span> (<span class="st">&quot;The number is: &quot;</span> <span class="op">++</span> <span class="fu">show</span> n)</span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true"></a><span class="fu">putStrLn</span> <span class="op">$</span> <span class="st">&quot;The number is: &quot;</span> <span class="op">++</span> <span class="fu">show</span> n</span></code></pre></div>
+<h3 id="type-level-operators">Type-level operators<a href="#type-level-operators" class="anchor">🔗</a></h3>
+<p>So far, we’ve been discussing only term-level custom operators. However, in Haskell, you also can have <strong>type-level operators</strong> — types or type-level functions defined using operator symbols. And you can write fixity declarations for them exactly in the same way as for ordinary operators.</p>
+<p>Interesting fact: the previous trick with the function arrow’s precedence allows you to define the type-level function application operator similar to the term-level one, and it will work as expected:</p>
+<div class="sourceCode" id="cb41"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true"></a><span class="kw">infixr</span> <span class="dv">0</span> <span class="op">$</span></span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true"></a><span class="kw">type</span> <span class="kw">family</span> (<span class="op">$</span>) (<span class="ot">f ::</span> a <span class="ot">-&gt;</span> b) (<span class="ot">x ::</span> a)<span class="ot"> ::</span> b <span class="kw">where</span></span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true"></a>    f <span class="op">$</span> x <span class="ot">=</span> f x</span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true"></a></span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true"></a><span class="ot">foo ::</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">IO</span> <span class="op">$</span> <span class="dt">Maybe</span> <span class="op">$</span> <span class="dt">Either</span> <span class="dt">Int</span> <span class="dt">String</span></span></code></pre></div>
+<p>We can verify the placement of parentheses in GHCi:</p>
+<div class="sourceCode" id="cb42"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true"></a>ghci<span class="op">&gt;</span> <span class="op">:</span>t foo</span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true"></a><span class="ot">foo ::</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">IO</span> (<span class="dt">Maybe</span> (<span class="dt">Either</span> <span class="dt">Int</span> <span class="dt">String</span>))</span></code></pre></div>
+<p>Check out the <a href="https://hackage.haskell.org/package/type-operators">type-operators</a> package for more examples.</p>
+<h3 id="local-fixity-declarations">Local fixity declarations<a href="#local-fixity-declarations" class="anchor">🔗</a></h3>
+<p>Usually, operators are defined <em>globally</em> on the module’s top-level (together with their fixity declarations). However, you can also introduce <em>local</em> variables or even function arguments as operators. And this raises a relevant question: can you define fixities for local operators? The answer is “Yes”.</p>
+<p>Haskell allows <strong>local fixity declarations</strong> — fixity declarations for local variables in <code>let</code> or <code>where</code>. Below is a small example demonstrating this feature:</p>
+<div class="sourceCode" id="cb43"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true"></a><span class="ot">modSum ::</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Int</span></span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true"></a>modSum x y <span class="ot">=</span> x <span class="op">%</span> y <span class="op">+</span> y <span class="op">%</span> x</span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true"></a>  <span class="kw">where</span></span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true"></a>    infix <span class="dv">7</span></span>
+<span id="cb43-5"><a href="#cb43-5" aria-hidden="true"></a><span class="ot">    (%) ::</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Int</span></span>
+<span id="cb43-6"><a href="#cb43-6" aria-hidden="true"></a>    (<span class="op">%</span>) <span class="ot">=</span> <span class="fu">mod</span></span></code></pre></div>
+<p>In the code above, we define a local operator <code>%</code> as <code>mod</code> (similar to other programming languages), specify a fixity declaration in the same <code>where</code> block, and use it within the function. By providing fixity greater than for the <code>+</code> operator (which is 6), we can omit parentheses and get the correct results as desired.</p>
+<p>Similarly, you can define an operator with its fixity declaration using <code>let-in</code> syntax:</p>
+<div class="sourceCode" id="cb44"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true"></a><span class="ot">operators ::</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Int</span></span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true"></a>operators x y <span class="ot">=</span></span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true"></a>    <span class="kw">let</span> <span class="kw">infixl</span> <span class="dv">8</span> <span class="op">^-^</span></span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true"></a><span class="ot">        (^-^) ::</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Int</span></span>
+<span id="cb44-5"><a href="#cb44-5" aria-hidden="true"></a>        a <span class="op">^-^</span> b <span class="ot">=</span> a <span class="op">^</span> <span class="dv">2</span> <span class="op">-</span> b <span class="op">^</span> <span class="dv">2</span></span>
+<span id="cb44-6"><a href="#cb44-6" aria-hidden="true"></a>    <span class="kw">in</span> x <span class="op">^-^</span> y <span class="op">*</span> y <span class="op">^-^</span> x</span></code></pre></div>
+<p>Moreover, you can even name function arguments as operators during the function declaration. Here is an example of the standard function <code>on</code> that uses this feature:</p>
+<div class="sourceCode" id="cb45"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true"></a><span class="kw">infixl</span> <span class="dv">0</span> <span class="ot">`on`</span></span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true"></a><span class="ot">on ::</span> (b <span class="ot">-&gt;</span> b <span class="ot">-&gt;</span> c) <span class="ot">-&gt;</span> (a <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> c</span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true"></a>(<span class="op">.*.</span>) <span class="ot">`on`</span> f <span class="ot">=</span> \x y <span class="ot">-&gt;</span> f x <span class="op">.*.</span> f y</span></code></pre></div>
+<p>The function <code>on</code> is defined in infix form using backticks (and it has an associated fixity declaration). It defines its first argument (a binary function) as a variable with the operator name <code>.*.</code>. And then, it uses this operator in the body as an ordinary binary operator.</p>
+<blockquote>
+<p>⚠️ Though, unlike locally defined operators (with <code>let-in</code> and <code>where</code>), you can’t assign fixities to operator arguments using local fixity declarations.</p>
+</blockquote>
+<h2 id="takeaways">Takeaways<a href="#takeaways" class="anchor">🔗</a></h2>
+<p>After reading this blog post, you are equipped with the main terminology and functionality around operator usages. Let’s quickly recap the most important highlights:</p>
+<ul>
+<li><strong>Always specify fixities for your operators.</strong> Otherwise, the default fixity will be assigned. Better to explicitly say what you want instead of keeping additional overhead about default behaviour in your (and users) mind. Remember also that fixity info is not rendered on Hackage, and even GHCi doesn’t display this information with the <code>:info</code> command when not specified.</li>
+<li><strong>Put operator fixity before the type signature and after Haddock documentation.</strong> Our <a href="https://kowainik.github.io/posts/2019-02-06-style-guide">style guide</a> suggests this style. By following it, you will see all the information about the operator in one place.</li>
+<li><strong>Specify associativity even for associative operators.</strong> Even if the operation performed by the operator doesn’t care about the order of parentheses, you still need to place <code>()</code> somehow for the operator. Hence, the compiler knows how to evaluate the expression. For instance, the order of <code>()</code> can affect performance in some cases (e.g. for the <code>++</code> list appending operator), so keep this in mind when deciding. Usually, functions and operators in Haskell are lazy in their second (right) argument, so <code>infixr</code> is a good default if the operator can be chained. Otherwise, you can use <code>infix</code>. But it’s always better to consult the implementation first and think about potential use-cases before writing the fixity declaration.</li>
+<li><strong>Always use <code>()</code> when different operators are involved.</strong> You may see how everything works in trivial cases without explicit brackets. But when expressions become more involved, it may be hard to do so. Additionally, implicit parentheses can unexpectedly result in wrong or misleading outputs. Also, since fixities are user-defined, they may change between versions and lead to unpredictable results. If you’d like to enforce that rule, you can even mark your operator as <code>infix</code> even if it can be associative to force users always to put <code>()</code> explicitly.</li>
+<li><strong>Provide a non-operator version to operators.</strong> Using operators can lead to elegant and fancy-looking code, but it’s not necessarily easily maintainable. It is always a good idea to give people a choice of not using operators and rely on more descriptive functions.</li>
+<li><strong>Provide non-unicode versions for Unicode operators.</strong> In Haskell, you can define operators using unicode symbols after enabling the <a href="https://downloads.haskell.org/ghc/latest/docs/html/users_guide/exts/unicode_syntax.html">UnicodeSyntax</a> extension. But it can be challenging to work with such operators in various scenarios. So don’t sacrifice comfortability in favour of fancy-looking code and definitely provide alternatives.</li>
+<li><strong>Use Stan to detect missing fixity declarations.</strong> Haskell static analyser <a href="https://github.com/kowainik/Stan">Stan</a> produces a warning when the <a href="https://github.com/kowainik/stan/wiki/All-Inspections#stan-0301">operator misses fixity declaration</a>.</li>
+</ul>
+<hr>
+<p>Careless abuse of operators can lead to less readable code. But knowing operators up and down can help you write code that is both maintainable and elegant. And you can easily say that you’ve mastered operators after reading this comprehensive guide. If you ask us about the one message you can take away from this guide, it would be this:</p>
+<p><em>When defining a lot of custom operators, it makes sense to fixate on fixities</em>. 😉</p>
+<h2 id="links">Links<a href="#links" class="anchor">🔗</a></h2>
+<ul>
+<li><a href="https://en.wikipedia.org/wiki/Operator_associativity">Wikipedia: Operator associativity</a></li>
+<li><a href="https://www.haskell.org/onlinereport/haskell2010/haskellch4.html#x10-820004.4.2">Haskell 2010 Report: Fixity Declarations</a></li>
+<li><a href="https://downloads.haskell.org/ghc/latest/docs/html/users_guide/exts/local_fixity_decls.html">GHC User Guide: Local Fixity Declarations</a></li>
+<li><a href="https://downloads.haskell.org/ghc/latest/docs/html/users_guide/exts/rebindable_syntax.html#postfix-operators">GHC User Guide: Postfix operators</a></li>
+<li><a href="https://downloads.haskell.org/ghc/latest/docs/html/users_guide/exts/unicode_syntax.html">GHC User Guide: Unicode Syntax</a></li>
+<li><a href="https://typeclasses.com/identifiers-and-operators">Type Classes: Identifiers and operators</a></li>
+<li><a href="https://typeclasses.com/ghc/type-operators">Type Classes: Type Operators</a></li>
+<li><a href="https://charlieharvey.org.uk/page/postfix_operators_haske_ghci">Quick tip: Postfix operators in GHCi</a></li>
+</ul>
+              </p>
+              </div>
+            </div>
+
+          </div>
+      </div>
+<footer class="footer text-center">
+  <div class="row">
+    <div class="col-12 post-body">
+      <hr class="star-light">
+    </div>
+  </div>
+  <div class="row justify-content-center flex-row">
+      <div class="col-md-4 mb-5 mb-lg-0">
+          <div class="stretch">
+          <h4 class="text-uppercase mt-0 mb-4 flex-h">Support our work</h4>
+          <p class="px-5 flex-text flex-txt">If you like what we do, you can help us do more of that by supporting on Ko-Fi or GitHub:</p>
+          <ul class="empty-list list-inline mb-0 mx-auto flex-links">
+              <li class="list-inline-item my-auto">
+                  <a class="btn btn-outline-primary btn-sm rounded-pill" href="https://ko-fi.com/kowainik" target="_blank">
+                      <i class="fas fa-coffee"></i> Buy a coffee
+                  </a>
+
+              </li>
+              <li class="list-inline-item my-auto">
+                  <a class="btn btn-outline-primary btn-sm rounded-pill" href="https://github.com/sponsors/vrom911" target="_blank">
+                      <i class="fab fa-github"></i> @vrom911
+                  </a>
+              </li>
+              <li class="list-inline-item my-auto">
+                  <a class="btn btn-outline-primary btn-sm rounded-pill" href="https://github.com/sponsors/chshersh" target="_blank">
+                      <i class="fab fa-github"></i> @chshersh
+                  </a>
+              </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="col-md-4 mb-5 mb-lg-0">
+          <div class="stretch">
+              <h4 class="text-uppercase text-center mb-4 footer-h">Subscribe</h4>
+              <p class="px-5 flex-text footer-txt">Enjoyed this post? Consider subscribing to our newsletter to always be first to check out our new updates:</p>
+        <!-- Begin Mailchimp Signup Form -->
+              <div class="footer-links"> <div class="row justify-content-center subscribe-form" id="mc_embed_signup">
+  <form action="https://news.us2.list-manage.com/subscribe/post?u=af5d0411175f11e83618abf5e&amp;id=b04a7ed805" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+    <div class="form-row mx-0" id="mc_embed_signup_scroll">
+      <div class="col-8 input-group ">
+        <div class="input-group-prepend">
+          <div class="input-group-text"><i class="fa fa-envelope"></i> </div>
+        </div>
+        <input type="email" value name="EMAIL" class="required email form-control" placeholder="Your email" id="mce-EMAIL">
+      </div>
+      <div class="col-4 text-left">
+        <input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button btn btn-primary btn-lg">
+      </div>
+      <div class="mc-field-group group-checkbox input-group">
+        <ul>
+          <li><input type="checkbox" value="1" name="group[83780][1]" class="form-check-input" id="mce-group[83780]-83780-0"></li>
+          <li><input type="checkbox" value="2" name="group[83780][2]" class="form-check-input" id="mce-group[83780]-83780-1" checked></li>
+        </ul>
+      </div>
+      <div id="mce-responses" class="clear">
+        <div class="response" id="mce-error-response" style="display:none"></div>
+        <div class="response" id="mce-success-response" style="display:none"></div>
+      </div>
+      <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
+      <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_af5d0411175f11e83618abf5e_b04a7ed805" tabindex="-1" value></div>
+    </div>
+  </form>
+</div>
+</div>
+    <!--End mc_embed_signup-->
+          </div>
+    </div>
+    <div class="col-md-4 mb-5 mb-lg-0">
+        <div class="stretch">
+        <h4 class="text-uppercase mb-4 footer-h">Follow us</h4>
+        <p class="px-5 footer-txt mt-6">We also share our work elsewhere. You can find us also at:</p>
+        <ul class="empty-list list-inline mb-0 mx-auto text-center footer-links">
+            
+            <li class="list-inline-item my-auto">
+                <a class="btn btn-outline-light btn-social text-center rounded-circle" href="https://twitter.com/kowainik" target="_blank">
+                    <i class="fab fa-fw fa-twitter"></i>
+                </a>
+            </li>
+            
+            <li class="list-inline-item my-auto">
+                <a class="btn btn-outline-light btn-social text-center rounded-circle" href="https://github.com/kowainik" target="_blank">
+                    <i class="fab fa-fw fa-github"></i>
+                </a>
+            </li>
+            
+            <li class="list-inline-item my-auto">
+                <a class="btn btn-outline-light btn-social text-center rounded-circle" href="https://www.linkedin.com/company/kowainik" target="_blank">
+                    <i class="fab fa-fw fa-linkedin"></i>
+                </a>
+            </li>
+            
+            <li class="list-inline-item my-auto">
+                <a class="btn btn-outline-light btn-social text-center rounded-circle" href="https://t.me/kowainik" target="_blank">
+                    <i class="fab fa-fw fa-telegram"></i>
+                </a>
+            </li>
+            
+            <li class="list-inline-item my-auto">
+                <a class="btn btn-outline-light btn-social text-center rounded-circle" href="../rss.xml" target="_blank">
+                    <i class="fas fa-fw fa-rss"></i>
+                </a>
+            </li>
+            
+        </ul>
+        </div>
+    </div>
+  </div>
+</footer>
+
+
+      <!-- Bootstrap core JavaScript -->
+      <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"> </script>
+      <script src="../js/post.js"> </script>
+      <script src="../js/hide.js"> </script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/haskell.min.js"></script>
+      <script>hljs.initHighlightingOnLoad()</script>
+      <script async defer src="https://buttons.github.io/buttons.js"></script>
+  </body>
+</html>

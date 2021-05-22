@@ -58,7 +58,7 @@
                 <a class="btn btn-outline-dark btn-tag" href="https://github.com/kowainik/colourista" data-icon="octicon-star" data-size="large" aria-label="Star Kowainik/colourista on GitHub">Star Project</a>
                 <a class="fa-stack fa-2x" href="https://github.com/kowainik/colourista/stargazers">
                     <i class="fa fa-star fa-stack-2x"></i>
-                    <i id="stars" class="fa fa-stack-1x fa-inverse main-font">43</i>
+                    <i id="stars" class="fa fa-stack-1x fa-inverse main-font">47</i>
                 </a>
                 <div class="author">Language: Haskell</div>
 
@@ -81,8 +81,7 @@
 <p>«The best colour in the whole world is the one that looks good on you.»</p>
 <p>— Coco Chanel</p>
 </blockquote>
-<p><code>colourista</code> is the library that provides a simple and convenient interface for printing colourful messages to the terminal. Additionally, <code>colourista</code> allows to easily control enabling and disabling of colours.</p>
-<p>The library is based on <a href="https://hackage.haskell.org/package/ansi-terminal"><code>ansi-terminal</code></a>, however, in contradistinction to this Haskell library, <code>colourista</code> is a high-level wrapper focused on easily achieved output modification without low-level setup.</p>
+<p><code>colourista</code> is the library that provides a convenient interface for printing colourful messages to the terminal. It is based on <a href="https://hackage.haskell.org/package/ansi-terminal"><code>ansi-terminal</code></a>, however, in contradistinction to this Haskell library, <code>colourista</code> is a high-level wrapper focused on easily achieved output modification without low-level setup.</p>
 <h2 id="interface">Interface<a href="#interface" class="anchor">🔗</a></h2>
 <p>The two main functions that <code>colourista</code> provides are:</p>
 <ul>
@@ -90,23 +89,17 @@
 <li><code>formattedMessage</code> — the function that outputs the formatted output directly into the terminal (working in <code>IO</code> with <code>Text</code>).</li>
 </ul>
 <p>The library also provides a set of different pure and impure helpers for the colouring and emphasis.</p>
-<h2 id="examples">Examples<a href="#examples" class="anchor">🔗</a></h2>
-<p>Simple output example:</p>
+<h2 id="example">Example<a href="#example" class="anchor">🔗</a></h2>
 <figure>
 <img src="https://user-images.githubusercontent.com/8126674/74609327-0a5dbb00-50e1-11ea-8c4b-2db4ab5b42a2.png" alt="output" /><figcaption aria-hidden="true">output</figcaption>
-</figure>
-<p>Example of disabling colouring. The colour mode controlling is based on the <a href="https://downloads.haskell.org/ghc/latest/docs/html/users_guide/glasgow_exts.html#implicit-parameters">Implicit Parameters</a> GHC feature.</p>
-<figure>
-<img src="https://user-images.githubusercontent.com/4276606/90915207-0c2d7180-e3d7-11ea-934c-ec840118ed73.png" alt="Colour mode" /><figcaption aria-hidden="true">Colour mode</figcaption>
 </figure>
 <h2 id="how-to-use">How to use<a href="#how-to-use" class="anchor">🔗</a></h2>
 <p><code>colourista</code> is compatible with the latest GHC compiler versions starting from <code>8.2.2</code>.</p>
 <p>In order to start using <code>colourista</code> in your project, you will need to set it up with the three easy steps:</p>
 <ol type="1">
-<li><p>Add the dependency on <code>colorista</code> in your project’s <code>.cabal</code> file. For this, you should modify the <code>build-depends</code> section by adding the name of this library. After the adjustment, this section could look like this:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true"></a>build<span class="op">-</span>depends<span class="op">:</span> base <span class="op">^&gt;=</span> <span class="fl">4.14</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true"></a>             , colourista <span class="op">^&gt;=</span> <span class="fl">0.1</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true"></a>             , <span class="op">...</span></span></code></pre></div></li>
+<li><p>Add the dependency on <code>colourista</code> in your project’s <code>.cabal</code> file. For this, you should modify the <code>build-depends</code> section by adding the name of this library. After the adjustment, this section could look like this:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true"></a>build<span class="op">-</span>depends<span class="op">:</span> colourista <span class="op">^&gt;=</span> <span class="dt">LATEST_VERSION</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true"></a>             , <span class="op">...</span></span></code></pre></div></li>
 <li><p>In the module where you wish to use the colourful output with <code>colourista</code>, you should add the import:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true"></a><span class="kw">import</span> <span class="dt">Colourista</span> (...)</span></code></pre></div></li>
 <li><p>Now you can use the functions from the library. For example:</p>

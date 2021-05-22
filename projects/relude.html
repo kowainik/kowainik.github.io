@@ -58,7 +58,7 @@
                 <a class="btn btn-outline-dark btn-tag" href="https://github.com/kowainik/relude" data-icon="octicon-star" data-size="large" aria-label="Star Kowainik/relude on GitHub">Star Project</a>
                 <a class="fa-stack fa-2x" href="https://github.com/kowainik/relude/stargazers">
                     <i class="fa fa-star fa-stack-2x"></i>
-                    <i id="stars" class="fa fa-stack-1x fa-inverse main-font">486</i>
+                    <i id="stars" class="fa fa-stack-1x fa-inverse main-font">503</i>
                 </a>
                 <div class="author">Language: Haskell</div>
 
@@ -122,7 +122,7 @@
 <ul>
 <li>No need to add <code>containers</code>, <code>unordered-containers</code>, <code>text</code> and <code>bytestring</code> to dependencies in your <code>.cabal</code> file to use the main API of these libraries</li>
 <li>No need to import types like <code>NonEmpty</code>, <code>Text</code>, <code>Set</code>, <code>Reader[T]</code>, <code>MVar</code>, <code>STM</code></li>
-<li>Functions like <code>liftIO</code>, <code>fromMaybe</code>, <code>sortWith</code> are avaiable by default as well</li>
+<li>Functions like <code>liftIO</code>, <code>fromMaybe</code>, <code>sortWith</code> are available by default as well</li>
 <li><code>IO</code> actions are lifted to <code>MonadIO</code></li>
 </ul></li>
 <li><p><strong>Excellent documentation.</strong></p>
@@ -480,7 +480,7 @@ library
 <li>Use <code>encodeUtf8/decodeUtf8</code> to convert to/from <code>ByteString</code>.</li>
 <li>Use <code>(putStr[Ln]|readFile|writeFile|appendFile)[Text|LText|BS|LBS]</code> functions.</li>
 </ul></li>
-<li>Since <code>show</code> doesn’t come from <code>Show</code> anymore, you need to export <code>Text.Show</code> module if you want to implement <code>Show</code> instance manually. This can be done in the following way:</li>
+<li>Since <code>show</code> doesn’t come from <code>Show</code> anymore, you need to import the <code>Text.Show</code> module if you want to implement <code>Show</code> instance manually. This can be done in the following way:</li>
 </ol>
 <div class="sourceCode" id="cb22"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true"></a><span class="kw">import</span> <span class="kw">qualified</span> <span class="dt">Text.Show</span></span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true"></a></span>
@@ -524,7 +524,7 @@ library
 <li>Every function has usage examples and all examples are tested with <code>doctest</code> (which also sometimes hard to do due to the multiple GHC versions support, but we try really hard)</li>
 <li><a href="#structure-of-this-tutorial">Tutorial + migration guide</a> from <code>Prelude</code> and just general description of the whole package and libraries it depends on.</li>
 </ul></li>
-<li><code>relude</code> has less dependencies and is slightly lighter because of that but still is very powerful and useful.</li>
+<li><code>relude</code> has fewer dependencies and is slightly lighter because of that but still is very powerful and useful.</li>
 <li><code>relude</code> is opt-in oriented and has a notion of <code>Extra.*</code> modules that are not exported by default from the <code>Relude</code> module. That means that we do not spoil the global namespace but still have a lot of useful features, like polymorphic functions to work with every <code>newtype</code>, <code>Enum/Bounded</code>-related useful utilities, functions to take a name of any type as <code>Text</code> and much more. It is a straightforward process to make them accessible package-wide with the <code>base-noprelude</code> trick!</li>
 </ol>
 <h2 id="for-developers">For Developers<a href="#for-developers" class="anchor">🔗</a></h2>

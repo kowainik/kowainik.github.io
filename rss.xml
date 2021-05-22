@@ -7,8 +7,16 @@
         <description><![CDATA[We are writing about what we find fascinating or exciting. Our blog's aim is to share our knowledge about functional programming, distribute best-practices based on our extensive experience and tell about various topics from beginner-friendly introductions to advanced type-level tricks.]]></description>
         <atom:link href="https://kowainik.github.io/rss.xml" rel="self"
                    type="application/rss+xml" />
-        <lastBuildDate>Wed, 24 Mar 2021 00:00:00 UT</lastBuildDate>
+        <lastBuildDate>Mon, 24 May 2021 00:00:00 UT</lastBuildDate>
         <item>
+    <title>Fix(ity) me</title>
+    <link>https://kowainik.github.io/posts/fixity.html</link>
+    <description><![CDATA[A comprehensive guide to operators and their fixity in Haskell]]></description>
+    <pubDate>Mon, 24 May 2021 00:00:00 UT</pubDate>
+    <guid>https://kowainik.github.io/posts/fixity.html</guid>
+    <dc:creator>Kowainik</dc:creator>
+</item>
+<item>
     <title>Many faces of Internal Functions</title>
     <link>https://kowainik.github.io/posts/internal-functions.html</link>
     <description><![CDATA[The post explores various ways to define internal functions and discuss the advantages and disadvantages of each approach]]></description>
@@ -78,14 +86,6 @@
     <description><![CDATA[Non-boring Extensions in Haskell]]></description>
     <pubDate>Sun, 10 May 2020 00:00:00 UT</pubDate>
     <guid>https://kowainik.github.io/posts/extensions.html</guid>
-    <dc:creator>Kowainik</dc:creator>
-</item>
-<item>
-    <title>Policeman in da Bristol city</title>
-    <link>https://kowainik.github.io/posts/policeman-bristol.html</link>
-    <description><![CDATA[Bristol Haskell Hackathon 2020 project — Policeman — a tool for Haskell PVP version suggesting.]]></description>
-    <pubDate>Wed, 29 Jan 2020 00:00:00 UT</pubDate>
-    <guid>https://kowainik.github.io/posts/policeman-bristol.html</guid>
     <dc:creator>Kowainik</dc:creator>
 </item>
 

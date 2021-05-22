@@ -8,8 +8,16 @@
         <name>Kowainik</name>
         <email>xrom.xkov@gmail.com</email>
     </author>
-    <updated>2021-03-24T00:00:00Z</updated>
+    <updated>2021-05-24T00:00:00Z</updated>
     <entry>
+    <title>Fix(ity) me</title>
+    <link href="https://kowainik.github.io/posts/fixity.html" />
+    <id>https://kowainik.github.io/posts/fixity.html</id>
+    <published>2021-05-24T00:00:00Z</published>
+    <updated>2021-05-24T00:00:00Z</updated>
+    <summary type="html"><![CDATA[A comprehensive guide to operators and their fixity in Haskell]]></summary>
+</entry>
+<entry>
     <title>Many faces of Internal Functions</title>
     <link href="https://kowainik.github.io/posts/internal-functions.html" />
     <id>https://kowainik.github.io/posts/internal-functions.html</id>
@@ -80,14 +88,6 @@
     <published>2020-05-10T00:00:00Z</published>
     <updated>2020-05-10T00:00:00Z</updated>
     <summary type="html"><![CDATA[Non-boring Extensions in Haskell]]></summary>
-</entry>
-<entry>
-    <title>Policeman in da Bristol city</title>
-    <link href="https://kowainik.github.io/posts/policeman-bristol.html" />
-    <id>https://kowainik.github.io/posts/policeman-bristol.html</id>
-    <published>2020-01-29T00:00:00Z</published>
-    <updated>2020-01-29T00:00:00Z</updated>
-    <summary type="html"><![CDATA[Bristol Haskell Hackathon 2020 project — Policeman — a tool for Haskell PVP version suggesting.]]></summary>
 </entry>
 
 </feed>
