@@ -312,7 +312,7 @@ ghci> dice
 ghci> dice
 1
 ghci> :q
-Leavning GHCi.
+Leaving GHCi.
 $
 ```
 
