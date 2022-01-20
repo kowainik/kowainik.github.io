@@ -105,7 +105,7 @@ newtype Point = Point
     , pointY :: Int
     }
 
--- - Ivalid newtype definition: more than 1 constructor
+-- - Invalid newtype definition: more than 1 constructor
 newtype Shape
     = Circle Double
     | Square Double
