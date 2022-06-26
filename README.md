@@ -17,7 +17,7 @@ the following steps:
    page content with the following command:
 
 ```
-./scripts/deploy.sh "Some meaningful message"
+./deploy.sh "Some meaningful message"
 ```
 
 ## How to add a blog post
