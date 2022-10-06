@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        cabal: ["3.2"]
+        cabal: ["3.8"]
         ghc:
           - "8.10.7"
 
