@@ -1,6 +1,6 @@
 ---
 title: "Foo to Bar: Naming Conventions in Haskell"
-author: Veronika Romashkina <> Dmitrii Kovanikov
+author: Veronika Romashkina
 tags: haskell, documentation, guide
 description: A comprehensive guide for various naming conventions for types, variables and functions in Haskell
 useShortName: yes

@@ -1,6 +1,6 @@
 ---
 title: "Haskell Documentation with Haddock: Wishes'n'Tips"
-author: Veronika Romashkina <> Dmitrii Kovanikov
+author: Veronika Romashkina
 tags: haskell, documentation, guide
 description: A comprehensive guide for documentation with Haddock in Haskell
 useShortName: yes
