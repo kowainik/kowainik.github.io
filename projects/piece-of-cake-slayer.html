@@ -58,7 +58,7 @@
                 <a class="btn btn-outline-dark btn-tag" href="https://github.com/kowainik/piece-of-cake-slayer" data-icon="octicon-star" data-size="large" aria-label="Star Kowainik/piece-of-cake-slayer on GitHub">Star Project</a>
                 <a class="fa-stack fa-2x" href="https://github.com/kowainik/piece-of-cake-slayer/stargazers">
                     <i class="fa fa-star fa-stack-2x"></i>
-                    <i id="stars" class="fa fa-stack-1x fa-inverse main-font">1</i>
+                    <i id="stars" class="fa fa-stack-1x fa-inverse main-font">19</i>
                 </a>
                 <div class="author">Language: Haskell</div>
 
@@ -73,7 +73,41 @@
           <div class="row post">
               <div class="col-12 post-body">
               <p class="lead">
-                  
+                  <figure>
+<img src="https://user-images.githubusercontent.com/4276606/67370235-fc5cbb00-f582-11e9-9f45-09bf96ee6d0c.png" alt="logo" /><figcaption aria-hidden="true">logo</figcaption>
+</figure>
+<p><a href="https://github.com/kowainik/piece-of-cake-slayer/actions"><img src="https://github.com/kowainik/piece-of-cake-slayer/workflows/CI/badge.svg" alt="GitHub CI" /></a></p>
+<p>Template project for a web application based on the <a href="https://github.com/kowainik/cake-slayer">cake-slayer</a> architecture.</p>
+<h2 id="how-to-build">How to build?<a href="#how-to-build" class="anchor">🔗</a></h2>
+<h3 id="backend">Backend<a href="#backend" class="anchor">🔗</a></h3>
+<p>Run the following command</p>
+<pre class="shell"><code>cabal build</code></pre>
+<p>or</p>
+<pre><code>stack build</code></pre>
+<p>(it will take a while when run for the first time)</p>
+<h3 id="frontend">Frontend<a href="#frontend" class="anchor">🔗</a></h3>
+<h2 id="how-to-run">How to run?<a href="#how-to-run" class="anchor">🔗</a></h2>
+<h3 id="database">Database<a href="#database" class="anchor">🔗</a></h3>
+<p>Run PostgreSQL database in one terminal window:</p>
+<pre><code>docker run -p 5432:5432 -e POSTGRES_PASSWORD=postgres postgres:12</code></pre>
+<h3 id="backend-1">Backend<a href="#backend-1" class="anchor">🔗</a></h3>
+<p>Run backend</p>
+<pre><code>cabal run piece-of-cake-slayer</code></pre>
+<h3 id="frontend-1">Frontend<a href="#frontend-1" class="anchor">🔗</a></h3>
+<p>Then open <code>localhost:8000</code> in your browser.</p>
+<h2 id="test">Test<a href="#test" class="anchor">🔗</a></h2>
+<p>Testing backend via <code>curl</code>:</p>
+<pre class="shell"><code>$ curl localhost:8080/items
+
+$ curl -XPOST \
+    -H 'Content-Type: application/json' \
+    localhost:8080/createItem \
+    -d '{&quot;tag&quot;: &quot;Item&quot;, &quot;text&quot;: &quot;New item&quot;}'
+
+$ curl -XPOST \
+    -H 'Content-Type: application/json' \
+    localhost:8080/deleteItem \
+    -d '1'</code></pre>
               </p>
               </div>
           </div>

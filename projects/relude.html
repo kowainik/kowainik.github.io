@@ -58,7 +58,7 @@
                 <a class="btn btn-outline-dark btn-tag" href="https://github.com/kowainik/relude" data-icon="octicon-star" data-size="large" aria-label="Star Kowainik/relude on GitHub">Star Project</a>
                 <a class="fa-stack fa-2x" href="https://github.com/kowainik/relude/stargazers">
                     <i class="fa fa-star fa-stack-2x"></i>
-                    <i id="stars" class="fa fa-stack-1x fa-inverse main-font">503</i>
+                    <i id="stars" class="fa fa-stack-1x fa-inverse main-font">630</i>
                 </a>
                 <div class="author">Language: Haskell</div>
 
@@ -78,7 +78,7 @@
 </figure>
 <p><a href="https://github.com/kowainik/relude/actions"><img src="https://github.com/kowainik/relude/workflows/CI/badge.svg" alt="GitHub CI" /></a> <a href="https://hackage.haskell.org/package/relude"><img src="https://img.shields.io/hackage/v/relude.svg?logo=haskell" alt="Hackage" /></a> <a href="http://stackage.org/lts/package/relude"><img src="http://stackage.org/package/relude/badge/lts" alt="Stackage LTS" /></a> <a href="http://stackage.org/nightly/package/relude"><img src="http://stackage.org/package/relude/badge/nightly" alt="Stackage Nightly" /></a> <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT" /></a></p>
 <p><strong><code>relude</code></strong> is a safe, performant, user-friendly and lightweight Haskell standard library.</p>
-<p>The default <code>Prelude</code> is not perfect and doesn’t always satisfies one’s needs. At this stage you may want to try an alternative prelude library. In this README we are going to give you convincing reasons to consider using <code>relude</code> as such alternative in your next project.</p>
+<p>The default <code>Prelude</code> is not perfect and doesn’t always satisfy one’s needs. At this stage you may want to try an alternative prelude library. In this README we are going to give you convincing reasons to consider using <code>relude</code> as such alternative in your next project.</p>
 <p><code>relude</code> has some strong goals and principles that it sticks to. That principles defines the library decisions and might tell you more about the priorities of the library. So below you can find the key design principles behind <code>relude</code>:</p>
 <ol type="1">
 <li><p><strong>Productivity.</strong> You can be more productive with a “non-standard” standard library, and <code>relude</code> helps you with writing safer and more efficient code faster.</p></li>
@@ -146,6 +146,10 @@
 <p>For a general introduction to alternative preludes, check the excellent blog post by <a href="https://typeclasses.com/">Type Classes</a> that highlights <code>relude</code>.</p>
 <ul>
 <li><a href="https://typeclasses.com/ghc/no-implicit-prelude">No implicit Prelude</a></li>
+</ul>
+<p>For guiding development principles behind <code>relude</code> and comparison with <code>base</code>, check out the following talk:</p>
+<ul>
+<li><a href="https://www.youtube.com/watch?v=qwAmiJ5M_zM"><img src="https://img.youtube.com/vi/qwAmiJ5M_zM/0.jpg" alt="Introduction to relude — an alternative Haskell prelude" /></a></li>
 </ul>
 <h2 id="structure-of-this-tutorial">Structure of this tutorial<a href="#structure-of-this-tutorial" class="anchor">🔗</a></h2>
 <p>This tutorial has several parts:</p>
@@ -223,8 +227,8 @@ version:             0.0.0.0
 
 library
   exposed-modules:     Example
-  build-depends:       base &gt;= 4.10 &amp;&amp; &lt; 4.13
-                     , relude ^&gt;= 1.0.0.0
+  build-depends:       base &gt;= 4.14 &amp;&amp; &lt; 4.17
+                     , relude ^&gt;= 1.1.0.0
 
   mixins:              base hiding (Prelude)
                      , relude (Relude as Prelude)
@@ -430,7 +434,7 @@ library
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true"></a>ghci<span class="op">&gt;</span> foo</span>
 <span id="cb21-3"><a href="#cb21-3" aria-hidden="true"></a><span class="st">&quot;foo&quot;</span></span></code></pre></div></li>
 <li><p><code>Foldable1</code> typeclass that contains generalized interface for folding non-empty structures like <code>NonEmpty</code>.</p></li>
-<li><p><a href="src/Relude/Extra/Map.hs"><code>StaticMap</code> and <code>DynamicMap</code> type classes</a> as a general interface for <code>Map</code>-like data structures.</p></li>
+<li><p><a href="https://github.com/kowainik/relude/blob/main/src/Relude/Extra/Map.hs"><code>StaticMap</code> and <code>DynamicMap</code> type classes</a> as a general interface for <code>Map</code>-like data structures.</p></li>
 <li><p>And much more!</p></li>
 </ul>
 <p>Explore <code>Extra</code> modules: <a href="http://hackage.haskell.org/package/relude/docs/Relude-Extra.html"><code>Relude.Extra</code></a></p>
@@ -500,7 +504,7 @@ library
 <li>Run <code>hlint</code> using this file.</li>
 </ol>
 <p>For the latest <code>relude</code> version, this can be achieved by executing the following two commands on your CI:</p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true"></a><span class="at">curl https://raw.githubusercontent.com/kowainik/relude/v1.0.0.0/.hlint.yaml -o .hlint-relude.yaml</span></span>
+<div class="sourceCode" id="cb23"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true"></a><span class="at">curl https://raw.githubusercontent.com/kowainik/relude/v1.1.0.0/.hlint.yaml -o .hlint-relude.yaml</span></span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true"></a><span class="at">curl -sSL https://raw.github.com/ndmitchell/neil/master/misc/travis.sh | sh -s -- hlint -h .hlint-relude.yaml .</span></span></code></pre></div>
 <p>See an example of this feature described in the following blog post about Travis CI settings:</p>
 <ul>
@@ -530,10 +534,9 @@ library
 <h2 id="for-developers">For Developers<a href="#for-developers" class="anchor">🔗</a></h2>
 <p><a href="#structure-of-this-tutorial">[Back to the Table of Contents] ↑</a></p>
 <h3 id="generating-.hlint.yaml">Generating .hlint.yaml<a href="#generating-.hlint.yaml" class="anchor">🔗</a></h3>
-<p>Note, that we are using custom <code>hlint</code> setting which are <code>Relude</code> specific. To keep it up to date don’t forget to reflect your changes in this file. We are using <code>Dhall</code> to maintain the configurations. To use it follow the steps below.</p>
+<p>Note, that we are using custom <code>hlint</code> setting which are <code>Relude</code> specific. To keep it up to date don’t forget to reflect your changes in this file. We are using <code>Dhall</code> to maintain the configurations (lang version 22.0.0). To use it follow the steps below.</p>
 <p>First time:</p>
-<pre class="shell"><code>$ cabal v2-install dhall-yaml</code></pre>
-<p>Dhall 16.0.0 is required, so make sure that the previous command installed <code>dhall-yaml</code> &gt;= 1.2.5.</p>
+<pre class="shell"><code>$ cabal v2-install dhall-yaml-1.2.10</code></pre>
 <p>To generate <code>hlint</code> file:</p>
 <pre class="shell"><code>$ dhall-to-yaml-ng &lt;&lt;&lt; './hlint/hlint.dhall' &gt; .hlint.yaml</code></pre>
 <p>Check that you have generated valid <code>.hlint.yaml</code> file without parse errors:</p>
@@ -549,6 +552,11 @@ $ cabal-plan --version
 cabal-plan 0.6.2.0</code></pre>
 <p>Then draw the graph only for the library dependencies:</p>
 <pre class="shell"><code>cabal-plan dot --root lib:relude | dot -Tpng -o relude-dependency-graph.png</code></pre>
+<h3 id="updating-license-headers">Updating license headers<a href="#updating-license-headers" class="anchor">🔗</a></h3>
+<p>Install the <code>headroom</code> tool and run it from this repository:</p>
+<pre class="shell"><code>cabal v2-install headroom-0.4.3.0
+headroom run
+rg &quot;SPDX-License-Identifier : MPL-2.0&quot; --files-with-matches src/ | xargs sed -i 's/SPDX-License-Identifier : MPL-2.0/SPDX-License-Identifier : MIT/g'</code></pre>
               </p>
               </div>
           </div>

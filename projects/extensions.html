@@ -58,7 +58,7 @@
                 <a class="btn btn-outline-dark btn-tag" href="https://github.com/kowainik/extensions" data-icon="octicon-star" data-size="large" aria-label="Star Kowainik/extensions on GitHub">Star Project</a>
                 <a class="fa-stack fa-2x" href="https://github.com/kowainik/extensions/stargazers">
                     <i class="fa fa-star fa-stack-2x"></i>
-                    <i id="stars" class="fa fa-stack-1x fa-inverse main-font">44</i>
+                    <i id="stars" class="fa fa-stack-1x fa-inverse main-font">45</i>
                 </a>
                 <div class="author">Language: Haskell</div>
 
@@ -108,8 +108,10 @@
 <h3 id="cli-tool">CLI tool<a href="#cli-tool" class="anchor">🔗</a></h3>
 <p>To use <code>extensions</code> as a CLI tool, you need to install it either with Cabal</p>
 <pre><code>cabal install extensions</code></pre>
-<p>or Stack</p>
+<p>Stack</p>
 <pre><code>stack install extensions</code></pre>
+<p>or the nix package manager which allows you to use it ad-hoc via <code>nix-shell -p haskellPackages.extensions --run extensions</code> or to install via</p>
+<pre><code>nix-env -iA nixpkgs.haskellPackages.extensions</code></pre>
 <p>The tool can be used to inspect language extensions in your Haskell project. Some common usages of the tool:</p>
 <ol type="1">
 <li>Get all extensions in all modules, combined with <code>default-extensions</code> from the <code>.cabal</code> file. <img src="https://user-images.githubusercontent.com/4276606/80870176-b0f73800-8c9c-11ea-8ffc-dda2d4940d1e.png" alt="All extensions" /></li>
