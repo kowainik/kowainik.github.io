@@ -1,6 +1,6 @@
 # kowainik.github.io
 
-[![GitHub CI](https://github.com/vrom911/vrom911.github.io/workflows/CI/badge.svg)](https://github.com/vrom911/vrom911.github.io/actions)
+[![GitHub CI](https://github.com/kowainik/kowainik.github.io/workflows/CI/badge.svg)](https://github.com/kowainik/kowainik.github.io/actions)
 
 Kowainik web page:
 
