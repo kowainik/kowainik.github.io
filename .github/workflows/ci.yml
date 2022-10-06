@@ -15,19 +15,19 @@ jobs:
       matrix:
         cabal: ["3.2"]
         ghc:
-          - "8.10.4"
+          - "8.10.7"
 
     steps:
     - uses: actions/checkout@v3
 
-    - uses: haskell/actions/setup@v1.2.9
+    - uses: haskell/actions/setup@v2
       id: setup-haskell-cabal
       name: Setup Haskell
       with:
         ghc-version: ${{ matrix.ghc }}
         cabal-version: ${{ matrix.cabal }}
 
-    - uses: actions/cache@v3.0.10
+    - uses: actions/cache@v3
       name: Cache ~/.cabal/store
       with:
         path: ${{ steps.setup-haskell-cabal.outputs.cabal-store }}
